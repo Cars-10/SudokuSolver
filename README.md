@@ -4,7 +4,7 @@ This project aims to be a teaching tool to understand how different computer pro
 ## Programming Languages to Explore
 * Python (Started) 
 
-    https://docs.python.org/3/reference/index.html
+    https://docs.python.org/3/reference/index.html  
     https://numpy.org/doc/stable/index.html
 
 * Tcl
@@ -15,6 +15,9 @@ This project aims to be a teaching tool to understand how different computer pro
 * JavaScript
 * TypeScript
 * Ruby
+* Julia
+* Go
+
 
 ## Program Goals
 1. Read a unsolved sudoku matrix from a CSV file
