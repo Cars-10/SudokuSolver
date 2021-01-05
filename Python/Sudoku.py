@@ -11,8 +11,8 @@ def printPuzzleValues():
     print(np.matrix(puzzle))
 
 def isPossible(y,x,val):
-    """ Find if a matching number already exists
-    in the same row or column
+    """ Find if a matching number (val) already exists
+    in the same row (y) or column (x) or within its rectangle
     """
     global puzzle
     
@@ -22,6 +22,9 @@ def isPossible(y,x,val):
     for i in range(0,9):
         if puzzle[i][x] == val:
             return False
+    
+    # Search the Rectangle containing x & y
+    # Find which 3x3 square we are in using the floor quotient
     x0=(x//3)*3
     y0=(y//3)*3
     for i in range(0,3):
@@ -44,14 +47,9 @@ def solve():
                         solve()
                         puzzle[j][i] = 0
                 return
-    print(np.matrix(puzzle))
     print("Iterations=" + str(count))
+    print(np.matrix(puzzle))
 #    input("More?")
-
-def decomment(csvfile):
-    for row in csvfile:
-        raw = row.split('#')[0].strip()
-        if raw: yield raw
 
 # For each .matrix file supplied on the commandline run the solver
 for datafile in sys.argv:
