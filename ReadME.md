@@ -2,7 +2,11 @@
 This project aims to be a teaching tool to understand how different computer programming languages work to solve the same problem.  Additionally it should provde a rough comparison of the solution speeds and memory usage.
 
 ## Programming Languages to Explore
-* Python (Started)
+* Python (Started) 
+
+    https://docs.python.org/3/reference/index.html
+    https://numpy.org/doc/stable/index.html
+
 * Tcl
 * C
 * Rust
@@ -30,7 +34,25 @@ This project aims to be a teaching tool to understand how different computer pro
 
 ## Implementation Details
 ### Input matrices
-Each matrix should be read from a simple CSV file with .matrix file extension.
+Each matrix should be read from a simple CSV file with .matrix file extension in the following format.
+
+
+    # Comment
+    9, 2, 0, 0, 0, 0, 5, 8, 4
+    0, 0, 0, 5, 0, 0, 0, 0, 3
+    0, 8, 3, 0, 9, 2, 0, 0, 0
+    2, 6, 0, 8, 5, 4, 0, 0, 1
+    0, 0, 5, 3, 6, 1, 0, 9, 0
+    1, 0, 0, 0, 0, 9, 0, 0, 0
+    8, 5, 0, 2, 0, 3, 0, 1, 0
+    4, 1, 2, 9, 8, 0, 0, 3, 0
+    3, 9, 0, 0, 0, 6, 8, 0, 0
+
+The program should take as it's input one or more .matrix files
+
+## Language Notes
+### Python
+* The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
 
 
 
