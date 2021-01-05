@@ -54,5 +54,8 @@ The program should take as it's input one or more .matrix files
 ### Python
 * The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
 
+Timing the Solver
+>time python3 Python/Sudoku.py Matrices/*.matrix
+
 
 

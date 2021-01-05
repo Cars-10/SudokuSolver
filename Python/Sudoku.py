@@ -5,6 +5,9 @@
 import numpy as np
 import csv
 import sys
+import time
+
+start = time.time()
 
 def printPuzzleValues():
     global puzzle
@@ -48,16 +51,17 @@ def solve():
                         puzzle[j][i] = 0
                 return
     print("Iterations=" + str(count))
-    print(np.matrix(puzzle))
-#    input("More?")
 
 # For each .matrix file supplied on the commandline run the solver
 for datafile in sys.argv:
     if datafile.endswith("matrix"):
         print(datafile)
         puzzle = np.genfromtxt(datafile, dtype='int', comments="#")
-        print(np.matrix(puzzle))
+        #print(np.matrix(puzzle))
         count = 0
         depth=1
         solve()
-        printPuzzleValues()
+        #printPuzzleValues()
+
+print("Seconds to process" , time.time()-start)
+
