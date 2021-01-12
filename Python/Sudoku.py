@@ -6,12 +6,17 @@ import numpy as np
 import csv
 import sys
 import time
+#import tracemalloc
+#tracemalloc.start()
 
 start = time.time()
 
 def printPuzzleValues():
     global puzzle
-    print(np.matrix(puzzle))
+    print("\n")
+    x = np.matrix(puzzle)
+    print(x)
+    print("\n")
 
 def isPossible(y,x,val):
     """ Find if a matching number (val) already exists
@@ -50,18 +55,23 @@ def solve():
                         solve()
                         puzzle[j][i] = 0
                 return
+    printPuzzleValues()
     print("Iterations=" + str(count))
 
+
+##### Main Program Starts Here #####
 # For each .matrix file supplied on the commandline run the solver
 for datafile in sys.argv:
     if datafile.endswith("matrix"):
         print(datafile)
         puzzle = np.genfromtxt(datafile, dtype='int', comments="#")
-        #print(np.matrix(puzzle))
+        printPuzzleValues()
         count = 0
-        depth=1
         solve()
         #printPuzzleValues()
 
 print("Seconds to process" , time.time()-start)
 
+#current, peak = tracemalloc.get_traced_memory()
+#print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+#tracemalloc.stop()
