@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
-# coding: utf-8
-
-
 import numpy as np
 import csv
 import sys
 import time
-#import tracemalloc
-#tracemalloc.start()
 
 start = time.time()
 
 def printPuzzleValues():
     global puzzle
-    print("\n")
-    x = np.matrix(puzzle)
-    print(x)
-    print("\n")
+    print("\nPuzzle:")
+#    print(np.array_str(np.matrix(puzzle)).translate(str.maketrans("[]", "  ")))
+    print(np.array_str(np.matrix(puzzle)).replace(" [","").replace("[", "").replace("]",""))
 
 def isPossible(y,x,val):
     """ Find if a matching number (val) already exists
@@ -25,21 +19,23 @@ def isPossible(y,x,val):
     global puzzle
     
     for i in range(0,9):
-        if puzzle[y][i] == val:
+        if puzzle[i][x] == val:
             return False
     for i in range(0,9):
-        if puzzle[i][x] == val:
+        if puzzle[y][i] == val:
             return False
     
     # Search the Rectangle containing x & y
     # Find which 3x3 square we are in using the floor quotient
     x0=(x//3)*3
     y0=(y//3)*3
+    #print(f"Is possible x={x} x0={x0} ,y={y} y0={y0} val={val}" );
     for i in range(0,3):
         for j in range(0,3):
-            if puzzle[y0+i][x0+j] == val:      
+            #print(f"y0+i={y0+i} i={i}, x0+j={x0+j} j={j} Puzzle[y0+i][x0+j]={puzzle[y0+i][x0+j]}, val={val}")
+            if puzzle[y0+i][x0+j] == val:
                 return False
-    #print("Is possible " ,x ,y ,val)
+    #print(f"YES Is possible {x}, {y}, {val}")
     return True
 
 def solve():
@@ -56,7 +52,7 @@ def solve():
                         puzzle[j][i] = 0
                 return
     printPuzzleValues()
-    print("Iterations=" + str(count))
+    print(f"\nSolved in Iterations={count}\n")
 
 
 ##### Main Program Starts Here #####
@@ -68,10 +64,5 @@ for datafile in sys.argv:
         printPuzzleValues()
         count = 0
         solve()
-        #printPuzzleValues()
 
 print("Seconds to process" , time.time()-start)
-
-#current, peak = tracemalloc.get_traced_memory()
-#print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
-#tracemalloc.stop()

@@ -2,13 +2,13 @@
 This project aims to be a teaching tool to understand how different computer programming languages work to solve the same problem.  Additionally it should provde a rough comparison of the solution speeds and memory usage.
 
 ## Programming Languages to Explore
-* Python (Started) 
+* Python (Finished) 
 
     https://docs.python.org/3/reference/index.html  
     https://numpy.org/doc/stable/index.html
 
 * Tcl
-* C
+* C (Finished)
 * Rust
 * Java
 * Kotlin
