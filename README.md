@@ -2,22 +2,21 @@
 This project aims to be a teaching tool to understand how different computer programming languages work to solve the same problem.  Additionally it should provde a rough comparison of the solution speeds and memory usage.
 
 ## Programming Languages to Explore
-* Python (Finished) 
 
-    https://docs.python.org/3/reference/index.html  
-    https://numpy.org/doc/stable/index.html
-
-* Tcl
-* C (Finished)
-* Rust
-* Java
-* Kotlin
-* JavaScript
-* TypeScript
-* Ruby
-* Julia
-* Go
-* Fortran
+Language | Status | Performance
+---|---|---
+Python | Finished | 4.31 s
+Tcl | |
+C | Finished | 0.02 s
+Rust | |
+Java | |
+Kotlin | |
+JavaScript | |
+TypeScript | |
+Ruby | |
+Julia | |
+Go | |
+Fortran | |
 
 
 ## Program Goals
@@ -57,6 +56,9 @@ The program should take as it's input one or more .matrix files
 ## Language Notes
 ### Python
 * The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
+* https://docs.python.org/3/reference/index.html  
+* https://numpy.org/doc/stable/index.html
+
 
 Timing the Solver
 >time python3 Python/Sudoku.py Matrices/*.matrix
