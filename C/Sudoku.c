@@ -2,7 +2,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-// in C Array indexes are [i][j] [col][row]!
+// in C Array indexes are [j][i] [row][col]!
 int puzzle[10][10];
 int count;
 
@@ -116,7 +116,7 @@ void solve() {
         }
     }
     printPuzzle();
-    printf("\nSolved in Iterations=%i\n", count);
+    printf("\nSolved in Iterations=%i\n\n", count);
 }
 
 int main(int argc, char** argv) {

@@ -6,7 +6,7 @@ This project aims to be a teaching tool to understand how different computer pro
 Language | Status | Performance
 ---|---|---
 Python | Finished | 4.31 s
-Tcl | |
+Tcl | Finished | 
 C | Finished | 0.02 s
 Rust | |
 Java | |
@@ -62,6 +62,11 @@ The program should take as it's input one or more .matrix files
 
 Timing the Solver
 >time python3 Python/Sudoku.py Matrices/*.matrix
+
+### Tcl 
+* https://docs.activestate.com/activetcl/8.6/pkg/
+* https://docs.activestate.com/activetcl/8.6/tcl/TclCmd/contents.html
+
 
 ### Sample Output:
     ~/iCloud/Programming/SudokuSolver: C/RunMe.sh
