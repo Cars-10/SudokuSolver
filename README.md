@@ -3,20 +3,20 @@ This project aims to be a teaching tool to understand how different computer pro
 
 ## Programming Languages to Explore
 
-Language | Status | Performance
+Language | Status 
 ---|---|---
-Python | Finished | 4.31 s
-Tcl | Finished | 4.00 s
-C | Finished | 0.02 s
-Rust | |
-Java | |
-Kotlin | |
-JavaScript | |
-TypeScript | |
-Ruby | |
-Julia | |
-Go | |
-Fortran | |
+Python | Finished 
+Tcl | Finished 
+C | Finished 
+Rust | Started 
+Java | 
+Kotlin | 
+JavaScript | 
+TypeScript | 
+Ruby | 
+Julia | 
+Go | 
+Fortran | 
 
 ## Special Notes:
 * Check every solution to insure that solve returns to stack 0 for performance.
@@ -70,6 +70,16 @@ Timing the Solver
 * https://docs.activestate.com/activetcl/8.6/tcl/TclCmd/contents.html
 
 Needed to return to stack level 0 after solve() was completed, else it continued to run through the rest of the stack.
+
+### Rust
+
+* https://users.rust-lang.org/t/best-way-to-learn-rust-programming/47522/2
+* https://fasterthanli.me/articles/a-half-hour-to-learn-rust
+* https://tourofrust.com/00_en.html
+
+
+Much more challenging than first thought. 
+
 
 ### Sample Output:
     ~/iCloud/Programming/SudokuSolver: C/RunMe.sh
@@ -151,3 +161,8 @@ Needed to return to stack level 0 after solve() was completed, else it continued
     Seconds to process 0.020988 Seconds
     ./Sudoku ../Matrices/*.matrix  0.02s user 0.00s system 93% cpu 0.024 total
 
+## Performance results
+    ./results.sh
+    C       Seconds 0.030
+    Python  Seconds 7.697
+    Tcl     Seconds 7.192
