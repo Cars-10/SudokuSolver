@@ -17,7 +17,7 @@ def isPossible(y,x,val):
     in the same row (y) or column (x) or within its rectangle
     """
     global puzzle
-    
+    #print(f"Is possible x={x} y={y} val={val}" ); 
     for i in range(0,9):
         if puzzle[i][x] == val:
             return False
@@ -48,11 +48,12 @@ def solve():
                     count += 1
                     if isPossible(j,i,val):
                         puzzle[j][i] = val
-                        solve()
+                        if (solve()==2): return 2;
                         puzzle[j][i] = 0
                 return
     printPuzzleValues()
     print(f"\nSolved in Iterations={count}\n")
+    return 2;
 
 
 ##### Main Program Starts Here #####
