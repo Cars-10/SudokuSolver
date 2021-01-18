@@ -4,7 +4,7 @@ This project aims to be a teaching tool to understand how different computer pro
 ## Programming Languages to Explore
 
 Language | Status 
----|---|---
+---|---
 Python | Finished 
 Tcl | Finished 
 C | Finished 
