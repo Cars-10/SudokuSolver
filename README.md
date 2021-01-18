@@ -6,7 +6,7 @@ This project aims to be a teaching tool to understand how different computer pro
 Language | Status | Performance
 ---|---|---
 Python | Finished | 4.31 s
-Tcl | Finished | 
+Tcl | Finished | 4.00 s
 C | Finished | 0.02 s
 Rust | |
 Java | |
@@ -18,6 +18,8 @@ Julia | |
 Go | |
 Fortran | |
 
+## Special Notes:
+* Check every solution to insure that solve returns to stack 0 for performance.
 
 ## Program Goals
 1. Read a unsolved sudoku matrix from a CSV file
@@ -67,6 +69,7 @@ Timing the Solver
 * https://docs.activestate.com/activetcl/8.6/pkg/
 * https://docs.activestate.com/activetcl/8.6/tcl/TclCmd/contents.html
 
+Needed to return to stack level 0 after solve() was completed, else it continued to run through the rest of the stack.
 
 ### Sample Output:
     ~/iCloud/Programming/SudokuSolver: C/RunMe.sh
