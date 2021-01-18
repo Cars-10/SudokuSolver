@@ -128,4 +128,4 @@ Puzzle:
 
 Solved in Iterations=445778
 
-Seconds to process 8.266163110733032
+Seconds to process 7.577

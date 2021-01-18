@@ -66,4 +66,4 @@ for datafile in sys.argv:
         count = 0
         solve()
 
-print("Seconds to process" , time.time()-start)
+print(f"Seconds to process {(time.time()-start):.3f}")

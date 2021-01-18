@@ -93,4 +93,4 @@ foreach datafile $argv {
         solve 
     }
  }
-puts "Seconds to process [expr ([clock microseconds] - $start)/1000000.0]"
+puts [format "Seconds to process %.3f" [expr ([clock microseconds] - $start)/1000000.0]]

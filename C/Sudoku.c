@@ -142,6 +142,6 @@ int main(int argc, char** argv) {
         }
     }
     gettimeofday(&stop, NULL);
-    printf("Seconds to process %f Seconds\n", (stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec)/1000000.0); 
+    printf("Seconds to process %.3f\n", (stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec)/1000000.0); 
     return 0;
 }
