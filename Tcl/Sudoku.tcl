@@ -3,7 +3,7 @@
 set start [clock microseconds]
 
 package require Tclx
-global puzzle count
+global puzzle count previous
 
 proc readMatrixFile {filename} {
     global puzzle
@@ -35,12 +35,13 @@ proc printPuzzleValues {} {
 }
 
 proc isPossible {y x val} {
-    global puzzle
+    global puzzle count
+    #puts "Is possible $y,$x,$val   count=$count" 
+       
     # Find if a matching number (val) already exists
     # in the same row (y) or column (x) or within its rectangle
-        
-    for {set i 0} {$i < 9} {incr i} { if {$puzzle($i,$x) == $val} {return 0 }}
-    for {set i 0} {$i < 9} {incr i} { if {$puzzle($y,$i) == $val} {return 0 }}
+    for {set j 0} {$j < 9} {incr j} { if {$puzzle($j,$x) == $val} {return 0}}
+    for {set i 0} {$i < 9} {incr i} { if {$puzzle($y,$i) == $val} {return 0}}
     
     # Search the Rectangle containing x & y
     # Find which 3x3 square we are in using the floor quotient
@@ -50,10 +51,10 @@ proc isPossible {y x val} {
     for {set i 0} {$i < 3} {incr i} {
         for {set j 0} {$j < 3} {incr j} {
             #puts "y0+i=[expr $y0+$i] i=$i, x0+j=[expr $x0+$j] j=$j Puzzle(y0+i,x0+j)=$puzzle([expr $y0+$i],[expr $x0+$j]), val=$val"
-            if {$puzzle([expr $y0+$i],[expr $x0+$j]) == $val} {return 0}
+            if {$puzzle([expr $y0+$j],[expr $x0+$i]) == $val} {return 0}
         }
     }
-    #puts "YES Is possible $x, $y, $val"
+    #puts "YES Is possible $y, $x, $val"
     return 1
 }
 
@@ -64,9 +65,10 @@ proc solve {} {
             if {$puzzle($j,$i) == 0} {
                 for {set val 1} {$val < 10} {incr val} {
                     incr count
+                    #puts "Level: [info level]"
                     if {[isPossible $j $i $val]} {
                         set puzzle($j,$i) $val
-                        solve
+                        solve 
                         set puzzle($j,$i) 0
                     }
                 }
@@ -76,6 +78,8 @@ proc solve {} {
     }
     printPuzzleValues
     puts "\nSolved in Iterations=$count\n"
+    # Return to top of caller stack so that solve() does not get called anymore.
+    return -level [info level] 
 }
 
 ##### Main Program Starts Here #####
@@ -86,7 +90,7 @@ foreach datafile $argv {
         readMatrixFile $datafile
         printPuzzleValues
         set count 0
-        solve
+        solve 
     }
  }
 puts "Seconds to process [expr ([clock microseconds] - $start)/1000000.0]"
