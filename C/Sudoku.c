@@ -97,7 +97,7 @@ int isPossible(int y, int x, int val) {
     return 1;
 }
 
-void solve() {
+int solve() {
     for (int j = 0; j < 9; j++) {
         for (int i = 0; i < 9; i++) {
             //printf("i=%i,j=%i:%i\n" ,i,j,puzzle[i][j]);
@@ -107,16 +107,17 @@ void solve() {
                     if (isPossible(j,i,val) == 1)
                     {
                         puzzle[j][i] = val;
-                        solve();
+                        if(solve() == 2) return 2; //Makes sure to do a quick exit when solution was found
                         puzzle[j][i] = 0;
                     }
                 }
-                return;
+                return 0;
             }
         }
     }
     printPuzzle();
     printf("\nSolved in Iterations=%i\n\n", count);
+    return 2;
 }
 
 int main(int argc, char** argv) {
@@ -124,7 +125,7 @@ int main(int argc, char** argv) {
     gettimeofday(&start, NULL);
 
     // For each .matrix file supplied on the commandline run the solver
-    int i;
+    int i, r;
     char * point;
     for ( i = 0; i < argc; i++)
     {
@@ -136,7 +137,7 @@ int main(int argc, char** argv) {
                 readMatrixFile(argv[i]);
                 printPuzzle(); 
                 count = 0;
-                solve();
+                r = solve();
             }
         }
     }
