@@ -3,7 +3,7 @@
 #include <sys/time.h>
 
 // in C Array indexes are [j][i] [row][col]!
-int puzzle[10][10];
+int puzzle[9][9];
 int count;
 
 void printPuzzle() {
