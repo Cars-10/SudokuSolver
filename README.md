@@ -1,46 +1,50 @@
 # Sudoku Solver
+
 This project aims to be a teaching tool to understand how different computer programming languages work to solve the same problem.  Additionally it should provde a rough comparison of the solution speeds and memory usage.
 
 ## Programming Languages to Explore
 
-Language | Status 
----|---
-Python | Finished 
-Tcl | Finished 
-C | Finished 
-Rust | Started 
-Java | 
-Kotlin | 
-JavaScript | 
-TypeScript | 
-Ruby | 
-Julia | 
-Go | 
-Fortran | 
+Language | Status
+---|---|---
+Python | Finished
+Tcl | Finished
+C | Finished
+Rust | Started
+Java |
+Kotlin |
+JavaScript |
+TypeScript |
+Ruby |
+Julia |
+Go |
+Fortran |
 
-## Special Notes:
+## Special Notes
+
 * Check every solution to insure that solve returns to stack 0 for performance.
 
 ## Program Goals
+
 1. Read a unsolved sudoku matrix from a CSV file
 2. Find a solution to the matrix
 3. Count the number of recursive iterations to solve matrix
 4. Find multiple solutions (if any) to the matrix
 5. Print solution and time to calculate result
-5. Print memory usage
-6. Solution should be optimized for efficiency by utilizing things like memoization
-
+6. Print memory usage
+7. Solution should be optimized for efficiency by utilizing things like memoization
 
 ## Development Goals
+
 1. Each Solution should be complete with build files, etc.
 2. Each Solution should also include a test suite
 3. Solution should be able to solve several supplied matrices
 4. Project to be managed in GITHUB
 
 ## Implementation Details
-### Input matrices
-Each matrix should be read from a simple CSV file with .matrix file extension in the following format.
 
+### Input matrices
+
+Each matrix should be read from a simple CSV file with .matrix file extension in the following format.
 
     # Comment
     9 2 0 0 0 0 5 8 4
@@ -56,32 +60,37 @@ Each matrix should be read from a simple CSV file with .matrix file extension in
 The program should take as it's input one or more .matrix files
 
 ## Language Notes
-### Python
-* The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
-* https://docs.python.org/3/reference/index.html  
-* https://numpy.org/doc/stable/index.html
 
+### Python
+
+* The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
+* <https://docs.python.org/3/reference/index.html>  
+* <https://numpy.org/doc/stable/index.html>
 
 Timing the Solver
 >time python3 Python/Sudoku.py Matrices/*.matrix
 
-### Tcl 
-* https://docs.activestate.com/activetcl/8.6/pkg/
-* https://docs.activestate.com/activetcl/8.6/tcl/TclCmd/contents.html
+### Tcl
+
+* <https://docs.activestate.com/activetcl/8.6/pkg/>
+* <https://docs.activestate.com/activetcl/8.6/tcl/TclCmd/contents.html>
 
 Needed to return to stack level 0 after solve() was completed, else it continued to run through the rest of the stack.
 
-### Rust
+### C
 
-* https://users.rust-lang.org/t/best-way-to-learn-rust-programming/47522/2
-* https://fasterthanli.me/articles/a-half-hour-to-learn-rust
-* https://tourofrust.com/00_en.html
+To compile in VSC press _Alt-B_ then choose clang complier
 
+### JAVA
 
-Much more challenging than first thought. 
+* Reference for setting up log4j2.xml:
+  * <https://javabeat.net/log4j-2-example/>
+  * <http://logging.apache.org/log4j/2.x/index.html>
 
+---
 
-### Sample Output:
+## Sample Output
+
     ~/iCloud/Programming/SudokuSolver: C/RunMe.sh
     ../Matrices/1.matrix
 
@@ -160,9 +169,3 @@ Much more challenging than first thought.
     Solved in Iterations=98847
     Seconds to process 0.020988 Seconds
     ./Sudoku ../Matrices/*.matrix  0.02s user 0.00s system 93% cpu 0.024 total
-
-## Performance results
-    ./results.sh
-    C       Seconds 0.030
-    Python  Seconds 7.697
-    Tcl     Seconds 7.192
