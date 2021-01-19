@@ -125,9 +125,9 @@ int main(int argc, char** argv) {
     gettimeofday(&start, NULL);
 
     // For each .matrix file supplied on the commandline run the solver
-    int i, r;
+    int i;
     char * point;
-    for ( i = 0; i < argc; i++)
+    for (i = 0; i < argc; i++)
     {
         if((point = strrchr(argv[i],'.')) != NULL ) {
             //printf("Main: i=%i: %s\n", i, argv[i]);
@@ -136,11 +136,12 @@ int main(int argc, char** argv) {
                 printf("%s\n", argv[i]);
                 readMatrixFile(argv[i]);
                 printPuzzle(); 
-                count = 0;
-                r = solve();
             }
+            count = 0;
+            solve();
         }
     }
+    
     gettimeofday(&stop, NULL);
     printf("Seconds to process %.3f\n", (stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec)/1000000.0); 
     return 0;
