@@ -21,10 +21,10 @@ Fortran |
 
 ## Performance Results (5 Matrices)
 
-  C       Seconds 0.035
-  Java    Seconds 0.274
-  Python  Seconds 7.031
-  Tcl     Seconds 6.668
+    C       Seconds 0.035
+    Java    Seconds 0.274
+    Python  Seconds 7.031
+    Tcl     Seconds 6.668
 
 ## Special Notes
 
