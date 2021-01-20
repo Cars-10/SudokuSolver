@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 
 public class Sudoku {
     private static Logger logger = LogManager.getLogger(org.cars10.sudoku.Sudoku.class.getName());
@@ -39,7 +38,7 @@ public class Sudoku {
 
         for (int j = 0; j < 9; j++) {
             for (int i = 0; i < 9; i++) {
-                logger.debug("puzzle[{}][{}]={} ",j,i,puzzle[j][i]);
+                //logger.debug("puzzle[{}][{}]={} ",j,i,puzzle[j][i]);
                 bld.append(" " + puzzle[j][i]);
             }
         String line = bld.toString();
@@ -48,7 +47,7 @@ public class Sudoku {
         }
     }
     
-    public static int isPossible(int x, int y, int val) { 
+    public static int isPossible(int y, int x, int val) { 
         logger.debug("Is possible {}, {}, {} count={}" ,x ,y ,val,count);
         // Find if a matching number (val) already exists
         // in the same row (y) or column (x) or within its rectangle
@@ -59,13 +58,13 @@ public class Sudoku {
         // Find which 3x3 square we are in using the floor quotient
         int x0= (Math.floorDiv(x,3))*3;
         int y0= (Math.floorDiv(y,3))*3;
-        logger.debug("Is possible x={} x0={}, y={} y0={}, val={}" , x, x0, y, y0, val);
+        //logger.debug("Is possible x={} x0={}, y={} y0={}, val={}" , x, x0, y, y0, val);
 
         for (int i = 0; i <3; i++)
         {
             for (int j = 0; j <3; j++)
             {
-                logger.debug("y0+i={} i={}, x0+j={} j={} Puzzle[y0+i][x0+j]={}, val={}", y0+i,i, x0+j,j, puzzle[y0+i][x0+j] , val);
+                //logger.debug("y0+i={} i={}, x0+j={} j={} Puzzle[y0+i][x0+j]={}, val={}", y0+i,i, x0+j,j, puzzle[y0+i][x0+j] , val);
                 if(puzzle[y0+i][x0+j] == val ) return 0; 
             }
         }
@@ -76,7 +75,7 @@ public class Sudoku {
     public static int solve() {
         for (int j = 0; j < 9; j++) {
             for (int i = 0; i < 9; i++) {
-                logger.debug("i={},j={}: {}",i,j,puzzle[j][i]);
+                logger.trace("i={},j={}: {}",i,j,puzzle[j][i]);
                 if (puzzle[j][i] == 0) {
                     for (int val = 1; val < 10; val++) {
                         count += 1;
@@ -92,7 +91,7 @@ public class Sudoku {
             }
         }
         printPuzzle();
-        logger.info("\nSolved in Iterations={}", count);
+        System.out.printf("%nSolved in Iterations=%d%n", count);
         return 2;
     }
 
@@ -103,7 +102,7 @@ public class Sudoku {
         // For each .matrix file supplied on the commandline run the solver
         for(int i=0;i<args.length;i++) { 
             if (FilenameUtils.getExtension(args[i]).equals("matrix")) {
-                logger.info(args[i]);  
+                System.out.println(args[i]);  
                 try {
                     readMatrixFile(args[i]);
                 } catch (IOException ex) {
@@ -117,7 +116,7 @@ public class Sudoku {
         }
 
         numberAsString = String.format("%.3f", (System.currentTimeMillis() - start)/1000.0);
-        logger.info("Seconds to process {}", numberAsString);  
+        System.out.printf("Seconds to process %s%n", numberAsString);  
         System.exit(0); 
     }
 }

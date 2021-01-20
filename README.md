@@ -10,7 +10,7 @@ Python | Finished
 Tcl | Finished
 C | Finished
 Rust | Started
-Java |
+Java | Finished
 Kotlin |
 JavaScript |
 TypeScript |
