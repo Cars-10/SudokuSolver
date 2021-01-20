@@ -9,6 +9,7 @@ Language | Status
 Python | Finished
 Tcl | Finished
 C | Finished
+C++ | Finished
 Rust | Started
 Java | Finished
 Kotlin |
@@ -18,9 +19,11 @@ Ruby |
 Julia |
 Go |
 Fortran |
+PHP |
 
 ## Performance Results (5 Matrices)
 
+    C++     Seconds 0.037
     C       Seconds 0.035
     Java    Seconds 0.274
     Python  Seconds 7.031
