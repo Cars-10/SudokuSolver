@@ -12,7 +12,7 @@ C | Finished
 C++ | Finished
 Rust | Started
 JavaScript | Finished
-TypeScript |
+TypeScript | Started
 Java | Finished
 C# |
 Kotlin |
