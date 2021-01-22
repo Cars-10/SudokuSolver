@@ -28,7 +28,7 @@ int readMatrixFile(char * filename ) {
     file = fopen(filename, "r");
     if (!file)
     {
-      fprintf(stderr, "Error opening file '%s'\n", filename);
+      printf(stderr, "Error opening file '%s'\n", filename);
       return 1;
     }
     /* Get the first line of the file. */
@@ -76,7 +76,7 @@ int floor_div(int a, int b) {
 }
 
 int isPossible(int y, int x, int val) {
-    if (DEBUG) printf("Is possible %i, %i, %i count=%i\n" ,x ,y ,val, count);
+    if (DEBUG) printf("Is possible %i, %i, %i count=%i\n" ,y ,x ,val, count);
     // Find if a matching number (val) already exists
     // in the same row (y) or column (x) or within its rectangle
     for (int i = 0; i <9; i++) if(puzzle[i][x] == val) return 0; 
@@ -96,7 +96,7 @@ int isPossible(int y, int x, int val) {
             if(puzzle[y0+i][x0+j] == val ) return 0; 
         }
     }
-    if (DEBUG) printf("YES possible %i, %i, %i\n" ,x ,y ,val);
+    if (DEBUG) printf("YES possible %i, %i, %i\n" ,y ,x ,val);
     return 1;
 }
 
@@ -107,7 +107,6 @@ int solve() {
             if (puzzle[j][i] == 0) {
                 for (int val = 1; val < 10; val++) {
                     count += 1;
-                    if (count==117) printPuzzle();
                     if (isPossible(j,i,val) == 1)
                     {
                         puzzle[j][i] = val;

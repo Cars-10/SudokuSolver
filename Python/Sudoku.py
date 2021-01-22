@@ -17,7 +17,7 @@ def isPossible(y,x,val):
     in the same row (y) or column (x) or within its rectangle
     """
     global puzzle
-    #print(f"Is possible x={x} y={y} val={val}" ); 
+    #print(f"Is possible y={y} x={x} val={val}" ); 
     for i in range(0,9):
         if puzzle[i][x] == val:
             return False
@@ -29,13 +29,13 @@ def isPossible(y,x,val):
     # Find which 3x3 square we are in using the floor quotient
     x0=(x//3)*3
     y0=(y//3)*3
-    #print(f"Is possible x={x} x0={x0} ,y={y} y0={y0} val={val}" );
+    #print(f"Is possible y={y} y0={y0}, x={x} x0={x0}, val={val}" );
     for i in range(0,3):
         for j in range(0,3):
             #print(f"y0+i={y0+i} i={i}, x0+j={x0+j} j={j} Puzzle[y0+i][x0+j]={puzzle[y0+i][x0+j]}, val={val}")
             if puzzle[y0+i][x0+j] == val:
                 return False
-    #print(f"YES Is possible {x}, {y}, {val}")
+    #print(f"YES Is possible {y}, {x}, {val}")
     return True
 
 def solve():
