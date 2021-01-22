@@ -24,13 +24,14 @@ PHP |
 Scala |
 ???
 
-## Performance Results (5 Matrices)
+## Performance Results (6 Matrices)
 
-    C++     Seconds 0.037
-    C       Seconds 0.035
-    Java    Seconds 0.274
-    Python  Seconds 7.031
-    Tcl     Seconds 6.668
+    C++         Seconds 23.064
+    C           Seconds 22.944
+    Java        Seconds 42.465
+    JavaScript  Seconds 22.500
+    Python      Seconds 5114.008
+    Tcl         Seconds 4398.989
 
 ## Special Notes
 
@@ -103,9 +104,11 @@ To compile in VSC press _Alt-B_ then choose clang complier
 
 ### JavaScript
 
-Note: JavaScript only has One Dimensional Arrays.  So you need to create an Array of Arrays! Also be wary 
+Using Node.js
+
+Note: JavaScript only has One Dimensional Arrays.  So you need to create an Array of Arrays! Also be wary
 of variable scope, as i & j values of the calling function were used if not excplicityly set via
-let in the subroutine. 
+let in the subroutine.
 
 * <https://nodejs.org/api/>
 
