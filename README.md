@@ -11,15 +11,18 @@ Tcl | Finished
 C | Finished
 C++ | Finished
 Rust | Started
-Java | Finished
-Kotlin |
-JavaScript |
+JavaScript | Finished
 TypeScript |
+Java | Finished
+C# |
+Kotlin |
 Ruby |
 Julia |
 Go |
 Fortran |
 PHP |
+Scala |
+???
 
 ## Performance Results (5 Matrices)
 
@@ -35,13 +38,14 @@ PHP |
 
 ## Program Goals
 
-1. Read a unsolved sudoku matrix from a CSV file
-2. Find a solution to the matrix
+1. Read a unsolved sudoku matrix from a file
+2. Find a solution to the matrix using two methods
+    1. Brute Force Solution
+    2. Human Solution
 3. Count the number of recursive iterations to solve matrix
-4. Find multiple solutions (if any) to the matrix
-5. Print solution and time to calculate result
-6. Print memory usage
-7. Solution should be optimized for efficiency by utilizing things like memoization
+4. Print solution and time to calculate result
+5. Print memory usage
+6. Solution should be optimized for efficiency by utilizing things like memoization
 
 ## Development Goals
 
@@ -96,6 +100,14 @@ To compile in VSC press _Alt-B_ then choose clang complier
 * Reference for setting up log4j2.xml:
   * <https://javabeat.net/log4j-2-example/>
   * <http://logging.apache.org/log4j/2.x/index.html>
+
+### JavaScript
+
+Note: JavaScript only has One Dimensional Arrays.  So you need to create an Array of Arrays! Also be wary 
+of variable scope, as i & j values of the calling function were used if not excplicityly set via
+let in the subroutine. 
+
+* <https://nodejs.org/api/>
 
 ---
 
