@@ -1,4 +1,7 @@
 
+import now from 'performance-now';
+
+var start = now();
 var count;
 var DEBUG = 0; //0 off, 1 High Level, 3 Low Level
 
@@ -87,8 +90,7 @@ function solve() {
     return 2;
 }
 
-var d1 = new Date();
-var start = d1.getMilliseconds();
+
 var ext = " ";
 import path from 'path';
 import process from 'process';
@@ -108,5 +110,5 @@ for (let arg of iterator) {
         solve();
     }
 }
-var d2 = new Date();
-console.log('Seconds to process %f\n', (d2.getMilliseconds() - start)/1000.0); 
+var time = (now() - start)/1000.0 ;
+console.log('Seconds to process %s\n', time.toFixed(3) ); 

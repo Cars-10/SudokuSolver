@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "sscanf": "^0.8.0"
+    "performance-now": "^2.1.0",
   },
-    "type": "module"
+  "type": "module"
 }
