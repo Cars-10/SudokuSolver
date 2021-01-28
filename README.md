@@ -10,9 +10,9 @@ Python | Finished
 Tcl | Finished
 C | Finished
 C++ | Finished
-Rust | Started
+Rust | <span style="color:Orange">Paused</span>
 JavaScript | Finished
-TypeScript | Started
+TypeScript | Finished
 Java | Finished
 C# |
 Kotlin |
@@ -30,6 +30,7 @@ Scala |
     C           Seconds 22.944
     Java        Seconds 42.465
     JavaScript  Seconds 22.500
+    TypeScript  Seconds 19.436
     Python      Seconds 5114.008
     Tcl         Seconds 4398.989
 
@@ -47,6 +48,7 @@ Scala |
 4. Print solution and time to calculate result
 5. Print memory usage
 6. Solution should be optimized for efficiency by utilizing things like memoization
+7. Create on Object Oriented Implementation where possible.
 
 ## Development Goals
 
@@ -111,6 +113,14 @@ of variable scope, as i & j values of the calling function were used if not excp
 let in the subroutine.
 
 * <https://nodejs.org/api/>
+
+## Object Oriented Thoughts
+
+* Puzzle Class
+  * ReadFile (Initialize?)
+  * Print
+  * Solve(Method: Human| Brute)
+  * IsPossible
 
 ---
 

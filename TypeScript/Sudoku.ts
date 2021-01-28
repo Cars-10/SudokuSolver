@@ -1,5 +1,5 @@
-
-import now from 'performance-now';
+// Had to use full path here in order for it to resovle and compile
+import now from '/usr/local/lib/node_modules/npm/node_modules/performance-now';
 
 var start = now();
 var count;
@@ -15,7 +15,7 @@ function printPuzzle() {
     var line = "";
     console.log("\nPuzzle:");
     for (var j = 0; j < 9; j++) {
-        for (i = 0; i < 9; i++) {
+        for (var i = 0; i < 9; i++) {
             line += puzzle[j][i] + " ";
         }
         line += "\n";
@@ -95,6 +95,8 @@ var ext = " ";
 import path from 'path';
 import process from 'process';
 import fs from 'fs';
+
+
 
 
 var iterator = process.argv.values();

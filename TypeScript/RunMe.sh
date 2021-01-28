@@ -1,2 +1,2 @@
-cd "$(dirname $0:A)"
-time node Sudoku.js  ../Matrices/*.matrix  | tee run.txt
+cd "$(dirname $0:A)/out"
+time node Sudoku.js  ../../Matrices/*.matrix  | tee ../run.txt
