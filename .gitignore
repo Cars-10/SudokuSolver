@@ -294,3 +294,8 @@ dist
 .pnp.*
 C++/Sudoku
 C/Sudoku.dSYM/Contents/Resources/DWARF/Sudoku
+C_Sharp/Sudoku/obj/project.assets.json
+C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.g.targets
+C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.g.props
+C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.cache
+C/Sudoku.dSYM/Contents/Resources/*
