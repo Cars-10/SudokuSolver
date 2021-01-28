@@ -14,7 +14,7 @@ Rust | <span style="color:Orange">Paused</span>
 JavaScript | Finished
 TypeScript | Finished
 Java | Finished
-C# | <span style="color:green">Started</span>
+C# | Finished
 Kotlin |
 Ruby |
 Julia |
@@ -28,6 +28,7 @@ Scala |
 
     C++         Seconds 23.064
     C           Seconds 22.944
+    C_Sharp     Seconds 57.142
     Java        Seconds 42.465
     JavaScript  Seconds 22.500
     TypeScript  Seconds 19.436
