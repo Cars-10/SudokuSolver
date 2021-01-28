@@ -107,7 +107,6 @@ int solve() {
             if (puzzle[j][i] == 0) {
                 for (int val = 1; val < 10; val++) {
                     count += 1;
-                    if (count==117) printPuzzle();
                     if (isPossible(j,i,val) == 1)
                     {
                         puzzle[j][i] = val;
