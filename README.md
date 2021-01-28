@@ -14,7 +14,7 @@ Rust | <span style="color:Orange">Paused</span>
 JavaScript | Finished
 TypeScript | Finished
 Java | Finished
-C# |
+C# | <span style="color:green">Started</span>
 Kotlin |
 Ruby |
 Julia |
