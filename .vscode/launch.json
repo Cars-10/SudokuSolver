@@ -1,0 +1,73 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/C_Sharp/Sudoku/bin/Debug/netcoreapp2.1/Sudoku.dll",
+            "args": [
+                "../../Matrices/1.matrix"
+            ],
+            "cwd": "${workspaceFolder}/C_Sharp/Sudoku",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }, 
+        {
+            "name": "Run GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/Fortran/a.out",
+            "logging": {"engineLogging": true},
+            "args": [
+                "../Matrices/1.matrix"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "preLaunchTask": "make Fortran",
+        }, 
+    {
+        "name": "Launch JS Program",
+        "program": "${workspaceFolder}/JavaScript/Sudoku.js",
+        "request": "launch",
+        "args": [
+            "Matrices/1.matrix"
+        ],
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "pwa-node"
+    },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Launch CodeLLDB",
+            "type": "lldb",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [
+                "../Matrices/1.matrix"
+            ]
+        }
+    ]
+}
