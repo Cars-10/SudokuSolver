@@ -31,7 +31,6 @@ __pycache__/
 .project
 .settings/
 .valgrindrc
-.vscode
 .favorites.json
 /Makefile
 /build/
@@ -115,7 +114,6 @@ A candidate .gitignore for CS56 Maven Projects
 
 # VSCode
 
-.vscode
 .classpath
 .project
 .settings/
@@ -299,3 +297,4 @@ C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.g.targets
 C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.g.props
 C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.cache
 C/Sudoku.dSYM/Contents/Resources/*
+Fortran/Sudoku
