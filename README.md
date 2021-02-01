@@ -6,22 +6,24 @@ This project aims to be a teaching tool to understand how different computer pro
 
 Language | Status
 ---|---
-Python | Finished
-Tcl | Finished
-C | Finished
-C++ | Finished
+Python | Completed
+Tcl | Completed
+C | Completed
+C++ | Completed
 Rust | <span style="color:Orange">Paused</span>
-JavaScript | Finished
-TypeScript | Finished
-Java | Finished
-C# | Finished
+JavaScript | Completed
+TypeScript | Completed
+Java | Completed
+C# | Completed
 Kotlin |
 Ruby |
 Julia |
 Go |
-Fortran |
+Fortran | Completed
 PHP |
 Scala |
+BASIC |
+LISP
 ???
 
 ## Performance Results (6 Matrices)
@@ -29,6 +31,7 @@ Scala |
     C++         Seconds 23.064
     C           Seconds 22.944
     C_Sharp     Seconds 57.142
+    Fortran     Seconds 613.763
     Java        Seconds 42.465
     JavaScript  Seconds 22.500
     TypeScript  Seconds 19.436
@@ -44,12 +47,12 @@ Scala |
 1. Read a unsolved sudoku matrix from a file
 2. Find a solution to the matrix using two methods
     1. Brute Force Solution
-    2. Human Solution
+    2. Human Solution (TODO)
 3. Count the number of recursive iterations to solve matrix
 4. Print solution and time to calculate result
-5. Print memory usage
-6. Solution should be optimized for efficiency by utilizing things like memoization
-7. Create on Object Oriented Implementation where possible.
+5. Print memory usage (TODO)
+6. Solution should be compiled with optimization
+7. Create on Object Oriented Implementation where possible and compare effect on perfromance (TODO)
 
 ## Development Goals
 
@@ -114,6 +117,17 @@ of variable scope, as i & j values of the calling function were used if not excp
 let in the subroutine.
 
 * <https://nodejs.org/api/>
+
+## FORTRAN 90
+
+Using gfortran.
+
+* <https://gcc.gnu.org/wiki/GFortran>
+* Array indexes start with 1 be default. Need to dimension as 0:8 for zero index.
+
+## BASIC
+
+* <https://www.qb64.org/portal/>
 
 ## Object Oriented Thoughts
 

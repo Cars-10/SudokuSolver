@@ -298,3 +298,6 @@ C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.g.props
 C_Sharp/Sudoku/obj/Sudoku.csproj.nuget.cache
 C/Sudoku.dSYM/Contents/Resources/*
 Fortran/Sudoku
+C/Sudoku.dSYM/Contents/Resources/DWARF/Sudoku
+Fortran/Sudoku.dSYM/Contents/Info.plist
+Fortran/Sudoku.o
