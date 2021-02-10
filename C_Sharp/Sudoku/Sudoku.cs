@@ -65,10 +65,11 @@ namespace Sudoku
     static int solve() {
         for (int j = 0; j < 9; j++) {
             for (int i = 0; i < 9; i++) {
-                 if (DEBUG > 0) Console.WriteLine("i={0:N},j={0:N}:{0:N}" ,i,j,puzzle[i,j]);
+                 if (DEBUG > 0) Console.WriteLine("Solve: j={0:N},i={0:N}:{0:N}" ,j,i,puzzle[i,j]);
                  if (puzzle[j,i] == 0) {
                     for (int val = 1; val < 10; val++) {
                         count += 1;
+                        if (DEBUG>0) Console.WriteLine("Count= :0:N}\n",count);
                         if (isPossible(j,i,val) == 1) {
                             puzzle[j,i] = val;
                             if(solve() == 2) return 2; //Makes sure to do a quick exit when solution was found
@@ -80,7 +81,7 @@ namespace Sudoku
             }
         }
         printPuzzle();
-        Console.WriteLine("Solved in Iterations={0}", count);
+        Console.WriteLine("Solved in Iterations={0}\n", count);
         return 2;
     }
     static void Main(string[] args) {

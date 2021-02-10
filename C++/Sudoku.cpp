@@ -96,19 +96,19 @@ int isPossible(int y, int x, int val) {
             if(puzzle[y0+i][x0+j] == val ) return 0; 
         }
     }
-    if (DEBUG) printf("YES possible %i, %i, %i\n" ,x ,y ,val);
+    if (DEBUG) printf("YES possible\n");
     return 1;
 }
 
 int solve() {
     for (int j = 0; j < 9; j++) {
         for (int i = 0; i < 9; i++) {
-            if (DEBUG) printf("i=%i,j=%i:%i\n" ,i,j,puzzle[i][j]);
+            if (DEBUG) printf("Solve: j=%i, i=%i:%i\n" ,j,i,puzzle[j][1]);
             if (puzzle[j][i] == 0) {
                 for (int val = 1; val < 10; val++) {
                     count += 1;
-                    if (isPossible(j,i,val) == 1)
-                    {
+                    if (DEBUG) printf("Count= %i\n",count);
+                    if (isPossible(j,i,val) == 1) {
                         puzzle[j][i] = val;
                         if(solve() == 2) return 2; //Makes sure to do a quick exit when solution was found
                         puzzle[j][i] = 0;
@@ -139,9 +139,9 @@ int main(int argc, char** argv) {
                 printf("%s\n", argv[i]);
                 readMatrixFile(argv[i]);
                 printPuzzle(); 
+                count = 0;
+                solve();
             }
-            count = 0;
-            solve();
         }
     }
     

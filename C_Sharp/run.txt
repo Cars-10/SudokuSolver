@@ -24,6 +24,7 @@ Puzzle:
 3 9 7 1 4 6 8 5 2 
 
 Solved in Iterations=656
+
 File: ../../Matrices/2.matrix
 
 Puzzle:
@@ -50,6 +51,7 @@ Puzzle:
 9 1 6 3 5 7 8 4 2 
 
 Solved in Iterations=439269
+
 File: ../../Matrices/3.matrix
 
 Puzzle:
@@ -76,6 +78,7 @@ Puzzle:
 5 3 8 7 1 6 2 9 4 
 
 Solved in Iterations=98847
+
 File: ../../Matrices/4.matrix
 
 Puzzle:
@@ -102,6 +105,7 @@ Puzzle:
 7 6 3 1 5 4 9 8 2 
 
 Solved in Iterations=9085
+
 File: ../../Matrices/5.matrix
 
 Puzzle:
@@ -128,6 +132,7 @@ Puzzle:
 7 9 6 3 1 8 4 5 2 
 
 Solved in Iterations=445778
+
 File: ../../Matrices/6.matrix
 
 Puzzle:
@@ -154,4 +159,5 @@ Puzzle:
 8 6 3 7 4 5 2 1 9 
 
 Solved in Iterations=622577597
-Seconds to process 57.142
+
+Seconds to process 52.495
