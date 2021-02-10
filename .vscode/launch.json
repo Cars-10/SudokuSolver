@@ -64,9 +64,9 @@
             "type": "lldb",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/Rust/Sudoku/target/debug/Sudoku",
             "args": [
-                "../Matrices/1.matrix"
+                "${workspaceFolder}/Matrices/1.matrix"
             ]
         }
     ]

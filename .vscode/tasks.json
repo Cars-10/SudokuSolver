@@ -80,10 +80,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "compiler: /usr/bin/gcc"
         },
         {
@@ -91,7 +88,6 @@
             "label": "C/C++: gcc build active file",
             "command": "/usr/bin/gcc",
             "args": [
-//                "-g",
                 "-Ofast",
                 "${file}",
                 "-o",
@@ -105,6 +101,18 @@
             ],
             "group": "build",
             "detail": "compiler: /usr/bin/gcc"
+        },
+        {
+            "type": "cargo",
+            "subcommand": "build",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "label": "Rust: cargo build - Sudoku"
         }
     ]
 }

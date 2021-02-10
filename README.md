@@ -10,7 +10,7 @@ Python | Completed
 Tcl | Completed
 C | Completed
 C++ | Completed
-Rust | <span style="color:Orange">Paused</span>
+Rust | Completed 
 JavaScript | Completed
 TypeScript | Completed
 Java | Completed
@@ -23,20 +23,22 @@ Fortran | Completed
 PHP |
 Scala |
 BASIC |
-LISP
+LISP |
+ERLANG |
 ???
 
 ## Performance Results (6 Matrices)
 
+    Rust        Seconds 10.623
+    TypeScript  Seconds 19.436
+    JavaScript  Seconds 22.500
     C++         Seconds 23.064
     C           Seconds 22.944
+    Java        Seconds 42.465
     C_Sharp     Seconds 57.142
     Fortran     Seconds 613.763
-    Java        Seconds 42.465
-    JavaScript  Seconds 22.500
-    TypeScript  Seconds 19.436
-    Python      Seconds 5114.008
     Tcl         Seconds 4398.989
+    Python      Seconds 5114.008
 
 ## Special Notes
 
@@ -90,6 +92,12 @@ The program should take as it's input one or more .matrix files
 
 Timing the Solver
 >time python3 Python/Sudoku.py Matrices/*.matrix
+
+### Rust
+
+* <https://doc.rust-lang.org/std/index.html>
+* <https://doc.rust-lang.org/stable/rust-by-example/index.html>
+* <https://fasterthanli.me/articles/a-half-hour-to-learn-rust>
 
 ### Tcl
 
