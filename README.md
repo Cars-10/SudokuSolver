@@ -18,7 +18,7 @@ C# | Completed
 Kotlin |
 Ruby | Completed
 Julia |
-Go |
+Go | Started
 Fortran | Completed
 PHP |
 Scala |
@@ -102,6 +102,8 @@ Timing the Solver
 ### Ruby
 
 * <https://www.tutorialspoint.com/ruby/ruby_methods.htm>
+
+Running ruby with --jit flag to enable Just-In-Time compiling
 
 ### Tcl
 
