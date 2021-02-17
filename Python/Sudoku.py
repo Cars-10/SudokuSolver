@@ -61,6 +61,7 @@ def solve():
 for datafile in sys.argv:
     if datafile.endswith("matrix"):
         print(datafile)
+        # Use NumPy library to ready the array easily
         puzzle = np.genfromtxt(datafile, dtype='int', comments="#")
         printPuzzleValues()
         count = 0
