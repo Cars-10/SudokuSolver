@@ -114,5 +114,5 @@ fn main() {
          }
     }
     let elapsed = start.elapsed();
-    println!("Seconds to process {}", elapsed.as_millis() as f64/1000.0); 
+    println!("Seconds to process {0:.3}", elapsed.as_millis() as f64/1000.0); 
 }
