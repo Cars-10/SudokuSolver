@@ -17,8 +17,8 @@ Java | Completed
 C# | Completed
 Kotlin |
 Ruby | Completed
-Julia |
-Go | Started
+Julia | Started
+Go | Completed
 Fortran | Completed
 PHP |
 Scala |
@@ -29,7 +29,8 @@ ERLANG |
 
 ## Performance Results (6 Matrices)
 
-    Rust        Seconds 10.623
+    Go          Seconds 9.000
+    Rust        Seconds 9.78
     TypeScript  Seconds 19.436
     JavaScript  Seconds 22.500
     C++         Seconds 23.064
