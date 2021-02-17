@@ -16,7 +16,7 @@ TypeScript | Completed
 Java | Completed
 C# | Completed
 Kotlin |
-Ruby |
+Ruby | Completed
 Julia |
 Go |
 Fortran | Completed
@@ -98,6 +98,10 @@ Timing the Solver
 * <https://doc.rust-lang.org/std/index.html>
 * <https://doc.rust-lang.org/stable/rust-by-example/index.html>
 * <https://fasterthanli.me/articles/a-half-hour-to-learn-rust>
+
+### Ruby
+
+* <https://www.tutorialspoint.com/ruby/ruby_methods.htm>
 
 ### Tcl
 
