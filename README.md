@@ -37,6 +37,7 @@ ERLANG |
     Java        Seconds 42.465
     C_Sharp     Seconds 57.142
     Fortran     Seconds 613.763
+    Ruby        Seconds 1035.392
     Tcl         Seconds 4398.989
     Python      Seconds 5114.008
 
