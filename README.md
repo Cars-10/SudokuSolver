@@ -32,7 +32,9 @@ Julia | Completed
 Go | Completed
 Fortran | Completed
 PHP |
-R |
+R | Completed
+BASH |
+Scheme |
 Scala |
 BASIC |
 LISP |
