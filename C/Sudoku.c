@@ -108,8 +108,7 @@ int solve() {
                 for (int val = 1; val < 10; val++) {
                     count += 1;
                     if (DEBUG) printf("Count= %i\n",count);
-                    if (isPossible(j,i,val) == 1)
-                    {
+                    if (isPossible(j,i,val) == 1) {
                         puzzle[j][i] = val;
                         if(solve() == 2) return 2; //Makes sure to do a quick exit when solution was found
                         puzzle[j][i] = 0;
