@@ -1,6 +1,17 @@
 # Sudoku Solver
 
-This project aims to be a teaching tool to understand how different computer programming languages work to solve the same problem.  Additionally it should provde a rough comparison of the solution speeds and memory usage.
+This project aims to be a teaching tool to understand how different computer programming languages
+work to solve the same problem, in this case Sudoku puzzles. Why create a Suduko Solver? It is small
+enough to be fun while also touching enough functionality such as parsing commandline arguments,
+ reading a file of data, using two dimensional arrays, performing several loops as well as recursion.
+ The aim is not specifically to write the quickest solver as this version uses only a brute force
+ approach.  Puzzle #6 is extremely hard and requires over 622 Million iterations to solve!
+
+## Goals
+
+* Learn the nuances of different programming languages
+* Compare their performance by solving the same problem
+* Configure and use Microsoft Visual Studio Code Editor as the IDE for all languages
 
 ## Programming Languages to Explore
 
@@ -10,17 +21,18 @@ Python | Completed
 Tcl | Completed
 C | Completed
 C++ | Completed
-Rust | Completed 
+Rust | Completed
 JavaScript | Completed
 TypeScript | Completed
 Java | Completed
 C# | Completed
 Kotlin |
 Ruby | Completed
-Julia | Started
+Julia | Completed
 Go | Completed
 Fortran | Completed
 PHP |
+R |
 Scala |
 BASIC |
 LISP |
@@ -37,14 +49,22 @@ ERLANG |
     C           Seconds 22.944
     Java        Seconds 42.465
     C_Sharp     Seconds 57.142
+    Julia       Seconds 61.362
     Fortran     Seconds 613.763
     Ruby        Seconds 1035.392
     Tcl         Seconds 4398.989
     Python      Seconds 5114.008
 
-## Special Notes
+## Findings
 
-* Check every solution to insure that solve returns to stack 0 for performance.
+* Rust is fast but had a bit of a learning curve (for me at least)
+* Go is just as fast as rust and took me only a few hours to code (my first time using go)
+* I was surprised how fast JavaScript in Node.js performed
+* Visual Code development speed was increased by using the tabnine extension
+* JavaScript development did not have the best visual feedback in Visual Code
+* C# was very easy to pick up
+* Fortran was pretty slow.  (Maybe there is some optimization possible)
+* Tcl (my all time favorite language) is still faster than Python (which seems to have won the popularity contest)
 
 ## Program Goals
 
@@ -64,6 +84,7 @@ ERLANG |
 2. Each Solution should also include a test suite
 3. Solution should be able to solve several supplied matrices
 4. Project to be managed in GITHUB
+5. Develop launch.json and tasks.json file for handling all languages
 
 ## Implementation Details
 
@@ -85,6 +106,14 @@ Each matrix should be read from a simple CSV file with .matrix file extension in
 The program should take as it's input one or more .matrix files
 
 ## Language Notes
+
+### Julia
+
+To add packages, like ArgParse, run the following in a julia interpreter.
+
+    julia
+    using Pkg
+    Pkg.add("ArgParse")
 
 ### Python
 
