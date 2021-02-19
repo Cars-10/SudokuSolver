@@ -34,14 +34,15 @@ Fortran | Completed
 PHP |
 R | Completed
 BASH |
-Scheme |
+Lisp | Started
 Scala |
-BASIC |
-LISP |
-ERLANG |
+BASIC? |
+ERLANG? |
 ???
 
 ## Performance Results (6 Matrices)
+
+Tests run on a Macbook Pro with 2.7 GHz Quad-Core Intel Core i7
 
     Go          Seconds 9.000
     Rust        Seconds 9.78
@@ -56,6 +57,7 @@ ERLANG |
     Ruby        Seconds 1035.392
     Tcl         Seconds 4398.989
     Python      Seconds 5114.008
+    R	        Hours!  2.751 hours
 
 ## Findings
 
@@ -67,6 +69,7 @@ ERLANG |
 * C# was very easy to pick up
 * Fortran was pretty slow.  (Maybe there is some optimization possible)
 * Tcl (my all time favorite language) is still faster than Python (which seems to have won the popularity contest)
+* WOW R was really slow
 
 ## Program Goals
 

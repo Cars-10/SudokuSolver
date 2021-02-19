@@ -1,10 +1,7 @@
-#options(echo=TRUE) # if you want see commands in output file
-
-
 readMatrixFile <- function(filename) {
+    writeLines(filename)
     puzzle <<- as.matrix(read.table(filename, header = FALSE, nrows = 9,
                           comment.char = "#", colClasses = "numeric"))
-    #print(puzzle)
 }
 
 printMatrix <- function() {
@@ -17,7 +14,6 @@ printMatrix <- function() {
         writeLines(line)
     }
 }
-
 
 isPossible <- function(y,x,val) {
     if (DEBUG>0) writeLines(paste("is possible ", y-1,"," ,x-1,",", val))
@@ -73,7 +69,6 @@ args <- commandArgs(trailingOnly = TRUE)
 
 for (arg in args) {
     if (endsWith(matrix(arg),".matrix")) {
-        print(arg)
         readMatrixFile(arg)
         printMatrix()
         count <<- 0
