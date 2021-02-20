@@ -40,8 +40,10 @@ proc isPossible {y x val} {
        
     # Find if a matching number (val) already exists
     # in the same row (y) or column (x) or within its rectangle
-    for {set j 0} {$j < 9} {incr j} { if {$puzzle($j,$x) == $val} {return 0}}
-    for {set i 0} {$i < 9} {incr i} { if {$puzzle($y,$i) == $val} {return 0}}
+    for {set j 0} {$j < 9} {incr j} { 
+        if {$puzzle($j,$x) == $val} return 0
+        if {$puzzle($y,$i) == $val} return 0
+    }
     
     # Search the Rectangle containing x & y
     # Find which 3x3 square we are in using the floor quotient

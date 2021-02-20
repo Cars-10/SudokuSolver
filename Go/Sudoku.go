@@ -55,8 +55,6 @@ func isPossible(y int, x int, val int) bool {
 		if puzzle[i][x] == val {
 			return false
 		}
-	}
-	for i := 0; i < 9; i++ {
 		if puzzle[y][i] == val {
 			return false
 		}
