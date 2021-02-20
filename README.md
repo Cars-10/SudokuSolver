@@ -17,28 +17,28 @@ enough to be fun while also touching enough functionality such as parsing comman
 
 Language | Status
 ---|---
-Python | Completed
-Tcl | Completed
-C | Completed
-C++ | Completed
-Rust | Completed
-JavaScript | Completed
-TypeScript | Completed
-Java | Completed
-C# | Completed
-Kotlin |
-Ruby | Completed
-Julia | Completed
-Go | Completed
-Fortran | Completed
-PHP |
-R | Completed
 BASH |
-Lisp | Started
-Scala |
 BASIC? |
+C | Completed
+C# | Completed
+C++ | Completed
 ERLANG? |
-???
+F #|
+Fortran | Completed
+Go | Completed
+Java | Completed
+JavaScript | Completed
+Julia | Completed
+Kotlin |
+Lisp (racket) | Completed
+PHP |
+Python | Completed
+R | Completed
+Rust | Completed
+Ruby | Completed
+Scala |
+Tcl | Completed
+TypeScript | Completed
 
 ## Performance Results (6 Matrices)
 
@@ -112,6 +112,11 @@ The program should take as it's input one or more .matrix files
 
 ## Language Notes
 
+### Racket
+
+Install packages via
+
+    raco pkg install global
 ### Julia
 
 To add packages, like ArgParse, run the following in a julia interpreter.
