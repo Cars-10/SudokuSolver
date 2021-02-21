@@ -2,7 +2,7 @@
 #lang typed/racket/no-check
 (require racket/function)
 (require math/array)
-
+(define start (current-milliseconds))
 (define puzzle (mutable-array 
 #[#[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] 
 #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] 
@@ -103,4 +103,5 @@
          (set! count 0)
          (solve)
     )
+    (displayln (string-append "Seconds to process " (~r (/ (- (current-milliseconds) start) 1000.))))
 )
