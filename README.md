@@ -22,8 +22,9 @@ BASIC? |
 C | Completed
 C# | Completed
 C++ | Completed
+Clojure|
 ERLANG? |
-F #|
+F #| Started
 Fortran | Completed
 Go | Completed
 Java | Completed
@@ -32,6 +33,7 @@ Julia | Completed
 Kotlin |
 Lisp (racket) | Completed
 PHP |
+Powershell|
 Python | Completed
 R | Completed
 Rust | Completed
@@ -58,6 +60,7 @@ Tests run on a Macbook Pro with 2.7 GHz Quad-Core Intel Core i7
     Tcl         Seconds 4398.989
     Python      Seconds 5114.008
     R	        Hours!  2.751 hours
+    Lisp        Days 2+ days
 
 ## Findings
 
