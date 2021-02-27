@@ -59,11 +59,12 @@ Tests run on a Macbook Pro with 2.7 GHz Quad-Core Intel Core i7
     Ruby        Seconds 1035.392
     Tcl         Seconds 4398.989
     Python      Seconds 5114.008
-    R	        Hours!  2.751 hours
-    Lisp        Days 2+ days
+    R	        Seconds 90903.00 (2.751 hours)
+    Lisp        Seconds 345484.826 (96 hours)
 
 ## Findings
 
+* It's really good to have several ways os solving the problem to ensure your answers in one method correlate to the other.
 * Rust is fast but had a bit of a learning curve (for me at least)
 * Go is just as fast as rust and took me only a few hours to code (my first time using go)
 * I was surprised how fast JavaScript in Node.js performed
@@ -72,7 +73,7 @@ Tests run on a Macbook Pro with 2.7 GHz Quad-Core Intel Core i7
 * C# was very easy to pick up
 * Fortran was pretty slow.  (Maybe there is some optimization possible)
 * Tcl (my all time favorite language) is still faster than Python (which seems to have won the popularity contest)
-* WOW R was really slow
+* WOW R was really slow, and LISP was waaay slower
 
 ## Program Goals
 
