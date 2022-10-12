@@ -64,7 +64,7 @@ Tests run on a Macbook Pro with 2.7 GHz Quad-Core Intel Core i7
 
 ## Findings
 
-* It's really good to have several ways os solving the problem to ensure your answers in one method correlate to the other.
+* It's really good to have several ways of solving the problem to ensure your answers in one method correlate to the other.
 * Rust is fast but had a bit of a learning curve (for me at least)
 * Go is just as fast as rust and took me only a few hours to code (my first time using go)
 * I was surprised how fast JavaScript in Node.js performed
