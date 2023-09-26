@@ -17,7 +17,7 @@ enough to be fun while also touching enough functionality such as parsing comman
 
 Language | Status
 ---|---
-BASH |
+BASH | In Work
 BASIC? |
 C | Completed
 C# | Completed
