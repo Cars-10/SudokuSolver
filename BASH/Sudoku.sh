@@ -2,6 +2,8 @@
 
 # Define the board as an array
 declare -a board
+iterations = 0
+
 
 # Function to print the board
 # Function to print the Sudoku board
@@ -9,6 +11,7 @@ declare -a board
 # Arguments: None
 # Output: Prints the current state of the Sudoku board
 print_board() {
+    echo
     echo "Puzzle:"
     for (( i=0; i<81; i++ )); do
         echo -n "${board[$i]} "
@@ -16,6 +19,7 @@ print_board() {
             echo
         fi
     done
+    echo
 }
 
 # Function to check if a move is valid
@@ -31,13 +35,12 @@ is_valid() {
 
     local row=$(( pos / 9 ))
     local col=$(( pos % 9 ))
-    echo "Is $num valid at $pos, row: $row, col: $col"
+    #echo "Is $num valid at $pos, row: $row, col: $col"
 
     # Check row and column
     for (( i=0; i<9; i++ )); do
-        #echo "Is Valid: ${board[$(( row*9 + i ))]} == $num || ${board[$(( i*9 + col ))]} == $num ]] "
+        #echo "Is Valid: Row: board[$(( row*9 + i ))] ${board[$(( row*9 + i ))]} == $num || Col: board[$(( i*9 + col ))] ${board[$(( i*9 + col ))]} == $num ]] "
         if [[ ${board[$(( row*9 + i ))]} == $num || ${board[$(( i*9 + col ))]} == $num ]]; then
-            #echo "Not In Row or Col"
             return 1
         fi
     done
@@ -48,7 +51,7 @@ is_valid() {
     #echo "Check 3x3 startRow: $startRow, startCol: $startCol"
     for (( i=0; i<3; i++ )); do
         for (( j=0; j<3; j++ )); do
-            #echo  "Is Valid: board[$(( (startRow + i)*9 + (startCol + j) ))]=${board[$(( (startRow + i)*9 + (startCol + j) ))]} == $num"
+            #echo  "Is Valid: board[$(( (startRow + i)*9 + (startCol + j) ))] == $num"
             if [[ ${board[$(( (startRow + i)*9 + (startCol + j) ))]} == $num ]]; then
                 #echo "Not In 3x3"
                 return 1
@@ -95,12 +98,14 @@ read_board() {
 # The function uses the is_valid function to check if a number is valid in a given cell.
 # The function uses the print_board function to print the solved board.
 solve() {
+    iterations=$(( iterations + 1 ))
     local pos=$1
-    echo "Solve: pos: $pos, stack level: ${#FUNCNAME[@]}"
+    local num
+    #echo "Solve: pos: $pos, ${board[$pos]} stack level: ${#FUNCNAME[@]}"
 
     if [[ $pos == 81 ]]; then
         print_board
-        exit 0
+        return
     fi
 
     if [[ ${board[${pos}]} != 0 ]]; then
@@ -108,11 +113,13 @@ solve() {
     else
         for (( num=1; num<=9; num++ )); do
             if is_valid $num $pos; then
-                echo "Valid: board[$pos]=$num"
-                board[${pos}]=$num
+                #echo "Is Valid: board[$pos]=$num"
+
+                board[${pos}]=${num}
                 solve $(( ${pos} + 1 ))
-                echo "Invalid: Setting board[$pos]=0"
-                board[${pos}]=0
+                #echo "Invalid: Setting board[$pos]=0 stack level: ${#FUNCNAME[@]}"
+                board[$pos]=0 # Reset the cell to 0 if the solve function returns
+                #echo "Shold be 1-9 $num"
             fi
         done
     fi
@@ -127,10 +134,16 @@ if [[ $# -eq 0 ]]; then
     exit 1
 fi
 
-for file in "$@"; do
+for file in $@; do
+    echo
     echo "Processing file: $file"
     read_board "$file"
-    #echo "Board: ${board[@]}"
     print_board
     solve 0
+    echo -e "\nSolved in Iterations=$iterations\n"
+    iterations=0
+
 done
+
+echo -e "\nSolved in Iterations=$iterations\n"
+
