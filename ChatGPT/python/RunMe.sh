@@ -4,10 +4,12 @@
 # Had to do this as the python script was not running properly
 # when called from the shell script with the matrices as arguments
 
-echo "" > run.txt
+echo $(date) > run.txt
 for i in {1..6}
 do
-    time python3 Sudoku.py ../../Matrices/$i.matrix | tee -a run.txt
+    matrix="../../Matrices/${i}.matrix"
+    print "File ${matrix}" >> run.txt
+    /usr/bin/time -o run.txt -a python3 Sudoku.py ${matrix} | tee -a run.txt
 done
 
 
