@@ -1,4 +1,3 @@
-*.txt
 obj/
 _*
 C/Sudoku
@@ -67,8 +66,8 @@ no_llvm_build
 
 #Maven Projects
 UCSB CS48
-Resources 
-S20 
+Resources
+S20
 Hwk
 Lab
 Teams
