@@ -2,113 +2,144 @@
 #include <stdlib.h>
 #include <locale.h>
 
-#define SIZE 9
-#define UNASSIGNED 0
+#define N 9
 
-// Function prototypes
-int isSafe(int *board, int row, int col, int num);
+// Function prototype for checking if it's safe to place a number
+int isSafe(int board[N][N], int row, int col, int num);
 
-// Function to read the matrix from a file and return it as a 1D array
-int* readMatrixFromFile(const char *filename) {
-    static int board[SIZE*SIZE];
+// Function to read a 9x9 Sudoku board from a file and return it as a 2D array
+void readBoardFromFile(char *filename, int board[N][N]) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error opening file\n");
+        perror("Error opening file");
         exit(EXIT_FAILURE);
     }
+
     char line[100];
     int row = 0;
-    while (fgets(line, sizeof(line), file) && row < SIZE) {
+    while (fgets(line, sizeof(line), file) && row < N) {
         if (line[0] == '#' || line[0] == '\n') continue; // Ignore comments and empty lines
-        for (int i = 0, col = 0; i < SIZE*2 && col < SIZE; i += 2, ++col) {
-            char ch = line[i];
-            board[row*SIZE + col] = (ch >= '1' && ch <= '9') ? ch - '0' : UNASSIGNED;
+
+        int col = 0;
+        for (char *p = line; *p && col < N; p++) {
+            if (*p >= '0' && *p <= '9') {
+                board[row][col++] = *p - '0';
+            }
         }
-        ++row;
+
+        row++;
     }
+
     fclose(file);
-    return board;
 }
 
-// Function to calculate the complexity of the matrix
-int calculateComplexity(int *board) {
+// Function to calculate the complexity of a 9x9 Sudoku matrix
+int calculateComplexity(int board[N][N]) {
     int emptyCells = 0;
-    for (int i = 0; i < SIZE*SIZE; ++i) {
-        if (board[i] == UNASSIGNED) ++emptyCells;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (board[i][j] == 0) {
+                emptyCells++;
+            }
+        }
     }
     return emptyCells;
 }
 
 // Function to format and print the number of iterations
 void printIterationsFormatted(int iterations) {
-    setlocale(LC_NUMERIC, "en_US.UTF-8");
+    setlocale(LC_NUMERIC, "");
     printf("Iterations: %'d\n", iterations);
 }
 
-// Function to print the board in a 9x9 grid
-void printBoard(int *board, int displayComplexity) {
+// Function to print the Sudoku board
+void printBoard(int board[N][N], int displayComplexity) {
     if (displayComplexity) {
         int complexity = calculateComplexity(board);
-        printf("Unsolved Board (Complexity: %d):\n", complexity);
+        printf("Unsolved Board (Complexity: %d)\n", complexity);
     } else {
-        printf("Solved Board:\n");
+        printf("Solved Board\n");
     }
-    for (int row = 0; row < SIZE; ++row) {
-        if (row % 3 == 0 && row != 0) {
-            printf("------+-------+------\n");
+
+    for (int i = 0; i < N; i++) {
+        if (i % 3 == 0 && i != 0) {
+            printf("---------------------\n");
         }
-        for (int col = 0; col < SIZE; ++col) {
-            if (col % 3 == 0 && col != 0) printf("| ");
-            printf("%d ", board[row*SIZE + col] ? board[row*SIZE + col] : ' ');
+
+        for (int j = 0; j < N; j++) {
+            if (j % 3 == 0 && j != 0) {
+                printf("| ");
+            }
+
+            printf("%d ", board[i][j]);
         }
         printf("\n");
     }
     printf("\n");
 }
 
-// Function to solve the Sudoku board using a backtracking algorithm
-int solveSudoku(int *board, int *iterations) {
-    int row, col, found = 0;
-    for (row = 0; row < SIZE; ++row) {
-        for (col = 0; col < SIZE; ++col) {
-            if (board[row*SIZE + col] == UNASSIGNED) {
-                found = 1;
+// Function that solves the Sudoku board using backtracking
+int solveSudoku(int board[N][N], int *iterations) {
+    int row, col, empty = 1;
+    for (row = 0; row < N; row++) {
+        for (col = 0; col < N; col++) {
+            if (board[row][col] == 0) {
+                empty = 0;
                 break;
             }
         }
-        if (found) break;
+        if (!empty) break;
     }
-    if (!found) return 1; // Solution found
 
-    for (int num = 1; num <= SIZE; ++num) {
+    if (empty) return 1; // If no empty cell, puzzle solved
+
+    for (int num = 1; num <= N; num++) {
         if (isSafe(board, row, col, num)) {
-            board[row*SIZE + col] = num;
-            ++(*iterations);
+            board[row][col] = num;
+            (*iterations)++;
+
             if (solveSudoku(board, iterations)) return 1;
-            board[row*SIZE + col] = UNASSIGNED; // Backtrack
+
+            board[row][col] = 0; // Backtrack
         }
     }
-    return 0; // Trigger backtracking
+
+    return 0;
 }
 
-// Function to check if it's safe to place a number in the given cell
-int isSafe(int *board, int row, int col, int num) {
-    for (int x = 0; x < SIZE; ++x) {
-        if (board[row*SIZE + x] == num || board[x*SIZE + col] == num ||
-            board[(row/3)*3*SIZE + (col/3)*3 + x/3*SIZE + x%3] == num) {
-            return 0;
+// Function to check if it's safe to place a number at the given row, col
+int isSafe(int board[N][N], int row, int col, int num) {
+    // Check the row
+    for (int x = 0; x < N; x++) {
+        if (board[row][x] == num) return 0;
+    }
+
+    // Check the column
+    for (int x = 0; x < N; x++) {
+        if (board[x][col] == num) return 0;
+    }
+
+    // Check the 3x3 box
+    int startRow = row - row % 3, startCol = col - col % 3;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i + startRow][j + startCol] == num) return 0;
         }
     }
+
     return 1;
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s filename\n", argv[0]);
+    if (argc != 2) {
+        printf("Usage: %s <sudoku_puzzle_file>\n", argv[0]);
         return EXIT_FAILURE;
     }
-    int *board = readMatrixFromFile(argv[1]);
+
+    int board[N][N];
+    readBoardFromFile(argv[1], board);
     printBoard(board, 1);
+
     int iterations = 0;
     if (solveSudoku(board, &iterations)) {
         printBoard(board, 0);
@@ -116,5 +147,6 @@ int main(int argc, char *argv[]) {
     } else {
         printf("No solution exists\n");
     }
+
     return EXIT_SUCCESS;
 }
