@@ -20,8 +20,8 @@ def read_return_file(file_path):
 api_key=read_return_file('api_key.txt')
 prompt=read_return_file('prompt.txt')
 
-language = "GOLang"
-file_extension = "go"
+language = "java"
+file_extension = "java"
 model = "gpt-4-1106-preview"
 seed = 42
 # Let's define the default prompt if prompt.txt and see if it can be reused for other languages
@@ -36,14 +36,14 @@ if prompt is None:
     please also ignore comments.
         Print the board after it is read and when it is solved.
     Step 2: Write a function that calculates the complexity of a 9x9 matrix.
-    Step 3: Write a function that will print the board in a 9x9 grid. It will take an argument to
-    display the calculated complexity or not.
-        Print the complexity for the unsolved board
+    Step 3: Write a function that will print the board in a 9x9 grid.
+        Print the complexity only for the unsolved board
     Step 4: Write a function that will solve the Soduko board using a backtracking algorithm.
     Step 5: When solved print the final board and the number of iterations, using commas for thousands.
     step 6: The matrices to read will be submitted on the commandline.
-    Do not import io library.
     Check the 3x3 square for the number, before backtracking
+    Please follow each step slowly and carefully, I will be checking your work.
+    Make sure to print the  complexity and the number of iterations.
     Write the complete code with comments, make sure that it will properly compile and run. Please
     reply with code only in JSON format, no need for addtional information.
 
