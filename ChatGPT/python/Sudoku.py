@@ -73,7 +73,7 @@ def main():
         return
 
     print('Sudoku Board:')
-    print_board(board)
+    print_board(board, display_complexity=True)
     print('\nSolving...')
 
     iterations = 0
@@ -112,7 +112,7 @@ def main():
     if solved:
         print('Solved Sudoku Board:')
         print_board(board)
-        print('Iterations:', iterations)
+        print('Iterations:', "{:,}".format(iterations)) # Format with commas
     else:
         print('No solution exists!')
 
