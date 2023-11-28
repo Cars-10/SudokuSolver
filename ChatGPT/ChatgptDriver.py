@@ -30,22 +30,24 @@ if prompt is None:
     You are an expert software developer and write clean and efficient code.
     I want you to write a Soduko solver in {language}. I will outline each procedure to write:
     and you will write the code. I will test your code and if it passes, I will pay you my respects.
+    Please add comments for each step below.
+    Make sure the code you provede compiles without errors or warnings.
     Step 1: Write a function that reads a 9x9 matrix from a file and returns it as a 1D array,
     please also ignore comments.
     Step 2: Write a function that calculates the complexity of a 9x9 matrix.
     Step 3: Write a function that will print the board in a 9x9 grid. It will take an argument to
     display the calculated complexity or not.
     Step 4: Write a function that will solve the Soduko board using a backtracking algorithm.
-    Step 5: When solved print the final board and the number of iterations.
+    Step 5: When solved print the final board and the number of iterations, using commas for thousands.
     step 6: The matrices to read will be submitted on the commandline.
-
+    Do not import io library.
+    Check the 3x3 square for the number, before backtracking
     Write the complete code with comments, make sure that it will properly compile and run. Please
     reply with code only in JSON format, no need for addtional information.
 
     """
-
-print(f"Prompt: {prompt.format(language=language)}")
-exit(0)
+# evaluate language variable
+prompt = prompt.format(language=language)
 
 client = OpenAI(api_key=api_key,)
 messages = [
@@ -76,7 +78,8 @@ print(f"System Fingerprint:{system_fingerprint}")
 print(f"Number of completion tokens:{completion_tokens}")
 
 #save response to a file
-file = f"response.{file_extension}"
+file = "response.{file_extension}".format(file_extension=file_extension)
+
 with open(file, 'w') as file:
     for line in response_dict["code"]:
         file.write(line)
