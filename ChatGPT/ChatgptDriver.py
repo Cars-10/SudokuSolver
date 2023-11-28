@@ -47,6 +47,7 @@ prompt = f"""
         Add one space between each number.
         Add a Title for unsolved and solved boards.
         Add a newline at the end of the board.
+        Make sure that it prints a 0 for empty cells.
     Step 4: Write a function that will solve the Soduko board using a backtracking algorithm.
         Keep track of the number of iterations each time solveSudoku is called.
         add a function prototype for isSafe at the top of the code.
