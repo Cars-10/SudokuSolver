@@ -34,9 +34,11 @@ if prompt is None:
     Make sure the code you provede compiles without errors or warnings.
     Step 1: Write a function that reads a 9x9 matrix from a file and returns it as a 1D array,
     please also ignore comments.
+        Print the board after it is read and when it is solved.
     Step 2: Write a function that calculates the complexity of a 9x9 matrix.
     Step 3: Write a function that will print the board in a 9x9 grid. It will take an argument to
     display the calculated complexity or not.
+        Print the complexity for the unsolved board
     Step 4: Write a function that will solve the Soduko board using a backtracking algorithm.
     Step 5: When solved print the final board and the number of iterations, using commas for thousands.
     step 6: The matrices to read will be submitted on the commandline.
