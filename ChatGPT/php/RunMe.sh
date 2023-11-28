@@ -1,4 +1,8 @@
 #!/bin/zsh
-cd "$(dirname $0:A)"
-
-time php Sudoku.php ../Matrices/*.matrix | tee run.txt
+echo $(date) > run.txt
+for i in {1..6}
+do
+    matrix="../../Matrices/${i}.matrix"
+    print "File ${matrix}" >> run.txt
+    /usr/bin/time -o run.txt -a php Sudoku.php ${matrix} | tee -a run.txt
+done
