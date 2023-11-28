@@ -8,41 +8,40 @@ import (
 	"strings"
 )
 
-const Size = 9
-
-// Step 1: Read a 9x9 matrix from a file and return as a 1D array, ignoring comments.
-func readSudokuFromFile(filePath string) ([]int, error) {
+// Step 1: Read a 9x9 matrix from a file and return it as a 1D array
+func readSudokuBoard(filePath string) ([]int, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var numbers []int
+	board := make([]int, 0, 81)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if strings.HasPrefix(line, "#") || line == "" { // Ignore comments and empty lines.
+		// Ignore comments and empty lines
+		if len(line) == 0 || strings.HasPrefix(line, "#") {
 			continue
 		}
-		rowNumbers := strings.Fields(line)
-		for _, num := range rowNumbers {
-			if len(numbers) >= Size*Size { // Stop after 81 numbers.
-				break
-			}
-			if n, err := strconv.Atoi(num); err == nil {
-				numbers = append(numbers, n)
+		for _, char := range line {
+			if char >= '0' && char <= '9' {
+				num := int(char - '0')
+				board = append(board, num)
 			}
 		}
 	}
-
-	return numbers, scanner.Err()
+	if len(board) != 81 {
+		return nil, fmt.Errorf("Invalid board size")
+	}
+	err = scanner.Err()
+	return board, err
 }
 
-// Step 2: Calculate the complexity of a 9x9 matrix.
-func calculateComplexity(matrix []int) int {
+// Step 2: Calculate the complexity of a 9x9 matrix
+func calculateComplexity(board []int) int {
 	complexity := 0
-	for _, num := range matrix {
+	for _, num := range board {
 		if num == 0 {
 			complexity++
 		}
@@ -50,104 +49,91 @@ func calculateComplexity(matrix []int) int {
 	return complexity
 }
 
-// Step 3: Print the board in a 9x9 grid, with optional complexity display.
-func printBoard(matrix []int, showComplexity bool) {
-	if showComplexity {
-		fmt.Printf("Complexity: %d\n", calculateComplexity(matrix))
+// Step 3: Print the board in a 9x9 grid and display complexity if desired
+func printBoard(board []int, displayComplexity bool) {
+	if displayComplexity {
+		complexity := calculateComplexity(board)
+		fmt.Printf("Complexity: %d\n", complexity)
 	}
-	for i := 0; i < Size; i++ {
-		for j := 0; j < Size; j++ {
-			fmt.Printf("%d ", matrix[i*Size+j])
+	for i := 0; i < 81; i++ {
+		fmt.Printf("%d ", board[i])
+		if (i+1)%9 == 0 {
+			fmt.Println()
 		}
-		fmt.Println()
 	}
 }
 
-// Step 4: Solve the Sudoku board using a backtracking algorithm.
-func solveSudoku(matrix []int) (bool, int) {
-	var iterations int
-	var solve func(int) bool
-	solve = func(index int) bool {
-		iterations++
-		if index == Size*Size {
-			return true // Solved!
-		}
-		if matrix[index] != 0 { // Skip filled cells.
-			return solve(index + 1)
-		}
-		for num := 1; num <= Size; num++ {
-			if isValid(matrix, index, num) {
-				matrix[index] = num
-				if solve(index + 1) {
-					return true
+// Step 4: Solve the Sudoku board using a backtracking algorithm
+func solveSudoku(board []int, iterations *int) bool {
+	(*iterations)++
+	for i := 0; i < 81; i++ {
+		if board[i] == 0 {
+			for num := 1; num <= 9; num++ {
+				if isValid(board, i, num) {
+					board[i] = num
+					if solveSudoku(board, iterations) {
+						return true
+					}
+					board[i] = 0
 				}
-				matrix[index] = 0 // Backtrack
 			}
-		}
-		return false
-	}
-	if solve(0) {
-		return true, iterations
-	}
-	return false, iterations
-}
-
-// Helper function to check if a number placement is valid.
-func isValid(matrix []int, index, num int) bool {
-	row := index / Size
-	col := index % Size
-	// Check row and column
-	for i := 0; i < Size; i++ {
-		if matrix[row*Size+i] == num || matrix[i*Size+col] == num {
 			return false
-		}
-	}
-	// Check 3x3 subgrid
-	startRow := row - row%3
-	startCol := col - col%3
-	for i := startRow; i < startRow+3; i++ {
-		for j := startCol; j < startCol+3; j++ {
-			if matrix[i*Size+j] == num {
-				return false
-			}
 		}
 	}
 	return true
 }
 
-// Step 5 & 6: Main function to tie everything together.
+// Helper function to check if a number can be placed at a given position
+func isValid(board []int, pos, num int) bool {
+	row := pos / 9
+	col := pos % 9
+
+	// Check row
+	for i := 0; i < 9; i++ {
+		if board[row*9+i] == num {
+			return false
+		}
+	}
+
+	// Check column
+	for i := 0; i < 9; i++ {
+		if board[i*9+col] == num {
+			return false
+		}
+	}
+
+	// Check 3x3 square
+	startRow := row / 3 * 3
+	startCol := col / 3 * 3
+	for i := startRow; i < startRow+3; i++ {
+		for j := startCol; j < startCol+3; j++ {
+			if board[i*9+j] == num {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: sudoku_solver <file_path>")
 		return
 	}
-	matrix, err := readSudokuFromFile(os.Args[1])
+	board, err := readSudokuBoard(os.Args[1])
 	if err != nil {
-		fmt.Printf("Error reading file: %s\n", err)
+		fmt.Println("Error reading board:", err)
 		return
 	}
-	printBoard(matrix, false)
-	fmt.Println("Solving Sudoku...")
-	if solved, iterations := solveSudoku(matrix); solved {
-		printBoard(matrix, false)
-		fmt.Printf("Solved in %s iterations.\n", formatNumber(iterations))
-	} else {
-		fmt.Println("Could not solve sudoku.")
-	}
-}
 
-// Helper function to format the number with commas.
-func formatNumber(n int) string {
-	in := strconv.Itoa(n)
-	out := make([]byte, len(in)+(len(in)-1)/3)
-	for e, i, j := len(in)-1, len(out)-1, 0; e >= 0; e-- {
-		out[i] = in[e]
-		i--
-		j++
-		if j%3 == 0 && e != 0 {
-			out[i] = ','
-			i--
-		}
+	printBoard(board, true)
+
+	iterations := 0
+	if solveSudoku(board, &iterations) {
+		fmt.Printf("Solved board after %s iterations:\n", strconv.FormatInt(int64(iterations), 10))
+		printBoard(board, false)
+	} else {
+		fmt.Println("Could not solve the Sudoku board.")
 	}
-	return string(out)
 }
