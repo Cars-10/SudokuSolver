@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Sodoku.fsx" />
+    <Compile Include="Sudoku.fsx" />
   </ItemGroup>
 
 </Project>
