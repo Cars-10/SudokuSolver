@@ -1,0 +1,886 @@
+9 0 0 3 0 0 8 0 0
+
+Solved Sudoku Board:
+
+8 6 3 2 7 5 1 9 4
+5 4 2 9 8 1 6 7 3
+1 9 7 4 3 6 5 2 8
+2 5 4 7 1 3 9 8 6
+6 8 1 5 9 4 2 3 7
+3 7 9 8 6 2 4 5 1
+4 3 5 6 2 8 7 1 9
+7 2 8 1 4 9 3 6 5
+9 1 6 3 5 7 8 4 2
+Iterations: 67840
+❯ ./collect_runs.sh >results.txt
+zsh: file exists: results.txt
+❯ rm  results.txt
+remove results.txt? y
+❯ ./collect_runs.sh >results.txt
+❯ cursor  results.txt
+❯ python3 ChatgptDriver.py
+Error reading the file: [Errno 2] No such file or directory: 'prompt.txt'
+Response:
+{
+    "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\n// Step 1: Read a 9x9 matrix from a file and return it as a 1D array\nfunc readSudokuBoard(filePath string) ([]int, error) {\n\tfile, err := os.Open(filePath)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer file.Close()\n\n\tboard := make([]int, 0, 81)\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\tline := strings.TrimSpace(scanner.Text())\n\t\t// Ignore comments and empty lines\n\t\tif len(line) == 0 || strings.HasPrefix(line, \"#\") {\n\t\t\tcontinue\n\t\t}\n\t\tfor _, char := range line {\n\t\t\tif char >= '0' && char <= '9' {\n\t\t\t\tnum := int(char - '0')\n\t\t\t\tboard = append(board, num)\n\t\t\t}\n\t\t}\n\t}\n\tif len(board) != 81 {\n\t\treturn nil, fmt.Errorf(\"Invalid board size\")\n\t}\n\terr = scanner.Err()\n\treturn board, err\n}\n\n// Step 2: Calculate the complexity of a 9x9 matrix\nfunc calculateComplexity(board []int) int {\n\tcomplexity := 0\n\tfor _, num := range board {\n\t\tif num == 0 {\n\t\t\tcomplexity++\n\t\t}\n\t}\n\treturn complexity\n}\n\n// Step 3: Print the board in a 9x9 grid and display complexity if desired\nfunc printBoard(board []int, displayComplexity bool) {\n\tif displayComplexity {\n\t\tcomplexity := calculateComplexity(board)\n\t\tfmt.Printf(\"Complexity: %d\\n\", complexity)\n\t}\n\tfor i := 0; i < 81; i++ {\n\t\tfmt.Printf(\"%d \", board[i])\n\t\tif (i+1)%9 == 0 {\n\t\t\tfmt.Println()\n\t\t}\n\t}\n}\n\n// Step 4: Solve the Sudoku board using a backtracking algorithm\nfunc solveSudoku(board []int, iterations *int) bool {\n\t(*iterations)++\n\tfor i := 0; i < 81; i++ {\n\t\tif board[i] == 0 {\n\t\t\tfor num := 1; num <= 9; num++ {\n\t\t\t\tif isValid(board, i, num) {\n\t\t\t\t\tboard[i] = num\n\t\t\t\t\tif solveSudoku(board, iterations) {\n\t\t\t\t\t\treturn true\n\t\t\t\t\t}\n\t\t\t\t\tboard[i] = 0\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\n// Helper function to check if a number can be placed at a given position\nfunc isValid(board []int, pos, num int) bool {\n\trow := pos / 9\n\tcol := pos % 9\n\n\t// Check row\n\tfor i := 0; i < 9; i++ {\n\t\tif board[row*9+i] == num {\n\t\t\treturn false\n\t\t}\n\t}\n\n\t// Check column\n\tfor i := 0; i < 9; i++ {\n\t\tif board[i*9+col] == num {\n\t\t\treturn false\n\t\t}\n\t}\n\n\t// Check 3x3 square\n\tstartRow := row / 3 * 3\n\tstartCol := col / 3 * 3\n\tfor i := startRow; i < startRow+3; i++ {\n\t\tfor j := startCol; j < startCol+3; j++ {\n\t\t\tif board[i*9+j] == num {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t}\n\n\treturn true\n}\n\nfunc main() {\n\tif len(os.Args) < 2 {\n\t\tfmt.Println(\"Usage: sudoku_solver <file_path>\")\n\t\treturn\n\t}\n\tboard, err := readSudokuBoard(os.Args[1])\n\tif err != nil {\n\t\tfmt.Println(\"Error reading board:\", err)\n\t\treturn\n\t}\n\n\tprintBoard(board, true)\n\n\titerations := 0\n\tif solveSudoku(board, &iterations) {\n\t\tfmt.Printf(\"Solved board after %s iterations:\\n\", strconv.FormatInt(int64(iterations), 10))\n\t\tprintBoard(board, false)\n\t} else {\n\t\tfmt.Println(\"Could not solve the Sudoku board.\")\n\t}\n}\n"
+}
+System Fingerprint:fp_a24b4d720c
+Number of completion tokens:1121
+❯ go run ./response.go ../Matrices/2.matrix
+Complexity: 56
+0 0 3 0 0 5 0 0 4
+5 0 0 9 8 1 0 0 0
+0 0 0 0 0 0 0 2 0
+2 0 0 7 0 0 9 0 0
+0 8 0 0 9 0 0 3 0
+0 0 9 0 0 2 0 0 1
+0 3 0 0 0 0 0 0 0
+0 0 0 1 4 9 0 0 5
+9 0 0 3 0 0 8 0 0
+Solved board after 48834 iterations:
+8 6 3 2 7 5 1 9 4
+5 4 2 9 8 1 6 7 3
+1 9 7 4 3 6 5 2 8
+2 5 4 7 1 3 9 8 6
+6 8 1 5 9 4 2 3 7
+3 7 9 8 6 2 4 5 1
+4 3 5 6 2 8 7 1 9
+7 2 8 1 4 9 3 6 5
+9 1 6 3 5 7 8 4 2
+❯ cp response Go/Sudoku
+cp: response: No such file or directory
+❯ go bu
+go bu: unknown command
+Run 'go help' for usage.
+❯ go build response.go
+❯ cp response Go/Sudoku
+overwrite Go/Sudoku? (y/n [n]) y
+❯ python3 ChatgptDriver.py
+Error reading the file: [Errno 2] No such file or directory: 'prompt.txt'
+Response:{
+    "code": "<?php\n\nfunction readBoardFromFile($filename) {\n    $board = [];\n    $file = fopen($filename, 'r');\n    if ($file) {\n        while (($line = fgets($file)) !== false) {\n            // Ignore comments and empty lines\n            if (trim($line) === '' || strpos($line, '//') === 0) continue;\n            // Add row to the board\n            $board = array_merge($board, array_map('intval', str_split(preg_replace('/\\D/', '', $line))));\n        }\n        fclose($file);\n    }\n    return $board;\n}\n\nfunction calculateComplexity($board) {\n    // Placeholder for complexity calculation\n    return 0;\n}\n\nfunction printBoard($board, $showComplexity = false) {\n    if ($showComplexity) {\n        $complexity = calculateComplexity($board);\n        echo \"Complexity: $complexity\\n\";\n    }\n    for ($i = 0; $i < 9; $i++) {\n        for ($j = 0; $j < 9; $j++) {\n            echo $board[$i * 9 + $j] . ' ';\n        }\n        echo \"\\n\";\n    }\n}\n\nfunction isValidPlacement($board, $row, $col, $num) {\n    $startRow = $row - $row % 3;\n    $startCol = $col - $col % 3;\n    for ($i = 0; $i < 9; $i++) {\n        if ($board[$row * 9 + $i] == $num || $board[$i * 9 + $col] == $num || $board[($startRow + ($i % 3)) * 9 + $startCol + (int)($i / 3)] == $num) {\n            return false;\n        }\n    }\n    return true;\n}\n\nfunction solveSudoku(&$board, &$iterations) {\n    for ($row = 0; $row < 9; $row++) {\n        for ($col = 0; $col < 9; $col++) {\n            if ($board[$row * 9 + $col] == 0) {\n                for ($num = 1; $num <= 9; $num++) {\n                    if (isValidPlacement($board, $row, $col, $num)) {\n                        $board[$row * 9 + $col] = $num;\n                        $iterations++;\n                        if (solveSudoku($board, $iterations)) {\n                            return true;\n                        }\n                        $board[$row * 9 + $col] = 0;\n                    }\n                }\n                return false;\n            }\n        }\n    }\n    return true;\n}\n\n// Main execution\n$filename = $argv[1];\n$board = readBoardFromFile($filename);\nprintBoard($board);\n$iterations = 0;\nif (solveSudoku($board, $iterations)) {\n    echo \"Solved in \" . number_format($iterations) . \" iterations.\\n\";\n    printBoard($board);\n} else {\n    echo \"No solution exists.\\n\";\n}\n\n?>"
+}
+System Fingerprint:fp_a24b4d720c
+Number of completion tokens:750
+❯ php Sudoku.php ../Matrices/2.matrix
+Could not open input file: Sudoku.php
+❯ php response.php ../Matrices/2.matrix
+0 0 3 0 0 5 0 0 4
+5 0 0 9 8 1 0 0 0
+0 0 0 0 0 0 0 2 0
+2 0 0 7 0 0 9 0 0
+0 8 0 0 9 0 0 3 0
+0 0 9 0 0 2 0 0 1
+0 3 0 0 0 0 0 0 0
+0 0 0 1 4 9 0 0 5
+9 0 0 3 0 0 8 0 0
+Solved in 48,833 iterations.
+8 6 3 2 7 5 1 9 4
+5 4 2 9 8 1 6 7 3
+1 9 7 4 3 6 5 2 8
+2 5 4 7 1 3 9 8 6
+6 8 1 5 9 4 2 3 7
+3 7 9 8 6 2 4 5 1
+4 3 5 6 2 8 7 1 9
+7 2 8 1 4 9 3 6 5
+9 1 6 3 5 7 8 4 2
+❯ php response.php ../Matrices/.matrix
+❯ mkdir Java
+❯ cp C/RunMe.sh Java
+❯ php response.php ../Matrices/2.matrix
+❯ python3 ChatgptDriver.py
+Error reading the file: [Errno 2] No such file or directory: 'prompt.txt'
+Response:{
+    "code": "import java.io.File;\nimport java.io.FileNotFoundException;\nimport java.util.Scanner;\n\npublic class SudokuSolver {\n\n    // Step 1: Reads a 9x9 Sudoku matrix from a file and returns it as a 1D array\n    public static int[] readBoardFromFile(String filename) throws FileNotFoundException {\n        Scanner scanner = new Scanner(new File(filename));\n        int[] board = new int[81];\n        int index = 0;\n\n        while (scanner.hasNextLine()) {\n            String line = scanner.nextLine().trim();\n            // Ignore comments and empty lines\n            if (!line.startsWith(\"//\") && !line.isEmpty()) {\n                String[] numbers = line.split(\"\\\\s+\");\n                for (String number : numbers) {\n                    board[index++] = Integer.parseInt(number);\n                }\n            }\n        }\n\n        scanner.close();\n        return board;\n    }\n\n    // Step 2: Calculates the complexity of a 9x9 Sudoku matrix\n    public static int calculateComplexity(int[] board) {\n        int complexity = 0;\n        for (int cell : board) {\n            if (cell == 0) {\n                complexity++;\n            }\n        }\n        return complexity;\n    }\n\n    // Step 3: Print the board in a 9x9 grid and complexity for the unsolved board\n    public static void printBoard(int[] board, boolean calculateComplexity) {\n        if (calculateComplexity) {\n            System.out.println(\"Complexity: \" + calculateComplexity(board));\n        }\n        for (int i = 0; i < 9; i++) {\n            for (int j = 0; j < 9; j++) {\n                System.out.print(board[i * 9 + j] + \" \");\n            }\n            System.out.println();\n        }\n    }\n\n    // Step 4: Solves the Sudoku board using a backtracking algorithm\n    public static boolean solveBoard(int[] board, int index) {\n        if (index == 81) {\n            return true; // Puzzle solved\n        }\n\n        if (board[index] != 0) { // Skip filled cells\n            return solveBoard(board, index + 1);\n        }\n\n        for (int num = 1; num <= 9; num++) {\n            if (isSafe(board, index, num)) {\n                board[index] = num;\n\n                if (solveBoard(board, index + 1)) {\n                    return true;\n                }\n\n                board[index] = 0; // Backtrack\n            }\n        }\n\n        return false;\n    }\n\n    // Helper function to check if it's safe to place a number at the given index\n    public static boolean isSafe(int[] board, int index, int num) {\n        int row = index / 9;\n        int col = index % 9;\n\n        // Check row and column\n        for (int i = 0; i < 9; i++) {\n            if (board[row * 9 + i] == num || board[i * 9 + col] == num) {\n                return false;\n            }\n        }\n\n        // Check 3x3 square\n        int startRow = row - row % 3;\n        int startCol = col - col % 3;\n        for (int i = 0; i < 3; i++) {\n            for (int j = 0; j < 3; j++) {\n                if (board[(startRow + i) * 9 + (startCol + j)] == num) {\n                    return false;\n                }\n            }\n        }\n\n        return true;\n    }\n\n    // Main method\n    public static void main(String[] args) {\n        if (args.length > 0) {\n            try {\n                int[] board = readBoardFromFile(args[0]);\n                printBoard(board, true); // Print unsolved board\n                if (solveBoard(board, 0)) {\n                    System.out.println(\"Sudoku solved:\");\n                    printBoard(board, false); // Print solved board\n                } else {\n                    System.out.println(\"No solution exists.\");\n                }\n            } catch (FileNotFoundException e) {\n                System.out.println(\"File not found: \" + e.getMessage());\n            }\n        } else {\n            System.out.println(\"Please provide the filename as a command-line argument.\");\n        }\n    }\n}\n"
+}
+System Fingerprint:fp_a24b4d720c
+Number of completion tokens:1023
+❯ cursor response.java
+❯ javac response.java
+response.java:5: error: class SudokuSolver is public, should be declared in a file named SudokuSolver.java
+public class SudokuSolver {
+       ^
+1 error
+❯ mv response.java SudokuSolver.java
+❯ javac !$
+❯ javac SudokuSolver.java
+❯ ,
+total 4264
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 23 22:15 ..
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+-rwxr-xr-x@  1 carstenlawrenz  staff      149 Nov 28 16:01 collect_runs.sh
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2701 Nov 28 16:39 results.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+drwxr-xr-x@  3 carstenlawrenz  staff       96 Nov 28 17:11 Java
+-rw-r--r--   1 carstenlawrenz  staff     3164 Nov 28 17:12 ChatgptDriver.py
+-rw-r--r--@  1 carstenlawrenz  staff     3856 Nov 28 17:13 SudokuSolver.java
+drwxr-xr-x  26 carstenlawrenz  staff      832 Nov 28 17:14 .
+-rw-r--r--@  1 carstenlawrenz  staff     2957 Nov 28 17:14 SudokuSolver.class
+❯ ./collect_runs.sh >results.txt
+zsh: file exists: results.txt
+❯ rm results.txt
+remove results.txt? y
+❯ ./collect_runs.sh >results.txt
+❯ cursor results.txt
+❯ java SudokuSolver ../Matrices/2.matrix
+Exception in thread "main" java.lang.NumberFormatException: For input string: "#"
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:647)
+        at java.base/java.lang.Integer.parseInt(Integer.java:777)
+        at SudokuSolver.readBoardFromFile(SudokuSolver.java:19)
+        at SudokuSolver.main(SudokuSolver.java:107)
+❯ h
+ 2994  php Sudoku.php ../Matrices/2.matrix
+ 2995  php response.php ../Matrices/2.matrix
+ 2997* cp ../response.php Sudoku.php
+ 2998* ./RunMe.sh
+ 2999  mkdir Java
+ 3000  cp C/RunMe.sh Java
+ 3001  python3 ChatgptDriver.py
+ 3002  cursor response.java
+ 3003  javac response.java
+ 3004  mv response.java SudokuSolver.java
+ 3005  javac SudokuSolver.java
+ 3006  ,
+ 3008  rm results.txt
+ 3009  ./collect_runs.sh >results.txt
+ 3010  cursor results.txt
+ 3011  java SudokuSolver ../Matrices/2.matrix
+❯ javac SudokuSolver.java;java SudokuSolver ../Matrices/2.matrix
+Complexity: 56
+0 0 3 0 0 5 0 0 4
+5 0 0 9 8 1 0 0 0
+0 0 0 0 0 0 0 2 0
+2 0 0 7 0 0 9 0 0
+0 8 0 0 9 0 0 3 0
+0 0 9 0 0 2 0 0 1
+0 3 0 0 0 0 0 0 0
+0 0 0 1 4 9 0 0 5
+9 0 0 3 0 0 8 0 0
+Sudoku solved:
+8 6 3 2 7 5 1 9 4
+5 4 2 9 8 1 6 7 3
+1 9 7 4 3 6 5 2 8
+2 5 4 7 1 3 9 8 6
+6 8 1 5 9 4 2 3 7
+3 7 9 8 6 2 4 5 1
+4 3 5 6 2 8 7 1 9
+7 2 8 1 4 9 3 6 5
+9 1 6 3 5 7 8 4 2
+❯ ,
+total 4264
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 23 22:15 ..
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+-rwxr-xr-x@  1 carstenlawrenz  staff      149 Nov 28 16:01 collect_runs.sh
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+drwxr-xr-x@  3 carstenlawrenz  staff       96 Nov 28 17:11 Java
+-rw-r--r--   1 carstenlawrenz  staff     3164 Nov 28 17:12 ChatgptDriver.py
+drwxr-xr-x  26 carstenlawrenz  staff      832 Nov 28 17:23 .
+-rw-r--r--@  1 carstenlawrenz  staff     3164 Nov 28 17:23 results.txt
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+❯ cp SudokuSolver.* Java
+❯ h
+ 2998* ./RunMe.sh
+ 2999  mkdir Java
+ 3000  cp C/RunMe.sh Java
+ 3001  python3 ChatgptDriver.py
+ 3002  cursor response.java
+ 3003  javac response.java
+ 3004  mv response.java SudokuSolver.java
+ 3005  javac SudokuSolver.java
+ 3008  rm results.txt
+ 3009  ./collect_runs.sh >results.txt
+ 3010  cursor results.txt
+ 3011  java SudokuSolver ../Matrices/2.matrix
+ 3013  javac SudokuSolver.java;java SudokuSolver ../Matrices/2.matrix
+ 3015  cp SudokuSolver.* Java
+ 3016* cd Java
+ 3017* ,
+❯ python3 ChatgptDriver.py
+Error reading the file: [Errno 2] No such file or directory: 'prompt.txt'
+Response:{
+    "code": "import java.io.*;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\nimport java.util.*;\n\npublic class SudokuSolver {\n\n    private static final int SIZE = 9;\n\n    public static void main(String[] args) throws IOException {\n        if (args.length == 0) {\n            System.out.println(\"No file provided\");\n            return;\n        }\n\n        String path = args[0];\n        int[] board = readBoardFromFile(path);\n        printBoard(board);\n        System.out.println(\"Complexity: \" + calculateComplexity(board));\n\n        int iterations = solveBoard(board, 0);\n\n        if (iterations != -1) {\n            printBoard(board);\n            System.out.printf(\"Solved in %,d iterations.\\n\", iterations);\n        } else {\n            System.out.println(\"No solution found.\");\n        }\n    }\n\n    private static int[] readBoardFromFile(String path) throws IOException {\n        List<String> lines = Files.readAllLines(Paths.get(path));\n        int[] board = new int[SIZE * SIZE];\n        int idx = 0;\n\n        for (String line : lines) {\n            if (line.startsWith(\"#\")) continue; // Ignore comments\n            for (char c : line.toCharArray()) {\n                if (Character.isDigit(c)) {\n                    board[idx++] = c - '0';\n                }\n            }\n        }\n        return board;\n    }\n\n    private static int calculateComplexity(int[] board) {\n        int emptyCells = 0;\n        for (int num : board) {\n            if (num == 0) emptyCells++;\n        }\n        return emptyCells;\n    }\n\n    private static void printBoard(int[] board) {\n        for (int i = 0; i < board.length; i++) {\n            System.out.print(board[i] + \" \");\n            if ((i + 1) % SIZE == 0) System.out.println();\n        }\n        System.out.println();\n    }\n\n    private static int solveBoard(int[] board, int index) {\n        if (index == SIZE * SIZE) return 0; // Board solved\n\n        if (board[index] != 0) return solveBoard(board, index + 1); // Skip filled cells\n\n        for (int num = 1; num <= SIZE; num++) {\n            if (isSafe(board, index, num)) {\n                board[index] = num;\n                int iterations = solveBoard(board, index + 1);\n                if (iterations != -1) return iterations + 1;\n                board[index] = 0; // Backtrack\n            }\n        }\n\n        return -1; // No solution found\n    }\n\n    private static boolean isSafe(int[] board, int index, int num) {\n        int row = index / SIZE;\n        int col = index % SIZE;\n\n        // Check row and column\n        for (int i = 0; i < SIZE; i++) {\n            if (board[row * SIZE + i] == num || board[i * SIZE + col] == num) return false;\n        }\n\n        // Check 3x3 square\n        int startRow = row - row % 3;\n        int startCol = col - col % 3;\n        for (int i = 0; i < 3; i++) {\n            for (int j = 0; j < 3; j++) {\n                if (board[(startRow + i) * SIZE + (startCol + j)] == num) return false;\n            }\n        }\n        return true;\n    }\n\n}"
+}
+System Fingerprint:fp_a24b4d720c
+Number of completion tokens:844
+❯ ,
+total 4280
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+-rwxr-xr-x@  1 carstenlawrenz  staff      149 Nov 28 16:01 collect_runs.sh
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+-rw-r--r--@  1 carstenlawrenz  staff     3164 Nov 28 17:23 results.txt
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+drwxr-xr-x@  6 carstenlawrenz  staff      192 Nov 28 17:28 Java
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 28 17:33 ..
+-rw-r--r--   1 carstenlawrenz  staff     3437 Nov 28 17:39 ChatgptDriver.py
+-rw-r--r--@  1 carstenlawrenz  staff     2985 Nov 28 17:40 response.java
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 28 17:40 .
+-rw-r--r--@  1 carstenlawrenz  staff     1440 Nov 28 17:40 prompt.txt
+❯ m prompt.txt
+
+    You are an expert software developer and write clean and efficient code.
+    I want you to write a Soduko solver in java. I will outline each procedure to write:
+    and you will write the code. I will test your code and if it passes, I will pay you my respects.
+    Please add comments for each step below.
+    Make sure the code you provede compiles without errors or warnings.
+    Step 1: Write a function that reads a 9x9 matrix from a file and returns it as a 1D array,
+    please also ignore comments.
+        Print the board after it is read and when it is solved.
+    Step 2: Write a function that calculates the complexity of a 9x9 matrix.
+    Step 3: Write a function that will print the board in a 9x9 grid.
+        Print the complexity only for the unsolved board
+    Step 4: Write a function that will solve the Soduko board using a backtracking algorithm.
+    Step 5: When solved print the final board and the number of iterations, using commas for thousands.
+    step 6: The matrices to read will be submitted on the commandline.
+    Check the 3x3 square for the number, before backtracking
+    Please follow each step slowly and carefully, I will be checking your work.
+    Make sure to print the  complexity and the number of iterations.
+    Write the complete code with comments, make sure that it will properly compile and run. Please
+    reply with code only in JSON format, no need for addtional information.
+
+
+❯ cp prompt.txt Java
+❯ rm results.txt; ./collect_runs.sh > results.txt
+remove results.txt? y
+❯ cursor results.txt
+❯ mv results.txt ~/Desktop
+overwrite /Users/carstenlawrenz/Desktop/results.txt? (y/n [n]) y
+❯ more collect_runs.sh
+#/bin/bash
+for file in */run.txt; do
+    echo "In file $file:"
+    grep -i -E "CET|iterations|called|user|matrix|complex" "$file"
+    echo ""
+done
+
+
+❯ ./collect_runs.sh >results.txt
+❯ m results.txt
+In file C/run.txt:
+Tue Nov 28 11:21:58 CET 2023
+File ../../Matrices/1.matrix
+Unsolved Board (Complexity: 42)
+Iterations: 91
+        0.06 real         0.00 user         0.00 sys
+File ../../Matrices/2.matrix
+Unsolved Board (Complexity: 56)
+Iterations: 48,833
+        0.02 real         0.01 user         0.00 sys
+File ../../Matrices/3.matrix
+Unsolved Board (Complexity: 53)
+❯ cat results.txt|split "In file"
+split: In file: No such file or directory
+❯ man split
+SPLIT(1)                                General Commands Manual                               SPLIT(1)
+
+NAME
+     split – split a file into pieces
+
+SYNOPSIS
+     split -d [-l line_count] [-a suffix_length] [file [prefix]]
+     split -d -b byte_count[K|k|M|m|G|g] [-a suffix_length] [file [prefix]]
+     split -d -n chunk_count [-a suffix_length] [file [prefix]]
+     split -d -p pattern [-a suffix_length] [file [prefix]]
+
+DESCRIPTION
+❯ man split
+SPLIT(1)                                General Commands Manual                               SPLIT(1)
+
+NAME
+     split – split a file into pieces
+
+SYNOPSIS
+     split -d [-l line_count] [-a suffix_length] [file [prefix]]
+     split -d -b byte_count[K|k|M|m|G|g] [-a suffix_length] [file [prefix]]
+     split -d -n chunk_count [-a suffix_length] [file [prefix]]
+     split -d -p pattern [-a suffix_length] [file [prefix]]
+
+DESCRIPTION
+     The split utility reads the given file and breaks it up into files of 1000 lines each (if no
+     options are specified), leaving the file unchanged.  If file is a single dash (‘-’) or absent,
+     split reads from the standard input.
+
+     The options are as follows:
+
+     -a suffix_length
+             Use suffix_length letters to form the suffix of the file name.
+
+❯ ,
+total 4280
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 28 17:33 ..
+-rw-r--r--@  1 carstenlawrenz  staff     2985 Nov 28 17:40 response.java
+-rw-r--r--@  1 carstenlawrenz  staff     1440 Nov 28 17:40 prompt.txt
+-rw-r--r--   1 carstenlawrenz  staff     3474 Nov 28 17:45 ChatgptDriver.py
+drwxr-xr-x@  7 carstenlawrenz  staff      224 Nov 28 17:45 Java
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 29 11:55 .
+-rw-r--r--@  1 carstenlawrenz  staff     3798 Nov 29 11:55 results.txt
+-rwxr-xr-x@  1 carstenlawrenz  staff      182 Nov 29 14:19 collect_runs.sh
+❯ git mv Matrices _Matrices
+fatal: bad source, source=ChatGPT/Matrices, destination=ChatGPT/_Matrices
+❯ mv Matrices _Matrices
+mv: rename Matrices to _Matrices: No such file or directory
+❯ ,
+total 4280
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 28 17:33 ..
+-rw-r--r--@  1 carstenlawrenz  staff     2985 Nov 28 17:40 response.java
+-rw-r--r--@  1 carstenlawrenz  staff     1440 Nov 28 17:40 prompt.txt
+-rw-r--r--   1 carstenlawrenz  staff     3474 Nov 28 17:45 ChatgptDriver.py
+drwxr-xr-x@  7 carstenlawrenz  staff      224 Nov 28 17:45 Java
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 29 11:55 .
+-rw-r--r--@  1 carstenlawrenz  staff     3798 Nov 29 11:55 results.txt
+-rwxr-xr-x@  1 carstenlawrenz  staff      182 Nov 29 14:19 collect_runs.sh
+❯ h
+ 3028* cd Java
+ 3029* ./RunMe.sh
+ 3030  python3 ChatgptDriver.py
+ 3032  m prompt.txt
+ 3033  cp prompt.txt Java
+ 3034  rm results.txt; ./collect_runs.sh > results.txt
+ 3035  cursor results.txt
+ 3036  mv results.txt ~/Desktop
+ 3037  more collect_runs.sh
+ 3038  ./collect_runs.sh >results.txt
+ 3039  m results.txt
+ 3040  cat results.txt|split "In file"
+ 3041  man split
+ 3043  git mv Matrices _Matrices
+ 3044  mv Matrices _Matrices
+ 3045  ,
+❯
+❯ pwd
+/Users/carstenlawrenz/GIT/SudokuSolver/ChatGPT
+❯ git sta
+git: 'sta' is not a git command. See 'git --help'.
+
+The most similar commands are
+        status
+        stage
+        stash
+❯ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   prompt.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   ../.gitignore
+        modified:   ChatgptDriver.py
+        modified:   Go/run.txt
+        modified:   Java/run.txt
+        modified:   collect_runs.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../.ionide/
+        C++/Sodoku.dSYM/Contents/Resources/
+        Java/prompt.txt
+        SudokuSolver.class
+        SudokuSolver.java
+        php/Sudoku.php
+        prompt_C.txt
+        response
+        response.go
+        response.java
+        response.php
+        results.txt
+        runs.zip
+        ../Manual/C++/Sudoku.dSYM/Contents/Resources/
+        ../Manual/C/Sudoku.dSYM/Contents/Resources/
+        ../Manual/Fortran/Sudoku.dSYM/Contents/Resources/
+        ../Manual/Java/
+        ../Manual/JavaScript/node_modules/
+        ../Manual/TypeScript/node_modules/
+        ../Manual/TypeScript/out/
+
+❯ cd ..
+❯ ls
+ChatGPT    Manual     Matrices   README.md  qb64       results.sh runAll.sh
+❯ mv Matrices _Matrices
+❯ ,
+total 16200
+-rwxr-xr-x   1 carstenlawrenz  staff      109 Jan 18  2021 runAll.sh
+-rwxr-xr-x   1 carstenlawrenz  staff      117 Jan 18  2021 results.sh
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Jan 25  2023 .vscode
+drwxr-xr-x@  3 carstenlawrenz  staff       96 Jan 25  2023 .ionide
+-rw-r--r--   1 carstenlawrenz  staff     7329 Nov  2 12:00 README.md
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov  2 12:00 _Matrices
+-rwxr-xr-x   1 carstenlawrenz  staff  8253600 Nov  2 12:00 qb64
+-rw-r--r--@  1 carstenlawrenz  staff     8196 Nov  3 13:05 .DS_Store
+drwxr-xr-x  43 carstenlawrenz  staff     1376 Nov 15 11:08 ..
+-rw-r--r--@  1 carstenlawrenz  staff      139 Nov 23 22:15 .dvcignore
+drwxr-xr-x@  5 carstenlawrenz  staff      160 Nov 23 22:15 .dvc
+drwxr-xr-x  25 carstenlawrenz  staff      800 Nov 27 22:05 Manual
+-rw-r--r--   1 carstenlawrenz  staff      908 Nov 28 17:34 .gitignore
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 29 11:55 ChatGPT
+drwxr-xr-x@ 14 carstenlawrenz  staff      448 Nov 29 14:21 .git
+drwxr-xr-x@ 16 carstenlawrenz  staff      512 Nov 29 14:22 .
+❯ mkdir _Results
+❯ ./collect_runs.sh
+zsh: no such file or directory: ./collect_runs.sh
+❯ ./collect_runs.sh
+zsh: no such file or directory: ./collect_runs.sh
+❯ cd ChatGPT
+❯ ,
+total 4280
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+-rw-r--r--@  1 carstenlawrenz  staff     2985 Nov 28 17:40 response.java
+-rw-r--r--@  1 carstenlawrenz  staff     1440 Nov 28 17:40 prompt.txt
+-rw-r--r--   1 carstenlawrenz  staff     3474 Nov 28 17:45 ChatgptDriver.py
+drwxr-xr-x@  7 carstenlawrenz  staff      224 Nov 28 17:45 Java
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 29 11:55 .
+-rw-r--r--@  1 carstenlawrenz  staff     3798 Nov 29 11:55 results.txt
+drwxr-xr-x@ 17 carstenlawrenz  staff      544 Nov 29 14:32 ..
+-rwxr-xr-x@  1 carstenlawrenz  staff      224 Nov 29 14:33 collect_runs.sh
+❯ ./collect_runs.sh
+In file [a-Z]*/run.txt:
+./collect_runs.sh: line 6: _Results/[a-Z]*_results.txt: No such file or directory
+
+❯
+❯ ./collect_runs.sh
+In file ./[a-Z]*/run.txt:
+grep: ./[a-Z]*/run.txt: No such file or directory
+
+❯ ,
+total 4280
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov  2 16:00 C++
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov  2 16:16 F_Sharp
+-rw-r--r--@  1 carstenlawrenz  staff       52 Nov 25 16:29 api_key.txt
+drwxr-xr-x@  4 carstenlawrenz  staff      128 Nov 26 14:59 __pycache__
+-rw-r--r--@  1 carstenlawrenz  staff     3879 Nov 26 15:41 response.py
+drwxr-xr-x   3 carstenlawrenz  staff       96 Nov 27 21:53 .vscode
+drwxr-xr-x@  8 carstenlawrenz  staff      256 Nov 28 11:10 Python
+-rw-r--r--@  1 carstenlawrenz  staff     3829 Nov 28 11:20 response.c
+-rwxr-xr-x@  1 carstenlawrenz  staff    33744 Nov 28 11:20 a.out
+-rw-r--r--@  1 carstenlawrenz  staff       20 Nov 28 11:23 .gitignore
+-rw-r--r--@  1 carstenlawrenz  staff     4449 Nov 28 15:31 runs.zip
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 16:10 C
+drwxr-xr-x   6 carstenlawrenz  staff      192 Nov 28 16:18 Go
+-rw-r--r--   1 carstenlawrenz  staff     2206 Nov 28 16:24 prompt_C.txt
+-rw-r--r--@  1 carstenlawrenz  staff     2786 Nov 28 16:43 response.go
+-rwxr-xr-x@  1 carstenlawrenz  staff  2087936 Nov 28 16:50 response
+-rw-r--r--@  1 carstenlawrenz  staff     2291 Nov 28 17:03 response.php
+drwxr-xr-x   7 carstenlawrenz  staff      224 Nov 28 17:08 php
+-rw-r--r--@  1 carstenlawrenz  staff     3855 Nov 28 17:25 SudokuSolver.java
+-rw-r--r--@  1 carstenlawrenz  staff     2956 Nov 28 17:25 SudokuSolver.class
+-rw-r--r--@  1 carstenlawrenz  staff     2985 Nov 28 17:40 response.java
+-rw-r--r--@  1 carstenlawrenz  staff     1440 Nov 28 17:40 prompt.txt
+-rw-r--r--   1 carstenlawrenz  staff     3474 Nov 28 17:45 ChatgptDriver.py
+drwxr-xr-x@  7 carstenlawrenz  staff      224 Nov 28 17:45 Java
+drwxr-xr-x  28 carstenlawrenz  staff      896 Nov 29 11:55 .
+-rw-r--r--@  1 carstenlawrenz  staff     3798 Nov 29 11:55 results.txt
+drwxr-xr-x@ 17 carstenlawrenz  staff      544 Nov 29 14:32 ..
+-rwxr-xr-x@  1 carstenlawrenz  staff      229 Nov 29 14:35 collect_runs.sh
+❯ rm results.txt
+remove results.txt? y
+❯ ./collect_runs.sh
+In file [a-Z]*/run.txt:
+grep: [a-Z]*/run.txt: No such file or directory
+
+❯ ls */run.txt
+C/run.txt      Go/run.txt     Java/run.txt   Python/run.txt php/run.txt
+❯ ./collect_runs.sh
+In file C/run.txt:
+
+In file Go/run.txt:
+
+In file Java/run.txt:
+
+In file Python/run.txt:
+
+In file php/run.txt:
+
+❯ , ../_Results
+total 40
+drwxr-xr-x@ 17 carstenlawrenz  staff  544 Nov 29 14:32 ..
+-rw-r--r--@  1 carstenlawrenz  staff    0 Nov 29 14:37 [a-Z]*_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  826 Nov 29 14:38 C_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  832 Nov 29 14:38 Go_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  611 Nov 29 14:38 Java_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  724 Nov 29 14:38 Python_results.txt
+drwxr-xr-x@  8 carstenlawrenz  staff  256 Nov 29 14:38 .
+-rw-r--r--@  1 carstenlawrenz  staff  694 Nov 29 14:38 php_results.txt
+❯ rm ../_Results/\[a-Z\]\*_results.txt
+remove ../_Results/[a-Z]*_results.txt? y
+❯ cd ../_Results
+❯ ,
+total 40
+drwxr-xr-x@ 17 carstenlawrenz  staff  544 Nov 29 14:32 ..
+-rw-r--r--@  1 carstenlawrenz  staff  826 Nov 29 14:38 C_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  832 Nov 29 14:38 Go_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  611 Nov 29 14:38 Java_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  724 Nov 29 14:38 Python_results.txt
+-rw-r--r--@  1 carstenlawrenz  staff  694 Nov 29 14:38 php_results.txt
+drwxr-xr-x@  7 carstenlawrenz  staff  224 Nov 29 14:38 .
+❯ m *
+Tue Nov 28 11:21:58 CET 2023
+File ../../Matrices/1.matrix
+Unsolved Board (Complexity: 42)
+Iterations: 91
+        0.06 real         0.00 user         0.00 sys
+File ../../Matrices/2.matrix
+Unsolved Board (Complexity: 56)
+Iterations: 48,833
+        0.02 real         0.01 user         0.00 sys
+File ../../Matrices/3.matrix
+Unsolved Board (Complexity: 53)
+Iterations: 11,005
+        0.01 real         0.00 user         0.00 sys
+File ../../Matrices/4.matrix
+Unsolved Board (Complexity: 55)
+Iterations: 1,035
+        0.00 real         0.00 user         0.00 sys
+File ../../Matrices/5.matrix
+Unsolved Board (Complexity: 60)
+Iterations: 49,558
+        0.02 real         0.01 user         0.00 sys
+File ../../Matrices/6.matrix
+Unsolved Board (Complexity: 64)
+Iterations: 69,175,316
+       25.23 real        23.57 user         0.24 sys
+❯ cd ..
+❯ zip runs.zip _Results/*
+  adding: _Results/C_results.txt (deflated 73%)
+  adding: _Results/Go_results.txt (deflated 74%)
+  adding: _Results/Java_results.txt (deflated 73%)
+  adding: _Results/Python_results.txt (deflated 69%)
+  adding: _Results/php_results.txt (deflated 71%)
+❯ brew install ocamlc
+Running `brew update --auto-update`...
+==> Auto-updated Homebrew!
+Updated 2 taps (homebrew/core and homebrew/cask).
+==> New Formulae
+goresym                   libdpp                    mariadb@11.1              python-distro
+==> New Casks
+codewhisperer                      greenery                           mdb-accdb-viewer
+Warning: Calling the `appcast` stanza is deprecated! Use the `livecheck` stanza instead.
+Please report this issue to the adoptopenjdk/openjdk tap (not Homebrew/brew or Homebrew/homebrew-core), or even better, submit a PR to fix it:
+  /usr/local/Homebrew/Library/Taps/adoptopenjdk/homebrew-openjdk/Casks/adoptopenjdk15.rb:9
+
+
+You have 38 outdated formulae and 1 outdated cask installed.
+Warning: Calling the `appcast` stanza is deprecated! Use the `livecheck` stanza instead.
+Please report this issue to the adoptopenjdk/openjdk tap (not Homebrew/brew or Homebrew/homebrew-core), or even better, submit a PR to fix it:
+  /usr/local/Homebrew/Library/Taps/adoptopenjdk/homebrew-openjdk/Casks/adoptopenjdk15.rb:9
+
+Warning: Calling the `appcast` stanza is deprecated! Use the `livecheck` stanza instead.
+Please report this issue to the adoptopenjdk/openjdk tap (not Homebrew/brew or Homebrew/homebrew-core), or even better, submit a PR to fix it:
+  /usr/local/Homebrew/Library/Taps/adoptopenjdk/homebrew-openjdk/Casks/adoptopenjdk15.rb:9
+
+
+Warning: No available formula with the name "ocamlc". Did you mean ocaml or calc?
+==> Searching for similarly named formulae and casks...
+==> Formulae
+ocaml                                                calc
+
+To install ocaml, run:
+  brew install ocaml
+❯   brew install ocaml
+==> Downloading https://ghcr.io/v2/homebrew/core/ocaml/manifests/4.14.0
+################################################################################################# 100.0%
+==> Fetching ocaml
+==> Downloading https://ghcr.io/v2/homebrew/core/ocaml/blobs/sha256:4aff277d144252c0b5f68ccd386a05a2be1c
+################################################################################################# 100.0%
+==> Pouring ocaml--4.14.0.sonoma.bottle.tar.gz
+🍺  /usr/local/Cellar/ocaml/4.14.0: 2,425 files, 397.4MB
+==> Running `brew cleanup ocaml`...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+❯ cd ChatGPT
+❯ python3 ChatgptDriver.py
+Response:{
+    "code": [
+        "import java.io.*;",
+        "import java.nio.file.Files;",
+        "import java.nio.file.Paths;",
+        "import java.text.NumberFormat;",
+        "import java.util.Locale;",
+        "",
+        "public class SudokuSolver {",
+        "",
+        "    private static final int SIZE = 9;",
+        "    private static int iterations = 0;",
+        "",
+        "    public static void main(String[] args) {",
+        "        if (args.length == 0) {",
+        "            System.out.println(\"Please provide the file path as a command line argument.\");",
+        "            return;",
+        "        }",
+        "",
+        "        try {",
+        "            int[] board = readBoardFromFile(args[0]);",
+        "            printBoard(board);",
+        "            System.out.println(\"Complexity: \" + calculateComplexity(board));",
+        "            if (solveBoard(board)) {",
+        "                System.out.println(\"Solved Sudoku board:\");",
+        "                printBoard(board);",
+        "                System.out.println(\"Iterations: \" + NumberFormat.getNumberInstance(Locale.US).format(iterations));",
+        "            } else {",
+        "                System.out.println(\"No solution exists.\");",
+        "            }",
+        "        } catch (IOException e) {",
+        "            System.out.println(\"Error reading the file: \" + e.getMessage());",
+        "        }",
+        "    }",
+        "",
+        "    private static int[] readBoardFromFile(String filePath) throws IOException {",
+        "        String content = new String(Files.readAllBytes(Paths.get(filePath)));",
+        "        int[] board = new int[SIZE * SIZE];",
+        "        int index = 0;",
+        "        for (String line : content.split(\"\\n\")) {",
+        "            if (!line.startsWith(\"#\")) {",
+        "                for (char c : line.toCharArray()) {",
+        "                    if (Character.isDigit(c)) {",
+        "                        board[index++] = c - '0';",
+        "                    }",
+        "                }",
+        "            }",
+        "        }",
+        "        return board;",
+        "    }",
+        "",
+        "    private static int calculateComplexity(int[] board) {",
+        "        int emptySpaces = 0;",
+        "        for (int cell : board) {",
+        "            if (cell == 0) {",
+        "                emptySpaces++;",
+        "            }",
+        "        }",
+        "        return emptySpaces;",
+        "    }",
+        "",
+        "    private static boolean solveBoard(int[] board) {",
+        "        for (int i = 0; i < board.length; i++) {",
+        "            if (board[i] == 0) {",
+        "                for (int num = 1; num <= SIZE; num++) {",
+        "                    if (isSafe(board, i, num)) {",
+        "                        board[i] = num;",
+        "                        iterations++;",
+        "                        if (solveBoard(board)) {",
+        "                            return true;",
+        "                        } else {",
+        "                            board[i] = 0;",
+        "                        }",
+        "                    }",
+        "                }",
+        "                return false;",
+        "            }",
+        "        }",
+        "        return true;",
+        "    }",
+        "",
+        "    private static boolean isSafe(int[] board, int index, int num) {",
+        "        int row = index / SIZE;",
+        "        int col = index % SIZE;",
+        "",
+        "        for (int i = 0; i < SIZE; i++) {",
+        "            if (board[row * SIZE + i] == num || board[i * SIZE + col] == num) {",
+        "                return false;",
+        "            }",
+        "        }",
+        "",
+        "        int boxRowStart = row - row % 3;",
+        "        int boxColStart = col - col % 3;",
+        "",
+        "        for (int r = boxRowStart; r < boxRowStart + 3; r++) {",
+        "            for (int c = boxColStart; c < boxColStart + 3; c++) {",
+        "                if (board[r * SIZE + c] == num) {",
+        "                    return false;",
+        "                }",
+        "            }",
+        "        }",
+        "",
+        "        return true;",
+        "    }",
+        "",
+        "    private static void printBoard(int[] board) {",
+        "        for (int i = 0; i < board.length; i++) {",
+        "            System.out.print(board[i] + \" \");",
+        "            if ((i + 1) % SIZE == 0) {",
+        "                System.out.println();",
+        "            }",
+        "        }",
+        "    }",
+        "",
+        "}",
+        ""
+    ]
+}
+System Fingerprint:fp_a24b4d720c
+Number of completion tokens:1064
+❯ alias c=cursor
+❯ c response.ml
+❯ opam install ocaml-lsp-server
+
+zsh: correct 'opam' to 'psm' [nyae]? n
+zsh: command not found: opam
+❯ bash -c "sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
+## Downloading opam 2.1.5 for macos on x86_64...
+## Downloaded.
+## Where should it be installed ? [/usr/local/bin]
+## opam 2.1.5 installed to /usr/local/bin
+## Run this script again with '--restore ' to revert.
+❯ opam install ocaml-lsp-server
+
+[ERROR] Opam has not been initialised, please run `opam init'
+❯ opam init
+No configuration file found, using built-in defaults.
+Checking for available remotes: rsync and local, git.
+  - you won't be able to use mercurial repositories unless you install the hg command on your system.
+  - you won't be able to use darcs repositories unless you install the darcs command on your system.
+
+
+<><> Fetching repository information ><><><><><><><><><><><><><><><><><><><>  🐫
+Processing  1/1: [default: http]
+[default] Initialised
+Processing  1/1:
+
+<><> Required setup - please read <><><><><><><><><><><><><><><><><><><><><>  🐫
+
+  In normal operation, opam only alters files within ~/.opam.
+
+  However, to best integrate with your system, some environment variables
+  should be set. If you allow it to, this initialisation step will update
+  your zsh configuration by adding the following line to ~/.zshrc:
+
+    [[ ! -r /Users/carstenlawrenz/.opam/opam-init/init.zsh ]] || source /Users/carstenlawrenz/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+  Otherwise, every time you want to access your opam installation, you will
+  need to run:
+
+    eval $(opam env)
+
+  You can always re-run this setup with 'opam init' later.
+
+Do you want opam to modify ~/.zshrc? [N/y/f]
+(default is 'no', use 'f' to choose a different file)
+<><> Creating initial switch 'default' (invariant ["ocaml" {>= "4.05.0"}] - initially with ocaml-system)
+
+<><> Installing new switch packages <><><><><><><><><><><><><><><><><><><><>  🐫
+Switch invariant: ["ocaml" {>= "4.05.0"}]
+Constructing initial basis...
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><>  🐫
+∗ installed base-bigarray.base
+∗ installed base-threads.base
+∗ installed base-unix.base
+∗ installed ocaml-system.4.14.0
+∗ installed ocaml-config.2
+∗ installed ocaml.4.14.0
+Done.
+# Run eval $(opam env --switch=default) to update the current shell environment
+❯
+  ~/GIT/SudokuSolver/ChatGPT    main ⇡1 +1 !13 ?22                       ✔  3080  15:16:37  
