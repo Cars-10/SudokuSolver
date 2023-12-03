@@ -1,0 +1,13 @@
+Sun Dec 3 12:33:28 CET 2023
+File ../../Matrices/1.matrix
+        0.02 real         0.00 user         0.01 sys
+File ../../Matrices/2.matrix
+        0.01 real         0.00 user         0.00 sys
+File ../../Matrices/3.matrix
+        0.05 real         0.00 user         0.00 sys
+File ../../Matrices/4.matrix
+        0.01 real         0.00 user         0.00 sys
+File ../../Matrices/5.matrix
+        0.01 real         0.00 user         0.00 sys
+File ../../Matrices/6.matrix
+        0.00 real         0.00 user         0.00 sys
