@@ -1,4 +1,27 @@
-# Sudoku Solver
+## Sudoku Solver now delivered via AI! well Almost..
+
+I've revisted this project while attending [Data Science Retreat](https://www.linkedin.com/school/data-science-retreat/mycompany/) - Batch 36 in Berlin.
+During the workshop, I was influenced by how much we relied on ChatGPT to explain things
+or build examples.  I then asked myself, *When I was originally inspired by a former colleague's post
+on [Why Coding Skills Matters](https://medium.com/@rajmadhuram/why-coding-skills-matter-5577ca504ee4)*.
+I set out to see how polyglut I could be.
+
+It took me about a month of working almost everyday.  In the end I got to 15 languages. But this required a lot of googling, stack overflow, distractions, read herrings,etc. But it was during Covid, so a nice distraction to get my fingers on the keyboard again. I was proud of myself......
+
+**Now that we have have tools like ChatGPT, this changes everything**
+
+So now, I needed to accept my Ego Death, and peek into the future or Software Development.  Will we still need Software Developers? I've setup a simple framework for chatting to GPT, using the same prompt, just changing the language that the code should be written in.  Then I looked at if these programs actually compile, run and solve the puzzles in the same number of iterations.  Many times they ran sucessfully on the first try!
+
+I will summarize my findings below:
+
+
+
+
+
+
+
+
+**The Original Project Goal**
 
 This project aims to be a teaching tool to understand how different computer programming languages
 work to solve the same problem, in this case Sudoku puzzles. Why create a Suduko Solver? It is small
@@ -15,20 +38,20 @@ enough to be fun while also touching enough functionality such as parsing comman
 
 ## Programming Languages to Explore
 
-Language | Manual Status | ChatGPT
+Language | Manually | ChatGPT
 ---|---|---
 BASH | Completed |
-BASIC? |
+BASIC | N/A  | N/A
 C | Completed | Solved First Time
 C# | Completed
 C++ | Completed
 Clojure|
 ERLANG? |
 F #| Incomplete | Solved First Time
-Fortran | Completed |
+Fortran | Completed | Compiled, but errors in logic.
 Go | Completed | Solved First Time
 Java | Completed| Solved First Time
-JavaScript | Completed
+JavaScript | Completed | Did not compile
 Julia | Completed
 Kotlin |
 Lisp (racket) | Completed
@@ -42,7 +65,7 @@ Rust | Completed | Complete/Required some Debugging
 Ruby | Completed
 Scala |
 Tcl | Completed | Not Working
-TypeScript | Completed
+TypeScript | Completed | Issues with node env
 
 ## Performance Results (6 Matrices)
 

@@ -20,8 +20,8 @@ def read_return_file(file_path):
 api_key=read_return_file('api_key.txt')
 prompt=read_return_file('prompt.txt')
 
-language = "Rust"
-file_extension = "rs"
+language = "Javascript"
+file_extension = "js"
 model = "gpt-4-1106-preview"
 seed = 42
 # Let's define the default prompt if prompt.txt and see if it can be reused for other languages
