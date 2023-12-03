@@ -15,31 +15,33 @@ enough to be fun while also touching enough functionality such as parsing comman
 
 ## Programming Languages to Explore
 
-Language | Status
----|---
-BASH | In Work
+Language | Manual Status | ChatGPT
+---|---|---
+BASH | Completed |
 BASIC? |
-C | Completed
+C | Completed | Solved First Time
 C# | Completed
 C++ | Completed
 Clojure|
 ERLANG? |
-F #| Started
-Fortran | Completed
-Go | Completed
-Java | Completed
+F #| Incomplete | Solved First Time
+Fortran | Completed |
+Go | Completed | Solved First Time
+Java | Completed| Solved First Time
 JavaScript | Completed
 Julia | Completed
 Kotlin |
 Lisp (racket) | Completed
-PHP |
+OCaml | N/A | Solved First Time*
+Pascal | N/A | Non compilable result
+PHP | N/A  | Solved First Time
 Powershell|
-Python | Completed
+Python | Completed | Solved First Time
 R | Completed
-Rust | Completed
+Rust | Completed | Complete/Required some Debugging
 Ruby | Completed
 Scala |
-Tcl | Completed
+Tcl | Completed | Not Working
 TypeScript | Completed
 
 ## Performance Results (6 Matrices)
@@ -132,7 +134,7 @@ To add packages, like ArgParse, run the following in a julia interpreter.
 ### Python
 
 * The sudoku puzzle is handled as a Numpy Matrix (ndarray) which provides more efficient handling of 2D data.
-* <https://docs.python.org/3/reference/index.html>  
+* <https://docs.python.org/3/reference/index.html>
 * <https://numpy.org/doc/stable/index.html>
 
 Timing the Solver

@@ -20,19 +20,20 @@ def read_return_file(file_path):
 api_key=read_return_file('api_key.txt')
 prompt=read_return_file('prompt.txt')
 
-language = "java"
-file_extension = "java"
+language = "Rust"
+file_extension = "rs"
 model = "gpt-4-1106-preview"
 seed = 42
 # Let's define the default prompt if prompt.txt and see if it can be reused for other languages
 if prompt is None:
     prompt = f"""
     You are an expert software developer and write clean and efficient code.
-    I want you to write a Soduko solver in {language}. I will outline each procedure to write:
-    and you will write the code. I will test your code and if it passes, I will pay you my respects.
-    Please add comments for each step below.
-    Make sure the code you provede compiles without errors or warnings.
-    Step 1: Write a function that reads a 9x9 matrix from a file and returns it as a 1D array,
+    I want you to write a Soduko solver in {language}.
+    I will outline each procedure to write:
+    Please write the complete code, I do not what to see placeholder functions.
+    Please add comments that identify the code for each step below.
+    Make sure the code you provide will compile without errors or warnings.
+    Step 1: Write a function that reads a 9x9 space seperated matrix from a file and returns it as a 1D array,
     please also ignore comments.
         Print the board after it is read and when it is solved.
     Step 2: Write a function that calculates the complexity of a 9x9 matrix.
@@ -48,6 +49,8 @@ if prompt is None:
     reply with code only in JSON format, no need for addtional information.
 
     """
+else:
+    print("*** Using prompt from prompt.txt ***")
 # evaluate language variable
 prompt = prompt.format(language=language)
 
@@ -81,10 +84,16 @@ print(f"Number of completion tokens:{completion_tokens}")
 
 #save response to a file
 file = "response.{file_extension}".format(file_extension=file_extension)
-
 with open(file, 'w') as file:
     for line in response_dict["code"]:
+        #file.write(f"{line}") # no newline, depending on return format
+        file.write(f"{line}\n")
+
+file = "{language}/prompt.txt".format(language=language)
+with open(file, 'w') as file:
+    for line in prompt:
         file.write(line)
+
 
 
 
