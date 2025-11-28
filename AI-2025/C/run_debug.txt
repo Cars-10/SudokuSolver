@@ -1,0 +1,1521 @@
+../Matrices/1.matrix
+
+Puzzle:
+9 2 0 0 0 0 5 8 4 
+0 0 0 5 0 0 0 0 3 
+0 8 3 0 9 2 0 0 0 
+2 6 0 8 5 4 0 0 1 
+0 0 5 3 6 1 0 9 0 
+1 0 0 0 0 9 0 0 0 
+8 5 0 2 0 3 0 1 0 
+4 1 2 9 8 0 0 3 0 
+3 9 0 0 0 6 8 0 0 
+Solve: j=0,i=2: 0
+Count= 1
+Is possible 0, 2, 1
+YES possible
+Solve: j=0,i=3: 0
+Count= 2
+Is possible 0, 3, 1
+Count= 3
+Is possible 0, 3, 2
+Count= 4
+Is possible 0, 3, 3
+Count= 5
+Is possible 0, 3, 4
+Count= 6
+Is possible 0, 3, 5
+Count= 7
+Is possible 0, 3, 6
+YES possible
+Solve: j=0,i=4: 0
+Count= 8
+Is possible 0, 4, 1
+Count= 9
+Is possible 0, 4, 2
+Count= 10
+Is possible 0, 4, 3
+YES possible
+Solve: j=0,i=5: 0
+Count= 11
+Is possible 0, 5, 1
+Count= 12
+Is possible 0, 5, 2
+Count= 13
+Is possible 0, 5, 3
+Count= 14
+Is possible 0, 5, 4
+Count= 15
+Is possible 0, 5, 5
+Count= 16
+Is possible 0, 5, 6
+Count= 17
+Is possible 0, 5, 7
+YES possible
+Solve: j=1,i=0: 0
+Count= 18
+Is possible 1, 0, 1
+Count= 19
+Is possible 1, 0, 2
+Count= 20
+Is possible 1, 0, 3
+Count= 21
+Is possible 1, 0, 4
+Count= 22
+Is possible 1, 0, 5
+Count= 23
+Is possible 1, 0, 6
+YES possible
+Solve: j=1,i=1: 0
+Count= 24
+Is possible 1, 1, 1
+Count= 25
+Is possible 1, 1, 2
+Count= 26
+Is possible 1, 1, 3
+Count= 27
+Is possible 1, 1, 4
+YES possible
+Solve: j=1,i=2: 0
+Count= 28
+Is possible 1, 2, 1
+Count= 29
+Is possible 1, 2, 2
+Count= 30
+Is possible 1, 2, 3
+Count= 31
+Is possible 1, 2, 4
+Count= 32
+Is possible 1, 2, 5
+Count= 33
+Is possible 1, 2, 6
+Count= 34
+Is possible 1, 2, 7
+YES possible
+Solve: j=1,i=4: 0
+Count= 35
+Is possible 1, 4, 1
+YES possible
+Solve: j=1,i=5: 0
+Count= 36
+Is possible 1, 5, 1
+Count= 37
+Is possible 1, 5, 2
+Count= 38
+Is possible 1, 5, 3
+Count= 39
+Is possible 1, 5, 4
+Count= 40
+Is possible 1, 5, 5
+Count= 41
+Is possible 1, 5, 6
+Count= 42
+Is possible 1, 5, 7
+Count= 43
+Is possible 1, 5, 8
+YES possible
+Solve: j=1,i=6: 0
+Count= 44
+Is possible 1, 6, 1
+Count= 45
+Is possible 1, 6, 2
+YES possible
+Solve: j=1,i=7: 0
+Count= 46
+Is possible 1, 7, 1
+Count= 47
+Is possible 1, 7, 2
+Count= 48
+Is possible 1, 7, 3
+Count= 49
+Is possible 1, 7, 4
+Count= 50
+Is possible 1, 7, 5
+Count= 51
+Is possible 1, 7, 6
+Count= 52
+Is possible 1, 7, 7
+Count= 53
+Is possible 1, 7, 8
+Count= 54
+Is possible 1, 7, 9
+Count= 55
+Is possible 1, 6, 3
+Count= 56
+Is possible 1, 6, 4
+Count= 57
+Is possible 1, 6, 5
+Count= 58
+Is possible 1, 6, 6
+Count= 59
+Is possible 1, 6, 7
+Count= 60
+Is possible 1, 6, 8
+Count= 61
+Is possible 1, 6, 9
+YES possible
+Solve: j=1,i=7: 0
+Count= 62
+Is possible 1, 7, 1
+Count= 63
+Is possible 1, 7, 2
+YES possible
+Solve: j=2,i=0: 0
+Count= 64
+Is possible 2, 0, 1
+Count= 65
+Is possible 2, 0, 2
+Count= 66
+Is possible 2, 0, 3
+Count= 67
+Is possible 2, 0, 4
+Count= 68
+Is possible 2, 0, 5
+YES possible
+Solve: j=2,i=3: 0
+Count= 69
+Is possible 2, 3, 1
+Count= 70
+Is possible 2, 3, 2
+Count= 71
+Is possible 2, 3, 3
+Count= 72
+Is possible 2, 3, 4
+YES possible
+Solve: j=2,i=6: 0
+Count= 73
+Is possible 2, 6, 1
+YES possible
+Solve: j=2,i=7: 0
+Count= 74
+Is possible 2, 7, 1
+Count= 75
+Is possible 2, 7, 2
+Count= 76
+Is possible 2, 7, 3
+Count= 77
+Is possible 2, 7, 4
+Count= 78
+Is possible 2, 7, 5
+Count= 79
+Is possible 2, 7, 6
+YES possible
+Solve: j=2,i=8: 0
+Count= 80
+Is possible 2, 8, 1
+Count= 81
+Is possible 2, 8, 2
+Count= 82
+Is possible 2, 8, 3
+Count= 83
+Is possible 2, 8, 4
+Count= 84
+Is possible 2, 8, 5
+Count= 85
+Is possible 2, 8, 6
+Count= 86
+Is possible 2, 8, 7
+YES possible
+Solve: j=3,i=2: 0
+Count= 87
+Is possible 3, 2, 1
+Count= 88
+Is possible 3, 2, 2
+Count= 89
+Is possible 3, 2, 3
+Count= 90
+Is possible 3, 2, 4
+Count= 91
+Is possible 3, 2, 5
+Count= 92
+Is possible 3, 2, 6
+Count= 93
+Is possible 3, 2, 7
+Count= 94
+Is possible 3, 2, 8
+Count= 95
+Is possible 3, 2, 9
+YES possible
+Solve: j=3,i=6: 0
+Count= 96
+Is possible 3, 6, 1
+Count= 97
+Is possible 3, 6, 2
+Count= 98
+Is possible 3, 6, 3
+YES possible
+Solve: j=3,i=7: 0
+Count= 99
+Is possible 3, 7, 1
+Count= 100
+Is possible 3, 7, 2
+Count= 101
+Is possible 3, 7, 3
+Count= 102
+Is possible 3, 7, 4
+Count= 103
+Is possible 3, 7, 5
+Count= 104
+Is possible 3, 7, 6
+Count= 105
+Is possible 3, 7, 7
+YES possible
+Solve: j=4,i=0: 0
+Count= 106
+Is possible 4, 0, 1
+Count= 107
+Is possible 4, 0, 2
+Count= 108
+Is possible 4, 0, 3
+Count= 109
+Is possible 4, 0, 4
+Count= 110
+Is possible 4, 0, 5
+Count= 111
+Is possible 4, 0, 6
+Count= 112
+Is possible 4, 0, 7
+YES possible
+Solve: j=4,i=1: 0
+Count= 113
+Is possible 4, 1, 1
+Count= 114
+Is possible 4, 1, 2
+Count= 115
+Is possible 4, 1, 3
+Count= 116
+Is possible 4, 1, 4
+Count= 117
+Is possible 4, 1, 5
+Count= 118
+Is possible 4, 1, 6
+Count= 119
+Is possible 4, 1, 7
+Count= 120
+Is possible 4, 1, 8
+Count= 121
+Is possible 4, 1, 9
+Count= 122
+Is possible 4, 0, 8
+Count= 123
+Is possible 4, 0, 9
+Count= 124
+Is possible 3, 7, 8
+Count= 125
+Is possible 3, 7, 9
+Count= 126
+Is possible 3, 6, 4
+Count= 127
+Is possible 3, 6, 5
+Count= 128
+Is possible 3, 6, 6
+Count= 129
+Is possible 3, 6, 7
+YES possible
+Solve: j=3,i=7: 0
+Count= 130
+Is possible 3, 7, 1
+Count= 131
+Is possible 3, 7, 2
+Count= 132
+Is possible 3, 7, 3
+Count= 133
+Is possible 3, 7, 4
+Count= 134
+Is possible 3, 7, 5
+Count= 135
+Is possible 3, 7, 6
+Count= 136
+Is possible 3, 7, 7
+Count= 137
+Is possible 3, 7, 8
+Count= 138
+Is possible 3, 7, 9
+Count= 139
+Is possible 3, 6, 8
+Count= 140
+Is possible 3, 6, 9
+Count= 141
+Is possible 2, 8, 8
+Count= 142
+Is possible 2, 8, 9
+Count= 143
+Is possible 2, 7, 7
+YES possible
+Solve: j=2,i=8: 0
+Count= 144
+Is possible 2, 8, 1
+Count= 145
+Is possible 2, 8, 2
+Count= 146
+Is possible 2, 8, 3
+Count= 147
+Is possible 2, 8, 4
+Count= 148
+Is possible 2, 8, 5
+Count= 149
+Is possible 2, 8, 6
+YES possible
+Solve: j=3,i=2: 0
+Count= 150
+Is possible 3, 2, 1
+Count= 151
+Is possible 3, 2, 2
+Count= 152
+Is possible 3, 2, 3
+Count= 153
+Is possible 3, 2, 4
+Count= 154
+Is possible 3, 2, 5
+Count= 155
+Is possible 3, 2, 6
+Count= 156
+Is possible 3, 2, 7
+Count= 157
+Is possible 3, 2, 8
+Count= 158
+Is possible 3, 2, 9
+YES possible
+Solve: j=3,i=6: 0
+Count= 159
+Is possible 3, 6, 1
+Count= 160
+Is possible 3, 6, 2
+Count= 161
+Is possible 3, 6, 3
+YES possible
+Solve: j=3,i=7: 0
+Count= 162
+Is possible 3, 7, 1
+Count= 163
+Is possible 3, 7, 2
+Count= 164
+Is possible 3, 7, 3
+Count= 165
+Is possible 3, 7, 4
+Count= 166
+Is possible 3, 7, 5
+Count= 167
+Is possible 3, 7, 6
+Count= 168
+Is possible 3, 7, 7
+Count= 169
+Is possible 3, 7, 8
+Count= 170
+Is possible 3, 7, 9
+Count= 171
+Is possible 3, 6, 4
+Count= 172
+Is possible 3, 6, 5
+Count= 173
+Is possible 3, 6, 6
+Count= 174
+Is possible 3, 6, 7
+YES possible
+Solve: j=3,i=7: 0
+Count= 175
+Is possible 3, 7, 1
+Count= 176
+Is possible 3, 7, 2
+Count= 177
+Is possible 3, 7, 3
+Count= 178
+Is possible 3, 7, 4
+Count= 179
+Is possible 3, 7, 5
+Count= 180
+Is possible 3, 7, 6
+Count= 181
+Is possible 3, 7, 7
+Count= 182
+Is possible 3, 7, 8
+Count= 183
+Is possible 3, 7, 9
+Count= 184
+Is possible 3, 6, 8
+Count= 185
+Is possible 3, 6, 9
+Count= 186
+Is possible 2, 8, 7
+Count= 187
+Is possible 2, 8, 8
+Count= 188
+Is possible 2, 8, 9
+Count= 189
+Is possible 2, 7, 8
+Count= 190
+Is possible 2, 7, 9
+Count= 191
+Is possible 2, 6, 2
+Count= 192
+Is possible 2, 6, 3
+Count= 193
+Is possible 2, 6, 4
+Count= 194
+Is possible 2, 6, 5
+Count= 195
+Is possible 2, 6, 6
+YES possible
+Solve: j=2,i=7: 0
+Count= 196
+Is possible 2, 7, 1
+Count= 197
+Is possible 2, 7, 2
+Count= 198
+Is possible 2, 7, 3
+Count= 199
+Is possible 2, 7, 4
+Count= 200
+Is possible 2, 7, 5
+Count= 201
+Is possible 2, 7, 6
+Count= 202
+Is possible 2, 7, 7
+YES possible
+Solve: j=2,i=8: 0
+Count= 203
+Is possible 2, 8, 1
+Count= 204
+Is possible 2, 8, 2
+Count= 205
+Is possible 2, 8, 3
+Count= 206
+Is possible 2, 8, 4
+Count= 207
+Is possible 2, 8, 5
+Count= 208
+Is possible 2, 8, 6
+Count= 209
+Is possible 2, 8, 7
+Count= 210
+Is possible 2, 8, 8
+Count= 211
+Is possible 2, 8, 9
+Count= 212
+Is possible 2, 7, 8
+Count= 213
+Is possible 2, 7, 9
+Count= 214
+Is possible 2, 6, 7
+YES possible
+Solve: j=2,i=7: 0
+Count= 215
+Is possible 2, 7, 1
+Count= 216
+Is possible 2, 7, 2
+Count= 217
+Is possible 2, 7, 3
+Count= 218
+Is possible 2, 7, 4
+Count= 219
+Is possible 2, 7, 5
+Count= 220
+Is possible 2, 7, 6
+YES possible
+Solve: j=2,i=8: 0
+Count= 221
+Is possible 2, 8, 1
+Count= 222
+Is possible 2, 8, 2
+Count= 223
+Is possible 2, 8, 3
+Count= 224
+Is possible 2, 8, 4
+Count= 225
+Is possible 2, 8, 5
+Count= 226
+Is possible 2, 8, 6
+Count= 227
+Is possible 2, 8, 7
+Count= 228
+Is possible 2, 8, 8
+Count= 229
+Is possible 2, 8, 9
+Count= 230
+Is possible 2, 7, 7
+Count= 231
+Is possible 2, 7, 8
+Count= 232
+Is possible 2, 7, 9
+Count= 233
+Is possible 2, 6, 8
+Count= 234
+Is possible 2, 6, 9
+Count= 235
+Is possible 2, 3, 5
+Count= 236
+Is possible 2, 3, 6
+Count= 237
+Is possible 2, 3, 7
+Count= 238
+Is possible 2, 3, 8
+Count= 239
+Is possible 2, 3, 9
+Count= 240
+Is possible 2, 0, 6
+Count= 241
+Is possible 2, 0, 7
+Count= 242
+Is possible 2, 0, 8
+Count= 243
+Is possible 2, 0, 9
+Count= 244
+Is possible 1, 7, 3
+Count= 245
+Is possible 1, 7, 4
+Count= 246
+Is possible 1, 7, 5
+Count= 247
+Is possible 1, 7, 6
+Count= 248
+Is possible 1, 7, 7
+Count= 249
+Is possible 1, 7, 8
+Count= 250
+Is possible 1, 7, 9
+Count= 251
+Is possible 1, 5, 9
+Count= 252
+Is possible 1, 4, 2
+Count= 253
+Is possible 1, 4, 3
+Count= 254
+Is possible 1, 4, 4
+Count= 255
+Is possible 1, 4, 5
+Count= 256
+Is possible 1, 4, 6
+Count= 257
+Is possible 1, 4, 7
+Count= 258
+Is possible 1, 4, 8
+Count= 259
+Is possible 1, 4, 9
+Count= 260
+Is possible 1, 2, 8
+Count= 261
+Is possible 1, 2, 9
+Count= 262
+Is possible 1, 1, 5
+Count= 263
+Is possible 1, 1, 6
+Count= 264
+Is possible 1, 1, 7
+YES possible
+Solve: j=1,i=2: 0
+Count= 265
+Is possible 1, 2, 1
+Count= 266
+Is possible 1, 2, 2
+Count= 267
+Is possible 1, 2, 3
+Count= 268
+Is possible 1, 2, 4
+YES possible
+Solve: j=1,i=4: 0
+Count= 269
+Is possible 1, 4, 1
+YES possible
+Solve: j=1,i=5: 0
+Count= 270
+Is possible 1, 5, 1
+Count= 271
+Is possible 1, 5, 2
+Count= 272
+Is possible 1, 5, 3
+Count= 273
+Is possible 1, 5, 4
+Count= 274
+Is possible 1, 5, 5
+Count= 275
+Is possible 1, 5, 6
+Count= 276
+Is possible 1, 5, 7
+Count= 277
+Is possible 1, 5, 8
+YES possible
+Solve: j=1,i=6: 0
+Count= 278
+Is possible 1, 6, 1
+Count= 279
+Is possible 1, 6, 2
+YES possible
+Solve: j=1,i=7: 0
+Count= 280
+Is possible 1, 7, 1
+Count= 281
+Is possible 1, 7, 2
+Count= 282
+Is possible 1, 7, 3
+Count= 283
+Is possible 1, 7, 4
+Count= 284
+Is possible 1, 7, 5
+Count= 285
+Is possible 1, 7, 6
+Count= 286
+Is possible 1, 7, 7
+Count= 287
+Is possible 1, 7, 8
+Count= 288
+Is possible 1, 7, 9
+Count= 289
+Is possible 1, 6, 3
+Count= 290
+Is possible 1, 6, 4
+Count= 291
+Is possible 1, 6, 5
+Count= 292
+Is possible 1, 6, 6
+Count= 293
+Is possible 1, 6, 7
+Count= 294
+Is possible 1, 6, 8
+Count= 295
+Is possible 1, 6, 9
+YES possible
+Solve: j=1,i=7: 0
+Count= 296
+Is possible 1, 7, 1
+Count= 297
+Is possible 1, 7, 2
+YES possible
+Solve: j=2,i=0: 0
+Count= 298
+Is possible 2, 0, 1
+Count= 299
+Is possible 2, 0, 2
+Count= 300
+Is possible 2, 0, 3
+Count= 301
+Is possible 2, 0, 4
+Count= 302
+Is possible 2, 0, 5
+YES possible
+Solve: j=2,i=3: 0
+Count= 303
+Is possible 2, 3, 1
+Count= 304
+Is possible 2, 3, 2
+Count= 305
+Is possible 2, 3, 3
+Count= 306
+Is possible 2, 3, 4
+YES possible
+Solve: j=2,i=6: 0
+Count= 307
+Is possible 2, 6, 1
+YES possible
+Solve: j=2,i=7: 0
+Count= 308
+Is possible 2, 7, 1
+Count= 309
+Is possible 2, 7, 2
+Count= 310
+Is possible 2, 7, 3
+Count= 311
+Is possible 2, 7, 4
+Count= 312
+Is possible 2, 7, 5
+Count= 313
+Is possible 2, 7, 6
+YES possible
+Solve: j=2,i=8: 0
+Count= 314
+Is possible 2, 8, 1
+Count= 315
+Is possible 2, 8, 2
+Count= 316
+Is possible 2, 8, 3
+Count= 317
+Is possible 2, 8, 4
+Count= 318
+Is possible 2, 8, 5
+Count= 319
+Is possible 2, 8, 6
+Count= 320
+Is possible 2, 8, 7
+YES possible
+Solve: j=3,i=2: 0
+Count= 321
+Is possible 3, 2, 1
+Count= 322
+Is possible 3, 2, 2
+Count= 323
+Is possible 3, 2, 3
+Count= 324
+Is possible 3, 2, 4
+Count= 325
+Is possible 3, 2, 5
+Count= 326
+Is possible 3, 2, 6
+Count= 327
+Is possible 3, 2, 7
+YES possible
+Solve: j=3,i=6: 0
+Count= 328
+Is possible 3, 6, 1
+Count= 329
+Is possible 3, 6, 2
+Count= 330
+Is possible 3, 6, 3
+YES possible
+Solve: j=3,i=7: 0
+Count= 331
+Is possible 3, 7, 1
+Count= 332
+Is possible 3, 7, 2
+Count= 333
+Is possible 3, 7, 3
+Count= 334
+Is possible 3, 7, 4
+Count= 335
+Is possible 3, 7, 5
+Count= 336
+Is possible 3, 7, 6
+Count= 337
+Is possible 3, 7, 7
+Count= 338
+Is possible 3, 7, 8
+Count= 339
+Is possible 3, 7, 9
+Count= 340
+Is possible 3, 6, 4
+Count= 341
+Is possible 3, 6, 5
+Count= 342
+Is possible 3, 6, 6
+Count= 343
+Is possible 3, 6, 7
+Count= 344
+Is possible 3, 6, 8
+Count= 345
+Is possible 3, 6, 9
+Count= 346
+Is possible 3, 2, 8
+Count= 347
+Is possible 3, 2, 9
+YES possible
+Solve: j=3,i=6: 0
+Count= 348
+Is possible 3, 6, 1
+Count= 349
+Is possible 3, 6, 2
+Count= 350
+Is possible 3, 6, 3
+YES possible
+Solve: j=3,i=7: 0
+Count= 351
+Is possible 3, 7, 1
+Count= 352
+Is possible 3, 7, 2
+Count= 353
+Is possible 3, 7, 3
+Count= 354
+Is possible 3, 7, 4
+Count= 355
+Is possible 3, 7, 5
+Count= 356
+Is possible 3, 7, 6
+Count= 357
+Is possible 3, 7, 7
+YES possible
+Solve: j=4,i=0: 0
+Count= 358
+Is possible 4, 0, 1
+Count= 359
+Is possible 4, 0, 2
+Count= 360
+Is possible 4, 0, 3
+Count= 361
+Is possible 4, 0, 4
+Count= 362
+Is possible 4, 0, 5
+Count= 363
+Is possible 4, 0, 6
+Count= 364
+Is possible 4, 0, 7
+YES possible
+Solve: j=4,i=1: 0
+Count= 365
+Is possible 4, 1, 1
+Count= 366
+Is possible 4, 1, 2
+Count= 367
+Is possible 4, 1, 3
+Count= 368
+Is possible 4, 1, 4
+YES possible
+Solve: j=4,i=6: 0
+Count= 369
+Is possible 4, 6, 1
+Count= 370
+Is possible 4, 6, 2
+YES possible
+Solve: j=4,i=8: 0
+Count= 371
+Is possible 4, 8, 1
+Count= 372
+Is possible 4, 8, 2
+Count= 373
+Is possible 4, 8, 3
+Count= 374
+Is possible 4, 8, 4
+Count= 375
+Is possible 4, 8, 5
+Count= 376
+Is possible 4, 8, 6
+Count= 377
+Is possible 4, 8, 7
+Count= 378
+Is possible 4, 8, 8
+YES possible
+Solve: j=5,i=1: 0
+Count= 379
+Is possible 5, 1, 1
+Count= 380
+Is possible 5, 1, 2
+Count= 381
+Is possible 5, 1, 3
+YES possible
+Solve: j=5,i=2: 0
+Count= 382
+Is possible 5, 2, 1
+Count= 383
+Is possible 5, 2, 2
+Count= 384
+Is possible 5, 2, 3
+Count= 385
+Is possible 5, 2, 4
+Count= 386
+Is possible 5, 2, 5
+Count= 387
+Is possible 5, 2, 6
+Count= 388
+Is possible 5, 2, 7
+Count= 389
+Is possible 5, 2, 8
+YES possible
+Solve: j=5,i=3: 0
+Count= 390
+Is possible 5, 3, 1
+Count= 391
+Is possible 5, 3, 2
+Count= 392
+Is possible 5, 3, 3
+Count= 393
+Is possible 5, 3, 4
+Count= 394
+Is possible 5, 3, 5
+Count= 395
+Is possible 5, 3, 6
+Count= 396
+Is possible 5, 3, 7
+YES possible
+Solve: j=5,i=4: 0
+Count= 397
+Is possible 5, 4, 1
+Count= 398
+Is possible 5, 4, 2
+YES possible
+Solve: j=5,i=6: 0
+Count= 399
+Is possible 5, 6, 1
+Count= 400
+Is possible 5, 6, 2
+Count= 401
+Is possible 5, 6, 3
+Count= 402
+Is possible 5, 6, 4
+YES possible
+Solve: j=5,i=7: 0
+Count= 403
+Is possible 5, 7, 1
+Count= 404
+Is possible 5, 7, 2
+Count= 405
+Is possible 5, 7, 3
+Count= 406
+Is possible 5, 7, 4
+Count= 407
+Is possible 5, 7, 5
+YES possible
+Solve: j=5,i=8: 0
+Count= 408
+Is possible 5, 8, 1
+Count= 409
+Is possible 5, 8, 2
+Count= 410
+Is possible 5, 8, 3
+Count= 411
+Is possible 5, 8, 4
+Count= 412
+Is possible 5, 8, 5
+Count= 413
+Is possible 5, 8, 6
+YES possible
+Solve: j=6,i=2: 0
+Count= 414
+Is possible 6, 2, 1
+Count= 415
+Is possible 6, 2, 2
+Count= 416
+Is possible 6, 2, 3
+Count= 417
+Is possible 6, 2, 4
+Count= 418
+Is possible 6, 2, 5
+Count= 419
+Is possible 6, 2, 6
+YES possible
+Solve: j=6,i=4: 0
+Count= 420
+Is possible 6, 4, 1
+Count= 421
+Is possible 6, 4, 2
+Count= 422
+Is possible 6, 4, 3
+Count= 423
+Is possible 6, 4, 4
+YES possible
+Solve: j=6,i=6: 0
+Count= 424
+Is possible 6, 6, 1
+Count= 425
+Is possible 6, 6, 2
+Count= 426
+Is possible 6, 6, 3
+Count= 427
+Is possible 6, 6, 4
+Count= 428
+Is possible 6, 6, 5
+Count= 429
+Is possible 6, 6, 6
+Count= 430
+Is possible 6, 6, 7
+YES possible
+Solve: j=6,i=8: 0
+Count= 431
+Is possible 6, 8, 1
+Count= 432
+Is possible 6, 8, 2
+Count= 433
+Is possible 6, 8, 3
+Count= 434
+Is possible 6, 8, 4
+Count= 435
+Is possible 6, 8, 5
+Count= 436
+Is possible 6, 8, 6
+Count= 437
+Is possible 6, 8, 7
+Count= 438
+Is possible 6, 8, 8
+Count= 439
+Is possible 6, 8, 9
+YES possible
+Solve: j=7,i=5: 0
+Count= 440
+Is possible 7, 5, 1
+Count= 441
+Is possible 7, 5, 2
+Count= 442
+Is possible 7, 5, 3
+Count= 443
+Is possible 7, 5, 4
+Count= 444
+Is possible 7, 5, 5
+YES possible
+Solve: j=7,i=6: 0
+Count= 445
+Is possible 7, 6, 1
+Count= 446
+Is possible 7, 6, 2
+Count= 447
+Is possible 7, 6, 3
+Count= 448
+Is possible 7, 6, 4
+Count= 449
+Is possible 7, 6, 5
+Count= 450
+Is possible 7, 6, 6
+YES possible
+Solve: j=7,i=8: 0
+Count= 451
+Is possible 7, 8, 1
+Count= 452
+Is possible 7, 8, 2
+Count= 453
+Is possible 7, 8, 3
+Count= 454
+Is possible 7, 8, 4
+Count= 455
+Is possible 7, 8, 5
+Count= 456
+Is possible 7, 8, 6
+Count= 457
+Is possible 7, 8, 7
+Count= 458
+Is possible 7, 8, 8
+Count= 459
+Is possible 7, 8, 9
+Count= 460
+Is possible 7, 6, 7
+Count= 461
+Is possible 7, 6, 8
+Count= 462
+Is possible 7, 6, 9
+Count= 463
+Is possible 7, 5, 6
+Count= 464
+Is possible 7, 5, 7
+Count= 465
+Is possible 7, 5, 8
+Count= 466
+Is possible 7, 5, 9
+Count= 467
+Is possible 6, 6, 8
+Count= 468
+Is possible 6, 6, 9
+Count= 469
+Is possible 6, 4, 5
+Count= 470
+Is possible 6, 4, 6
+Count= 471
+Is possible 6, 4, 7
+YES possible
+Solve: j=6,i=6: 0
+Count= 472
+Is possible 6, 6, 1
+Count= 473
+Is possible 6, 6, 2
+Count= 474
+Is possible 6, 6, 3
+Count= 475
+Is possible 6, 6, 4
+Count= 476
+Is possible 6, 6, 5
+Count= 477
+Is possible 6, 6, 6
+Count= 478
+Is possible 6, 6, 7
+Count= 479
+Is possible 6, 6, 8
+Count= 480
+Is possible 6, 6, 9
+Count= 481
+Is possible 6, 4, 8
+Count= 482
+Is possible 6, 4, 9
+Count= 483
+Is possible 6, 2, 7
+YES possible
+Solve: j=6,i=4: 0
+Count= 484
+Is possible 6, 4, 1
+Count= 485
+Is possible 6, 4, 2
+Count= 486
+Is possible 6, 4, 3
+Count= 487
+Is possible 6, 4, 4
+YES possible
+Solve: j=6,i=6: 0
+Count= 488
+Is possible 6, 6, 1
+Count= 489
+Is possible 6, 6, 2
+Count= 490
+Is possible 6, 6, 3
+Count= 491
+Is possible 6, 6, 4
+Count= 492
+Is possible 6, 6, 5
+Count= 493
+Is possible 6, 6, 6
+YES possible
+Solve: j=6,i=8: 0
+Count= 494
+Is possible 6, 8, 1
+Count= 495
+Is possible 6, 8, 2
+Count= 496
+Is possible 6, 8, 3
+Count= 497
+Is possible 6, 8, 4
+Count= 498
+Is possible 6, 8, 5
+Count= 499
+Is possible 6, 8, 6
+Count= 500
+Is possible 6, 8, 7
+Count= 501
+Is possible 6, 8, 8
+Count= 502
+Is possible 6, 8, 9
+YES possible
+Solve: j=7,i=5: 0
+Count= 503
+Is possible 7, 5, 1
+Count= 504
+Is possible 7, 5, 2
+Count= 505
+Is possible 7, 5, 3
+Count= 506
+Is possible 7, 5, 4
+Count= 507
+Is possible 7, 5, 5
+YES possible
+Solve: j=7,i=6: 0
+Count= 508
+Is possible 7, 6, 1
+Count= 509
+Is possible 7, 6, 2
+Count= 510
+Is possible 7, 6, 3
+Count= 511
+Is possible 7, 6, 4
+Count= 512
+Is possible 7, 6, 5
+Count= 513
+Is possible 7, 6, 6
+Count= 514
+Is possible 7, 6, 7
+YES possible
+Solve: j=7,i=8: 0
+Count= 515
+Is possible 7, 8, 1
+Count= 516
+Is possible 7, 8, 2
+Count= 517
+Is possible 7, 8, 3
+Count= 518
+Is possible 7, 8, 4
+Count= 519
+Is possible 7, 8, 5
+Count= 520
+Is possible 7, 8, 6
+Count= 521
+Is possible 7, 8, 7
+Count= 522
+Is possible 7, 8, 8
+Count= 523
+Is possible 7, 8, 9
+Count= 524
+Is possible 7, 6, 8
+Count= 525
+Is possible 7, 6, 9
+Count= 526
+Is possible 7, 5, 6
+Count= 527
+Is possible 7, 5, 7
+Count= 528
+Is possible 7, 5, 8
+Count= 529
+Is possible 7, 5, 9
+Count= 530
+Is possible 6, 6, 7
+Count= 531
+Is possible 6, 6, 8
+Count= 532
+Is possible 6, 6, 9
+Count= 533
+Is possible 6, 4, 5
+Count= 534
+Is possible 6, 4, 6
+Count= 535
+Is possible 6, 4, 7
+Count= 536
+Is possible 6, 4, 8
+Count= 537
+Is possible 6, 4, 9
+Count= 538
+Is possible 6, 2, 8
+Count= 539
+Is possible 6, 2, 9
+Count= 540
+Is possible 5, 8, 7
+Count= 541
+Is possible 5, 8, 8
+Count= 542
+Is possible 5, 8, 9
+Count= 543
+Is possible 5, 7, 6
+Count= 544
+Is possible 5, 7, 7
+Count= 545
+Is possible 5, 7, 8
+Count= 546
+Is possible 5, 7, 9
+Count= 547
+Is possible 5, 6, 5
+Count= 548
+Is possible 5, 6, 6
+YES possible
+Solve: j=5,i=7: 0
+Count= 549
+Is possible 5, 7, 1
+Count= 550
+Is possible 5, 7, 2
+Count= 551
+Is possible 5, 7, 3
+Count= 552
+Is possible 5, 7, 4
+YES possible
+Solve: j=5,i=8: 0
+Count= 553
+Is possible 5, 8, 1
+Count= 554
+Is possible 5, 8, 2
+Count= 555
+Is possible 5, 8, 3
+Count= 556
+Is possible 5, 8, 4
+Count= 557
+Is possible 5, 8, 5
+YES possible
+Solve: j=6,i=2: 0
+Count= 558
+Is possible 6, 2, 1
+Count= 559
+Is possible 6, 2, 2
+Count= 560
+Is possible 6, 2, 3
+Count= 561
+Is possible 6, 2, 4
+Count= 562
+Is possible 6, 2, 5
+Count= 563
+Is possible 6, 2, 6
+YES possible
+Solve: j=6,i=4: 0
+Count= 564
+Is possible 6, 4, 1
+Count= 565
+Is possible 6, 4, 2
+Count= 566
+Is possible 6, 4, 3
+Count= 567
+Is possible 6, 4, 4
+YES possible
+Solve: j=6,i=6: 0
+Count= 568
+Is possible 6, 6, 1
+Count= 569
+Is possible 6, 6, 2
+Count= 570
+Is possible 6, 6, 3
+Count= 571
+Is possible 6, 6, 4
+Count= 572
+Is possible 6, 6, 5
+Count= 573
+Is possible 6, 6, 6
+Count= 574
+Is possible 6, 6, 7
+YES possible
+Solve: j=6,i=8: 0
+Count= 575
+Is possible 6, 8, 1
+Count= 576
+Is possible 6, 8, 2
+Count= 577
+Is possible 6, 8, 3
+Count= 578
+Is possible 6, 8, 4
+Count= 579
+Is possible 6, 8, 5
+Count= 580
+Is possible 6, 8, 6
+Count= 581
+Is possible 6, 8, 7
+Count= 582
+Is possible 6, 8, 8
+Count= 583
+Is possible 6, 8, 9
+YES possible
+Solve: j=7,i=5: 0
+Count= 584
+Is possible 7, 5, 1
+Count= 585
+Is possible 7, 5, 2
+Count= 586
+Is possible 7, 5, 3
+Count= 587
+Is possible 7, 5, 4
+Count= 588
+Is possible 7, 5, 5
+YES possible
+Solve: j=7,i=6: 0
+Count= 589
+Is possible 7, 6, 1
+Count= 590
+Is possible 7, 6, 2
+Count= 591
+Is possible 7, 6, 3
+Count= 592
+Is possible 7, 6, 4
+Count= 593
+Is possible 7, 6, 5
+Count= 594
+Is possible 7, 6, 6
+Count= 595
+Is possible 7, 6, 7
+Count= 596
+Is possible 7, 6, 8
+Count= 597
+Is possible 7, 6, 9
+Count= 598
+Is possible 7, 5, 6
+Count= 599
+Is possible 7, 5, 7
+Count= 600
+Is possible 7, 5, 8
+Count= 601
+Is possible 7, 5, 9
+Count= 602
+Is possible 6, 6, 8
+Count= 603
+Is possible 6, 6, 9
+Count= 604
+Is possible 6, 4, 5
+Count= 605
+Is possible 6, 4, 6
+Count= 606
+Is possible 6, 4, 7
+YES possible
+Solve: j=6,i=6: 0
+Count= 607
+Is possible 6, 6, 1
+Count= 608
+Is possible 6, 6, 2
+Count= 609
+Is possible 6, 6, 3
+Count= 610
+Is possible 6, 6, 4
+YES possible
+Solve: j=6,i=8: 0
+Count= 611
+Is possible 6, 8, 1
+Count= 612
+Is possible 6, 8, 2
+Count= 613
+Is possible 6, 8, 3
+Count= 614
+Is possible 6, 8, 4
+Count= 615
+Is possible 6, 8, 5
+Count= 616
+Is possible 6, 8, 6
+Count= 617
+Is possible 6, 8, 7
+Count= 618
+Is possible 6, 8, 8
+Count= 619
+Is possible 6, 8, 9
+YES possible
+Solve: j=7,i=5: 0
+Count= 620
+Is possible 7, 5, 1
+Count= 621
+Is possible 7, 5, 2
+Count= 622
+Is possible 7, 5, 3
+Count= 623
+Is possible 7, 5, 4
+Count= 624
+Is possible 7, 5, 5
+YES possible
+Solve: j=7,i=6: 0
+Count= 625
+Is possible 7, 6, 1
+Count= 626
+Is possible 7, 6, 2
+Count= 627
+Is possible 7, 6, 3
+Count= 628
+Is possible 7, 6, 4
+Count= 629
+Is possible 7, 6, 5
+Count= 630
+Is possible 7, 6, 6
+Count= 631
+Is possible 7, 6, 7
+YES possible
+Solve: j=7,i=8: 0
+Count= 632
+Is possible 7, 8, 1
+Count= 633
+Is possible 7, 8, 2
+Count= 634
+Is possible 7, 8, 3
+Count= 635
+Is possible 7, 8, 4
+Count= 636
+Is possible 7, 8, 5
+Count= 637
+Is possible 7, 8, 6
+YES possible
+Solve: j=8,i=2: 0
+Count= 638
+Is possible 8, 2, 1
+Count= 639
+Is possible 8, 2, 2
+Count= 640
+Is possible 8, 2, 3
+Count= 641
+Is possible 8, 2, 4
+Count= 642
+Is possible 8, 2, 5
+Count= 643
+Is possible 8, 2, 6
+Count= 644
+Is possible 8, 2, 7
+YES possible
+Solve: j=8,i=3: 0
+Count= 645
+Is possible 8, 3, 1
+YES possible
+Solve: j=8,i=4: 0
+Count= 646
+Is possible 8, 4, 1
+Count= 647
+Is possible 8, 4, 2
+Count= 648
+Is possible 8, 4, 3
+Count= 649
+Is possible 8, 4, 4
+YES possible
+Solve: j=8,i=7: 0
+Count= 650
+Is possible 8, 7, 1
+Count= 651
+Is possible 8, 7, 2
+Count= 652
+Is possible 8, 7, 3
+Count= 653
+Is possible 8, 7, 4
+Count= 654
+Is possible 8, 7, 5
+YES possible
+Solve: j=8,i=8: 0
+Count= 655
+Is possible 8, 8, 1
+Count= 656
+Is possible 8, 8, 2
+YES possible
+
+Puzzle:
+9 2 1 6 3 7 5 8 4 
+6 7 4 5 1 8 9 2 3 
+5 8 3 4 9 2 1 6 7 
+2 6 9 8 5 4 3 7 1 
+7 4 5 3 6 1 2 9 8 
+1 3 8 7 2 9 6 4 5 
+8 5 6 2 7 3 4 1 9 
+4 1 2 9 8 5 7 3 6 
+3 9 7 1 4 6 8 5 2 
+
+Solved in Iterations=656
+
+Seconds to process 0.001
