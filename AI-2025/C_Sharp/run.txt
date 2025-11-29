@@ -160,4 +160,4 @@ Puzzle:
 
 Solved in Iterations=622577597
 
-Seconds to process 86.465
+Seconds to process 79,636

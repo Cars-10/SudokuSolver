@@ -24,7 +24,7 @@ Puzzle:
 
 Solved in Iterations=91
 
-Seconds to process 0.001
+Seconds to process 0.005
 ../Matrices/2.matrix
 
 Puzzle:
@@ -51,7 +51,7 @@ Puzzle:
 
 Solved in Iterations=48833
 
-Seconds to process 0.294
+Seconds to process 0.254
 ../Matrices/3.matrix
 
 Puzzle:
@@ -78,7 +78,7 @@ Puzzle:
 
 Solved in Iterations=11005
 
-Seconds to process 0.066
+Seconds to process 0.065
 ../Matrices/4.matrix
 
 Puzzle:
@@ -105,7 +105,7 @@ Puzzle:
 
 Solved in Iterations=1035
 
-Seconds to process 0.006
+Seconds to process 0.005
 ../Matrices/5.matrix
 
 Puzzle:
@@ -132,17 +132,18 @@ Puzzle:
 
 Solved in Iterations=49558
 
-SSolved in 69,175,316 iterations.
-9 8 7 6 5 4 3 2 1 
-2 4 6 1 7 3 9 8 5 
-3 5 1 9 2 8 7 4 6 
-1 2 8 5 3 7 6 9 4 
-6 3 4 8 9 2 1 5 7 
-7 9 5 4 6 1 8 3 2 
-5 1 9 2 8 6 4 7 3 
-4 7 2 3 1 9 5 6 8 
-8 6 3 7 4 5 2 1 9 
- 
+Seconds to process 0.279
+../Matrices/6.matrix
+
+Puzzle:
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 3 0 8 5 
+0 0 1 0 2 0 0 0 0 
+0 0 0 5 0 7 0 0 0 
+0 0 4 0 0 0 1 0 0 
+0 9 0 0 0 0 0 0 0 
+5 0 0 0 0 0 0 7 3 
+0 0 2 0 1 0 0 0 0 
 0 0 0 0 4 0 0 0 9 
 
 Puzzle:
@@ -158,4 +159,4 @@ Puzzle:
 
 Solved in Iterations=69175316
 
-Seconds to process 372.236
+Seconds to process 361.947

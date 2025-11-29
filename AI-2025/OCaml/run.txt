@@ -84,7 +84,7 @@ Puzzle:
 
 Solved in Iterations=11,005
 
-Seconds to process 0.002
+Seconds to process 0.003
 ../Matrices/4.matrix
 
 Puzzle:
@@ -142,7 +142,7 @@ Puzzle:
 
 Solved in Iterations=49,558
 
-Seconds to process 0.017
+Seconds to process 0.016
 ../Matrices/6.matrix
 
 Puzzle:
@@ -171,4 +171,4 @@ Puzzle:
 
 Solved in Iterations=69,175,316
 
-Seconds to process 20.610
+Seconds to process 17.612
