@@ -10,7 +10,9 @@ def printPuzzleValues():
     global puzzle
     print("\nPuzzle:")
 #    print(np.array_str(np.matrix(puzzle)).translate(str.maketrans("[]", "  ")))
-    print(np.array_str(np.matrix(puzzle)).replace(" [","").replace("[", "").replace("]",""))
+    # print(np.array_str(np.matrix(puzzle)).replace(" [","").replace("[", "").replace("]",""))
+    for row in puzzle:
+        print(" ".join(map(str, row)))
 
 def isPossible(y,x,val):
     """ Find if a matching number (val) already exists
@@ -62,7 +64,7 @@ for datafile in sys.argv:
     if datafile.endswith("matrix"):
         print(datafile)
         # Use NumPy library to ready the array easily
-        puzzle = np.genfromtxt(datafile, dtype='int', comments="#")
+        puzzle = np.genfromtxt(datafile, dtype='int', comments="#").tolist()
         printPuzzleValues()
         count = 0
         solve()

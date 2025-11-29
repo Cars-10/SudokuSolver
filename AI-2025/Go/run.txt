@@ -154,4 +154,4 @@ Puzzle:
 
 Solved in Iterations=622577597
 
-Seconds to process 19.000
+Seconds to process 18.000

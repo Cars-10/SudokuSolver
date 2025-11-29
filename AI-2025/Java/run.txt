@@ -132,7 +132,7 @@ Puzzle:
 
 Solved in Iterations=72097
 
-Seconds to process 0.010
+Seconds to process 0.011
 ../Matrices/6.matrix
 
 Puzzle:
@@ -159,4 +159,4 @@ Puzzle:
 
 Solved in Iterations=88178563
 
-Seconds to process 9.644
+Seconds to process 9.231
