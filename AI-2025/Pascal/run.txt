@@ -35,7 +35,7 @@ Puzzle:
 
 Solved in Iterations=91
 
-Seconds to process 0.001
+Seconds to process 0.000
 ../Matrices/2.matrix
 
 Puzzle:
@@ -73,7 +73,7 @@ Puzzle:
 
 Solved in Iterations=48833
 
-Seconds to process 0.024
+Seconds to process 0.006
 ../Matrices/3.matrix
 
 Puzzle:
@@ -111,7 +111,7 @@ Puzzle:
 
 Solved in Iterations=11005
 
-Seconds to process 0.005
+Seconds to process 0.002
 ../Matrices/4.matrix
 
 Puzzle:
@@ -149,7 +149,7 @@ Puzzle:
 
 Solved in Iterations=1035
 
-Seconds to process 0.002
+Seconds to process 0.000
 ../Matrices/5.matrix
 
 Puzzle:
@@ -187,42 +187,22 @@ Puzzle:
 
 Solved in Iterations=49558
 
-Seconds to process 0.020
-../Matrices/6.matrix
-
-Puzzle:
-0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 3 0 8 5 
-0 0 1 0 2 0 0 0 0 
-0 0 0 5 0 7 0 0 0 
-0 0 4 0 0 0 1 0 0 
-0 9 0 0 0 0 0 0 0 
-5 0 0 0 0 0 0 7 3 
-0 0 2 0 1 0 0 0 0 
-0 0 0 0 4 0 0 0 9 
-
-Puzzle:
-0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 3 0 8 5 
-0 0 1 0 2 0 0 0 0 
-0 0 0 5 0 7 0 0 0 
-0 0 4 0 0 0 1 0 0 
-0 9 0 0 0 0 0 0 0 
-5 0 0 0 0 0 0 7 3 
-0 0 2 0 1 0 0 0 0 
-0 0 0 0 4 0 0 0 9 
-
-Puzzle:
-9 8 7 6 5 4 3 2 1 
-2 4 6 1 7 3 9 8 5 
-3 5 1 9 2 8 7 4 6 
-1 2 8 5 3 7 6 9 4 
-6 3 4 8 9 2 1 5 7 
-7 9 5 4 6 1 8 3 2 
-5 1 9 2 8 6 4 7 3 
-4 7 2 3 1 9 5 6 8 
-8 6 3 7 4 5 2 1 9 
-
-Solved in Iterations=69175316
-
-Seconds to process 29.117
+Seconds to process 0.007
+        0.03 real         0.02 user         0.00 sys
+             2080768  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                2622  page reclaims
+                  54  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   1  signals received
+                  24  voluntary context switches
+                  97  involuntary context switches
+            14976526  instructions retired
+             9071436  cycles elapsed
+             1179912  peak memory footprint

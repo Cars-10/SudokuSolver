@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 # macOS requires Mach-O 64-bit format
 nasm -f macho64 Sudoku.asm -o Sudoku.o
 # Link with System libraries (using gcc/clang is easiest to link libc)
-ld -o Sudoku Sudoku.o -lSystem -syslibroot `xcrun -sdk macosx --show-sdk-path` -e _main -arch x86_64
+ld -o Sudoku Sudoku.o -lSystem -syslibroot `xcrun -sdk macosx --show-sdk-path` -e _main -arch x86_64 -platform_version macos 11.0 11.0
 
 # Run
 for file in ../Matrices/*.matrix; do
@@ -19,4 +19,4 @@ for file in ../Matrices/*.matrix; do
     dt=$(echo "$end - $start" | bc)
     printf "Seconds to process %.3f\n" "$dt"
 done
-rm temp.txt Sudoku.o Sudoku
+#rm temp.txt Sudoku.o Sudoku

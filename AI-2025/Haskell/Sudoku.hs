@@ -12,7 +12,8 @@ main :: IO ()
 main = do
     start <- getCurrentTime
     args <- getArgs
-    mapM_ processFile (filter (\f -> reverse (take 7 (reverse f)) == "xirtam.") args)
+    print args
+    mapM_ processFile (filter (\f -> reverse (take 7 (reverse f)) == ".matrix") args)
     end <- getCurrentTime
     printf "Seconds to process %.3f\n" (realToFrac (diffUTCTime end start) :: Double)
 
@@ -22,12 +23,12 @@ processFile filename = do
     content <- readFile filename
     let board = parseBoard content
     printBoard board
-    let solutions = solve board
-    case solutions of
-        (s:_) -> do
-            printBoard s
-            putStrLn $ "Solved in Iterations=" ++ show (countIterations board) -- Dummy count, Haskell is lazy/pure
-        [] -> putStrLn "No solution found"
+    let (solved, solution, count) = solve board 0
+    if solved
+        then do
+            printBoard solution
+            putStrLn $ "Solved in Iterations=" ++ show count
+        else putStrLn "No solution found"
 
 parseBoard :: String -> Board
 parseBoard content = 
@@ -40,24 +41,31 @@ printBoard board = do
     putStrLn "\nPuzzle:"
     mapM_ (putStrLn . unwords . map show) board
 
-solve :: Board -> [Board]
-solve board = search board
+-- Explicit recursion to count iterations
+solve :: Board -> Int -> (Bool, Board, Int)
+solve board count = 
+    case findEmpty board of
+        Nothing -> (True, board, count)
+        Just (r, c) -> tryValues board r c 1 count
 
-search :: Board -> [Board]
-search board
-    | complete board = [board]
-    | otherwise = do
-        let (r, c) = firstEmpty board
-        val <- [1..9]
-        guard (isValid board r c val)
-        let newBoard = update board r c val
-        search newBoard
+tryValues :: Board -> Int -> Int -> Int -> Int -> (Bool, Board, Int)
+tryValues board r c val count
+    | val > 9 = (False, board, count)
+    | otherwise = 
+        let count' = count + 1
+        in if isValid board r c val
+           then 
+               let board' = update board r c val
+                   (solved, resBoard, finalCount) = solve board' count'
+               in if solved 
+                  then (True, resBoard, finalCount)
+                  else tryValues board r c (val + 1) finalCount
+           else tryValues board r c (val + 1) count'
 
-complete :: Board -> Bool
-complete = all (all (/= 0))
-
-firstEmpty :: Board -> (Int, Int)
-firstEmpty board = head [(r, c) | r <- [0..8], c <- [0..8], (board !! r) !! c == 0]
+findEmpty :: Board -> Maybe (Int, Int)
+findEmpty board = 
+    let empties = [(r, c) | r <- [0..8], c <- [0..8], (board !! r) !! c == 0]
+    in if null empties then Nothing else Just (head empties)
 
 isValid :: Board -> Int -> Int -> Int -> Bool
 isValid board r c val =
@@ -76,13 +84,3 @@ update board r c val =
     take r board ++
     [take c (board !! r) ++ [val] ++ drop (c + 1) (board !! r)] ++
     drop (r + 1) board
-
-guard :: Bool -> [()]
-guard True = [()]
-guard False = []
-
--- Haskell is pure, counting iterations in a pure backtracking solver is tricky without State monad.
--- For now, we'll just return a placeholder or try to implement a counter if strictly needed.
--- Given the constraints, a simple solver is better.
-countIterations :: Board -> Int
-countIterations _ = 0 -- Placeholder

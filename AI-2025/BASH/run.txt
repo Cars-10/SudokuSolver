@@ -28,8 +28,8 @@ Puzzle:
 Solved in Iterations=281
 
 
-../Matrices/2.matrix
-
+../Matrices/2.ma
+Solv
 Puzzle:
 0 0 3 0 0 5 0 0 4 
 5 0 0 9 8 1 0 0 0 
@@ -92,3 +92,26 @@ Puzzle:
 0 0 8 5 0 0 0 1 0 
 3 9 0 0 0 6 8 0 0 
 
+6 8 
+0 0 8 5 0 0 0 1 0 
+3 9 0 0 0 6 8 0 0 
+
+./Sudoku.sh ../Matrices/*.matrix  367.45s user 11.45s system 99% cpu 6:21.32 total
+tee run.txt  0.00s user 0.00s system 0% cpu 6:21.32 total       381.32 real       367.45 user        11.45 sys
+            14991360  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                2978  page reclaims
+                  49  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   3  signals received
+                 296  voluntary context switches
+              171540  involuntary context switches
+            19330512  instructions retired
+             9929794  cycles elapsed
+             1540408  peak memory footprint

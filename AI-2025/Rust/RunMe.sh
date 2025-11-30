@@ -1,2 +1,9 @@
 #!/bin/bash
-Sudoku/target/release/Sudoku ../Matrices/*.matrix | tee run.txt
+cd "$(dirname "$0")"
+
+# Build release version
+cd Sudoku
+cargo build --release --quiet
+
+# Run
+./target/release/Sudoku ../../../Matrices/*.matrix

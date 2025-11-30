@@ -128,15 +128,24 @@ Puzzle:
 
 Solved in Iterations=445778
 
-../Matrices/6.matrix
-
-Puzzle:
- 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 3 0 8 5
- 0 0 1 0 2 0 0 0 0
- 0 0 0 5 0 7 0 0 0
- 0 0 4 0 0 0 1 0 0
- 0 9 0 0 0 0 0 0 0
- 5 0 0 0 0 0 0 7 3
- 0 0 2 0 1 0 0 0 0
- 0 0 0 0 4 0 0 0 9
+Seconds to process 7.454
+Rscript Sudoku.R ../Matrices/*.matrix  7.44s user 0.05s system 99% cpu 7.558 total
+tee run.txt  0.00s user 0.00s system 0% cpu 7.557 total
+        7.56 real         7.44 user         0.05 sys
+            90357760  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                8982  page reclaims
+                  33  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   3  signals received
+                  92  voluntary context switches
+                5511  involuntary context switches
+            18974721  instructions retired
+             8989581  cycles elapsed
+             1540408  peak memory footprint

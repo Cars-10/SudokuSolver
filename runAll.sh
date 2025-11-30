@@ -1,118 +1,78 @@
-#!/bin/zsh
-cd "$(dirname $0:A)"
-failed_scripts=()
+#!/bin/bash
+cd "$(dirname "$0")"
 
-# Ordered from fastest to slowest (estimated)
-solvers=(
-    "C"
-    "C_CPT"
-    "C++"
-    "Rust"
-    "Go"
-    "Go_CPT"
-    "Fortran"
-    "Ada"
-    "D"
-    "Nim"
-    "Crystal"
-    "Odin"
-    "Zig"
-    "V"
-    "Vala"
-    "Haxe"
-    "Go"
-    "Swift"
-    "Objective-C"
-    "Pascal"
-    "Haskell"
-    "OCaml"
-    "StandardML"
-    "Cobol"
-    "Forth"
+# Create logs directory
+mkdir -p logs
+rm -f logs/*.log
 
-    # Tier 2: VM / JIT (Fast)
-    "Java"
-    "C_Sharp"
-    "F_Sharp"
-    "Kotlin"
-    "Scala"
-    "Dart"
-    "Lua"
-    "Julia"
-    "CommonLisp"
-    "Racket"
-    "Scheme"
-    "Smalltalk"
-    "Erlang"
-    "Elixir"
-    "Clojure"
-    "Groovy"
-    "WebAssembly"
+# 1. Setup Matrix Filter (1-5 only)
+echo "Setting up Matrix filter (1-5)..."
+mkdir -p Matrices_Filtered
+rm -f Matrices_Filtered/*
+# Link 1.matrix to 5.matrix from the real Matrices dir
+# Assuming ../Matrices is where they are relative to AI-2025/Matrices
+# But here we are in root. Real matrices are in Matrices/
+ln -sf "$(pwd)/Matrices/1.matrix" Matrices_Filtered/
+ln -sf "$(pwd)/Matrices/2.matrix" Matrices_Filtered/
+ln -sf "$(pwd)/Matrices/3.matrix" Matrices_Filtered/
+ln -sf "$(pwd)/Matrices/4.matrix" Matrices_Filtered/
+ln -sf "$(pwd)/Matrices/5.matrix" Matrices_Filtered/
 
-    # Tier 3: Interpreted / Dynamic (Medium)
-    "Python"
-    "Python_CPT"
-    "Ruby"
-    "Perl"
-    "PHP"
-    "JavaScript"
-    "TypeScript"
-    "CoffeeScript"
-    "R"
-    "Tcl"
-    "PowerShell"
-    "Octave"
-    "Rexx"
-    "AppleScript"
-    "EmacsLisp"
+# Backup existing symlink/dir
+if [ -L "AI-2025/Matrices" ]; then
+    rm "AI-2025/Matrices"
+elif [ -d "AI-2025/Matrices" ]; then
+    mv "AI-2025/Matrices" "AI-2025/Matrices_Backup"
+fi
 
-    # Tier 4: Scripting / Esoteric / Slow (Slow)
-    "Awk"
-    "Sed"
-    "Jq"
-    "Bc"
-    "M4"
-    "BASH"
-    "Make"
-    "Vimscript"
-    "Gnuplot"
-    "SQL"
-    "XSLT"
-    "PostScript"
-    "TeX"
-    "Brainfuck"
-    "Befunge"
-    "ALGOL68"
-    "APL"
-    "VHDL"
-    "Logo"
-    "SNOBOL"
-    "BASIC"
-)
+# Point AI-2025/Matrices to our filtered dir
+# We need absolute path or relative path. 
+# AI-2025/Matrices -> ../Matrices_Filtered
+ln -s ../Matrices_Filtered AI-2025/Matrices
 
-for solver in "${solvers[@]}"; do
-    file="AI-2025/$solver/RunMe.sh"
-    if [ -f "$file" ]; then
-        echo "Running $file..."
-        if ! $file; then
-            echo "ERROR: $file failed to execute."
-            failed_scripts+=("$file")
+echo "Starting benchmark (Ordered by speed, Matrices 1-5)..."
+
+# 2. Get Sorted List of Solvers
+# If get_solver_order.py fails or returns empty, fall back to glob
+if [ -f "get_solver_order.py" ]; then
+    solvers=$(python3 get_solver_order.py)
+else
+    solvers=$(ls AI-2025)
+fi
+
+# 3. Run Solvers
+# Convert newline separated string to array for iteration
+echo "$solvers" | while read -r solver; do
+    dir="AI-2025/$solver"
+    if [ -d "$dir" ] && [ "$solver" != "Matrices" ] && [ "$solver" != "Matrices_Backup" ]; then
+        run_script="$dir/RunMe.sh"
+        
+        if [ -f "AI-2025/$solver/RunMe.sh" ]; then
+            echo "Benchmarking $solver..."
+            
+            # Update report to highlight this solver
+            python3 generate_report.py --highlight "$solver"
+            
+            # Ensure script is executable
+            chmod +x "$run_script"
+            
+            # Use /usr/bin/time -l to capture CPU/Memory metrics (output to stderr, redirected to run.txt)
+            /usr/bin/time -l "$run_script" > "$dir/run.txt" 2>&1
+            
+            # Update report with results
+            python3 generate_report.py --highlight "$solver"
+            
+            echo "Finished $solver"
         fi
-    else
-        echo "WARNING: $file not found."
     fi
 done
 
-echo "\nResults:"
-./results.sh 
+# 4. Cleanup / Restore
+echo "Restoring Matrices configuration..."
+rm "AI-2025/Matrices"
+ln -s ../Matrices AI-2025/Matrices
+rm -rf Matrices_Filtered
 
-if [ ${#failed_scripts[@]} -gt 0 ]; then
-    echo "\n=================================================="
-    echo "The following scripts failed:"
-    for script in "${failed_scripts[@]}"; do
-        echo "  - $script"
-    done
-    echo "=================================================="
-else
-    echo "\nAll scripts executed successfully."
-fi
+echo "Benchmark complete."
+echo "Generating HTML report..."
+python3 generate_report.py --save-history

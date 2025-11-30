@@ -22,7 +22,7 @@ Puzzle:
  4 1 2 9 8 5 7 3 6
  3 9 7 1 4 6 8 5 2
 
-Solved in Iterations=656       
+Solved in Iterations=656
 ../Matrices/2.matrix                              
 
 Puzzle:
@@ -47,7 +47,7 @@ Puzzle:
  7 2 8 1 4 9 3 6 5
  9 1 6 3 5 7 8 4 2
 
-Solved in Iterations=439269    
+Solved in Iterations=439269
 ../Matrices/3.matrix                              
 
 Puzzle:
@@ -72,7 +72,7 @@ Puzzle:
  2 6 1 9 4 8 5 3 7
  5 3 8 7 1 6 2 9 4
 
-Solved in Iterations=98847     
+Solved in Iterations=98847
 ../Matrices/4.matrix                              
 
 Puzzle:
@@ -97,7 +97,7 @@ Puzzle:
  4 2 5 8 9 6 3 1 7
  7 6 3 1 5 4 9 8 2
 
-Solved in Iterations=9085      
+Solved in Iterations=9085
 ../Matrices/5.matrix                              
 
 Puzzle:
@@ -122,29 +122,24 @@ Puzzle:
  4 3 8 5 2 6 9 1 7
  7 9 6 3 1 8 4 5 2
 
-Solved in Iterations=445778    
-../Matrices/6.matrix                              
+Solved in Iterations=445778
 
-Puzzle:
- 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 3 0 8 5
- 0 0 1 0 2 0 0 0 0
- 0 0 0 5 0 7 0 0 0
- 0 0 4 0 0 0 1 0 0
- 0 9 0 0 0 0 0 0 0
- 5 0 0 0 0 0 0 7 3
- 0 0 2 0 1 0 0 0 0
- 0 0 0 0 4 0 0 0 9
-
-Puzzle:
- 9 8 7 6 5 4 3 2 1
- 2 4 6 1 7 3 9 8 5
- 3 5 1 9 2 8 7 4 6
- 1 2 8 5 3 7 6 9 4
- 6 3 4 8 9 2 1 5 7
- 7 9 5 4 6 1 8 3 2
- 5 1 9 2 8 6 4 7 3
- 4 7 2 3 1 9 5 6 8
- 8 6 3 7 4 5 2 1 9
-
-Solved in Iterations=622577597 
+Seconds to process   0.307
+        1.35 real         0.45 user         0.15 sys
+            42123264  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               12738  page reclaims
+                1763  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   6  signals received
+                 324  voluntary context switches
+                4967  involuntary context switches
+            20724408  instructions retired
+            11466654  cycles elapsed
+             1524024  peak memory footprint

@@ -148,8 +148,8 @@
            END-PERFORM.
            
            IF WS-POSSIBLE = 'Y'
-               COMPUTE WS-ROW-IDX = ((WS-I - 1) / 3) * 3 + 1
-               COMPUTE WS-COL-IDX = ((WS-J - 1) / 3) * 3 + 1
+               COMPUTE WS-ROW-IDX = FUNCTION INTEGER-PART((WS-I - 1) / 3) * 3 + 1
+               COMPUTE WS-COL-IDX = FUNCTION INTEGER-PART((WS-J - 1) / 3) * 3 + 1
                PERFORM VARYING WS-NUM-IDX FROM 0 BY 1 UNTIL WS-NUM-IDX > 2
                    PERFORM VARYING WS-IDX FROM 0 BY 1 UNTIL WS-IDX > 2
                        IF WS-COL(WS-ROW-IDX + WS-NUM-IDX, WS-COL-IDX + WS-IDX) = WS-VAL
