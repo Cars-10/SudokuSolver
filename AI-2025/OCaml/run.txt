@@ -24,7 +24,7 @@ Puzzle:
 4 1 2 9 8 5 7 3 6 
 3 9 7 1 4 6 8 5 2 
 
-Solved in Iterations=91
+Solved in Iterations=656
 
 Seconds to process 0.000
 ../Matrices/2.matrix
@@ -53,9 +53,9 @@ Puzzle:
 7 2 8 1 4 9 3 6 5 
 9 1 6 3 5 7 8 4 2 
 
-Solved in Iterations=48,833
+Solved in Iterations=439,269
 
-Seconds to process 0.015
+Seconds to process 0.005
 ../Matrices/3.matrix
 
 Puzzle:
@@ -82,9 +82,9 @@ Puzzle:
 2 6 1 9 4 8 5 3 7 
 5 3 8 7 1 6 2 9 4 
 
-Solved in Iterations=11,005
+Solved in Iterations=98,847
 
-Seconds to process 0.003
+Seconds to process 0.001
 ../Matrices/4.matrix
 
 Puzzle:
@@ -111,7 +111,7 @@ Puzzle:
 4 2 5 8 9 6 3 1 7 
 7 6 3 1 5 4 9 8 2 
 
-Solved in Iterations=1,035
+Solved in Iterations=9,085
 
 Seconds to process 0.000
 ../Matrices/5.matrix
@@ -140,35 +140,24 @@ Puzzle:
 4 3 8 5 2 6 9 1 7 
 7 9 6 3 1 8 4 5 2 
 
-Solved in Iterations=49,558
+Solved in Iterations=445,778
 
-Seconds to process 0.016
-../Matrices/6.matrix
-
-Puzzle:
-0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 3 0 8 5 
-0 0 1 0 2 0 0 0 0 
-0 0 0 5 0 7 0 0 0 
-0 0 4 0 0 0 1 0 0 
-0 9 0 0 0 0 0 0 0 
-5 0 0 0 0 0 0 7 3 
-0 0 2 0 1 0 0 0 0 
-0 0 0 0 4 0 0 0 9 
-
-Puzzle:
-
-Puzzle:
-9 8 7 6 5 4 3 2 1 
-2 4 6 1 7 3 9 8 5 
-3 5 1 9 2 8 7 4 6 
-1 2 8 5 3 7 6 9 4 
-6 3 4 8 9 2 1 5 7 
-7 9 5 4 6 1 8 3 2 
-5 1 9 2 8 6 4 7 3 
-4 7 2 3 1 9 5 6 8 
-8 6 3 7 4 5 2 1 9 
-
-Solved in Iterations=69,175,316
-
-Seconds to process 17.612
+Seconds to process 0.005
+        0.39 real         0.15 user         0.07 sys
+            53166080  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               18099  page reclaims
+                1610  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   1  signals received
+                  45  voluntary context switches
+                1326  involuntary context switches
+            16264617  instructions retired
+             7987959  cycles elapsed
+             1179912  peak memory footprint

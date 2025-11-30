@@ -21,7 +21,7 @@ PROGRAM MAIN
         END IF
     END DO
     call cpu_time(finish)
-    print *, "Seconds to process", finish-start
+    print '(/A, F8.3)',"Seconds to process", finish-start
 CONTAINS    
 
 SUBROUTINE readMatrixFile(filename)
@@ -34,10 +34,11 @@ SUBROUTINE readMatrixFile(filename)
     DO
         read(9, '(A)', iostat=ios) line
         if (ios /= 0) exit
-        if (line(1:1) /= '#' .and. len_trim(line) > 0) then
+        if (len_trim(line) > 0 .and. line(1:1) /= '#') then
                 read (line, *) puzzle(n,0),puzzle(n,1),puzzle(n,2),puzzle(n,3),puzzle(n,4)&
                 ,puzzle(n,5),puzzle(n,6),puzzle(n,7),puzzle(n,8)
             n = n + 1
+            if (n > 8) exit
         END IF
     END DO
     CLOSE(UNIT=9)
@@ -86,7 +87,7 @@ RECURSIVE FUNCTION solve(puzzle, count)  RESULT(r)
     END DO
     CALL printPuzzle(puzzle)
     write(str_count,'(i10)') count
-    print '(/2a)', 'Solved in Iterations=', adjustl(str_count)
+    print '(/2a)', 'Solved in Iterations=', trim(adjustl(str_count))
     r = 2
     RETURN 
 

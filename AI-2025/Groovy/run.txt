@@ -128,15 +128,22 @@ Puzzle:
 
 Solved in Iterations=445778
 
-../Matrices/6.matrix
-
-Puzzle:
-0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 3 0 8 5 
-0 0 1 0 2 0 0 0 0 
-0 0 0 5 0 7 0 0 0 
-0 0 4 0 0 0 1 0 0 
-0 9 0 0 0 0 0 0 0 
-5 0 0 0 0 0 0 7 3 
-0 0 2 0 1 0 0 0 0 
-0 0 0 0 4 0 0 0 9 
+Seconds to process 3.787
+        4.64 real        10.71 user         0.21 sys
+           741785600  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               48336  page reclaims
+                  13  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 437  voluntary context switches
+               17778  involuntary context switches
+            14641664  instructions retired
+             6389398  cycles elapsed
+             1179912  peak memory footprint

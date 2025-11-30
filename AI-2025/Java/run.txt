@@ -22,9 +22,9 @@ Puzzle:
 4 1 2 9 8 5 7 3 6 
 3 9 7 1 4 6 8 5 2 
 
-Solved in Iterations=179
+Solved in Iterations=656
 
-Seconds to process 0.008
+Seconds to process 0.002
 ../Matrices/2.matrix
 
 Puzzle:
@@ -49,9 +49,9 @@ Puzzle:
 7 2 8 1 4 9 3 6 5 
 9 1 6 3 5 7 8 4 2 
 
-Solved in Iterations=67840
+Solved in Iterations=439269
 
-Seconds to process 0.016
+Seconds to process 0.006
 ../Matrices/3.matrix
 
 Puzzle:
@@ -76,9 +76,9 @@ Puzzle:
 2 6 1 9 4 8 5 3 7 
 5 3 8 7 1 6 2 9 4 
 
-Solved in Iterations=14390
+Solved in Iterations=98847
 
-Seconds to process 0.003
+Seconds to process 0.001
 ../Matrices/4.matrix
 
 Puzzle:
@@ -103,9 +103,9 @@ Puzzle:
 4 2 5 8 9 6 3 1 7 
 7 6 3 1 5 4 9 8 2 
 
-Solved in Iterations=1547
+Solved in Iterations=9085
 
-Seconds to process 0.001
+Seconds to process 0.000
 ../Matrices/5.matrix
 
 Puzzle:
@@ -130,33 +130,24 @@ Puzzle:
 4 3 8 5 2 6 9 1 7 
 7 9 6 3 1 8 4 5 2 
 
-Solved in Iterations=72097
+Solved in Iterations=445778
 
-Seconds to process 0.011
-../Matrices/6.matrix
-
-Puzzle:
-0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 3 0 8 5 
-0 0 1 0 2 0 0 0 0 
-0 0 0 5 0 7 0 0 0 
-0 0 4 0 0 0 1 0 0 
-0 9 0 0 0 0 0 0 0 
-5 0 0 0 0 0 0 7 3 
-0 0 2 0 1 0 0 0 0 
-0 0 0 0 4 0 0 0 9 
-
-Puzzle:
-9 8 7 6 5 4 3 2 1 
-2 4 6 1 7 3 9 8 5 
-3 5 1 9 2 8 7 4 6 
-1 2 8 5 3 7 6 9 4 
-6 3 4 8 9 2 1 5 7 
-7 9 5 4 6 1 8 3 2 
-5 1 9 2 8 6 4 7 3 
-4 7 2 3 1 9 5 6 8 
-8 6 3 7 4 5 2 1 9 
-
-Solved in Iterations=88178563
-
-Seconds to process 9.231
+Seconds to process 0.004
+        0.36 real         0.81 user         0.06 sys
+           103071744  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               12473  page reclaims
+                  10  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  96  voluntary context switches
+                3532  involuntary context switches
+            15829137  instructions retired
+             8446474  cycles elapsed
+             1179912  peak memory footprint

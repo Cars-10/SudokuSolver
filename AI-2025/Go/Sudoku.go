@@ -128,5 +128,5 @@ func main() {
 			solve()
 		}
 	}
-	fmt.Printf("Seconds to process %.3f\n", float64((time.Now().UnixNano()-start.UnixNano())/1000000000))
+	fmt.Printf("Seconds to process %.5f\n", time.Since(start).Seconds())
 }

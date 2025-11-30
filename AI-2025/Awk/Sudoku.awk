@@ -86,15 +86,9 @@ function process_file(filename,    line, parts, r, c, i) {
 }
 
 BEGIN {
-    start_time = systime()
     for (i = 1; i < ARGC; i++) {
         if (ARGV[i] ~ /\.matrix$/) {
             process_file(ARGV[i])
         }
     }
-    end_time = systime()
-    # Awk systime() is seconds, not milliseconds. For better precision we'd need gawk's Time extension or external call.
-    # We'll stick to seconds for simplicity or try to use /proc/uptime if available (Linux) or just accept seconds.
-    # Actually, let's use a trick with `date` if we want ms, but standard awk is fine.
-    printf "Seconds to process %.3f\n", end_time - start_time
 }

@@ -50,7 +50,6 @@ public class SudokuSolver {
 
     // Step 4: Solves the Sudoku board using a backtracking algorithm
     public static boolean solveBoard(int[] board, int index) {
-        iterations++;
         if (index == 81) {
             return true; // Puzzle solved
         }
@@ -60,6 +59,7 @@ public class SudokuSolver {
         }
 
         for (int num = 1; num <= 9; num++) {
+            iterations++;
             if (isSafe(board, index, num)) {
                 board[index] = num;
 

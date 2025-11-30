@@ -1,5 +1,3 @@
-#!/bin/zsh
-cd "$(dirname $0:A)"
-a=$(grep process AI-2025/*/run.txt | tr ":" "\t")
-a=${a// to process/}
-echo ${a//\/run.txt/}
+#!/bin/bash
+cd "$(dirname "$0")"
+python3 generate_report.py

@@ -1,3 +1,6 @@
-#!/bin/zsh
-cd "$(dirname $0:A)"
-time python3 -u Sudoku.py ../Matrices/*.matrix | tee run.txt
+#!/bin/bash
+cd "$(dirname "$0")"
+
+# Run the Python solver
+# Assuming python3 is available
+python3 Sudoku.py ../Matrices/*.matrix

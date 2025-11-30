@@ -1,359 +1,361 @@
-; Sudoku Solver in x86_64 NASM for macOS
-; Links with C library for I/O
+; Sudoku Solver in NASM x86_64 Assembly for macOS
+; Uses libc functions for I/O
 
 global _main
 extern _printf, _fopen, _fscanf, _fclose, _exit
 
+default rel
+
 section .data
     fmt_str db "%s", 0
     fmt_int db "%d", 0
-    fmt_space db "%d ", 0
+    fmt_int_out db "%d ", 0
     fmt_newline db 10, 0
-    fmt_puzzle db "Puzzle:", 10, 0
+    fmt_puzzle_header db 10, "Puzzle:", 10, 0
     fmt_solved db 10, "Solved in Iterations=%d", 10, 10, 0
-    fmt_nosol db "No solution found", 10, 0
-    fmt_time db "Seconds to process 0.000", 10, 0 ; Placeholder for time
     mode_r db "r", 0
     
+    ; 9x9 grid of 32-bit integers
     puzzle times 81 dd 0
     count dd 0
-    
+
 section .bss
     file_handle resq 1
-    val_temp resd 1
+    temp_int resd 1
 
 section .text
 
 _main:
     push rbp
     mov rbp, rsp
-    sub rsp, 16
-    
-    ; argc in rdi, argv in rsi
-    mov r12, rdi ; argc
-    mov r13, rsi ; argv
-    
-    ; Loop through args
-    mov r14, 1 ; index
-    
-.loop_args:
-    cmp r14, r12
-    jge .end_main
-    
-    mov rdi, [r13 + r14*8] ; argv[i]
-    call _process_file
-    
-    inc r14
-    jmp .loop_args
-    
-.end_main:
-    xor eax, eax
-    leave
-    ret
+    sub rsp, 16  ; Align stack
 
-_process_file:
-    push rbp
-    mov rbp, rsp
-    push rbx
-    push r12
-    push r13
-    
-    mov rbx, rdi ; filename
-    
-    ; Print filename
-    mov rdi, fmt_str
-    mov rsi, rbx
-    xor eax, eax
-    call _printf
-    
-    mov rdi, fmt_newline
-    xor eax, eax
-    call _printf
+    ; Check argc (rdi)
+    cmp rdi, 2
+    jl .exit_error
+
+    ; Get filename from argv[1] (rsi points to argv array)
+    mov rdi, [rsi + 8] ; argv[1]
     
     ; Open file
-    mov rdi, rbx
-    mov rsi, mode_r
+    lea rsi, [mode_r]
     call _fopen
     test rax, rax
-    jz .ret
-    mov [file_handle], rax
+    jz .exit_error
     
-    ; Read file
-    xor r12, r12 ; index 0..80
+    ; Store file handle
+    lea rbx, [file_handle]
+    mov [rbx], rax
+
+    ; Read puzzle
+    mov r12, 0 ; loop counter (0 to 80)
 .read_loop:
     cmp r12, 81
     jge .read_done
+
+    lea rbx, [file_handle]
+    mov rdi, [rbx]
+    lea rsi, [fmt_int] ; "%d " works for input too
     
-    mov rdi, [file_handle]
-    mov rsi, fmt_int
-    mov rdx, val_temp
-    xor eax, eax
+    ; Calculate address of puzzle[r12]
+    lea rdx, [puzzle]
+    lea rdx, [rdx + r12*4]
+    
+    xor rax, rax
     call _fscanf
-    
-    cmp eax, 1
-    jne .read_skip ; Skip if failed (e.g. comments/whitespace handled by fscanf?)
-                   ; Actually fscanf handles whitespace but not # comments easily.
-                   ; We assume input is pre-cleaned or simple.
-                   ; For robustness, we should rely on the wrapper script to clean input.
-    
-    mov eax, [val_temp]
-    mov [puzzle + r12*4], eax
+
     inc r12
-    jmp .read_loop
-    
-.read_skip:
-    ; If fscanf failed, maybe EOF or bad input. 
-    ; In a real solver we'd handle this better.
-    ; For now, assume wrapper cleans it.
     jmp .read_loop
 
 .read_done:
-    mov rdi, [file_handle]
+    lea rbx, [file_handle]
+    mov rdi, [rbx]
     call _fclose
-    
-    call _print_puzzle
-    
-    mov dword [count], 0
-    call _solve
-    test eax, eax
-    jz .not_solved
-    
-    call _print_puzzle
-    mov rdi, fmt_solved
-    mov esi, [count]
-    xor eax, eax
+
+    ; Print initial puzzle
+    lea rdi, [fmt_str]
+    lea rsi, [fmt_puzzle_header]
+    xor rax, rax
     call _printf
-    jmp .ret
     
-.not_solved:
-    mov rdi, fmt_nosol
-    xor eax, eax
+    call print_puzzle
+
+    ; Solve
+    lea rbx, [count]
+    mov dword [rbx], 0
+    
+    mov rdi, 0 ; index 0
+    call solve
+
+    ; Print result
+    test rax, rax
+    jz .no_solution
+
+    call print_puzzle
+    
+    lea rdi, [fmt_solved]
+    lea rbx, [count]
+    mov esi, [rbx]
+    xor rax, rax
     call _printf
 
-.ret:
-    pop r13
-    pop r12
-    pop rbx
-    leave
-    ret
+.exit:
+    xor rdi, rdi
+    call _exit
 
-_print_puzzle:
+.no_solution:
+    ; Just exit if no solution (or print something if needed)
+    jmp .exit
+
+.exit_error:
+    mov rdi, 1
+    call _exit
+
+; ---------------------------------------------------------
+; print_puzzle
+; Prints the 9x9 grid
+print_puzzle:
     push rbp
     mov rbp, rsp
     push r12
     push r13
-    
-    mov rdi, fmt_puzzle
-    xor eax, eax
-    call _printf
-    
-    xor r12, r12 ; row
-.p_row:
+    sub rsp, 8 ; Align
+
+    mov r12, 0 ; row
+.pp_row:
     cmp r12, 9
-    jge .p_done
-    
-    xor r13, r13 ; col
-.p_col:
+    jge .pp_done
+
+    mov r13, 0 ; col
+.pp_col:
     cmp r13, 9
-    jge .p_row_done
-    
-    ; index = r12*9 + r13
+    jge .pp_row_done
+
+    ; Calculate index: r12*9 + r13
     mov rax, r12
     imul rax, 9
     add rax, r13
     
-    mov rdi, fmt_space
-    mov esi, [puzzle + rax*4]
-    xor eax, eax
-    call _printf
+    lea rdi, [fmt_int_out]
     
+    lea rdx, [puzzle]
+    mov esi, [rdx + rax*4]
+    
+    xor rax, rax
+    call _printf
+
     inc r13
-    jmp .p_col
-    
-.p_row_done:
-    mov rdi, fmt_newline
-    xor eax, eax
+    jmp .pp_col
+
+.pp_row_done:
+    lea rdi, [fmt_str]
+    lea rsi, [fmt_newline]
+    xor rax, rax
     call _printf
+
     inc r12
-    jmp .p_row
-    
-.p_done:
+    jmp .pp_row
+
+.pp_done:
+    add rsp, 8
     pop r13
     pop r12
-    leave
+    pop rbp
     ret
 
-_is_possible:
-    ; rdi = r, rsi = c, rdx = val
+; ---------------------------------------------------------
+; is_possible(index, val)
+; rdi: index (0-80)
+; rsi: val (1-9)
+; Returns 1 (true) or 0 (false) in rax
+is_possible:
     push rbp
     mov rbp, rsp
     
-    mov r8, rdi ; r
-    mov r9, rsi ; c
-    mov r10, rdx ; val
-    
-    ; Check Row
-    xor rcx, rcx
+    ; Calculate row = index / 9, col = index % 9
+    mov rax, rdi
+    xor rdx, rdx
+    mov rcx, 9
+    div rcx
+    mov r8, rax ; row
+    mov r9, rdx ; col
+    mov r10, rsi ; val
+
+    ; Check row
+    mov rcx, 0
 .check_row:
     cmp rcx, 9
-    jge .check_col_start
+    jge .row_ok
     
-    ; puzzle[r*9 + rcx]
+    ; puzzle[row*9 + rcx]
     mov rax, r8
     imul rax, 9
     add rax, rcx
-    cmp [puzzle + rax*4], r10d
+    
+    lea rdx, [puzzle]
+    cmp [rdx + rax*4], r10d
     je .false
     
     inc rcx
     jmp .check_row
 
-.check_col_start:
-    xor rcx, rcx
+.row_ok:
+    ; Check col
+    mov rcx, 0
 .check_col:
     cmp rcx, 9
-    jge .check_box_start
+    jge .col_ok
     
-    ; puzzle[rcx*9 + c]
+    ; puzzle[rcx*9 + col]
     mov rax, rcx
     imul rax, 9
     add rax, r9
-    cmp [puzzle + rax*4], r10d
+    
+    lea rdx, [puzzle]
+    cmp [rdx + rax*4], r10d
     je .false
     
     inc rcx
     jmp .check_col
 
-.check_box_start:
-    ; r0 = (r/3)*3
+.col_ok:
+    ; Check 3x3 box
+    ; r0 = (row / 3) * 3
     mov rax, r8
     xor rdx, rdx
-    mov rbx, 3
-    div rbx
+    mov rcx, 3
+    div rcx
     imul rax, 3
     mov r11, rax ; r0
-    
-    ; c0 = (c/3)*3
+
+    ; c0 = (col / 3) * 3
     mov rax, r9
     xor rdx, rdx
-    mov rbx, 3
-    div rbx
+    mov rcx, 3
+    div rcx
     imul rax, 3
-    mov rbx, rax ; c0 (reuse rbx)
-    
-    xor rcx, rcx ; i
+    mov rbx, rax ; c0 (save in rbx, need to preserve?)
+    ; rbx is callee-saved, so push/pop if used. But I can use volatile regs.
+    ; Let's use rcx for c0
+    mov rcx, rax ; c0
+
+    mov rdx, 0 ; i
 .box_i:
-    cmp rcx, 3
-    jge .true
-    
-    xor rdx, rdx ; j
-.box_j:
     cmp rdx, 3
-    jge .box_i_next
-    
+    jge .true
+
+    mov rax, 0 ; j
+.box_j:
+    cmp rax, 3
+    jge .box_next_i
+
     ; puzzle[(r0+i)*9 + (c0+j)]
-    mov rax, r11
-    add rax, rcx
-    imul rax, 9
-    add rax, rbx
-    add rax, rdx
+    mov rsi, r11
+    add rsi, rdx ; r0+i
+    imul rsi, 9
+    add rsi, rcx ; +c0
+    add rsi, rax ; +j
     
-    cmp [puzzle + rax*4], r10d
+    lea rdi, [puzzle] ; use rdi as temp
+    cmp [rdi + rsi*4], r10d
     je .false
-    
-    inc rdx
+
+    inc rax
     jmp .box_j
-    
-.box_i_next:
-    inc rcx
+
+.box_next_i:
+    inc rdx
     jmp .box_i
 
 .true:
-    mov eax, 1
-    leave
-    ret
-.false:
-    xor eax, eax
-    leave
+    mov rax, 1
+    pop rbp
     ret
 
-_solve:
+.false:
+    xor rax, rax
+    pop rbp
+    ret
+
+; ---------------------------------------------------------
+; solve(index)
+; rdi: index (0-80)
+; Returns 1 (found) or 0 (not found)
+solve:
     push rbp
     mov rbp, rsp
-    push rbx
     push r12
     push r13
-    push r14
-    
-    ; Find empty
-    xor r12, r12 ; r
-.find_r:
-    cmp r12, 9
-    jge .solved
-    
-    xor r13, r13 ; c
-.find_c:
-    cmp r13, 9
-    jge .find_r_next
-    
-    ; if puzzle[r*9+c] == 0
-    mov rax, r12
-    imul rax, 9
-    add rax, r13
-    mov rbx, rax ; index
-    
-    cmp dword [puzzle + rbx*4], 0
-    je .found_empty
-    
-    inc r13
-    jmp .find_c
-    
-.find_r_next:
-    inc r12
-    jmp .find_r
+    sub rsp, 16 ; Align
 
-.found_empty:
-    ; r12=r, r13=c, rbx=index
-    mov r14, 1 ; val
+    mov r12, rdi ; index
+
+    ; If index == 81, solved
+    cmp r12, 81
+    je .solve_true
+
+    ; If puzzle[index] != 0, skip
+    lea rdx, [puzzle]
+    cmp dword [rdx + r12*4], 0
+    jne .skip
+
+    ; Try values 1-9
+    mov r13, 1 ; val
 .try_loop:
-    cmp r14, 9
-    jg .backtrack
-    
-    inc dword [count]
-    
+    cmp r13, 9
+    jg .solve_false
+
+    ; Increment count
+    lea rdx, [count]
+    inc dword [rdx]
+
+    ; Check is_possible(index, val)
     mov rdi, r12
     mov rsi, r13
-    mov rdx, r14
-    call _is_possible
-    test eax, eax
-    jz .try_next
-    
-    mov [puzzle + rbx*4], r14d
-    call _solve
-    test eax, eax
+    call is_possible
+    test rax, rax
+    jz .next_val
+
+    ; puzzle[index] = val
+    lea rdx, [puzzle]
+    mov [rdx + r12*4], r13d
+
+    ; Recurse solve(index + 1)
+    mov rdi, r12
+    inc rdi
+    call solve
+    test rax, rax
     jnz .return_true
-    
-    mov dword [puzzle + rbx*4], 0
-    
-.try_next:
-    inc r14
+
+    ; Backtrack
+    lea rdx, [puzzle]
+    mov dword [rdx + r12*4], 0
+
+.next_val:
+    inc r13
     jmp .try_loop
 
-.backtrack:
-    xor eax, eax
-    jmp .ret
+.skip:
+    ; solve(index + 1)
+    mov rdi, r12
+    inc rdi
+    call solve
+    jmp .return
 
-.solved:
-    mov eax, 1
-    jmp .ret
+.solve_true:
+    mov rax, 1
+    jmp .return
 
 .return_true:
-    mov eax, 1
+    mov rax, 1
+    jmp .return
 
-.ret:
-    pop r14
+.solve_false:
+    xor rax, rax
+
+.return:
+    add rsp, 16
     pop r13
     pop r12
-    pop rbx
-    leave
+    pop rbp
     ret

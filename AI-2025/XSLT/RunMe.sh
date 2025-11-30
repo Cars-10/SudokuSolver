@@ -10,10 +10,10 @@ for file in ../Matrices/*.matrix; do
     echo "</puzzle>" >> temp.xml
     
     start=$(date +%s.%N)
-    xsltproc Sudoku.xslt temp.xml
+    xsltproc  Sudoku.xslt temp.xml
     end=$(date +%s.%N)
     
     dt=$(echo "$end - $start" | bc)
     printf "Seconds to process %.3f\n" "$dt"
 done
-rm temp.xml
+#rm temp.xml

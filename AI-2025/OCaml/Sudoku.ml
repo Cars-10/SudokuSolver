@@ -60,10 +60,12 @@ let solve_board matrix =
       let rec try_num n count =
         if n = 10 then
           (false, count)
-        else if is_valid n i then
+        else
+          let count = count + 1 in
+          if is_valid n i then
           begin
             matrix.(i) <- n;
-            let (solved, count) = backtrack (i + 1) (count + 1) in
+            let (solved, count) = backtrack (i + 1) count in
             if solved then
               (true, count)
             else

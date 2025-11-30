@@ -10,8 +10,8 @@ for file in ../Matrices/*.matrix; do
     m4 Sudoku.m4 > temp.c
     # Compile
     gcc -o Sudoku temp.c
-    # Run (it's a placeholder, so we just run it)
-    ./Sudoku
+    # Run
+    ./Sudoku "$file"
     # In a real metaprogramming solver, we would embed the puzzle in the m4 macro
     # and the C code would solve THAT puzzle.
     # For now, we demonstrate the M4 build step.

@@ -46,9 +46,9 @@ function solveSudoku(&$board, &$iterations) {
         for ($col = 0; $col < 9; $col++) {
             if ($board[$row * 9 + $col] == 0) {
                 for ($num = 1; $num <= 9; $num++) {
+                    $iterations++;
                     if (isValidPlacement($board, $row, $col, $num)) {
                         $board[$row * 9 + $col] = $num;
-                        $iterations++;
                         if (solveSudoku($board, $iterations)) {
                             return true;
                         }
