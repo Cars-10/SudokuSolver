@@ -49,3 +49,4 @@ snapshots/
 # Node dependencies and artifacts
 Metrics/node_modules/
 Metrics/screenshots/
+Metrics/screenshots

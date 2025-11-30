@@ -8,7 +8,8 @@ echo "[" > "$METRICS_FILE"
 first=true
 
 # Iterate over matrix files
-for matrix in ../../Matrices/*.matrix; do
+PATTERN="${1:-../../Matrices/*.matrix}"
+for matrix in $PATTERN; do
     if [ "$first" = true ]; then
         first=false
     else
