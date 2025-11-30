@@ -359,7 +359,7 @@ async function runSolver(scriptPath: string): Promise<SolverMetrics | null> {
     console.log(`Running solver: ${solverName}`);
 
     try {
-        const { stdout, stderr } = await execPromise(`./runMe_ai.sh`, { cwd: solverDir });
+        const { stdout, stderr } = await execPromise(`./runMe_ai.sh "../../Matrices/[12].matrix"`, { cwd: solverDir });
 
         try {
             const results = JSON.parse(stdout);
@@ -1114,13 +1114,11 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                     let content = "";
                     
                     if (cellIndex === 0) {
-                        // Language Cell -> Show Metadata
-                        const meta = languageMetadata[lang];
-                        if (meta) {
+                        // Language Cell -> Show History
+                        const history = row.getAttribute('data-history');
+                        if (history) {
                             content = '<strong style="color: var(--primary)">' + lang + '</strong><br>' +
-                                '<span style="color: var(--secondary)">' + meta.creator + ' (' + meta.date + ')</span><br>' +
-                                '<hr style="border: 0; border-bottom: 1px solid var(--border); margin: 5px 0;">' +
-                                '<div style="max-width: 250px; white-space: normal;">' + meta.description + '</div>';
+                                '<div style="max-width: 250px; white-space: normal; margin-top: 5px;">' + history + '</div>';
                         }
                     } else if (cellIndex >= 2 && cellIndex < 2 + maxMatrices) {
                         // Matrix Cell -> Detailed Metrics
@@ -1142,8 +1140,8 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                         } else {
                             content = row.getAttribute('data-quote');
                         }
-                    } else {
-                        // Score Cell, Total Time, etc. -> Show Narrator Quote
+                    } else if (cellIndex === 1) {
+                        // Score Cell -> Show Narrator Quote
                         content = row.getAttribute('data-quote');
                     }
 
