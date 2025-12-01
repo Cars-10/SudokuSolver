@@ -1,40 +1,73 @@
-% Sudoku Solver in Prolog
-% Uses constraint logic programming
+% Sudoku Solver in Prolog (Explicit Backtracking)
+% Matches C algorithm for benchmarking
 
-:- use_module(library(clpfd)).
-
-% Global counter for iterations
 :- dynamic iteration_count/1.
 
-sudoku(Rows) :-
+% Main entry point
+sudoku(Rows, SolvedRows) :-
     retractall(iteration_count(_)),
     assert(iteration_count(0)),
-    length(Rows, 9), maplist(same_length(Rows), Rows),
-    append(Rows, Vs), Vs ins 1..9,
-    maplist(all_distinct, Rows),
-    transpose(Rows, Columns),
-    maplist(all_distinct, Columns),
-    Rows = [As,Bs,Cs,Ds,Es,Fs,Gs,Hs,Is],
-    blocks(As, Bs, Cs),
-    blocks(Ds, Es, Fs),
-    blocks(Gs, Hs, Is).
+    solve(Rows, SolvedRows).
 
-blocks([], [], []).
-blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
-    all_distinct([N1,N2,N3,N4,N5,N6,N7,N8,N9]),
-    blocks(Ns1, Ns2, Ns3).
+% Solve: Find empty cell, try numbers, recurse
+solve(Rows, SolvedRows) :-
+    find_empty(Rows, RowIdx, ColIdx),
+    !, % Found an empty cell, commit to it
+    between(1, 9, Num),
+    increment_counter,
+    is_valid(Rows, RowIdx, ColIdx, Num),
+    replace_in_matrix(Rows, RowIdx, ColIdx, Num, NewRows),
+    solve(NewRows, SolvedRows).
+solve(Rows, Rows). % No empty cells, solved! Return current board.
 
-% Custom labeling that counts iterations
-label_sudoku([]).
-label_sudoku([V|Vs]) :-
-    (   var(V)
-    ->  (   between(1, 9, V),
-            increment_counter,
-            label_sudoku(Vs)
-        )
-    ;   label_sudoku(Vs)
-    ).
+% Find first empty cell (0)
+% Returns 0-based indices
+find_empty(Rows, RowIdx, ColIdx) :-
+    nth0(RowIdx, Rows, Row),
+    nth0(ColIdx, Row, 0),
+    !.
 
+% Check if placing Num at (RowIdx, ColIdx) is valid
+is_valid(Rows, RowIdx, ColIdx, Num) :-
+    % Row check
+    nth0(RowIdx, Rows, Row),
+    \+ member(Num, Row),
+    
+    % Column check
+    check_col(Rows, ColIdx, Num),
+    
+    % Box check
+    BoxRowStart is (RowIdx // 3) * 3,
+    BoxColStart is (ColIdx // 3) * 3,
+    check_box(Rows, BoxRowStart, BoxColStart, Num).
+
+% Check column
+check_col([], _, _).
+check_col([Row|Rows], ColIdx, Num) :-
+    nth0(ColIdx, Row, Val),
+    Val \= Num,
+    check_col(Rows, ColIdx, Num).
+
+% Check 3x3 box
+check_box(Rows, StartRow, StartCol, Num) :-
+    between(0, 2, R),
+    between(0, 2, C),
+    RIdx is StartRow + R,
+    CIdx is StartCol + C,
+    nth0(RIdx, Rows, Row),
+    nth0(CIdx, Row, Val),
+    Val = Num,
+    !, fail.
+check_box(_, _, _, _).
+
+% Replace value in matrix (non-destructive, creates new matrix)
+replace_in_matrix(Rows, RowIdx, ColIdx, Val, NewRows) :-
+    nth0(RowIdx, Rows, Row, RestRows),
+    nth0(ColIdx, Row, _, RestRow),
+    nth0(ColIdx, NewRow, Val, RestRow),
+    nth0(RowIdx, NewRows, NewRow, RestRows).
+
+% Counter
 increment_counter :-
     retract(iteration_count(N)),
     N1 is N + 1,
@@ -46,16 +79,23 @@ read_matrix(File, Rows) :-
     read_lines(Stream, Rows),
     close(Stream).
 
-read_lines(Stream, []) :-
-    at_end_of_stream(Stream), !.
-read_lines(Stream, [Row|Rows]) :-
-    \+ at_end_of_stream(Stream),
+read_lines(Stream, Rows) :-
     read_line_to_string(Stream, String),
-    (   string_chars(String, [C|_]), C \= '#'
-    ->  split_string(String, " ", " ", Parts),
-        maplist(number_string, Row, Parts),
-        read_lines(Stream, Rows)
-    ;   read_lines(Stream, [Row|Rows])
+    (   String == end_of_file
+    ->  Rows = []
+    ;   string_codes(String, Codes),
+        (   Codes = []
+        ->  read_lines(Stream, Rows)
+        ;   Codes = [35|_] % 35 is '#'
+        ->  read_lines(Stream, Rows)
+        ;   split_string(String, " ", " ", Parts),
+            (   Parts = []
+            ->  read_lines(Stream, Rows)
+            ;   maplist(number_string, Row, Parts),
+                Rows = [Row|Rest],
+                read_lines(Stream, Rest)
+            )
+        )
     ).
 
 % Print puzzle
@@ -82,11 +122,11 @@ main :-
     read_matrix(File, Rows),
     writeln('Puzzle:'),
     print_puzzle(Rows),
-    sudoku(Rows),
-    append(Rows, Vs),
-    label_sudoku(Vs),
-    writeln('Puzzle:'),
-    print_puzzle(Rows),
-    iteration_count(Count),
-    format('Solved in Iterations=~w~n', [Count]),
+    (   sudoku(Rows, SolvedRows)
+    ->  writeln('Puzzle:'),
+        print_puzzle(SolvedRows),
+        iteration_count(Count),
+        format('Solved in Iterations=~w~n', [Count])
+    ;   writeln('No solution found.')
+    ),
     halt(0).
