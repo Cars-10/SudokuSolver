@@ -12,10 +12,10 @@ function readMatrixFile!(filename::AbstractString, puzzle)
     open(filename) do f
         j=1
         for (i, line) in enumerate(eachline(f))
-            if !startswith(line,"#")
+            if !startswith(line,"#") && !isempty(strip(line))
                 # print("Line $i: $line\n")
                 puzzle[j,1],puzzle[j,2],puzzle[j,3],puzzle[j,4],puzzle[j,5],puzzle[j,6],
-                puzzle[j,7],puzzle[j,8],puzzle[j,9]=map((x) -> parse(Int,x),split(line, " "))
+                puzzle[j,7],puzzle[j,8],puzzle[j,9]=map((x) -> parse(Int,x),split(line))
                 j += 1
             end
         end

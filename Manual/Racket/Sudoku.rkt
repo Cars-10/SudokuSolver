@@ -1,5 +1,4 @@
-;#lang racket
-#lang typed/racket/no-check
+#lang racket
 (require racket/function)
 (require math/array)
 (define start (current-milliseconds))
@@ -33,7 +32,7 @@
             (thunk 
                 (for ([line (in-lines)])
                     (define i 0)
-                    (unless (string-prefix? line "#")
+                    (unless (or (string-prefix? line "#") (equal? (string-trim line) ""))
                         (for-each (lambda (arg) 
                             ;(displayln (string-append "j,i,arg: " (~r j) "," (~r i) "," (~a arg)))
                             (array-set! puzzle (list->vector (list j i)) (string->number arg))

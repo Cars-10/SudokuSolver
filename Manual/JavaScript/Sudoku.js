@@ -29,13 +29,16 @@ function readMatrixFile(filename) {
     if (DEBUG == 3) console.log('Read File Contents');
     var lines = data.split('\n');
     for (i = 0 ; i < lines.length; i++) {
+        if (lines[i].trim().length === 0) continue;
         if (DEBUG == 3) console.log('lines substring %s',lines[i].substring(0,1));
         if (lines[i].substring(0,1).localeCompare('#') != 0) {
-            var entries = lines[i].split(' ');
+            var entries = lines[i].trim().split(/\s+/);
             if (DEBUG == 3) console.log('line %s',lines[i]);
             for (var j = 0 ; j < entries.length; j++) {
                 if (DEBUG == 3) console.log('Entries %d, %s',j,entries[j]);
-                puzzle[line_count][j] = parseInt(entries[j]);
+                if (line_count < 9 && j < 9) {
+                    puzzle[line_count][j] = parseInt(entries[j]);
+                }
             }
             line_count++;
         }

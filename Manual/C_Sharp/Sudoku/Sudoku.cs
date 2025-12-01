@@ -11,20 +11,23 @@ namespace Sudoku
     public static int DEBUG = 0; //0 off, 1 High Level, 3 Low Level
     static int readMatrixFile(string filename) {
         if (!File.Exists(filename))  {
-            Console.WriteLine("File foes not exist: {0}", filename); 
+            Console.WriteLine("File does not exist: {0}", filename); 
             return 1;
         }
     
         string[] lines = System.IO.File.ReadAllLines(filename);
         int i = 0; 
         foreach (string line in lines) {
+            if (string.IsNullOrWhiteSpace(line)) continue;
             if (!line.StartsWith("#")) {
                 int j = 0;
-                foreach (string val in line.Split(" ")) {
-                    puzzle[i,j] = int.Parse(val);
-                    j++;
+                foreach (string val in line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)) {
+                    if (j < 9 && i < 9) {
+                        puzzle[i,j] = int.Parse(val);
+                        j++;
+                    }
                 }
-            i++;
+                i++;
             }
         }
         return 0;
@@ -92,7 +95,7 @@ namespace Sudoku
         foreach (string arg in arguments) {
             if (arg.EndsWith(".matrix")) {
                 Console.WriteLine("File: {0}", arg);
-                readMatrixFile(arg);
+                if (readMatrixFile(arg) != 0) return;
                 printPuzzle(); 
                 count = 0;
                 solve();
