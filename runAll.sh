@@ -44,6 +44,10 @@ fi
 # Convert newline separated string to array for iteration
 echo "$solvers" | while read -r solver; do
     dir="AI-2025/$solver"
+    if [ "$solver" = "Racket" ]; then
+        echo "Skipping Racket (too slow)"
+        continue
+    fi
     if [ -d "$dir" ] && [ "$solver" != "Matrices" ] && [ "$solver" != "Matrices_Backup" ]; then
         run_script="$dir/RunMe.sh"
         

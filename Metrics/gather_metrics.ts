@@ -355,7 +355,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Aho, Weinberger, Kernighan",
         "date": "1977",
         "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Using Ritchie as proxy for Bell Labs team
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Alfred_Aho.jpg/440px-Alfred_Aho.jpg", // Alfred Aho
         "location": "Bell Labs, USA",
         "benefits": "Excellent for text processing, one-liners, and data extraction."
     },
@@ -371,7 +371,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
         "date": "1964",
         "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2e/John_G._Kemeny.jpg/220px-John_G._Kemeny.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance."
     },
@@ -397,7 +397,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Anders Hejlsberg",
         "date": "2000",
         "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anders_Hejlsberg_at_PDC2008.jpg/440px-Anders_Hejlsberg_at_PDC2008.jpg",
+        "image": "https://github.com/ahejlsberg.png",
         "location": "Microsoft, USA",
         "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
     },
@@ -421,7 +421,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Jeremy Ashkenas",
         "date": "2009",
         "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Jeremy_Ashkenas_at_JSConf_2012.jpg/440px-Jeremy_Ashkenas_at_JSConf_2012.jpg",
+        "image": "https://github.com/jashkenas.png",
         "location": "USA",
         "benefits": "Concise syntax, readability, compiles to clean JavaScript."
     },
@@ -437,7 +437,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Ary Borenszweig",
         "date": "2014",
         "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Crystal_logo.svg/1200px-Crystal_logo.svg.png",
+        "image": "https://github.com/asterite.png",
         "location": "Argentina",
         "benefits": "Ruby-like syntax, C-like performance, static typing."
     },
@@ -445,7 +445,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Walter Bright",
         "date": "2001",
         "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Walter_Bright_2018.jpg/440px-Walter_Bright_2018.jpg",
+        "image": "https://github.com/WalterBright.png",
         "location": "Digital Mars, USA",
         "benefits": "System programming, performance, safety, metaprogramming."
     },
@@ -461,7 +461,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "José Valim",
         "date": "2011",
         "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Jose_valim_elixir_conf_2018.jpg/440px-Jose_valim_elixir_conf_2018.jpg",
+        "image": "https://github.com/josevalim.png",
         "location": "Plataformatec, Brazil",
         "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax."
     },
@@ -477,7 +477,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Don Syme",
         "date": "2005",
         "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Don_Syme_2010.jpg/440px-Don_Syme_2010.jpg",
+        "image": "https://github.com/dsyme.png",
         "location": "Microsoft Research, UK",
         "benefits": "Functional-first, .NET integration, type inference, concise."
     },
@@ -493,7 +493,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
         "date": "2009",
         "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png",
+        "image": "https://github.com/robpike.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/64px-Go_Logo_Blue.svg.png",
         "location": "Google, USA",
         "benefits": "Simplicity, concurrency, fast compilation, static typing."
@@ -502,7 +502,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "James Strachan",
         "date": "2003",
         "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Groovy-logo.svg/1200px-Groovy-logo.svg.png",
+        "image": "https://github.com/jstrachan.png",
         "location": "USA",
         "benefits": "Java compatibility, scripting, dynamic features, DSLs."
     },
@@ -536,7 +536,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
         "date": "2012",
         "description": "A high-level, high-performance, dynamic programming language for technical computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Julia_Programming_Language_Logo.svg/1200px-Julia_Programming_Language_Logo.svg.png",
+        "image": "https://github.com/JeffBezanson.png",
         "location": "MIT, USA",
         "benefits": "High performance, numerical computing, ease of use."
     },
@@ -561,7 +561,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Andreas Rumpf",
         "date": "2008",
         "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Nim_logo_2012.svg/1200px-Nim_logo_2012.svg.png",
+        "image": "https://github.com/Araq.png",
         "location": "Germany",
         "benefits": "Performance, expressiveness, metaprogramming, C compilation."
     },
@@ -569,7 +569,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Xavier Leroy et al.",
         "date": "1996",
         "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/OCaml_Logo.svg/1200px-OCaml_Logo.svg.png",
+        "image": "https://github.com/xavierleroy.png",
         "location": "INRIA, France",
         "benefits": "Functional, type safety, performance, industrial strength."
     },
@@ -577,7 +577,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "John W. Eaton",
         "date": "1988",
         "description": "A high-level language, primarily intended for numerical computations.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Gnu-octave-logo.svg/1200px-Gnu-octave-logo.svg.png",
+        "image": "https://github.com/jwe.png",
         "location": "USA",
         "benefits": "Numerical computation, MATLAB compatibility, free software."
     },
@@ -593,7 +593,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Larry Wall",
         "date": "1987",
         "description": "A family of two high-level, general-purpose, interpreted, dynamic programming languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Larry_Wall_YAPC_2007.jpg/440px-Larry_Wall_YAPC_2007.jpg",
+        "image": "https://github.com/TimToady.png",
         "location": "USA",
         "benefits": "Text processing, scripting, flexibility, CPAN."
     },
@@ -601,7 +601,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Rasmus Lerdorf",
         "date": "1995",
         "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Rasmus_Lerdorf_at_Wikipedia_10.jpg",
+        "image": "https://github.com/rlerdorf.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/64px-PHP-logo.svg.png",
         "location": "Canada",
         "benefits": "Web development, ease of deployment, vast ecosystem."
@@ -651,7 +651,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Matthew Flatt",
         "date": "1995",
         "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Racket-logo.svg/1200px-Racket-logo.svg.png",
+        "image": "https://github.com/mflatt.png",
         "location": "Rice University, USA",
         "benefits": "Language creation, education, macros, functional."
     },
@@ -667,7 +667,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Yukihiro Matsumoto",
         "date": "1995",
         "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Yukihiro_Matsumoto.JPG",
+        "image": "https://github.com/matz.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/64px-Ruby_logo.svg.png",
         "location": "Japan",
         "benefits": "Developer happiness, web development, scripting, elegance."
@@ -676,7 +676,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Graydon Hoare",
         "date": "2010",
         "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
-        "image": "https://usesthis.com/images/interviews/graydon.hoare/portrait.jpg",
+        "image": "https://github.com/graydon.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Rust_programming_language_black_logo.svg/64px-Rust_programming_language_black_logo.svg.png",
         "location": "Mozilla, Canada",
         "benefits": "Memory safety, performance, concurrency, modern tooling."
@@ -685,7 +685,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Martin Odersky",
         "date": "2004",
         "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Martin_Odersky.jpg/440px-Martin_Odersky.jpg",
+        "image": "https://github.com/odersky.png",
         "location": "EPFL, Switzerland",
         "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
     },
@@ -701,7 +701,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Lee E. McMahon",
         "date": "1974",
         "description": "A stream editor for filtering and transforming text.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy image
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Lee_McMahon.jpg/220px-Lee_McMahon.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Stream editing, text transformation, automation."
     },
@@ -717,7 +717,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "David J. Farber, Ralph E. Griswold, Ivan P. Polonsky",
         "date": "1962",
         "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "image": "https://www2.cs.arizona.edu/people/griswold/reg.jpg",
         "location": "Bell Labs, USA",
         "benefits": "String manipulation, pattern matching, historical significance."
     },
@@ -733,7 +733,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Chris Lattner",
         "date": "2014",
         "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Chris_Lattner.jpg/440px-Chris_Lattner.jpg",
+        "image": "https://github.com/lattner.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/64px-Swift_logo.svg.png",
         "location": "Apple, USA",
         "benefits": "Safety, speed, modern syntax, Apple ecosystem."
@@ -750,7 +750,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Anders Hejlsberg",
         "date": "2012",
         "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anders_Hejlsberg_at_PDC2008.jpg/440px-Anders_Hejlsberg_at_PDC2008.jpg",
+        "image": "https://github.com/ahejlsberg.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/64px-Typescript_logo_2020.svg.png",
         "location": "Microsoft, USA",
         "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
@@ -759,7 +759,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Jürg Billeter, Rafał Pietrak",
         "date": "2006",
         "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Vala_logo.svg/1200px-Vala_logo.svg.png",
+        "image": "https://github.com/juergbi.png",
         "location": "GNOME Project",
         "benefits": "GObject system, C performance, modern syntax, GNOME dev."
     },
@@ -767,7 +767,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Phil Moorby",
         "date": "1984",
         "description": "A hardware description language (HDL) used to model electronic systems.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "image": "https://www.computerhistory.org/atchm/wp-content/uploads/2016/04/moorby-phil-2016-chm-fellow.jpg",
         "location": "Gateway Design Automation, USA",
         "benefits": "Hardware modeling, simulation, synthesis, industry standard."
     },
@@ -775,7 +775,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "US Department of Defense",
         "date": "1980",
         "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/VHDL_Logo.svg/1200px-VHDL_Logo.svg.png",
         "location": "USA",
         "benefits": "Hardware description, strong typing, concurrency, standard."
     },
@@ -783,15 +783,15 @@ const languageMetadata: Record<string, any> = {
         "creator": "Bram Moolenaar",
         "date": "1991",
         "description": "The scripting language of the Vim text editor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Vimlogo.svg/1200px-Vimlogo.svg.png",
+        "image": "https://github.com/brammool.png",
         "location": "Netherlands",
         "benefits": "Editor customization, automation, plugins."
     },
     "VisualBasic": {
-        "creator": "Microsoft",
+        "creator": "Microsoft (Alan Cooper)",
         "date": "1991",
         "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/VB.NET_Logo.svg/1200px-VB.NET_Logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
         "location": "Microsoft, USA",
         "benefits": "RAD, ease of use, Windows integration, legacy support."
     },
@@ -807,7 +807,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Andrew Kelley",
         "date": "2016",
         "description": "A general-purpose programming language and toolchain for maintaining robust, optimal and reusable software.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zig_logo.svg/1200px-Zig_logo.svg.png",
+        "image": "https://github.com/andrewrk.png",
         "location": "USA",
         "benefits": "Performance, safety, simplicity, C replacement."
     }
@@ -819,9 +819,10 @@ async function findSolvers(rootDir: string): Promise<string[]> {
     // Find all runMe_ai.sh files
     const pattern = path.join(rootDir, 'Manual', '*', 'runMe_ai.sh');
     console.log(`Searching for solvers with pattern: ${pattern}`);
-    const files = await glob(pattern);
-    console.log(`Found ${files.length} solvers:`, files);
-    return files;
+    const solvers = await glob(path.join(rootDir, 'Manual', '*/runMe_ai.sh'));
+    const filteredSolvers = solvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
+    console.log(`Found ${filteredSolvers.length} solvers (excluding Racket and Cobol):`, filteredSolvers);
+    return filteredSolvers;
 }
 
 async function runSolver(scriptPath: string): Promise<SolverMetrics | null> {
@@ -1379,6 +1380,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             Welcome to the Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
         <div class="controls">
+            <input type="text" id="search-input" class="btn" placeholder="Search Language..." onkeyup="filterLanguages()" style="cursor: text; width: 150px;">
             <select id="personality-selector" class="btn" onchange="changePersonality()">
                 <option value="Standard">Standard</option>
                 <option value="Neuromancer">Neuromancer</option>
@@ -1570,6 +1572,26 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             const methodologyTexts = ${JSON.stringify(methodologyTexts)};
             
             let currentSort = { metric: 'time', dir: 1 }; // 1 = Asc, -1 = Desc
+
+            // Search Logic
+            function filterLanguages() {
+                const input = document.getElementById('search-input');
+                const filter = input.value.toUpperCase();
+                const tbody = document.querySelector('tbody');
+                const rows = tbody.getElementsByTagName('tr');
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const lang = row.getAttribute('data-lang');
+                    if (lang) {
+                        if (lang.toUpperCase().indexOf(filter) > -1) {
+                            row.style.display = "";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    }
+                }
+            }
 
             // Sorting Logic
             function sortRows(metric, btn) {
