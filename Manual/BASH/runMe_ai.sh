@@ -35,7 +35,8 @@ for matrix in $PATTERN; do
     duration=$(echo "$end_time - $start_time" | bc | awk '{printf "%f", $0}')
     
     # Parse Iterations
-    iterations=$(grep "Solved in Iterations=" "$tmp_out" | cut -d'=' -f2)
+    # Parse Iterations
+    iterations=$(grep "Solved in Iterations=" "$tmp_out" | cut -d'=' -f2 | tr -d '[:space:]')
     if [ -z "$iterations" ]; then
         iterations=0
         status="fail"

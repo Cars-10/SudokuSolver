@@ -1,92 +1,109 @@
-(use-modules (ice-9 rdelim) (ice-9 format) (srfi srfi-1) (srfi srfi-13))
+#!/usr/bin/env guile
+!#
 
-(define puzzle (make-array 0 9 9))
-(define count 0)
+(use-modules (ice-9 rdelim)
+             (ice-9 format)
+             (ice-9 match))
 
-(define (print-puzzle)
-  (display "\nPuzzle:\n")
-  (do ((r 0 (+ r 1))) ((= r 9))
-    (do ((c 0 (+ c 1))) ((= c 9))
-      (display (array-ref puzzle r c))
-      (display " "))
-    (newline)))
+;; Global iteration counter
+(define iterations 0)
 
-(define (read-matrix-file filename)
-  (display filename) (newline)
-  (let ((port (open-input-file filename)))
-    (let loop ((r 0))
-      (if (< r 9)
+;; Read matrix from file
+(define (read-matrix filename)
+  (let ((port (open-input-file filename))
+        (board (make-vector 9)))
+    (let loop ((i 0))
+      (if (< i 9)
           (let ((line (read-line port)))
             (if (eof-object? line)
-                (close-port port)
-                (if (or (string-prefix? "#" line) (string-null? line))
-                    (loop r)
+                board
+                (if (or (string-null? line) (char=? (string-ref line 0) #\#))
+                    (loop i) ;; Skip comments/empty
                     (let ((parts (string-split line #\space)))
-                      (let ((valid-parts (filter (lambda (s) (not (string-null? s))) parts)))
-                        (if (= (length valid-parts) 9)
-                            (begin
-                              (do ((c 0 (+ c 1))) ((= c 9))
-                                (array-set! puzzle (string->number (list-ref valid-parts c)) r c))
-                              (loop (+ r 1)))
-                            (loop r)))))))))))
+                      (vector-set! board i 
+                                   (list->vector (map string->number 
+                                                      (filter (lambda (s) (not (string-null? s))) parts))))
+                      (loop (+ i 1))))))
+          (begin
+            (close-input-port port)
+            board)))))
 
-(define (is-possible r c val)
-  (let loop ((i 0))
-    (if (< i 9)
-        (if (or (= (array-ref puzzle i c) val)
-                (= (array-ref puzzle r i) val))
-            #f
-            (loop (+ i 1)))
-        (let ((r0 (* (quotient r 3) 3))
-              (c0 (* (quotient c 3) 3)))
-          (let loop-box ((i 0))
-            (if (< i 3)
-                (let loop-inner ((j 0))
-                  (if (< j 3)
-                      (if (= (array-ref puzzle (+ r0 i) (+ c0 j)) val)
-                          #f
-                          (loop-inner (+ j 1)))
-                      (loop-box (+ i 1))))
-                #t))))))
+;; Print board
+(define (print-board board)
+  (do ((i 0 (+ i 1)))
+      ((= i 9))
+    (do ((j 0 (+ j 1)))
+        ((= j 9))
+      (format #t " ~a " (vector-ref (vector-ref board i) j)))
+    (newline)))
 
-(define (solve)
-  (let loop-r ((r 0))
-    (if (< r 9)
-        (let loop-c ((c 0))
-          (if (< c 9)
-              (if (= (array-ref puzzle r c) 0)
-                  (let loop-val ((val 1))
-                    (if (<= val 9)
+;; Check validity
+(define (is-valid? board row col num)
+  (let ((valid #t))
+    ;; Row check
+    (do ((j 0 (+ j 1)))
+        ((= j 9))
+      (if (= (vector-ref (vector-ref board row) j) num)
+          (set! valid #f)))
+    
+    ;; Col check
+    (if valid
+        (do ((i 0 (+ i 1)))
+            ((= i 9))
+          (if (= (vector-ref (vector-ref board i) col) num)
+              (set! valid #f))))
+    
+    ;; Box check
+    (if valid
+        (let ((start-row (* (quotient row 3) 3))
+              (start-col (* (quotient col 3) 3)))
+          (do ((i 0 (+ i 1)))
+              ((= i 3))
+            (do ((j 0 (+ j 1)))
+                ((= j 3))
+              (if (= (vector-ref (vector-ref board (+ start-row i)) (+ start-col j)) num)
+                  (set! valid #f))))))
+    valid))
+
+;; Solve
+(define (solve board)
+  (let loop-row ((row 0))
+    (if (= row 9)
+        #t ;; Solved
+        (let loop-col ((col 0))
+          (if (= col 9)
+              (loop-row (+ row 1))
+              (if (= (vector-ref (vector-ref board row) col) 0)
+                  (let try-num ((num 1))
+                    (if (> num 9)
+                        #f ;; Backtrack
                         (begin
-                          (set! count (+ count 1))
-                          (if (is-possible r c val)
+                          (set! iterations (+ iterations 1))
+                          (if (is-valid? board row col num)
                               (begin
-                                (array-set! puzzle val r c)
-                                (if (solve)
+                                (vector-set! (vector-ref board row) col num)
+                                (if (solve board)
                                     #t
                                     (begin
-                                      (array-set! puzzle 0 r c)
-                                      (loop-val (+ val 1)))))
-                              (loop-val (+ val 1))))
-                        #f))
-                  (loop-c (+ c 1)))
-              (loop-r (+ r 1))))
-        (begin
-          (print-puzzle)
-          (format #t "\nSolved in Iterations=~d\n\n" count)
-          #t))))
+                                      (vector-set! (vector-ref board row) col 0)
+                                      (try-num (+ num 1)))))
+                              (try-num (+ num 1))))))
+                  (loop-col (+ col 1))))))))
 
+;; Main
 (define (main args)
-  (let ((start (get-internal-real-time)))
-    (for-each (lambda (arg)
-                (if (string-suffix? ".matrix" arg)
-                    (begin
-                      (read-matrix-file arg)
-                      (print-puzzle)
-                      (set! count 0)
-                      (solve))))
-              args)
-    (let ((end (get-internal-real-time)))
-      (format #t "Seconds to process ~,3f\n" (/ (- end start) 1.0 internal-time-units-per-second)))))
+  (if (null? (cdr args))
+      (format #t "Usage: sudoku.scm input_file\n")
+      (let ((filename (cadr args)))
+        (format #t "~a\n" filename)
+        (let ((board (read-matrix filename)))
+          (format #t "Puzzle:\n")
+          (print-board board)
+          (if (solve board)
+              (begin
+                (format #t "Puzzle:\n")
+                (print-board board)
+                (format #t "Solved in Iterations=~a\n" iterations))
+              (format #t "No solution found.\n"))))))
 
-(main (cdr (command-line)))
+(main (command-line))

@@ -1,70 +1,238 @@
 [
   {
-    "solver": "Vala",
-    "timestamp": "2025-12-01T19:02:39.437Z",
+    "solver": "Zig",
+    "timestamp": "2025-12-01T19:26:35.101Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 0.378485,
+        "time": 0.316099,
         "iterations": 656,
-        "memory": 8912896,
+        "memory": 0,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 0.200204,
+        "time": 0.01613,
         "iterations": 439269,
-        "memory": 8896512,
-        "cpu_user": 0.04,
+        "memory": 0,
+        "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       }
     ]
   },
   {
-    "solver": "Smalltalk",
-    "timestamp": "2025-12-01T19:02:40.592Z",
+    "solver": "VisualBasic",
+    "timestamp": "2025-12-01T19:26:37.618Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 0.080086,
+        "time": 0.104543,
         "iterations": 656,
-        "memory": 12386304,
-        "cpu_user": 0.01,
+        "memory": 42139648,
+        "cpu_user": 0.04,
         "cpu_sys": 0.02,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 0.509012,
+        "time": 0.183827,
         "iterations": 439269,
-        "memory": 13025280,
-        "cpu_user": 0.29,
-        "cpu_sys": 0.05,
+        "memory": 41975808,
+        "cpu_user": 0.09,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Vimscript",
+    "timestamp": "2025-12-01T19:27:01.094Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.088576,
+        "iterations": 656,
+        "memory": 7749632,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 23.251059,
+        "iterations": 439269,
+        "memory": 7766016,
+        "cpu_user": 23.12,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Vala",
+    "timestamp": "2025-12-01T19:27:02.907Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.383372,
+        "iterations": 656,
+        "memory": 8945664,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.10526,
+        "iterations": 439269,
+        "memory": 8929280,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "V",
+    "timestamp": "2025-12-01T19:27:06.151Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.345335,
+        "iterations": 656,
+        "memory": 2129920,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.019422,
+        "iterations": 439269,
+        "memory": 2129920,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "TypeScript",
+    "timestamp": "2025-12-01T19:27:09.801Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.080046,
+        "iterations": 656,
+        "memory": 49364992,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.106736,
+        "iterations": 439269,
+        "memory": 54706176,
+        "cpu_user": 0.06,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Tcl",
+    "timestamp": "2025-12-01T19:27:14.055Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.269949,
+        "iterations": 656,
+        "memory": 11599872,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.1,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 3.868384,
+        "iterations": 439269,
+        "memory": 11714560,
+        "cpu_user": 2.41,
+        "cpu_sys": 0.49,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Swift",
+    "timestamp": "2025-12-01T19:27:17.585Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.348564,
+        "iterations": 656,
+        "memory": 5816320,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 1.453397,
+        "iterations": 439269,
+        "memory": 5799936,
+        "cpu_user": 0.9,
+        "cpu_sys": 0.17,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Smalltalk",
+    "timestamp": "2025-12-01T19:27:18.181Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.054915,
+        "iterations": 656,
+        "memory": 12386304,
+        "cpu_user": 0.01,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.416408,
+        "iterations": 439269,
+        "memory": 13041664,
+        "cpu_user": 0.24,
+        "cpu_sys": 0.06,
         "status": "pass"
       }
     ]
   },
   {
     "solver": "Scheme",
-    "timestamp": "2025-12-01T19:02:42.244Z",
+    "timestamp": "2025-12-01T19:27:18.517Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 1.019486,
+        "time": 0.074421,
         "iterations": 656,
-        "memory": 49020928,
-        "cpu_user": 0.51,
-        "cpu_sys": 0.12,
+        "memory": 19333120,
+        "cpu_user": 0.02,
+        "cpu_sys": 0.02,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 0.152034,
+        "time": 0.151575,
         "iterations": 439269,
-        "memory": 22544384,
+        "memory": 22528000,
         "cpu_user": 0.09,
         "cpu_sys": 0.02,
         "status": "pass"
@@ -72,47 +240,215 @@
     ]
   },
   {
-    "solver": "Prolog",
-    "timestamp": "2025-12-01T19:02:46.149Z",
+    "solver": "Scala",
+    "timestamp": "2025-12-01T19:27:25.961Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 0.218281,
+        "time": 4.137146,
         "iterations": 656,
-        "memory": 12124160,
-        "cpu_user": 0.06,
-        "cpu_sys": 0.02,
+        "memory": 230096896,
+        "cpu_user": 6.24,
+        "cpu_sys": 1.11,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 3.209166,
+        "time": 3.196039,
         "iterations": 439269,
-        "memory": 12255232,
-        "cpu_user": 2.18,
-        "cpu_sys": 0.5,
+        "memory": 240336896,
+        "cpu_user": 6.87,
+        "cpu_sys": 1.06,
         "status": "pass"
       }
     ]
   },
   {
-    "solver": "Pascal",
-    "timestamp": "2025-12-01T19:02:46.868Z",
+    "solver": "Rust",
+    "timestamp": "2025-12-01T19:27:26.601Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 0.230483,
+        "time": 0.389604,
         "iterations": 656,
-        "memory": 2179072,
+        "memory": 1556480,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 0.034947,
+        "time": 0.01813,
         "iterations": 439269,
-        "memory": 2048000,
+        "memory": 1556480,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Ruby",
+    "timestamp": "2025-12-01T19:27:27.937Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.185458,
+        "iterations": 656,
+        "memory": 29065216,
+        "cpu_user": 0.06,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 1.031265,
+        "iterations": 439269,
+        "memory": 29278208,
+        "cpu_user": 0.68,
+        "cpu_sys": 0.12,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Raku",
+    "timestamp": "2025-12-01T19:27:33.781Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.738254,
+        "iterations": 656,
+        "memory": 157483008,
+        "cpu_user": 0.59,
+        "cpu_sys": 0.13,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 4.987873,
+        "iterations": 439269,
+        "memory": 164397056,
+        "cpu_user": 3.43,
+        "cpu_sys": 0.68,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "R",
+    "timestamp": "2025-12-01T19:27:43.180Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.426103,
+        "iterations": 656,
+        "memory": 86376448,
+        "cpu_user": 0.18,
+        "cpu_sys": 0.07,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 8.854217,
+        "iterations": 439269,
+        "memory": 90292224,
+        "cpu_user": 5.68,
+        "cpu_sys": 1.15,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "timestamp": "2025-12-01T19:27:45.885Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.247226,
+        "iterations": 656,
+        "memory": 29589504,
+        "cpu_user": 0.1,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.34763,
+        "iterations": 439269,
+        "memory": 29573120,
+        "cpu_user": 1.52,
+        "cpu_sys": 0.27,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Prolog",
+    "timestamp": "2025-12-01T19:27:49.203Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.117708,
+        "iterations": 656,
+        "memory": 11927552,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 3.087816,
+        "iterations": 439269,
+        "memory": 12173312,
+        "cpu_user": 2.05,
+        "cpu_sys": 0.65,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Perl",
+    "timestamp": "2025-12-01T19:27:49.908Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.035897,
+        "iterations": 656,
+        "memory": 4587520,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.556408,
+        "iterations": 439269,
+        "memory": 4521984,
+        "cpu_user": 0.38,
+        "cpu_sys": 0.04,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Pascal",
+    "timestamp": "2025-12-01T19:27:50.072Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.01682,
+        "iterations": 656,
+        "memory": 2113536,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.034647,
+        "iterations": 439269,
+        "memory": 2211840,
         "cpu_user": 0.01,
         "cpu_sys": 0,
         "status": "pass"
@@ -120,49 +456,673 @@
     ]
   },
   {
-    "solver": "Octave",
-    "timestamp": "2025-12-01T19:03:13.939Z",
+    "solver": "PHP",
+    "timestamp": "2025-12-01T19:27:50.624Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 1.949944,
+        "time": 0.19039,
         "iterations": 656,
-        "memory": 134447104,
-        "cpu_user": 0.79,
-        "cpu_sys": 0.41,
+        "memory": 25346048,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.04,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 24.661361,
+        "time": 0.250456,
         "iterations": 439269,
-        "memory": 133365760,
-        "cpu_user": 16.16,
-        "cpu_sys": 2.86,
+        "memory": 25214976,
+        "cpu_user": 0.17,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Octave",
+    "timestamp": "2025-12-01T19:28:18.243Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.794587,
+        "iterations": 656,
+        "memory": 134643712,
+        "cpu_user": 0.76,
+        "cpu_sys": 0.37,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 25.706167,
+        "iterations": 439269,
+        "memory": 133300224,
+        "cpu_user": 15.9,
+        "cpu_sys": 3.01,
         "status": "pass"
       }
     ]
   },
   {
     "solver": "Objective-C",
-    "timestamp": "2025-12-01T19:03:16.460Z",
+    "timestamp": "2025-12-01T19:28:20.162Z",
     "results": [
       {
         "matrix": "1.matrix",
-        "time": 0.364679,
+        "time": 0.471071,
         "iterations": 656,
-        "memory": 5586944,
+        "memory": 5603328,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       },
       {
         "matrix": "2.matrix",
-        "time": 0.056417,
+        "time": 0.044283,
         "iterations": 439269,
-        "memory": 5603328,
+        "memory": 5586944,
         "cpu_user": 0.02,
         "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "OCaml",
+    "timestamp": "2025-12-01T19:28:21.114Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.377748,
+        "iterations": 656,
+        "memory": 2310144,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.032263,
+        "iterations": 439269,
+        "memory": 4636672,
+        "cpu_user": 0.01,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Nim",
+    "timestamp": "2025-12-01T19:28:22.804Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.339968,
+        "iterations": 656,
+        "memory": 1392640,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.023123,
+        "iterations": 439269,
+        "memory": 1392640,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Lua",
+    "timestamp": "2025-12-01T19:28:23.116Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.01616,
+        "iterations": 656,
+        "memory": 1703936,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.188898,
+        "iterations": 439269,
+        "memory": 1720320,
+        "cpu_user": 0.1,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Kotlin",
+    "timestamp": "2025-12-01T19:28:29.607Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.119814,
+        "iterations": 656,
+        "memory": 47284224,
+        "cpu_user": 0.08,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.131948,
+        "iterations": 439269,
+        "memory": 48873472,
+        "cpu_user": 0.1,
+        "cpu_sys": 0.04,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Jupyter",
+    "timestamp": "2025-12-01T19:28:32.138Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.178287,
+        "iterations": 656,
+        "memory": 28344320,
+        "cpu_user": 0.08,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.247533,
+        "iterations": 439269,
+        "memory": 28295168,
+        "cpu_user": 1.44,
+        "cpu_sys": 0.3,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Julia",
+    "timestamp": "2025-12-01T19:28:36.082Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 2.259594,
+        "iterations": 656,
+        "memory": 291291136,
+        "cpu_user": 0.91,
+        "cpu_sys": 0.43,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 1.575773,
+        "iterations": 439269,
+        "memory": 292306944,
+        "cpu_user": 0.95,
+        "cpu_sys": 0.26,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "JavaScript",
+    "timestamp": "2025-12-01T19:28:36.396Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.087273,
+        "iterations": 656,
+        "memory": 52887552,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.120101,
+        "iterations": 439269,
+        "memory": 57819136,
+        "cpu_user": 0.07,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Haskell",
+    "timestamp": "2025-12-01T19:28:37.508Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.045386,
+        "iterations": 656,
+        "memory": 12615680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.390414,
+        "iterations": 439269,
+        "memory": 41025536,
+        "cpu_user": 0.22,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "timestamp": "2025-12-01T19:28:38.482Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.077525,
+        "iterations": 656,
+        "memory": 42205184,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.092401,
+        "iterations": 439269,
+        "memory": 45334528,
+        "cpu_user": 0.07,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Groovy",
+    "timestamp": "2025-12-01T19:28:45.895Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 2.232851,
+        "iterations": 656,
+        "memory": 236896256,
+        "cpu_user": 3.44,
+        "cpu_sys": 0.59,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 5.075225,
+        "iterations": 439269,
+        "memory": 363249664,
+        "cpu_user": 6.79,
+        "cpu_sys": 1.26,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "timestamp": "2025-12-01T19:28:46.379Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.271369,
+        "iterations": 656,
+        "memory": 26165248,
+        "cpu_user": 0.06,
+        "cpu_sys": 0.13,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.106723,
+        "iterations": 439269,
+        "memory": 26279936,
+        "cpu_user": 0.06,
+        "cpu_sys": 0.09,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Fortran",
+    "timestamp": "2025-12-01T19:28:46.924Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.016195,
+        "iterations": 656,
+        "memory": 1884160,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.426645,
+        "iterations": 439269,
+        "memory": 1900544,
+        "cpu_user": 0.26,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "F_Sharp",
+    "timestamp": "2025-12-01T19:28:51.583Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 2.405978,
+        "iterations": 656,
+        "memory": 269434880,
+        "cpu_user": 1.38,
+        "cpu_sys": 0.42,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.144792,
+        "iterations": 439269,
+        "memory": 272089088,
+        "cpu_user": 1.41,
+        "cpu_sys": 0.43,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Erlang",
+    "timestamp": "2025-12-01T19:28:54.840Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.246126,
+        "iterations": 656,
+        "memory": 77545472,
+        "cpu_user": 0.15,
+        "cpu_sys": 0.18,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 1.459959,
+        "iterations": 439269,
+        "memory": 77021184,
+        "cpu_user": 0.29,
+        "cpu_sys": 0.19,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Elixir",
+    "timestamp": "2025-12-01T19:28:57.682Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.668902,
+        "iterations": 656,
+        "memory": 95158272,
+        "cpu_user": 0.43,
+        "cpu_sys": 0.46,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.043856,
+        "iterations": 439269,
+        "memory": 94961664,
+        "cpu_user": 1.32,
+        "cpu_sys": 0.66,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Dart",
+    "timestamp": "2025-12-01T19:28:58.613Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.431855,
+        "iterations": 656,
+        "memory": 172457984,
+        "cpu_user": 0.26,
+        "cpu_sys": 0.11,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.331272,
+        "iterations": 439269,
+        "memory": 172802048,
+        "cpu_user": 0.3,
+        "cpu_sys": 0.09,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Crystal",
+    "timestamp": "2025-12-01T19:29:01.062Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.431212,
+        "iterations": 656,
+        "memory": 2998272,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.022154,
+        "iterations": 439269,
+        "memory": 2998272,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "CommonLisp",
+    "timestamp": "2025-12-01T19:29:01.399Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.070412,
+        "iterations": 656,
+        "memory": 44417024,
+        "cpu_user": 0.02,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.161926,
+        "iterations": 439269,
+        "memory": 46006272,
+        "cpu_user": 0.08,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Clojure",
+    "timestamp": "2025-12-01T19:29:04.496Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.985637,
+        "iterations": 656,
+        "memory": 131252224,
+        "cpu_user": 1.53,
+        "cpu_sys": 0.27,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 1.96212,
+        "iterations": 439269,
+        "memory": 332267520,
+        "cpu_user": 2.84,
+        "cpu_sys": 0.56,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C_Sharp",
+    "timestamp": "2025-12-01T19:29:09.231Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 2.346996,
+        "iterations": 656,
+        "memory": 179896320,
+        "cpu_user": 1.28,
+        "cpu_sys": 0.5,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.263245,
+        "iterations": 439269,
+        "memory": 183697408,
+        "cpu_user": 1.31,
+        "cpu_sys": 0.53,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C++",
+    "timestamp": "2025-12-01T19:29:09.951Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.311685,
+        "iterations": 656,
+        "memory": 1310720,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.017175,
+        "iterations": 439269,
+        "memory": 1310720,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "timestamp": "2025-12-01T19:29:10.098Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.011404,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.018237,
+        "iterations": 439269,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "BASH",
+    "timestamp": "2025-12-01T19:29:45.836Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.188981,
+        "iterations": 1790,
+        "memory": 7684096,
+        "cpu_user": 0.11,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 35.421443,
+        "iterations": 234380,
+        "memory": 7487488,
+        "cpu_user": 22.19,
+        "cpu_sys": 4.89,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "BASIC",
+    "timestamp": "2025-12-01T19:29:46.272Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.060211,
+        "iterations": 656,
+        "memory": 9797632,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.263053,
+        "iterations": 439269,
+        "memory": 10928128,
+        "cpu_user": 0.14,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Awk",
+    "timestamp": "2025-12-01T19:29:48.831Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.017624,
+        "iterations": 656,
+        "memory": 1785856,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 2.427281,
+        "iterations": 439269,
+        "memory": 1785856,
+        "cpu_user": 1.51,
+        "cpu_sys": 0.29,
         "status": "pass"
       }
     ]
