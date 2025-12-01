@@ -10,6 +10,7 @@ proc readMatrixFile {filename} {
     set index  0
     set matrix  [split [read_file $filename] \n]
     foreach line $matrix {
+        if {[string length [string trim $line]] == 0} { continue }
         if ![string match "#*" $line] {
             if {[llength $line] == 9} {
                 lassign [split $line " "] puzzle($index,0) puzzle($index,1) puzzle($index,2) puzzle($index,3)\
@@ -41,8 +42,8 @@ proc isPossible {y x val} {
     # Find if a matching number (val) already exists
     # in the same row (y) or column (x) or within its rectangle
     for {set j 0} {$j < 9} {incr j} { 
-        if {$puzzle($j,$x) == $val} return 0
-        if {$puzzle($y,$i) == $val} return 0
+        if {$puzzle($j,$x) == $val} {return 0}
+        if {$puzzle($y,$j) == $val} {return 0}
     }
     
     # Search the Rectangle containing x & y

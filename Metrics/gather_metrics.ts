@@ -29,69 +29,69 @@ interface SolverMetrics {
 // --- Data Structures ---
 
 const languageHistories: Record<string, string> = {
-    "Assembly": "1949. The lowest level of human-readable code. Direct control over hardware, where every byte matters.",
-    "Awk": "1977. Aho, Weinberger, and Kernighan at Bell Labs. The original text processing powerhouse.",
-    "Bash": "1989. Brian Fox. The 'Bourne Again SHell', the glue that holds the Linux world together.",
-    "Basic": "1964. Kemeny and Kurtz at Dartmouth. Designed to be easy for students, it launched the home computing revolution.",
-    "Befunge": "1993. Chris Pressey. A two-dimensional esoteric language designed to be difficult to compile.",
-    "Brainfuck": "1993. Urban Müller. A minimalist esoteric language with only 8 commands, designed to challenge programmers.",
-    "C": "1972. Dennis Ritchie at Bell Labs. The mother of modern languages, balancing high-level logic with low-level power.",
-    "C++": "1985. Bjarne Stroustrup. 'C with Classes'. Added object-oriented features to C, becoming the standard for systems programming.",
-    "C_Sharp": "2000. Microsoft (Anders Hejlsberg). A modern, object-oriented language for the .NET framework.",
-    "Clojure": "2007. Rich Hickey. A modern Lisp dialect for the JVM, emphasizing immutability and functional programming.",
-    "Cobol": "1959. Grace Hopper. 'Common Business-Oriented Language'. Verbose and resilient, it still runs the world's banking systems.",
-    "CoffeeScript": "2009. Jeremy Ashkenas. 'It's just JavaScript'. Added syntactic sugar to JS, inspiring modern ES6 features.",
-    "CommonLisp": "1984. A standardization of various Lisp dialects. The programmable programming language.",
-    "Crystal": "2014. Ary Borenszweig. Ruby-like syntax with C-like performance and static typing.",
-    "D": "2001. Walter Bright. Designed to re-engineer C++, improving safety and productivity.",
-    "Dart": "2011. Google. Optimized for UI development, now the heart of Flutter.",
-    "Elixir": "2011. José Valim. Built on the Erlang VM, bringing Ruby-like joy to distributed, fault-tolerant systems.",
-    "EmacsLisp": "1985. Richard Stallman. The scripting language that makes Emacs an operating system disguised as an editor.",
-    "Erlang": "1986. Ericsson. Built for massive concurrency and fault tolerance in telecom systems.",
-    "F_Sharp": "2005. Microsoft (Don Syme). A functional-first language on .NET, inspired by OCaml.",
-    "Fortran": "1957. John Backus at IBM. The first high-level language, still dominating scientific computing.",
-    "Go": "2009. Google (Griesemer, Pike, Thompson). Designed for simplicity, concurrency, and scalability in the cloud era.",
-    "Groovy": "2003. James Strachan. A dynamic language for the JVM, blending Java with Python/Ruby features.",
-    "Haskell": "1990. A purely functional language named after logician Haskell Curry. Famous for its type system and laziness.",
-    "Java": "1995. James Gosling at Sun Microsystems. 'Write Once, Run Anywhere'. Revolutionized enterprise computing.",
-    "JavaScript": "1995. Brendan Eich at Netscape. Created in 10 days. It now runs the web.",
-    "Julia": "2012. Jeff Bezanson et al. High-performance numerical analysis, aiming to solve the 'two-language problem'.",
-    "Kotlin": "2011. JetBrains. A concise, modern alternative to Java, now the standard for Android.",
-    "Logo": "1967. Wally Feurzeig and Seymour Papert. Famous for its 'Turtle' graphics, teaching kids to think like computers.",
-    "Lua": "1993. PUC-Rio (Brazil). Lightweight and embeddable, the scripting king of the gaming industry.",
-    "M4": "1977. Kernighan and Ritchie. A powerful macro processor, often hidden deep within build systems.",
-    "Nim": "2008. Andreas Rumpf. Python-like syntax with C-like performance and metaprogramming.",
-    "Objective-C": "1984. Brad Cox. Added Smalltalk-style messaging to C. The heart of Apple's ecosystem for decades.",
-    "OCaml": "1996. INRIA. Industrial strength functional programming with a powerful type system.",
-    "Octave": "1988. A high-level language for numerical computations, largely compatible with MATLAB.",
-    "Pascal": "1970. Niklaus Wirth. Designed to teach structured programming and data structuring.",
-    "Perl": "1987. Larry Wall. 'The Swiss Army chainsaw of scripting'. Famous for text processing and one-liners.",
-    "PHP": "1995. Rasmus Lerdorf. 'Personal Home Page'. The engine behind a massive portion of the web (WordPress, Facebook).",
-    "PostScript": "1982. Adobe (Warnock and Geschke). A stack-based language for describing pages, the ancestor of PDF.",
-    "PowerShell": "2006. Microsoft. A task automation shell built on .NET, treating everything as objects.",
-    "Prolog": "1972. Colmerauer and Kowalski. Logic programming. You describe facts and rules; the computer finds the solution.",
-    "Python": "1991. Guido van Rossum. 'Executable pseudocode'. Named after Monty Python, it's now the world's most popular language.",
-    "R": "1993. Ross Ihaka and Robert Gentleman. Built for statistics and data visualization.",
-    "Racket": "1995. Matthew Flatt. A descendant of Scheme, designed for creating new programming languages.",
-    "Rexx": "1979. Mike Cowlishaw at IBM. A structured high-level language designed for ease of learning and reading.",
-    "Ruby": "1995. Yukihiro Matsumoto. Designed for developer happiness. 'A programmer's best friend'.",
-    "Rust": "2010. Graydon Hoare at Mozilla. Memory safety without garbage collection. Loved for its reliability.",
-    "Scala": "2004. Martin Odersky. Blends object-oriented and functional programming on the JVM.",
-    "Scheme": "1975. Sussman and Steele. A minimalist dialect of Lisp. 'The Little Schemer'.",
-    "Sed": "1974. Lee E. McMahon at Bell Labs. A stream editor for filtering and transforming text.",
-    "Smalltalk": "1972. Alan Kay at Xerox PARC. The father of object-oriented programming and GUIs.",
-    "SNOBOL": "1962. Bell Labs. A string-oriented symbolic language, pioneering pattern matching.",
-    "SQL": "1974. Chamberlin and Boyce at IBM. The standard language for relational database management.",
-    "Swift": "2014. Apple. A modern, safe, and fast replacement for Objective-C.",
-    "Tcl": "1988. John Ousterhout. 'Tool Command Language'. Known for its simplicity and integration with Tk.",
-    "TypeScript": "2012. Microsoft (Anders Hejlsberg). JavaScript with syntax for types. 'JavaScript that scales'.",
-    "Vala": "2006. Jürg Billeter. Brings modern language features to C via the GObject system.",
-    "Verilog": "1984. Gateway Design Automation. A hardware description language for modeling electronic systems.",
-    "VHDL": "1980. US DoD. VHSIC Hardware Description Language. Ada-based syntax for hardware modeling.",
-    "Vimscript": "1991. Bram Moolenaar. The scripting language built into the Vim editor.",
-    "VisualBasic": "1991. Microsoft. Derived from BASIC, it made Windows GUI programming accessible to everyone.",
-    "WebAssembly": "2017. W3C. A binary instruction format for a stack-based virtual machine, bringing near-native speed to the web.",
-    "Zig": "2016. Andrew Kelley. A modern system language intended to replace C. No hidden control flow, no allocations.",
+    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
+    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
+    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
+    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
+    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
+    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
+    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
+    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
+    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
+    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
+    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
+    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
+    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
+    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
+    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
+    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
+    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
+    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
+    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
+    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
+    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
+    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
+    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
+    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
+    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
+    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
+    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
+    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
+    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
+    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
+    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
+    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
+    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
+    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
+    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
+    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
+    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
+    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
+    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
+    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
+    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
+    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
+    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
+    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
+    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
+    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
+    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
+    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
+    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
+    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
+    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
+    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
+    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
+    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
+    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
+    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
+    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
+    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
 };
 
 const quotes: Record<string, string> = {
@@ -169,177 +169,647 @@ const quotes: Record<string, string> = {
 };
 
 const personalities: Record<string, Record<string, string>> = {
-    "Standard": quotes,
-    "Neuromancer": quotes,
+    "Standard": {
+        "C": "C: Low-level systems workhorse — predictable, efficient, and widely taught.",
+        "C++": "C++: High performance with complex abstractions — flexible but demanding.",
+        "Rust": "Rust: Modern safety-first systems language with strong compile-time guarantees.",
+        "Go": "Go: Pragmatic concurrency and simplicity for cloud services and tools.",
+        "Python": "Python: Readable, batteries-included, ideal for scripting, data and prototypes.",
+        "JavaScript": "JavaScript: The web's lingua franca — ubiquitous, dynamic, and evolving.",
+        "TypeScript": "TypeScript: JavaScript with types — better tooling and maintainability.",
+        "Java": "Java: Proven JVM ecosystem for enterprise systems and large codebases.",
+        "C_Sharp": "C#: Mature, well-supported managed language with great IDEs and libraries.",
+        "PHP": "PHP: Ubiquitous server-side web language with a vast legacy ecosystem.",
+        "Ruby": "Ruby: Expressive and productive, often chosen for developer happiness.",
+        "Swift": "Swift: Safe, modern language for Apple platforms and systems programming.",
+        "Kotlin": "Kotlin: Concise JVM language with strong Android adoption and null-safety.",
+        "Haskell": "Haskell: Pure functional language emphasizing correctness and types.",
+        "OCaml": "OCaml: Practical functional language with strong typing and fast native code.",
+        "Lisp": "Lisp: Macro-driven, symbolic language family with a long AI heritage.",
+        "Clojure": "Clojure: Lisp on the JVM with immutable data structures and concurrency focus.",
+        "Erlang": "Erlang: Concurrency and fault tolerance for telecom-grade systems.",
+        "Elixir": "Elixir: Friendly syntax on Erlang VM, great for resilient distributed apps.",
+        "SQL": "SQL: Declarative language for relational data querying and manipulation.",
+        "Fortran": "Fortran: Battle-tested numerical computing language for high-performance math.",
+        "Assembly": "Assembly: Maximum control and minimal abstraction — used where performance is critical.",
+        "Bash": "Bash: Shell scripting glue for automating system tasks and pipelines.",
+        "Perl": "Perl: Practical text-processing and scripting toolkit with expressive regexes.",
+        "Lua": "Lua: Tiny, embeddable scripting language, beloved by games and embedded systems.",
+        "Julia": "Julia: High-performance scientific computing with friendly syntax.",
+        "WebAssembly": "WebAssembly: Portable, fast binary target for running multiple languages on the web.",
+        "Zig": "Zig: Explicit, simple systems language aiming for predictable performance.",
+        "default": "A language with its own strengths and tradeoffs."
+    },
+
+    "Neuromancer": {
+        "C": "C: Bare metal whispers — minimal abstraction, maximum throughput.",
+        "C++": "C++: Heavy machinery with countless gears; power hides complexity.",
+        "Rust": "Rust: Memory ghosts are exorcised at compile-time; concurrency tamed.",
+        "Go": "Go: Channels hum in the background — predictable, machine-like rhythm.",
+        "Python": "Python: Rapid prototyping — a soft, readable veneer over deeper systems.",
+        "JavaScript": "JavaScript: Event-driven chaos, patchworked into ubiquity.",
+        "TypeScript": "TypeScript: Structured order on top of the web's entropy.",
+        "Java": "Java: Industrial runtime with predictable steam-engine reliability.",
+        "C_Sharp": "C#: Polished and managed — enterprise grade with neat tools.",
+        "PHP": "PHP: Resilient, cobbled-together web logic surviving the net's underside.",
+        "Ruby": "Ruby: Elegant spells that summon productivity — soft and expressive.",
+        "Swift": "Swift: Precise and modern — tightened for platform harmony.",
+        "Kotlin": "Kotlin: Pragmatic JVM sorcery — concise incantations with null-safety wards.",
+        "Haskell": "Haskell: Pure functions etched in marble — correctness as creed.",
+        "Erlang": "Erlang: Concurrency as ritual; processes fall and resurrect gracefully.",
+        "Elixir": "Elixir: Erlang's resilience dressed in elegant syntax and tooling.",
+        "SQL": "SQL: Declarative incantations to coax meaning from tables.",
+        "WebAssembly": "WebAssembly: Binary synapses connecting worlds at near-native speed.",
+        "default": "A net of languages, each a node with its own signal pattern."
+    },
+
     "The Jockey": {
-        "C": "AND THEY'RE OFF! C takes the lead with raw speed! Look at that optimization!",
-        "C++": "C++ is thundering down the track! A heavy beast but unstoppable once it gets going!",
-        "Rust": "Rust is challenging for the lead! Safe, fast, and fearless! What a machine!",
-        "Go": "Go is keeping a steady pace! Efficient, reliable, not breaking a sweat!",
-        "Python": "Python is trailing the pack! It's not about speed, folks, it's about style!",
-        "JavaScript": "JavaScript is all over the place! Is it running? Is it crashing? It's chaos on the track!",
-        "Java": "Java is a steady runner! Not the fastest, but it will finish the race!",
-        "PHP": "PHP is... still running! It refuses to quit! What a survivor!",
-        "Assembly": "Assembly is a rocket! Pure speed! Dangerous but exciting!",
-        "Fortran": "The old veteran Fortran is showing the young ones how it's done!",
-        "default": "A dark horse enters the race!"
+        "C": "C: The thoroughbred — raw speed out of the gate, but demands a skilled rider.",
+        "C++": "C++: The heavy-weight contender — powerful when tamed, unwieldy when not.",
+        "Rust": "Rust: The disciplined challenger — steady, precise, and hard to topple.",
+        "Go": "Go: The reliable pacer — consistent lap times and low fuss.",
+        "Python": "Python: The showy performer — flashy moves, not always fastest.",
+        "JavaScript": "JavaScript: The wildcard — unpredictable but always in the race.",
+        "TypeScript": "TypeScript: JavaScript with a coach — fewer mistakes, cleaner lines.",
+        "Java": "Java: The endurance runner — long races suit its steady gait.",
+        "C_Sharp": "C#: A well-trained athlete with excellent support crew and tooling.",
+        "PHP": "PHP: The scrappy veteran — keeps going when others fold.",
+        "Ruby": "Ruby: A graceful jumper — elegant but not built for sprints.",
+        "Swift": "Swift: Shortboard specialist — quick bursts, smooth turns on Apple turf.",
+        "Kotlin": "Kotlin: Agile and modern — nimble on the JVM track.",
+        "Haskell": "Haskell: A cerebral racer — nails the lines with mathematical precision.",
+        "Fortran": "Fortran: The old pro — still competitive in numerical sprints.",
+        "Assembly": "Assembly: Rocket start, tiny margin for error — thrilling to watch.",
+        "default": "The field is deep; every language brings its own racing style."
     },
+
     "The Professor": {
-        "C": "A classic example of low-level efficiency. Note the minimal overhead.",
-        "C++": "Complex, yes, but the zero-cost abstractions are theoretically sound.",
-        "Rust": "A fascinating case study in memory safety without garbage collection.",
-        "Go": "An exercise in pragmatic engineering. Simple, concurrent, effective.",
-        "Python": "Optimal for rapid prototyping, though the runtime overhead is significant.",
-        "JavaScript": "Dynamically typed and event-driven. A pedagogical nightmare.",
-        "Java": "The embodiment of object-oriented strictness. Verbose but structured.",
-        "PHP": "A pragmatic solution for web development, despite its inconsistencies.",
-        "Assembly": "The closest we get to the metal. Educational but impractical for most.",
-        "Fortran": "Historically significant. The foundation of numerical computing.",
-        "default": "An interesting specimen for further study."
+        "C": "C: Study of resource efficiency — minimal runtime and predictable costs.",
+        "C++": "C++: Rich feature set enabling varied programming paradigms; complexity requires discipline.",
+        "Rust": "Rust: Demonstrates ownership and type-system-based safety; an instructive modern design.",
+        "Go": "Go: Engineered for simplicity and concurrency primitives; pragmatic trade-offs are explicit.",
+        "Python": "Python: Excellent for algorithmic experimentation and rapid iteration; runtime overhead considered.",
+        "JavaScript": "JavaScript: Flexible semantics that reward careful architecture and testing.",
+        "TypeScript": "TypeScript: Type discipline applied to dynamic JavaScript ecosystems; valuable for scale.",
+        "Java": "Java: Mature tooling and a stable runtime make it suitable for robust distributed systems.",
+        "C_Sharp": "C#: A managed, strongly-typed language with advanced tooling and a rich standard library.",
+        "Haskell": "Haskell: A case study in purity and strong types, illuminating functional program design.",
+        "OCaml": "OCaml: Efficient functional programming with practical native performance.",
+        "Erlang": "Erlang: Model of lightweight concurrency and fault-tolerance architectures.",
+        "Elixir": "Elixir: Modern ergonomics on a time-tested concurrency VM; excellent for observable systems.",
+        "SQL": "SQL: Declarative optimization relies heavily on the database engine's query planner.",
+        "Fortran": "Fortran: Compiler-optimized numeric loops still relevant in HPC benchmarks.",
+        "Assembly": "Assembly: Useful in microbenchmarks and bootstrapping but impractical for large systems.",
+        "default": "Each language is an experiment in tradeoffs; measure, analyze, and choose appropriately."
     },
+
     "The Surfer": {
-        "C": "Whoa, C is blazing fast, dude! Like catching the perfect wave!",
-        "C++": "C++ is gnarly, man! Big, powerful, and kinda scary!",
-        "Rust": "Rust is totally radical! Safe vibes only, no memory leaks here!",
-        "Go": "Go is chill, bro. Simple flow, good vibes.",
-        "Python": "Python is super chill. Easy riding, no stress.",
-        "JavaScript": "JS is wild, man! Like a choppy sea, but you ride it anyway!",
-        "Java": "Java is like a longboard. Big, steady, cruises for days.",
-        "PHP": "PHP is scrappy, dude! It keeps paddling no matter what!",
-        "Assembly": "Assembly is hardcore! Shredding the bits!",
-        "Fortran": "Old school cool. Respect the elders, man.",
-        "default": "Just catching the vibes, man."
+        "C": "C: Totally radical speed — like carving a perfect wave at dawn.",
+        "C++": "C++: Big energy, epic turns, a little gnarly sometimes.",
+        "Rust": "Rust: Clean lines, safe drops — no wipeouts from memory bugs.",
+        "Go": "Go: Smooth, no fuss paddling — steady and dependable.",
+        "Python": "Python: Chill and easygoing — fun to ride for the crew.",
+        "JavaScript": "JavaScript: Wild seas but fun tricks if you know the breaks.",
+        "TypeScript": "TypeScript: JS with clearer lines — less risky maneuvers.",
+        "Java": "Java: Longboard cruising — stable and comfortable for long sessions.",
+        "Ruby": "Ruby: Playful and elegant, like a retro twin-fin.",
+        "PHP": "PHP: Scrappy — keeps paddling even in rough surf.",
+        "Lua": "Lua: Lightweight, versatile — like a compact fishboard for tight spots.",
+        "Swift": "Swift: Polished performance on Apple-shaped waves.",
+        "Kotlin": "Kotlin: Smooth transitions and modern styling on the JVM lineup.",
+        "Haskell": "Haskell: A meditative session — slow, precise, rewarding.",
+        "Elixir": "Elixir: Reliable lineup and great community vibes for big waves.",
+        "WebAssembly": "WebAssembly: Feels like jet propulsion in the water — near-native rip.",
+        "default": "Catch the wave you like — every language has its own stoke."
     }
 };
 
 
 const methodologyTexts: Record<string, string> = {
     "Standard": `
-        <p>The <strong>Total Score</strong> is a normalized metric designed to compare performance against a standard baseline.</p>
+        <p>The <strong>Total Score</strong> is a composite metric designed to compare overall efficiency against the C baseline.</p>
         <h3 style="color: var(--secondary);">The Baseline: C</h3>
-        <p>The <strong>C</strong> implementation is used as the reference standard (1.0) because it represents a highly optimized, low-level approach.</p>
+        <p>The <strong>C</strong> implementation is the reference standard (1.0) for Time, Memory, and CPU usage.</p>
         <h3 style="color: var(--secondary);">The Formula</h3>
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = (Solver Time) / (C Time)
+            Score = (TimeRatio + MemRatio + CpuRatio) / 3
         </div>
+        <p>Where Ratio = Solver_Metric / C_Metric</p>
         <h3 style="color: var(--secondary);">Interpretation</h3>
         <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity. Exact same speed as C.</li>
-            <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&gt; 1.0</strong> : Slower. (e.g., 2.0 is 2x slower).</li>
-            <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&lt; 1.0</strong> : Faster. (e.g., 0.5 is 2x faster).</li>
+            <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity with C.</li>
+            <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&gt; 1.0</strong> : Less Efficient.</li>
+            <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&lt; 1.0</strong> : More Efficient.</li>
         </ul>
         <p style="font-size: 0.9em; color: var(--muted); text-align: center; margin-top: 20px;"><em>Lower scores are better.</em></p>
     `,
     "Neuromancer": `
-        <p>The construct uses a normalized metric. We compare the raw data against the C baseline. It's a flatline comparison.</p>
+        <p>The construct uses a composite index. Time, Memory, CPU. Three vectors, one score.</p>
         <h3 style="color: var(--secondary);">Target: C</h3>
-        <p>The <strong>C</strong> code is the icebreaker. It sets the standard (1.0).</p>
+        <p><strong>C</strong> is the flatline (1.0). Deviate at your own risk.</p>
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = (Time) / (C_Time)
+            Score = AVG(Time_R, Mem_R, CPU_R)
         </div>
-        <p>Below 1.0? You're hacking the Gibson. Above? You're just a tourist.</p>
+        <p>Bloated memory? You burn. High CPU? You burn. Slow? You definitely burn.</p>
     `,
     "The Jockey": `
-        <p>We're handicapping the field! The Total Score compares everyone to the speed demon, C.</p>
+        <p>It's a triathlon now, folks! Speed, Stamina (Memory), and Effort (CPU)!</p>
         <h3 style="color: var(--secondary);">The Pace Car: C</h3>
-        <p><strong>C</strong> is setting the pace at 1.0. Try to keep up!</p>
+        <p><strong>C</strong> runs the perfect line at 1.0.</p>
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = (Time) / (C Time)
+            Score = Average of Time, Mem, and CPU vs C
         </div>
-        <p>If you're over 1.0, you're eating dust! Under 1.0? You're a thoroughbred!</p>
+        <p>You gotta be fast AND light to win this cup!</p>
     `,
     "The Professor": `
-        <p>The scoring methodology employs a normalization technique. The C implementation serves as the control group.</p>
+        <p>The scoring methodology now employs a multivariate analysis. We evaluate Time, Resident Set Size, and CPU Time.</p>
         <h3 style="color: var(--secondary);">Control: C</h3>
-        <p><strong>C</strong> (1.0) provides the baseline for computational efficiency.</p>
+        <p><strong>C</strong> (1.0) remains the baseline for all three dimensions.</p>
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = T(solver) / T(c)
+            Score = &Sigma;(Ratios) / 3
         </div>
-        <p>Values < 1.0 indicate superior optimization. Values > 1.0 suggest overhead.</p>
+        <p>This penalizes memory-managed languages that trade RAM for development speed.</p>
     `,
     "The Surfer": `
-        <p>So, like, the Score is just comparing how chill the run was against C.</p>
+        <p>It's not just about speed, bro. It's about flow. Time, Memory, CPU. The whole vibe.</p>
         <h3 style="color: var(--secondary);">The Big Kahuna: C</h3>
-        <p><strong>C</strong> is the wave we're measuring against (1.0).</p>
+        <p><strong>C</strong> is the perfect wave (1.0).</p>
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = Time / C_Time
+            Score = (Time + Mem + CPU) / 3 ... vs C
         </div>
-        <p>If it's 1.0, it's tubular. Lower? Totally radical. Higher? Wipeout city, man.</p>
+        <p>Don't be heavy, don't be slow. Just flow.</p>
     `
 };
 
 const languageMetadata: Record<string, any> = {
+    "Assembly": {
+        "creator": "Kathleen Booth",
+        "date": "1947",
+        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kathleen_Booth.jpg/440px-Kathleen_Booth.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Simpleicons_Interface_code-file-1.svg/64px-Simpleicons_Interface_code-file-1.svg.png",
+        "location": "Birkbeck College, London",
+        "benefits": "Direct hardware control, maximum performance, zero overhead."
+    },
+    "Awk": {
+        "creator": "Aho, Weinberger, Kernighan",
+        "date": "1977",
+        "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Using Ritchie as proxy for Bell Labs team
+        "location": "Bell Labs, USA",
+        "benefits": "Excellent for text processing, one-liners, and data extraction."
+    },
+    "Bash": {
+        "creator": "Brian Fox",
+        "date": "1989",
+        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1200px-Gnu-bash-logo.svg.png",
+        "location": "Free Software Foundation, USA",
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+    },
+    "Basic": {
+        "creator": "John G. Kemeny, Thomas E. Kurtz",
+        "date": "1964",
+        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2e/John_G._Kemeny.jpg/220px-John_G._Kemeny.jpg",
+        "location": "Dartmouth College, USA",
+        "benefits": "Easy to learn, interactive, historical significance."
+    },
     "C": {
         "creator": "Dennis Ritchie",
         "date": "1972",
-        "description": "The foundational language of modern computing. Created at Bell Labs to develop the Unix operating system. Known for its efficiency and control.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg"
+        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/64px-C_Programming_Language.svg.png",
+        "location": "Bell Labs, USA",
+        "benefits": "High performance, portability, low-level access, massive legacy."
     },
     "C++": {
         "creator": "Bjarne Stroustrup",
         "date": "1985",
-        "description": "An extension of C with object-oriented features. Dominates game development and high-performance systems.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bjarne-stroustrup.jpg"
+        "description": "Multi-paradigm language combining procedural and object-oriented programming. Excels in game engines, high-performance applications, and systems requiring both low-level control and high-level abstractions.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bjarne-stroustrup.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/64px-ISO_C%2B%2B_Logo.svg.png",
+        "location": "Bell Labs, USA",
+        "benefits": "Performance, object-oriented, rich ecosystem, hardware control."
     },
-    "Python": {
-        "creator": "Guido van Rossum",
-        "date": "1991",
-        "description": "A high-level language emphasizing readability. The king of Data Science and AI.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg"
+    "C_Sharp": {
+        "creator": "Anders Hejlsberg",
+        "date": "2000",
+        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anders_Hejlsberg_at_PDC2008.jpg/440px-Anders_Hejlsberg_at_PDC2008.jpg",
+        "location": "Microsoft, USA",
+        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
     },
-    "Java": {
-        "creator": "James Gosling",
-        "date": "1995",
-        "description": "Write Once, Run Anywhere. The backbone of enterprise software.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg"
+    "Clojure": {
+        "creator": "Rich Hickey",
+        "date": "2007",
+        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rich_Hickey_2013.jpg/440px-Rich_Hickey_2013.jpg",
+        "location": "USA",
+        "benefits": "Immutability, functional programming, JVM interoperability, simplicity."
     },
-    "JavaScript": {
-        "creator": "Brendan Eich",
-        "date": "1995",
-        "description": "Created in 10 days. The language of the web, running on billions of devices.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg"
+    "Cobol": {
+        "creator": "CODASYL Committee (Grace Hopper)",
+        "date": "1959",
+        "description": "Common Business-Oriented Language. Designed for business use.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/440px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
+        "location": "USA",
+        "benefits": "Business data processing, stability, massive legacy codebases."
     },
-    "Rust": {
-        "creator": "Graydon Hoare",
-        "date": "2010",
-        "description": "Focuses on safety and performance. Enforces memory safety without garbage collection.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg"
-    },
-    "Go": {
-        "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
+    "CoffeeScript": {
+        "creator": "Jeremy Ashkenas",
         "date": "2009",
-        "description": "Created at Google to improve programming productivity in an era of multicore machines.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png"
+        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Jeremy_Ashkenas_at_JSConf_2012.jpg/440px-Jeremy_Ashkenas_at_JSConf_2012.jpg",
+        "location": "USA",
+        "benefits": "Concise syntax, readability, compiles to clean JavaScript."
     },
-    "PHP": {
-        "creator": "Rasmus Lerdorf",
-        "date": "1995",
-        "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Rasmus_Lerdorf_at_Wikipedia_10.jpg"
+    "CommonLisp": {
+        "creator": "Committee (Guy L. Steele Jr. et al.)",
+        "date": "1984",
+        "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Guy_Steele.jpg/440px-Guy_Steele.jpg",
+        "location": "USA",
+        "benefits": "Macros, dynamic typing, interactive development, flexibility."
     },
-    "Ruby": {
-        "creator": "Yukihiro Matsumoto",
-        "date": "1995",
-        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Yukihiro_Matsumoto.JPG"
-    },
-    "Swift": {
-        "creator": "Chris Lattner",
+    "Crystal": {
+        "creator": "Ary Borenszweig",
         "date": "2014",
-        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Swift_logo.svg"
+        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Crystal_logo.svg/1200px-Crystal_logo.svg.png",
+        "location": "Argentina",
+        "benefits": "Ruby-like syntax, C-like performance, static typing."
+    },
+    "D": {
+        "creator": "Walter Bright",
+        "date": "2001",
+        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Walter_Bright_2018.jpg/440px-Walter_Bright_2018.jpg",
+        "location": "Digital Mars, USA",
+        "benefits": "System programming, performance, safety, metaprogramming."
+    },
+    "Dart": {
+        "creator": "Lars Bak, Kasper Lund",
+        "date": "2011",
+        "description": "A client-optimized language for fast apps on any platform.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Lars_Bak.jpg/440px-Lars_Bak.jpg",
+        "location": "Google, Denmark/USA",
+        "benefits": "UI optimized, fast compilation, cross-platform (Flutter)."
+    },
+    "Elixir": {
+        "creator": "José Valim",
+        "date": "2011",
+        "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Jose_valim_elixir_conf_2018.jpg/440px-Jose_valim_elixir_conf_2018.jpg",
+        "location": "Plataformatec, Brazil",
+        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax."
+    },
+    "Erlang": {
+        "creator": "Joe Armstrong",
+        "date": "1986",
+        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Joe_Armstrong_2014.jpg/440px-Joe_Armstrong_2014.jpg",
+        "location": "Ericsson, Sweden",
+        "benefits": "Massive concurrency, fault tolerance, hot code swapping."
+    },
+    "F_Sharp": {
+        "creator": "Don Syme",
+        "date": "2005",
+        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Don_Syme_2010.jpg/440px-Don_Syme_2010.jpg",
+        "location": "Microsoft Research, UK",
+        "benefits": "Functional-first, .NET integration, type inference, concise."
     },
     "Fortran": {
         "creator": "John Backus",
         "date": "1957",
         "description": "The first high-level programming language. Still dominates scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/John_Backus_2.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/John_Backus_2.jpg",
+        "location": "IBM, USA",
+        "benefits": "Numerical computation, scientific computing, performance."
     },
-    "Assembly": {
-        "creator": "Kathleen Booth",
-        "date": "1947",
-        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kathleen_Booth.jpg/440px-Kathleen_Booth.jpg"
+    "Go": {
+        "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
+        "date": "2009",
+        "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/64px-Go_Logo_Blue.svg.png",
+        "location": "Google, USA",
+        "benefits": "Simplicity, concurrency, fast compilation, static typing."
+    },
+    "Groovy": {
+        "creator": "James Strachan",
+        "date": "2003",
+        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Groovy-logo.svg/1200px-Groovy-logo.svg.png",
+        "location": "USA",
+        "benefits": "Java compatibility, scripting, dynamic features, DSLs."
+    },
+    "Haskell": {
+        "creator": "Committee (Simon Peyton Jones et al.)",
+        "date": "1990",
+        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Haskell-Logo.svg/1200px-Haskell-Logo.svg.png",
+        "location": "Global",
+        "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
+    },
+    "Java": {
+        "creator": "James Gosling",
+        "date": "1995",
+        "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/64px-Java_programming_language_logo.svg.png",
+        "location": "Sun Microsystems, USA",
+        "benefits": "Portability, enterprise ecosystem, performance, stability."
+    },
+    "JavaScript": {
+        "creator": "Brendan Eich",
+        "date": "1995",
+        "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/64px-JavaScript-logo.png",
+        "location": "Netscape, USA",
+        "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
+    },
+    "Julia": {
+        "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
+        "date": "2012",
+        "description": "A high-level, high-performance, dynamic programming language for technical computing.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Julia_Programming_Language_Logo.svg/1200px-Julia_Programming_Language_Logo.svg.png",
+        "location": "MIT, USA",
+        "benefits": "High performance, numerical computing, ease of use."
+    },
+    "Kotlin": {
+        "creator": "JetBrains",
+        "date": "2011",
+        "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/1200px-Kotlin_Icon.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/64px-Kotlin_Icon.png",
+        "location": "Russia/International",
+        "benefits": "Concise, null safety, Java interoperability, Android standard."
+    },
+    "Lua": {
+        "creator": "Roberto Ierusalimschy et al.",
+        "date": "1993",
+        "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Lua-Logo.svg/1200px-Lua-Logo.svg.png",
+        "location": "PUC-Rio, Brazil",
+        "benefits": "Lightweight, embeddable, fast, simple."
+    },
+    "Nim": {
+        "creator": "Andreas Rumpf",
+        "date": "2008",
+        "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Nim_logo_2012.svg/1200px-Nim_logo_2012.svg.png",
+        "location": "Germany",
+        "benefits": "Performance, expressiveness, metaprogramming, C compilation."
+    },
+    "OCaml": {
+        "creator": "Xavier Leroy et al.",
+        "date": "1996",
+        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/OCaml_Logo.svg/1200px-OCaml_Logo.svg.png",
+        "location": "INRIA, France",
+        "benefits": "Functional, type safety, performance, industrial strength."
+    },
+    "Octave": {
+        "creator": "John W. Eaton",
+        "date": "1988",
+        "description": "A high-level language, primarily intended for numerical computations.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Gnu-octave-logo.svg/1200px-Gnu-octave-logo.svg.png",
+        "location": "USA",
+        "benefits": "Numerical computation, MATLAB compatibility, free software."
+    },
+    "Pascal": {
+        "creator": "Niklaus Wirth",
+        "date": "1970",
+        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Pascal_programming_language_logo.svg/1200px-Pascal_programming_language_logo.svg.png",
+        "location": "ETH Zurich, Switzerland",
+        "benefits": "Structured programming, teaching, strong typing."
+    },
+    "Perl": {
+        "creator": "Larry Wall",
+        "date": "1987",
+        "description": "A family of two high-level, general-purpose, interpreted, dynamic programming languages.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Larry_Wall_YAPC_2007.jpg/440px-Larry_Wall_YAPC_2007.jpg",
+        "location": "USA",
+        "benefits": "Text processing, scripting, flexibility, CPAN."
+    },
+    "PHP": {
+        "creator": "Rasmus Lerdorf",
+        "date": "1995",
+        "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Rasmus_Lerdorf_at_Wikipedia_10.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/64px-PHP-logo.svg.png",
+        "location": "Canada",
+        "benefits": "Web development, ease of deployment, vast ecosystem."
+    },
+    "PostScript": {
+        "creator": "John Warnock, Charles Geschke",
+        "date": "1982",
+        "description": "A page description language in the electronic publishing and desktop publishing business.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/John_Warnock.jpg/440px-John_Warnock.jpg",
+        "location": "Adobe, USA",
+        "benefits": "Printing, vector graphics, stack-based, device independence."
+    },
+    "PowerShell": {
+        "creator": "Jeffrey Snover",
+        "date": "2006",
+        "description": "A task automation and configuration management framework from Microsoft.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/PowerShell_5.0_icon.png/1200px-PowerShell_5.0_icon.png",
+        "location": "Microsoft, USA",
+        "benefits": "Automation, system administration, object-oriented pipeline."
+    },
+    "Prolog": {
+        "creator": "Alain Colmerauer",
+        "date": "1972",
+        "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alain_Colmerauer.jpg/440px-Alain_Colmerauer.jpg",
+        "location": "University of Aix-Marseille, France",
+        "benefits": "Logic programming, AI, pattern matching, declarative."
+    },
+    "Python": {
+        "creator": "Guido van Rossum",
+        "date": "1991",
+        "description": "High-level, interpreted language emphasizing code readability. Excels in data science, machine learning, web development, automation, and rapid prototyping with extensive library ecosystem.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
+        "location": "CWI, Netherlands",
+        "benefits": "Readability, vast libraries, data science, AI."
+    },
+    "R": {
+        "creator": "Ross Ihaka, Robert Gentleman",
+        "date": "1993",
+        "description": "A programming language and free software environment for statistical computing and graphics.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png",
+        "location": "University of Auckland, New Zealand",
+        "benefits": "Statistics, data visualization, data analysis."
+    },
+    "Racket": {
+        "creator": "Matthew Flatt",
+        "date": "1995",
+        "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Racket-logo.svg/1200px-Racket-logo.svg.png",
+        "location": "Rice University, USA",
+        "benefits": "Language creation, education, macros, functional."
+    },
+    "Rexx": {
+        "creator": "Mike Cowlishaw",
+        "date": "1979",
+        "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Mike_Cowlishaw.jpg/440px-Mike_Cowlishaw.jpg",
+        "location": "IBM, UK",
+        "benefits": "Scripting, mainframe automation, ease of use."
+    },
+    "Ruby": {
+        "creator": "Yukihiro Matsumoto",
+        "date": "1995",
+        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Yukihiro_Matsumoto.JPG",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/64px-Ruby_logo.svg.png",
+        "location": "Japan",
+        "benefits": "Developer happiness, web development, scripting, elegance."
+    },
+    "Rust": {
+        "creator": "Graydon Hoare",
+        "date": "2010",
+        "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
+        "image": "https://usesthis.com/images/interviews/graydon.hoare/portrait.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Rust_programming_language_black_logo.svg/64px-Rust_programming_language_black_logo.svg.png",
+        "location": "Mozilla, Canada",
+        "benefits": "Memory safety, performance, concurrency, modern tooling."
+    },
+    "Scala": {
+        "creator": "Martin Odersky",
+        "date": "2004",
+        "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Martin_Odersky.jpg/440px-Martin_Odersky.jpg",
+        "location": "EPFL, Switzerland",
+        "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
+    },
+    "Scheme": {
+        "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
+        "date": "1975",
+        "description": "A minimalist dialect of the Lisp family of programming languages.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Lambda_lc.svg/1200px-Lambda_lc.svg.png",
+        "location": "MIT, USA",
+        "benefits": "Minimalism, education, functional, macros."
+    },
+    "Sed": {
+        "creator": "Lee E. McMahon",
+        "date": "1974",
+        "description": "A stream editor for filtering and transforming text.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy image
+        "location": "Bell Labs, USA",
+        "benefits": "Stream editing, text transformation, automation."
+    },
+    "Smalltalk": {
+        "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
+        "date": "1972",
+        "description": "An object-oriented, dynamically typed reflective programming language.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Alan_Kay_2006.jpg/440px-Alan_Kay_2006.jpg",
+        "location": "Xerox PARC, USA",
+        "benefits": "Pure OOP, live environment, influence on modern GUIs."
+    },
+    "SNOBOL": {
+        "creator": "David J. Farber, Ralph E. Griswold, Ivan P. Polonsky",
+        "date": "1962",
+        "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "location": "Bell Labs, USA",
+        "benefits": "String manipulation, pattern matching, historical significance."
+    },
+    "SQL": {
+        "creator": "Donald D. Chamberlin, Raymond F. Boyce",
+        "date": "1974",
+        "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sql_data_base_with_logo.png/1200px-Sql_data_base_with_logo.png",
+        "location": "IBM, USA",
+        "benefits": "Data management, standard, declarative, powerful queries."
+    },
+    "Swift": {
+        "creator": "Chris Lattner",
+        "date": "2014",
+        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Chris_Lattner.jpg/440px-Chris_Lattner.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/64px-Swift_logo.svg.png",
+        "location": "Apple, USA",
+        "benefits": "Safety, speed, modern syntax, Apple ecosystem."
+    },
+    "Tcl": {
+        "creator": "John Ousterhout",
+        "date": "1988",
+        "description": "Tool Command Language. A dynamic programming language.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/John_Ousterhout.jpg/440px-John_Ousterhout.jpg",
+        "location": "UC Berkeley, USA",
+        "benefits": "Scripting, GUI (Tk), embedding, simplicity."
+    },
+    "TypeScript": {
+        "creator": "Anders Hejlsberg",
+        "date": "2012",
+        "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anders_Hejlsberg_at_PDC2008.jpg/440px-Anders_Hejlsberg_at_PDC2008.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/64px-Typescript_logo_2020.svg.png",
+        "location": "Microsoft, USA",
+        "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
+    },
+    "Vala": {
+        "creator": "Jürg Billeter, Rafał Pietrak",
+        "date": "2006",
+        "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Vala_logo.svg/1200px-Vala_logo.svg.png",
+        "location": "GNOME Project",
+        "benefits": "GObject system, C performance, modern syntax, GNOME dev."
+    },
+    "Verilog": {
+        "creator": "Phil Moorby",
+        "date": "1984",
+        "description": "A hardware description language (HDL) used to model electronic systems.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "location": "Gateway Design Automation, USA",
+        "benefits": "Hardware modeling, simulation, synthesis, industry standard."
+    },
+    "VHDL": {
+        "creator": "US Department of Defense",
+        "date": "1980",
+        "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg", // Proxy
+        "location": "USA",
+        "benefits": "Hardware description, strong typing, concurrency, standard."
+    },
+    "Vimscript": {
+        "creator": "Bram Moolenaar",
+        "date": "1991",
+        "description": "The scripting language of the Vim text editor.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Vimlogo.svg/1200px-Vimlogo.svg.png",
+        "location": "Netherlands",
+        "benefits": "Editor customization, automation, plugins."
+    },
+    "VisualBasic": {
+        "creator": "Microsoft",
+        "date": "1991",
+        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/VB.NET_Logo.svg/1200px-VB.NET_Logo.svg.png",
+        "location": "Microsoft, USA",
+        "benefits": "RAD, ease of use, Windows integration, legacy support."
+    },
+    "WebAssembly": {
+        "creator": "W3C Community Group",
+        "date": "2017",
+        "description": "A binary instruction format for a stack-based virtual machine.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/WebAssembly_Logo.svg/1200px-WebAssembly_Logo.svg.png",
+        "location": "Global",
+        "benefits": "Performance, portability, language agnostic, web standard."
+    },
+    "Zig": {
+        "creator": "Andrew Kelley",
+        "date": "2016",
+        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal and reusable software.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zig_logo.svg/1200px-Zig_logo.svg.png",
+        "location": "USA",
+        "benefits": "Performance, safety, simplicity, C replacement."
     }
 };
 
@@ -348,7 +818,9 @@ const languageMetadata: Record<string, any> = {
 async function findSolvers(rootDir: string): Promise<string[]> {
     // Find all runMe_ai.sh files
     const pattern = path.join(rootDir, 'Manual', '*', 'runMe_ai.sh');
+    console.log(`Searching for solvers with pattern: ${pattern}`);
     const files = await glob(pattern);
+    console.log(`Found ${files.length} solvers:`, files);
     return files;
 }
 
@@ -392,6 +864,22 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     // Find C baseline
     const cMetrics = metrics.find(m => m.solver === 'C');
     const cTimes = cMetrics ? cMetrics.results.map(r => r.time) : [];
+    const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
+
+    // C Baselines for Composite Score
+    const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
+    const cTotalMem = cMetrics ? Math.max(...cMetrics.results.map(r => r.memory)) : 1; // Max RSS
+    const cTotalCpu = cMetrics ? cMetrics.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0) : 1;
+
+    // Calculate mismatch count
+    let mismatchCount = 0;
+    if (cTotalIters > 0) {
+        mismatchCount = metrics.filter(m => {
+            if (m.solver === 'C') return false;
+            const totalIters = m.results.reduce((a, b) => a + b.iterations, 0);
+            return totalIters !== cTotalIters;
+        }).length;
+    }
 
     let html = `
 <!DOCTYPE html>
@@ -534,14 +1022,41 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             color: #ff4444;
         }
         .suspect td {
-            border-top: 1px dashed #ffcc00;
-            border-bottom: 1px dashed #ffcc00;
+            /* border-top: 1px dashed #ffcc00; */
+            /* border-bottom: 1px dashed #ffcc00; */
         }
         .suspect .lang-col {
             color: #ffcc00;
         }
         .suspect:hover td {
             box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+        }
+        
+        .imposter {
+            color: #ff4444;
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-style: wavy;
+        }
+        
+        /* Fastest/Slowest Highlights */
+        .fastest-row td {
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+        .fastest-row .lang-col::after {
+            content: " 👑";
+            font-size: 0.8em;
+        }
+        .slowest-row td {
+            border-top: 1px solid var(--danger);
+            border-bottom: 1px solid var(--danger);
+            background: rgba(255, 68, 68, 0.05);
+        }
+        .slowest-row .lang-col::after {
+            content: " 🐢";
+            font-size: 0.8em;
         }
         
         /* Tooltip */
@@ -702,14 +1217,43 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             transition: transform 0.3s, background 0.2s, color 0.2s;
         }
         
-        /* Top Bar Layout */
         .top-bar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             gap: 20px;
             margin-bottom: 20px;
             flex-wrap: wrap;
+            position: relative;
+        }
+        .solver-counter {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+            /* Positioned in header now */
+        }
+        .mismatch-counter {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+            margin-right: 20px;
+        }
+        .header-counters {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 100;
+            background: rgba(13, 13, 18, 0.8);
+            padding: 10px 20px;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
         }
         .personality-intro {
             font-family: 'JetBrains Mono', monospace;
@@ -756,6 +1300,22 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             background: var(--primary);
             box-shadow: 0 0 5px var(--primary);
         }
+        
+        /* Iteration Mismatch Highlight */
+        .mismatch-iterations td {
+            background-color: rgba(255, 165, 0, 0.3) !important;
+        }
+        .modal-location, .modal-benefits {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--secondary);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+        .modal-benefits {
+            color: var(--primary);
+            font-style: italic;
+        }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -769,6 +1329,8 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             <img id="modalImg" class="modal-image" src="" alt="Creator">
             <div id="modalTitle" class="modal-title">Language</div>
             <div id="modalSubtitle" class="modal-subtitle">Creator • Date</div>
+            <div id="modalLocation" class="modal-location">Location</div>
+            <div id="modalBenefits" class="modal-benefits">Benefits</div>
             <div id="modalDesc" class="modal-desc">Description goes here.</div>
         </div>
     </div>
@@ -802,13 +1364,19 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
 
     <h1>Sudoku Benchmark Results</h1>
     
+    <div class="header-counters">
+        <div class="solver-counter">SOLVER ${metrics.length} OF ${metrics.length}</div>
+        ${mismatchCount > 0 ? `<div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
+    </div>
+    
     <div style="width: 95%; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
         <div id="d3-chart-container" style="width: 100%; height: 100%;"></div>
     </div>
     
     <div class="top-bar">
+        <!-- Removed solver-counter from here -->
         <div id="personality-intro" class="personality-intro">
-            Welcome to the Sudoku Benchmark. Use the controls to sort data and analyze performance metrics across different languages.
+            Welcome to the Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
         <div class="controls">
             <select id="personality-selector" class="btn" onchange="changePersonality()">
@@ -883,15 +1451,34 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         const memMbTotal = maxMem / 1024 / 1024;
         const efficiencyScore = totalTime > 0 ? memMbTotal / totalTime : 0;
 
-        // Normalized Score (vs C)
-        const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
-        const normalizedScore = (cTotalTime > 0) ? (totalTime / cTotalTime) : 0;
+        // Composite Score (vs C)
+        // Score = (TimeRatio + MemRatio + CpuRatio) / 3
+
+        const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
+
+        const timeRatio = (cTotalTime > 0) ? (totalTime / cTotalTime) : 0;
+        const memRatio = (cTotalMem > 0) ? (maxMem / cTotalMem) : 0;
+        const cpuRatio = (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 0;
+
+        const normalizedScore = (timeRatio + memRatio + cpuRatio) / 3;
+
+        // Find min/max for highlighting
+        const minTime = Math.min(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
+        const maxTime = Math.max(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
+
+        const isFastest = totalTime === minTime;
+        const isSlowest = totalTime === maxTime;
 
         // Suspect Logic
         const isSuspect = m.results.length !== maxMatrices;
 
+        // Iteration Mismatch Logic
+        const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
+        const isMismatch = m.solver !== 'C' && cTotalIters > 0 && totalIters !== cTotalIters;
+
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
+        if (isMismatch) rowClass += " mismatch-iterations";
 
         // Quote
         const quote = (personalities['Standard'] as any)[lang] || "A mystery wrapped in code.";
@@ -900,7 +1487,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         // Metadata
         const meta = languageMetadata[lang] || {};
         const year = meta.date || "0000";
-        const displayName = lang === "C_Sharp" ? "C#" : lang;
+        const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
         const historyText = (languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
 
         // Data Attributes
@@ -919,12 +1506,23 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             matrixDataAttrs += ` data-m${i}-time='${t}' data-m${i}-iters='${it}' data-m${i}-mem='${mem}' data-m${i}-score='${score.toFixed(2)}'`;
         }
 
-        html += `<tr class='${rowClass}' data-quote='${safeQuote}' data-history='${historyText}' data-lang='${lang}' data-year='${year}' data-time='${totalTime}' data-mem='${maxMem}' data-iters='${totalIters}' data-score='${normalizedScore.toFixed(2)}' ${matrixDataAttrs}>
+        html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}" 
+            data-lang="${lang}" 
+            data-year="${year}" 
+            data-time="${totalTime.toFixed(6)}" 
+            data-iters="${totalIters}" 
+            data-mem="${maxMem}" 
+            data-score="${normalizedScore.toFixed(2)}"
+            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
+            data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
-                <div>${displayName}</div>
-                <div class='lang-year'>${year}</div>
+                ${meta.logo ? `<img src="${meta.logo}" alt="${displayName}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle; object-fit: contain;">` : ''}
+                <div style="display: inline-block; vertical-align: middle;">
+                    <div>${displayName}</div>
+                    <div class='lang-year'>${year}</div>
+                </div>
             </td>
-            <td>
+            <td class="score-col">
                 <div class="total-score" style="text-align: center; color: ${normalizedScore <= 1.0 ? 'var(--primary)' : '#ff0055'};">
                     ${normalizedScore.toFixed(2)}
                 </div>
@@ -941,18 +1539,23 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                     scoreDisplay = `${scoreVal.toFixed(2)}x`;
                 }
 
-                html += `<td>
+                html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
 
                         <div class="time" title="Wall Clock Time">${r.time.toFixed(5)}s</div>
                         <div class="meta">
-                            <span title="Iterations">#${r.iterations}</span>
+                            ${(() => {
+                        const cRes = cMetrics?.results.find(res => res.matrix === r.matrix);
+                        const cIterations = cRes ? cRes.iterations : null;
+                        const isImposter = m.solver !== 'C' && cIterations !== null && r.iterations !== cIterations;
+                        return `<span title="Iterations" class="${isImposter ? 'imposter' : ''}">#${r.iterations}</span>`;
+                    })()}
                             <span title="Memory">${memMb.toFixed(1)}M</span>
                         </div>
                     </div>
                 </td>`;
             } else {
-                html += `<td><span style='color: #333'>-</span></td>`;
+                html += `<td class="matrix-cell" data-matrix-index="${i}"><span style='color: #333'>-</span></td>`;
             }
         }
 
@@ -1073,7 +1676,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                 else if (persona === "The Jockey") intro.innerText = "And they're off! The race is on!";
                 else if (persona === "The Professor") intro.innerText = "Let us analyze the computational complexity.";
                 else if (persona === "The Surfer") intro.innerText = "Catch the wave of data, dude.";
-                else intro.innerText = "Welcome to the Sudoku Benchmark.";
+                else intro.innerText = "Welcome to the Sudoku Benchmark. Click on any language name for creator details.";
 
                 // Update Tooltips
                 const rows = document.querySelectorAll('tbody tr');
@@ -1108,21 +1711,18 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                     const row = cell.parentElement;
                     const lang = row.getAttribute('data-lang');
                     
-                    const cellIndex = cell.cellIndex;
-                    const maxMatrices = 5; 
-                    
                     let content = "";
                     
-                    if (cellIndex === 0) {
+                    if (cell.classList.contains('lang-col')) {
                         // Language Cell -> Show History
                         const history = row.getAttribute('data-history');
                         if (history) {
                             content = '<strong style="color: var(--primary)">' + lang + '</strong><br>' +
                                 '<div style="max-width: 250px; white-space: normal; margin-top: 5px;">' + history + '</div>';
                         }
-                    } else if (cellIndex >= 2 && cellIndex < 2 + maxMatrices) {
+                    } else if (cell.classList.contains('matrix-cell')) {
                         // Matrix Cell -> Detailed Metrics
-                        const matrixIdx = cellIndex - 2;
+                        const matrixIdx = parseInt(cell.getAttribute('data-matrix-index'));
                         const time = row.getAttribute('data-m' + matrixIdx + '-time');
                         const iters = row.getAttribute('data-m' + matrixIdx + '-iters');
                         const mem = row.getAttribute('data-m' + matrixIdx + '-mem');
@@ -1140,16 +1740,21 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                         } else {
                             content = row.getAttribute('data-quote');
                         }
-                    } else if (cellIndex === 1) {
-                        // Score Cell -> Show Narrator Quote
-                        content = row.getAttribute('data-quote');
+                    } else if (cell.classList.contains('score-col')) {
+                        // Score Cell -> Show Breakdown + Quote
+                        const breakdown = row.getAttribute('data-score-breakdown');
+                        const quote = row.getAttribute('data-quote');
+                        content = '<strong style="color: var(--primary)">Composite Score</strong><br>' +
+                                  '<span style="font-size: 0.8em; color: var(--secondary)">' + breakdown + '</span><br>' +
+                                  '<hr style="border: 0; border-bottom: 1px solid var(--border); margin: 5px 0;">' +
+                                  quote;
                     }
 
                     if (content) {
                         const tooltip = document.getElementById('tooltip');
                         tooltip.style.display = 'block';
-                        tooltip.style.left = (e.pageX + 15) + 'px';
-                        tooltip.style.top = (e.pageY + 15) + 'px';
+                        tooltip.style.left = (e.clientX + 15) + 'px';
+                        tooltip.style.top = (e.clientY + 15) + 'px';
                         tooltip.innerHTML = content;
                     }
                 });
@@ -1159,6 +1764,18 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                     tooltip.style.display = 'none';
                 });
             });
+            
+            // Add click handler to language cells to show modal
+            document.querySelectorAll('.lang-col').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const row = cell.parentElement;
+                    const lang = row.getAttribute('data-lang');
+                    if (lang) {
+                        showLanguageDetails(lang);
+                    }
+                });
+                cell.style.cursor = 'pointer';  // Make it obvious it's clickable
+            });
             // Modal Logic
             function showLanguageDetails(lang) {
                 const modal = document.getElementById('langModal');
@@ -1166,8 +1783,11 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                 if (!meta) return;
 
                 document.getElementById('modalImg').src = meta.image;
-                document.getElementById('modalTitle').innerText = lang;
+                const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
+                document.getElementById('modalTitle').innerText = displayName;
                 document.getElementById('modalSubtitle').innerText = meta.creator + " • " + meta.date;
+                document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
+                document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
                 document.getElementById('modalDesc').innerText = meta.description;
                 
                 modal.style.display = 'flex';
@@ -1195,6 +1815,10 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             // --- D3.js Chart Implementation ---
             (function() {
                 const data = ${JSON.stringify(metrics)};
+                // Calculate min/max from individual matrix times, not totals
+                const allTimes = data.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0);
+                const minTime = ${Math.min(...metrics.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0))};
+                const maxTime = ${Math.max(...metrics.flatMap(m => m.results.map(r => r.time)))};
                 const container = document.getElementById('d3-chart-container');
                 const width = container.clientWidth;
                 const height = container.clientHeight;
@@ -1236,93 +1860,89 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                     .text("Matrix Input");
 
                 // Y Axis: Time (Log Scale)
-                // Find min and max time across all data
-                let minTime = Infinity;
-                let maxTime = 0;
-                
-                data.forEach(d => {
-                    d.results.forEach(r => {
-                        if (r.time > 0) {
-                            if (r.time < minTime) minTime = r.time;
-                            if (r.time > maxTime) maxTime = r.time;
-                        }
-                    });
-                });
-                
-                // Buffer for log scale
-                minTime = Math.max(minTime, 0.0001); 
-                
                 const y = d3.scaleLog()
-                    .domain([minTime * 0.8, maxTime * 1.2])
+                    .domain([minTime, maxTime])
                     .range([chartHeight, 0]);
-                    
+
                 svg.append("g")
-                    .call(d3.axisLeft(y).ticks(5, ".4f"))
+                    .call(d3.axisLeft(y)
+                        .ticks(5)
+                        .tickFormat((d, i, nodes) => {
+                            // Only show labels for major ticks (every other tick or specific values)
+                            const ticks = y.ticks(5);
+                            if (ticks.indexOf(d) % 2 === 0 || ticks.length <= 3) {
+                                return d >= 1 ? d3.format(".1f")(d) + "s" : d3.format(".2f")(d) + "s";
+                            }
+                            return "";  // Hide minor tick labels
+                        })
+                    )
                     .selectAll("text")
                     .style("fill", "#e0e0e0")
                     .style("font-family", "JetBrains Mono");
-                    
+
                 svg.append("text")
-                    .attr("text-anchor", "end")
                     .attr("transform", "rotate(-90)")
-                    .attr("y", -45)
-                    .attr("x", -10)
+                    .attr("y", 0 - margin.left)
+                    .attr("x", 0 - (chartHeight / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
                     .style("fill", "#5c5c66")
                     .style("font-size", "12px")
                     .text("Time (seconds) - Log Scale");
-                    
-                // Grid lines
-                svg.append("g")
-                    .attr("class", "grid")
-                    .attr("opacity", 0.1)
-                    .call(d3.axisLeft(y)
-                        .tickSize(-chartWidth)
-                        .tickFormat("")
-                    );
+                
+                
+// Grid lines
+svg.append("g")
+    .attr("class", "grid")
+    .attr("opacity", 0.1)
+    .call(d3.axisLeft(y)
+        .tickSize(-chartWidth)
+        .tickFormat("")
+    );
 
-                // Color Palette
-                const color = d3.scaleOrdinal()
-                    .domain(data.map(d => d.solver))
-                    .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
+// Color Palette
+const color = d3.scaleOrdinal()
+    .domain(data.map(d => d.solver))
+    .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
 
-                // Line Generator
-                const line = d3.line()
-                    .x(d => x(d.matrix))
-                    .y(d => y(Math.max(d.time, minTime)));
+// Line Generator
+const line = d3.line()
+    .x(d => x(d.matrix))
+    .y(d => y(Math.max(d.time, minTime)));
 
-                // Draw Lines
-                data.forEach(solver => {
-                    // Filter results to match our x-axis domain
-                    const solverData = solver.results.filter(r => matrices.includes(r.matrix));
-                    
-                    // Path
-                    svg.append("path")
-                        .datum(solverData)
-                        .attr("fill", "none")
-                        .attr("stroke", color(solver.solver))
-                        .attr("stroke-width", 2)
-                        .attr("d", line)
-                        .attr("class", "line-path")
-                        .style("filter", \`drop-shadow(0 0 4px \${color(solver.solver)})\`);
-                        
-                    // Dots
-                    svg.selectAll(".dot-" + solver.solver)
-                        .data(solverData)
-                        .enter().append("circle")
-                        .attr("cx", d => x(d.matrix))
-                        .attr("cy", d => y(Math.max(d.time, minTime)))
-                        .attr("r", 4)
-                        .attr("fill", "#16161e")
-                        .attr("stroke", color(solver.solver))
-                        .attr("stroke-width", 2)
-                        .on("mouseover", function(event, d) {
-                            d3.select(this).attr("r", 6).attr("fill", color(solver.solver));
-                            
-                            const tooltip = document.getElementById('tooltip');
-                            tooltip.style.display = 'block';
-                            tooltip.style.left = (event.pageX + 15) + 'px';
-                            tooltip.style.top = (event.pageY + 15) + 'px';
-                            tooltip.innerHTML = \`
+// Draw Lines
+data.forEach(solver => {
+    // Filter results to match our x-axis domain
+    const solverData = solver.results.filter(r => matrices.includes(r.matrix));
+    const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
+
+    // Path
+    svg.append("path")
+        .datum(solverData)
+        .attr("fill", "none")
+        .attr("stroke", color(solver.solver))
+        .attr("stroke-width", 2)
+        .attr("d", line)
+        .attr("class", "line-path")
+    // Dots
+    svg.selectAll("." + safeSolverClass)
+        .data(solverData)
+        .enter().append("circle")
+        .attr("class", safeSolverClass)
+        .attr("cx", d => x(d.matrix))
+        .attr("cy", d => y(Math.max(d.time, minTime)))
+        .attr("r", 4)
+        .attr("fill", "#16161e")
+        .attr("stroke", color(solver.solver))
+        .attr("stroke-width", 2)
+        .on("mouseover", function (event, d) {
+            d3.select(this).attr("r", 6).attr("fill", color(solver.solver));
+
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.clientX + 15) + 'px';
+            tooltip.style.top = (event.clientY + 15) + 'px';
+            tooltip.innerHTML = \`
                                 <strong style="color:\${color(solver.solver)}">\${solver.solver}</strong><br>
                                 Matrix: \${d.matrix}<br>
                                 Time: \${d.time.toFixed(6)}s<br>
@@ -1405,6 +2025,34 @@ async function captureScreenshot(htmlFilePath: string) {
     } catch (e) {
         console.warn("Chart selector not found or timed out, proceeding with screenshot anyway.");
     }
+
+    // Modify page for screenshot: Sort by Score and Hide rows > 10
+    await page.evaluate(() => {
+        // 1. Sort by Score (Ascending)
+        // We need to find the sort button for Score and click it, or call the function directly
+        // The function is sortRows('score', btn)
+        // Let's call it directly if possible, or simulate click
+
+        // Reset sort to ensure we start clean
+        // Accessing the global function defined in the HTML
+        (window as any).currentSort = { metric: 'score', dir: -1 }; // Set to -1 so the next call flips it to 1 (Asc)
+        (window as any).sortRows('score', null);
+
+        // 2. Hide rows beyond top 10
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            if (index >= 10) {
+                (row as HTMLElement).style.display = 'none';
+            }
+        });
+
+        // 3. Hide the "Show Imposters" button and other controls to clean up UI
+        const controls = document.querySelector('.controls');
+        if (controls) (controls as HTMLElement).style.display = 'none';
+
+        const personalityIntro = document.getElementById('personality-intro');
+        if (personalityIntro) (personalityIntro as HTMLElement).style.display = 'none';
+    });
 
     await page.screenshot({ path: screenshotPath, fullPage: true });
 

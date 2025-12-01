@@ -56,7 +56,7 @@ solve <- function() {
         }
     }
     printMatrix()
-    writeLines(paste("\nSolved in Iterations=", count,"\n"));
+    writeLines(paste0("\nSolved in Iterations=", count,"\n"));
     return (2)
 }
 

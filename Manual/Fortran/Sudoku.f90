@@ -21,7 +21,7 @@ PROGRAM MAIN
         END IF
     END DO
     call cpu_time(finish)
-    print '(/AF8.3)',"Seconds to process", finish-start
+    print '(/A,F8.3)',"Seconds to process ", finish-start
 CONTAINS    
 
 SUBROUTINE readMatrixFile(filename)
@@ -34,11 +34,12 @@ SUBROUTINE readMatrixFile(filename)
     DO
         read(9, '(A)', iostat=ios) line
         if (ios /= 0) exit
-        if (line(1:2) /= '#') then
-                read (line, *) puzzle(n,0),puzzle(n,1),puzzle(n,2),puzzle(n,3),puzzle(n,4)&
-                ,puzzle(n,5),puzzle(n,6),puzzle(n,7),puzzle(n,8)
-            n = n + 1
-        END IF
+        if (len_trim(line) == 0) cycle
+        if (line(1:1) == '#') cycle
+        
+        read (line, *) puzzle(n,0),puzzle(n,1),puzzle(n,2),puzzle(n,3),puzzle(n,4)&
+            ,puzzle(n,5),puzzle(n,6),puzzle(n,7),puzzle(n,8)
+        n = n + 1
     END DO
     CLOSE(UNIT=9)
 END SUBROUTINE readMatrixFile

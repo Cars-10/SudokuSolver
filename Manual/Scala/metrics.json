@@ -1,0 +1,20 @@
+[
+  {
+    "matrix": "1.matrix",
+    "time": 4.507253,
+    "iterations": 656,
+    "memory": 229556224,
+    "cpu_user": 7.27,
+    "cpu_sys": 1.42,
+    "status": "pass"
+  },
+  {
+    "matrix": "2.matrix",
+    "time": 4.244614,
+    "iterations": 439269,
+    "memory": 206110720,
+    "cpu_user": 5.51,
+    "cpu_sys": 1.13,
+    "status": "pass"
+  }
+]

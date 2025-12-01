@@ -5,8 +5,10 @@ CONST FALSE = 0
 CONST TRUE = -1
 
 DIM SHARED board(9, 9)
+DIM SHARED iterations AS LONG
 DIM filename as STRING
 
+iterations = 0
 
 count = _COMMANDCOUNT
 FOR c = 1 TO count
@@ -27,6 +29,7 @@ PrintBoard
 IF SolveSudoku THEN
     PRINT "Puzzle:"
     PrintBoard
+    PRINT "Solved in Iterations="; iterations
 ELSE
     PRINT "No solution found."
 END IF
@@ -67,6 +70,7 @@ FUNCTION SolveSudoku()
         FOR col = 1 TO 9
             IF board(row, col) = 0 THEN
                 FOR num = 1 TO 9
+                    iterations = iterations + 1
                     IF IsValidMove(row, col, num) THEN
                         board(row, col) = num
                         IF SolveSudoku THEN

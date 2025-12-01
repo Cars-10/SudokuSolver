@@ -21,6 +21,9 @@ func readMatrixFile(filename string) {
 	var j = 0
 	for scanner.Scan() {
 		line := scanner.Text()
+		if len(strings.TrimSpace(line)) == 0 {
+			continue
+		}
 		if !strings.HasPrefix(line, "#") {
 			_, err := fmt.Sscan(line, &puzzle[j][0], &puzzle[j][1],
 				&puzzle[j][2], &puzzle[j][3], &puzzle[j][4], &puzzle[j][5],

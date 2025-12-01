@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # Define the board as an array
 declare -a board
@@ -24,36 +24,23 @@ print_board() {
 
 # Function to check if a move is valid
 is_valid() {
-    # This function checks if a given number is valid at a given position on the Sudoku board.
-    # It takes two arguments: the number to be checked and the position on the board.
-    # It returns 1 if the number is invalid (already exists in the same row, column or 3x3 square), and 0 if the number is valid.
-    # The function first calculates the row and column of the given position, then checks if the number already exists in the same row or column.
-    # If the number does not exist in the same row or column, the function checks the 3x3 square that contains the given position.
-    # If the number already exists in the 3x3 square, the function returns 1, otherwise it returns 0.
     local num=$1
-    local pos=$2
-
-    local row=$(( pos / 9 ))
-    local col=$(( pos % 9 ))
-    #echo "Is $num valid at $pos, row: $row, col: $col"
+    local row=$2
+    local col=$3
+    local startRow=$4
+    local startCol=$5
 
     # Check row and column
     for (( i=0; i<9; i++ )); do
-        #echo "Is Valid: Row: board[$(( row*9 + i ))] ${board[$(( row*9 + i ))]} == $num || Col: board[$(( i*9 + col ))] ${board[$(( i*9 + col ))]} == $num ]] "
         if [[ ${board[$(( row*9 + i ))]} == $num || ${board[$(( i*9 + col ))]} == $num ]]; then
             return 1
         fi
     done
 
     # Check 3x3 square
-    local startRow=$(( row / 3 * 3 ))
-    local startCol=$(( col / 3 * 3 ))
-    #echo "Check 3x3 startRow: $startRow, startCol: $startCol"
     for (( i=0; i<3; i++ )); do
         for (( j=0; j<3; j++ )); do
-            #echo  "Is Valid: board[$(( (startRow + i)*9 + (startCol + j) ))] == $num"
             if [[ ${board[$(( (startRow + i)*9 + (startCol + j) ))]} == $num ]]; then
-                #echo "Not In 3x3"
                 return 1
             fi
         done
@@ -105,23 +92,35 @@ solve() {
 
     if [[ $pos == 81 ]]; then
         print_board
-        return
+        return 0
     fi
 
     if [[ ${board[${pos}]} != 0 ]]; then
-        solve $(( ${pos} + 1 ))
+        if solve $(( ${pos} + 1 )); then
+            return 0
+        else
+            return 1
+        fi
     else
+        local row=$(( pos / 9 ))
+        local col=$(( pos % 9 ))
+        local startRow=$(( row / 3 * 3 ))
+        local startCol=$(( col / 3 * 3 ))
+
         for (( num=1; num<=9; num++ )); do
-            if is_valid $num $pos; then
+            if is_valid $num $row $col $startRow $startCol; then
                 #echo "Is Valid: board[$pos]=$num"
 
                 board[${pos}]=${num}
-                solve $(( ${pos} + 1 ))
+                if solve $(( ${pos} + 1 )); then
+                    return 0
+                fi
                 #echo "Invalid: Setting board[$pos]=0 stack level: ${#FUNCNAME[@]}"
                 board[$pos]=0 # Reset the cell to 0 if the solve function returns
                 #echo "Shold be 1-9 $num"
             fi
         done
+        return 1
     fi
 }
 
