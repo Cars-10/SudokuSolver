@@ -1,7 +1,7 @@
 [
   {
     "matrix": "1.matrix",
-    "time": 0.311685,
+    "time": 0.515616,
     "iterations": 656,
     "memory": 1310720,
     "cpu_user": 0.00,
@@ -10,7 +10,7 @@
   },
   {
     "matrix": "2.matrix",
-    "time": 0.017175,
+    "time": 0.019659,
     "iterations": 439269,
     "memory": 1310720,
     "cpu_user": 0.00,

@@ -1,0 +1,2 @@
+solve()
+print_board()

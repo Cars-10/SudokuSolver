@@ -1,83 +1,86 @@
-import os, strutils
+import os, strutils, strformat
 
-var puzzle: array[9, array[9, int]]
-var iterations = 0
+type
+  Grid = array[9, array[9, int]]
 
-proc printBoard() =
-  echo "Puzzle:"
+var iterations: int = 0
+
+proc printGrid(grid: Grid) =
+  for row in grid:
+    for i, cell in row:
+      stdout.write($cell)
+      if i < 8: stdout.write(" ")
+    stdout.write("\n")
+
+proc isValid(grid: Grid, row, col, num: int): bool =
+  # Check row and column
   for i in 0..8:
-    for j in 0..8:
-      stdout.write($puzzle[i][j] & " ")
-    echo ""
+    if grid[row][i] == num: return false
+    if grid[i][col] == num: return false
 
-proc isPossible(row, col, num: int): bool =
-  for i in 0..8:
-    if puzzle[row][i] == num or puzzle[i][col] == num:
-      return false
-  
-  let startRow = (row div 3) * 3
-  let startCol = (col div 3) * 3
+  # Check 3x3 box
+  let startRow = row - (row mod 3)
+  let startCol = col - (col mod 3)
   for i in 0..2:
     for j in 0..2:
-      if puzzle[startRow + i][startCol + j] == num:
-        return false
+      if grid[startRow + i][startCol + j] == num: return false
+
   return true
 
-proc solve(row, col: int): bool =
-  if row == 9:
-    return true
+proc solve(grid: var Grid): bool =
+  iterations += 1
   
-  var nextRow = row
-  var nextCol = col + 1
-  if nextCol == 9:
-    nextRow = row + 1
-    nextCol = 0
-  
-  if puzzle[row][col] != 0:
-    return solve(nextRow, nextCol)
-  
+  var row = -1
+  var col = -1
+  var isEmpty = false
+
+  for r in 0..8:
+    for c in 0..8:
+      if grid[r][c] == 0:
+        row = r
+        col = c
+        isEmpty = true
+        break
+    if isEmpty: break
+
+  if not isEmpty: return true
+
   for num in 1..9:
-    inc(iterations)
-    if isPossible(row, col, num):
-      puzzle[row][col] = num
-      if solve(nextRow, nextCol):
-        return true
-      puzzle[row][col] = 0
-  
+    if isValid(grid, row, col, num):
+      grid[row][col] = num
+      if solve(grid): return true
+      grid[row][col] = 0
+
   return false
 
-proc readBoard(filename: string): bool =
-  try:
-    let content = readFile(filename)
-    let lines = content.splitLines()
-    var row = 0
-    for line in lines:
-      let trimmed = line.strip()
-      if trimmed.len > 0 and not trimmed.startsWith("#"):
-        let parts = trimmed.splitWhitespace()
-        var col = 0
-        for part in parts:
-          if col < 9:
-            puzzle[row][col] = parseInt(part)
-            inc(col)
-        inc(row)
-        if row == 9:
-          return true
-    return true
-  except:
-    echo "Error reading file ", filename
-    return false
+proc main() =
+  if paramCount() < 1:
+    echo "Usage: ", getAppFilename(), " <matrix_file>"
+    return
 
-if paramCount() == 0:
-  echo "Usage: ./Sudoku <file1> <file2> ..."
-else:
-  for filename in commandLineParams():
-    echo "\nProcessing ", filename
-    if readBoard(filename):
-      printBoard()
-      iterations = 0
-      if solve(0, 0):
-        printBoard()
-        echo "\nSolved in Iterations=", iterations
-      else:
-        echo "No solution found"
+  let filename = paramStr(1)
+  let content = readFile(filename)
+  
+  var grid: Grid
+  var row = 0
+
+  for line in content.splitLines():
+    if line.len == 0: continue
+    if line[0] < '0' or line[0] > '9': continue
+
+    var col = 0
+    for token in line.splitWhitespace():
+      if col < 9:
+        grid[row][col] = parseInt(token)
+        col += 1
+    
+    if col > 0: row += 1
+    if row >= 9: break
+
+  if solve(grid):
+    printGrid(grid)
+    echo fmt"Solved in Iterations={iterations}"
+  else:
+    echo "No solution found."
+
+main()
