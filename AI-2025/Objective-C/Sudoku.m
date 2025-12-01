@@ -1,106 +1,167 @@
 #import <Foundation/Foundation.h>
 
-int puzzle[9][9];
-long long count = 0;
+@interface Sudoku : NSObject {
+    int board[9][9];
+    long iterations;
+}
 
-void printPuzzle() {
-    printf("\nPuzzle:\n");
-    for (int j = 0; j < 9; j++) {
+- (void)readMatrix:(NSString *)filename;
+- (void)printBoard;
+- (BOOL)solve;
+- (long)getIterations;
+
+@end
+
+@implementation Sudoku
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        iterations = 0;
         for (int i = 0; i < 9; i++) {
-            printf("%d ", puzzle[j][i]);
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = 0;
+            }
+        }
+    }
+    return self;
+}
+
+- (void)readMatrix:(NSString *)filename {
+    NSError *error = nil;
+    NSString *content = [NSString stringWithContentsOfFile:filename encoding:NSUTF8StringEncoding error:&error];
+    
+    if (error) {
+        NSLog(@"Error reading file: %@", error);
+        exit(1);
+    }
+    
+    NSArray *lines = [content componentsSeparatedByString:@"\n"];
+    int row = 0;
+    
+    for (NSString *line in lines) {
+        NSString *trimmedLine = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([trimmedLine length] == 0) continue;
+        if ([trimmedLine characterAtIndex:0] == '#') continue;
+        
+        if (row >= 9) break;
+        
+        int col = 0;
+        for (int i = 0; i < [trimmedLine length]; i++) {
+            unichar c = [trimmedLine characterAtIndex:i];
+            if (c >= '0' && c <= '9') {
+                if (col < 9) {
+                    board[row][col] = c - '0';
+                    col++;
+                }
+            } else if (c == '.') {
+                 if (col < 9) {
+                    board[row][col] = 0;
+                    col++;
+                }
+            }
+        }
+        row++;
+    }
+}
+
+- (void)printBoard {
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            printf("%d ", board[i][j]);
         }
         printf("\n");
     }
 }
 
-void readMatrixFile(NSString *filename) {
-    printf("%s\n", [filename UTF8String]);
-    NSError *error = nil;
-    NSString *content = [NSString stringWithContentsOfFile:filename encoding:NSUTF8StringEncoding error:&error];
-    if (error) {
-        printf("Error reading file: %s\n", [[error localizedDescription] UTF8String]);
-        return;
+- (BOOL)isValidRow:(int)row col:(int)col num:(int)num {
+    // Row check
+    for (int c = 0; c < 9; c++) {
+        if (board[row][c] == num) return NO;
     }
     
-    NSArray *lines = [content componentsSeparatedByString:@"\n"];
-    int row = 0;
-    for (NSString *line in lines) {
-        NSString *trimmed = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([trimmed length] == 0 || [trimmed hasPrefix:@"#"]) continue;
-        
-        NSArray *parts = [trimmed componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSMutableArray *validParts = [NSMutableArray array];
-        for (NSString *part in parts) {
-            if ([part length] > 0) {
-                [validParts addObject:part];
-            }
-        }
-        
-        if ([validParts count] == 9) {
-            for (int col = 0; col < 9; col++) {
-                puzzle[row][col] = [validParts[col] intValue];
-            }
-            row++;
-            if (row == 9) break;
+    // Col check
+    for (int r = 0; r < 9; r++) {
+        if (board[r][col] == num) return NO;
+    }
+    
+    // Box check
+    int boxRow = (row / 3) * 3;
+    int boxCol = (col / 3) * 3;
+    
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
+            if (board[boxRow + r][boxCol + c] == num) return NO;
         }
     }
+    
+    return YES;
 }
 
-int isPossible(int y, int x, int val) {
-    for (int i = 0; i < 9; i++) {
-        if (puzzle[i][x] == val) return 0;
-        if (puzzle[y][i] == val) return 0;
-    }
-    
-    int x0 = (x / 3) * 3;
-    int y0 = (y / 3) * 3;
-    
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (puzzle[y0 + i][x0 + j] == val) return 0;
-        }
-    }
-    return 1;
-}
-
-int solve() {
-    for (int j = 0; j < 9; j++) {
-        for (int i = 0; i < 9; i++) {
-            if (puzzle[j][i] == 0) {
-                for (int val = 1; val <= 9; val++) {
-                    count++;
-                    if (isPossible(j, i, val)) {
-                        puzzle[j][i] = val;
-                        if (solve() == 2) return 2;
-                        puzzle[j][i] = 0;
-                    }
-                }
-                return 0;
+- (BOOL)findEmptyRow:(int *)row col:(int *)col {
+    for (int r = 0; r < 9; r++) {
+        for (int c = 0; c < 9; c++) {
+            if (board[r][c] == 0) {
+                *row = r;
+                *col = c;
+                return YES;
             }
         }
     }
-    printPuzzle();
-    printf("\nSolved in Iterations=%lld\n\n", count);
-    return 2;
+    return NO;
 }
+
+- (BOOL)solve {
+    int row, col;
+    
+    if (![self findEmptyRow:&row col:&col]) {
+        return YES;
+    }
+    
+    for (int num = 1; num <= 9; num++) {
+        iterations++;
+        if ([self isValidRow:row col:col num:num]) {
+            board[row][col] = num;
+            
+            if ([self solve]) {
+                return YES;
+            }
+            
+            board[row][col] = 0;
+        }
+    }
+    
+    return NO;
+}
+
+- (long)getIterations {
+    return iterations;
+}
+
+@end
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSDate *start = [NSDate date];
-        
-        for (int i = 1; i < argc; i++) {
-            NSString *arg = [NSString stringWithUTF8String:argv[i]];
-            if ([arg hasSuffix:@".matrix"]) {
-                readMatrixFile(arg);
-                printPuzzle();
-                count = 0;
-                solve();
-            }
+        if (argc < 2) {
+            printf("Usage: %s <matrix_file>\n", argv[0]);
+            return 1;
         }
         
-        NSDate *end = [NSDate date];
-        NSTimeInterval executionTime = [end timeIntervalSinceDate:start];
-        printf("Seconds to process %.3f\n", executionTime);
+        NSString *filename = [NSString stringWithUTF8String:argv[1]];
+        Sudoku *sudoku = [[Sudoku alloc] init];
+        
+        [sudoku readMatrix:filename];
+        
+        printf("Puzzle:\n");
+        [sudoku printBoard];
+        
+        if ([sudoku solve]) {
+            printf("Puzzle:\n");
+            [sudoku printBoard];
+            printf("Solved in Iterations=%ld\n", [sudoku getIterations]);
+        } else {
+            printf("No solution found.\n");
+        }
     }
     return 0;
 }

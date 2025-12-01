@@ -1,102 +1,131 @@
 Object subclass: Sudoku [
-    | puzzle count |
-    
+    | board iterations |
+
     Sudoku class >> new [
         ^super new init
     ]
-    
+
     init [
-        puzzle := Array new: 9.
-        1 to: 9 do: [:i | puzzle at: i put: (Array new: 9)].
-        count := 0.
+        board := Array new: 9.
+        1 to: 9 do: [:i | board at: i put: (Array new: 9)].
+        iterations := 0.
     ]
-    
-    printPuzzle [
-        Transcript nl; show: 'Puzzle:'; nl.
+
+    readMatrix: filename [
+        | file stream line row col char |
+        file := FileStream open: filename mode: FileStream read.
+        row := 1.
+        [file atEnd] whileFalse: [
+            line := file nextLine.
+            (line size > 0) ifTrue: [
+                (line at: 1) ~= $# ifTrue: [
+                    col := 1.
+                    stream := ReadStream on: line.
+                    [stream atEnd] whileFalse: [
+                        char := stream next.
+                        (char isDigit and: [char ~= $0]) ifTrue: [
+                            (board at: row) at: col put: (char digitValue).
+                            col := col + 1.
+                        ] ifFalse: [
+                            (char = $0 or: [char = $.]) ifTrue: [
+                                (board at: row) at: col put: 0.
+                                col := col + 1.
+                            ]
+                        ]
+                    ].
+                    row := row + 1.
+                ]
+            ]
+        ].
+        file close.
+    ]
+
+    printBoard [
         1 to: 9 do: [:r |
             1 to: 9 do: [:c |
-                Transcript show: ((puzzle at: r) at: c) printString; show: ' '.
+                Transcript show: ((board at: r) at: c) printString; show: ' '.
             ].
             Transcript nl.
         ].
     ]
-    
-    readMatrixFile: filename [
-        | f line parts row |
-        Transcript show: filename; nl.
-        f := FileStream open: filename mode: FileStream read.
-        row := 1.
-        [f atEnd] whileFalse: [
-            line := f nextLine.
-            (line startsWith: '#') ifFalse: [
-                parts := line subStrings: ' '.
-                (parts size = 9) ifTrue: [
-                    1 to: 9 do: [:col |
-                        (puzzle at: row) at: col put: (parts at: col) asInteger.
-                    ].
-                    row := row + 1.
-                    (row > 9) ifTrue: [^self].
-                ].
+
+    isValid: row col: col num: num [
+        | boxRow boxCol |
+        
+        "Row check"
+        1 to: 9 do: [:c |
+            ((board at: row) at: c) = num ifTrue: [^false].
+        ].
+
+        "Col check"
+        1 to: 9 do: [:r |
+            ((board at: r) at: col) = num ifTrue: [^false].
+        ].
+
+        "Box check"
+        boxRow := ((row - 1) // 3) * 3 + 1.
+        boxCol := ((col - 1) // 3) * 3 + 1.
+        0 to: 2 do: [:r |
+            0 to: 2 do: [:c |
+                ((board at: boxRow + r) at: boxCol + c) = num ifTrue: [^false].
             ].
         ].
-        f close.
-    ]
-    
-    isPossible: r col: c val: val [
-        | r0 c0 |
-        1 to: 9 do: [:i |
-            ((puzzle at: i) at: c) = val ifTrue: [^false].
-            ((puzzle at: r) at: i) = val ifTrue: [^false].
-        ].
-        
-        r0 := ((r - 1) // 3) * 3 + 1.
-        c0 := ((c - 1) // 3) * 3 + 1.
-        
-        0 to: 2 do: [:i |
-            0 to: 2 do: [:j |
-                ((puzzle at: r0 + i) at: c0 + j) = val ifTrue: [^false].
-            ].
-        ].
+
         ^true
     ]
-    
-    solve [
+
+    findEmpty [
         1 to: 9 do: [:r |
             1 to: 9 do: [:c |
-                ((puzzle at: r) at: c) = 0 ifTrue: [
-                    1 to: 9 do: [:val |
-                        count := count + 1.
-                        (self isPossible: r col: c val: val) ifTrue: [
-                            (puzzle at: r) at: c put: val.
-                            (self solve) ifTrue: [^true].
-                            (puzzle at: r) at: c put: 0.
-                        ].
-                    ].
-                    ^false
-                ].
+                ((board at: r) at: c) = 0 ifTrue: [^{r. c}].
             ].
         ].
-        self printPuzzle.
-        Transcript nl; show: 'Solved in Iterations='; show: count printString; nl; nl.
-        ^true
+        ^nil
     ]
-    
-    resetCount [
-        count := 0.
+
+    solve [
+        | empty row col |
+        empty := self findEmpty.
+        empty ifNil: [^true].
+        
+        row := empty at: 1.
+        col := empty at: 2.
+
+        1 to: 9 do: [:num |
+            iterations := iterations + 1.
+            (self isValid: row col: col num: num) ifTrue: [
+                (board at: row) at: col put: num.
+                self solve ifTrue: [^true].
+                (board at: row) at: col put: 0.
+            ].
+        ].
+
+        ^false
+    ]
+
+    getIterations [
+        ^iterations
     ]
 ]
 
-| sudoku start end args |
-sudoku := Sudoku new.
-start := Time millisecondClockValue.
+| sudoku filename args |
 args := Smalltalk arguments.
-args do: [:arg |
-    (arg endsWith: '.matrix') ifTrue: [
-        sudoku readMatrixFile: arg.
-        sudoku printPuzzle.
-        sudoku resetCount.
-        sudoku solve.
-    ].
+(args size < 1) ifTrue: [
+    Transcript show: 'Usage: gst sudoku.st -a filename'; nl.
+    ObjectMemory quit.
 ].
-end := Time millisecondClockValue.
-Transcript show: 'Seconds to process '; show: ((end - start) / 1000.0) printString; nl.
+
+filename := args at: 1.
+sudoku := Sudoku new.
+sudoku readMatrix: filename.
+
+Transcript show: 'Puzzle:'; nl.
+sudoku printBoard.
+
+(sudoku solve) ifTrue: [
+    Transcript show: 'Puzzle:'; nl.
+    sudoku printBoard.
+    Transcript show: 'Solved in Iterations='; show: sudoku getIterations printString; nl.
+] ifFalse: [
+    Transcript show: 'No solution found.'; nl.
+].

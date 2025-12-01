@@ -1,203 +1,188 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. SUDOKU.
+       PROGRAM-ID. Sudoku.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT INPUT-FILE ASSIGN TO DYNAMIC WS-FILENAME
-               ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT InputFile ASSIGN TO "../../Matrices/1.matrix"
+           ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
-       FD  INPUT-FILE.
-       01  INPUT-RECORD PIC X(80).
+       FD InputFile.
+       01 InputLine PIC X(80).
 
        WORKING-STORAGE SECTION.
-       01  WS-FILENAME      PIC X(100).
-       01  WS-EOF           PIC X VALUE 'N'.
-       01  WS-PUZZLE.
-           05 WS-ROW OCCURS 9 TIMES.
-               10 WS-COL OCCURS 9 TIMES PIC 9.
-       01  WS-COUNT         PIC 9(9) VALUE 0.
-       01  WS-I             PIC 99.
-       01  WS-J             PIC 99.
-       01  WS-VAL           PIC 99.
-       01  WS-TRY           PIC 99.
-       01  WS-POSSIBLE      PIC X.
-       01  WS-SOLVED        PIC X.
-       01  WS-FOUND         PIC X.
-       01  WS-EMPTY-LIST.
-           05 WS-EMPTY-ITEM OCCURS 81 TIMES.
-               10 WS-EMPTY-ROW PIC 9.
-               10 WS-EMPTY-COL PIC 9.
-       01  WS-EMPTY-COUNT   PIC 99.
-       01  WS-PTR           PIC S99.
-       01  WS-TEMP-STR      PIC X(80).
-       01  WS-IDX           PIC 99.
-       01  WS-CHAR          PIC X.
-       01  WS-NUM-IDX       PIC 99.
-       01  WS-ROW-IDX       PIC 99.
-       01  WS-COL-IDX       PIC 99.
-       01  WS-FILE-IDX      PIC 99.
-       01  CMD-ARGS         PIC X(1000).
-       01  ARG-PTR          PIC 9(4) VALUE 1.
-       01  ARG-LEN          PIC 9(4).
-       01  ARG-COUNT        PIC 9(4).
-       01  CURRENT-ARG      PIC X(100).
-       01  START-TIME-VAL.
-           05 ST-YYYY       PIC 9(4).
-           05 ST-MM         PIC 9(2).
-           05 ST-DD         PIC 9(2).
-           05 ST-HH         PIC 9(2).
-           05 ST-MIN        PIC 9(2).
-           05 ST-SS         PIC 9(2).
-           05 ST-MS         PIC 9(2).
-       01  END-TIME-VAL.
-           05 ET-YYYY       PIC 9(4).
-           05 ET-MM         PIC 9(2).
-           05 ET-DD         PIC 9(2).
-           05 ET-HH         PIC 9(2).
-           05 ET-MIN        PIC 9(2).
-           05 ET-SS         PIC 9(2).
-           05 ET-MS         PIC 9(2).
-       01  START-SEC        PIC 9(9)V99.
-       01  END-SEC          PIC 9(9)V99.
-       01  ELAPSED-SEC      PIC 9(9)V999.
+       01  WS-Board.
+           05  WS-Board-Row OCCURS 9 TIMES.
+               10  WS-Board-Cell OCCURS 9 TIMES PIC 9.
+
+       01  WS-Iterations PIC 9(9) VALUE 0.
+       01  WS-EOF        PIC X VALUE 'N'.
+       01  WS-Line       PIC X(80).
+       01  WS-Idx        PIC 99.
+       01  WS-NumIdx     PIC 99.
+       01  WS-RowIdx     PIC 99.
+       01  WS-ColIdx     PIC 99.
+       01  WS-Char       PIC X.
+       01  WS-Filename   PIC X(100).
        
+       01  LS-Solved     PIC X.
+
        PROCEDURE DIVISION.
-       MAIN-PROCEDURE.
-           ACCEPT CMD-ARGS FROM COMMAND-LINE.
-           ACCEPT ARG-COUNT FROM ARGUMENT-NUMBER.
-           
-           MOVE FUNCTION CURRENT-DATE(1:16) TO START-TIME-VAL.
-           COMPUTE START-SEC = (ST-HH * 3600) + (ST-MIN * 60) + ST-SS + (ST-MS / 100.0).
-
-           PERFORM VARYING WS-FILE-IDX FROM 1 BY 1 UNTIL WS-FILE-IDX > ARG-COUNT
-               DISPLAY WS-FILE-IDX UPON ARGUMENT-NUMBER
-               ACCEPT CURRENT-ARG FROM ARGUMENT-VALUE
-               MOVE FUNCTION TRIM(CURRENT-ARG) TO CURRENT-ARG
-               COMPUTE ARG-LEN = FUNCTION STORED-CHAR-LENGTH(CURRENT-ARG)
-               DISPLAY "Arg: " CURRENT-ARG(1:ARG-LEN)
-               
-               IF ARG-LEN > 7 AND CURRENT-ARG(ARG-LEN - 6:7) = ".matrix"
-                   MOVE CURRENT-ARG TO WS-FILENAME
-                   DISPLAY WS-FILENAME
-                   PERFORM READ-MATRIX-FILE
-                   PERFORM PRINT-PUZZLE
-                   MOVE 0 TO WS-COUNT
-                   MOVE 'N' TO WS-SOLVED
-                   PERFORM SOLVE
-               END-IF
-           END-PERFORM.
-
-           MOVE FUNCTION CURRENT-DATE(1:16) TO END-TIME-VAL.
-           COMPUTE END-SEC = (ET-HH * 3600) + (ET-MIN * 60) + ET-SS + (ET-MS / 100.0).
-           
-           IF END-SEC < START-SEC
-               ADD 86400 TO END-SEC
-           END-IF.
-           
-           COMPUTE ELAPSED-SEC = END-SEC - START-SEC.
-           DISPLAY "Seconds to process " ELAPSED-SEC.
-           
+       Main-Logic.
+           DISPLAY "Starting Sudoku..."
+           PERFORM Read-Matrix
+           DISPLAY "Matrix Read."
+           DISPLAY "Puzzle:"
+           PERFORM Print-Board
+           MOVE 0 TO WS-Iterations
+           CALL "Solve" USING WS-Board WS-Iterations LS-Solved
+           IF LS-Solved = 'Y'
+               DISPLAY "Puzzle:"
+               PERFORM Print-Board
+               DISPLAY "Solved in Iterations=" WS-Iterations
+           ELSE
+               DISPLAY "No solution found."
+           END-IF
            STOP RUN.
 
-       READ-MATRIX-FILE.
-           OPEN INPUT INPUT-FILE.
-           MOVE 1 TO WS-ROW-IDX.
-           MOVE 1 TO WS-COL-IDX.
-           MOVE 'N' TO WS-EOF.
-           
-           PERFORM UNTIL WS-EOF = 'Y' OR WS-ROW-IDX > 9
-               READ INPUT-FILE INTO WS-TEMP-STR
+       Read-Matrix.
+           ACCEPT WS-Filename FROM COMMAND-LINE
+           DISPLAY "Filename: " WS-Filename
+           OPEN INPUT InputFile
+           MOVE 1 TO WS-RowIdx
+           PERFORM UNTIL WS-EOF = 'Y' OR WS-RowIdx > 9
+               READ InputFile INTO WS-Line
                    AT END MOVE 'Y' TO WS-EOF
                    NOT AT END
-                       IF WS-TEMP-STR(1:1) NOT = '#' AND WS-TEMP-STR NOT = SPACES
-                           PERFORM VARYING WS-IDX FROM 1 BY 1 UNTIL WS-IDX > 80
-                               MOVE WS-TEMP-STR(WS-IDX:1) TO WS-CHAR
-                               IF WS-CHAR >= '0' AND WS-CHAR <= '9'
-                                   MOVE WS-CHAR TO WS-COL(WS-ROW-IDX, WS-COL-IDX)
-                                   ADD 1 TO WS-COL-IDX
-                                   IF WS-COL-IDX > 9
-                                       MOVE 1 TO WS-COL-IDX
-                                       ADD 1 TO WS-ROW-IDX
-                                       IF WS-ROW-IDX > 9 EXIT PERFORM END-IF
-                                   END-IF
+                       IF WS-Line(1:1) NOT = '#'
+                           MOVE 1 TO WS-ColIdx
+                           MOVE 1 TO WS-Idx
+                           PERFORM UNTIL WS-ColIdx > 9 OR WS-Idx > 80
+                               MOVE WS-Line(WS-Idx:1) TO WS-Char
+                               IF WS-Char >= '0' AND WS-Char <= '9'
+                                   MOVE WS-Char TO WS-Board-Cell(WS-RowIdx, WS-ColIdx)
+                                   ADD 1 TO WS-ColIdx
                                END-IF
+                               ADD 1 TO WS-Idx
                            END-PERFORM
+                           ADD 1 TO WS-RowIdx
                        END-IF
                END-READ
-           END-PERFORM.
-           CLOSE INPUT-FILE.
+           END-PERFORM
+           CLOSE InputFile.
 
-       PRINT-PUZZLE.
-           DISPLAY " ".
-           DISPLAY "Puzzle:".
-           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 9
-               DISPLAY WS-COL(WS-I, 1) " " WS-COL(WS-I, 2) " " WS-COL(WS-I, 3) " "
-                       WS-COL(WS-I, 4) " " WS-COL(WS-I, 5) " " WS-COL(WS-I, 6) " "
-                       WS-COL(WS-I, 7) " " WS-COL(WS-I, 8) " " WS-COL(WS-I, 9)
+       Print-Board.
+           PERFORM VARYING WS-RowIdx FROM 1 BY 1 UNTIL WS-RowIdx > 9
+               DISPLAY WS-Board-Cell(WS-RowIdx, 1) " " WS-Board-Cell(WS-RowIdx, 2) " " WITH NO ADVANCING
+               DISPLAY WS-Board-Cell(WS-RowIdx, 3) " " WS-Board-Cell(WS-RowIdx, 4) " " WITH NO ADVANCING
+               DISPLAY WS-Board-Cell(WS-RowIdx, 5) " " WS-Board-Cell(WS-RowIdx, 6) " " WITH NO ADVANCING
+               DISPLAY WS-Board-Cell(WS-RowIdx, 7) " " WS-Board-Cell(WS-RowIdx, 8) " " WITH NO ADVANCING
+               DISPLAY WS-Board-Cell(WS-RowIdx, 9)
            END-PERFORM.
 
-       IS-POSSIBLE.
-           MOVE 'Y' TO WS-POSSIBLE.
-           PERFORM VARYING WS-IDX FROM 1 BY 1 UNTIL WS-IDX > 9
-               IF WS-COL(WS-I, WS-IDX) = WS-VAL OR WS-COL(WS-IDX, WS-J) = WS-VAL
-                   MOVE 'N' TO WS-POSSIBLE
+       END PROGRAM Sudoku.
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. Solve RECURSIVE.
+       
+       DATA DIVISION.
+       LOCAL-STORAGE SECTION.
+       01  WS-Row        PIC 99.
+       01  WS-Col        PIC 99.
+       01  WS-Num        PIC 9.
+       01  WS-Found      PIC X.
+       01  WS-Valid      PIC X.
+
+       LINKAGE SECTION.
+       01  WS-Board.
+           05  WS-Board-Row OCCURS 9 TIMES.
+               10  WS-Board-Cell OCCURS 9 TIMES PIC 9.
+       01  WS-Iterations PIC 9(9).
+       01  LS-Result     PIC X.
+
+       PROCEDURE DIVISION USING WS-Board WS-Iterations LS-Result.
+           MOVE 'N' TO WS-Found
+           PERFORM VARYING WS-Row FROM 1 BY 1 UNTIL WS-Row > 9 OR WS-Found = 'Y'
+               PERFORM VARYING WS-Col FROM 1 BY 1 UNTIL WS-Col > 9 OR WS-Found = 'Y'
+                   IF WS-Board-Cell(WS-Row, WS-Col) = 0
+                       MOVE 'Y' TO WS-Found
+                       SUBTRACT 1 FROM WS-Row
+                       SUBTRACT 1 FROM WS-Col
+                   END-IF
+               END-PERFORM
+           END-PERFORM
+
+           IF WS-Found = 'N'
+               MOVE 'Y' TO LS-Result
+               EXIT PROGRAM
+           END-IF
+
+           PERFORM VARYING WS-Num FROM 1 BY 1 UNTIL WS-Num > 9
+               ADD 1 TO WS-Iterations
+               CALL "IsValid" USING BY CONTENT WS-Row BY CONTENT WS-Col BY CONTENT WS-Num WS-Board LS-Result
+               IF LS-Result = 'Y'
+                   MOVE WS-Num TO WS-Board-Cell(WS-Row, WS-Col)
+                   CALL "Solve" USING WS-Board WS-Iterations LS-Result
+                   IF LS-Result = 'Y'
+                       EXIT PROGRAM
+                   END-IF
+                   MOVE 0 TO WS-Board-Cell(WS-Row, WS-Col)
                END-IF
-           END-PERFORM.
+           END-PERFORM
+
+           MOVE 'N' TO LS-Result.
+       
+       END PROGRAM Solve.
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IsValid.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  WS-I          PIC 99.
+       01  WS-BoxRow     PIC 99.
+       01  WS-BoxCol     PIC 99.
+       01  WS-R          PIC 99.
+       01  WS-C          PIC 99.
+
+       LINKAGE SECTION.
+       01  L-Row         PIC 99.
+       01  L-Col         PIC 99.
+       01  L-Num         PIC 9.
+       01  WS-Board.
+           05  WS-Board-Row OCCURS 9 TIMES.
+               10  WS-Board-Cell OCCURS 9 TIMES PIC 9.
+       01  L-Result      PIC X.
+
+       PROCEDURE DIVISION USING L-Row L-Col L-Num WS-Board L-Result.
+           MOVE 'Y' TO L-Result
            
-           IF WS-POSSIBLE = 'Y'
-               COMPUTE WS-ROW-IDX = FUNCTION INTEGER-PART((WS-I - 1) / 3) * 3 + 1
-               COMPUTE WS-COL-IDX = FUNCTION INTEGER-PART((WS-J - 1) / 3) * 3 + 1
-               PERFORM VARYING WS-NUM-IDX FROM 0 BY 1 UNTIL WS-NUM-IDX > 2
-                   PERFORM VARYING WS-IDX FROM 0 BY 1 UNTIL WS-IDX > 2
-                       IF WS-COL(WS-ROW-IDX + WS-NUM-IDX, WS-COL-IDX + WS-IDX) = WS-VAL
-                           MOVE 'N' TO WS-POSSIBLE
-                       END-IF
-                   END-PERFORM
-               END-PERFORM
-           END-IF.
-
-       SOLVE.
-           MOVE 0 TO WS-EMPTY-COUNT.
            PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 9
-               PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J > 9
-                   IF WS-COL(WS-I, WS-J) = 0
-                       ADD 1 TO WS-EMPTY-COUNT
-                       MOVE WS-I TO WS-EMPTY-ROW(WS-EMPTY-COUNT)
-                       MOVE WS-J TO WS-EMPTY-COL(WS-EMPTY-COUNT)
-                   END-IF
-               END-PERFORM
-           END-PERFORM.
-
-           MOVE 1 TO WS-PTR.
-           PERFORM UNTIL WS-PTR > WS-EMPTY-COUNT OR WS-PTR = 0
-               MOVE WS-EMPTY-ROW(WS-PTR) TO WS-I
-               MOVE WS-EMPTY-COL(WS-PTR) TO WS-J
-               MOVE WS-COL(WS-I, WS-J) TO WS-VAL
-               ADD 1 TO WS-VAL
-               
-               MOVE 'N' TO WS-FOUND
-               PERFORM VARYING WS-TRY FROM WS-VAL BY 1 UNTIL WS-TRY > 9
-                   ADD 1 TO WS-COUNT
-                   MOVE WS-TRY TO WS-VAL
-                   PERFORM IS-POSSIBLE
-                   IF WS-POSSIBLE = 'Y'
-                       MOVE WS-TRY TO WS-COL(WS-I, WS-J)
-                       MOVE 'Y' TO WS-FOUND
-                       ADD 1 TO WS-PTR
-                       EXIT PERFORM
-                   END-IF
-               END-PERFORM
-               
-               IF WS-FOUND = 'N'
-                   MOVE 0 TO WS-COL(WS-I, WS-J)
-                   SUBTRACT 1 FROM WS-PTR
+               IF WS-Board-Cell(L-Row, WS-I) = L-Num
+                   MOVE 'N' TO L-Result
+                   EXIT PROGRAM
                END-IF
-           END-PERFORM.
+           END-PERFORM
 
-           PERFORM PRINT-PUZZLE.
-           DISPLAY " ".
-           DISPLAY "Solved in Iterations=" WS-COUNT.
-           DISPLAY " ".
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 9
+               IF WS-Board-Cell(WS-I, L-Col) = L-Num
+                   MOVE 'N' TO L-Result
+                   EXIT PROGRAM
+               END-IF
+           END-PERFORM
+
+           COMPUTE WS-BoxRow = ((L-Row - 1) / 3) * 3 + 1
+           COMPUTE WS-BoxCol = ((L-Col - 1) / 3) * 3 + 1
+           
+           PERFORM VARYING WS-R FROM 0 BY 1 UNTIL WS-R > 2
+               PERFORM VARYING WS-C FROM 0 BY 1 UNTIL WS-C > 2
+                   IF WS-Board-Cell(WS-BoxRow + WS-R, WS-BoxCol + WS-C) = L-Num
+                       MOVE 'N' TO L-Result
+                       EXIT PROGRAM
+                   END-IF
+               END-PERFORM
+           END-PERFORM.
+       
+       END PROGRAM IsValid.

@@ -1,155 +1,145 @@
-program SudokuSolver;
-{$mode delphi}
-uses SysUtils, Classes;
+program Sudoku;
 
-const
-  N = 9;
+{$mode objfpc}{$H+}
 
-type
-  TBoard = array[1..N * N] of Integer;
+uses
+  SysUtils, Classes, Unix;
 
 var
-  board: TBoard;
-  iterations: Int64 = 0;
+  Board: array[0..8, 0..8] of Integer;
+  Iterations: LongInt;
+  Filename: String;
 
-function ReadBoardFromFile(const FileName: string): TBoard;
+procedure ReadMatrix(const FName: String);
 var
-  f: TextFile;
-  i, j, idx: Integer;
-  line, snum: string;
-  ss: TStringList;
-
+  F: TextFile;
+  Line: String;
+  Row, Col, Code: Integer;
+  Parts: TStringList;
+  I: Integer;
 begin
-  Assign(f, FileName);
-  Reset(f);
-  idx := 1;
-  ss := TStringList.Create;
-  while not Eof(f) do
+  AssignFile(F, FName);
+  Reset(F);
+  Row := 0;
+  Parts := TStringList.Create;
+  try
+    while (not Eof(F)) and (Row < 9) do
     begin
-      Readln(f, line);
-      if (line = '') or (line[1] = '#') then Continue;
-      ss.Clear;
-      ss.Delimiter := ' ';
-      ss.DelimitedText := line;
-      for snum in ss do
+      ReadLn(F, Line);
+      if (Length(Line) > 0) and (Line[1] <> '#') then
       begin
-        if TryStrToInt(snum, j) then
+        Parts.Clear;
+        Parts.Delimiter := ' ';
+        Parts.DelimitedText := Line;
+        Col := 0;
+        for I := 0 to Parts.Count - 1 do
         begin
-          board[idx] := j;
-          Inc(idx);
+          if (Parts[I] <> '') and (Col < 9) then
+          begin
+            Val(Parts[I], Board[Row, Col], Code);
+            Inc(Col);
+          end;
         end;
+        if Col = 9 then Inc(Row);
       end;
     end;
-  ss.Free;
-  Close(f);
-  Result := board;
-end;
-
-function ComputeComplexity(const board: TBoard): Integer;
-var
-  i, count: Integer;
-begin
-  count := 0;
-  for i := 1 to N * N do
-    if board[i] = 0 then
-      Inc(count);
-  Result := count;
-end;
-
-procedure PrintBoard(const board: TBoard);
-var
-  i, j: Integer;
-begin
-  Writeln;
-  Writeln('Puzzle:');
-  for i := 1 to N do
-  begin
-    for j := 1 to N do
-      Write(board[(i - 1) * N + j], ' ');
-    Writeln;
+  finally
+    Parts.Free;
+    CloseFile(F);
   end;
 end;
 
-function IsValidPlacement(const board: TBoard; row, col, num: Integer): Boolean;
+procedure PrintBoard;
 var
-  i, j, startRow, startCol: Integer;
+  R, C: Integer;
 begin
-  for i := 1 to N do
-    if (board[(row - 1) * N + i] = num) or (board[(i - 1) * N + col] = num) then
-      Exit(False);
-  startRow := ((row - 1) div 3) * 3 + 1;
-  startCol := ((col - 1) div 3) * 3 + 1;
-  for i := 0 to 2 do
-    for j := 0 to 2 do
-      if board[(startRow + i - 1) * N + (startCol + j)] = num then
-        Exit(False);
+  for R := 0 to 8 do
+  begin
+    for C := 0 to 8 do
+      Write(Board[R, C], ' ');
+    WriteLn;
+  end;
+end;
+
+function IsValid(Row, Col, Num: Integer): Boolean;
+var
+  R, C, BoxRow, BoxCol: Integer;
+begin
   Result := True;
+  
+  // Row check
+  for C := 0 to 8 do
+    if Board[Row, C] = Num then Exit(False);
+    
+  // Col check
+  for R := 0 to 8 do
+    if Board[R, Col] = Num then Exit(False);
+    
+  // Box check
+  BoxRow := (Row div 3) * 3;
+  BoxCol := (Col div 3) * 3;
+  for R := 0 to 2 do
+    for C := 0 to 2 do
+      if Board[BoxRow + R, BoxCol + C] = Num then Exit(False);
 end;
 
-function SolveSudoku(var board: TBoard; var iterations: Int64): Boolean;
-label
-  FoundEmpty;
+function FindEmpty(var Row, Col: Integer): Boolean;
 var
-  row, col, num: Integer;
-  isEmpty: Boolean;
+  R, C: Integer;
 begin
-  isEmpty := True;
-  for row := 1 to N do
-  begin
-    for col := 1 to N do
-      if board[(row - 1) * N + col] = 0 then
+  for R := 0 to 8 do
+    for C := 0 to 8 do
+      if Board[R, C] = 0 then
       begin
-        isEmpty := False;
-        goto FoundEmpty;
-      end;
-  end;
-FoundEmpty:
-  if isEmpty then
-    Exit(True);
-  for num := 1 to N do
-  begin
-    if IsValidPlacement(board, row, col, num) then
-    begin
-      board[(row - 1) * N + col] := num;
-      Inc(iterations);
-      if SolveSudoku(board, iterations) then
+        Row := R;
+        Col := C;
         Exit(True);
-      board[(row - 1) * N + col] := 0;
-    end;
-  end;
+      end;
   Result := False;
 end;
 
-procedure Main;
+function SolveSudoku(Depth: Integer): Boolean;
 var
-  FileName: string;
-  complexity: Integer;
+  Row, Col, Num: Integer;
 begin
-  if ParamCount <> 1 then
+  if not FindEmpty(Row, Col) then Exit(True);
+
+  for Num := 1 to 9 do
   begin
-    Writeln('Usage: SudokuSolver <filename>');
-    Halt(1);
+    Inc(Iterations);
+    if IsValid(Row, Col, Num) then
+    begin
+      Board[Row, Col] := Num;
+      if SolveSudoku(Depth + 1) then Exit(True);
+      Board[Row, Col] := 0;
+    end;
   end;
-  FileName := ParamStr(1);
-  board := ReadBoardFromFile(FileName);
-  PrintBoard(board);
-  PrintBoard(board);
-  if SolveSudoku(board, iterations) then
-  begin
-    PrintBoard(board);
-    Writeln;
-    Writeln('Solved in Iterations=', iterations);
-    Writeln;
-  end
-  else
-    Writeln('No solution exists');
+  
+  Result := False;
 end;
 
-var
-  startTime, endTime: TDateTime;
 begin
-  startTime := Now;
-  Main;
-  endTime := Now;
-  Writeln('Seconds to process ', (endTime - startTime) * 24 * 60 * 60 : 0 : 3);
+  if ParamCount < 1 then
+  begin
+    WriteLn('Usage: sudoku input_file');
+    Halt(1);
+  end;
+
+  Filename := ParamStr(1);
+  WriteLn(Filename);
+  
+  ReadMatrix(Filename);
+  
+  WriteLn('Puzzle:');
+  PrintBoard;
+  
+  Iterations := 0;
+  if SolveSudoku(0) then
+  begin
+    WriteLn('Puzzle:');
+    PrintBoard;
+    WriteLn('Solved in Iterations=', Iterations);
+  end
+  else
+    WriteLn('No solution found.');
 end.
