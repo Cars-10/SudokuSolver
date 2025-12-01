@@ -13,6 +13,8 @@ PATTERN="${1:-../../Matrices/*.matrix}"
 if ! command -v emacs &> /dev/null; then
     if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
         EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
+    elif [ -f "/opt/homebrew/bin/emacs" ]; then
+        EMACS="/opt/homebrew/bin/emacs"
     elif [ -f "/usr/bin/emacs" ]; then
         EMACS="/usr/bin/emacs"
     else

@@ -1,119 +1,115 @@
 module main
 
 import os
-import time
+import strconv
 
-__global (
-    puzzle [9][9]int
-    iterations int
-)
+struct Solver {
+mut:
+    grid [][]int
+    iterations u64
+}
 
-fn print_board() {
-    println('Puzzle:')
-    for i in 0..9 {
-        for j in 0..9 {
-            print('${puzzle[i][j]} ')
+fn (s Solver) print_grid() {
+    for row in s.grid {
+        for i, cell in row {
+            print('$cell')
+            if i < 8 {
+                print(' ')
+            }
         }
         println('')
     }
 }
 
-fn is_possible(row int, col int, num int) bool {
+fn (s Solver) is_valid(row int, col int, num int) bool {
     for i in 0..9 {
-        if puzzle[row][i] == num || puzzle[i][col] == num {
-            return false
-        }
+        if s.grid[row][i] == num { return false }
+        if s.grid[i][col] == num { return false }
     }
 
-    start_row := (row / 3) * 3
-    start_col := (col / 3) * 3
+    start_row := row - (row % 3)
+    start_col := col - (col % 3)
     for i in 0..3 {
         for j in 0..3 {
-            if puzzle[start_row + i][start_col + j] == num {
-                return false
-            }
+            if s.grid[start_row + i][start_col + j] == num { return false }
         }
     }
     return true
 }
 
-fn solve(row int, col int) bool {
-    if row == 9 {
-        return true
+fn (mut s Solver) solve() bool {
+    s.iterations++
+
+    mut row := -1
+    mut col := -1
+    mut is_empty := false
+
+    for r in 0..9 {
+        for c in 0..9 {
+            if s.grid[r][c] == 0 {
+                row = r
+                col = c
+                is_empty = true
+                break
+            }
+        }
+        if is_empty { break }
     }
 
-    mut next_row := row
-    mut next_col := col + 1
-    if next_col == 9 {
-        next_row = row + 1
-        next_col = 0
-    }
-
-    if puzzle[row][col] != 0 {
-        return solve(next_row, next_col)
-    }
+    if !is_empty { return true }
 
     for num in 1..10 {
-        iterations++
-        if is_possible(row, col, num) {
-            puzzle[row][col] = num
-            if solve(next_row, next_col) {
-                return true
-            }
-            puzzle[row][col] = 0
+        if s.is_valid(row, col, num) {
+            s.grid[row][col] = num
+            if s.solve() { return true }
+            s.grid[row][col] = 0
         }
     }
-    return false
-}
 
-fn read_board(filename string) bool {
-    content := os.read_file(filename) or {
-        println('Error reading file $filename')
-        return false
-    }
-    
-    lines := content.split_into_lines()
-    mut row := 0
-    for line in lines {
-        trimmed := line.trim_space()
-        if trimmed.len > 0 && !trimmed.starts_with('#') {
-            parts := trimmed.split(' ')
-            mut col := 0
-            for part in parts {
-                if part.len > 0 {
-                    if col < 9 {
-                        puzzle[row][col] = part.int()
-                        col++
-                    }
-                }
-            }
-            row++
-            if row == 9 {
-                return true
-            }
-        }
-    }
-    return true
+    return false
 }
 
 fn main() {
     if os.args.len < 2 {
-        println('Usage: ./Sudoku <file1> <file2> ...')
+        println('Usage: $os.args[0] <matrix_file>')
         return
     }
 
-    for i in 1..os.args.len {
-        filename := os.args[i]
-        println('\nProcessing $filename')
-        if read_board(filename) {
-            print_board()
-            iterations = 0
-            if solve(0, 0) {
-                print_board()
-                println('\nSolved in Iterations=$iterations')
-            } else {
-                println('No solution found')
+    content := os.read_file(os.args[1]) or {
+        println('Failed to read file')
+        return
+    }
+
+    mut grid := [][]int{len: 9, init: []int{len: 9}}
+    mut row := 0
+
+    lines := content.split('\n')
+    for line in lines {
+        if line.len == 0 { continue }
+        if line[0] < 48 || line[0] > 57 { continue }
+
+        parts := line.split_any(' \t\r')
+        mut col := 0
+        for part in parts {
+            if part.len == 0 { continue }
+            if col < 9 {
+                grid[row][col] = strconv.atoi(part) or { 0 }
+                col++
             }
         }
+        if col > 0 { row++ }
+        if row >= 9 { break }
+    }
+
+    mut solver := Solver{
+        grid: grid
+        iterations: 0
+    }
+
+    if solver.solve() {
+        solver.print_grid()
+        println('Solved in Iterations=$solver.iterations')
+    } else {
+        println('No solution found.')
     }
 }

@@ -1,8 +1,15 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# Compile
-v -prod -enable-globals -o Sudoku Sudoku.v
+# Compile if source is newer than executable or executable doesn't exist
+if [ ! -f ./sudoku ] || [ sudoku.v -nt sudoku ]; then
+    echo "Compiling V solver..." >&2
+    v -prod sudoku.v -o sudoku
+    if [ $? -ne 0 ]; then
+        echo "Compilation failed" >&2
+        exit 1
+    fi
+fi
 
 # Output file for metrics
 METRICS_FILE="metrics.json"
@@ -29,7 +36,7 @@ for matrix in $PATTERN; do
     start_time=$(date +%s.%N)
     
     # Execute
-    /usr/bin/time -l ./Sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
+    /usr/bin/time -l ./sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
     
     # End timer
     end_time=$(date +%s.%N)
@@ -57,7 +64,6 @@ for matrix in $PATTERN; do
     cpu_sys=$(grep "sys" "$tmp_err" | awk '{print $5}')
     if [ -z "$cpu_sys" ]; then cpu_sys=0; fi
     
-    # Construct JSON object
     echo "  {" >> "$METRICS_FILE"
     echo "    \"matrix\": \"$matrix_name\"," >> "$METRICS_FILE"
     echo "    \"time\": $duration," >> "$METRICS_FILE"
@@ -75,5 +81,4 @@ done
 echo "" >> "$METRICS_FILE"
 echo "]" >> "$METRICS_FILE"
 
-# Output the metrics file content to stdout so the aggregator can read it
 cat "$METRICS_FILE"

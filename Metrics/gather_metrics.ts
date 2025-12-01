@@ -294,7 +294,12 @@ const methodologyTexts: Record<string, string> = {
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
             Score = (TimeRatio + MemRatio + CpuRatio) / 3
         </div>
-        <p>Where Ratio = Solver_Metric / C_Metric</p>
+        <p>Where:</p>
+        <ul style="font-size: 0.9em; color: var(--text);">
+            <li><strong>TimeRatio</strong> = Wall Clock Time / C Time</li>
+            <li><strong>MemRatio</strong> = Peak Memory (RSS) / C Memory</li>
+            <li><strong>CpuRatio</strong> = Total CPU Time (User+Sys) / C CPU Time</li>
+        </ul>
         <h3 style="color: var(--secondary);">Interpretation</h3>
         <ul style="list-style: none; padding: 0;">
             <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity with C.</li>
@@ -803,13 +808,208 @@ const languageMetadata: Record<string, any> = {
         "location": "Global",
         "benefits": "Performance, portability, language agnostic, web standard."
     },
+
+    "Jq": {
+        "creator": "Stephen Dolan",
+        "date": "2012",
+        "description": "A lightweight and flexible command-line JSON processor.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/JSON_vector_logo.svg/1200px-JSON_vector_logo.svg.png",
+        "location": "USA",
+        "benefits": "JSON processing, functional, filter-based."
+    },
+    "Make": {
+        "creator": "Stuart Feldman",
+        "date": "1976",
+        "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Bell Labs, USA",
+        "benefits": "Dependency management, build automation."
+    },
+    "Gnuplot": {
+        "creator": "Thomas Williams, Colin Kelley",
+        "date": "1986",
+        "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Gnuplot_logo.svg/1200px-Gnuplot_logo.svg.png",
+        "location": "USA",
+        "benefits": "Plotting, data visualization, scripting."
+    },
+    "XSLT": {
+        "creator": "W3C",
+        "date": "1998",
+        "description": "A language for transforming XML documents into other XML documents.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Xml_logo.svg/1200px-Xml_logo.svg.png",
+        "location": "Worldwide",
+        "benefits": "XML transformation, functional, template-based."
+    },
+    "Zsh": {
+        "creator": "Paul Falstad",
+        "date": "1990",
+        "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Zsh_logo.svg/1200px-Zsh_logo.svg.png",
+        "location": "Princeton University, USA",
+        "benefits": "Interactive shell, scripting, plugin ecosystem."
+    },
+    "AppleScript": {
+        "creator": "Apple Inc.",
+        "date": "1993",
+        "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/AppleScript_Logo.png/440px-AppleScript_Logo.png",
+        "location": "Apple, USA",
+        "benefits": "Automation, inter-application communication, English-like syntax."
+    },
+
+    "Expect": {
+        "creator": "Don Libes",
+        "date": "1990",
+        "description": "A program to automate interactions with programs that expose a text terminal interface.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "NIST, USA",
+        "benefits": "Automation, testing, interactive scripting."
+    },
+    "SQLite": {
+        "creator": "D. Richard Hipp",
+        "date": "2000",
+        "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/SQLite370.svg/1200px-SQLite370.svg.png",
+        "location": "USA",
+        "benefits": "Serverless, zero-configuration, transactional SQL."
+    },
+
+    "Tcsh": {
+        "creator": "Ken Greer",
+        "date": "1975",
+        "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Carnegie Mellon University, USA",
+        "benefits": "Interactive shell, command completion, history."
+    },
+    "Ksh": {
+        "creator": "David Korn",
+        "date": "1983",
+        "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Bell Labs, USA",
+        "benefits": "Scripting, interactive use, backward compatibility."
+    },
+    "Dash": {
+        "creator": "Herbert Xu",
+        "date": "1997",
+        "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Australia",
+        "benefits": "Speed, POSIX compliance, minimal footprint."
+    },
+    "Fish": {
+        "creator": "Axel Liljencrantz",
+        "date": "2005",
+        "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Fish_shell_logo_ascii.svg/1200px-Fish_shell_logo_ascii.svg.png",
+        "location": "Sweden",
+        "benefits": "Autosuggestions, web-based configuration, clean syntax."
+    },
+    "Bc": {
+        "creator": "Robert Morris, Lorinda Cherry",
+        "date": "1975",
+        "description": "An arbitrary-precision calculator language.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Bell Labs, USA",
+        "benefits": "Arbitrary precision, math scripting."
+    },
+    "Dc": {
+        "creator": "Robert Morris, Lorinda Cherry",
+        "date": "1970",
+        "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Bell Labs, USA",
+        "benefits": "RPN, arbitrary precision, stack-based."
+    },
+    "EmacsLisp": {
+        "creator": "Richard Stallman",
+        "date": "1985",
+        "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1200px-EmacsIcon.svg.png",
+        "location": "MIT, USA",
+        "benefits": "Editor customization, extensibility, live coding."
+    },
+    "Forth": {
+        "creator": "Charles H. Moore",
+        "date": "1970",
+        "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Forth_logo.svg/1200px-Forth_logo.svg.png",
+        "location": "NRAO, USA",
+        "benefits": "Compactness, hardware control, interactivity."
+    },
+    "Haxe": {
+        "creator": "Nicolas Cannasse",
+        "date": "2005",
+        "description": "A high-level cross-platform language that compiles to many other languages.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Haxe_logo.svg/1200px-Haxe_logo.svg.png",
+        "location": "France",
+        "benefits": "Cross-platform, strong typing, single codebase."
+    },
+    "Jupyter": {
+        "creator": "Fernando Pérez et al.",
+        "date": "2014",
+        "description": "An open-source project that supports interactive data science and scientific computing.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/1200px-Jupyter_logo.svg.png",
+        "location": "Global",
+        "benefits": "Interactive computing, data visualization, education."
+    },
+    "M4": {
+        "creator": "Brian Kernighan, Dennis Ritchie",
+        "date": "1977",
+        "description": "A general-purpose macro processor.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Bell Labs, USA",
+        "benefits": "Macro expansion, text processing, configuration."
+    },
+    "Objective-C": {
+        "creator": "Brad Cox, Tom Love",
+        "date": "1984",
+        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "location": "Stepstone, USA",
+        "benefits": "Dynamic runtime, C compatibility, Apple legacy."
+    },
+    "Raku": {
+        "creator": "Larry Wall",
+        "date": "2015",
+        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Raku_logo.svg/1200px-Raku_logo.svg.png",
+        "location": "Global",
+        "benefits": "Expressiveness, grammars, concurrency."
+    },
+    "V": {
+        "creator": "Alexander Medvednikov",
+        "date": "2019",
+        "description": "A statically typed, compiled language designed for maintainability and speed.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/V-logo.svg/1200px-V-logo.svg.png",
+        "location": "Global",
+        "benefits": "Fast compilation, simplicity, safety."
+    },
     "Zig": {
         "creator": "Andrew Kelley",
         "date": "2016",
-        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal and reusable software.",
-        "image": "https://github.com/andrewrk.png",
+        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zig_logo.svg/1200px-Zig_logo.svg.png",
         "location": "USA",
-        "benefits": "Performance, safety, simplicity, C replacement."
+        "benefits": "No hidden control flow, manual memory management, comptime."
+    },
+    "BASH": {
+        "creator": "Brian Fox",
+        "date": "1989",
+        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1200px-Gnu-bash-logo.svg.png",
+        "location": "Free Software Foundation, USA",
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+    },
+    "BASIC": {
+        "creator": "John G. Kemeny, Thomas E. Kurtz",
+        "date": "1964",
+        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
+        "location": "Dartmouth College, USA",
+        "benefits": "Easy to learn, interactive, historical significance."
     }
 };
 
@@ -1317,6 +1517,19 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             color: var(--primary);
             font-style: italic;
         }
+        
+        /* Matrix Screensaver */
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none; /* Hidden by default */
+            border-radius: 8px;
+            pointer-events: none; /* Let clicks pass through if needed, though we hide chart anyway */
+        }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -1372,6 +1585,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     
     <div style="width: 95%; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
         <div id="d3-chart-container" style="width: 100%; height: 100%;"></div>
+        <canvas id="matrix-canvas"></canvas>
     </div>
     
     <div class="top-bar">
@@ -1491,6 +1705,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         const year = meta.date || "0000";
         const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
         const historyText = (languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
+        const logoUrl = meta.logo || meta.image;
 
         // Data Attributes
         let matrixDataAttrs = "";
@@ -1518,7 +1733,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
-                ${meta.logo ? `<img src="${meta.logo}" alt="${displayName}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle; object-fit: contain;">` : ''}
+                ${logoUrl ? `<img src="${logoUrl}" alt="${displayName}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle; object-fit: contain;">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>${displayName}</div>
                     <div class='lang-year'>${year}</div>
@@ -1836,7 +2051,24 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             
             // --- D3.js Chart Implementation ---
             (function() {
-                const data = ${JSON.stringify(metrics)};
+                let data = ${JSON.stringify(metrics)};
+                
+                // Filter out mismatched solvers
+                const cSolver = data.find(s => s.solver === 'C');
+                if (cSolver) {
+                    const cIters = {};
+                    cSolver.results.forEach(r => cIters[r.matrix] = r.iterations);
+                    
+                    data = data.filter(s => {
+                        if (s.solver === 'C') return true;
+                        // Check if any result mismatches C's iterations
+                        const hasMismatch = s.results.some(r => {
+                            const expected = cIters[r.matrix];
+                            return expected && r.iterations !== expected;
+                        });
+                        return !hasMismatch;
+                    });
+                }
                 // Calculate min/max from individual matrix times, not totals
                 const allTimes = data.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0);
                 const minTime = ${Math.min(...metrics.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0))};
@@ -1990,6 +2222,120 @@ data.forEach(solver => {
                     }
                 });
             })();
+
+            // Matrix Screensaver Logic
+            (function() {
+                const canvas = document.getElementById('matrix-canvas');
+                const ctx = canvas.getContext('2d');
+                const container = canvas.parentElement;
+                const chartContainer = document.getElementById('d3-chart-container');
+                
+                let width, height;
+                let columns;
+                let drops = [];
+                let animationId;
+                let active = false;
+                
+                // Matrix characters (Katakana + Latin)
+                const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                
+                function resize() {
+                    width = container.clientWidth;
+                    height = container.clientHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    const fontSize = 14;
+                    columns = Math.ceil(width / fontSize);
+                    
+                    // Initialize drops
+                    drops = [];
+                    for (let i = 0; i < columns; i++) {
+                        drops[i] = Math.random() * -100; // Start above screen
+                    }
+                }
+                
+                function draw() {
+                    // Black background with opacity for trail effect
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    ctx.fillStyle = '#0F0'; // Green text
+                    ctx.font = '14px monospace';
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                        const x = i * 14;
+                        const y = drops[i] * 14;
+                        
+                        ctx.fillText(text, x, y);
+                        
+                        // Reset drop to top randomly after it has crossed the screen
+                        if (y > height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        
+                        drops[i]++;
+                    }
+                    
+                    if (active) {
+                        animationId = requestAnimationFrame(draw);
+                    }
+                }
+                
+                function startScreensaver() {
+                    if (active) return;
+                    active = true;
+                    
+                    // Hide chart, show canvas
+                    chartContainer.style.visibility = 'hidden'; // Use visibility to keep layout
+                    canvas.style.display = 'block';
+                    
+                    resize();
+                    draw();
+                }
+                
+                function stopScreensaver() {
+                    if (!active) return;
+                    active = false;
+                    cancelAnimationFrame(animationId);
+                    
+                    // Show chart, hide canvas
+                    chartContainer.style.visibility = 'visible';
+                    canvas.style.display = 'none';
+                }
+                
+                // Idle Timer
+                let idleTime = 0;
+                const idleLimit = 5 * 60 * 1000; // 5 minutes
+                // const idleLimit = 5000; // 5 seconds for testing
+                
+                let idleInterval = setInterval(() => {
+                    idleTime += 1000;
+                    if (idleTime >= idleLimit) {
+                        startScreensaver();
+                    }
+                }, 1000);
+                
+                function resetTimer() {
+                    idleTime = 0;
+                    if (active) {
+                        stopScreensaver();
+                    }
+                }
+                
+                // Events to reset timer
+                window.onload = resetTimer;
+                document.onmousemove = resetTimer;
+                document.onkeypress = resetTimer;
+                document.onclick = resetTimer;
+                document.onscroll = resetTimer;
+                
+                // Handle resize
+                window.addEventListener('resize', () => {
+                    if (active) resize();
+                });
+            })();
         </script>
 </body>
 </html>
@@ -2002,19 +2348,33 @@ async function main() {
     const metricsFile = path.join(rootDir, 'metrics.json');
     const htmlFile = path.join(rootDir, 'benchmark_report.html');
 
-    const solverScripts = await findSolvers(rootDir);
-    const allMetrics: SolverMetrics[] = [];
+    const generateOnly = process.argv.includes('--generate-only');
+    let allMetrics: SolverMetrics[] = [];
 
-    for (const script of solverScripts) {
-        const metrics = await runSolver(script);
-        if (metrics) {
-            allMetrics.push(metrics);
+    if (generateOnly) {
+        console.log("Generate-only mode: Reading existing metrics...");
+        try {
+            const data = await fs.readFile(metricsFile, 'utf-8');
+            allMetrics = JSON.parse(data);
+            console.log(`Loaded ${allMetrics.length} metrics from ${metricsFile}`);
+        } catch (e) {
+            console.error(`Failed to read ${metricsFile}:`, e);
+            process.exit(1);
         }
-    }
+    } else {
+        const solverScripts = await findSolvers(rootDir);
 
-    // Save metrics.json
-    await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
-    console.log(`Saved metrics to ${metricsFile}`);
+        for (const script of solverScripts) {
+            const metrics = await runSolver(script);
+            if (metrics) {
+                allMetrics.push(metrics);
+            }
+        }
+
+        // Save metrics.json
+        await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
+        console.log(`Saved metrics to ${metricsFile}`);
+    }
 
     // Generate HTML
     const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
