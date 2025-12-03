@@ -20,6 +20,15 @@
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.020509,
+        "iterations": 11006,
+        "memory": 1392640,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
       }
     ]
   },
@@ -43,6 +52,15 @@
         "memory": 41893888,
         "cpu_user": 0.1,
         "cpu_sys": 0.03,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.102746,
+        "iterations": 98847,
+        "memory": 42024960,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.01,
         "status": "pass"
       }
     ]
@@ -68,6 +86,15 @@
         "cpu_user": 26.47,
         "cpu_sys": 0.03,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 6.380862,
+        "iterations": 98847,
+        "memory": 7897088,
+        "cpu_user": 6.31,
+        "cpu_sys": 0.02,
+        "status": "pass"
       }
     ]
   },
@@ -92,6 +119,15 @@
         "cpu_user": 0.05,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.458496,
+        "iterations": 98847,
+        "memory": 8896512,
+        "cpu_user": 0.01,
+        "cpu_sys": 0,
+        "status": "pass"
       }
     ]
   },
@@ -112,6 +148,15 @@
         "matrix": "2.matrix",
         "time": 0.016703,
         "iterations": 439269,
+        "memory": 2129920,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.013703,
+        "iterations": 11006,
         "memory": 2129920,
         "cpu_user": 0,
         "cpu_sys": 0,
@@ -140,6 +185,15 @@
         "cpu_user": 0.06,
         "cpu_sys": 0.01,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.104609,
+        "iterations": 98847,
+        "memory": 54132736,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.01,
+        "status": "pass"
       }
     ]
   },
@@ -163,6 +217,15 @@
         "memory": 11583488,
         "cpu_user": 3.03,
         "cpu_sys": 0.26,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.696527,
+        "iterations": 98847,
+        "memory": 11599872,
+        "cpu_user": 0.48,
+        "cpu_sys": 0.07,
         "status": "pass"
       }
     ]
@@ -188,6 +251,15 @@
         "cpu_user": 1.2,
         "cpu_sys": 0.08,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.481643,
+        "iterations": 98847,
+        "memory": 5783552,
+        "cpu_user": 0.17,
+        "cpu_sys": 0,
+        "status": "pass"
       }
     ]
   },
@@ -211,6 +283,15 @@
         "memory": 22528000,
         "cpu_user": 0.15,
         "cpu_sys": 0.03,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.050729,
+        "iterations": 0,
+        "memory": 13287424,
+        "cpu_user": 0.01,
+        "cpu_sys": 0,
         "status": "pass"
       }
     ]
@@ -236,6 +317,15 @@
         "cpu_user": 8.42,
         "cpu_sys": 1.11,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 1.371475,
+        "iterations": 0,
+        "memory": 181878784,
+        "cpu_user": 2.45,
+        "cpu_sys": 0.19,
+        "status": "fail"
       }
     ]
   },
@@ -260,6 +350,15 @@
         "cpu_user": 0.34,
         "cpu_sys": 0.04,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.039014,
+        "iterations": 0,
+        "memory": 9715712,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass"
       }
     ]
   },
@@ -280,6 +379,15 @@
         "matrix": "2.matrix",
         "time": 2.100135,
         "iterations": 80392,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.305642,
+        "iterations": 17605,
         "memory": 0,
         "cpu_user": 0,
         "cpu_sys": 0,
@@ -308,6 +416,15 @@
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.444721,
+        "iterations": 98847,
+        "memory": 1556480,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
       }
     ]
   },
@@ -331,6 +448,15 @@
         "memory": 29229056,
         "cpu_user": 0.92,
         "cpu_sys": 0.13,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.184654,
+        "iterations": 0,
+        "memory": 28983296,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.03,
         "status": "pass"
       }
     ]
@@ -356,6 +482,15 @@
         "cpu_user": 5.22,
         "cpu_sys": 0.28,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.962989,
+        "iterations": 98847,
+        "memory": 161808384,
+        "cpu_user": 0.93,
+        "cpu_sys": 0.05,
+        "status": "pass"
       }
     ]
   },
@@ -379,6 +514,15 @@
         "memory": 89899008,
         "cpu_user": 8.36,
         "cpu_sys": 0.71,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.220265,
+        "iterations": 0,
+        "memory": 67223552,
+        "cpu_user": 0.09,
+        "cpu_sys": 0.03,
         "status": "pass"
       }
     ]
@@ -404,6 +548,15 @@
         "cpu_user": 2.16,
         "cpu_sys": 0.2,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.438914,
+        "iterations": 98847,
+        "memory": 29376512,
+        "cpu_user": 0.33,
+        "cpu_sys": 0.03,
+        "status": "pass"
       }
     ]
   },
@@ -427,6 +580,15 @@
         "memory": 12386304,
         "cpu_user": 2.79,
         "cpu_sys": 0.52,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.062362,
+        "iterations": 0,
+        "memory": 11501568,
+        "cpu_user": 0.02,
+        "cpu_sys": 0,
         "status": "pass"
       }
     ]
@@ -452,6 +614,15 @@
         "cpu_user": 0.51,
         "cpu_sys": 0.02,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.024402,
+        "iterations": 0,
+        "memory": 3260416,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass"
       }
     ]
   },
@@ -474,6 +645,15 @@
         "iterations": 439269,
         "memory": 2113536,
         "cpu_user": 0.02,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.383197,
+        "iterations": 11005,
+        "memory": 2015232,
+        "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       }
@@ -500,6 +680,15 @@
         "cpu_user": 0.23,
         "cpu_sys": 0.04,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.245704,
+        "iterations": 98847,
+        "memory": 25296896,
+        "cpu_user": 0.06,
+        "cpu_sys": 0.03,
+        "status": "pass"
       }
     ]
   },
@@ -524,6 +713,15 @@
         "cpu_user": 20.78,
         "cpu_sys": 1.48,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 1.456841,
+        "iterations": 0,
+        "memory": 134184960,
+        "cpu_user": 0.65,
+        "cpu_sys": 0.22,
+        "status": "pass"
       }
     ]
   },
@@ -546,6 +744,15 @@
         "iterations": 439269,
         "memory": 5570560,
         "cpu_user": 0.02,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.287914,
+        "iterations": 98847,
+        "memory": 5537792,
+        "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       }
@@ -572,6 +779,15 @@
         "cpu_user": 0.01,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.00922,
+        "iterations": 11006,
+        "memory": 1392640,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
       }
     ]
   },
@@ -594,6 +810,15 @@
         "iterations": 439269,
         "memory": 4636672,
         "cpu_user": 0.02,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.309686,
+        "iterations": 98847,
+        "memory": 2981888,
+        "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
       }
@@ -1195,6 +1420,651 @@
         "memory": 1785856,
         "cpu_user": 1.96,
         "cpu_sys": 0.12,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Zsh",
+    "timestamp": "2025-12-02T22:50:27.480Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.045155,
+        "iterations": 0,
+        "memory": 2441216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "XSLT",
+    "timestamp": "2025-12-02T22:50:33.720Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.024232,
+        "iterations": 0,
+        "memory": 1622016,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Verilog",
+    "timestamp": "2025-12-02T22:50:47.335Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.047718,
+        "iterations": 0,
+        "memory": 4915200,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "Tcsh",
+    "timestamp": "2025-12-02T22:51:05.688Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.036745,
+        "iterations": 0,
+        "memory": 2260992,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Sed",
+    "timestamp": "2025-12-02T22:51:20.201Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.008981,
+        "iterations": 0,
+        "memory": 1425408,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "SQLite",
+    "timestamp": "2025-12-02T23:14:50.440Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1400.27088,
+        "iterations": 0,
+        "memory": 91930624,
+        "cpu_user": 949.68,
+        "cpu_sys": 98.75,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "Rexx",
+    "timestamp": "2025-12-02T23:15:08.806Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.025317,
+        "iterations": 121,
+        "memory": 2916352,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "PostScript",
+    "timestamp": "2025-12-02T23:15:24.874Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.179874,
+        "iterations": 0,
+        "memory": 20217856,
+        "cpu_user": 0.02,
+        "cpu_sys": 0.02,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "Make",
+    "timestamp": "2025-12-02T23:15:51.976Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.02942,
+        "iterations": 0,
+        "memory": 1933312,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Zsh (Manual)",
+    "timestamp": "2025-12-02T23:43:32.683Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.041884,
+        "iterations": 0,
+        "memory": 2441216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Zig (Manual)",
+    "timestamp": "2025-12-02T23:43:36.857Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.031222,
+        "iterations": 11006,
+        "memory": 1392640,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "XSLT (Manual)",
+    "timestamp": "2025-12-02T23:43:40.383Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.113877,
+        "iterations": 0,
+        "memory": 1622016,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "VisualBasic (Manual)",
+    "timestamp": "2025-12-02T23:43:45.232Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.525449,
+        "iterations": 98847,
+        "memory": 42123264,
+        "cpu_user": 0.08,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Vimscript (Manual)",
+    "timestamp": "2025-12-02T23:43:54.653Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 11.377644,
+        "iterations": 98847,
+        "memory": 7880704,
+        "cpu_user": 9.21,
+        "cpu_sys": 0.17,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Verilog (Manual)",
+    "timestamp": "2025-12-02T23:43:59.113Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.72868,
+        "iterations": 0,
+        "memory": 4915200,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "Vala (Manual)",
+    "timestamp": "2025-12-02T23:44:04.053Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.830256,
+        "iterations": 98847,
+        "memory": 8929280,
+        "cpu_user": 0.02,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "V (Manual)",
+    "timestamp": "2025-12-02T23:44:07.172Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.116209,
+        "iterations": 11006,
+        "memory": 2129920,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "TypeScript (Manual)",
+    "timestamp": "2025-12-02T23:44:12.656Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.28089,
+        "iterations": 98847,
+        "memory": 54575104,
+        "cpu_user": 0.07,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Tcsh (Manual)",
+    "timestamp": "2025-12-02T23:44:15.761Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.180178,
+        "iterations": 0,
+        "memory": 2326528,
+        "cpu_user": 0,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Tcl (Manual)",
+    "timestamp": "2025-12-02T23:44:19.480Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 2.364066,
+        "iterations": 98847,
+        "memory": 11665408,
+        "cpu_user": 0.72,
+        "cpu_sys": 0.16,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Swift (Manual)",
+    "timestamp": "2025-12-02T23:44:24.389Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1.128954,
+        "iterations": 98847,
+        "memory": 5816320,
+        "cpu_user": 0.25,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Smalltalk (Manual)",
+    "timestamp": "2025-12-02T23:44:27.788Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.30449,
+        "iterations": 0,
+        "memory": 9715712,
+        "cpu_user": 0,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Sed (Manual)",
+    "timestamp": "2025-12-02T23:44:31.062Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.040813,
+        "iterations": 0,
+        "memory": 1425408,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Scheme (Manual)",
+    "timestamp": "2025-12-02T23:44:34.322Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.317224,
+        "iterations": 0,
+        "memory": 13287424,
+        "cpu_user": 0.02,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Scala (Manual)",
+    "timestamp": "2025-12-02T23:44:39.415Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 6.641675,
+        "iterations": 0,
+        "memory": 168574976,
+        "cpu_user": 3.35,
+        "cpu_sys": 0.37,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "SQLite (Manual)",
+    "timestamp": "2025-12-03T00:08:05.659Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1561.251194,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "SQL (Manual)",
+    "timestamp": "2025-12-03T00:08:21.604Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1.455193,
+        "iterations": 17605,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust (Manual)",
+    "timestamp": "2025-12-03T00:08:25.487Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.338415,
+        "iterations": 98847,
+        "memory": 1556480,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Ruby (Manual)",
+    "timestamp": "2025-12-03T00:08:29.312Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.29642,
+        "iterations": 0,
+        "memory": 28917760,
+        "cpu_user": 0.08,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rexx (Manual)",
+    "timestamp": "2025-12-03T00:08:32.494Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.066202,
+        "iterations": 121,
+        "memory": 2932736,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Raku (Manual)",
+    "timestamp": "2025-12-03T00:08:36.876Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 6.561434,
+        "iterations": 98847,
+        "memory": 148979712,
+        "cpu_user": 1.8,
+        "cpu_sys": 0.11,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "R (Manual)",
+    "timestamp": "2025-12-03T00:08:40.248Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 2.78693,
+        "iterations": 0,
+        "memory": 61472768,
+        "cpu_user": 0.2,
+        "cpu_sys": 0.1,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python (Manual)",
+    "timestamp": "2025-12-03T00:08:43.807Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 11.717469,
+        "iterations": 98847,
+        "memory": 28639232,
+        "cpu_user": 0.6,
+        "cpu_sys": 0.08,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Prolog (Manual)",
+    "timestamp": "2025-12-03T00:08:47.149Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.157621,
+        "iterations": 0,
+        "memory": 11485184,
+        "cpu_user": 0.03,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "PostScript (Manual)",
+    "timestamp": "2025-12-03T00:08:50.426Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.270644,
+        "iterations": 0,
+        "memory": 20316160,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.04,
+        "status": "fail"
+      }
+    ]
+  },
+  {
+    "solver": "Perl (Manual)",
+    "timestamp": "2025-12-03T00:08:53.558Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.112834,
+        "iterations": 0,
+        "memory": 3293184,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Pascal (Manual)",
+    "timestamp": "2025-12-03T00:08:57.772Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.453541,
+        "iterations": 11005,
+        "memory": 2015232,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "PHP (Manual)",
+    "timestamp": "2025-12-03T00:09:01.030Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.315352,
+        "iterations": 98847,
+        "memory": 25100288,
+        "cpu_user": 0.1,
+        "cpu_sys": 0.03,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Octave (Manual)",
+    "timestamp": "2025-12-03T00:09:05.666Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1.998913,
+        "iterations": 0,
+        "memory": 134447104,
+        "cpu_user": 1.14,
+        "cpu_sys": 0.2,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Objective-C (Manual)",
+    "timestamp": "2025-12-03T00:09:09.847Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.420054,
+        "iterations": 98847,
+        "memory": 5570560,
+        "cpu_user": 0.01,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "OCaml (Manual)",
+    "timestamp": "2025-12-03T00:09:13.663Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.330122,
+        "iterations": 98847,
+        "memory": 2981888,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Nim (Manual)",
+    "timestamp": "2025-12-03T00:09:16.913Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.015732,
+        "iterations": 11006,
+        "memory": 1409024,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Make (Manual)",
+    "timestamp": "2025-12-03T00:09:19.965Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.232009,
+        "iterations": 0,
+        "memory": 1933312,
+        "cpu_user": 0.01,
+        "cpu_sys": 0.02,
         "status": "pass"
       }
     ]

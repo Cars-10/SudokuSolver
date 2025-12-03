@@ -1,1 +1,11 @@
 [
+  {
+    "matrix": "3.matrix",
+    "time": 0.066202,
+    "iterations": 121,
+    "memory": 2932736,
+    "cpu_user": 0.00,
+    "cpu_sys": 0.00,
+    "status": "pass"
+  }
+]

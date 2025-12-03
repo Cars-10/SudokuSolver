@@ -128,24 +128,24 @@ Puzzle:
 
 Solved in Iterations=445778
 
-Seconds to process 0.004
-./Sudoku ../Matrices/*.matrix  0.00s user 0.00s system 86% cpu 0.007 total
-tee run.txt  0.00s user 0.00s system 13% cpu 0.006 total
-        0.01 real         0.00 user         0.00 sys
+Seconds to process 0.007
+./Sudoku ../Matrices/*.matrix  0.01s user 0.00s system 70% cpu 0.015 total
+tee run.txt  0.00s user 0.00s system 12% cpu 0.014 total
+        0.02 real         0.01 user         0.00 sys
              2375680  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-                1221  page reclaims
-                   8  page faults
+                1239  page reclaims
+                   7  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
                    0  messages sent
                    0  messages received
                    3  signals received
-                   8  voluntary context switches
-                  43  involuntary context switches
-            18777304  instructions retired
-             8956129  cycles elapsed
-             1540408  peak memory footprint
+                   9  voluntary context switches
+                  52  involuntary context switches
+            19803569  instructions retired
+            12871416  cycles elapsed
+             1524024  peak memory footprint

@@ -133,24 +133,24 @@ Puzzle:
 
 Solved in Iterations=445778
 
-Seconds to process 0,038
-dotnet run ../../Matrices/*.matrix  0.65s user 0.14s system 81% cpu 0.961 total
-tee ../run.txt  0.00s user 0.00s system 0% cpu 0.960 total
-        0.96 real         0.64 user         0.13 sys
-           179699712  maximum resident set size
+Seconds to process 0.101
+dotnet run ../../Matrices/*.matrix  1.55s user 0.29s system 49% cpu 3.689 total
+tee ../run.txt  0.00s user 0.00s system 0% cpu 3.689 total
+        3.70 real         1.55 user         0.29 sys
+           190873600  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-               15617  page reclaims
-                4828  page faults
+               19736  page reclaims
+                5016  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
-                   0  messages sent
-                   0  messages received
-                   4  signals received
-                 333  voluntary context switches
-                3974  involuntary context switches
-            18750127  instructions retired
-             9865795  cycles elapsed
-             1540432  peak memory footprint
+                  53  messages sent
+                   2  messages received
+                   5  signals received
+                 562  voluntary context switches
+                8287  involuntary context switches
+            20215128  instructions retired
+            12515512  cycles elapsed
+             1556792  peak memory footprint

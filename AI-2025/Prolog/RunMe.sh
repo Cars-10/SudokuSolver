@@ -1,4 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-# Run
-swipl -O -g main -t halt Sudoku.pl -- ../Matrices/*.matrix | tee run.txt
+# Run each matrix file (solver only handles one at a time)
+for matrix in ../Matrices/*.matrix; do
+    swipl -O -g main -t halt Sudoku.pl -- "$matrix"
+done

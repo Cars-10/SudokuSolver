@@ -55,7 +55,7 @@ Puzzle:
 
 Solved in Iterations=439,269
 
-Seconds to process 0.005
+Seconds to process 0.012
 ../Matrices/3.matrix
 
 Puzzle:
@@ -84,7 +84,7 @@ Puzzle:
 
 Solved in Iterations=98,847
 
-Seconds to process 0.001
+Seconds to process 0.002
 ../Matrices/4.matrix
 
 Puzzle:
@@ -142,22 +142,22 @@ Puzzle:
 
 Solved in Iterations=445,778
 
-Seconds to process 0.005
-        0.39 real         0.15 user         0.07 sys
-            53166080  maximum resident set size
+Seconds to process 0.011
+        0.63 real         0.23 user         0.10 sys
+            53133312  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-               18099  page reclaims
-                1610  page faults
+               18203  page reclaims
+                1671  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
                    0  messages sent
                    0  messages received
-                   1  signals received
-                  45  voluntary context switches
-                1326  involuntary context switches
-            16264617  instructions retired
-             7987959  cycles elapsed
-             1179912  peak memory footprint
+                   0  signals received
+                 107  voluntary context switches
+                1205  involuntary context switches
+            18180576  instructions retired
+            11148510  cycles elapsed
+             1212680  peak memory footprint
