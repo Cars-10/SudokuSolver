@@ -138,27 +138,27 @@ Puzzle:
 
 Solved in Iterations=445778
 
-Seconds to process 0.028
+Seconds to process 0.062
 
-(node:20735) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/cars10/GIT/SudokuSolver/AI-2025/TypeScript/out/Sudoku.js is not specified and it doesn't parse as CommonJS.
+(node:38676) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/cars10/GIT/SudokuSolver/AI-2025/TypeScript/out/Sudoku.js is not specified and it doesn't parse as CommonJS.
 Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
 To eliminate this warning, add "type": "module" to /Users/cars10/GIT/SudokuSolver/AI-2025/TypeScript/package.json.
 (Use `node --trace-warnings ...` to show where the warning was created)
-        0.69 real         1.42 user         0.10 sys
-           336855040  maximum resident set size
+        1.39 real         2.31 user         0.16 sys
+           334626816  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-               25477  page reclaims
-                 238  page faults
+               25165  page reclaims
+                 422  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
                    0  messages sent
                    0  messages received
-                   1  signals received
-                 138  voluntary context switches
-                5262  involuntary context switches
-            17572507  instructions retired
-             9325635  cycles elapsed
-             1196296  peak memory footprint
+                   0  signals received
+                 202  voluntary context switches
+                5721  involuntary context switches
+            18763716  instructions retired
+            11833979  cycles elapsed
+             1229064  peak memory footprint

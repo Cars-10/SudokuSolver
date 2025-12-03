@@ -351,7 +351,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Kathleen Booth",
         "date": "1947",
         "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kathleen_Booth.jpg/440px-Kathleen_Booth.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Simpleicons_Interface_code-file-1.svg/64px-Simpleicons_Interface_code-file-1.svg.png",
         "location": "Birkbeck College, London",
         "benefits": "Direct hardware control, maximum performance, zero overhead."
@@ -360,7 +360,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Aho, Weinberger, Kernighan",
         "date": "1977",
         "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Alfred_Aho.jpg/440px-Alfred_Aho.jpg", // Alfred Aho
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg", // Alfred Aho
         "location": "Bell Labs, USA",
         "benefits": "Excellent for text processing, one-liners, and data extraction."
     },
@@ -368,7 +368,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Brian Fox",
         "date": "1989",
         "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1200px-Gnu-bash-logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "location": "Free Software Foundation, USA",
         "benefits": "Ubiquitous, powerful scripting, direct system interaction."
     },
@@ -376,7 +376,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
         "date": "1964",
         "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Kemeny_and_Kurtz.jpg",
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance."
     },
@@ -418,7 +418,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "CODASYL Committee (Grace Hopper)",
         "date": "1959",
         "description": "Common Business-Oriented Language. Designed for business use.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/440px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
         "location": "USA",
         "benefits": "Business data processing, stability, massive legacy codebases."
     },
@@ -434,7 +434,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Committee (Guy L. Steele Jr. et al.)",
         "date": "1984",
         "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Guy_Steele.jpg/440px-Guy_Steele.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
         "location": "USA",
         "benefits": "Macros, dynamic typing, interactive development, flexibility."
     },
@@ -458,7 +458,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Lars Bak, Kasper Lund",
         "date": "2011",
         "description": "A client-optimized language for fast apps on any platform.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Lars_Bak.jpg/440px-Lars_Bak.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Lars_Bak.jpg",
         "location": "Google, Denmark/USA",
         "benefits": "UI optimized, fast compilation, cross-platform (Flutter)."
     },
@@ -474,7 +474,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Joe Armstrong",
         "date": "1986",
         "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Joe_Armstrong_2014.jpg/440px-Joe_Armstrong_2014.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Joe_Armstrong_2014.jpg",
         "location": "Ericsson, Sweden",
         "benefits": "Massive concurrency, fault tolerance, hot code swapping."
     },
@@ -499,7 +499,7 @@ const languageMetadata: Record<string, any> = {
         "date": "2009",
         "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
         "image": "https://github.com/robpike.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/64px-Go_Logo_Blue.svg.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg",
         "location": "Google, USA",
         "benefits": "Simplicity, concurrency, fast compilation, static typing."
     },
@@ -515,7 +515,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Committee (Simon Peyton Jones et al.)",
         "date": "1990",
         "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Haskell-Logo.svg/1200px-Haskell-Logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg",
         "location": "Global",
         "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
     },
@@ -549,7 +549,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "JetBrains",
         "date": "2011",
         "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/1200px-Kotlin_Icon.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/64px-Kotlin_Icon.png",
         "location": "Russia/International",
         "benefits": "Concise, null safety, Java interoperability, Android standard."
@@ -558,7 +558,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Roberto Ierusalimschy et al.",
         "date": "1993",
         "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Lua-Logo.svg/1200px-Lua-Logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
         "location": "PUC-Rio, Brazil",
         "benefits": "Lightweight, embeddable, fast, simple."
     },
@@ -590,7 +590,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Niklaus Wirth",
         "date": "1970",
         "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Pascal_programming_language_logo.svg/1200px-Pascal_programming_language_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Pascal_programming_language_logo.svg",
         "location": "ETH Zurich, Switzerland",
         "benefits": "Structured programming, teaching, strong typing."
     },
@@ -615,7 +615,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "John Warnock, Charles Geschke",
         "date": "1982",
         "description": "A page description language in the electronic publishing and desktop publishing business.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/John_Warnock.jpg/440px-John_Warnock.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/John_Warnock.jpg",
         "location": "Adobe, USA",
         "benefits": "Printing, vector graphics, stack-based, device independence."
     },
@@ -623,7 +623,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Jeffrey Snover",
         "date": "2006",
         "description": "A task automation and configuration management framework from Microsoft.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/PowerShell_5.0_icon.png/1200px-PowerShell_5.0_icon.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/PowerShell_5.0_icon.png",
         "location": "Microsoft, USA",
         "benefits": "Automation, system administration, object-oriented pipeline."
     },
@@ -631,7 +631,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Alain Colmerauer",
         "date": "1972",
         "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alain_Colmerauer.jpg/440px-Alain_Colmerauer.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Alain_Colmerauer.jpg",
         "location": "University of Aix-Marseille, France",
         "benefits": "Logic programming, AI, pattern matching, declarative."
     },
@@ -648,7 +648,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Ross Ihaka, Robert Gentleman",
         "date": "1993",
         "description": "A programming language and free software environment for statistical computing and graphics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg",
         "location": "University of Auckland, New Zealand",
         "benefits": "Statistics, data visualization, data analysis."
     },
@@ -664,7 +664,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Mike Cowlishaw",
         "date": "1979",
         "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Mike_Cowlishaw.jpg/440px-Mike_Cowlishaw.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Mike_Cowlishaw.jpg",
         "location": "IBM, UK",
         "benefits": "Scripting, mainframe automation, ease of use."
     },
@@ -673,7 +673,7 @@ const languageMetadata: Record<string, any> = {
         "date": "1995",
         "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
         "image": "https://github.com/matz.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/64px-Ruby_logo.svg.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg",
         "location": "Japan",
         "benefits": "Developer happiness, web development, scripting, elegance."
     },
@@ -682,7 +682,7 @@ const languageMetadata: Record<string, any> = {
         "date": "2010",
         "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
         "image": "https://github.com/graydon.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Rust_programming_language_black_logo.svg/64px-Rust_programming_language_black_logo.svg.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
         "location": "Mozilla, Canada",
         "benefits": "Memory safety, performance, concurrency, modern tooling."
     },
@@ -698,7 +698,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
         "date": "1975",
         "description": "A minimalist dialect of the Lisp family of programming languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Lambda_lc.svg/1200px-Lambda_lc.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
         "location": "MIT, USA",
         "benefits": "Minimalism, education, functional, macros."
     },
@@ -706,7 +706,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Lee E. McMahon",
         "date": "1974",
         "description": "A stream editor for filtering and transforming text.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Lee_McMahon.jpg/220px-Lee_McMahon.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/9/9e/Lee_McMahon.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Stream editing, text transformation, automation."
     },
@@ -714,7 +714,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
         "date": "1972",
         "description": "An object-oriented, dynamically typed reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Alan_Kay_2006.jpg/440px-Alan_Kay_2006.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Alan_Kay_2006.jpg",
         "location": "Xerox PARC, USA",
         "benefits": "Pure OOP, live environment, influence on modern GUIs."
     },
@@ -730,7 +730,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Donald D. Chamberlin, Raymond F. Boyce",
         "date": "1974",
         "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sql_data_base_with_logo.png/1200px-Sql_data_base_with_logo.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png",
         "location": "IBM, USA",
         "benefits": "Data management, standard, declarative, powerful queries."
     },
@@ -747,7 +747,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "John Ousterhout",
         "date": "1988",
         "description": "Tool Command Language. A dynamic programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/John_Ousterhout.jpg/440px-John_Ousterhout.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/John_Ousterhout.jpg",
         "location": "UC Berkeley, USA",
         "benefits": "Scripting, GUI (Tk), embedding, simplicity."
     },
@@ -756,7 +756,7 @@ const languageMetadata: Record<string, any> = {
         "date": "2012",
         "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
         "image": "https://github.com/ahejlsberg.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/64px-Typescript_logo_2020.svg.png",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg",
         "location": "Microsoft, USA",
         "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
     },
@@ -780,7 +780,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "US Department of Defense",
         "date": "1980",
         "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/VHDL_Logo.svg/1200px-VHDL_Logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/VHDL_Logo.svg",
         "location": "USA",
         "benefits": "Hardware description, strong typing, concurrency, standard."
     },
@@ -797,6 +797,7 @@ const languageMetadata: Record<string, any> = {
         "date": "1991",
         "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/40/VB.NET_Logo.svg",
         "location": "Microsoft, USA",
         "benefits": "RAD, ease of use, Windows integration, legacy support."
     },
@@ -804,7 +805,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "W3C Community Group",
         "date": "2017",
         "description": "A binary instruction format for a stack-based virtual machine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/WebAssembly_Logo.svg/1200px-WebAssembly_Logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/WebAssembly_Logo.svg",
         "location": "Global",
         "benefits": "Performance, portability, language agnostic, web standard."
     },
@@ -813,7 +814,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Stephen Dolan",
         "date": "2012",
         "description": "A lightweight and flexible command-line JSON processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/JSON_vector_logo.svg/1200px-JSON_vector_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/JSON_vector_logo.svg",
         "location": "USA",
         "benefits": "JSON processing, functional, filter-based."
     },
@@ -821,7 +822,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Stuart Feldman",
         "date": "1976",
         "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Stuart_Feldman_2007_retouched.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Dependency management, build automation."
     },
@@ -829,7 +830,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Thomas Williams, Colin Kelley",
         "date": "1986",
         "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Gnuplot_logo.svg/1200px-Gnuplot_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gnuplot_logo.svg",
         "location": "USA",
         "benefits": "Plotting, data visualization, scripting."
     },
@@ -837,7 +838,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "W3C",
         "date": "1998",
         "description": "A language for transforming XML documents into other XML documents.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Xml_logo.svg/1200px-Xml_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xml_logo.svg",
         "location": "Worldwide",
         "benefits": "XML transformation, functional, template-based."
     },
@@ -845,7 +846,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Paul Falstad",
         "date": "1990",
         "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Zsh_logo.svg/1200px-Zsh_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg",
         "location": "Princeton University, USA",
         "benefits": "Interactive shell, scripting, plugin ecosystem."
     },
@@ -862,7 +863,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Don Libes",
         "date": "1990",
         "description": "A program to automate interactions with programs that expose a text terminal interface.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://www.oreilly.com/covers/urn:orm:book:9781565920903/400w/",
         "location": "NIST, USA",
         "benefits": "Automation, testing, interactive scripting."
     },
@@ -870,7 +871,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "D. Richard Hipp",
         "date": "2000",
         "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/SQLite370.svg/1200px-SQLite370.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg",
         "location": "USA",
         "benefits": "Serverless, zero-configuration, transactional SQL."
     },
@@ -879,7 +880,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Ken Greer",
         "date": "1975",
         "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://www.oreilly.com/covers/urn:orm:book:9781449377526/160h/?format=webp",
         "location": "Carnegie Mellon University, USA",
         "benefits": "Interactive shell, command completion, history."
     },
@@ -887,15 +888,16 @@ const languageMetadata: Record<string, any> = {
         "creator": "David Korn",
         "date": "1983",
         "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://www.facesofopensource.com/wp-content/uploads/2015/09/david-korn-1.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Scripting, interactive use, backward compatibility."
     },
+
     "Dash": {
         "creator": "Herbert Xu",
         "date": "1997",
         "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg",
         "location": "Australia",
         "benefits": "Speed, POSIX compliance, minimal footprint."
     },
@@ -903,7 +905,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Axel Liljencrantz",
         "date": "2005",
         "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Fish_shell_logo_ascii.svg/1200px-Fish_shell_logo_ascii.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Fish_shell_logo_ascii.svg",
         "location": "Sweden",
         "benefits": "Autosuggestions, web-based configuration, clean syntax."
     },
@@ -911,7 +913,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Robert Morris, Lorinda Cherry",
         "date": "1975",
         "description": "An arbitrary-precision calculator language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Arbitrary precision, math scripting."
     },
@@ -919,7 +921,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Robert Morris, Lorinda Cherry",
         "date": "1970",
         "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
         "location": "Bell Labs, USA",
         "benefits": "RPN, arbitrary precision, stack-based."
     },
@@ -927,7 +929,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Richard Stallman",
         "date": "1985",
         "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/EmacsIcon.svg/1200px-EmacsIcon.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/EmacsIcon.svg",
         "location": "MIT, USA",
         "benefits": "Editor customization, extensibility, live coding."
     },
@@ -935,7 +937,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Charles H. Moore",
         "date": "1970",
         "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Forth_logo.svg/1200px-Forth_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Forth_logo.svg",
         "location": "NRAO, USA",
         "benefits": "Compactness, hardware control, interactivity."
     },
@@ -943,7 +945,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Nicolas Cannasse",
         "date": "2005",
         "description": "A high-level cross-platform language that compiles to many other languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Haxe_logo.svg/1200px-Haxe_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Haxe_logo.svg",
         "location": "France",
         "benefits": "Cross-platform, strong typing, single codebase."
     },
@@ -951,7 +953,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Fernando Pérez et al.",
         "date": "2014",
         "description": "An open-source project that supports interactive data science and scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/1200px-Jupyter_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg",
         "location": "Global",
         "benefits": "Interactive computing, data visualization, education."
     },
@@ -959,7 +961,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Brian Kernighan, Dennis Ritchie",
         "date": "1977",
         "description": "A general-purpose macro processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg",
         "location": "Bell Labs, USA",
         "benefits": "Macro expansion, text processing, configuration."
     },
@@ -967,7 +969,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Brad Cox, Tom Love",
         "date": "1984",
         "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg",
+        "image": "https://m.media-amazon.com/images/I/51+H6XVgf3L.jpg",
         "location": "Stepstone, USA",
         "benefits": "Dynamic runtime, C compatibility, Apple legacy."
     },
@@ -975,7 +977,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Larry Wall",
         "date": "2015",
         "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Raku_logo.svg/1200px-Raku_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Raku_logo.svg",
         "location": "Global",
         "benefits": "Expressiveness, grammars, concurrency."
     },
@@ -983,7 +985,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Alexander Medvednikov",
         "date": "2019",
         "description": "A statically typed, compiled language designed for maintainability and speed.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/V-logo.svg/1200px-V-logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/V-logo.svg",
         "location": "Global",
         "benefits": "Fast compilation, simplicity, safety."
     },
@@ -991,7 +993,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Andrew Kelley",
         "date": "2016",
         "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zig_logo.svg/1200px-Zig_logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
         "location": "USA",
         "benefits": "No hidden control flow, manual memory management, comptime."
     },
@@ -999,7 +1001,7 @@ const languageMetadata: Record<string, any> = {
         "creator": "Brian Fox",
         "date": "1989",
         "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1200px-Gnu-bash-logo.svg.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "location": "Free Software Foundation, USA",
         "benefits": "Ubiquitous, powerful scripting, direct system interaction."
     },
@@ -1008,6 +1010,7 @@ const languageMetadata: Record<string, any> = {
         "date": "1964",
         "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
         "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2e/True_BASIC_logo.svg",
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance."
     }
@@ -1016,23 +1019,35 @@ const languageMetadata: Record<string, any> = {
 // --- Logic ---
 
 async function findSolvers(rootDir: string): Promise<string[]> {
-    // Find all runMe_ai.sh files
-    const pattern = path.join(rootDir, 'Manual', '*', 'runMe_ai.sh');
-    console.log(`Searching for solvers with pattern: ${pattern}`);
-    const solvers = await glob(path.join(rootDir, 'Manual', '*/runMe_ai.sh'));
-    const filteredSolvers = solvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
+    // Find all runMe_ai.sh files in Manual and AI-2025
+    console.log(`Searching for solvers in Manual and AI-2025...`);
+
+    const manualSolvers = await glob(path.join(rootDir, 'Manual', '*/runMe_ai.sh'));
+    const aiSolvers = await glob(path.join(rootDir, 'AI-2025', '*/runMe_ai.sh'));
+
+    const allSolvers = [...manualSolvers, ...aiSolvers];
+    const filteredSolvers = allSolvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
+
     console.log(`Found ${filteredSolvers.length} solvers (excluding Racket and Cobol):`, filteredSolvers);
     return filteredSolvers;
 }
 
-async function runSolver(scriptPath: string): Promise<SolverMetrics | null> {
+async function runSolver(scriptPath: string, matrixPattern: string): Promise<SolverMetrics | null> {
     const solverDir = path.dirname(scriptPath);
-    const solverName = path.basename(solverDir);
+    const langName = path.basename(solverDir);
+    const parentDir = path.basename(path.dirname(solverDir));
 
-    console.log(`Running solver: ${solverName}`);
+    let solverName = langName;
+    if (parentDir === 'Manual') {
+        solverName = `${langName} (Manual)`;
+    } else if (parentDir === 'AI-2025') {
+        solverName = `${langName} (AI)`;
+    }
+
+    console.log(`Running solver: ${solverName} on ${matrixPattern}`);
 
     try {
-        const { stdout, stderr } = await execPromise(`./runMe_ai.sh "../../Matrices/[12].matrix"`, { cwd: solverDir });
+        const { stdout, stderr } = await execPromise(`./runMe_ai.sh "../../Matrices/${matrixPattern}"`, { cwd: solverDir });
 
         try {
             const results = JSON.parse(stdout);
@@ -1053,6 +1068,17 @@ async function runSolver(scriptPath: string): Promise<SolverMetrics | null> {
 }
 
 async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any): Promise<string> {
+    // Read Matrix Files
+    const matricesDir = path.resolve(__dirname, '../Matrices');
+    const matrixFiles = await glob('*.matrix', { cwd: matricesDir });
+    const matrixContents: string[] = [];
+
+    for (const file of matrixFiles) {
+        if (file === '[12].matrix') continue; // Skip the combined one if present
+        const content = await fs.readFile(path.join(matricesDir, file), 'utf-8');
+        matrixContents.push(content);
+    }
+
     const maxMatrices = 5; // Focus on Matrix 1-5
 
     // Sort results by total time (fastest first)
@@ -1066,6 +1092,20 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     const cMetrics = metrics.find(m => m.solver === 'C');
     const cTimes = cMetrics ? cMetrics.results.map(r => r.time) : [];
     const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
+
+    // Filter out mismatches
+    // Filter out mismatches - REVERTED to allow client-side toggle
+    // if (cTotalIters > 0) {
+    //     metrics = metrics.filter(m => {
+    //         if (m.solver === 'C') return true;
+    //         const totalIters = m.results.reduce((a, b) => a + b.iterations, 0);
+    //         if (totalIters !== cTotalIters) {
+    //             console.log(`Marking ${m.solver} as mismatch: ${totalIters} vs ${cTotalIters}`);
+    //             // return false; // Don't exclude, just mark
+    //         }
+    //         return true;
+    //     });
+    // }
 
     // C Baselines for Composite Score
     const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
@@ -1087,6 +1127,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
     <title>Sudoku Benchmark - Neon</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -1176,6 +1217,13 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         }
         .lang-col:hover {
             border-left-color: var(--primary);
+        }
+        .lang-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            object-fit: contain;
         }
         .lang-year {
             font-size: 0.7em;
@@ -1291,7 +1339,31 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             margin-bottom: 20px;
             display: flex;
             gap: 10px;
-            justify-content: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .manual-tag, .ai-tag {
+            font-size: 0.75em;
+            color: var(--muted);
+            font-weight: normal;
+            margin-left: 4px;
+        }
+        .filter-active-red {
+            background-color: #ff4444 !important;
+            color: #fff !important;
+            border-color: #ff4444 !important;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
+        }
+        .btn-red {
+            background: rgba(255, 68, 68, 0.2);
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+        .btn-red.active {
+            background: #ff4444;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
         }
         .btn {
             background: var(--surface);
@@ -1420,7 +1492,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         
         .top-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             gap: 20px;
             margin-bottom: 20px;
@@ -1555,21 +1627,24 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             <span class="modal-close" onclick="closeMethodology(event)">&times;</span>
             <div class="modal-title" style="text-align: center;">Scoring Methodology</div>
             <div class="modal-desc">
-                <p>The <strong>Total Score</strong> is a normalized metric designed to compare performance against a standard baseline.</p>
+                <p>The <strong>Composite Score</strong> is a normalized metric designed to compare performance against the C baseline across multiple dimensions.</p>
                 
                 <h3 style="color: var(--secondary);">The Baseline: C</h3>
-                <p>The <strong>C</strong> implementation is used as the reference standard (1.0) because it represents a highly optimized, low-level approach.</p>
+                <p>The <strong>C</strong> implementation is the reference standard (1.0) for Time, Memory, and CPU usage.</p>
                 
                 <h3 style="color: var(--secondary);">The Formula</h3>
                 <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-                    Score = (Solver Time) / (C Time)
+                    Score = (TimeRatio + MemRatio + CpuRatio) / 3
                 </div>
+                <p style="font-size: 0.9em; text-align: center; color: var(--muted);">
+                    Where Ratio = (Solver Value) / (C Value)
+                </p>
                 
                 <h3 style="color: var(--secondary);">Interpretation</h3>
                 <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity. Exact same speed as C.</li>
-                    <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&gt; 1.0</strong> : Slower. (e.g., 2.0 is 2x slower).</li>
-                    <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&lt; 1.0</strong> : Faster. (e.g., 0.5 is 2x faster).</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity. Matches C's performance profile.</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&gt; 1.0</strong> : Less Efficient. Higher resource usage than C.</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&lt; 1.0</strong> : More Efficient. Lower resource usage than C.</li>
                 </ul>
                 <p style="font-size: 0.9em; color: var(--muted); text-align: center; margin-top: 20px;"><em>Lower scores are better.</em></p>
             </div>
@@ -1580,10 +1655,19 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     
     <div class="header-counters">
         <div class="solver-counter">SOLVER ${metrics.length} OF ${metrics.length}</div>
-        ${mismatchCount > 0 ? `<div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
+        ${mismatchCount > 0 ? `<div id="header-mismatch-count" class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
+        <div id="screensaver-pill" style="display: none; font-size: 0.8em; color: var(--secondary); margin-top: 5px; align-self: flex-start;">
+            <span style="display: inline-block; width: 8px; height: 8px; background: #00ff9d; border-radius: 50%; margin-right: 5px; box-shadow: 0 0 5px #00ff9d;"></span>
+            Screensaver Active
+        </div>
     </div>
     
     <div style="width: 95%; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
+        <div style="position: absolute; top: 10px; right: 20px; z-index: 100; display: flex; gap: 10px;">
+            <button class="btn active" id="btn-chart-line" onclick="switchChart('line')">Line Chart</button>
+            <button class="btn" id="btn-chart-jockey" onclick="switchChart('jockey')">Jockey Leaderboard</button>
+            <button class="btn" onclick="event.stopPropagation(); startScreensaver()">Matrix Mode</button>
+        </div>
         <div id="d3-chart-container" style="width: 100%; height: 100%;"></div>
         <canvas id="matrix-canvas"></canvas>
     </div>
@@ -1594,7 +1678,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             Welcome to the Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
         <div class="controls">
-            <input type="text" id="search-input" class="btn" placeholder="Search Language..." onkeyup="filterLanguages()" style="cursor: text; width: 150px;">
+            <input type="text" id="search-input" class="btn" placeholder="Filter Language..." onkeyup="filterLanguages()" style="cursor: text; width: 150px;">
             <select id="personality-selector" class="btn" onchange="changePersonality()">
                 <option value="Standard">Standard</option>
                 <option value="Neuromancer">Neuromancer</option>
@@ -1607,8 +1691,8 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             <button class="btn" onclick="sortRows('mem', this)">Memory (Highest)</button>
             <button class="btn" onclick="sortRows('iters', this)">Iterations</button>
             <button class="btn" onclick="sortRows('score', this)">Total Score</button>
-            <button class="btn toggle-btn" onclick="toggleImposters()" id="btn-imposters">
-                <span class="toggle-icon"></span> Hide Imposters
+            <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
+                <span>Filter Mismatches</span>
             </button>
             <button class="btn" onclick="showMethodology()">Methodology</button>
         </div>
@@ -1697,14 +1781,16 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         if (isMismatch) rowClass += " mismatch-iterations";
 
         // Quote
-        const quote = (personalities['Standard'] as any)[lang] || "A mystery wrapped in code.";
+        const baseLang = lang.replace(/ \((Manual|AI)\)$/, '');
+        const quote = (personalities['Standard'] as any)[baseLang] || (personalities['Standard'] as any)[lang] || "A mystery wrapped in code.";
         const safeQuote = quote.replace(/'/g, "&apos;") + ` Efficiency: ${efficiencyScore.toFixed(2)} MB/s`;
 
         // Metadata
-        const meta = languageMetadata[lang] || {};
+        const meta = languageMetadata[baseLang] || languageMetadata[lang] || {};
         const year = meta.date || "0000";
-        const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
-        const historyText = (languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
+        const displayNameRaw = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
+        const displayName = displayNameRaw.replace(/ \(Manual\)$/, ' <span class="manual-tag">(Manual)</span>').replace(/ \(AI\)$/, ' <span class="ai-tag">(AI)</span>');
+        const historyText = (languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
         const logoUrl = meta.logo || meta.image;
 
         // Data Attributes
@@ -1733,7 +1819,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
-                ${logoUrl ? `<img src="${logoUrl}" alt="${displayName}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle; object-fit: contain;">` : ''}
+                ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>${displayName}</div>
                     <div class='lang-year'>${year}</div>
@@ -1885,21 +1971,31 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                 rows.forEach(row => tbody.appendChild(row));
             }
             
-            // Imposter Filter
-            function toggleImposters() {
-                const btn = document.getElementById('btn-imposters');
-                const rows = document.querySelectorAll('.placeholder-row');
-                const isHidden = btn.classList.contains('active');
-                
-                if (isHidden) {
-                    rows.forEach(r => r.style.display = 'table-row');
-                    btn.classList.remove('active');
-                    btn.innerHTML = '<span class="toggle-icon"></span> Hide Imposters';
+            // Mismatch Filter
+            function toggleMismatches() {
+                const btn = document.getElementById('toggleMismatchesBtn');
+                const isFilterActive = btn.classList.toggle('active');
+
+                if (isFilterActive) {
+                    btn.classList.add('filter-active-red');
+                    btn.querySelector('span').textContent = "Show All";
                 } else {
-                    rows.forEach(r => r.style.display = 'none');
-                    btn.classList.add('active');
-                    btn.innerHTML = '<span class="toggle-icon"></span> Show Imposters';
+                    btn.classList.remove('filter-active-red');
+                    btn.querySelector('span').textContent = "Filter Mismatches";
                 }
+
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    if (isFilterActive) {
+                        if (row.classList.contains('mismatch-iterations')) {
+                            row.style.display = 'none';
+                        } else {
+                            row.style.display = '';
+                        }
+                    } else {
+                        row.style.display = '';
+                    }
+                });
             }
 
             // Personality Selector
@@ -2047,299 +2143,545 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             }
 
             // Initialize
-            toggleImposters(); // Default hide
+            toggleMismatches(); // Default hide
             
             // --- D3.js Chart Implementation ---
             (function() {
-                let data = ${JSON.stringify(metrics)};
+                // Inject metrics with logo data
+                let rawData = ${JSON.stringify(metrics.map(m => {
+        const baseLang = m.solver.replace(/ \((Manual|AI)\)$/, '');
+        const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
+        // Use a generic code icon if no logo found
+        const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png";
+        return { ...m, logo: meta.logo || meta.image || defaultLogo };
+    }))};
                 
-                // Filter out mismatched solvers
-                const cSolver = data.find(s => s.solver === 'C');
-                if (cSolver) {
-                    const cIters = {};
-                    cSolver.results.forEach(r => cIters[r.matrix] = r.iterations);
-                    
-                    data = data.filter(s => {
-                        if (s.solver === 'C') return true;
-                        // Check if any result mismatches C's iterations
-                        const hasMismatch = s.results.some(r => {
-                            const expected = cIters[r.matrix];
-                            return expected && r.iterations !== expected;
+                let data = rawData;
+                let currentChart = 'line';
+
+                // Expose switchChart globally
+                // Expose switchChart globally - DEFINED EARLY TO PREVENT REFERENCE ERRORS
+                window.switchChart = function(type) {
+                    try {
+                        currentChart = type;
+                        const btnLine = document.getElementById('btn-chart-line');
+                        const btnJockey = document.getElementById('btn-chart-jockey');
+                        if (btnLine) btnLine.classList.toggle('active', type === 'line');
+                        if (btnJockey) btnJockey.classList.toggle('active', type === 'jockey');
+                        
+                        // Check if D3 is loaded
+                        if (typeof d3 === 'undefined') {
+                            throw new Error("D3.js library not loaded. Please check your internet connection.");
+                        }
+
+                        const container = d3.select("#d3-chart-container");
+                        container.selectAll("*").remove();
+                        
+                        if (type === 'line') {
+                            drawLineChart();
+                        } else {
+                            drawJockeyChart();
+                        }
+                    } catch (e) {
+                        console.error("Error switching chart:", e);
+                        const container = document.getElementById('d3-chart-container');
+                        if (container) {
+                            container.innerHTML = "<div style='color:#ff4444; padding:20px; text-align:center; font-family:monospace;'>" +
+                                "<h3>Chart Error</h3>" +
+                                "<p>" + e.message + "</p>" +
+                                "</div>";
+                        }
+                    }
+                };
+
+                try {
+                    // Check for D3 availability immediately
+                    if (typeof d3 === 'undefined') {
+                        throw new Error("D3.js library failed to load.");
+                    }
+
+                    // Filter out mismatched solvers
+                    const cSolver = data.find(s => s.solver === 'C');
+                    if (cSolver) {
+                        const cIters = {};
+                        cSolver.results.forEach(r => cIters[r.matrix] = r.iterations);
+                        
+                        data = data.filter(s => {
+                            if (s.solver === 'C') return true;
+                            const hasMismatch = s.results.some(r => {
+                                const expected = cIters[r.matrix];
+                                return expected && r.iterations !== expected;
+                            });
+                            return !hasMismatch;
                         });
-                        return !hasMismatch;
-                    });
-                }
-                // Calculate min/max from individual matrix times, not totals
-                const allTimes = data.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0);
+                    }
+
+                const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
                 const minTime = ${Math.min(...metrics.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0))};
                 const maxTime = ${Math.max(...metrics.flatMap(m => m.results.map(r => r.time)))};
-                const container = document.getElementById('d3-chart-container');
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                const margin = { top: 20, right: 120, bottom: 50, left: 60 };
                 
-                const svg = d3.select("#d3-chart-container")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .append("g")
-                    .attr("transform", \`translate(\${margin.left},\${margin.top})\`);
+                // Color Palette
+                const color = d3.scaleOrdinal()
+                    .domain(data.map(d => d.solver))
+                    .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
+
+
+
+                function drawLineChart() {
+                    const container = document.getElementById('d3-chart-container');
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    const margin = { top: 20, right: 120, bottom: 50, left: 60 };
                     
-                const chartWidth = width - margin.left - margin.right;
-                const chartHeight = height - margin.top - margin.bottom;
-                
-                // Prepare Data
-                // We want to plot Time vs Matrix for each solver
-                const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
-                
-                // X Axis: Matrix Names
-                const x = d3.scalePoint()
-                    .domain(matrices)
-                    .range([0, chartWidth])
-                    .padding(0.5);
+                    const svg = d3.select("#d3-chart-container")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                        
+                    // Zoom
+                    const zoom = d3.zoom()
+                        .scaleExtent([0.5, 5])
+                        .on("zoom", (event) => {
+                            svg.attr("transform", event.transform);
+                        });
                     
-                svg.append("g")
-                    .attr("transform", \`translate(0,\${chartHeight})\`)
-                    .call(d3.axisBottom(x))
-                    .selectAll("text")
-                    .style("fill", "#e0e0e0")
-                    .style("font-family", "JetBrains Mono");
+                    d3.select("#d3-chart-container svg").call(zoom);
+                        
+                    const chartWidth = width - margin.left - margin.right;
+                    const chartHeight = height - margin.top - margin.bottom;
                     
-                svg.append("text")
-                    .attr("text-anchor", "end")
-                    .attr("x", chartWidth)
-                    .attr("y", chartHeight + 40)
-                    .style("fill", "#5c5c66")
-                    .style("font-size", "12px")
-                    .text("Matrix Input");
+                    // X Axis
+                    const x = d3.scalePoint()
+                        .domain(matrices)
+                        .range([0, chartWidth])
+                        .padding(0.5);
+                        
+                    svg.append("g")
+                        .attr("transform", "translate(0," + chartHeight + ")")
+                        .call(d3.axisBottom(x))
+                        .selectAll("text")
+                        .style("fill", "#e0e0e0")
+                        .style("font-family", "JetBrains Mono");
+                        
+                    svg.append("text")
+                        .attr("text-anchor", "end")
+                        .attr("x", chartWidth)
+                        .attr("y", chartHeight + 40)
+                        .style("fill", "#5c5c66")
+                        .style("font-size", "12px")
+                        .text("Matrix Input");
 
-                // Y Axis: Time (Log Scale)
-                const y = d3.scaleLog()
-                    .domain([minTime, maxTime])
-                    .range([chartHeight, 0]);
+                    // Y Axis
+                    const y = d3.scaleLog()
+                        .domain([minTime, maxTime])
+                        .range([chartHeight, 0]);
 
-                svg.append("g")
-                    .call(d3.axisLeft(y)
-                        .ticks(5)
-                        .tickFormat((d, i, nodes) => {
-                            // Only show labels for major ticks (every other tick or specific values)
-                            const ticks = y.ticks(5);
-                            if (ticks.indexOf(d) % 2 === 0 || ticks.length <= 3) {
-                                return d >= 1 ? d3.format(".1f")(d) + "s" : d3.format(".2f")(d) + "s";
-                            }
-                            return "";  // Hide minor tick labels
-                        })
-                    )
-                    .selectAll("text")
-                    .style("fill", "#e0e0e0")
-                    .style("font-family", "JetBrains Mono");
+                    svg.append("g")
+                        .call(d3.axisLeft(y)
+                            .ticks(5)
+                            .tickFormat((d) => {
+                                const ticks = y.ticks(5);
+                                if (ticks.indexOf(d) % 2 === 0 || ticks.length <= 3) {
+                                    return d >= 1 ? d3.format(".1f")(d) + "s" : d3.format(".2f")(d) + "s";
+                                }
+                                return "";
+                            })
+                        )
+                        .selectAll("text")
+                        .style("fill", "#e0e0e0")
+                        .style("font-family", "JetBrains Mono");
 
-                svg.append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 0 - margin.left)
-                    .attr("x", 0 - (chartHeight / 2))
-                    .attr("dy", "1em")
-                    .style("text-anchor", "middle")
-                    .style("fill", "#5c5c66")
-                    .style("font-size", "12px")
-                    .text("Time (seconds) - Log Scale");
-                
-                
-// Grid lines
-svg.append("g")
-    .attr("class", "grid")
-    .attr("opacity", 0.1)
-    .call(d3.axisLeft(y)
-        .tickSize(-chartWidth)
-        .tickFormat("")
-    );
+                    svg.append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 0 - margin.left)
+                        .attr("x", 0 - (chartHeight / 2))
+                        .attr("dy", "1em")
+                        .style("text-anchor", "middle")
+                        .style("fill", "#5c5c66")
+                        .style("font-size", "12px")
+                        .text("Time (seconds) - Log Scale");
+                    
+                    // Grid lines
+                    svg.append("g")
+                        .attr("class", "grid")
+                        .attr("opacity", 0.1)
+                        .call(d3.axisLeft(y).tickSize(-chartWidth).tickFormat(""));
 
-// Color Palette
-const color = d3.scaleOrdinal()
-    .domain(data.map(d => d.solver))
-    .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
+                    // Line Generator
+                    const line = d3.line()
+                        .x(d => x(d.matrix))
+                        .y(d => y(Math.max(d.time, minTime)));
 
-// Line Generator
-const line = d3.line()
-    .x(d => x(d.matrix))
-    .y(d => y(Math.max(d.time, minTime)));
+                    // Draw Lines
+                    data.forEach(solver => {
+                        const solverData = solver.results.filter(r => matrices.includes(r.matrix));
+                        const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
 
-// Draw Lines
-data.forEach(solver => {
-    // Filter results to match our x-axis domain
-    const solverData = solver.results.filter(r => matrices.includes(r.matrix));
-    const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
+                        svg.append("path")
+                            .datum(solverData)
+                            .attr("fill", "none")
+                            .attr("stroke", color(solver.solver))
+                            .attr("stroke-width", 2)
+                            .attr("d", line)
+                            .attr("class", "line-path");
 
-    // Path
-    svg.append("path")
-        .datum(solverData)
-        .attr("fill", "none")
-        .attr("stroke", color(solver.solver))
-        .attr("stroke-width", 2)
-        .attr("d", line)
-        .attr("class", "line-path")
-    // Dots
-    svg.selectAll("." + safeSolverClass)
-        .data(solverData)
-        .enter().append("circle")
-        .attr("class", safeSolverClass)
-        .attr("cx", d => x(d.matrix))
-        .attr("cy", d => y(Math.max(d.time, minTime)))
-        .attr("r", 4)
-        .attr("fill", "#16161e")
-        .attr("stroke", color(solver.solver))
-        .attr("stroke-width", 2)
+                        svg.selectAll("." + safeSolverClass)
+                            .data(solverData)
+                            .enter().append("circle")
+                            .attr("class", safeSolverClass)
+                            .attr("cx", d => x(d.matrix))
+                            .attr("cy", d => y(Math.max(d.time, minTime)))
+                            .attr("r", 4)
+                            .attr("fill", "#16161e")
+                            .attr("stroke", color(solver.solver))
+                            .attr("stroke-width", 2)
+                            .on("mouseover", function (event, d) {
+                                d3.select(this).attr("r", 6).attr("fill", color(solver.solver));
+                                const tooltip = document.getElementById('tooltip');
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = (event.clientX + 15) + 'px';
+                                tooltip.style.top = (event.clientY + 15) + 'px';
+                                tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.solver + "</strong><br>Matrix: " + d.matrix + "<br>Time: " + d.time.toFixed(6) + "s<br>Iters: " + d.iterations;
+})
+                            .on("mouseout", function () {
+    d3.select(this).attr("r", 4).attr("fill", "#16161e");
+    document.getElementById('tooltip').style.display = 'none';
+});
+
+// Label
+const lastPoint = solverData[solverData.length - 1];
+if (lastPoint) {
+    svg.append("text")
+        .attr("x", x(lastPoint.matrix) + 10)
+        .attr("y", y(Math.max(lastPoint.time, minTime)))
+        .attr("dy", "0.35em")
+        .style("fill", color(solver.solver))
+        .style("font-size", "12px")
+        .style("font-weight", "bold")
+        .text(solver.solver);
+}
+                    });
+                }
+
+function drawJockeyChart() {
+    const container = document.getElementById('d3-chart-container');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 20, right: 60, bottom: 20, left: 150 };
+
+    const svg = d3.select("#d3-chart-container")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Zoom
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 5])
+        .on("zoom", (event) => {
+            svg.attr("transform", event.transform);
+        });
+    
+    d3.select("#d3-chart-container svg").call(zoom);
+
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+                    // Calculate Total Time for sorting
+                    const sortedData = [...data].map(s => {
+                        const totalTime = s.results.reduce((acc, r) => acc + r.time, 0);
+                        return { ...s, totalTime: totalTime > 0 ? totalTime : 0.000001 }; // Prevent 0 for log scale
+                    }).sort((a, b) => a.totalTime - b.totalTime); // Fastest first
+
+    const minTotal = d3.min(sortedData, d => d.totalTime);
+    const maxTotal = d3.max(sortedData, d => d.totalTime);
+
+    // Y Axis (Solvers)
+    const y = d3.scaleBand()
+        .domain(sortedData.map(d => d.solver))
+        .range([0, chartHeight])
+        .padding(0.2);
+
+    // X Axis (Total Time - Log Scale)
+    const x = d3.scaleLog()
+        .domain([minTotal, maxTotal])
+        .range([0, chartWidth]);
+
+    // Draw Tracks (Background Lines)
+    svg.selectAll(".track")
+        .data(sortedData)
+        .enter().append("line")
+        .attr("x1", 0)
+        .attr("x2", chartWidth)
+        .attr("y1", d => y(d.solver) + y.bandwidth() / 2)
+        .attr("y2", d => y(d.solver) + y.bandwidth() / 2)
+        .attr("stroke", "#2a2a35")
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "4");
+
+    // Draw Bars (Progress)
+    svg.selectAll(".bar")
+        .data(sortedData)
+        .enter().append("rect")
+        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 2)
+        .attr("height", 4)
+        .attr("x", 0)
+        .attr("width", d => x(d.totalTime))
+        .attr("fill", d => color(d.solver))
+        .attr("opacity", 0.6);
+
+    // Draw Logos (Jockeys)
+    svg.selectAll(".jockey")
+        .data(sortedData)
+        .enter().append("image")
+        .attr("xlink:href", d => d.logo)
+        .attr("x", d => x(d.totalTime) - 12) // Center image on end of bar
+        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 12)
+        .attr("width", 24)
+        .attr("height", 24)
         .on("mouseover", function (event, d) {
-            d3.select(this).attr("r", 6).attr("fill", color(solver.solver));
-
+            d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
             const tooltip = document.getElementById('tooltip');
             tooltip.style.display = 'block';
             tooltip.style.left = (event.clientX + 15) + 'px';
             tooltip.style.top = (event.clientY + 15) + 'px';
-            tooltip.innerHTML = \`
-                                <strong style="color:\${color(solver.solver)}">\${solver.solver}</strong><br>
-                                Matrix: \${d.matrix}<br>
-                                Time: \${d.time.toFixed(6)}s<br>
-                                Iters: \${d.iterations}
-                            \`;
-                        })
-                        .on("mouseout", function() {
-                            d3.select(this).attr("r", 4).attr("fill", "#16161e");
-                            document.getElementById('tooltip').style.display = 'none';
-                        });
-                        
-                    // Label at the end of the line
-                    const lastPoint = solverData[solverData.length - 1];
-                    if (lastPoint) {
-                        svg.append("text")
-                            .attr("x", x(lastPoint.matrix) + 10)
-                            .attr("y", y(Math.max(lastPoint.time, minTime)))
-                            .attr("dy", "0.35em")
-                            .style("fill", color(solver.solver))
-                            .style("font-size", "12px")
-                            .style("font-weight", "bold")
-                            .text(solver.solver);
-                    }
-                });
-            })();
+            tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.solver + "</strong><br>Total Time: " + d.totalTime.toFixed(4) + "s";
+        })
+        .on("mouseout", function (event, d) {
+            d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.solver) + y.bandwidth() / 2 - 12);
+            document.getElementById('tooltip').style.display = 'none';
+        });
 
-            // Matrix Screensaver Logic
-            (function() {
-                const canvas = document.getElementById('matrix-canvas');
-                const ctx = canvas.getContext('2d');
-                const container = canvas.parentElement;
-                const chartContainer = document.getElementById('d3-chart-container');
-                
-                let width, height;
-                let columns;
-                let drops = [];
-                let animationId;
-                let active = false;
-                
-                // Matrix characters (Katakana + Latin)
-                const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                
-                function resize() {
-                    width = container.clientWidth;
-                    height = container.clientHeight;
-                    canvas.width = width;
-                    canvas.height = height;
-                    
-                    const fontSize = 14;
-                    columns = Math.ceil(width / fontSize);
-                    
-                    // Initialize drops
-                    drops = [];
-                    for (let i = 0; i < columns; i++) {
-                        drops[i] = Math.random() * -100; // Start above screen
-                    }
+    // Y Axis Labels
+    svg.append("g")
+        .call(d3.axisLeft(y))
+        .selectAll("text")
+        .style("fill", "#e0e0e0")
+        .style("font-family", "JetBrains Mono")
+        .style("font-size", "10px");
+
+    // X Axis
+    svg.append("g")
+        .attr("transform", "translate(0," + chartHeight + ")")
+        .call(d3.axisBottom(x).ticks(5, ".1f"))
+        .selectAll("text")
+        .style("fill", "#5c5c66");
+} // End of drawJockeyChart
+
+                // Initial Draw
+                if (typeof d3 !== 'undefined') {
+                    drawLineChart();
+                } else {
+                    throw new Error("D3.js not loaded");
                 }
-                
-                function draw() {
-                    // Black background with opacity for trail effect
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                    ctx.fillRect(0, 0, width, height);
-                    
-                    ctx.fillStyle = '#0F0'; // Green text
-                    ctx.font = '14px monospace';
-                    
-                    for (let i = 0; i < drops.length; i++) {
-                        const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                        const x = i * 14;
-                        const y = drops[i] * 14;
-                        
-                        ctx.fillText(text, x, y);
-                        
-                        // Reset drop to top randomly after it has crossed the screen
-                        if (y > height && Math.random() > 0.975) {
-                            drops[i] = 0;
-                        }
-                        
-                        drops[i]++;
-                    }
-                    
-                    if (active) {
-                        animationId = requestAnimationFrame(draw);
-                    }
+
+                } catch (e) {
+                    console.error("Error initializing D3 charts:", e);
+                    // If initialization fails, switchChart is still defined and will show error when clicked
+                    // Show error immediately
+                    window.switchChart('line'); 
                 }
-                
-                function startScreensaver() {
-                    if (active) return;
-                    active = true;
-                    
-                    // Hide chart, show canvas
-                    chartContainer.style.visibility = 'hidden'; // Use visibility to keep layout
-                    canvas.style.display = 'block';
-                    
-                    resize();
-                    draw();
+            }) ();
+
+// Inject Matrix Data
+const matrixPuzzles = ${JSON.stringify(matrixContents)};
+
+// Matrix Screensaver Logic
+// Define variables in outer scope to be accessible
+let startScreensaverGlobal;
+
+(function () {
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    const container = canvas.parentElement;
+    const chartContainer = document.getElementById('d3-chart-container');
+
+    let width, height;
+    let columns;
+    let drops = [];
+    let animationId;
+    let active = false;
+    let frame = 0;
+    
+    // Puzzle Overlay State
+    let puzzleY = -1000; // Start way above
+    let currentPuzzleIndex = 0;
+    let puzzleLines = [];
+    
+    function prepareNextPuzzle() {
+        if (matrixPuzzles.length === 0) return;
+        const rawText = matrixPuzzles[currentPuzzleIndex];
+        puzzleLines = rawText.split('\\n');
+        puzzleY = - (puzzleLines.length * 30); // Start above screen based on height
+        currentPuzzleIndex = (currentPuzzleIndex + 1) % matrixPuzzles.length;
+    }
+
+    // Matrix characters (Katakana + Latin)
+    const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    function resize() {
+        width = container.clientWidth;
+        height = container.clientHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        const fontSize = 14;
+        columns = Math.ceil(width / fontSize);
+
+        // Initialize drops
+        drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100; // Start above screen
+        }
+    }
+
+    function draw() {
+        if (active) {
+            animationId = requestAnimationFrame(draw);
+        }
+
+        frame++;
+        if (frame % 2 !== 0) return;
+
+        // Black background with opacity for trail effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = '#0F0'; // Green text
+        ctx.font = '14px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            const x = i * 14;
+            const y = drops[i] * 14;
+
+            ctx.fillText(text, x, y);
+
+            // Reset drop to top randomly after it has crossed the screen
+            if (y > height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+
+            drops[i]++;
+        }
+        
+        // Draw Puzzle Overlay
+        if (puzzleLines.length > 0) {
+            ctx.fillStyle = '#F00'; // Red
+            ctx.font = 'bold 24px "JetBrains Mono", monospace'; // Larger font
+            ctx.textAlign = 'center';
+            
+            const lineHeight = 30;
+            const startX = width / 2;
+            
+            for (let i = 0; i < puzzleLines.length; i++) {
+                const lineY = puzzleY + (i * lineHeight);
+                if (lineY > -30 && lineY < height + 30) {
+                    ctx.fillText(puzzleLines[i], startX, lineY);
                 }
-                
-                function stopScreensaver() {
-                    if (!active) return;
-                    active = false;
-                    cancelAnimationFrame(animationId);
-                    
-                    // Show chart, hide canvas
-                    chartContainer.style.visibility = 'visible';
-                    canvas.style.display = 'none';
-                }
-                
-                // Idle Timer
-                let idleTime = 0;
-                const idleLimit = 5 * 60 * 1000; // 5 minutes
-                // const idleLimit = 5000; // 5 seconds for testing
-                
-                let idleInterval = setInterval(() => {
-                    idleTime += 1000;
-                    if (idleTime >= idleLimit) {
-                        startScreensaver();
-                    }
-                }, 1000);
-                
-                function resetTimer() {
-                    idleTime = 0;
-                    if (active) {
-                        stopScreensaver();
-                    }
-                }
-                
-                // Events to reset timer
-                window.onload = resetTimer;
-                document.onmousemove = resetTimer;
-                document.onkeypress = resetTimer;
-                document.onclick = resetTimer;
-                document.onscroll = resetTimer;
-                
-                // Handle resize
-                window.addEventListener('resize', () => {
-                    if (active) resize();
-                });
-            })();
-        </script>
-</body>
-</html>
-`;
+            }
+            
+            puzzleY += 2; // Scroll speed
+            
+            // Reset if puzzle went off screen
+            if (puzzleY > height) {
+                prepareNextPuzzle();
+            }
+        } else {
+             prepareNextPuzzle();
+        }
+    }
+
+
+    function startScreensaver() {
+        if (active) return;
+        active = true;
+
+        // Hide chart, show canvas
+        chartContainer.style.visibility = 'hidden'; // Use visibility to keep layout
+        canvas.style.display = 'block';
+
+        resize();
+        prepareNextPuzzle(); // Prepare first puzzle
+        draw();
+    }
+
+    function stopScreensaver() {
+        if (!active) return;
+        active = false;
+        cancelAnimationFrame(animationId);
+
+        // Show chart, hide canvas
+        chartContainer.style.visibility = 'visible';
+        canvas.style.display = 'none';
+    }
+
+    // Idle Timer with Persistence
+    const idleLimit = 5 * 60 * 1000; // 5 minutes
+
+    function getLastActive() {
+        return parseInt(localStorage.getItem('lastActive') || Date.now().toString());
+    }
+
+    function setLastActive() {
+        localStorage.setItem('lastActive', Date.now().toString());
+    }
+
+    function checkIdle() {
+        const lastActive = getLastActive();
+        const diff = Date.now() - lastActive;
+        if (diff >= idleLimit) {
+            startScreensaver();
+        }
+    }
+
+    setInterval(checkIdle, 1000);
+
+    function resetTimer() {
+        setLastActive();
+        if (active) {
+            stopScreensaver();
+        }
+    }
+
+    // Events to reset timer
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+    document.onclick = resetTimer;
+    document.onscroll = resetTimer;
+
+    // Initialize
+    if (!localStorage.getItem('lastActive')) {
+        setLastActive();
+    }
+    checkIdle();
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        if (active) resize();
+    });
+
+    // Expose globally
+    window.startScreensaver = startScreensaver;
+    startScreensaverGlobal = startScreensaver;
+})();
+
+// Ensure global access
+window.startScreensaver = function() {
+    if (startScreensaverGlobal) {
+        startScreensaverGlobal();
+    } else {
+        console.error("Screensaver not initialized yet");
+    }
+};
+</script>
+    </body>
+    </html>
+        `;
     return html;
 }
 
@@ -2356,33 +2698,58 @@ async function main() {
         try {
             const data = await fs.readFile(metricsFile, 'utf-8');
             allMetrics = JSON.parse(data);
-            console.log(`Loaded ${allMetrics.length} metrics from ${metricsFile}`);
+            console.log(`Loaded ${allMetrics.length} metrics from ${metricsFile} `);
+
+            const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
+            await fs.writeFile(htmlFile, htmlContent);
+            console.log(`Regenerated report at ${htmlFile}`);
+
         } catch (e) {
-            console.error(`Failed to read ${metricsFile}:`, e);
+            console.error(`Failed to read ${metricsFile}: `, e);
             process.exit(1);
         }
     } else {
         const solverScripts = await findSolvers(rootDir);
+        const matrices = ['3.matrix', '4.matrix', '5.matrix'];
 
-        for (const script of solverScripts) {
-            const metrics = await runSolver(script);
-            if (metrics) {
-                allMetrics.push(metrics);
-            }
+        // Load existing metrics to preserve previous results
+        try {
+            const data = await fs.readFile(metricsFile, 'utf-8');
+            allMetrics = JSON.parse(data);
+            console.log(`Loaded ${allMetrics.length} existing metrics.`);
+        } catch (e) {
+            console.log("No existing metrics found, starting fresh.");
         }
 
-        // Save metrics.json
-        await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
-        console.log(`Saved metrics to ${metricsFile}`);
+        for (const matrix of matrices) {
+            console.log(`\n-- - Benchmarking ${matrix} ---\n`);
+            for (const script of solverScripts) {
+                const metrics = await runSolver(script, matrix);
+                if (metrics) {
+                    let existingSolver = allMetrics.find(s => s.solver === metrics.solver);
+                    if (!existingSolver) {
+                        existingSolver = { solver: metrics.solver, timestamp: metrics.timestamp, results: [] };
+                        allMetrics.push(existingSolver);
+                    }
+                    // Append new results, avoiding duplicates
+                    for (const res of metrics.results) {
+                        existingSolver.results = existingSolver.results.filter(r => r.matrix !== res.matrix);
+                        existingSolver.results.push(res);
+                    }
+
+                    // Save & Generate & Screenshot after EVERY solver run
+                    await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
+                    // console.log(`Saved metrics to ${ metricsFile } `);
+
+                    const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
+                    await fs.writeFile(htmlFile, htmlContent);
+                    console.log(`Updated report for ${metrics.solver}`);
+
+                    await captureScreenshot(htmlFile);
+                }
+            }
+        }
     }
-
-    // Generate HTML
-    const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
-    await fs.writeFile(htmlFile, htmlContent);
-    console.log(`Generated HTML report at ${htmlFile}`);
-
-    // Capture Screenshot
-    await captureScreenshot(htmlFile);
 }
 
 async function captureScreenshot(htmlFilePath: string) {

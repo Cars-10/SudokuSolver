@@ -119,22 +119,22 @@ Puzzle:
 4 3 8 5 2 6 9 1 7
 7 9 6 3 1 8 4 5 2
 Solved in Iterations=445778
-Seconds to process 0.343
-        0.90 real         0.40 user         0.12 sys
-           114606080  maximum resident set size
+Seconds to process 0.536
+        1.27 real         0.61 user         0.18 sys
+           114655232  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-                6443  page reclaims
-                5835  page faults
+                6492  page reclaims
+                5913  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
                    0  messages sent
                    0  messages received
-                   0  signals received
-                  36  voluntary context switches
-                3976  involuntary context switches
-            16143313  instructions retired
-            11239802  cycles elapsed
-             1179912  peak memory footprint
+                   1  signals received
+                 256  voluntary context switches
+                4226  involuntary context switches
+            17777664  instructions retired
+            11368343  cycles elapsed
+             1212680  peak memory footprint
