@@ -1,831 +1,6 @@
 [
   {
-    "solver": "Zig",
-    "timestamp": "2025-12-01T19:37:50.334Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.345143,
-        "iterations": 656,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.018262,
-        "iterations": 439269,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.020509,
-        "iterations": 11006,
-        "memory": 1392640,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "VisualBasic",
-    "timestamp": "2025-12-01T19:37:55.539Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.107985,
-        "iterations": 656,
-        "memory": 42024960,
-        "cpu_user": 0.04,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.187149,
-        "iterations": 439269,
-        "memory": 41893888,
-        "cpu_user": 0.1,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.102746,
-        "iterations": 98847,
-        "memory": 42024960,
-        "cpu_user": 0.05,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Vimscript",
-    "timestamp": "2025-12-01T19:38:23.018Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.096367,
-        "iterations": 656,
-        "memory": 7733248,
-        "cpu_user": 0.04,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 27.18211,
-        "iterations": 439269,
-        "memory": 7798784,
-        "cpu_user": 26.47,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 6.380862,
-        "iterations": 98847,
-        "memory": 7897088,
-        "cpu_user": 6.31,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Vala",
-    "timestamp": "2025-12-01T19:38:25.614Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.576282,
-        "iterations": 656,
-        "memory": 8896512,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.085528,
-        "iterations": 439269,
-        "memory": 8929280,
-        "cpu_user": 0.05,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.458496,
-        "iterations": 98847,
-        "memory": 8896512,
-        "cpu_user": 0.01,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "V",
-    "timestamp": "2025-12-01T19:38:29.037Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.379672,
-        "iterations": 656,
-        "memory": 2129920,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.016703,
-        "iterations": 439269,
-        "memory": 2129920,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.013703,
-        "iterations": 11006,
-        "memory": 2129920,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "TypeScript",
-    "timestamp": "2025-12-01T19:38:33.212Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.073554,
-        "iterations": 656,
-        "memory": 49496064,
-        "cpu_user": 0.04,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.181407,
-        "iterations": 439269,
-        "memory": 54427648,
-        "cpu_user": 0.06,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.104609,
-        "iterations": 98847,
-        "memory": 54132736,
-        "cpu_user": 0.05,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Tcl",
-    "timestamp": "2025-12-01T19:38:39.993Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.412262,
-        "iterations": 656,
-        "memory": 11583488,
-        "cpu_user": 0.06,
-        "cpu_sys": 0.11,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 6.105069,
-        "iterations": 439269,
-        "memory": 11583488,
-        "cpu_user": 3.03,
-        "cpu_sys": 0.26,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.696527,
-        "iterations": 98847,
-        "memory": 11599872,
-        "cpu_user": 0.48,
-        "cpu_sys": 0.07,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Swift",
-    "timestamp": "2025-12-01T19:38:48.697Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.588024,
-        "iterations": 656,
-        "memory": 5783552,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 3.498078,
-        "iterations": 439269,
-        "memory": 5783552,
-        "cpu_user": 1.2,
-        "cpu_sys": 0.08,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.481643,
-        "iterations": 98847,
-        "memory": 5783552,
-        "cpu_user": 0.17,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Scheme",
-    "timestamp": "2025-12-01T19:38:50.105Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.574602,
-        "iterations": 656,
-        "memory": 19333120,
-        "cpu_user": 0.04,
-        "cpu_sys": 0.06,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.345111,
-        "iterations": 439269,
-        "memory": 22528000,
-        "cpu_user": 0.15,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.050729,
-        "iterations": 0,
-        "memory": 13287424,
-        "cpu_user": 0.01,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Scala",
-    "timestamp": "2025-12-01T19:39:07.430Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 8.524165,
-        "iterations": 656,
-        "memory": 206438400,
-        "cpu_user": 8.03,
-        "cpu_sys": 1.13,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 8.575013,
-        "iterations": 439269,
-        "memory": 192348160,
-        "cpu_user": 8.42,
-        "cpu_sys": 1.11,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 1.371475,
-        "iterations": 0,
-        "memory": 181878784,
-        "cpu_user": 2.45,
-        "cpu_sys": 0.19,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "Smalltalk",
-    "timestamp": "2025-12-01T19:39:08.268Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.077152,
-        "iterations": 656,
-        "memory": 12369920,
-        "cpu_user": 0.01,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.490659,
-        "iterations": 439269,
-        "memory": 12517376,
-        "cpu_user": 0.34,
-        "cpu_sys": 0.04,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.039014,
-        "iterations": 0,
-        "memory": 9715712,
-        "cpu_user": 0,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "SQL",
-    "timestamp": "2025-12-01T19:39:10.966Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.08492,
-        "iterations": 281,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 2.100135,
-        "iterations": 80392,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.305642,
-        "iterations": 17605,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Rust",
-    "timestamp": "2025-12-01T19:39:12.279Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.644626,
-        "iterations": 656,
-        "memory": 1556480,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.044765,
-        "iterations": 439269,
-        "memory": 1556480,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.444721,
-        "iterations": 98847,
-        "memory": 1556480,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Ruby",
-    "timestamp": "2025-12-01T19:39:15.692Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 1.138734,
-        "iterations": 656,
-        "memory": 29212672,
-        "cpu_user": 0.11,
-        "cpu_sys": 0.11,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 1.850085,
-        "iterations": 439269,
-        "memory": 29229056,
-        "cpu_user": 0.92,
-        "cpu_sys": 0.13,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.184654,
-        "iterations": 0,
-        "memory": 28983296,
-        "cpu_user": 0.05,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Raku",
-    "timestamp": "2025-12-01T19:39:25.299Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 1.026779,
-        "iterations": 656,
-        "memory": 158564352,
-        "cpu_user": 0.81,
-        "cpu_sys": 0.14,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 8.152902,
-        "iterations": 439269,
-        "memory": 161644544,
-        "cpu_user": 5.22,
-        "cpu_sys": 0.28,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.962989,
-        "iterations": 98847,
-        "memory": 161808384,
-        "cpu_user": 0.93,
-        "cpu_sys": 0.05,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "R",
-    "timestamp": "2025-12-01T19:39:39.405Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.955589,
-        "iterations": 656,
-        "memory": 86147072,
-        "cpu_user": 0.27,
-        "cpu_sys": 0.1,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 12.81026,
-        "iterations": 439269,
-        "memory": 89899008,
-        "cpu_user": 8.36,
-        "cpu_sys": 0.71,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.220265,
-        "iterations": 0,
-        "memory": 67223552,
-        "cpu_user": 0.09,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Python",
-    "timestamp": "2025-12-01T19:39:46.317Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.412132,
-        "iterations": 656,
-        "memory": 29442048,
-        "cpu_user": 0.16,
-        "cpu_sys": 0.07,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 5.772618,
-        "iterations": 439269,
-        "memory": 29753344,
-        "cpu_user": 2.16,
-        "cpu_sys": 0.2,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.438914,
-        "iterations": 98847,
-        "memory": 29376512,
-        "cpu_user": 0.33,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Prolog",
-    "timestamp": "2025-12-01T19:39:53.352Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.242402,
-        "iterations": 656,
-        "memory": 12189696,
-        "cpu_user": 0.08,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 6.156076,
-        "iterations": 439269,
-        "memory": 12386304,
-        "cpu_user": 2.79,
-        "cpu_sys": 0.52,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.062362,
-        "iterations": 0,
-        "memory": 11501568,
-        "cpu_user": 0.02,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Perl",
-    "timestamp": "2025-12-01T19:39:54.630Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.093401,
-        "iterations": 656,
-        "memory": 4603904,
-        "cpu_user": 0,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.723268,
-        "iterations": 439269,
-        "memory": 4587520,
-        "cpu_user": 0.51,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.024402,
-        "iterations": 0,
-        "memory": 3260416,
-        "cpu_user": 0,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Pascal",
-    "timestamp": "2025-12-01T19:39:55.057Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.06514,
-        "iterations": 656,
-        "memory": 2179072,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.059532,
-        "iterations": 439269,
-        "memory": 2113536,
-        "cpu_user": 0.02,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.383197,
-        "iterations": 11005,
-        "memory": 2015232,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "PHP",
-    "timestamp": "2025-12-01T19:39:56.102Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.401215,
-        "iterations": 656,
-        "memory": 25296896,
-        "cpu_user": 0.07,
-        "cpu_sys": 0.08,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.464636,
-        "iterations": 439269,
-        "memory": 25247744,
-        "cpu_user": 0.23,
-        "cpu_sys": 0.04,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.245704,
-        "iterations": 98847,
-        "memory": 25296896,
-        "cpu_user": 0.06,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Octave",
-    "timestamp": "2025-12-01T19:40:37.613Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 2.84581,
-        "iterations": 656,
-        "memory": 134774784,
-        "cpu_user": 1.25,
-        "cpu_sys": 0.45,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 38.277927,
-        "iterations": 439269,
-        "memory": 133464064,
-        "cpu_user": 20.78,
-        "cpu_sys": 1.48,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 1.456841,
-        "iterations": 0,
-        "memory": 134184960,
-        "cpu_user": 0.65,
-        "cpu_sys": 0.22,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Objective-C",
-    "timestamp": "2025-12-01T19:40:40.208Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.535854,
-        "iterations": 656,
-        "memory": 5586944,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.043875,
-        "iterations": 439269,
-        "memory": 5570560,
-        "cpu_user": 0.02,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.287914,
-        "iterations": 98847,
-        "memory": 5537792,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Nim",
-    "timestamp": "2025-12-01T19:40:44.701Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.719912,
-        "iterations": 656,
-        "memory": 1392640,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.101305,
-        "iterations": 439269,
-        "memory": 1392640,
-        "cpu_user": 0.01,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.00922,
-        "iterations": 11006,
-        "memory": 1392640,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "OCaml",
-    "timestamp": "2025-12-01T19:40:48.277Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.572643,
-        "iterations": 656,
-        "memory": 2326528,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 0.078293,
-        "iterations": 439269,
-        "memory": 4636672,
-        "cpu_user": 0.02,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "3.matrix",
-        "time": 0.309686,
-        "iterations": 98847,
-        "memory": 2981888,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Lua",
+    "solver": "Lua (Manual)",
     "timestamp": "2025-12-01T19:40:49.423Z",
     "results": [
       {
@@ -849,7 +24,7 @@
     ]
   },
   {
-    "solver": "Kotlin",
+    "solver": "Kotlin (Manual)",
     "timestamp": "2025-12-01T19:41:07.940Z",
     "results": [
       {
@@ -873,7 +48,7 @@
     ]
   },
   {
-    "solver": "Jupyter",
+    "solver": "Jupyter (Manual)",
     "timestamp": "2025-12-01T19:41:11.194Z",
     "results": [
       {
@@ -897,7 +72,7 @@
     ]
   },
   {
-    "solver": "Julia",
+    "solver": "Julia (Manual)",
     "timestamp": "2025-12-01T19:41:20.967Z",
     "results": [
       {
@@ -921,7 +96,7 @@
     ]
   },
   {
-    "solver": "JavaScript",
+    "solver": "JavaScript (Manual)",
     "timestamp": "2025-12-01T19:41:21.798Z",
     "results": [
       {
@@ -945,7 +120,7 @@
     ]
   },
   {
-    "solver": "Java",
+    "solver": "Java (Manual)",
     "timestamp": "2025-12-01T19:41:29.315Z",
     "results": [
       {
@@ -969,7 +144,7 @@
     ]
   },
   {
-    "solver": "Haskell",
+    "solver": "Haskell (Manual)",
     "timestamp": "2025-12-01T19:41:32.803Z",
     "results": [
       {
@@ -993,7 +168,7 @@
     ]
   },
   {
-    "solver": "Groovy",
+    "solver": "Groovy (Manual)",
     "timestamp": "2025-12-01T19:41:48.407Z",
     "results": [
       {
@@ -1017,7 +192,7 @@
     ]
   },
   {
-    "solver": "Go",
+    "solver": "Go (Manual)",
     "timestamp": "2025-12-01T19:41:49.783Z",
     "results": [
       {
@@ -1041,7 +216,7 @@
     ]
   },
   {
-    "solver": "Fortran",
+    "solver": "Fortran (Manual)",
     "timestamp": "2025-12-01T19:41:51.367Z",
     "results": [
       {
@@ -1065,7 +240,7 @@
     ]
   },
   {
-    "solver": "F_Sharp",
+    "solver": "F_Sharp (Manual)",
     "timestamp": "2025-12-01T19:42:01.813Z",
     "results": [
       {
@@ -1089,7 +264,7 @@
     ]
   },
   {
-    "solver": "Erlang",
+    "solver": "Erlang (Manual)",
     "timestamp": "2025-12-01T19:42:05.662Z",
     "results": [
       {
@@ -1113,7 +288,7 @@
     ]
   },
   {
-    "solver": "EmacsLisp",
+    "solver": "EmacsLisp (Manual)",
     "timestamp": "2025-12-01T19:42:52.572Z",
     "results": [
       {
@@ -1137,7 +312,7 @@
     ]
   },
   {
-    "solver": "Elixir",
+    "solver": "Elixir (Manual)",
     "timestamp": "2025-12-01T19:43:00.728Z",
     "results": [
       {
@@ -1161,7 +336,7 @@
     ]
   },
   {
-    "solver": "Dart",
+    "solver": "Dart (Manual)",
     "timestamp": "2025-12-01T19:43:03.015Z",
     "results": [
       {
@@ -1185,7 +360,7 @@
     ]
   },
   {
-    "solver": "D",
+    "solver": "D (Manual)",
     "timestamp": "2025-12-01T19:43:11.704Z",
     "results": [
       {
@@ -1209,7 +384,7 @@
     ]
   },
   {
-    "solver": "Crystal",
+    "solver": "Crystal (Manual)",
     "timestamp": "2025-12-01T19:43:18.506Z",
     "results": [
       {
@@ -1233,7 +408,7 @@
     ]
   },
   {
-    "solver": "CommonLisp",
+    "solver": "CommonLisp (Manual)",
     "timestamp": "2025-12-01T19:43:19.238Z",
     "results": [
       {
@@ -1257,7 +432,7 @@
     ]
   },
   {
-    "solver": "Clojure",
+    "solver": "Clojure (Manual)",
     "timestamp": "2025-12-01T19:43:26.661Z",
     "results": [
       {
@@ -1281,7 +456,7 @@
     ]
   },
   {
-    "solver": "C_Sharp",
+    "solver": "C_Sharp (Manual)",
     "timestamp": "2025-12-01T19:43:39.245Z",
     "results": [
       {
@@ -1305,7 +480,7 @@
     ]
   },
   {
-    "solver": "C++",
+    "solver": "C++ (Manual)",
     "timestamp": "2025-12-01T19:43:40.753Z",
     "results": [
       {
@@ -1329,7 +504,7 @@
     ]
   },
   {
-    "solver": "C",
+    "solver": "C (Manual)",
     "timestamp": "2025-12-01T19:43:41.007Z",
     "results": [
       {
@@ -1353,7 +528,7 @@
     ]
   },
   {
-    "solver": "BASIC",
+    "solver": "BASIC (Manual)",
     "timestamp": "2025-12-01T19:43:41.604Z",
     "results": [
       {
@@ -1377,230 +552,27 @@
     ]
   },
   {
-    "solver": "BASH",
-    "timestamp": "2025-12-01T19:44:32.810Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.178714,
-        "iterations": 1790,
-        "memory": 7684096,
-        "cpu_user": 0.12,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 50.650385,
-        "iterations": 234380,
-        "memory": 7323648,
-        "cpu_user": 28.25,
-        "cpu_sys": 2.75,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Awk",
-    "timestamp": "2025-12-01T19:44:38.032Z",
-    "results": [
-      {
-        "matrix": "1.matrix",
-        "time": 0.022338,
-        "iterations": 656,
-        "memory": 1769472,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      },
-      {
-        "matrix": "2.matrix",
-        "time": 4.765822,
-        "iterations": 439269,
-        "memory": 1785856,
-        "cpu_user": 1.96,
-        "cpu_sys": 0.12,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Zsh",
-    "timestamp": "2025-12-02T22:50:27.480Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.045155,
-        "iterations": 0,
-        "memory": 2441216,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "XSLT",
-    "timestamp": "2025-12-02T22:50:33.720Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.024232,
-        "iterations": 0,
-        "memory": 1622016,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Verilog",
-    "timestamp": "2025-12-02T22:50:47.335Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.047718,
-        "iterations": 0,
-        "memory": 4915200,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "Tcsh",
-    "timestamp": "2025-12-02T22:51:05.688Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.036745,
-        "iterations": 0,
-        "memory": 2260992,
-        "cpu_user": 0,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Sed",
-    "timestamp": "2025-12-02T22:51:20.201Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.008981,
-        "iterations": 0,
-        "memory": 1425408,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "SQLite",
-    "timestamp": "2025-12-02T23:14:50.440Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 1400.27088,
-        "iterations": 0,
-        "memory": 91930624,
-        "cpu_user": 949.68,
-        "cpu_sys": 98.75,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "Rexx",
-    "timestamp": "2025-12-02T23:15:08.806Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.025317,
-        "iterations": 121,
-        "memory": 2916352,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "PostScript",
-    "timestamp": "2025-12-02T23:15:24.874Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.179874,
-        "iterations": 0,
-        "memory": 20217856,
-        "cpu_user": 0.02,
-        "cpu_sys": 0.02,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "Make",
-    "timestamp": "2025-12-02T23:15:51.976Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.02942,
-        "iterations": 0,
-        "memory": 1933312,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Zsh (Manual)",
-    "timestamp": "2025-12-02T23:43:32.683Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.041884,
-        "iterations": 0,
-        "memory": 2441216,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
     "solver": "Zig (Manual)",
     "timestamp": "2025-12-02T23:43:36.857Z",
     "results": [
       {
-        "matrix": "3.matrix",
-        "time": 0.031222,
-        "iterations": 11006,
+        "matrix": "1.matrix",
+        "time": 0.013512,
+        "iterations": 92,
         "memory": 1392640,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "XSLT (Manual)",
-    "timestamp": "2025-12-02T23:43:40.383Z",
-    "results": [
+      },
       {
         "matrix": "3.matrix",
-        "time": 0.113877,
-        "iterations": 0,
-        "memory": 1622016,
+        "time": 0.022459,
+        "iterations": 11006,
+        "memory": 1392640,
         "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "4 9 3 6 8 2 1 7 5\n1 5 2 3 7 9 6 4 8\n7 8 6 4 5 1 3 2 9\n6 7 5 1 2 4 9 8 3\n8 1 4 5 9 3 7 6 2\n3 2 9 8 6 7 4 5 1\n9 4 7 2 3 5 8 1 6\n2 6 1 9 4 8 5 3 7\n5 3 8 7 1 6 2 9 4\nSolved in Iterations=11006\n"
       }
     ]
   },
@@ -1609,43 +581,23 @@
     "timestamp": "2025-12-02T23:43:45.232Z",
     "results": [
       {
+        "matrix": "1.matrix",
+        "time": 0.23082,
+        "iterations": 656,
+        "memory": 42041344,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.02,
+        "status": "pass"
+      },
+      {
         "matrix": "3.matrix",
-        "time": 0.525449,
+        "time": 0.203541,
         "iterations": 98847,
         "memory": 42123264,
         "cpu_user": 0.08,
         "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Vimscript (Manual)",
-    "timestamp": "2025-12-02T23:43:54.653Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 11.377644,
-        "iterations": 98847,
-        "memory": 7880704,
-        "cpu_user": 9.21,
-        "cpu_sys": 0.17,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Verilog (Manual)",
-    "timestamp": "2025-12-02T23:43:59.113Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.72868,
-        "iterations": 0,
-        "memory": 4915200,
-        "cpu_user": 0,
-        "cpu_sys": 0.01,
-        "status": "fail"
+        "status": "pass",
+        "output": "Puzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -1654,13 +606,23 @@
     "timestamp": "2025-12-02T23:44:04.053Z",
     "results": [
       {
-        "matrix": "3.matrix",
-        "time": 0.830256,
-        "iterations": 98847,
-        "memory": 8929280,
-        "cpu_user": 0.02,
+        "matrix": "1.matrix",
+        "time": 0.57497,
+        "iterations": 656,
+        "memory": 8896512,
+        "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.492105,
+        "iterations": 98847,
+        "memory": 8929280,
+        "cpu_user": 0.01,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "Puzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -1669,13 +631,23 @@
     "timestamp": "2025-12-02T23:44:07.172Z",
     "results": [
       {
-        "matrix": "3.matrix",
-        "time": 0.116209,
-        "iterations": 11006,
+        "matrix": "1.matrix",
+        "time": 0.015832,
+        "iterations": 92,
         "memory": 2129920,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.023112,
+        "iterations": 11006,
+        "memory": 2129920,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "4 9 3 6 8 2 1 7 5\n1 5 2 3 7 9 6 4 8\n7 8 6 4 5 1 3 2 9\n6 7 5 1 2 4 9 8 3\n8 1 4 5 9 3 7 6 2\n3 2 9 8 6 7 4 5 1\n9 4 7 2 3 5 8 1 6\n2 6 1 9 4 8 5 3 7\n5 3 8 7 1 6 2 9 4\nSolved in Iterations=11006\n"
       }
     ]
   },
@@ -1684,43 +656,23 @@
     "timestamp": "2025-12-02T23:44:12.656Z",
     "results": [
       {
+        "matrix": "1.matrix",
+        "time": 0.138275,
+        "iterations": 656,
+        "memory": 49528832,
+        "cpu_user": 0.05,
+        "cpu_sys": 0.01,
+        "status": "pass"
+      },
+      {
         "matrix": "3.matrix",
-        "time": 0.28089,
+        "time": 0.110339,
         "iterations": 98847,
-        "memory": 54575104,
+        "memory": 54657024,
         "cpu_user": 0.07,
         "cpu_sys": 0.02,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Tcsh (Manual)",
-    "timestamp": "2025-12-02T23:44:15.761Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.180178,
-        "iterations": 0,
-        "memory": 2326528,
-        "cpu_user": 0,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Tcl (Manual)",
-    "timestamp": "2025-12-02T23:44:19.480Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 2.364066,
-        "iterations": 98847,
-        "memory": 11665408,
-        "cpu_user": 0.72,
-        "cpu_sys": 0.16,
-        "status": "pass"
+        "status": "pass",
+        "output": "/Users/cars10/.nvm/versions/node/v24.11.1/bin/node\n/Users/cars10/GIT/SudokuSolver/Manual/TypeScript/out/Sudoku.js\n/Users/cars10/GIT/SudokuSolver/Matrices/3.matrix\nMatrix File: /Users/cars10/GIT/SudokuSolver/Matrices/3.matrix\n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\n\nSolved in Iterations=98847\n\nSeconds to process 0.030\n\n"
       }
     ]
   },
@@ -1729,103 +681,23 @@
     "timestamp": "2025-12-02T23:44:24.389Z",
     "results": [
       {
+        "matrix": "1.matrix",
+        "time": 0.352209,
+        "iterations": 656,
+        "memory": 5783552,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass"
+      },
+      {
         "matrix": "3.matrix",
-        "time": 1.128954,
+        "time": 0.647741,
         "iterations": 98847,
-        "memory": 5816320,
-        "cpu_user": 0.25,
+        "memory": 5783552,
+        "cpu_user": 0.23,
         "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Smalltalk (Manual)",
-    "timestamp": "2025-12-02T23:44:27.788Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.30449,
-        "iterations": 0,
-        "memory": 9715712,
-        "cpu_user": 0,
-        "cpu_sys": 0.02,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Sed (Manual)",
-    "timestamp": "2025-12-02T23:44:31.062Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.040813,
-        "iterations": 0,
-        "memory": 1425408,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Scheme (Manual)",
-    "timestamp": "2025-12-02T23:44:34.322Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.317224,
-        "iterations": 0,
-        "memory": 13287424,
-        "cpu_user": 0.02,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Scala (Manual)",
-    "timestamp": "2025-12-02T23:44:39.415Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 6.641675,
-        "iterations": 0,
-        "memory": 168574976,
-        "cpu_user": 3.35,
-        "cpu_sys": 0.37,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "SQLite (Manual)",
-    "timestamp": "2025-12-03T00:08:05.659Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 1561.251194,
-        "iterations": 0,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "SQL (Manual)",
-    "timestamp": "2025-12-03T00:08:21.604Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 1.455193,
-        "iterations": 17605,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "\nProcessing ../../Matrices/3.matrix\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -1834,28 +706,23 @@
     "timestamp": "2025-12-03T00:08:25.487Z",
     "results": [
       {
-        "matrix": "3.matrix",
-        "time": 0.338415,
-        "iterations": 98847,
+        "matrix": "1.matrix",
+        "time": 0.401098,
+        "iterations": 656,
         "memory": 1556480,
         "cpu_user": 0,
         "cpu_sys": 0,
         "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Ruby (Manual)",
-    "timestamp": "2025-12-03T00:08:29.312Z",
-    "results": [
+      },
       {
         "matrix": "3.matrix",
-        "time": 0.29642,
-        "iterations": 0,
-        "memory": 28917760,
-        "cpu_user": 0.08,
-        "cpu_sys": 0.05,
-        "status": "pass"
+        "time": 0.489343,
+        "iterations": 98847,
+        "memory": 1572864,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "[\"Sudoku/target/release/Sudoku\", \"../../Matrices/3.matrix\"]\n../../Matrices/3.matrix\n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.002\n"
       }
     ]
   },
@@ -1865,12 +732,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.066202,
+        "time": 0.046731,
         "iterations": 121,
-        "memory": 2932736,
+        "memory": 2949120,
         "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "Solved in Iterations= 121\n123467589\n479185623\n685329147\n538214796\n742956318\n961738452\n317842965\n854693271\n296571834\n"
       }
     ]
   },
@@ -1880,27 +748,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 6.561434,
+        "time": 1.736339,
         "iterations": 98847,
-        "memory": 148979712,
-        "cpu_user": 1.8,
-        "cpu_sys": 0.11,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "R (Manual)",
-    "timestamp": "2025-12-03T00:08:40.248Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 2.78693,
-        "iterations": 0,
-        "memory": 61472768,
-        "cpu_user": 0.2,
-        "cpu_sys": 0.1,
-        "status": "pass"
+        "memory": 160595968,
+        "cpu_user": 1.36,
+        "cpu_sys": 0.09,
+        "status": "pass",
+        "output": "\nProcessing ../../Matrices/3.matrix\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -1909,58 +763,23 @@
     "timestamp": "2025-12-03T00:08:43.807Z",
     "results": [
       {
+        "matrix": "1.matrix",
+        "time": 0.604904,
+        "iterations": 656,
+        "memory": 29343744,
+        "cpu_user": 0.13,
+        "cpu_sys": 0.05,
+        "status": "pass"
+      },
+      {
         "matrix": "3.matrix",
-        "time": 11.717469,
+        "time": 0.526807,
         "iterations": 98847,
-        "memory": 28639232,
-        "cpu_user": 0.6,
-        "cpu_sys": 0.08,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Prolog (Manual)",
-    "timestamp": "2025-12-03T00:08:47.149Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.157621,
-        "iterations": 0,
-        "memory": 11485184,
-        "cpu_user": 0.03,
-        "cpu_sys": 0.01,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "PostScript (Manual)",
-    "timestamp": "2025-12-03T00:08:50.426Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.270644,
-        "iterations": 0,
-        "memory": 20316160,
-        "cpu_user": 0.04,
+        "memory": 32391168,
+        "cpu_user": 0.39,
         "cpu_sys": 0.04,
-        "status": "fail"
-      }
-    ]
-  },
-  {
-    "solver": "Perl (Manual)",
-    "timestamp": "2025-12-03T00:08:53.558Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 0.112834,
-        "iterations": 0,
-        "memory": 3293184,
-        "cpu_user": 0,
-        "cpu_sys": 0.01,
-        "status": "pass"
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n\nPuzzle:\n0 9 0 6 0 0 0 7 0\n0 5 2 0 7 0 0 4 8\n0 8 0 0 0 1 0 2 0\n0 0 5 0 0 0 0 0 3\n0 1 0 0 0 0 0 6 0\n3 0 0 0 0 0 4 0 0\n0 4 0 2 0 0 0 1 0\n2 6 0 0 4 0 5 3 0\n0 3 0 0 0 6 0 9 0\n\nPuzzle:\n4 9 3 6 8 2 1 7 5\n1 5 2 3 7 9 6 4 8\n7 8 6 4 5 1 3 2 9\n6 7 5 1 2 4 9 8 3\n8 1 4 5 9 3 7 6 2\n3 2 9 8 6 7 4 5 1\n9 4 7 2 3 5 8 1 6\n2 6 1 9 4 8 5 3 7\n5 3 8 7 1 6 2 9 4\n\nSolved in Iterations=98847\n\nSeconds to process 0.333\n"
       }
     ]
   },
@@ -1970,12 +789,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.453541,
+        "time": 0.433779,
         "iterations": 11005,
-        "memory": 2015232,
+        "memory": 2080768,
         "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "Solved in Iterations=11005\n493682175152379648786451329675124983814593762329867451947235816261948537538716294\n"
       }
     ]
   },
@@ -1985,27 +805,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.315352,
+        "time": 0.670459,
         "iterations": 98847,
-        "memory": 25100288,
-        "cpu_user": 0.1,
-        "cpu_sys": 0.03,
-        "status": "pass"
-      }
-    ]
-  },
-  {
-    "solver": "Octave (Manual)",
-    "timestamp": "2025-12-03T00:09:05.666Z",
-    "results": [
-      {
-        "matrix": "3.matrix",
-        "time": 1.998913,
-        "iterations": 0,
-        "memory": 134447104,
-        "cpu_user": 1.14,
-        "cpu_sys": 0.2,
-        "status": "pass"
+        "memory": 25329664,
+        "cpu_user": 0.11,
+        "cpu_sys": 0.08,
+        "status": "pass",
+        "output": "\nProcessing ../../Matrices/3.matrix\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -2015,12 +821,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.420054,
+        "time": 0.408064,
         "iterations": 98847,
-        "memory": 5570560,
-        "cpu_user": 0.01,
+        "memory": 5537792,
+        "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "Puzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -2030,12 +837,13 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.330122,
+        "time": 0.524714,
         "iterations": 98847,
-        "memory": 2981888,
+        "memory": 2998272,
         "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "\nProcessing ../../Matrices/3.matrix\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n"
       }
     ]
   },
@@ -2045,27 +853,317 @@
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.015732,
+        "time": 0.022757,
         "iterations": 11006,
         "memory": 1409024,
         "cpu_user": 0,
         "cpu_sys": 0,
-        "status": "pass"
+        "status": "pass",
+        "output": "4 9 3 6 8 2 1 7 5\n1 5 2 3 7 9 6 4 8\n7 8 6 4 5 1 3 2 9\n6 7 5 1 2 4 9 8 3\n8 1 4 5 9 3 7 6 2\n3 2 9 8 6 7 4 5 1\n9 4 7 2 3 5 8 1 6\n2 6 1 9 4 8 5 3 7\n5 3 8 7 1 6 2 9 4\nSolved in Iterations=11006\n"
+      }
+    ]
+  },
+  {
+    "solver": "Zsh (Manual)",
+    "timestamp": "2025-12-03T17:57:15.997Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.052648,
+        "iterations": 0,
+        "memory": 2441216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n# Extreme\n0 9 0 6 0 0 0 7 0\n0 5 2 0 7 0 0 4 8\n0 8 0 0 0 1 0 2 0\n0 0 5 0 0 0 0 0 3\n0 1 0 0 0 0 0 6 0\n3 0 0 0 0 0 4 0 0\n0 4 0 2 0 0 0 1 0\n2 6 0 0 4 0 5 3 0\n0 3 0 0 0 6 0 9 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "XSLT (Manual)",
+    "timestamp": "2025-12-03T17:57:28.039Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.049506,
+        "iterations": 0,
+        "memory": 1622016,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n\n# Extreme\n0 9 0 6 0 0 0 7 0\n0 5 2 0 7 0 0 4 8\n0 8 0 0 0 1 0 2 0\n0 0 5 0 0 0 0 0 3\n0 1 0 0 0 0 0 6 0\n3 0 0 0 0 0 4 0 0\n0 4 0 2 0 0 0 1 0\n2 6 0 0 4 0 5 3 0\n0 3 0 0 0 6 0 9 0"
+      }
+    ]
+  },
+  {
+    "solver": "Vimscript (Manual)",
+    "timestamp": "2025-12-03T17:57:51.076Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 9.12682,
+        "iterations": 98847,
+        "memory": 7798784,
+        "cpu_user": 8.53,
+        "cpu_sys": 0.12,
+        "status": "pass",
+        "output": "Puzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \nSolved in Iterations=98847\n"
+      }
+    ]
+  },
+  {
+    "solver": "Verilog (Manual)",
+    "timestamp": "2025-12-03T17:57:54.617Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.049036,
+        "iterations": 0,
+        "memory": 4915200,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "No solution found.\nSudoku.v:44: $finish called at 0 (1s)\n"
+      }
+    ]
+  },
+  {
+    "solver": "Tcsh (Manual)",
+    "timestamp": "2025-12-03T17:58:21.227Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.056726,
+        "iterations": 0,
+        "memory": 2277376,
+        "cpu_user": 0,
+        "cpu_sys": 0.02,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "Tcl (Manual)",
+    "timestamp": "2025-12-03T17:58:26.927Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1.250464,
+        "iterations": 98847,
+        "memory": 11665408,
+        "cpu_user": 0.69,
+        "cpu_sys": 0.2,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 1.179\n"
+      }
+    ]
+  },
+  {
+    "solver": "Smalltalk (Manual)",
+    "timestamp": "2025-12-03T17:58:40.185Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.054727,
+        "iterations": 0,
+        "memory": 9748480,
+        "cpu_user": 0,
+        "cpu_sys": 0.02,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "Sed (Manual)",
+    "timestamp": "2025-12-03T17:58:43.904Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.018123,
+        "iterations": 0,
+        "memory": 1441792,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n# Extreme\n0 9 0 6 0\n 0 0 7 00\n 5 2 0 7 \n0 0 4 80 \n8 0 0 0 1\n 0 2 00 0\n 5 0 0 0 \n0 0 30 1 \n0 0 0 0 0\n 6 03 0 0\n 0 0 0 4 \n0 00 4 0 \n2 0 0 0 1\n 02 6 0 0\n 4 0 5 3 \n00 3 0 0 \n0 6 0 9 0# Extreme\n0 9 0 6 0\n 0 0 7 00\n 5 2 0 7 \n0 0 4 80 \n8 0 0 0 1\n 0 2 00 0\n 5 0 0 0 \n0 0 30 1 \n0 0 0 0 0\n 6 03 0 0\n 0 0 0 4 \n0 00 4 0 \n2 0 0 0 1\n 02 6 0 0\n 4 0 5 3 \n00 3 0 0 \n0 6 0 9 0"
+      }
+    ]
+  },
+  {
+    "solver": "Scheme (Manual)",
+    "timestamp": "2025-12-03T17:58:48.829Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.08698,
+        "iterations": 0,
+        "memory": 13303808,
+        "cpu_user": 0.02,
+        "cpu_sys": 0.01,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "Scala (Manual)",
+    "timestamp": "2025-12-03T17:58:59.191Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 5.75639,
+        "iterations": 0,
+        "memory": 164904960,
+        "cpu_user": 4.21,
+        "cpu_sys": 0.5,
+        "status": "fail",
+        "output": ""
+      }
+    ]
+  },
+  {
+    "solver": "SQLite (Manual)",
+    "timestamp": "2025-12-03T18:21:29.697Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 1345.586472,
+        "iterations": 0,
+        "memory": 6422528,
+        "cpu_user": 850.71,
+        "cpu_sys": 100.49,
+        "status": "fail",
+        "output": ""
+      }
+    ]
+  },
+  {
+    "solver": "Ruby (Manual)",
+    "timestamp": "2025-12-03T18:21:40.213Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.205725,
+        "iterations": 0,
+        "memory": 28934144,
+        "cpu_user": 0.07,
+        "cpu_sys": 0.05,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "R (Manual)",
+    "timestamp": "2025-12-03T18:21:54.490Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.287657,
+        "iterations": 0,
+        "memory": 67698688,
+        "cpu_user": 0.12,
+        "cpu_sys": 0.05,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "Prolog (Manual)",
+    "timestamp": "2025-12-03T18:22:02.791Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.10428,
+        "iterations": 0,
+        "memory": 11485184,
+        "cpu_user": 0.03,
+        "cpu_sys": 0.02,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "PostScript (Manual)",
+    "timestamp": "2025-12-03T18:22:07.398Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.366919,
+        "iterations": 0,
+        "memory": 20234240,
+        "cpu_user": 0.04,
+        "cpu_sys": 0.05,
+        "status": "fail",
+        "output": "Error: /rangecheck in --get--\nOperand stack:\n   0   0   1   5   0   0   0   1   5   0   4   8   7   4   0   0   1   5   0   4   8   1   8   true   --nostringval--   81\nExecution stack:\n   %interp_exit   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   --nostringval--   false   1   %stopped_push   1804   1   3   %oparray_pop   1803   1   3   %oparray_pop   1788   1   3   %oparray_pop   1659   1   3   %oparray_pop   --nostringval--   %errorexec_pop   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   5   1   9   --nostringval--   %for_pos_int_continue   --nostringval--   --nostringval--   9   1   9   --nostringval--   %for_pos_int_continue   --nostringval--   --nostringval--   10   1   9   --nostringval--   %for_pos_int_continue   --nostringval--   1   1   8   --nostringval--   %for_pos_int_continue   --nostringval--\nDictionary stack:\n   --dict:749/1123(ro)(G)--   --dict:0/20(G)--   --dict:109/200(L)--\nCurrent allocation mode is local\nCurrent file position is 2467\n"
+      }
+    ]
+  },
+  {
+    "solver": "Perl (Manual)",
+    "timestamp": "2025-12-03T18:22:11.660Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 0.05202,
+        "iterations": 0,
+        "memory": 3293184,
+        "cpu_user": 0,
+        "cpu_sys": 0.01,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
+      }
+    ]
+  },
+  {
+    "solver": "Octave (Manual)",
+    "timestamp": "2025-12-03T18:22:32.079Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 3.800305,
+        "iterations": 0,
+        "memory": 134348800,
+        "cpu_user": 1.3,
+        "cpu_sys": 0.49,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n"
       }
     ]
   },
   {
     "solver": "Make (Manual)",
-    "timestamp": "2025-12-03T00:09:19.965Z",
+    "timestamp": "2025-12-03T18:22:52.643Z",
     "results": [
       {
         "matrix": "3.matrix",
-        "time": 0.232009,
+        "time": 0.126646,
         "iterations": 0,
         "memory": 1933312,
         "cpu_user": 0.01,
-        "cpu_sys": 0.02,
-        "status": "pass"
+        "cpu_sys": 0.01,
+        "status": "pass",
+        "output": "Solved in Iterations= 0\n# Extreme\n0 9 0 6 0 0 0 7 0\n0 5 2 0 7 0 0 4 8\n0 8 0 0 0 1 0 2 0\n0 0 5 0 0 0 0 0 3\n0 1 0 0 0 0 0 6 0\n3 0 0 0 0 0 4 0 0\n0 4 0 2 0 0 0 1 0\n2 6 0 0 4 0 5 3 0\n0 3 0 0 0 6 0 9 0"
+      }
+    ]
+  },
+  {
+    "solver": "M4 (Manual)",
+    "timestamp": "2025-12-03T20:23:56.720Z",
+    "results": [
+      {
+        "matrix": "3.matrix",
+        "time": 7259.967255,
+        "iterations": 0,
+        "memory": 4800512,
+        "cpu_user": 6731.1,
+        "cpu_sys": 81.23,
+        "status": "fail",
+        "output": ""
       }
     ]
   }

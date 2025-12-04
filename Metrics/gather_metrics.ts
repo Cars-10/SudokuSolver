@@ -18,6 +18,7 @@ interface MetricResult {
     cpu_user: number;
     cpu_sys: number;
     status: string;
+    output?: string;
 }
 
 interface SolverMetrics {
@@ -168,7 +169,7 @@ const quotes: Record<string, string> = {
     "Matrices_Filtered": "The filter."
 };
 
-const personalities: Record<string, Record<string, string>> = {
+export const personalities: Record<string, Record<string, string>> = {
     "Standard": {
         "C": "C: Low-level systems workhorse — predictable, efficient, and widely taught.",
         "C++": "C++: High performance with complex abstractions — flexible but demanding.",
@@ -285,7 +286,7 @@ const personalities: Record<string, Record<string, string>> = {
 };
 
 
-const methodologyTexts: Record<string, string> = {
+export const methodologyTexts: Record<string, string> = {
     "Standard": `
         <p>The <strong>Total Score</strong> is a composite metric designed to compare overall efficiency against the C baseline.</p>
         <h3 style="color: var(--secondary);">The Baseline: C</h3>
@@ -346,7 +347,7 @@ const methodologyTexts: Record<string, string> = {
     `
 };
 
-const languageMetadata: Record<string, any> = {
+export const languageMetadata: Record<string, any> = {
     "Assembly": {
         "creator": "Kathleen Booth",
         "date": "1947",
@@ -1018,7 +1019,27 @@ const languageMetadata: Record<string, any> = {
 
 // --- Logic ---
 
-async function findSolvers(rootDir: string): Promise<string[]> {
+async function readReferenceOutputs(rootDir: string): Promise<Record<string, string>> {
+    const refPath = path.join(rootDir, 'reference_output.txt');
+    try {
+        const content = await fs.readFile(refPath, 'utf-8');
+        const refs: Record<string, string> = {};
+        const parts = content.split('../Matrices/');
+        for (const part of parts) {
+            if (!part.trim()) continue;
+            const lines = part.split('\n');
+            const matrixName = lines[0].trim();
+            const output = lines.slice(1).join('\n').trim();
+            refs[matrixName] = output;
+        }
+        return refs;
+    } catch (e) {
+        console.error('Failed to read reference outputs:', e);
+        return {};
+    }
+}
+
+export async function findSolvers(rootDir: string): Promise<string[]> {
     // Find all runMe_ai.sh files in Manual and AI-2025
     console.log(`Searching for solvers in Manual and AI-2025...`);
 
@@ -1032,14 +1053,14 @@ async function findSolvers(rootDir: string): Promise<string[]> {
     return filteredSolvers;
 }
 
-async function runSolver(scriptPath: string, matrixPattern: string): Promise<SolverMetrics | null> {
+export async function runSolver(scriptPath: string, matrixPattern: string): Promise<SolverMetrics | null> {
     const solverDir = path.dirname(scriptPath);
     const langName = path.basename(solverDir);
     const parentDir = path.basename(path.dirname(solverDir));
 
     let solverName = langName;
     if (parentDir === 'Manual') {
-        solverName = `${langName} (Manual)`;
+        solverName = langName;
     } else if (parentDir === 'AI-2025') {
         solverName = `${langName} (AI)`;
     }
@@ -1067,10 +1088,17 @@ async function runSolver(scriptPath: string, matrixPattern: string): Promise<Sol
     }
 }
 
-async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any): Promise<string> {
+export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = []): Promise<string> {
     // Read Matrix Files
     const matricesDir = path.resolve(__dirname, '../Matrices');
-    const matrixFiles = await glob('*.matrix', { cwd: matricesDir });
+    let matrixFiles = await glob('*.matrix', { cwd: matricesDir });
+
+    // Filter matrices if allowed list is provided
+    if (allowedMatrices && allowedMatrices.length > 0) {
+        console.log(`Filtering matrices to: ${allowedMatrices.join(', ')}`);
+        matrixFiles = matrixFiles.filter(f => allowedMatrices.includes(f));
+    }
+
     const matrixContents: string[] = [];
 
     for (const file of matrixFiles) {
@@ -1089,7 +1117,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     });
 
     // Find C baseline
-    const cMetrics = metrics.find(m => m.solver === 'C');
+    const cMetrics = metrics.find(m => m.solver === 'C' || m.solver === 'C (Manual)');
     const cTimes = cMetrics ? cMetrics.results.map(r => r.time) : [];
     const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
 
@@ -1097,7 +1125,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     // Filter out mismatches - REVERTED to allow client-side toggle
     // if (cTotalIters > 0) {
     //     metrics = metrics.filter(m => {
-    //         if (m.solver === 'C') return true;
+    //         if (m.solver === 'C' || m.solver === 'C (Manual)') return true;
     //         const totalIters = m.results.reduce((a, b) => a + b.iterations, 0);
     //         if (totalIters !== cTotalIters) {
     //             console.log(`Marking ${m.solver} as mismatch: ${totalIters} vs ${cTotalIters}`);
@@ -1116,7 +1144,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
     let mismatchCount = 0;
     if (cTotalIters > 0) {
         mismatchCount = metrics.filter(m => {
-            if (m.solver === 'C') return false;
+            if (m.solver === 'C' || m.solver === 'C (Manual)') return false;
             const totalIters = m.results.reduce((a, b) => a + b.iterations, 0);
             return totalIters !== cTotalIters;
         }).length;
@@ -1127,7 +1155,61 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="60">
+    <!-- <meta http-equiv="refresh" content="60"> Removed for smart refresh -->
+    <script>
+        (function() {
+            // Smart Refresh for File Protocol
+            // We can't use fetch() on file:// due to CORS.
+            // Instead, we poll by injecting a script tag that loads a timestamp.
+            
+            let initialTimestamp = null;
+            
+            window.checkTimestamp = function() {
+                // This function is called after timestamp.js loads (if we wanted a callback)
+                // But timestamp.js just sets window.latestTimestamp
+                if (typeof window.latestTimestamp !== 'undefined') {
+                    if (initialTimestamp === null) {
+                        initialTimestamp = window.latestTimestamp;
+                    } else if (window.latestTimestamp !== initialTimestamp) {
+                        console.log('File changed, reloading...');
+                        window.location.reload();
+                    }
+                }
+            };
+
+            function poll() {
+                if (!document.body) return; // Wait for body
+                
+                const script = document.createElement('script');
+                // Add cache buster
+                script.src = 'timestamp.js?t=' + Date.now();
+                script.onload = () => {
+                    window.checkTimestamp();
+                    if (document.body.contains(script)) {
+                        document.body.removeChild(script); // Clean up
+                    }
+                };
+                script.onerror = () => {
+                    // console.warn('Failed to load timestamp.js');
+                    if (document.body && document.body.contains(script)) {
+                        document.body.removeChild(script);
+                    }
+                };
+                document.body.appendChild(script);
+            }
+            
+            // Initial check - wait for DOM
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', poll);
+            } else {
+                poll();
+            }
+            
+            // Poll every 2 seconds
+            setInterval(poll, 2000);
+        })();
+    </script>
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>Sudoku Benchmark - Neon</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -1146,6 +1228,10 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             color: var(--text);
             margin: 0;
             padding: 40px;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+        body.fullscreen-active {
+            overflow: hidden; /* Hide all scrollbars in fullscreen */
         }
         h1 {
             text-align: center;
@@ -1387,6 +1473,45 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         }
 
         /* Modal */
+        .matrix-canvas {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none; /* Let clicks pass through initially */
+        }
+        
+        /* Red Pill Slide-In Animation */
+        .matrix-slide-enter {
+            top: -100vh !important;
+            left: 0 !important;
+            transition: top 1.5s ease-in-out;
+        }
+        .matrix-slide-active {
+            top: 0 !important;
+            left: 0 !important;
+        }
+        
+        /* Content Slide-Out Animation */
+        .content-slide-exit {
+            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+        }
+        .content-slide-active {
+            transform: translateY(100vh);
+            opacity: 0.3;
+        }
+
+        /* Blue Pill Slide-Down Animation */
+        .slide-down-slow {
+            animation: slideDown 3s ease-out forwards;
+        }
+        @keyframes slideDown {
+            from { top: -100%; }
+            to { top: 0; }
+        }
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1507,6 +1632,25 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             font-family: 'JetBrains Mono', monospace;
             /* Positioned in header now */
         }
+        
+        /* Fullscreen overlay for solver counter - matches main page header */
+        #fullscreen-header {
+            display: none;
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            pointer-events: none;
+            padding: 0 40px;
+        }
+        #fullscreen-header .header-counters {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
         .mismatch-counter {
             font-size: 1.2em;
             font-weight: bold;
@@ -1602,10 +1746,154 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             border-radius: 8px;
             pointer-events: none; /* Let clicks pass through if needed, though we hide chart anyway */
         }
+        
+        #d3-chart-container {
+            position: relative;
+        }
+
+        /* Vertical Slide Animations */
+        @keyframes slideDownEnter {
+            from { top: -100vh; }
+            to { top: 0; }
+        }
+
+        @keyframes slideDownExit {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .slide-down-enter {
+            animation: slideDownEnter 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .slide-down-exit {
+            animation: slideDownExit 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+    </style>
+    <style>
+        /* Pill UI */
+        .pill-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .pill-combined {
+            display: flex;
+            width: 100px;
+            height: 32px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .pill-combined:hover {
+            transform: scale(1.05);
+        }
+
+        .pill-half {
+            flex: 1;
+            height: 100%;
+            cursor: pointer;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .pill-half.blue {
+            background: linear-gradient(135deg, rgba(50, 50, 255, 0.4), rgba(0, 0, 180, 0.6));
+            box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .pill-half.blue:hover {
+            background: linear-gradient(135deg, rgba(80, 80, 255, 0.6), rgba(20, 20, 200, 0.8));
+            box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        .pill-half.red {
+            background: linear-gradient(135deg, rgba(255, 50, 50, 0.4), rgba(180, 0, 0, 0.6));
+            box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow on other side */
+        }
+
+        .pill-half.red:hover {
+            background: linear-gradient(135deg, rgba(255, 80, 80, 0.6), rgba(200, 20, 20, 0.8));
+            box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Matrix Screensaver */
+        #matrix-canvas {
+            position: fixed; /* Changed to fixed for full screen overlay */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999; /* Very high z-index */
+            display: none; /* Hidden by default */
+            pointer-events: auto; /* Capture clicks to exit */
+        }
+
+        /* Animations */
+        @keyframes slideDownEnter {
+            from { top: -100vh; }
+            to { top: 0; }
+        }
+
+        @keyframes slideDownExit {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes slideUpEnter {
+            from { transform: translateY(100vh); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .slide-down-enter {
+            animation: slideDownEnter 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .slide-down-exit {
+            animation: slideDownExit 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        .slide-up-enter {
+             animation: slideUpEnter 1.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Main content wrapper for sliding */
+        .content-wrapper {
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.5s ease;
+        }
+
+        /* Cell Popup Menu */
+        .popup-menu {
+            display: none;
+            position: absolute;
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+            z-index: 10000;
+            min-width: 150px;
+            border-radius: 4px;
+            padding: 5px 0;
+        }
+        .popup-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 0.9em;
+            transition: background 0.2s;
+        }
+        .popup-item:hover {
+            background: rgba(0, 255, 157, 0.1);
+            color: var(--primary);
+        }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
     
     <!-- Modal -->
@@ -1634,10 +1922,11 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                 
                 <h3 style="color: var(--secondary);">The Formula</h3>
                 <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-                    Score = (TimeRatio + MemRatio + CpuRatio) / 3
+                    Score = (3.0 &times; CpuRatio + 2.0 &times; MemRatio + 1.0 &times; TimeRatio) / 6.0
                 </div>
                 <p style="font-size: 0.9em; text-align: center; color: var(--muted);">
-                    Where Ratio = (Solver Value) / (C Value)
+                    Where Ratio = (Solver Value) / (C Value)<br>
+                    Weights: CPU (3), Memory (2), Time (1)
                 </p>
                 
                 <h3 style="color: var(--secondary);">Interpretation</h3>
@@ -1651,6 +1940,15 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         </div>
     </div>
 
+    <!-- Fullscreen header overlay - matches main page header -->
+    <div id="fullscreen-header">
+        <div class="header-counters">
+            <div class="solver-counter">SOLVER ${metrics.length} OF ${metrics.length}</div>
+            ${mismatchCount > 0 ? `<div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
+        </div>
+    </div>
+
+    <div id="main-content" class="content-wrapper">
     <h1>Sudoku Benchmark Results</h1>
     
     <div class="header-counters">
@@ -1666,10 +1964,15 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         <div style="position: absolute; top: 10px; right: 20px; z-index: 100; display: flex; gap: 10px;">
             <button class="btn active" id="btn-chart-line" onclick="switchChart('line')">Line Chart</button>
             <button class="btn" id="btn-chart-jockey" onclick="switchChart('jockey')">Jockey Leaderboard</button>
-            <button class="btn" onclick="event.stopPropagation(); startScreensaver()">Matrix Mode</button>
+            <div class="pill-container" onclick="event.stopPropagation();">
+                <div class="pill-combined">
+                    <div class="pill-half blue" title="Take the Blue Pill (Slide Effect)" onclick="event.stopPropagation(); window.startScreensaver('blue')"></div>
+                    <div class="pill-half red" title="Take the Red Pill (Instant Matrix)" onclick="event.stopPropagation(); window.startScreensaver('red')"></div>
+                </div>
+            </div>
         </div>
         <div id="d3-chart-container" style="width: 100%; height: 100%;"></div>
-        <canvas id="matrix-canvas"></canvas>
+
     </div>
     
     <div class="top-bar">
@@ -1752,7 +2055,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         const efficiencyScore = totalTime > 0 ? memMbTotal / totalTime : 0;
 
         // Composite Score (vs C)
-        // Score = (TimeRatio + MemRatio + CpuRatio) / 3
+        // Score = (3*CpuRatio + 2*MemRatio + 1*TimeRatio) / 6
 
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
@@ -1760,7 +2063,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         const memRatio = (cTotalMem > 0) ? (maxMem / cTotalMem) : 0;
         const cpuRatio = (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 0;
 
-        const normalizedScore = (timeRatio + memRatio + cpuRatio) / 3;
+        const normalizedScore = (3.0 * cpuRatio + 2.0 * memRatio + 1.0 * timeRatio) / 6.0;
 
         // Find min/max for highlighting
         const minTime = Math.min(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
@@ -1774,7 +2077,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
 
         // Iteration Mismatch Logic
         const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
-        const isMismatch = m.solver !== 'C' && cTotalIters > 0 && totalIters !== cTotalIters;
+        const isMismatch = m.solver !== 'C' && m.solver !== 'C (Manual)' && cTotalIters > 0 && totalIters !== cTotalIters;
 
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
@@ -1789,7 +2092,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
         const meta = languageMetadata[baseLang] || languageMetadata[lang] || {};
         const year = meta.date || "0000";
         const displayNameRaw = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
-        const displayName = displayNameRaw.replace(/ \(Manual\)$/, ' <span class="manual-tag">(Manual)</span>').replace(/ \(AI\)$/, ' <span class="ai-tag">(AI)</span>');
+        const displayName = displayNameRaw.replace(/ \(Manual\)$/, '').replace(/ \(AI\)$/, ' <span class="ai-tag">(AI)</span>');
         const historyText = (languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
         const logoUrl = meta.logo || meta.image;
 
@@ -1850,8 +2153,12 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                             ${(() => {
                         const cRes = cMetrics?.results.find(res => res.matrix === r.matrix);
                         const cIterations = cRes ? cRes.iterations : null;
-                        const isImposter = m.solver !== 'C' && cIterations !== null && r.iterations !== cIterations;
-                        return `<span title="Iterations" class="${isImposter ? 'imposter' : ''}">#${r.iterations}</span>`;
+                        // Ensure strict number comparison and handle potential type issues if JSON parsing was loose
+                        const rIter = Number(r.iterations);
+                        const cIter = Number(cIterations);
+                        const isImposter = m.solver !== 'C' && m.solver !== 'C (Manual)' && cIterations !== null && rIter !== cIter;
+
+                        return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isImposter ? 'imposter' : ''}">#${r.iterations}</span>`;
                     })()}
                             <span title="Memory">${memMb.toFixed(1)}M</span>
                         </div>
@@ -1987,7 +2294,7 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
                 const rows = document.querySelectorAll('tbody tr');
                 rows.forEach(row => {
                     if (isFilterActive) {
-                        if (row.classList.contains('mismatch-iterations')) {
+                        if (!row.classList.contains('mismatch-iterations')) {
                             row.style.display = 'none';
                         } else {
                             row.style.display = '';
@@ -2148,15 +2455,18 @@ async function generateHtml(metrics: SolverMetrics[], history: any[], personalit
             // --- D3.js Chart Implementation ---
             (function() {
                 // Inject metrics with logo data
-                let rawData = ${JSON.stringify(metrics.map(m => {
-        const baseLang = m.solver.replace(/ \((Manual|AI)\)$/, '');
-        const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
-        // Use a generic code icon if no logo found
-        const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png";
-        return { ...m, logo: meta.logo || meta.image || defaultLogo };
-    }))};
+                const historyData = ${JSON.stringify(history)};
+                const referenceOutputs = ${JSON.stringify(referenceOutputs)};
+                const metricsData = ${JSON.stringify(metrics)};
                 
-                let data = rawData;
+                let data = metricsData.map(m => {
+                    const baseLang = m.solver.replace(/ \((Manual|AI)\)$/, '');
+                    const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
+                    // Use a generic code icon if no logo found
+                    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png";
+                    return { ...m, logo: meta.logo || meta.image || defaultLogo };
+                });
+                
                 let currentChart = 'line';
 
                 // Expose switchChart globally
@@ -2485,7 +2795,8 @@ function drawJockeyChart() {
                     window.switchChart('line'); 
                 }
             }) ();
-
+    </script>
+    <script>
 // Inject Matrix Data
 const matrixPuzzles = ${JSON.stringify(matrixContents)};
 
@@ -2494,17 +2805,35 @@ const matrixPuzzles = ${JSON.stringify(matrixContents)};
 let startScreensaverGlobal;
 
 (function () {
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    const container = canvas.parentElement;
-    const chartContainer = document.getElementById('d3-chart-container');
+    try {
+        const debugDiv = document.createElement('div');
+        debugDiv.style.position = 'fixed';
+        debugDiv.style.top = '0';
+        debugDiv.style.right = '0';
+        debugDiv.style.width = '20px';
+        debugDiv.style.height = '20px';
+        debugDiv.style.background = 'blue';
+        debugDiv.style.zIndex = '10000';
+        document.body.appendChild(debugDiv);
+
+        console.log("Initializing Matrix Screensaver...");
+        const canvas = document.getElementById('matrix-canvas');
+        if (!canvas) console.error("Matrix canvas not found!");
+        
+        const ctx = canvas.getContext('2d');
+        const container = canvas.parentElement;
+        const chartContainer = document.getElementById('d3-chart-container');
 
     let width, height;
     let columns;
-    let drops = [];
-    let animationId;
     let active = false;
+    let ignoreInput = false;
+    let animationId;
     let frame = 0;
+
+    // Expose globally immediately
+    window.startScreensaver = startScreensaver;
+    startScreensaverGlobal = startScreensaver;
     
     // Puzzle Overlay State
     let puzzleY = -1000; // Start way above
@@ -2512,19 +2841,43 @@ let startScreensaverGlobal;
     let puzzleLines = [];
     
     function prepareNextPuzzle() {
+        console.log('prepareNextPuzzle called, matrixPuzzles.length:', matrixPuzzles.length);
         if (matrixPuzzles.length === 0) return;
         const rawText = matrixPuzzles[currentPuzzleIndex];
         puzzleLines = rawText.split('\\n');
-        puzzleY = - (puzzleLines.length * 30); // Start above screen based on height
+        console.log('Prepared puzzle with', puzzleLines.length, 'lines');
+        // Start from the BOTTOM of the screen
+        puzzleY = height || window.innerHeight; 
         currentPuzzleIndex = (currentPuzzleIndex + 1) % matrixPuzzles.length;
+        specialRows.clear(); // Reset special rows for new puzzle
     }
 
     // Matrix characters (Katakana + Latin)
-    const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const chars = '/Cars10アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     function resize() {
-        width = container.clientWidth;
-        height = container.clientHeight;
+        if (document.fullscreenElement) {
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.zIndex = '1000';
+            width = window.innerWidth;
+            height = window.innerHeight;
+        } else {
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.zIndex = '10';
+            // Use current parent, which might change
+            const parent = canvas.parentElement || container;
+            width = parent.clientWidth;
+            height = parent.clientHeight;
+        }
+
         canvas.width = width;
         canvas.height = height;
 
@@ -2538,6 +2891,24 @@ let startScreensaverGlobal;
         }
     }
 
+    // Glow State
+    let glowHue = 0; // 0 for Red, 240 for Blue
+    let glowDirection = 1;
+    
+    // Dancing Highlight State
+    let dancingRow = 0;
+    let dancingCol = 0;
+    let lastDanceTime = 0;
+    
+    // Slide-in Animation State
+    let slideInComplete = false;
+    
+    // Easter Egg State
+    let lastCars10Time = 0;
+    let specialRows = new Set();
+    
+    let currentMode = 'red'; // Default to full screen
+
     function draw() {
         if (active) {
             animationId = requestAnimationFrame(draw);
@@ -2547,12 +2918,14 @@ let startScreensaverGlobal;
         if (frame % 2 !== 0) return;
 
         // Black background with opacity for trail effect
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        // Lower opacity = longer trails
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
         ctx.fillRect(0, 0, width, height);
 
         ctx.fillStyle = '#0F0'; // Green text
         ctx.font = '14px monospace';
 
+        // Draw Matrix Rain
         for (let i = 0; i < drops.length; i++) {
             const text = chars.charAt(Math.floor(Math.random() * chars.length));
             const x = i * 14;
@@ -2567,56 +2940,337 @@ let startScreensaverGlobal;
 
             drops[i]++;
         }
-        
-        // Draw Puzzle Overlay
-        if (puzzleLines.length > 0) {
-            ctx.fillStyle = '#F00'; // Red
-            ctx.font = 'bold 24px "JetBrains Mono", monospace'; // Larger font
+
+        // Check if rain has reached halfway
+        let rainHalfway = false;
+        const gridHeight = height / 14; // 14px font for rain
+        for (let i = 0; i < drops.length; i++) {
+            if (drops[i] > gridHeight / 2) {
+                rainHalfway = true;
+                break;
+            }
+        }
+
+        // Draw Puzzle Overlay (only in fullscreen mode, after slide-in completes)
+        if (currentMode === 'red' && puzzleLines.length > 0 && slideInComplete) {
+            // 1. Calculate Font Size
+            // Goal: Row fits 2/3 of screen width
+            const targetWidth = width * 0.66;
+            const charCount = 17; // 9 digits + 8 spaces
+            let fontSize = Math.floor(targetWidth / charCount * 1.6); // Multiplier to adjust
+
+            // "Font size should also increase by 30%" - ONLY for Red Mode (Full Screen)
+            // For Blue Mode (Chart), we scale it down a bit relative to that
+            if (currentMode === 'red') {
+                fontSize = Math.floor(fontSize * 0.675); // Half the previous size
+            } else {
+                // Blue mode: maybe keep it standard or slightly smaller
+                fontSize = Math.floor(fontSize * 0.8);
+            }
+
+            ctx.font = 'bold ' + fontSize + 'px "JetBrains Mono", monospace';
             ctx.textAlign = 'center';
             
-            const lineHeight = 30;
-            const startX = width / 2;
+            // Base color for fallback
+            const color = '#FF0055'; // Bright neon red
             
-            for (let i = 0; i < puzzleLines.length; i++) {
-                const lineY = puzzleY + (i * lineHeight);
-                if (lineY > -30 && lineY < height + 30) {
-                    ctx.fillText(puzzleLines[i], startX, lineY);
+            // Reduced glow for "fading trails" look
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = color;
+            ctx.fillStyle = color;
+
+            const lineHeight = fontSize * 3.0; // Double spacing (simulates blank row)
+            const startX = width / 2;
+
+            // 3. Dancing Highlight Logic - DISABLED
+            // if (Date.now() - lastDanceTime > 200) { ... }
+            dancingRow = -1; // Ensure no row is selected
+            dancingCol = -1;
+
+            // 4. Easter Egg Logic: /cars10
+            if (Date.now() - lastCars10Time > 1000) { // Every 1 second
+                 const visibleRows = [];
+                 for (let i = 0; i < puzzleLines.length; i++) {
+                    const lineY = puzzleY + (i * lineHeight);
+                    // Check if fully visible on screen
+                    if (lineY > lineHeight && lineY < height - lineHeight) {
+                        visibleRows.push(i);
+                    }
+                 }
+                 
+                 if (visibleRows.length > 0) {
+                     // Pick a random row that isn't already special
+                     const candidates = visibleRows.filter(r => !specialRows.has(r));
+                     if (candidates.length > 0) {
+                         const randomRow = candidates[Math.floor(Math.random() * candidates.length)];
+                         specialRows.add(randomRow);
+                     }
+                 }
+                 lastCars10Time = Date.now();
+            }
+
+            // Define columns to draw based on mode
+            let xPositions = [];
+            if (currentMode === 'red') {
+                // Single centered column for fullscreen
+                xPositions = [width * 0.5];
+            } else {
+                // Single centered column for chart mode
+                xPositions = [width * 0.5];
+            }
+
+            // 3. Iterate over each column position
+            for (const startX of xPositions) {
+                // Determine visible rows for this column
+                const visibleRows = [];
+                for (let i = 0; i < puzzleLines.length; i++) {
+                    const lineY = puzzleY + (i * lineHeight);
+                    
+                    // Only consider visible rows
+                    if (lineY > -lineHeight * 0.2 && lineY < height + lineHeight * 0.2) {
+                        visibleRows.push(i);
+                    }
+                }
+                
+                // No background clearing - completely transparent
+                // Numbers will appear directly over Matrix rain
+                
+                // Draw each line of the puzzle
+                for (let i = 0; i < puzzleLines.length; i++) {
+                    const lineY = puzzleY + (i * lineHeight);
+                    
+                    // Only draw if visible
+                    if (lineY > -lineHeight && lineY < height + lineHeight) {
+                        const line = puzzleLines[i];
+                        
+                        // Check for Easter Egg Row
+                        if (specialRows.has(i)) {
+                            // Draw "/cars10" with Rainbow Glow
+                            const text = "/cars10";
+                            const hue = (frame * 2) % 360; // Rainbow cycle
+                            const color = 'hsl(' + hue + ', 100%, 50%)';
+                            
+                            ctx.save();
+                            ctx.translate(startX, lineY);
+                            ctx.scale(1.5, 2); // Slightly larger
+                            
+                            // Clear background
+                            ctx.globalCompositeOperation = 'source-over';
+                            ctx.fillStyle = 'rgba(0, 0, 0, 0.9)'; // Darker background for pop
+                            ctx.fillRect(-fontSize * 3, -fontSize * 1.2, fontSize * 6, fontSize * 2.4);
+                            
+                            // Draw Glow
+                            ctx.shadowBlur = 20;
+                            ctx.shadowColor = color;
+                            ctx.fillStyle = color;
+                            ctx.font = 'bold ' + fontSize + 'px "JetBrains Mono", monospace';
+                            ctx.textAlign = 'center';
+                            ctx.fillText(text, 0, 0);
+                            
+                            ctx.restore();
+                            continue; // Skip drawing normal numbers for this row
+                        }
+
+                        const parts = line.trim().split(/\s+/);
+                        
+                        if (parts.length === 9) {
+                            const spacing = fontSize * 1.2;
+                            // Calculate total width of the puzzle block
+                            const totalBlockWidth = (9 * fontSize * 1.2); // 9 chars * spacing
+                            
+                            // Clear the entire puzzle area for this column to prevent streaks
+                            // We do this ONCE per column loop, not per character, but here we are inside the loop.
+                            // Actually, let's do it per character but simpler:
+                            
+                            for (let j = 0; j < parts.length; j++) {
+                                // const isDancing = (i % 9 === dancingRow) && (j === dancingCol); // Disabled
+                                const isDancing = false;
+                                
+                                // Calculate distance from center for scale effect
+                                const distFromCenter = Math.abs(lineY - height / 2);
+                                const maxDist = height / 2;
+                                const centerFactor = 1 - (distFromCenter / maxDist); // 1 at center, 0 at edges
+                                
+                                // Scale animation: grow at center (applies to all numbers)
+                                const scaleBoost = 1 + (centerFactor * 0.3); // 1.0 to 1.3x at center
+                                
+                                ctx.save();
+                                // Tall Numbers: Scale Y by 2, plus center boost
+                                ctx.translate(currentX, lineY);
+                                ctx.scale(scaleBoost, 2 * scaleBoost);
+                                
+                                // Draw a semi-transparent background box to hide streaks but keep it "semi transparent"
+                                ctx.globalCompositeOperation = 'source-over';
+                                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black
+                                // Clear from way above to way below
+                                ctx.fillRect(-fontSize * 0.6, -fontSize * 2, fontSize * 1.2, fontSize * 6);
+                                
+                                // Draw number
+                                ctx.globalCompositeOperation = 'source-over';
+                                ctx.shadowBlur = 0; 
+                                ctx.shadowColor = 'transparent';
+                                ctx.strokeStyle = '#FF0055';
+                                ctx.lineWidth = 2;
+                                ctx.strokeText(parts[j], 0, 0);
+                                
+                                ctx.restore();
+                                currentX += spacing;
+                            }
+                        } else {
+                            // Header or other text
+                            ctx.save();
+                            ctx.translate(startX, lineY);
+                            ctx.scale(1, 2);
+                            ctx.strokeStyle = color;
+                            ctx.lineWidth = 2;
+                            ctx.strokeText(line, 0, 0);
+                            ctx.restore();
+                        }
+                    }
                 }
             }
-            
-            puzzleY += 2; // Scroll speed
-            
-            // Reset if puzzle went off screen
-            if (puzzleY > height) {
+
+            // Reset shadow
+            ctx.shadowBlur = 0;
+
+            puzzleY -= 5; // Scroll UP (Ascent)
+
+            // Reset if puzzle went off screen (top)
+            // Total height of puzzle = lines * lineHeight
+            const totalPuzzleHeight = puzzleLines.length * lineHeight;
+            if (puzzleY < -totalPuzzleHeight) {
                 prepareNextPuzzle();
             }
         } else {
-             prepareNextPuzzle();
+             // If not ready or no lines, ensure we are ready for next
+             if (puzzleLines.length === 0) prepareNextPuzzle();
         }
     }
 
 
-    function startScreensaver() {
+    function startScreensaver(mode) {
         if (active) return;
         active = true;
+        ignoreInput = true;
+        setTimeout(() => { ignoreInput = false; }, 1500); // Grace period
+        
+        currentMode = mode || 'red'; // Default to red
 
-        // Hide chart, show canvas
-        chartContainer.style.visibility = 'hidden'; // Use visibility to keep layout
+        const canvas = document.getElementById('matrix-canvas');
+        const content = document.getElementById('main-content');
+        const chartContainer = document.getElementById('d3-chart-container');
+
+        if (currentMode === 'red') {
+            // Full Screen Mode
+            document.body.appendChild(canvas); // Move to body
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.zIndex = '1000';
+            
+            // Add fullscreen class to body to hide scrollbars
+            document.body.classList.add('fullscreen-active');
+            
+            // Show fullscreen header
+            const fsHeader = document.getElementById('fullscreen-header');
+            if (fsHeader) fsHeader.style.display = 'block';
+            
+            // Initial State for Animation
+            canvas.classList.add('matrix-slide-enter');
+            content.classList.add('content-slide-exit');
+            
+            // Force Reflow
+            void canvas.offsetWidth;
+            
+            // Start Animation
+            requestAnimationFrame(() => {
+                canvas.classList.add('matrix-slide-active');
+                
+                // Delay content slide until Matrix is halfway down (0.75s of 1.5s total)
+                setTimeout(() => {
+                    content.classList.add('content-slide-active');
+                }, 750);
+                
+                // Set flag earlier so numbers appear sooner (0.5s instead of 1.5s)
+                setTimeout(() => {
+                    slideInComplete = true;
+                    console.log('slideInComplete set to true');
+                }, 500);
+                
+                // Trigger Browser Fullscreen AFTER animation starts
+                // This prevents the browser's fullscreen transition from interfering
+                setTimeout(() => {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen().catch(e => console.log(e));
+                    }
+                }, 100);
+            });
+            
+        } else {
+            // Chart Mode (Blue Pill)
+            chartContainer.appendChild(canvas); // Move to chart container
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.zIndex = '10';
+
+            // Add slide-down animation class
+            canvas.classList.add('slide-down-slow');
+        }
+
         canvas.style.display = 'block';
 
         resize();
-        prepareNextPuzzle(); // Prepare first puzzle
+        window.addEventListener('resize', resize);
+
+        // Reset puzzle state
+        puzzleLines = [];
+        currentPuzzleIndex = 0;
+        prepareNextPuzzle();
+
         draw();
     }
 
     function stopScreensaver() {
         if (!active) return;
         active = false;
-        cancelAnimationFrame(animationId);
+        slideInComplete = false; // Reset flag
+        const canvas = document.getElementById('matrix-canvas');
+        const content = document.getElementById('main-content');
 
-        // Show chart, hide canvas
-        chartContainer.style.visibility = 'visible';
         canvas.style.display = 'none';
+        
+        // Remove fullscreen class from body
+        document.body.classList.remove('fullscreen-active');
+        
+        // Hide fullscreen header
+        const fsHeader = document.getElementById('fullscreen-header');
+        if (fsHeader) fsHeader.style.display = 'none';
+        
+        // Remove animation classes
+        canvas.classList.remove('slide-down-slow');
+        canvas.classList.remove('matrix-slide-enter');
+        canvas.classList.remove('matrix-slide-active');
+        content.classList.remove('content-slide-exit');
+        content.classList.remove('content-slide-active');
+
+        // Exit Browser Fullscreen if active
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(e => console.log(e));
+        }
+
+        cancelAnimationFrame(animationId);
+        window.removeEventListener('resize', resize);
+        
+        canvas.className = '';
+        content.className = 'content-wrapper';
+
+        // Reset to body for safety
+        document.body.appendChild(canvas);
     }
 
     // Idle Timer with Persistence
@@ -2640,17 +3294,20 @@ let startScreensaverGlobal;
 
     setInterval(checkIdle, 1000);
 
-    function resetTimer() {
+    function resetTimer(e) {
         setLastActive();
-        if (active) {
-            stopScreensaver();
+        if (active && !ignoreInput) {
+            // Only stop on Escape key
+            if (e && e.type === 'keydown' && e.key === 'Escape') {
+                stopScreensaver();
+            }
         }
     }
 
     // Events to reset timer
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
+    document.onkeydown = resetTimer;
     document.onclick = resetTimer;
     document.onscroll = resetTimer;
 
@@ -2666,18 +3323,95 @@ let startScreensaverGlobal;
     });
 
     // Expose globally
-    window.startScreensaver = startScreensaver;
-    startScreensaverGlobal = startScreensaver;
+
+    
+    console.log("Matrix Screensaver initialized successfully. startScreensaver is:", typeof window.startScreensaver);
+    
+    const successDiv = document.createElement('div');
+    successDiv.style.position = 'fixed';
+    successDiv.style.top = '0';
+    successDiv.style.right = '25px';
+    successDiv.style.width = '20px';
+    successDiv.style.height = '20px';
+    successDiv.style.background = 'green';
+    successDiv.style.zIndex = '10000';
+    document.body.appendChild(successDiv);
+    } catch (e) {
+        console.error("CRITICAL ERROR in Matrix Screensaver IIFE:", e);
+        const errDiv = document.createElement('div');
+        errDiv.style.position = 'fixed';
+        errDiv.style.top = '0';
+        errDiv.style.left = '0';
+        errDiv.style.width = '100%';
+        errDiv.style.background = 'red';
+        errDiv.style.color = 'white';
+        errDiv.style.zIndex = '9999';
+        errDiv.style.padding = '10px';
+        errDiv.innerText = 'SCREENSAVER ERROR: ' + e.toString();
+        document.body.appendChild(errDiv);
+    }
 })();
 
 // Ensure global access
-window.startScreensaver = function() {
-    if (startScreensaverGlobal) {
-        startScreensaverGlobal();
-    } else {
-        console.error("Screensaver not initialized yet");
-    }
-};
+
+
+window.showMismatch = function(solverName, matrixName, cell) {
+    const solver = metricsData.find(s => s.solver === solverName);
+    if (!solver) return;
+    const result = solver.results.find(r => r.matrix === matrixName);
+    if (!result) return;
+
+    document.getElementById('mismatchTitle').innerText = 'Mismatch: ' + solverName + ' on ' + matrixName;
+    
+    // Actual Output
+    let actual = result.output || 'No output captured.';
+    
+    document.getElementById('actualOutput').innerText = actual;
+
+    // Expected Output
+    const expected = referenceOutputs[matrixName] || 'No reference output found.';
+    document.getElementById('expectedOutput').innerText = expected;
+
+    // Rerun Command
+    currentRerunCommand = '# Run from SudokuSolver root\\nfind . -name runMe_ai.sh | grep "/' + solverName + '/" | head -n 1 | xargs -I {} sh -c \\'cd $(dirname {}) && ./runMe_ai.sh ../../Matrices/' + matrixName + '\\'';
+    
+    const modal = document.getElementById('mismatchModal');
+    modal.style.display = 'block';
+    
+    // Anchor to cell
+    const rect = cell.getBoundingClientRect();
+    const content = modal.querySelector('.modal-content');
+    
+    // Calculate position (right of cell, aligned top)
+    const top = rect.top + window.scrollY;
+    const left = rect.right + window.scrollX + 20; // 20px gap
+    
+    content.style.position = 'absolute';
+    content.style.top = top + 'px';
+    content.style.left = left + 'px';
+    content.style.margin = '0';
+    content.style.transform = 'none';
+    content.style.width = 'auto';
+    content.style.maxWidth = '600px'; // Constrain width if needed
+}
+
+window.closeMismatchModal = function() {
+    document.getElementById('mismatchModal').style.display = 'none';
+}
+
+window.copyRerunCommand = function() {
+    const btn = document.getElementById('copyRerunBtn');
+    navigator.clipboard.writeText(currentRerunCommand).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => {
+            btn.innerText = originalText;
+        }, 2000);
+    });
+}
+
+
+
 </script>
     </body>
     </html>
@@ -2685,7 +3419,7 @@ window.startScreensaver = function() {
     return html;
 }
 
-async function main() {
+export async function main() {
     const rootDir = path.resolve(__dirname, '..');
     const metricsFile = path.join(rootDir, 'metrics.json');
     const htmlFile = path.join(rootDir, 'benchmark_report.html');
@@ -2700,9 +3434,26 @@ async function main() {
             allMetrics = JSON.parse(data);
             console.log(`Loaded ${allMetrics.length} metrics from ${metricsFile} `);
 
-            const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
+            const referenceOutputs = await readReferenceOutputs(__dirname + '/../');
+
+            // Read allowed matrices from TypeScript metrics
+            const typeScriptMetricsFile = path.join(rootDir, 'Manual', 'TypeScript', 'metrics.json');
+            let allowedMatrices: string[] = [];
+            try {
+                const tsData = await fs.readFile(typeScriptMetricsFile, 'utf-8');
+                const tsMetrics = JSON.parse(tsData);
+                allowedMatrices = [...new Set(tsMetrics.map((m: any) => m.matrix))] as string[];
+                console.log(`Filtering report to ${allowedMatrices.length} matrices from TypeScript metrics.`);
+            } catch (e) {
+                console.warn("Could not read Manual/TypeScript/metrics.json, defaulting to all.", e);
+            }
+
+            const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts, referenceOutputs, allowedMatrices);
             await fs.writeFile(htmlFile, htmlContent);
-            console.log(`Regenerated report at ${htmlFile}`);
+            // Write timestamp file for smart refresh
+            const timestampFile = path.join(rootDir, 'timestamp.js');
+            await fs.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()}; `);
+            console.log(`Regenerated report at ${htmlFile} `);
 
         } catch (e) {
             console.error(`Failed to read ${metricsFile}: `, e);
@@ -2741,9 +3492,14 @@ async function main() {
                     await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
                     // console.log(`Saved metrics to ${ metricsFile } `);
 
-                    const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
+                    const referenceOutputs = await readReferenceOutputs(__dirname + '/../');
+                    const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts, referenceOutputs);
                     await fs.writeFile(htmlFile, htmlContent);
-                    console.log(`Updated report for ${metrics.solver}`);
+                    // Write timestamp file for smart refresh
+                    const timestampFile = path.join(rootDir, 'timestamp.js');
+                    await fs.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()}; `);
+
+                    console.log(`Report generated at ${htmlFile} `);
 
                     await captureScreenshot(htmlFile);
                 }
@@ -2752,7 +3508,7 @@ async function main() {
     }
 }
 
-async function captureScreenshot(htmlFilePath: string) {
+export async function captureScreenshot(htmlFilePath: string) {
     const screenshotsDir = path.join(__dirname, 'screenshots');
     await fs.mkdir(screenshotsDir, { recursive: true });
 
@@ -2809,4 +3565,8 @@ async function captureScreenshot(htmlFilePath: string) {
     console.log(`Screenshot saved to ${screenshotPath}`);
 }
 
-main().catch(console.error);
+
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    main().catch(console.error);
+}

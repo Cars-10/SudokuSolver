@@ -1,11 +1,12 @@
 [
   {
     "matrix": "3.matrix",
-    "time": 0.728680,
+    "time": 0.022197,
     "iterations": 0,
-    "memory": 4915200,
+    "memory": 4866048,
     "cpu_user": 0.00,
-    "cpu_sys": 0.01,
-    "status": "fail"
+    "cpu_sys": 0.00,
+    "status": "fail",
+    "output": "No solution found.\nSudoku.v:44: $finish called at 0 (1s)\n"
   }
 ]

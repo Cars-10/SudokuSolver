@@ -1,11 +1,12 @@
 [
   {
     "matrix": "3.matrix",
-    "time": 0.113877,
+    "time": 0.017922,
     "iterations": 0,
-    "memory": 1622016,
+    "memory": 1572864,
     "cpu_user": 0.00,
     "cpu_sys": 0.00,
-    "status": "pass"
+    "status": "pass",
+    "output": "Solved in Iterations= 0\n\n# Extreme\n0 9 0 6 0 0 0 7 0\n0 5 2 0 7 0 0 4 8\n0 8 0 0 0 1 0 2 0\n0 0 5 0 0 0 0 0 3\n0 1 0 0 0 0 0 6 0\n3 0 0 0 0 0 4 0 0\n0 4 0 2 0 0 0 1 0\n2 6 0 0 4 0 5 3 0\n0 3 0 0 0 6 0 9 0"
   }
 ]
