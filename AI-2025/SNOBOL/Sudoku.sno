@@ -1,7 +1,0 @@
-* SNOBOL4 Sudoku Solver
-* Placeholder
-
-    OUTPUT = "SNOBOL4 Sudoku Solver"
-    OUTPUT = "Requires CSNOBOL4"
-    
-END
