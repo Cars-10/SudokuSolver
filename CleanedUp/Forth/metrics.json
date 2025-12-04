@@ -1,0 +1,12 @@
+[
+  {
+    "matrix": "1.matrix",
+    "time": 0.109762,
+    "iterations": 0,
+    "memory": Binary,
+    "cpu_user": /var/folders/rn/r7s8qlzn1f11h55lwfz_yw6c0000gn/T/tmp.6lgpVfdfu4,
+    "cpu_sys": 0,
+    "status": "fail",
+    "output": "\n"
+  }
+]
