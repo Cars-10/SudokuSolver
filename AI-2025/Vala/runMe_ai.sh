@@ -60,7 +60,10 @@ for matrix in $PATTERN; do
     echo "    \"memory\": $memory," >> "$METRICS_FILE"
     echo "    \"cpu_user\": $cpu_user," >> "$METRICS_FILE"
     echo "    \"cpu_sys\": $cpu_sys," >> "$METRICS_FILE"
-    echo "    \"status\": \"$status\"" >> "$METRICS_FILE"
+        echo "    \"status\": \"$status\"," >> "$METRICS_FILE"
+    # Capture output safely
+    json_output=$(cat "$tmp_out" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+    echo "    \"output\": $json_output" >> "$METRICS_FILE"
     echo -n "  }" >> "$METRICS_FILE"
     
     rm "$tmp_out" "$tmp_err"

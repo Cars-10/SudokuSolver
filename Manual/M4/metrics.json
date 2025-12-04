@@ -1,1 +1,21 @@
 [
+  {
+    "matrix": "3.matrix",
+    "time": 7259.967255,
+    "iterations": 0,
+    "memory": 4800512,
+    "cpu_user": 6731.10,
+    "cpu_sys": 81.23,
+    "status": "fail",
+    "output": ""
+  }
+]
+  {
+    "matrix": "3.matrix",
+    "time": 68778.096631,
+    "iterations": 0,
+    "memory": 4784128,
+    "cpu_user": 55338.85,
+    "cpu_sys": 677.46,
+    "status": "fail"
+  }

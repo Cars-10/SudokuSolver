@@ -1,11 +1,12 @@
 [
   {
     "matrix": "3.matrix",
-    "time": 0.317224,
+    "time": 0.086980,
     "iterations": 0,
-    "memory": 13287424,
+    "memory": 13303808,
     "cpu_user": 0.02,
     "cpu_sys": 0.01,
-    "status": "pass"
+    "status": "pass",
+    "output": "Solved in Iterations= 0\n"
   }
 ]
