@@ -4,13 +4,15 @@ import { fileURLToPath } from 'url';
 import {
     findSolvers,
     runSolver,
+    runDockerSolver,
     generateHtml,
     captureScreenshot,
     personalities,
     languageMetadata,
-    methodologyTexts
+    methodologyTexts,
+    readReferenceOutputs
 } from './gather_metrics.ts';
-import type { SolverMetrics } from './gather_metrics.ts';
+import type { SolverMetrics, MetricResult } from './gather_metrics.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,27 +48,47 @@ async function runSuite() {
     console.log(`  Language: ${language}`);
     console.log(`  Matrices: ${matrices.join(', ')}`);
 
-    const rootDir = path.resolve(__dirname, '..');
-    const metricsFile = path.join(rootDir, 'metrics.json');
-    const htmlFile = path.join(rootDir, 'benchmark_report.html');
+    const repoRoot = path.resolve(__dirname, '..');
+    const outputDir = process.env.OUTPUT_DIR || repoRoot;
+    const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
+    const htmlFile = path.join(outputDir, 'benchmark_report.html');
 
     let allMetrics: SolverMetrics[] = [];
     try {
         const data = await fs.readFile(metricsFile, 'utf-8');
         allMetrics = JSON.parse(data);
         console.log(`Loaded ${allMetrics.length} existing metrics.`);
+
+        // Migration: Fix legacy " (Docker)" names
+        let migratedCount = 0;
+        for (const m of allMetrics) {
+            if (m.solver.endsWith(' (Docker)')) {
+                m.solver = m.solver.replace(' (Docker)', '');
+                m.runType = 'Docker';
+                migratedCount++;
+            } else if (!m.runType) {
+                // Assume Local for legacy entries without runType
+                // But check if it was Manual or AI based on some other heuristic? 
+                // For now, default to Local is safe as per plan.
+                m.runType = 'Local';
+            }
+        }
+        if (migratedCount > 0) {
+            console.log(`Migrated ${migratedCount} legacy Docker entries.`);
+        }
     } catch (e) {
         console.log("No existing metrics found, starting fresh.");
     }
 
-    const allSolvers = await findSolvers(rootDir);
+    const allSolvers = await findSolvers(repoRoot);
     let solversToRun = allSolvers;
 
     if (language.toLowerCase() !== 'all') {
+        const requestedLangs = language.toLowerCase().split(',').map(l => l.trim());
         solversToRun = allSolvers.filter(s => {
             const solverDir = path.dirname(s);
             const langName = path.basename(solverDir);
-            return langName.toLowerCase() === language.toLowerCase();
+            return requestedLangs.includes(langName.toLowerCase());
         });
     }
 
@@ -77,27 +99,47 @@ async function runSuite() {
 
     console.log(`Found ${solversToRun.length} solvers to run.`);
 
+    const useDocker = args.includes('--docker');
+
     for (const matrix of matrices) {
         console.log(`\n--- Benchmarking ${matrix} ---\n`);
         for (const script of solversToRun) {
-            const metrics = await runSolver(script, matrix);
+            let metrics: SolverMetrics | null = null;
+            if (useDocker) {
+                metrics = await runDockerSolver(script, matrix);
+            } else {
+                metrics = await runSolver(script, matrix);
+            }
+
             if (metrics) {
-                let existingSolver = allMetrics.find(s => s.solver === metrics.solver);
+                // Find existing solver by name AND runType
+                // For legacy metrics without runType, assume 'Local' if the new one is 'Local', or just match by name if runType is undefined
+                let existingSolver = allMetrics.find(s =>
+                    s.solver === metrics!.solver &&
+                    (s.runType === metrics!.runType || (!s.runType && metrics!.runType === 'Local'))
+                );
+
                 if (!existingSolver) {
-                    existingSolver = { solver: metrics.solver, timestamp: metrics.timestamp, results: [] };
+                    existingSolver = {
+                        solver: metrics.solver,
+                        runType: metrics.runType,
+                        timestamp: metrics.timestamp,
+                        results: []
+                    };
                     allMetrics.push(existingSolver);
                 }
 
                 // Update results
                 for (const res of metrics.results) {
-                    existingSolver.results = existingSolver.results.filter(r => r.matrix !== res.matrix);
+                    existingSolver.results = existingSolver.results.filter((r: MetricResult) => r.matrix !== res.matrix);
                     existingSolver.results.push(res);
                 }
 
                 // Save & Generate
                 await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
 
-                const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts);
+                const referenceOutputs = await readReferenceOutputs(repoRoot);
+                const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts, referenceOutputs, []);
                 await fs.writeFile(htmlFile, htmlContent);
                 console.log(`Updated report for ${metrics.solver}`);
 

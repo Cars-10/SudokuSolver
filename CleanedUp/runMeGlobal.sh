@@ -15,7 +15,7 @@ if [ -z "$LANGUAGE" ] || [ -z "$MATRIX_SPEC" ]; then
 fi
 
 # Resolve Matrix Spec to File Paths
-MATRIX_DIR="../../Matrices"
+MATRIX_DIR="$(cd ../Matrices && pwd)"
 MATRIX_FILES=""
 
 if [ "$MATRIX_SPEC" == "all" ]; then
@@ -39,7 +39,7 @@ else
 fi
 
 # Check if language directory exists
-LANG_DIR="$LANGUAGE"
+LANG_DIR="Languages/$LANGUAGE"
 if [ ! -d "$LANG_DIR" ]; then
     echo "Error: Language directory '$LANG_DIR' not found."
     exit 1

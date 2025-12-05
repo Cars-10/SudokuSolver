@@ -52,3 +52,14 @@ Metrics/screenshots/
 Metrics/screenshots
 *.swp
 AI-2025/Ada/alr
+
+# Build Artifacts in CleanedUp/Languages
+CleanedUp/Languages/*/Sudoku
+CleanedUp/Languages/*/sudoku
+!CleanedUp/Languages/Rust/Sudoku/
+CleanedUp/Languages/*/.*
+
+*.class
+*.dSYM/
+*.o
+*.obj
