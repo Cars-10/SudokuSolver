@@ -5,7 +5,7 @@ LOGOS = {
     "Awk": "https://www.gnu.org/software/gawk/manual/gawk.png",
     "Bash": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bash_Logo_Colored.svg/64px-Bash_Logo_Colored.svg.png",
     "Basic": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/BASIC_icon.svg/64px-BASIC_icon.svg.png",
-    "C++": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/64px-ISO_C%2B%2B_Logo.svg.png",
+    "#C++": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/64px-ISO_C%2B%2B_Logo.svg.png",
     "C_Sharp": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_C_sharp.svg/64px-Logo_C_sharp.svg.png",
     "Clojure": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Clojure_logo.svg/64px-Clojure_logo.svg.png",
     "Cobol": "https://devicon-website.vercel.app/api/cobol/original.svg",
@@ -32,7 +32,7 @@ LOGOS = {
     "Perl": "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Perl_language_logo.svg/64px-Perl_language_logo.svg.png",
     "PHP": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/64px-PHP-logo.svg.png",
     "PowerShell": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/PowerShell_5.0_icon.png/64px-PowerShell_5.0_icon.png",
-    "Python": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
+    #"Python": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
     "R": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/64px-R_logo.svg.png",
     "Ruby": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/64px-Ruby_logo.svg.png",
     "Rust": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Rust_programming_language_black_logo.svg/64px-Rust_programming_language_black_logo.svg.png",
@@ -41,5 +41,52 @@ LOGOS = {
     "TypeScript": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/64px-Typescript_logo_2020.svg.png",
 }
 
-for lang, logo in LOGOS.items():
-    print(f'"{lang}": "{logo}",')
+import os
+import urllib.request
+
+# Assuming script is run from project root
+TARGET_DIR = "CleanedUp/logos"
+os.makedirs(TARGET_DIR, exist_ok=True)
+
+for lang, url in LOGOS.items():
+    if lang.startswith('#'):
+        print(f"Skipping {lang}")
+        continue
+        
+    try:
+        # Determine extension from URL or default to .png
+        ext = ".png"
+        if url.endswith(".svg"):
+            ext = ".svg"
+        elif ".svg" in url:
+             # Handle cases like .../image.svg/64px-...
+             pass 
+        
+        # For simplicity, we'll try to keep the extension if it looks like an image, 
+        # but the user's URLs are a mix. Most seem to be .png thumbnails of svgs.
+        # Let's just use the name from the key + .png for consistency as requested by the user's previous code
+        # But wait, some are .svg. 
+        
+        filename = f"{lang}.png"
+        if url.endswith(".svg"):
+            filename = f"{lang}.svg"
+            
+        filepath = os.path.join(TARGET_DIR, filename)
+        
+        print(f"Downloading {lang} from {url}...")
+        
+        # User agent to avoid 403s from some sites (like Wikipedia)
+        req = urllib.request.Request(
+            url, 
+            data=None, 
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+            }
+        )
+        
+        with urllib.request.urlopen(req) as response, open(filepath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+            
+    except Exception as e:
+        print(f"Failed to download {lang}: {e}")

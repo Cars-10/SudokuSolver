@@ -3,6 +3,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import {
     generateHtml,
+    captureScreenshot,
     personalities,
     languageMetadata,
     methodologyTexts
@@ -11,8 +12,9 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
-const metricsFile = path.join(rootDir, 'metrics.json');
-const htmlFile = path.join(rootDir, 'benchmark_report.html');
+const outputDir = process.env.OUTPUT_DIR || rootDir;
+const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
+const htmlFile = path.join(outputDir, 'benchmark_report.html');
 
 async function run() {
     try {
@@ -40,6 +42,9 @@ async function run() {
         await fs.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()};`);
 
         console.log(`Successfully generated ${htmlFile}`);
+
+        await captureScreenshot(htmlFile);
+        console.log(`Screenshot captured for ${htmlFile}`);
     } catch (e) {
         console.error("Error:", e);
     }

@@ -5,12 +5,14 @@ import { exec } from 'child_process';
 import * as util from 'util';
 import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer';
+import { languageHistories, quotes, personalities, methodologyTexts, languageMetadata } from './LanguagesMetadata.ts';
+export { languageHistories, quotes, personalities, methodologyTexts, languageMetadata };
 
 const execPromise = util.promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-interface MetricResult {
+export interface MetricResult {
     matrix: string;
     time: number;
     iterations: number;
@@ -21,1006 +23,17 @@ interface MetricResult {
     output?: string;
 }
 
-interface SolverMetrics {
+export interface SolverMetrics {
     solver: string;
+    runType?: string; // 'Local' | 'Docker' | 'AI' | 'Manual'
     timestamp: string;
     results: MetricResult[];
 }
 
-// --- Data Structures ---
-
-const languageHistories: Record<string, string> = {
-    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
-    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
-    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
-    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
-    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
-    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
-    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
-    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
-    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
-    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
-    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
-    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
-    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
-    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
-    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
-    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
-    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
-    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
-    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
-    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
-    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
-    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
-    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
-    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
-    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
-    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
-    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
-    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
-    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
-    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
-    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
-    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
-    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
-    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
-    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
-    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
-    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
-    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
-    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
-    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
-    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
-    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
-    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
-    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
-    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
-    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
-    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
-    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
-    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
-    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
-    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
-    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
-    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
-    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
-    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
-    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
-    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
-    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
-    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
-    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
-    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
-    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
-    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
-};
-
-const quotes: Record<string, string> = {
-    "C": "Old iron. Fast, dangerous, and doesn't care if you bleed.",
-    "C++": "Chrome-plated complexity. Powerful, but the weight of the past drags it down.",
-    "Rust": "The new flesh. Memory safe, fearless concurrency. It's the future, if you can survive the borrow checker.",
-    "Go": "Google's brutalist architecture. Simple, efficient, no soul. It gets the job done.",
-    "Python": "Slick, interpreted glue. It holds the sprawl together, but don't ask it to run a marathon.",
-    "JavaScript": "The universal solvent. It runs everywhere, even where it shouldn't. Chaos incarnate.",
-    "TypeScript": "JavaScript with a suit and tie. It pretends to be civilized, but the chaos is still underneath.",
-    "Java": "The corporate monolith. Verbose, heavy, reliable. It runs the banking systems of the old world.",
-    "C_Sharp": "Microsoft's answer to the monolith. Sleek, refined, but locked in the garden.",
-    "PHP": "The cockroach of the web. It survives everything. Ugly, but it works.",
-    "Ruby": "A programmer's best friend. Elegant, expressive, slow as molasses.",
-    "Swift": "Apple's walled garden fruit. Fast, safe, but you play by their rules.",
-    "Kotlin": "Java's cooler younger brother. Less boilerplate, more fun.",
-    "Scala": "Academic purity meets JVM reality. Functional, powerful, confusing.",
-    "Haskell": "Pure math. Side effects are forbidden. It solves Sudoku in a parallel universe.",
-    "Ocaml": "The French connection. Functional, fast, obscure.",
-    "Lisp": "Lost in a sea of parentheses. The AI language of the golden age.",
-    "Clojure": "Lisp on the JVM. Data is code, code is data. The parentheses are eternal.",
-    "Erlang": "Built for the telephone network. It handles failure like a stoic. Let it crash.",
-    "Elixir": "Erlang for hipsters. Ruby syntax, telecom reliability.",
-    "SQL": "Declarative logic in a procedural world. Asking the database to dream in Sudoku grids.",
-    "XSLT": "XML transformation. A forgotten art, transforming data like alchemy.",
-    "Sed": "Stream editor. Ancient magic. Modifying the flow of data byte by byte.",
-    "Awk": "Pattern scanning and processing. The scalpel of the command line.",
-    "Perl": "Write once, read never. The Swiss Army chainsaw of text processing.",
-    "Bash": "The shell. It binds the system together. Ugly, dangerous, essential.",
-    "Assembly": "The machine's native tongue. Raw power. No safety net.",
-    "Fortran": "Number crunching from the dawn of time. It still calculates the stars.",
-    "Cobol": "The undead. It runs the financial systems. It will outlive us all.",
-    "Pascal": "Structured programming. A teaching tool that grew up.",
-    "Ada": "Designed by committee for the military. Safe, robust, bureaucratic.",
-    "Zig": "The new C. Manual memory management, but with better tools.",
-    "Nim": "Python syntax, C speed. A hidden gem.",
-    "Crystal": "Ruby syntax, C speed. Another contender.",
-    "D": "C++ done right, but too late.",
-    "Julia": "Python's ease, C's speed. Built for science.",
-    "R": "Statistical computing. Great for data, terrible for Sudoku.",
-    "Lua": "Embedded scripting. Light, fast, ubiquitous in games.",
-    "Tcl": "Tool Command Language. Everything is a string.",
-    "Prolog": "Logic programming. You describe the problem, it finds the solution.",
-    "Smalltalk": "Everything is an object. The grandfather of OOP.",
-    "Verilog": "Hardware description. You're not writing code, you're designing circuits.",
-    "VHDL": "Hardware description. Verbose, strict, powerful.",
-    "WebAssembly": "The binary instruction format for a stack-based virtual machine. The web's assembly.",
-    "Befunge": "Esoteric stack-based. Code is a 2D grid. Madness.",
-    "Brainfuck": "Minimalist esoteric. 8 commands. Pure pain.",
-    "M4": "Macro processor. It expands text. A preprocessor for everything.",
-    "Make": "Build automation. It knows dependencies. It runs the world.",
-    "Gnuplot": "Plotting utility. It draws graphs. Not meant for Sudoku.",
-    "Octave": "Matlab clone. Numerical computing.",
-    "PostScript": "Page description. It prints documents. It's also a language.",
-    "TeX": "Typesetting. It formats text. It's Turing complete.",
-    "Vimscript": "The editor's language. It automates text editing.",
-    "AppleScript": "Automation for Mac. English-like syntax. Weird.",
-    "PowerShell": "Windows automation. Object-oriented shell.",
-    "Rexx": "Mainframe scripting. Easy to learn, hard to kill.",
-    "SNOBOL": "String manipulation. Ancient and powerful.",
-    "Vala": "GObject type system. C# syntax for C.",
-    "V": "Simple, fast, safe. A new contender.",
-    "Odin": "Data-oriented. Built for games.",
-    "F_Sharp": "Functional on .NET.",
-    "Forth": "Stack-based. Postfix notation. You define the language.",
-    "Jq": "JSON processor. It slices and dices JSON.",
-    "Bc": "Arbitrary precision calculator. It does math.",
-    "Basic": "Beginner's All-purpose Symbolic Instruction Code. Where we all started.",
-    "Algol68": "The ancestor. It defined the block structure.",
-    "APL": "A Programming Language. cryptic symbols. Array processing.",
-    "Jupyter": "Interactive notebooks. Data science playground.",
-    "Matrices": "The input data. The puzzle itself.",
-    "Matrices_Backup": "The backup.",
-    "Matrices_Filtered": "The filter."
-};
-
-export const personalities: Record<string, Record<string, string>> = {
-    "Standard": {
-        "C": "C: Low-level systems workhorse — predictable, efficient, and widely taught.",
-        "C++": "C++: High performance with complex abstractions — flexible but demanding.",
-        "Rust": "Rust: Modern safety-first systems language with strong compile-time guarantees.",
-        "Go": "Go: Pragmatic concurrency and simplicity for cloud services and tools.",
-        "Python": "Python: Readable, batteries-included, ideal for scripting, data and prototypes.",
-        "JavaScript": "JavaScript: The web's lingua franca — ubiquitous, dynamic, and evolving.",
-        "TypeScript": "TypeScript: JavaScript with types — better tooling and maintainability.",
-        "Java": "Java: Proven JVM ecosystem for enterprise systems and large codebases.",
-        "C_Sharp": "C#: Mature, well-supported managed language with great IDEs and libraries.",
-        "PHP": "PHP: Ubiquitous server-side web language with a vast legacy ecosystem.",
-        "Ruby": "Ruby: Expressive and productive, often chosen for developer happiness.",
-        "Swift": "Swift: Safe, modern language for Apple platforms and systems programming.",
-        "Kotlin": "Kotlin: Concise JVM language with strong Android adoption and null-safety.",
-        "Haskell": "Haskell: Pure functional language emphasizing correctness and types.",
-        "OCaml": "OCaml: Practical functional language with strong typing and fast native code.",
-        "Lisp": "Lisp: Macro-driven, symbolic language family with a long AI heritage.",
-        "Clojure": "Clojure: Lisp on the JVM with immutable data structures and concurrency focus.",
-        "Erlang": "Erlang: Concurrency and fault tolerance for telecom-grade systems.",
-        "Elixir": "Elixir: Friendly syntax on Erlang VM, great for resilient distributed apps.",
-        "SQL": "SQL: Declarative language for relational data querying and manipulation.",
-        "Fortran": "Fortran: Battle-tested numerical computing language for high-performance math.",
-        "Assembly": "Assembly: Maximum control and minimal abstraction — used where performance is critical.",
-        "Bash": "Bash: Shell scripting glue for automating system tasks and pipelines.",
-        "Perl": "Perl: Practical text-processing and scripting toolkit with expressive regexes.",
-        "Lua": "Lua: Tiny, embeddable scripting language, beloved by games and embedded systems.",
-        "Julia": "Julia: High-performance scientific computing with friendly syntax.",
-        "WebAssembly": "WebAssembly: Portable, fast binary target for running multiple languages on the web.",
-        "Zig": "Zig: Explicit, simple systems language aiming for predictable performance.",
-        "default": "A language with its own strengths and tradeoffs."
-    },
-
-    "Neuromancer": {
-        "C": "C: Bare metal whispers — minimal abstraction, maximum throughput.",
-        "C++": "C++: Heavy machinery with countless gears; power hides complexity.",
-        "Rust": "Rust: Memory ghosts are exorcised at compile-time; concurrency tamed.",
-        "Go": "Go: Channels hum in the background — predictable, machine-like rhythm.",
-        "Python": "Python: Rapid prototyping — a soft, readable veneer over deeper systems.",
-        "JavaScript": "JavaScript: Event-driven chaos, patchworked into ubiquity.",
-        "TypeScript": "TypeScript: Structured order on top of the web's entropy.",
-        "Java": "Java: Industrial runtime with predictable steam-engine reliability.",
-        "C_Sharp": "C#: Polished and managed — enterprise grade with neat tools.",
-        "PHP": "PHP: Resilient, cobbled-together web logic surviving the net's underside.",
-        "Ruby": "Ruby: Elegant spells that summon productivity — soft and expressive.",
-        "Swift": "Swift: Precise and modern — tightened for platform harmony.",
-        "Kotlin": "Kotlin: Pragmatic JVM sorcery — concise incantations with null-safety wards.",
-        "Haskell": "Haskell: Pure functions etched in marble — correctness as creed.",
-        "Erlang": "Erlang: Concurrency as ritual; processes fall and resurrect gracefully.",
-        "Elixir": "Elixir: Erlang's resilience dressed in elegant syntax and tooling.",
-        "SQL": "SQL: Declarative incantations to coax meaning from tables.",
-        "WebAssembly": "WebAssembly: Binary synapses connecting worlds at near-native speed.",
-        "default": "A net of languages, each a node with its own signal pattern."
-    },
-
-    "The Jockey": {
-        "C": "C: The thoroughbred — raw speed out of the gate, but demands a skilled rider.",
-        "C++": "C++: The heavy-weight contender — powerful when tamed, unwieldy when not.",
-        "Rust": "Rust: The disciplined challenger — steady, precise, and hard to topple.",
-        "Go": "Go: The reliable pacer — consistent lap times and low fuss.",
-        "Python": "Python: The showy performer — flashy moves, not always fastest.",
-        "JavaScript": "JavaScript: The wildcard — unpredictable but always in the race.",
-        "TypeScript": "TypeScript: JavaScript with a coach — fewer mistakes, cleaner lines.",
-        "Java": "Java: The endurance runner — long races suit its steady gait.",
-        "C_Sharp": "C#: A well-trained athlete with excellent support crew and tooling.",
-        "PHP": "PHP: The scrappy veteran — keeps going when others fold.",
-        "Ruby": "Ruby: A graceful jumper — elegant but not built for sprints.",
-        "Swift": "Swift: Shortboard specialist — quick bursts, smooth turns on Apple turf.",
-        "Kotlin": "Kotlin: Agile and modern — nimble on the JVM track.",
-        "Haskell": "Haskell: A cerebral racer — nails the lines with mathematical precision.",
-        "Fortran": "Fortran: The old pro — still competitive in numerical sprints.",
-        "Assembly": "Assembly: Rocket start, tiny margin for error — thrilling to watch.",
-        "default": "The field is deep; every language brings its own racing style."
-    },
-
-    "The Professor": {
-        "C": "C: Study of resource efficiency — minimal runtime and predictable costs.",
-        "C++": "C++: Rich feature set enabling varied programming paradigms; complexity requires discipline.",
-        "Rust": "Rust: Demonstrates ownership and type-system-based safety; an instructive modern design.",
-        "Go": "Go: Engineered for simplicity and concurrency primitives; pragmatic trade-offs are explicit.",
-        "Python": "Python: Excellent for algorithmic experimentation and rapid iteration; runtime overhead considered.",
-        "JavaScript": "JavaScript: Flexible semantics that reward careful architecture and testing.",
-        "TypeScript": "TypeScript: Type discipline applied to dynamic JavaScript ecosystems; valuable for scale.",
-        "Java": "Java: Mature tooling and a stable runtime make it suitable for robust distributed systems.",
-        "C_Sharp": "C#: A managed, strongly-typed language with advanced tooling and a rich standard library.",
-        "Haskell": "Haskell: A case study in purity and strong types, illuminating functional program design.",
-        "OCaml": "OCaml: Efficient functional programming with practical native performance.",
-        "Erlang": "Erlang: Model of lightweight concurrency and fault-tolerance architectures.",
-        "Elixir": "Elixir: Modern ergonomics on a time-tested concurrency VM; excellent for observable systems.",
-        "SQL": "SQL: Declarative optimization relies heavily on the database engine's query planner.",
-        "Fortran": "Fortran: Compiler-optimized numeric loops still relevant in HPC benchmarks.",
-        "Assembly": "Assembly: Useful in microbenchmarks and bootstrapping but impractical for large systems.",
-        "default": "Each language is an experiment in tradeoffs; measure, analyze, and choose appropriately."
-    },
-
-    "The Surfer": {
-        "C": "C: Totally radical speed — like carving a perfect wave at dawn.",
-        "C++": "C++: Big energy, epic turns, a little gnarly sometimes.",
-        "Rust": "Rust: Clean lines, safe drops — no wipeouts from memory bugs.",
-        "Go": "Go: Smooth, no fuss paddling — steady and dependable.",
-        "Python": "Python: Chill and easygoing — fun to ride for the crew.",
-        "JavaScript": "JavaScript: Wild seas but fun tricks if you know the breaks.",
-        "TypeScript": "TypeScript: JS with clearer lines — less risky maneuvers.",
-        "Java": "Java: Longboard cruising — stable and comfortable for long sessions.",
-        "Ruby": "Ruby: Playful and elegant, like a retro twin-fin.",
-        "PHP": "PHP: Scrappy — keeps paddling even in rough surf.",
-        "Lua": "Lua: Lightweight, versatile — like a compact fishboard for tight spots.",
-        "Swift": "Swift: Polished performance on Apple-shaped waves.",
-        "Kotlin": "Kotlin: Smooth transitions and modern styling on the JVM lineup.",
-        "Haskell": "Haskell: A meditative session — slow, precise, rewarding.",
-        "Elixir": "Elixir: Reliable lineup and great community vibes for big waves.",
-        "WebAssembly": "WebAssembly: Feels like jet propulsion in the water — near-native rip.",
-        "default": "Catch the wave you like — every language has its own stoke."
-    }
-};
-
-
-export const methodologyTexts: Record<string, string> = {
-    "Standard": `
-        <p>The <strong>Total Score</strong> is a composite metric designed to compare overall efficiency against the C baseline.</p>
-        <h3 style="color: var(--secondary);">The Baseline: C</h3>
-        <p>The <strong>C</strong> implementation is the reference standard (1.0) for Time, Memory, and CPU usage.</p>
-        <h3 style="color: var(--secondary);">The Formula</h3>
-        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = (TimeRatio + MemRatio + CpuRatio) / 3
-        </div>
-        <p>Where:</p>
-        <ul style="font-size: 0.9em; color: var(--text);">
-            <li><strong>TimeRatio</strong> = Wall Clock Time / C Time</li>
-            <li><strong>MemRatio</strong> = Peak Memory (RSS) / C Memory</li>
-            <li><strong>CpuRatio</strong> = Total CPU Time (User+Sys) / C CPU Time</li>
-        </ul>
-        <h3 style="color: var(--secondary);">Interpretation</h3>
-        <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">1.0</strong> : Parity with C.</li>
-            <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&gt; 1.0</strong> : Less Efficient.</li>
-            <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&lt; 1.0</strong> : More Efficient.</li>
-        </ul>
-        <p style="font-size: 0.9em; color: var(--muted); text-align: center; margin-top: 20px;"><em>Lower scores are better.</em></p>
-    `,
-    "Neuromancer": `
-        <p>The construct uses a composite index. Time, Memory, CPU. Three vectors, one score.</p>
-        <h3 style="color: var(--secondary);">Target: C</h3>
-        <p><strong>C</strong> is the flatline (1.0). Deviate at your own risk.</p>
-        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = AVG(Time_R, Mem_R, CPU_R)
-        </div>
-        <p>Bloated memory? You burn. High CPU? You burn. Slow? You definitely burn.</p>
-    `,
-    "The Jockey": `
-        <p>It's a triathlon now, folks! Speed, Stamina (Memory), and Effort (CPU)!</p>
-        <h3 style="color: var(--secondary);">The Pace Car: C</h3>
-        <p><strong>C</strong> runs the perfect line at 1.0.</p>
-        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = Average of Time, Mem, and CPU vs C
-        </div>
-        <p>You gotta be fast AND light to win this cup!</p>
-    `,
-    "The Professor": `
-        <p>The scoring methodology now employs a multivariate analysis. We evaluate Time, Resident Set Size, and CPU Time.</p>
-        <h3 style="color: var(--secondary);">Control: C</h3>
-        <p><strong>C</strong> (1.0) remains the baseline for all three dimensions.</p>
-        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = &Sigma;(Ratios) / 3
-        </div>
-        <p>This penalizes memory-managed languages that trade RAM for development speed.</p>
-    `,
-    "The Surfer": `
-        <p>It's not just about speed, bro. It's about flow. Time, Memory, CPU. The whole vibe.</p>
-        <h3 style="color: var(--secondary);">The Big Kahuna: C</h3>
-        <p><strong>C</strong> is the perfect wave (1.0).</p>
-        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
-            Score = (Time + Mem + CPU) / 3 ... vs C
-        </div>
-        <p>Don't be heavy, don't be slow. Just flow.</p>
-    `
-};
-
-export const languageMetadata: Record<string, any> = {
-    "Assembly": {
-        "creator": "Kathleen Booth",
-        "date": "1947",
-        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Simpleicons_Interface_code-file-1.svg/64px-Simpleicons_Interface_code-file-1.svg.png",
-        "location": "Birkbeck College, London",
-        "benefits": "Direct hardware control, maximum performance, zero overhead."
-    },
-    "Awk": {
-        "creator": "Aho, Weinberger, Kernighan",
-        "date": "1977",
-        "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg", // Alfred Aho
-        "location": "Bell Labs, USA",
-        "benefits": "Excellent for text processing, one-liners, and data extraction."
-    },
-    "Bash": {
-        "creator": "Brian Fox",
-        "date": "1989",
-        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
-        "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
-    },
-    "Basic": {
-        "creator": "John G. Kemeny, Thomas E. Kurtz",
-        "date": "1964",
-        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Kemeny_and_Kurtz.jpg",
-        "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
-    },
-    "C": {
-        "creator": "Dennis Ritchie",
-        "date": "1972",
-        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/64px-C_Programming_Language.svg.png",
-        "location": "Bell Labs, USA",
-        "benefits": "High performance, portability, low-level access, massive legacy."
-    },
-    "C++": {
-        "creator": "Bjarne Stroustrup",
-        "date": "1985",
-        "description": "Multi-paradigm language combining procedural and object-oriented programming. Excels in game engines, high-performance applications, and systems requiring both low-level control and high-level abstractions.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bjarne-stroustrup.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/64px-ISO_C%2B%2B_Logo.svg.png",
-        "location": "Bell Labs, USA",
-        "benefits": "Performance, object-oriented, rich ecosystem, hardware control."
-    },
-    "C_Sharp": {
-        "creator": "Anders Hejlsberg",
-        "date": "2000",
-        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
-        "image": "https://github.com/ahejlsberg.png",
-        "location": "Microsoft, USA",
-        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
-    },
-    "Clojure": {
-        "creator": "Rich Hickey",
-        "date": "2007",
-        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rich_Hickey_2013.jpg/440px-Rich_Hickey_2013.jpg",
-        "location": "USA",
-        "benefits": "Immutability, functional programming, JVM interoperability, simplicity."
-    },
-    "Cobol": {
-        "creator": "CODASYL Committee (Grace Hopper)",
-        "date": "1959",
-        "description": "Common Business-Oriented Language. Designed for business use.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
-        "location": "USA",
-        "benefits": "Business data processing, stability, massive legacy codebases."
-    },
-    "CoffeeScript": {
-        "creator": "Jeremy Ashkenas",
-        "date": "2009",
-        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
-        "image": "https://github.com/jashkenas.png",
-        "location": "USA",
-        "benefits": "Concise syntax, readability, compiles to clean JavaScript."
-    },
-    "CommonLisp": {
-        "creator": "Committee (Guy L. Steele Jr. et al.)",
-        "date": "1984",
-        "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
-        "location": "USA",
-        "benefits": "Macros, dynamic typing, interactive development, flexibility."
-    },
-    "Crystal": {
-        "creator": "Ary Borenszweig",
-        "date": "2014",
-        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
-        "image": "https://github.com/asterite.png",
-        "location": "Argentina",
-        "benefits": "Ruby-like syntax, C-like performance, static typing."
-    },
-    "D": {
-        "creator": "Walter Bright",
-        "date": "2001",
-        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
-        "image": "https://github.com/WalterBright.png",
-        "location": "Digital Mars, USA",
-        "benefits": "System programming, performance, safety, metaprogramming."
-    },
-    "Dart": {
-        "creator": "Lars Bak, Kasper Lund",
-        "date": "2011",
-        "description": "A client-optimized language for fast apps on any platform.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Lars_Bak.jpg",
-        "location": "Google, Denmark/USA",
-        "benefits": "UI optimized, fast compilation, cross-platform (Flutter)."
-    },
-    "Elixir": {
-        "creator": "José Valim",
-        "date": "2011",
-        "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
-        "image": "https://github.com/josevalim.png",
-        "location": "Plataformatec, Brazil",
-        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax."
-    },
-    "Erlang": {
-        "creator": "Joe Armstrong",
-        "date": "1986",
-        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Joe_Armstrong_2014.jpg",
-        "location": "Ericsson, Sweden",
-        "benefits": "Massive concurrency, fault tolerance, hot code swapping."
-    },
-    "F_Sharp": {
-        "creator": "Don Syme",
-        "date": "2005",
-        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods.",
-        "image": "https://github.com/dsyme.png",
-        "location": "Microsoft Research, UK",
-        "benefits": "Functional-first, .NET integration, type inference, concise."
-    },
-    "Fortran": {
-        "creator": "John Backus",
-        "date": "1957",
-        "description": "The first high-level programming language. Still dominates scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/John_Backus_2.jpg",
-        "location": "IBM, USA",
-        "benefits": "Numerical computation, scientific computing, performance."
-    },
-    "Go": {
-        "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
-        "date": "2009",
-        "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
-        "image": "https://github.com/robpike.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg",
-        "location": "Google, USA",
-        "benefits": "Simplicity, concurrency, fast compilation, static typing."
-    },
-    "Groovy": {
-        "creator": "James Strachan",
-        "date": "2003",
-        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
-        "image": "https://github.com/jstrachan.png",
-        "location": "USA",
-        "benefits": "Java compatibility, scripting, dynamic features, DSLs."
-    },
-    "Haskell": {
-        "creator": "Committee (Simon Peyton Jones et al.)",
-        "date": "1990",
-        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg",
-        "location": "Global",
-        "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
-    },
-    "Java": {
-        "creator": "James Gosling",
-        "date": "1995",
-        "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/64px-Java_programming_language_logo.svg.png",
-        "location": "Sun Microsystems, USA",
-        "benefits": "Portability, enterprise ecosystem, performance, stability."
-    },
-    "JavaScript": {
-        "creator": "Brendan Eich",
-        "date": "1995",
-        "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/64px-JavaScript-logo.png",
-        "location": "Netscape, USA",
-        "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
-    },
-    "Julia": {
-        "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
-        "date": "2012",
-        "description": "A high-level, high-performance, dynamic programming language for technical computing.",
-        "image": "https://github.com/JeffBezanson.png",
-        "location": "MIT, USA",
-        "benefits": "High performance, numerical computing, ease of use."
-    },
-    "Kotlin": {
-        "creator": "JetBrains",
-        "date": "2011",
-        "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/64px-Kotlin_Icon.png",
-        "location": "Russia/International",
-        "benefits": "Concise, null safety, Java interoperability, Android standard."
-    },
-    "Lua": {
-        "creator": "Roberto Ierusalimschy et al.",
-        "date": "1993",
-        "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
-        "location": "PUC-Rio, Brazil",
-        "benefits": "Lightweight, embeddable, fast, simple."
-    },
-    "Nim": {
-        "creator": "Andreas Rumpf",
-        "date": "2008",
-        "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
-        "image": "https://github.com/Araq.png",
-        "location": "Germany",
-        "benefits": "Performance, expressiveness, metaprogramming, C compilation."
-    },
-    "OCaml": {
-        "creator": "Xavier Leroy et al.",
-        "date": "1996",
-        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
-        "image": "https://github.com/xavierleroy.png",
-        "location": "INRIA, France",
-        "benefits": "Functional, type safety, performance, industrial strength."
-    },
-    "Octave": {
-        "creator": "John W. Eaton",
-        "date": "1988",
-        "description": "A high-level language, primarily intended for numerical computations.",
-        "image": "https://github.com/jwe.png",
-        "location": "USA",
-        "benefits": "Numerical computation, MATLAB compatibility, free software."
-    },
-    "Pascal": {
-        "creator": "Niklaus Wirth",
-        "date": "1970",
-        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Pascal_programming_language_logo.svg",
-        "location": "ETH Zurich, Switzerland",
-        "benefits": "Structured programming, teaching, strong typing."
-    },
-    "Perl": {
-        "creator": "Larry Wall",
-        "date": "1987",
-        "description": "A family of two high-level, general-purpose, interpreted, dynamic programming languages.",
-        "image": "https://github.com/TimToady.png",
-        "location": "USA",
-        "benefits": "Text processing, scripting, flexibility, CPAN."
-    },
-    "PHP": {
-        "creator": "Rasmus Lerdorf",
-        "date": "1995",
-        "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
-        "image": "https://github.com/rlerdorf.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/64px-PHP-logo.svg.png",
-        "location": "Canada",
-        "benefits": "Web development, ease of deployment, vast ecosystem."
-    },
-    "PostScript": {
-        "creator": "John Warnock, Charles Geschke",
-        "date": "1982",
-        "description": "A page description language in the electronic publishing and desktop publishing business.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/John_Warnock.jpg",
-        "location": "Adobe, USA",
-        "benefits": "Printing, vector graphics, stack-based, device independence."
-    },
-    "PowerShell": {
-        "creator": "Jeffrey Snover",
-        "date": "2006",
-        "description": "A task automation and configuration management framework from Microsoft.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/PowerShell_5.0_icon.png",
-        "location": "Microsoft, USA",
-        "benefits": "Automation, system administration, object-oriented pipeline."
-    },
-    "Prolog": {
-        "creator": "Alain Colmerauer",
-        "date": "1972",
-        "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Alain_Colmerauer.jpg",
-        "location": "University of Aix-Marseille, France",
-        "benefits": "Logic programming, AI, pattern matching, declarative."
-    },
-    "Python": {
-        "creator": "Guido van Rossum",
-        "date": "1991",
-        "description": "High-level, interpreted language emphasizing code readability. Excels in data science, machine learning, web development, automation, and rapid prototyping with extensive library ecosystem.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
-        "location": "CWI, Netherlands",
-        "benefits": "Readability, vast libraries, data science, AI."
-    },
-    "R": {
-        "creator": "Ross Ihaka, Robert Gentleman",
-        "date": "1993",
-        "description": "A programming language and free software environment for statistical computing and graphics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg",
-        "location": "University of Auckland, New Zealand",
-        "benefits": "Statistics, data visualization, data analysis."
-    },
-    "Racket": {
-        "creator": "Matthew Flatt",
-        "date": "1995",
-        "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
-        "image": "https://github.com/mflatt.png",
-        "location": "Rice University, USA",
-        "benefits": "Language creation, education, macros, functional."
-    },
-    "Rexx": {
-        "creator": "Mike Cowlishaw",
-        "date": "1979",
-        "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Mike_Cowlishaw.jpg",
-        "location": "IBM, UK",
-        "benefits": "Scripting, mainframe automation, ease of use."
-    },
-    "Ruby": {
-        "creator": "Yukihiro Matsumoto",
-        "date": "1995",
-        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
-        "image": "https://github.com/matz.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg",
-        "location": "Japan",
-        "benefits": "Developer happiness, web development, scripting, elegance."
-    },
-    "Rust": {
-        "creator": "Graydon Hoare",
-        "date": "2010",
-        "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
-        "image": "https://github.com/graydon.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
-        "location": "Mozilla, Canada",
-        "benefits": "Memory safety, performance, concurrency, modern tooling."
-    },
-    "Scala": {
-        "creator": "Martin Odersky",
-        "date": "2004",
-        "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
-        "image": "https://github.com/odersky.png",
-        "location": "EPFL, Switzerland",
-        "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
-    },
-    "Scheme": {
-        "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
-        "date": "1975",
-        "description": "A minimalist dialect of the Lisp family of programming languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
-        "location": "MIT, USA",
-        "benefits": "Minimalism, education, functional, macros."
-    },
-    "Sed": {
-        "creator": "Lee E. McMahon",
-        "date": "1974",
-        "description": "A stream editor for filtering and transforming text.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/9/9e/Lee_McMahon.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Stream editing, text transformation, automation."
-    },
-    "Smalltalk": {
-        "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
-        "date": "1972",
-        "description": "An object-oriented, dynamically typed reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Alan_Kay_2006.jpg",
-        "location": "Xerox PARC, USA",
-        "benefits": "Pure OOP, live environment, influence on modern GUIs."
-    },
-    "SNOBOL": {
-        "creator": "David J. Farber, Ralph E. Griswold, Ivan P. Polonsky",
-        "date": "1962",
-        "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories.",
-        "image": "https://www2.cs.arizona.edu/people/griswold/reg.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "String manipulation, pattern matching, historical significance."
-    },
-    "SQL": {
-        "creator": "Donald D. Chamberlin, Raymond F. Boyce",
-        "date": "1974",
-        "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png",
-        "location": "IBM, USA",
-        "benefits": "Data management, standard, declarative, powerful queries."
-    },
-    "Swift": {
-        "creator": "Chris Lattner",
-        "date": "2014",
-        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
-        "image": "https://github.com/lattner.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/64px-Swift_logo.svg.png",
-        "location": "Apple, USA",
-        "benefits": "Safety, speed, modern syntax, Apple ecosystem."
-    },
-    "Tcl": {
-        "creator": "John Ousterhout",
-        "date": "1988",
-        "description": "Tool Command Language. A dynamic programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/John_Ousterhout.jpg",
-        "location": "UC Berkeley, USA",
-        "benefits": "Scripting, GUI (Tk), embedding, simplicity."
-    },
-    "TypeScript": {
-        "creator": "Anders Hejlsberg",
-        "date": "2012",
-        "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
-        "image": "https://github.com/ahejlsberg.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg",
-        "location": "Microsoft, USA",
-        "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
-    },
-    "Vala": {
-        "creator": "Jürg Billeter, Rafał Pietrak",
-        "date": "2006",
-        "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
-        "image": "https://github.com/juergbi.png",
-        "location": "GNOME Project",
-        "benefits": "GObject system, C performance, modern syntax, GNOME dev."
-    },
-    "Verilog": {
-        "creator": "Phil Moorby",
-        "date": "1984",
-        "description": "A hardware description language (HDL) used to model electronic systems.",
-        "image": "https://www.computerhistory.org/atchm/wp-content/uploads/2016/04/moorby-phil-2016-chm-fellow.jpg",
-        "location": "Gateway Design Automation, USA",
-        "benefits": "Hardware modeling, simulation, synthesis, industry standard."
-    },
-    "VHDL": {
-        "creator": "US Department of Defense",
-        "date": "1980",
-        "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/VHDL_Logo.svg",
-        "location": "USA",
-        "benefits": "Hardware description, strong typing, concurrency, standard."
-    },
-    "Vimscript": {
-        "creator": "Bram Moolenaar",
-        "date": "1991",
-        "description": "The scripting language of the Vim text editor.",
-        "image": "https://github.com/brammool.png",
-        "location": "Netherlands",
-        "benefits": "Editor customization, automation, plugins."
-    },
-    "VisualBasic": {
-        "creator": "Microsoft (Alan Cooper)",
-        "date": "1991",
-        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/40/VB.NET_Logo.svg",
-        "location": "Microsoft, USA",
-        "benefits": "RAD, ease of use, Windows integration, legacy support."
-    },
-    "WebAssembly": {
-        "creator": "W3C Community Group",
-        "date": "2017",
-        "description": "A binary instruction format for a stack-based virtual machine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/WebAssembly_Logo.svg",
-        "location": "Global",
-        "benefits": "Performance, portability, language agnostic, web standard."
-    },
-
-    "Jq": {
-        "creator": "Stephen Dolan",
-        "date": "2012",
-        "description": "A lightweight and flexible command-line JSON processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/JSON_vector_logo.svg",
-        "location": "USA",
-        "benefits": "JSON processing, functional, filter-based."
-    },
-    "Make": {
-        "creator": "Stuart Feldman",
-        "date": "1976",
-        "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Stuart_Feldman_2007_retouched.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Dependency management, build automation."
-    },
-    "Gnuplot": {
-        "creator": "Thomas Williams, Colin Kelley",
-        "date": "1986",
-        "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gnuplot_logo.svg",
-        "location": "USA",
-        "benefits": "Plotting, data visualization, scripting."
-    },
-    "XSLT": {
-        "creator": "W3C",
-        "date": "1998",
-        "description": "A language for transforming XML documents into other XML documents.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xml_logo.svg",
-        "location": "Worldwide",
-        "benefits": "XML transformation, functional, template-based."
-    },
-    "Zsh": {
-        "creator": "Paul Falstad",
-        "date": "1990",
-        "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg",
-        "location": "Princeton University, USA",
-        "benefits": "Interactive shell, scripting, plugin ecosystem."
-    },
-    "AppleScript": {
-        "creator": "Apple Inc.",
-        "date": "1993",
-        "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/AppleScript_Logo.png/440px-AppleScript_Logo.png",
-        "location": "Apple, USA",
-        "benefits": "Automation, inter-application communication, English-like syntax."
-    },
-
-    "Expect": {
-        "creator": "Don Libes",
-        "date": "1990",
-        "description": "A program to automate interactions with programs that expose a text terminal interface.",
-        "image": "https://www.oreilly.com/covers/urn:orm:book:9781565920903/400w/",
-        "location": "NIST, USA",
-        "benefits": "Automation, testing, interactive scripting."
-    },
-    "SQLite": {
-        "creator": "D. Richard Hipp",
-        "date": "2000",
-        "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg",
-        "location": "USA",
-        "benefits": "Serverless, zero-configuration, transactional SQL."
-    },
-
-    "Tcsh": {
-        "creator": "Ken Greer",
-        "date": "1975",
-        "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
-        "image": "https://www.oreilly.com/covers/urn:orm:book:9781449377526/160h/?format=webp",
-        "location": "Carnegie Mellon University, USA",
-        "benefits": "Interactive shell, command completion, history."
-    },
-    "Ksh": {
-        "creator": "David Korn",
-        "date": "1983",
-        "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
-        "image": "https://www.facesofopensource.com/wp-content/uploads/2015/09/david-korn-1.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Scripting, interactive use, backward compatibility."
-    },
-
-    "Dash": {
-        "creator": "Herbert Xu",
-        "date": "1997",
-        "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg",
-        "location": "Australia",
-        "benefits": "Speed, POSIX compliance, minimal footprint."
-    },
-    "Fish": {
-        "creator": "Axel Liljencrantz",
-        "date": "2005",
-        "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Fish_shell_logo_ascii.svg",
-        "location": "Sweden",
-        "benefits": "Autosuggestions, web-based configuration, clean syntax."
-    },
-    "Bc": {
-        "creator": "Robert Morris, Lorinda Cherry",
-        "date": "1975",
-        "description": "An arbitrary-precision calculator language.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Arbitrary precision, math scripting."
-    },
-    "Dc": {
-        "creator": "Robert Morris, Lorinda Cherry",
-        "date": "1970",
-        "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "RPN, arbitrary precision, stack-based."
-    },
-    "EmacsLisp": {
-        "creator": "Richard Stallman",
-        "date": "1985",
-        "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/EmacsIcon.svg",
-        "location": "MIT, USA",
-        "benefits": "Editor customization, extensibility, live coding."
-    },
-    "Forth": {
-        "creator": "Charles H. Moore",
-        "date": "1970",
-        "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Forth_logo.svg",
-        "location": "NRAO, USA",
-        "benefits": "Compactness, hardware control, interactivity."
-    },
-    "Haxe": {
-        "creator": "Nicolas Cannasse",
-        "date": "2005",
-        "description": "A high-level cross-platform language that compiles to many other languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Haxe_logo.svg",
-        "location": "France",
-        "benefits": "Cross-platform, strong typing, single codebase."
-    },
-    "Jupyter": {
-        "creator": "Fernando Pérez et al.",
-        "date": "2014",
-        "description": "An open-source project that supports interactive data science and scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg",
-        "location": "Global",
-        "benefits": "Interactive computing, data visualization, education."
-    },
-    "M4": {
-        "creator": "Brian Kernighan, Dennis Ritchie",
-        "date": "1977",
-        "description": "A general-purpose macro processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Macro expansion, text processing, configuration."
-    },
-    "Objective-C": {
-        "creator": "Brad Cox, Tom Love",
-        "date": "1984",
-        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
-        "image": "https://m.media-amazon.com/images/I/51+H6XVgf3L.jpg",
-        "location": "Stepstone, USA",
-        "benefits": "Dynamic runtime, C compatibility, Apple legacy."
-    },
-    "Raku": {
-        "creator": "Larry Wall",
-        "date": "2015",
-        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Raku_logo.svg",
-        "location": "Global",
-        "benefits": "Expressiveness, grammars, concurrency."
-    },
-    "V": {
-        "creator": "Alexander Medvednikov",
-        "date": "2019",
-        "description": "A statically typed, compiled language designed for maintainability and speed.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/V-logo.svg",
-        "location": "Global",
-        "benefits": "Fast compilation, simplicity, safety."
-    },
-    "Zig": {
-        "creator": "Andrew Kelley",
-        "date": "2016",
-        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
-        "location": "USA",
-        "benefits": "No hidden control flow, manual memory management, comptime."
-    },
-    "BASH": {
-        "creator": "Brian Fox",
-        "date": "1989",
-        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
-        "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
-    },
-    "BASIC": {
-        "creator": "John G. Kemeny, Thomas E. Kurtz",
-        "date": "1964",
-        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2e/True_BASIC_logo.svg",
-        "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
-    }
-};
-
 // --- Logic ---
 
-async function readReferenceOutputs(rootDir: string): Promise<Record<string, string>> {
-    const refPath = path.join(rootDir, 'reference_output.txt');
+export async function readReferenceOutputs(rootDir: string): Promise<Record<string, string>> {
+    const refPath = path.join(rootDir, 'Matrices', 'ReferenceForAllMatrixRun.txt');
     try {
         const content = await fs.readFile(refPath, 'utf-8');
         const refs: Record<string, string> = {};
@@ -1045,8 +58,10 @@ export async function findSolvers(rootDir: string): Promise<string[]> {
 
     const manualSolvers = await glob(path.join(rootDir, 'Manual', '*/runMe_ai.sh'));
     const aiSolvers = await glob(path.join(rootDir, 'AI-2025', '*/runMe_ai.sh'));
+    // For CleanedUp, we look for language directories directly
+    const cleanedUpSolvers = await glob(path.join(rootDir, 'CleanedUp', 'Languages', '*', 'setupAndRunMe.sh'));
 
-    const allSolvers = [...manualSolvers, ...aiSolvers];
+    const allSolvers = [...manualSolvers, ...aiSolvers, ...cleanedUpSolvers];
     const filteredSolvers = allSolvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
 
     console.log(`Found ${filteredSolvers.length} solvers (excluding Racket and Cobol):`, filteredSolvers);
@@ -1054,26 +69,61 @@ export async function findSolvers(rootDir: string): Promise<string[]> {
 }
 
 export async function runSolver(scriptPath: string, matrixPattern: string): Promise<SolverMetrics | null> {
-    const solverDir = path.dirname(scriptPath);
-    const langName = path.basename(solverDir);
-    const parentDir = path.basename(path.dirname(solverDir));
+    let solverDir: string;
+    let langName: string;
+    let parentDir: string;
+
+    if (scriptPath.endsWith('.sh')) {
+        solverDir = path.dirname(scriptPath);
+        langName = path.basename(solverDir);
+        parentDir = path.basename(path.dirname(solverDir));
+    } else {
+        // Assume it's a directory (CleanedUp/Languages/Lang)
+        solverDir = scriptPath;
+        langName = path.basename(solverDir);
+        parentDir = path.basename(path.dirname(solverDir)); // Should be 'Languages'
+    }
 
     let solverName = langName;
+    let runType = 'Local';
+
     if (parentDir === 'Manual') {
-        solverName = langName;
+        runType = 'Manual';
     } else if (parentDir === 'AI-2025') {
-        solverName = `${langName} (AI)`;
+        runType = 'AI';
+    } else if (parentDir === 'Languages') {
+        runType = 'Local';
     }
 
     console.log(`Running solver: ${solverName} on ${matrixPattern}`);
 
     try {
-        const { stdout, stderr } = await execPromise(`./runMe_ai.sh "../../Matrices/${matrixPattern}"`, { cwd: solverDir });
+        let command: string;
+        let cwd: string;
+
+        if (parentDir === 'Languages') {
+            // Use runMeGlobal.sh
+            // matrixPattern is like "1.matrix", runMeGlobal expects "1"
+            const matrixName = matrixPattern.replace('.matrix', '');
+            const globalScript = path.resolve(solverDir, '../../runMeGlobal.sh');
+            command = `${globalScript} ${langName} ${matrixName}`;
+            cwd = path.dirname(globalScript); // Run from CleanedUp dir
+        } else {
+            // Legacy behavior
+            command = `./runMe_ai.sh "../../Matrices/${matrixPattern}"`;
+            cwd = solverDir;
+        }
+
+        const { stdout, stderr } = await execPromise(command, {
+            cwd: cwd,
+            timeout: 180000 // 3 minutes
+        });
 
         try {
             const results = JSON.parse(stdout);
             return {
                 solver: solverName,
+                runType: runType,
                 timestamp: new Date().toISOString(),
                 results: results
             };
@@ -1082,13 +132,166 @@ export async function runSolver(scriptPath: string, matrixPattern: string): Prom
             console.log("Stdout:", stdout);
             return null;
         }
-    } catch (e) {
+    } catch (e: any) {
+        if (e.killed || e.signal === 'SIGTERM' || e.code === 143) {
+            console.error(`Solver ${solverName} timed out after 3 minutes.`);
+            return {
+                solver: solverName,
+                runType: runType,
+                timestamp: new Date().toISOString(),
+                results: [{
+                    matrix: matrixPattern,
+                    time: 180, // Cap at timeout
+                    iterations: 0,
+                    memory: 0,
+                    cpu_user: 0,
+                    cpu_sys: 0,
+                    status: "timeout",
+                    output: "Solver timed out after 180s"
+                }]
+            };
+        }
         console.error(`Failed to run solver ${solverName}:`, e);
         return null;
     }
 }
 
+export async function runDockerSolver(scriptPath: string, matrixPattern: string): Promise<SolverMetrics | null> {
+    let solverDir: string;
+    let langName: string;
+
+    if (scriptPath.endsWith('.sh')) {
+        solverDir = path.dirname(scriptPath);
+        langName = path.basename(solverDir);
+    } else {
+        solverDir = scriptPath;
+        langName = path.basename(solverDir);
+    }
+
+    const solverName = langName;
+    const runType = 'Docker';
+    console.log(`Running solver in Docker: ${solverName} on ${matrixPattern}`);
+
+    const dockerFile = path.join(solverDir, 'Dockerfile');
+    try {
+        await fs.access(dockerFile);
+    } catch {
+        console.log(`Skipping ${langName}: No Dockerfile found.`);
+        return null;
+    }
+
+    try {
+        // 1. Build Image
+        // Sanitize image name: lowercase, replace special chars with nothing or safe chars
+        const safeLangName = langName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const imageName = `sudoku-${safeLangName}`;
+        console.log(`Building Docker image: ${imageName}...`);
+        await execPromise(`docker build -t ${imageName} .`, { cwd: solverDir });
+
+        // 2. Run Container
+        // Mount Matrices directory to /usr/src/Matrices (standard convention in our Dockerfiles?)
+        // The Dockerfile usually copies setupAndRunMe.sh which expects to be run.
+        // We need to mount the Matrices directory so the container can access the matrix files.
+        // Assuming the repo structure: Root/Matrices and Root/CleanedUp/Languages/Lang
+
+        // Resolve Matrices path relative to solverDir
+        // solverDir is .../CleanedUp/Languages/Lang
+        // Matrices is .../Matrices (which is ../../../Matrices from Lang)
+        // actually it is /Users/cars10/GIT/SudokuSolver/Matrices
+
+        // Let's find the repo root to be safe
+        const repoRoot = path.resolve(solverDir, '../../../');
+        const matricesDir = path.join(repoRoot, 'Matrices');
+
+        // The container expects arguments for the matrix files.
+        // The setupAndRunMe.sh inside the container usually takes paths relative to itself or absolute.
+        // But we are mounting Matrices to /usr/src/Matrices (or similar).
+        // Let's check the C++ Dockerfile again.
+        // COPY setupAndRunMe.sh .
+        // ENTRYPOINT ["./setupAndRunMe.sh"]
+        // And we ran: docker run ... sudoku-cpp ../Matrices/1.matrix
+        // So inside the container, we are at WORKDIR /usr/src/sudoku
+        // And we mounted host Matrices to /usr/src/Matrices? 
+        // Wait, in my manual test I did: -v /Users/.../Matrices:/usr/src/Matrices
+        // And passed argument: ../Matrices/1.matrix
+        // So inside container: /usr/src/sudoku is CWD. /usr/src/Matrices is sibling.
+        // So ../Matrices/1.matrix is valid.
+
+        const matrixName = matrixPattern.replace('.matrix', ''); // "1"
+        // But setupAndRunMe.sh takes file paths usually?
+        // In C++ setupAndRunMe.sh:
+        // MATRICES="$@"
+        // if [ -z "$MATRICES" ]; then MATRICES="../../Matrices/*.matrix"; fi
+        // It iterates over them.
+
+        // So we should pass "../Matrices/1.matrix" if we mount to /usr/src/Matrices
+        // and WORKDIR is /usr/src/sudoku.
+
+        const containerMatrixPath = `../Matrices/${matrixPattern}`;
+
+        const command = `docker run --rm -v "${matricesDir}:/usr/src/Matrices" ${imageName} "${containerMatrixPath}"`;
+
+        console.log(`Executing: ${command}`);
+        const { stdout, stderr } = await execPromise(command);
+
+        try {
+            // The output should be JSON.
+            // However, there might be other output (like "Warning: Reference file...").
+            // We need to extract the JSON part.
+            // The C++ setupAndRunMe.sh prints the JSON at the end.
+            // Let's look for the last occurrence of '[' and ']'?
+            // Or just parse the whole thing if it's clean?
+            // In the manual run, it had a warning before the JSON.
+
+            const jsonStart = stdout.indexOf('[');
+            const jsonEnd = stdout.lastIndexOf(']');
+            if (jsonStart === -1 || jsonEnd === -1) {
+                throw new Error("No JSON array found in output");
+            }
+
+            const jsonStr = stdout.substring(jsonStart, jsonEnd + 1);
+            const results = JSON.parse(jsonStr);
+
+            return {
+                solver: solverName,
+                runType: runType,
+                timestamp: new Date().toISOString(),
+                results: results
+            };
+
+        } catch (e) {
+            console.error(`Failed to parse JSON output from Docker ${solverName}:`, e);
+            console.log("Stdout:", stdout);
+            return null;
+        }
+
+    } catch (e: any) {
+        console.error(`Failed to run Docker solver ${solverName}:`, e);
+        return null;
+    }
+}
+
 export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = []): Promise<string> {
+
+    // Pre-load local logos
+    const localLogos = await glob('CleanedUp/logos/*.png');
+    const logoMap = new Map<string, string>();
+    for (const p of localLogos) {
+        const filename = path.basename(p);
+        const name = path.basename(p, '.png').toLowerCase();
+        logoMap.set(name, `CleanedUp/logos/${filename}`);
+    }
+
+    // Read Tailoring Config
+    let tailoringConfig = {};
+    try {
+        const rootDir = path.resolve(__dirname, '..');
+        const tailoringPath = path.join(rootDir, 'CleanedUp', 'logos', 'Tailoring.json');
+        const tailoringContent = await fs.readFile(tailoringPath, 'utf-8');
+        tailoringConfig = JSON.parse(tailoringContent);
+    } catch (e) {
+        console.warn("Could not read Tailoring.json", e);
+    }
     // Read Matrix Files
     const matricesDir = path.resolve(__dirname, '../Matrices');
     let matrixFiles = await glob('*.matrix', { cwd: matricesDir });
@@ -2001,6 +1204,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- SVG Filters for Logo Tailoring -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="filter-invert">
+                <feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 
+                                                                          0 -1 0 0 1 
+                                                                          0 0 -1 0 1 
+                                                                          0 0 0 1 0"/>
+            </filter>
+            <filter id="filter-transparent-white">
+                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                                                                          0 1 0 0 0
+                                                                          0 0 1 0 0
+                                                                          -1 -1 -1 1 0"/>
+            </filter>
+        </defs>
+    </svg>
+
     <div class="container">
         <table>
             <thead>
@@ -2077,14 +1298,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
         // Iteration Mismatch Logic
         const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
-        const isMismatch = m.solver !== 'C' && m.solver !== 'C (Manual)' && cTotalIters > 0 && totalIters !== cTotalIters;
+        // Baseline is C (Local)
+        const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
+        const isMismatch = !isBaseline && cTotalIters > 0 && totalIters !== cTotalIters;
 
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
         if (isMismatch) rowClass += " mismatch-iterations";
 
         // Quote
-        const baseLang = lang.replace(/ \((Manual|AI)\)$/, '');
+        const baseLang = lang; // lang is already clean now
+        const runType = m.runType || 'Local';
         const quote = (personalities['Standard'] as any)[baseLang] || (personalities['Standard'] as any)[lang] || "A mystery wrapped in code.";
         const safeQuote = quote.replace(/'/g, "&apos;") + ` Efficiency: ${efficiencyScore.toFixed(2)} MB/s`;
 
@@ -2092,9 +1316,21 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const meta = languageMetadata[baseLang] || languageMetadata[lang] || {};
         const year = meta.date || "0000";
         const displayNameRaw = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
-        const displayName = displayNameRaw.replace(/ \(Manual\)$/, '').replace(/ \(AI\)$/, ' <span class="ai-tag">(AI)</span>');
+        let displayName = displayNameRaw;
+
+        let typeIcon = '';
+        if (runType === 'Docker') {
+            typeIcon = '<span title="Docker Container" style="margin-left:5px; font-size: 0.8em;">🐳</span>';
+        } else if (runType === 'AI') {
+            typeIcon = '<span class="ai-tag" title="AI Generated">(AI)</span>';
+        } else {
+            typeIcon = '<span title="Local Run" style="margin-left:5px; font-size: 0.8em;">💻</span>';
+        }
+
         const historyText = (languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
-        const logoUrl = meta.logo || meta.image;
+
+        const localLogo = logoMap.get(baseLang.toLowerCase());
+        const logoUrl = localLogo || meta.logo || meta.image;
 
         // Data Attributes
         let matrixDataAttrs = "";
@@ -2124,7 +1360,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <td class='lang-col'>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
-                    <div>${displayName}</div>
+                    <div>${displayName}${typeIcon}</div>
                     <div class='lang-year'>${year}</div>
                 </div>
             </td>
@@ -2156,7 +1392,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         // Ensure strict number comparison and handle potential type issues if JSON parsing was loose
                         const rIter = Number(r.iterations);
                         const cIter = Number(cIterations);
-                        const isImposter = m.solver !== 'C' && m.solver !== 'C (Manual)' && cIterations !== null && rIter !== cIter;
+                        const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
+                        const isImposter = !isBaseline && cIterations !== null && rIter !== cIter;
 
                         return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isImposter ? 'imposter' : ''}">#${r.iterations}</span>`;
                     })()}
@@ -2294,7 +1531,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 const rows = document.querySelectorAll('tbody tr');
                 rows.forEach(row => {
                     if (isFilterActive) {
-                        if (!row.classList.contains('mismatch-iterations')) {
+                        if (row.classList.contains('mismatch-iterations')) {
                             row.style.display = 'none';
                         } else {
                             row.style.display = '';
@@ -2457,15 +1694,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 // Inject metrics with logo data
                 const historyData = ${JSON.stringify(history)};
                 const referenceOutputs = ${JSON.stringify(referenceOutputs)};
-                const metricsData = ${JSON.stringify(metrics)};
+                const tailoring = ${JSON.stringify(tailoringConfig)};
+                const metricsData = ${JSON.stringify(metrics.map(m => {
+        const baseLang = m.solver.replace(/ \((Manual|AI)\)$/, '');
+        const localLogo = logoMap.get(baseLang.toLowerCase());
+        const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
+        return {
+            ...m,
+            logo: localLogo || meta.logo || meta.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png"
+        };
+    }))};
                 
-                let data = metricsData.map(m => {
-                    const baseLang = m.solver.replace(/ \((Manual|AI)\)$/, '');
-                    const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
-                    // Use a generic code icon if no logo found
-                    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png";
-                    return { ...m, logo: meta.logo || meta.image || defaultLogo };
-                });
+                let data = metricsData;
                 
                 let currentChart = 'line';
 
@@ -2550,17 +1790,26 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
                         
+                    const chartWidth = width - margin.left - margin.right;
+                    const chartHeight = height - margin.top - margin.bottom;
+
                     // Zoom
                     const zoom = d3.zoom()
                         .scaleExtent([0.5, 5])
+                        .filter(function(event) {
+                            // Only allow zoom if mouse is within the chart area
+                            if (event.type === 'wheel' || event.type === 'mousedown') {
+                                const [mx, my] = d3.pointer(event, this);
+                                return mx >= 0 && mx <= chartWidth && my >= 0 && my <= chartHeight;
+                            }
+                            return true;
+                        })
                         .on("zoom", (event) => {
-                            svg.attr("transform", event.transform);
+                            // Apply transform with margin offset
+                            svg.attr("transform", "translate(" + (margin.left + event.transform.x) + "," + (margin.top + event.transform.y) + ") scale(" + event.transform.k + ")");
                         });
                     
                     d3.select("#d3-chart-container svg").call(zoom);
-                        
-                    const chartWidth = width - margin.left - margin.right;
-                    const chartHeight = height - margin.top - margin.bottom;
                     
                     // X Axis
                     const x = d3.scalePoint()
@@ -2637,28 +1886,63 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             .attr("d", line)
                             .attr("class", "line-path");
 
-                        svg.selectAll("." + safeSolverClass)
+                        const pointGroup = svg.selectAll("." + safeSolverClass)
                             .data(solverData)
-                            .enter().append("circle")
+                            .enter().append("g")
                             .attr("class", safeSolverClass)
-                            .attr("cx", d => x(d.matrix))
-                            .attr("cy", d => y(Math.max(d.time, minTime)))
-                            .attr("r", 4)
-                            .attr("fill", "#16161e")
-                            .attr("stroke", color(solver.solver))
-                            .attr("stroke-width", 2)
-                            .on("mouseover", function (event, d) {
-                                d3.select(this).attr("r", 6).attr("fill", color(solver.solver));
+                            .attr("transform", d => "translate(" + x(d.matrix) + ", " + y(Math.max(d.time, minTime)) + ")");
+
+                        // Logo Image
+                        pointGroup.append("image")
+                            .attr("xlink:href", solver.logo)
+                            .attr("x", -8)
+                            .attr("y", -8)
+                            .attr("width", 16)
+                            .attr("height", 16)
+                            .attr("preserveAspectRatio", "xMidYMid meet")
+                            .attr("filter", d => {
+                                const baseLang = solver.solver.replace(/ \((Manual|AI)\)$/, '');
+                                const config = tailoring[baseLang] || tailoring[solver.solver];
+                                if (config?.invert) return "url(#filter-invert)";
+                                if (config?.transparent_white) return "url(#filter-transparent-white)";
+                                return null;
+                            });
+
+                        // Docker Icon (Whale)
+                        if (solver.runType === 'Docker') {
+                            pointGroup.append("text")
+                                .text("🐳")
+                                .attr("x", 6)
+                                .attr("y", 6)
+                                .attr("font-size", "10px")
+                                .style("pointer-events", "none");
+                        }
+
+                        // Interactions
+                        pointGroup.on("mouseover", function (event, d) {
+                                d3.select(this).raise();
+                                d3.select(this).select("image")
+                                    .attr("width", 24)
+                                    .attr("height", 24)
+                                    .attr("x", -12)
+                                    .attr("y", -12);
+                                
                                 const tooltip = document.getElementById('tooltip');
                                 tooltip.style.display = 'block';
                                 tooltip.style.left = (event.clientX + 15) + 'px';
                                 tooltip.style.top = (event.clientY + 15) + 'px';
-                                tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.solver + "</strong><br>Matrix: " + d.matrix + "<br>Time: " + d.time.toFixed(6) + "s<br>Iters: " + d.iterations;
-})
+                                tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.solver + "</strong>" + 
+                                                    (solver.runType === 'Docker' ? " 🐳" : "") +
+                                                    "<br>Matrix: " + d.matrix + "<br>Time: " + d.time.toFixed(6) + "s<br>Iters: " + d.iterations;
+                            })
                             .on("mouseout", function () {
-    d3.select(this).attr("r", 4).attr("fill", "#16161e");
-    document.getElementById('tooltip').style.display = 'none';
-});
+                                d3.select(this).select("image")
+                                    .attr("width", 16)
+                                    .attr("height", 16)
+                                    .attr("x", -8)
+                                    .attr("y", -8);
+                                document.getElementById('tooltip').style.display = 'none';
+                            });
 
 // Label
 const lastPoint = solverData[solverData.length - 1];
@@ -2688,17 +1972,25 @@ function drawJockeyChart() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
     // Zoom
     const zoom = d3.zoom()
         .scaleExtent([0.5, 5])
+        .filter(function(event) {
+            // Only allow zoom if mouse is within the chart area
+            if (event.type === 'wheel' || event.type === 'mousedown') {
+                const [mx, my] = d3.pointer(event, this);
+                return mx >= 0 && mx <= chartWidth && my >= 0 && my <= chartHeight;
+            }
+            return true;
+        })
         .on("zoom", (event) => {
-            svg.attr("transform", event.transform);
+            svg.attr("transform", "translate(" + (margin.left + event.transform.x) + "," + (margin.top + event.transform.y) + ") scale(" + event.transform.k + ")");
         });
     
     d3.select("#d3-chart-container svg").call(zoom);
-
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
 
                     // Calculate Total Time for sorting
                     const sortedData = [...data].map(s => {
@@ -2748,10 +2040,18 @@ function drawJockeyChart() {
         .data(sortedData)
         .enter().append("image")
         .attr("xlink:href", d => d.logo)
-        .attr("x", d => x(d.totalTime) - 12) // Center image on end of bar
-        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 12)
-        .attr("width", 24)
-        .attr("height", 24)
+        .attr("x", d => x(d.totalTime) - 20) // Center image on end of bar
+        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 10)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("filter", d => {
+            const baseLang = d.solver.replace(/ \((Manual|AI)\)$/, '');
+            const config = tailoring[baseLang] || tailoring[d.solver];
+            if (config?.invert) return "url(#filter-invert)";
+            if (config?.transparent_white) return "url(#filter-transparent-white)";
+            return null;
+        })
         .on("mouseover", function (event, d) {
             d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
             const tooltip = document.getElementById('tooltip');
@@ -2806,15 +2106,7 @@ let startScreensaverGlobal;
 
 (function () {
     try {
-        const debugDiv = document.createElement('div');
-        debugDiv.style.position = 'fixed';
-        debugDiv.style.top = '0';
-        debugDiv.style.right = '0';
-        debugDiv.style.width = '20px';
-        debugDiv.style.height = '20px';
-        debugDiv.style.background = 'blue';
-        debugDiv.style.zIndex = '10000';
-        document.body.appendChild(debugDiv);
+
 
         console.log("Initializing Matrix Screensaver...");
         const canvas = document.getElementById('matrix-canvas');
@@ -2927,11 +2219,25 @@ let startScreensaverGlobal;
 
         // Draw Matrix Rain
         for (let i = 0; i < drops.length; i++) {
-            const text = chars.charAt(Math.floor(Math.random() * chars.length));
             const x = i * 14;
             const y = drops[i] * 14;
-
-            ctx.fillText(text, x, y);
+            // Occasional Easter Egg
+            if (Math.random() > 0.999) {
+                const text = "/cars10";
+                ctx.fillStyle = '#FFF';
+                ctx.shadowColor = '#FFF';
+                ctx.shadowBlur = 8;
+                ctx.font = 'bold 16px monospace'; // Slightly larger/bold
+                for (let k = 0; k < text.length; k++) {
+                    ctx.fillText(text[k], x, y + (k * 14));
+                }
+                ctx.shadowBlur = 0;
+                ctx.font = '14px monospace'; // Reset
+                ctx.fillStyle = '#0F0'; // Reset
+            } else {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, x, y);
+            }
 
             // Reset drop to top randomly after it has crossed the screen
             if (y > height && Math.random() > 0.975) {
@@ -2982,10 +2288,12 @@ let startScreensaverGlobal;
             const lineHeight = fontSize * 3.0; // Double spacing (simulates blank row)
             const startX = width / 2;
 
-            // 3. Dancing Highlight Logic - DISABLED
-            // if (Date.now() - lastDanceTime > 200) { ... }
-            dancingRow = -1; // Ensure no row is selected
-            dancingCol = -1;
+            // 3. Dancing Highlight Logic
+            if (Date.now() - lastDanceTime > 200) {
+                dancingRow = Math.floor(Math.random() * 9);
+                dancingCol = Math.floor(Math.random() * 9);
+                lastDanceTime = Date.now();
+            }
 
             // 4. Easter Egg Logic: /cars10
             if (Date.now() - lastCars10Time > 1000) { // Every 1 second
@@ -3043,33 +2351,7 @@ let startScreensaverGlobal;
                     if (lineY > -lineHeight && lineY < height + lineHeight) {
                         const line = puzzleLines[i];
                         
-                        // Check for Easter Egg Row
-                        if (specialRows.has(i)) {
-                            // Draw "/cars10" with Rainbow Glow
-                            const text = "/cars10";
-                            const hue = (frame * 2) % 360; // Rainbow cycle
-                            const color = 'hsl(' + hue + ', 100%, 50%)';
-                            
-                            ctx.save();
-                            ctx.translate(startX, lineY);
-                            ctx.scale(1.5, 2); // Slightly larger
-                            
-                            // Clear background
-                            ctx.globalCompositeOperation = 'source-over';
-                            ctx.fillStyle = 'rgba(0, 0, 0, 0.9)'; // Darker background for pop
-                            ctx.fillRect(-fontSize * 3, -fontSize * 1.2, fontSize * 6, fontSize * 2.4);
-                            
-                            // Draw Glow
-                            ctx.shadowBlur = 20;
-                            ctx.shadowColor = color;
-                            ctx.fillStyle = color;
-                            ctx.font = 'bold ' + fontSize + 'px "JetBrains Mono", monospace';
-                            ctx.textAlign = 'center';
-                            ctx.fillText(text, 0, 0);
-                            
-                            ctx.restore();
-                            continue; // Skip drawing normal numbers for this row
-                        }
+
 
                         const parts = line.trim().split(/\s+/);
                         
@@ -3083,8 +2365,7 @@ let startScreensaverGlobal;
                             // Actually, let's do it per character but simpler:
                             
                             for (let j = 0; j < parts.length; j++) {
-                                // const isDancing = (i % 9 === dancingRow) && (j === dancingCol); // Disabled
-                                const isDancing = false;
+                                const isDancing = (i % 9 === dancingRow) && (j === dancingCol);
                                 
                                 // Calculate distance from center for scale effect
                                 const distFromCenter = Math.abs(lineY - height / 2);
@@ -3109,8 +2390,14 @@ let startScreensaverGlobal;
                                 ctx.globalCompositeOperation = 'source-over';
                                 ctx.shadowBlur = 0; 
                                 ctx.shadowColor = 'transparent';
-                                ctx.strokeStyle = '#FF0055';
-                                ctx.lineWidth = 2;
+                                ctx.strokeStyle = isDancing ? '#00b8ff' : '#FF0055'; // Blue if dancing, Red otherwise
+                                ctx.lineWidth = isDancing ? 4 : 2;
+                                
+                                if (isDancing) {
+                                    ctx.scale(1.5, 1.5); // Extra scale for dancing
+                                    ctx.shadowBlur = 10;
+                                    ctx.shadowColor = '#00b8ff';
+                                }
                                 ctx.strokeText(parts[j], 0, 0);
                                 
                                 ctx.restore();
@@ -3297,8 +2584,8 @@ let startScreensaverGlobal;
     function resetTimer(e) {
         setLastActive();
         if (active && !ignoreInput) {
-            // Only stop on Escape key
-            if (e && e.type === 'keydown' && e.key === 'Escape') {
+            // Only stop on Option key (Alt)
+            if (e && e.type === 'keydown' && e.key === 'Alt') {
                 stopScreensaver();
             }
         }
@@ -3327,15 +2614,7 @@ let startScreensaverGlobal;
     
     console.log("Matrix Screensaver initialized successfully. startScreensaver is:", typeof window.startScreensaver);
     
-    const successDiv = document.createElement('div');
-    successDiv.style.position = 'fixed';
-    successDiv.style.top = '0';
-    successDiv.style.right = '25px';
-    successDiv.style.width = '20px';
-    successDiv.style.height = '20px';
-    successDiv.style.background = 'green';
-    successDiv.style.zIndex = '10000';
-    document.body.appendChild(successDiv);
+
     } catch (e) {
         console.error("CRITICAL ERROR in Matrix Screensaver IIFE:", e);
         const errDiv = document.createElement('div');
@@ -3420,8 +2699,8 @@ window.copyRerunCommand = function() {
 }
 
 export async function main() {
-    const rootDir = path.resolve(__dirname, '..');
-    const metricsFile = path.join(rootDir, 'metrics.json');
+    const rootDir = process.env.OUTPUT_DIR || path.resolve(__dirname, '..');
+    const metricsFile = path.join(rootDir, 'CleanedUp', 'CleanedUp_Metrics.json');
     const htmlFile = path.join(rootDir, 'benchmark_report.html');
 
     const generateOnly = process.argv.includes('--generate-only');
@@ -3509,7 +2788,7 @@ export async function main() {
 }
 
 export async function captureScreenshot(htmlFilePath: string) {
-    const screenshotsDir = path.join(__dirname, 'screenshots');
+    const screenshotsDir = path.join(path.dirname(htmlFilePath), 'screenshots');
     await fs.mkdir(screenshotsDir, { recursive: true });
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -3531,6 +2810,13 @@ export async function captureScreenshot(htmlFilePath: string) {
         console.warn("Chart selector not found or timed out, proceeding with screenshot anyway.");
     }
 
+    // Wait for table to populate
+    try {
+        await page.waitForSelector('tbody tr', { timeout: 5000 });
+    } catch (e) {
+        console.warn("Table rows not found or timed out.");
+    }
+
     // Modify page for screenshot: Sort by Score and Hide rows > 10
     await page.evaluate(() => {
         // 1. Sort by Score (Ascending)
@@ -3548,6 +2834,8 @@ export async function captureScreenshot(htmlFilePath: string) {
         rows.forEach((row, index) => {
             if (index >= 10) {
                 (row as HTMLElement).style.display = 'none';
+            } else {
+                (row as HTMLElement).style.display = ''; // Force show
             }
         });
 
@@ -3557,6 +2845,9 @@ export async function captureScreenshot(htmlFilePath: string) {
 
         const personalityIntro = document.getElementById('personality-intro');
         if (personalityIntro) (personalityIntro as HTMLElement).style.display = 'none';
+
+        // 4. Stop Screensaver if active
+        if ((window as any).stopScreensaver) (window as any).stopScreensaver();
     });
 
     await page.screenshot({ path: screenshotPath, fullPage: true });
