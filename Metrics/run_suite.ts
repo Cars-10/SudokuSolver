@@ -10,7 +10,9 @@ import {
     personalities,
     languageMetadata,
     methodologyTexts,
-    readReferenceOutputs
+    readReferenceOutputs,
+    HistoryManager,
+    generateHistoryHtml
 } from './gather_metrics.ts';
 import type { SolverMetrics, MetricResult } from './gather_metrics.ts';
 
@@ -50,7 +52,9 @@ async function runSuite() {
 
     const repoRoot = path.resolve(__dirname, '..');
     const outputDir = process.env.OUTPUT_DIR || repoRoot;
-    const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
+    const metricsFile = process.env.METRICS_FILE
+        ? path.join(outputDir, process.env.METRICS_FILE)
+        : path.join(repoRoot, 'CleanedUp', 'CleanedUp_Metrics.json');
     const htmlFile = path.join(outputDir, 'benchmark_report.html');
 
     let allMetrics: SolverMetrics[] = [];
@@ -139,9 +143,28 @@ async function runSuite() {
                 await fs.writeFile(metricsFile, JSON.stringify(allMetrics, null, 2));
 
                 const referenceOutputs = await readReferenceOutputs(repoRoot);
+                console.log(`Generating HTML with ${allMetrics.length} metrics.`);
                 const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts, referenceOutputs, []);
                 await fs.writeFile(htmlFile, htmlContent);
                 console.log(`Updated report for ${metrics.solver}`);
+
+                // Save to History
+                const historyManager = new HistoryManager(repoRoot);
+                // Create a snapshot of this specific run
+                const runSnapshot: SolverMetrics = {
+                    solver: metrics.solver,
+                    runType: metrics.runType,
+                    timestamp: metrics.timestamp,
+                    results: metrics.results
+                };
+                await historyManager.appendRecord(runSnapshot);
+
+                // Generate History Report
+                const fullHistory = await historyManager.getHistory();
+                const historyHtml = await generateHistoryHtml(fullHistory);
+                const historyHtmlFile = path.join(repoRoot, 'benchmark_history.html');
+                await fs.writeFile(historyHtmlFile, historyHtml);
+                console.log(`Updated history report at ${historyHtmlFile}`);
 
                 // Only take screenshot if running a small batch (spot check) or if it's the last one?
                 // The user said "I still want to take screenshots and stuff".
