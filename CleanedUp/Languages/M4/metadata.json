@@ -1,0 +1,8 @@
+{
+  "creator": "Brian Kernighan, Dennis Ritchie",
+  "date": "1977",
+  "description": "A general-purpose macro processor.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg",
+  "location": "Bell Labs, USA",
+  "benefits": "Macro expansion, text processing, configuration."
+}

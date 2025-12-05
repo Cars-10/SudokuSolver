@@ -1,0 +1,8 @@
+{
+  "creator": "Bram Moolenaar",
+  "date": "1991",
+  "description": "The scripting language of the Vim text editor.",
+  "image": "https://github.com/brammool.png",
+  "location": "Netherlands",
+  "benefits": "Editor customization, automation, plugins."
+}

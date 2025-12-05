@@ -9,7 +9,7 @@ const path = require('path');
     page.on('pageerror', error => console.log('PAGE ERROR:', error.message));
     page.on('requestfailed', request => console.log('REQUEST FAILED:', request.failure().errorText, request.url()));
 
-    const reportPath = path.resolve(process.cwd(), 'benchmark_report.html');
+    const reportPath = path.resolve(__dirname, 'benchmark_report.html');
     console.log(`Loading ${reportPath}`);
 
     try {

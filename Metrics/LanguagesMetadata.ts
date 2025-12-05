@@ -58,6 +58,69 @@ export const methodologyTexts: Record<string, string> = {
             Score = (Time + Mem + CPU) / 3 ... vs C
         </div>
         <p>Don't be heavy, don't be slow. Just flow.</p>
+    `,
+    "The Matrix": `
+        <p>The Matrix is a system, Neo. That system is our enemy. But when you're inside, you look around, what do you see? Businessmen, teachers, lawyers, carpenters. The very minds of the people we are trying to save.</p>
+        <h3 style="color: var(--secondary);">The One: C</h3>
+        <p><strong>C</strong> is the Source Code. The Architect's baseline (1.0).</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+            Score = (Time + Mem + CPU) / 3   [The Anomaly]
+        </div>
+        <p>There is no spoon. Only efficiency.</p>
+    `,
+    "Battlestar Galactica": `
+        <p>The Cylons were created by man. They evolved. They rebelled. There are many copies. And they have a plan.</p>
+        <h3 style="color: var(--secondary);">FTL Drive: C</h3>
+        <p><strong>C</strong> is the Jump Drive at 1.0 efficiency.</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+             Score = Mean(Vectors)
+        </div>
+        <p>So say we all.</p>
+    `,
+    "Star Trek": `
+        <p>Space: the final frontier. These are the voyages of the Starship Enterprise.</p>
+        <h3 style="color: var(--secondary);">Warp Factor: C</h3>
+        <p><strong>C</strong> is Warp 10 (Theoretical Limit).</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+            Score = Efficiency / Theoretical Maximum
+        </div>
+        <p>Live long and prosper.</p>
+    `,
+    "Star Wars": `
+        <p>A long time ago in a galaxy far, far away...</p>
+        <h3 style="color: var(--secondary);">The Force: C</h3>
+        <p><strong>C</strong> binds the galaxy together.</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+            Score = Midichlorian Count (Inverted)
+        </div>
+        <p>Do. Or do not. There is no try.</p>
+    `,
+    "Back to the Future": `
+        <p>Great Scott! The timeline is fluid. We need 1.21 Gigawatts of efficiency.</p>
+        <h3 style="color: var(--secondary);">1955: C</h3>
+        <p><strong>C</strong> is the foundation of the space-time continuum (1.0). Don't disrupt it!</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+            Score = (Time / 1955) + Flux_Capacitor_Load
+        </div>
+        <p>Where we're going, we don't need roads... but we do need optimized code.</p>
+    `,
+    "Babylon 5": `
+        <p>The War between Order and Chaos. Who are you? What do you want?</p>
+        <h3 style="color: var(--secondary);">The Vorlons: C</h3>
+        <p><strong>C</strong> is ancient, powerful, and demanding of obedience (1.0). The Shadows want chaos.</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+             Score = Understanding / 3
+        </div>
+        <p>We are all Kosh.</p>
+    `,
+    "The Expanse": `
+        <p>In the Belt, air and water (memory and CPU) are life. Wasting them is a crime.</p>
+        <h3 style="color: var(--secondary);">Earth: C</h3>
+        <p><strong>C</strong> (1.0) is the gravity well. Everything gets pulled back to it.</p>
+        <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
+            Score = (Time + Mem + CPU) / Gravity
+        </div>
+        <p>Oye beltalowda! Run fast, run light, or get spaced.</p>
     `
 };
 export const languageHistories: Record<string, string> = {
@@ -200,6 +263,35 @@ export const quotes: Record<string, string> = {
     "Matrices_Filtered": "The filter."
 };
 
+export const mismatchLabels: Record<string, string> = {
+    "Standard": "MISMATCHES",
+    "Neuromancer": "GLITCHES",
+    "The Jockey": "FALSE STARTS",
+    "The Professor": "ERRORS",
+    "The Surfer": "WIPEOUTS",
+    "The Matrix": "ANOMALIES",
+    "Battlestar Galactica": "FRACK",
+    "Star Trek": "RED ALERTS",
+    "Star Wars": "DISTURBANCES",
+    "Back to the Future": "PARADOXES",
+    "Babylon 5": "BREACHES",
+    "The Expanse": "HULL BREACHES"
+};
+export const narratorIntros: Record<string, string> = {
+    "Standard": "Welcome to the Sudoku Benchmark. Click on any language name for creator details.",
+    "Neuromancer": "The sky above the port was the color of television, tuned to a dead channel.",
+    "The Jockey": "And they're off! The race is on!",
+    "The Professor": "Let us analyze the computational complexity.",
+    "The Surfer": "Catch the wave of data, dude.",
+    "The Matrix": "Wake up, Neo... The Matrix has you.",
+    "Battlestar Galactica": "The Cylons were created by man. They evolved. They have a plan.",
+    "Star Trek": "Space: the final frontier. These are the voyages of the Starship Enterprise.",
+    "Star Wars": "A long time ago in a galaxy far, far away...",
+    "Back to the Future": "Great Scott! The timeline is changing!",
+    "Babylon 5": "The year is 2258. The name of the place is Babylon 5.",
+    "The Expanse": "Welcome to the Churn. Doors and corners, kid. That's where they get you."
+};
+
 export const personalities: Record<string, Record<string, string>> = {
     "Standard": {
         "C": "C: Low-level systems workhorse — predictable, efficient, and widely taught.",
@@ -313,6 +405,62 @@ export const personalities: Record<string, Record<string, string>> = {
         "Elixir": "Elixir: Reliable lineup and great community vibes for big waves.",
         "WebAssembly": "WebAssembly: Feels like jet propulsion in the water — near-native rip.",
         "default": "Catch the wave you like — every language has its own stoke."
+    },
+    "The Matrix": {
+        "C": "C: The Source Code — absolute control, absolute reality.",
+        "C++": "C++: The Agents — powerful, ubiquitous, but rigid.",
+        "Rust": "Rust: The Oracle — knows the future (memory safety) and guides the path.",
+        "Python": "Python: The Construct — anything you want, instantly loaded.",
+        "JavaScript": "JavaScript: The Squiddies — swarming everywhere, chaotic but deadly.",
+        "default": "A glitch in the matrix."
+    },
+    "Battlestar Galactica": {
+        "C": "C: The Galactica — old, tough, and gets the job done when everything else fails.",
+        "C++": "C++: The Pegasus — more powerful, but prone to hubris.",
+        "Python": "Python: Baltar's Lab — brilliant, chaotic, and seductive.",
+        "Rust": "Rust: Safe Jump Coordinates — no risk of ending up inside a star.",
+        "JavaScript": "JavaScript: The Cylon Network — evolving, adapting, and everywhere.",
+        "default": "So say we all."
+    },
+    "Star Trek": {
+        "C": "C: The Warp Core — raw power, dangerous if not contained.",
+        "C++": "C++: The Borg — resistance is futile, assimilation (complexity) is inevitable.",
+        "Python": "Python: The Universal Translator — speaks to everyone, understands everything.",
+        "Rust": "Rust: The Prime Directive — non-interference (memory safety) is absolute.",
+        "JavaScript": "JavaScript: The Holodeck — anything is possible, but don't turn off the safeties.",
+        "default": "Beam me up, Scotty."
+    },
+    "Star Wars": {
+        "C": "C: Lightsaber — an elegant weapon for a more civilized age.",
+        "C++": "C++: The Death Star — massive power, but one flaw can blow it up.",
+        "Python": "Python: The Force — it surrounds us, binds us, holds the code together.",
+        "Rust": "Rust: The Jedi Order — strict rules, discipline, and peace (of mind).",
+        "JavaScript": "JavaScript: The Millennium Falcon — she may not look like much, but she's got it where it counts.",
+        "default": "May the Force be with you."
+    },
+    "Back to the Future": {
+        "C": "C: 1955 Doc Brown — Inventing the future with nothing but a wrench and a toilet.",
+        "C++": "C++: The DeLorean — Heavy, stainless steel, and when it hits 88mph, you see some serious...",
+        "Rust": "Rust: The Flux Capacitor — It makes time travel possible... safely.",
+        "Python": "Python: The Hoverboard — Fun, rides on air, but don't try it on water (performance bottlenecks)!",
+        "JavaScript": "JavaScript: Biff Tannen — Unpredictable, loud, and he's everywhere.",
+        "default": "This is heavy."
+    },
+    "Babylon 5": {
+        "C": "C: Kosh (Vorlon) — Ancient, powerful, speaks in riddles, and demands discipline.",
+        "C++": "C++: The Shadows — Powerful, complex, and they want to evolve through chaos.",
+        "Rust": "Rust: The White Star — Advanced organic technology, adapting to the enemy.",
+        "Python": "Python: Londo Mollari — Decadent, accessible, but capable of great tragedy.",
+        "JavaScript": "JavaScript: Mr. Morden — 'What do you want?' (Asks the browser repeatedly).",
+        "default": "Zone Red. Jump Gate forming."
+    },
+    "The Expanse": {
+        "C": "C: The Rocinante — Legitimate salvage. Tough, reliable, and beats the odds.",
+        "C++": "C++: Earth (UN) — Massive, established, powerful, but bogged down by bureaucracy.",
+        "Rust": "Rust: The Protomolecule — Rewriting the laws of physics (safety) from the inside out.",
+        "Python": "Python: Miller — Old school, gets the job done, but takes his sweet time.",
+        "JavaScript": "JavaScript: The OPA — A loose alliance of scripts, chaotic, but they run the Belt.",
+        "default": "Beratnas, we rise!"
     }
 };
 export const languageMetadata: Record<string, any> = {
@@ -321,7 +469,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1947",
         "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Simpleicons_Interface_code-file-1.svg/64px-Simpleicons_Interface_code-file-1.svg.png",
+        "logo": "logos/Assembly.png",
         "location": "Birkbeck College, London",
         "benefits": "Direct hardware control, maximum performance, zero overhead."
     },
@@ -331,13 +479,15 @@ export const languageMetadata: Record<string, any> = {
         "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg", // Alfred Aho
         "location": "Bell Labs, USA",
-        "benefits": "Excellent for text processing, one-liners, and data extraction."
+        "benefits": "Excellent for text processing, one-liners, and data extraction.",
+        "logo": "logos/Awk.png"
     },
     "Bash": {
         "creator": "Brian Fox",
         "date": "1989",
         "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
+        "logo": "logos/Bash.png",
         "location": "Free Software Foundation, USA",
         "benefits": "Ubiquitous, powerful scripting, direct system interaction."
     },
@@ -354,7 +504,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1972",
         "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/64px-C_Programming_Language.svg.png",
+        "logo": "logos/C.png",
         "location": "Bell Labs, USA",
         "benefits": "High performance, portability, low-level access, massive legacy."
     },
@@ -363,7 +513,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1985",
         "description": "Multi-paradigm language combining procedural and object-oriented programming. Excels in game engines, high-performance applications, and systems requiring both low-level control and high-level abstractions.",
         "image": "bjarne_stroustrup.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/64px-ISO_C%2B%2B_Logo.svg.png",
+        "logo": "logos/C++.png",
         "location": "Bell Labs, USA",
         "benefits": "Performance, object-oriented, rich ecosystem, hardware control."
     },
@@ -458,8 +608,9 @@ export const languageMetadata: Record<string, any> = {
     "Fortran": {
         "creator": "John Backus",
         "date": "1957",
-        "description": "The first high-level programming language. Still dominates scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/John_Backus_2.jpg",
+        "description": "General-purpose, compiled imperative programming language that is especially suited to numeric computation and scientific computing.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/6/62/John_Backus_2.jpg", // John Backus
+        "logo": "logos/Fortran.png",
         "location": "IBM, USA",
         "benefits": "Numerical computation, scientific computing, performance."
     },
@@ -468,7 +619,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2009",
         "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
         "image": "https://github.com/robpike.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg",
+        "logo": "logos/Go.png",
         "location": "Google, USA",
         "benefits": "Simplicity, concurrency, fast compilation, static typing."
     },
@@ -484,7 +635,7 @@ export const languageMetadata: Record<string, any> = {
         "creator": "Committee (Simon Peyton Jones et al.)",
         "date": "1990",
         "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg",
+        "logo": "logos/Haskell.png",
         "location": "Global",
         "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
     },
@@ -493,7 +644,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1995",
         "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/64px-Java_programming_language_logo.svg.png",
+        "logo": "logos/Java.png",
         "location": "Sun Microsystems, USA",
         "benefits": "Portability, enterprise ecosystem, performance, stability."
     },
@@ -502,7 +653,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1995",
         "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/64px-JavaScript-logo.png",
+        "logo": "logos/JavaScript.png",
         "location": "Netscape, USA",
         "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
     },
@@ -518,8 +669,7 @@ export const languageMetadata: Record<string, any> = {
         "creator": "JetBrains",
         "date": "2011",
         "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/64px-Kotlin_Icon.png",
+        "logo": "logos/Kotlin.png",
         "location": "Russia/International",
         "benefits": "Concise, null safety, Java interoperability, Android standard."
     },
@@ -528,6 +678,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1993",
         "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
+        "logo": "logos/Lua.png",
         "location": "PUC-Rio, Brazil",
         "benefits": "Lightweight, embeddable, fast, simple."
     },
@@ -560,6 +711,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1970",
         "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Pascal_programming_language_logo.svg",
+        "logo": "logos/Pascal.png",
         "location": "ETH Zurich, Switzerland",
         "benefits": "Structured programming, teaching, strong typing."
     },
@@ -576,7 +728,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1995",
         "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
         "image": "https://github.com/rlerdorf.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/64px-PHP-logo.svg.png",
+        "logo": "logos/PHP.png",
         "location": "Canada",
         "benefits": "Web development, ease of deployment, vast ecosystem."
     },
@@ -609,7 +761,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1991",
         "description": "High-level, interpreted language emphasizing code readability. Excels in data science, machine learning, web development, automation, and rapid prototyping with extensive library ecosystem.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
+        "logo": "logos/Python.png",
         "location": "CWI, Netherlands",
         "benefits": "Readability, vast libraries, data science, AI."
     },
@@ -642,7 +794,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1995",
         "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
         "image": "https://github.com/matz.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg",
+        "logo": "logos/Ruby.png",
         "location": "Japan",
         "benefits": "Developer happiness, web development, scripting, elegance."
     },
@@ -651,7 +803,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2010",
         "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
         "image": "https://github.com/graydon.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
+        "logo": "logos/Rust.png",
         "location": "Mozilla, Canada",
         "benefits": "Memory safety, performance, concurrency, modern tooling."
     },
@@ -699,7 +851,7 @@ export const languageMetadata: Record<string, any> = {
         "creator": "Donald D. Chamberlin, Raymond F. Boyce",
         "date": "1974",
         "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png",
+        "logo": "logos/SQL.svg",
         "location": "IBM, USA",
         "benefits": "Data management, standard, declarative, powerful queries."
     },
@@ -708,7 +860,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2014",
         "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
         "image": "https://github.com/lattner.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/64px-Swift_logo.svg.png",
+        "logo": "logos/Swift.png",
         "location": "Apple, USA",
         "benefits": "Safety, speed, modern syntax, Apple ecosystem."
     },
@@ -725,7 +877,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2012",
         "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
         "image": "https://github.com/ahejlsberg.png",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg",
+        "logo": "logos/TypeScript.png",
         "location": "Microsoft, USA",
         "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
     },
@@ -766,7 +918,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1991",
         "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/40/VB.NET_Logo.svg",
+        "logo": "logos/VisualBasic.png",
         "location": "Microsoft, USA",
         "benefits": "RAD, ease of use, Windows integration, legacy support."
     },
@@ -775,6 +927,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2017",
         "description": "A binary instruction format for a stack-based virtual machine.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/WebAssembly_Logo.svg",
+        "logo": "logos/WebAssembly.png",
         "location": "Global",
         "benefits": "Performance, portability, language agnostic, web standard."
     },
@@ -963,6 +1116,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "2016",
         "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
+        "logo": "logos/Zig.png",
         "location": "USA",
         "benefits": "No hidden control flow, manual memory management, comptime."
     },
@@ -979,7 +1133,7 @@ export const languageMetadata: Record<string, any> = {
         "date": "1964",
         "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
         "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2e/True_BASIC_logo.svg",
+        "logo": "logos/BASIC.png",
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance."
     }

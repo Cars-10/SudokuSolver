@@ -1,0 +1,9 @@
+{
+  "creator": "JetBrains",
+  "date": "2011",
+  "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/64px-Kotlin_Icon.png",
+  "location": "Russia/International",
+  "benefits": "Concise, null safety, Java interoperability, Android standard."
+}

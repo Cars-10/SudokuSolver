@@ -1,0 +1,8 @@
+{
+  "creator": "Ary Borenszweig",
+  "date": "2014",
+  "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
+  "image": "https://github.com/asterite.png",
+  "location": "Argentina",
+  "benefits": "Ruby-like syntax, C-like performance, static typing."
+}

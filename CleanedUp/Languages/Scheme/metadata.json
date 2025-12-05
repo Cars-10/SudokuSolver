@@ -1,0 +1,8 @@
+{
+  "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
+  "date": "1975",
+  "description": "A minimalist dialect of the Lisp family of programming languages.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
+  "location": "MIT, USA",
+  "benefits": "Minimalism, education, functional, macros."
+}

@@ -1,0 +1,8 @@
+{
+  "creator": "Jeremy Ashkenas",
+  "date": "2009",
+  "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
+  "image": "https://github.com/jashkenas.png",
+  "location": "USA",
+  "benefits": "Concise syntax, readability, compiles to clean JavaScript."
+}

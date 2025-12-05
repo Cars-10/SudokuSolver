@@ -1,0 +1,8 @@
+{
+  "creator": "Martin Odersky",
+  "date": "2004",
+  "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
+  "image": "https://github.com/odersky.png",
+  "location": "EPFL, Switzerland",
+  "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
+}

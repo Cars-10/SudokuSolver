@@ -29,4 +29,7 @@ To run locally:
 If no file is provided, it defaults to `../../Matrices/*.matrix`.
 
 ## Docker
-See `Docker.md` for instructions on building and running with Docker.
+To run this benchmark using the standard `sudoku-content-server` image:
+```bash
+docker run --rm -v "$(pwd):/data" -w /data/CleanedUp/Languages/C++ sudoku-content-server ./setupAndRunMe.sh
+```

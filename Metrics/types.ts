@@ -11,7 +11,7 @@ export interface MetricResult {
 
 export interface SolverMetrics {
     solver: string;
-    runType?: string; // 'Local' | 'Docker' | 'AI' | 'Manual'
+    runType?: string; // 'Local' | 'Docker' | 'AI'
     timestamp: string;
     results: MetricResult[];
 }
