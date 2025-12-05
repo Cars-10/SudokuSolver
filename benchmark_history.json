@@ -1,0 +1,887 @@
+[
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-11-26T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0471,
+        "iterations": 100,
+        "memory": 5685715.753168127,
+        "cpu_user": 0.03766394991814735,
+        "cpu_sys": 0.009415987479536838,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-11-26T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0653,
+        "iterations": 100,
+        "memory": 6255685.736435073,
+        "cpu_user": 0.0522548083046625,
+        "cpu_sys": 0.013063702076165626,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-11-26T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0819,
+        "iterations": 100,
+        "memory": 6840202.867068457,
+        "cpu_user": 0.06551834951469747,
+        "cpu_sys": 0.016379587378674367,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-11-26T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.094,
+        "iterations": 100,
+        "memory": 11227057.739389166,
+        "cpu_user": 0.07521125830060676,
+        "cpu_sys": 0.01880281457515169,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-11-26T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.6339,
+        "iterations": 100,
+        "memory": 7139166.905205392,
+        "cpu_user": 1.3071066374989233,
+        "cpu_sys": 0.3267766593747308,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-11-27T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0423,
+        "iterations": 100,
+        "memory": 7850441.218271077,
+        "cpu_user": 0.03387852167393579,
+        "cpu_sys": 0.008469630418483948,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-11-27T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0589,
+        "iterations": 100,
+        "memory": 3832977.99191354,
+        "cpu_user": 0.04712619359807233,
+        "cpu_sys": 0.011781548399518083,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-11-27T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0795,
+        "iterations": 100,
+        "memory": 6229321.318571368,
+        "cpu_user": 0.06359345360479274,
+        "cpu_sys": 0.015898363401198184,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-11-27T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1337,
+        "iterations": 100,
+        "memory": 1212778.1921232447,
+        "cpu_user": 0.10697748596167006,
+        "cpu_sys": 0.026744371490417515,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-11-27T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.6322,
+        "iterations": 100,
+        "memory": 3760435.4662168645,
+        "cpu_user": 1.3057486119963173,
+        "cpu_sys": 0.3264371529990793,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-11-28T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0491,
+        "iterations": 100,
+        "memory": 4399159.002833102,
+        "cpu_user": 0.03931318643452817,
+        "cpu_sys": 0.009828296608632043,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-11-28T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0622,
+        "iterations": 100,
+        "memory": 9692004.897772657,
+        "cpu_user": 0.04978409522970811,
+        "cpu_sys": 0.012446023807427027,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-11-28T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0804,
+        "iterations": 100,
+        "memory": 3486946.5184876556,
+        "cpu_user": 0.06433458252459767,
+        "cpu_sys": 0.016083645631149418,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-11-28T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1339,
+        "iterations": 100,
+        "memory": 10557432.7607123,
+        "cpu_user": 0.10710480313173042,
+        "cpu_sys": 0.026776200782932604,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-11-28T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.5094,
+        "iterations": 100,
+        "memory": 10370489.191872038,
+        "cpu_user": 1.2075078900334049,
+        "cpu_sys": 0.3018769725083512,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-11-29T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0534,
+        "iterations": 100,
+        "memory": 6826920.712398881,
+        "cpu_user": 0.042726102456749675,
+        "cpu_sys": 0.010681525614187419,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-11-29T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.07,
+        "iterations": 100,
+        "memory": 9565344.424708711,
+        "cpu_user": 0.05597608728016038,
+        "cpu_sys": 0.013994021820040095,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-11-29T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0859,
+        "iterations": 100,
+        "memory": 8558337.080218773,
+        "cpu_user": 0.06869502863268732,
+        "cpu_sys": 0.01717375715817183,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-11-29T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1244,
+        "iterations": 100,
+        "memory": 4559571.547673455,
+        "cpu_user": 0.09952035999447235,
+        "cpu_sys": 0.02488008999861809,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-11-29T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.6594,
+        "iterations": 100,
+        "memory": 6974139.91053967,
+        "cpu_user": 1.3274890188200061,
+        "cpu_sys": 0.33187225470500153,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-11-30T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0451,
+        "iterations": 100,
+        "memory": 3910264.2235228946,
+        "cpu_user": 0.036084545523319425,
+        "cpu_sys": 0.009021136380829856,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-11-30T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0601,
+        "iterations": 100,
+        "memory": 7413140.21089651,
+        "cpu_user": 0.04805350593002847,
+        "cpu_sys": 0.012013376482507117,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-11-30T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0817,
+        "iterations": 100,
+        "memory": 8809259.343529718,
+        "cpu_user": 0.06535719897424347,
+        "cpu_sys": 0.016339299743560867,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-11-30T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1322,
+        "iterations": 100,
+        "memory": 6562429.202595846,
+        "cpu_user": 0.10575115879551611,
+        "cpu_sys": 0.026437789698879027,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-11-30T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.533,
+        "iterations": 100,
+        "memory": 3636426.217637713,
+        "cpu_user": 1.2264158498856301,
+        "cpu_sys": 0.30660396247140753,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-12-01T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.051,
+        "iterations": 100,
+        "memory": 11043400.099002855,
+        "cpu_user": 0.04077054052321368,
+        "cpu_sys": 0.01019263513080342,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-12-01T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0552,
+        "iterations": 100,
+        "memory": 4703438.417444745,
+        "cpu_user": 0.044136387306996386,
+        "cpu_sys": 0.011034096826749096,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-12-01T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0866,
+        "iterations": 100,
+        "memory": 6269395.43385066,
+        "cpu_user": 0.06928222157560034,
+        "cpu_sys": 0.017320555393900084,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-12-01T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1044,
+        "iterations": 100,
+        "memory": 10262316.794551719,
+        "cpu_user": 0.08348344749292591,
+        "cpu_sys": 0.020870861873231478,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-12-01T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.4754,
+        "iterations": 100,
+        "memory": 10154155.135741798,
+        "cpu_user": 1.1803298445865065,
+        "cpu_sys": 0.2950824611466266,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-12-02T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.042,
+        "iterations": 100,
+        "memory": 8977371.031137764,
+        "cpu_user": 0.033609315333473846,
+        "cpu_sys": 0.008402328833368462,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-12-02T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0622,
+        "iterations": 100,
+        "memory": 9258930.46367209,
+        "cpu_user": 0.04973647549672203,
+        "cpu_sys": 0.012434118874180507,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-12-02T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0736,
+        "iterations": 100,
+        "memory": 7565137.174401922,
+        "cpu_user": 0.058888475709033765,
+        "cpu_sys": 0.014722118927258441,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-12-02T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0901,
+        "iterations": 100,
+        "memory": 9900192.598308634,
+        "cpu_user": 0.07206386823198208,
+        "cpu_sys": 0.01801596705799552,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-12-02T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.3984,
+        "iterations": 100,
+        "memory": 9306518.727168843,
+        "cpu_user": 1.1187548409851862,
+        "cpu_sys": 0.27968871024629655,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-12-03T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0424,
+        "iterations": 100,
+        "memory": 6784493.94315147,
+        "cpu_user": 0.03395821173327468,
+        "cpu_sys": 0.00848955293331867,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-12-03T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0678,
+        "iterations": 100,
+        "memory": 2739947.595725799,
+        "cpu_user": 0.05422256935254746,
+        "cpu_sys": 0.013555642338136865,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-12-03T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0782,
+        "iterations": 100,
+        "memory": 2514254.116074344,
+        "cpu_user": 0.06258558938533554,
+        "cpu_sys": 0.015646397346333885,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-12-03T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1028,
+        "iterations": 100,
+        "memory": 7492707.918638497,
+        "cpu_user": 0.0822101805450503,
+        "cpu_sys": 0.020552545136262576,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-12-03T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.6038,
+        "iterations": 100,
+        "memory": 6807909.533835095,
+        "cpu_user": 1.2830594410499014,
+        "cpu_sys": 0.32076486026247536,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-12-04T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0591,
+        "iterations": 100,
+        "memory": 7515748.368203053,
+        "cpu_user": 0.04727983232271269,
+        "cpu_sys": 0.011819958080678173,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-12-04T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0681,
+        "iterations": 100,
+        "memory": 6888669.727385988,
+        "cpu_user": 0.054510043156826817,
+        "cpu_sys": 0.013627510789206704,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-12-04T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0877,
+        "iterations": 100,
+        "memory": 10861002.017875385,
+        "cpu_user": 0.07017913758494845,
+        "cpu_sys": 0.017544784396237113,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-12-04T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.1428,
+        "iterations": 100,
+        "memory": 5865884.102790817,
+        "cpu_user": 0.11425789116706514,
+        "cpu_sys": 0.028564472791766285,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-12-04T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.4367,
+        "iterations": 100,
+        "memory": 3967516.494923936,
+        "cpu_user": 1.1493901353325884,
+        "cpu_sys": 0.2873475338331471,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Prediction",
+    "timestamp": "2025-12-05T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0463,
+        "iterations": 100,
+        "memory": 10076586.986915302,
+        "cpu_user": 0.03707536555793965,
+        "cpu_sys": 0.009268841389484913,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Rust",
+    "runType": "Prediction",
+    "timestamp": "2025-12-05T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.054,
+        "iterations": 100,
+        "memory": 10050706.261108413,
+        "cpu_user": 0.0431776576007918,
+        "cpu_sys": 0.01079441440019795,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Go",
+    "runType": "Prediction",
+    "timestamp": "2025-12-05T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0903,
+        "iterations": 100,
+        "memory": 2957321.257223656,
+        "cpu_user": 0.07224369872941043,
+        "cpu_sys": 0.018060924682352607,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Java",
+    "runType": "Prediction",
+    "timestamp": "2025-12-05T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.0977,
+        "iterations": 100,
+        "memory": 10821177.096887823,
+        "cpu_user": 0.07812592398571705,
+        "cpu_sys": 0.019531480996429262,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "Python",
+    "runType": "Prediction",
+    "timestamp": "2025-12-05T09:38:05.183Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 1.5141,
+        "iterations": 100,
+        "memory": 8206920.733027309,
+        "cpu_user": 1.2112873183533885,
+        "cpu_sys": 0.30282182958834714,
+        "status": "pass"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-05T09:38:06.192Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.013003,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "/Users/cars10/GIT/SudokuSolver/Matrices/1.matrix\n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-05T09:41:27.936Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.01252,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "/Users/cars10/GIT/SudokuSolver/Matrices/1.matrix\n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-05T09:44:03.801Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.013595,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "/Users/cars10/GIT/SudokuSolver/Matrices/1.matrix\n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-05T09:52:15.638Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.016232,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "/Users/cars10/GIT/SudokuSolver/Matrices/1.matrix\n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-05T09:52:42.637Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.016363,
+        "iterations": 656,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "/Users/cars10/GIT/SudokuSolver/Matrices/1.matrix\n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      }
+    ]
+  }
+]
