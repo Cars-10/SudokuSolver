@@ -51,27 +51,27 @@ for matrix in $MATRICES; do
     tmp_out=$(mktemp)
     tmp_err=$(mktemp)
     
-    # Python timestamp for precision
-    start_time=$(python3 -c 'import time; print(time.time())')
-    
     # Detect OS for time command
     OS="$(uname)"
     if [ "$OS" = "Darwin" ]; then
         /usr/bin/time -l ./Sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
         memory=$(grep "maximum resident set size" "$tmp_err" | awk '{print $1}')
-        cpu_user=$(grep "user" "$tmp_err" | awk '{print $3}')
-        cpu_sys=$(grep "sys" "$tmp_err" | awk '{print $5}')
+        # Extract real time from /usr/bin/time output (format: "0.01 real 0.00 user 0.00 sys")
+        duration=$(grep "real" "$tmp_err" | awk '{print $1}')
+        cpu_user=$(grep "real" "$tmp_err" | awk '{print $3}')
+        cpu_sys=$(grep "real" "$tmp_err" | awk '{print $5}')
     else
         /usr/bin/time -v ./Sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
         memory=$(grep "Maximum resident set size" "$tmp_err" | awk -F': ' '{print $2}')
         # Convert KB to Bytes
         memory=$((memory * 1024))
+        # Extract elapsed time (format: "0:00.01" or "h:mm:ss")
+        elapsed=$(grep "Elapsed (wall clock)" "$tmp_err" | awk -F': ' '{print $2}')
+        # Convert to seconds
+        duration=$(echo "$elapsed" | awk -F: '{if (NF==2) print $1*60+$2; else print $1*3600+$2*60+$3}')
         cpu_user=$(grep "User time" "$tmp_err" | awk -F': ' '{print $2}')
         cpu_sys=$(grep "System time" "$tmp_err" | awk -F': ' '{print $2}')
     fi
-    
-    end_time=$(python3 -c 'import time; print(time.time())')
-    duration=$(awk -v start=$start_time -v end=$end_time 'BEGIN { printf "%.6f", end - start }')
 
     # Validation
     iterations=$(grep -a "Solved in Iterations=" "$tmp_out" | cut -d'=' -f2 | tr -d '[:space:]')
