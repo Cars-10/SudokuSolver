@@ -1,0 +1,9 @@
+{
+  "creator": "Dennis Ritchie",
+  "date": "1972",
+  "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/64px-C_Programming_Language.svg.png",
+  "location": "Bell Labs, USA",
+  "benefits": "High performance, portability, low-level access, massive legacy."
+}

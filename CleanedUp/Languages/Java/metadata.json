@@ -1,0 +1,9 @@
+{
+  "creator": "James Gosling",
+  "date": "1995",
+  "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
+  "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/64px-Java_programming_language_logo.svg.png",
+  "location": "Sun Microsystems, USA",
+  "benefits": "Portability, enterprise ecosystem, performance, stability."
+}

@@ -1,0 +1,8 @@
+{
+  "creator": "Brian Fox",
+  "date": "1989",
+  "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
+  "location": "Free Software Foundation, USA",
+  "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+}

@@ -55,7 +55,7 @@ async function runSuite() {
     const metricsFile = process.env.METRICS_FILE
         ? path.join(outputDir, process.env.METRICS_FILE)
         : path.join(repoRoot, 'CleanedUp', 'CleanedUp_Metrics.json');
-    const htmlFile = path.join(outputDir, 'benchmark_report.html');
+    const htmlFile = path.join(repoRoot, 'CleanedUp', 'benchmark_report.html');
 
     let allMetrics: SolverMetrics[] = [];
     try {
@@ -72,7 +72,7 @@ async function runSuite() {
                 migratedCount++;
             } else if (!m.runType) {
                 // Assume Local for legacy entries without runType
-                // But check if it was Manual or AI based on some other heuristic? 
+                // Assume Local for legacy entries without runType 
                 // For now, default to Local is safe as per plan.
                 m.runType = 'Local';
             }
@@ -108,6 +108,22 @@ async function runSuite() {
     for (const matrix of matrices) {
         console.log(`\n--- Benchmarking ${matrix} ---\n`);
         for (const script of solversToRun) {
+            // Check if language is locked
+            const solverDir = path.dirname(script);
+            const langName = path.basename(solverDir);
+            const metadataPath = path.join(solverDir, 'metadata.json');
+
+            try {
+                const metaContent = await fs.readFile(metadataPath, 'utf-8');
+                const metadata = JSON.parse(metaContent);
+                if (metadata.locked === true) {
+                    console.log(`⏭️  Skipping ${langName} (locked)`);
+                    continue;
+                }
+            } catch (e) {
+                // No metadata file or parse error - proceed with benchmark
+            }
+
             let metrics: SolverMetrics | null = null;
             if (useDocker) {
                 metrics = await runDockerSolver(script, matrix);
@@ -162,7 +178,7 @@ async function runSuite() {
                 // Generate History Report
                 const fullHistory = await historyManager.getHistory();
                 const historyHtml = await generateHistoryHtml(fullHistory);
-                const historyHtmlFile = path.join(repoRoot, 'benchmark_history.html');
+                const historyHtmlFile = path.join(repoRoot, 'CleanedUp', 'benchmark_history.html');
                 await fs.writeFile(historyHtmlFile, historyHtml);
                 console.log(`Updated history report at ${historyHtmlFile}`);
 

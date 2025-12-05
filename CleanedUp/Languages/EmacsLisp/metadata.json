@@ -1,0 +1,8 @@
+{
+  "creator": "Richard Stallman",
+  "date": "1985",
+  "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/EmacsIcon.svg",
+  "location": "MIT, USA",
+  "benefits": "Editor customization, extensibility, live coding."
+}

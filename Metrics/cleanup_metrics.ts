@@ -45,19 +45,13 @@ async function cleanupMetrics() {
         for (const m of metrics) {
             // Check if it's a legacy name (no parenthesis)
             if (!m.solver.includes('(')) {
-                const manualName = `${m.solver} (Manual)`;
-                const aiName = `${m.solver} (AI)`;
-
-                if (solversMap.has(manualName)) {
-                    console.log(`Found duplicate: "${m.solver}" and "${manualName}". Marking "${m.solver}" for removal.`);
-                    toRemove.add(m.solver);
-                } else if (solversMap.has(aiName)) {
-                    console.log(`Found duplicate: "${m.solver}" and "${aiName}". Marking "${m.solver}" for removal.`);
-                    toRemove.add(m.solver);
-                } else {
-                    console.log(`Found legacy name: "${m.solver}". Marking for rename to "${manualName}".`);
-                    toRename.set(m.solver, manualName);
-                }
+                // If legacy name, maybe assume Local? Or just leave it?
+                // For now, let's just log it but NOT rename to Manual as that directory is gone.
+                // const aiName = `${m.solver} (AI)`;
+                // if (solversMap.has(aiName)) {
+                //     console.log(`Found duplicate: "${m.solver}" and "${aiName}". Marking "${m.solver}" for removal.`);
+                //     toRemove.add(m.solver);
+                // }
             }
         }
 

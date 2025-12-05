@@ -1,0 +1,59 @@
+{
+    "baseline": "C",
+    "matrix6Threshold": 1.5,
+    "comment": "Only run matrix 6 if language is within 50% of C performance (threshold 1.5x) on matrix 5",
+    "languages": {
+        "C": {
+            "matrices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "matrix5Time": 0.025,
+            "alwaysRun6": true
+        },
+        "C++": {
+            "matrices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "matrix5Time": 0.101,
+            "ratio": 4.0,
+            "alwaysRun6": true,
+            "note": "Still runs 6 - compiled language"
+        },
+        "Python": {
+            "matrices": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "matrix5Time": 1.447,
+            "ratio": 57.9,
+            "skip6": true,
+            "note": "58x slower than C - skip matrix 6"
+        },
+        "Awk": {
+            "matrices": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "matrix5Time": 0.867,
+            "ratio": 34.7,
+            "skip6": true,
+            "note": "35x slower than C - skip matrix 6"
+        }
+    }
+}

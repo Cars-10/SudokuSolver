@@ -10,9 +10,8 @@ async function patchSolvers() {
     const rootDir = path.resolve(__dirname, '..');
     console.log(`Searching for solvers in ${rootDir}...`);
 
-    const manualSolvers = await glob(path.join(rootDir, 'Manual', '*/runMe_ai.sh'));
-    const aiSolvers = await glob(path.join(rootDir, 'AI-2025', '*/runMe_ai.sh'));
-    const allSolvers = [...manualSolvers, ...aiSolvers];
+    const cleanedUpSolvers = await glob(path.join(rootDir, 'CleanedUp', 'Languages', '*', 'setupAndRunMe.sh'));
+    const allSolvers = [...cleanedUpSolvers];
 
     console.log(`Found ${allSolvers.length} solvers.`);
 

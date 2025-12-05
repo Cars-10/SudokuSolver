@@ -26,4 +26,19 @@ These optimizations significantly improve the performance of the backtracking al
 
 ## Running with Docker
 
-See [Docker.md](Docker.md) for instructions on running this solver in a container.
+To run the benchmark using the shared `sudoku-content-server` Docker image (which includes the necessary C build tools and runtime):
+
+1.  Ensure you have built the content server image:
+    ```bash
+    docker build -t sudoku-content-server -f ../../../Metrics/ContentServer/Dockerfile ../../../Metrics/ContentServer
+    ```
+
+2.  Run the solver from this directory:
+    ```bash
+    docker run --rm -v "$(pwd)/../../..:/data" -w /data/CleanedUp/Languages/C sudoku-content-server ./setupAndRunMe.sh [path_to_matrix_files]
+    ```
+
+    Example for a single matrix:
+    ```bash
+    docker run --rm -v "$(pwd)/../../..:/data" -w /data/CleanedUp/Languages/C sudoku-content-server ./setupAndRunMe.sh ../../../Matrices/1.matrix
+    ```

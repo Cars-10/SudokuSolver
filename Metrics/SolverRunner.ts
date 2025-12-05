@@ -23,15 +23,7 @@ export async function runSolver(scriptPath: string, matrixPattern: string): Prom
     }
 
     let solverName = langName;
-    let runType = 'Local';
-
-    if (parentDir === 'Manual') {
-        runType = 'Manual';
-    } else if (parentDir === 'AI-2025') {
-        runType = 'AI';
-    } else if (parentDir === 'Languages') {
-        runType = 'Local';
-    }
+    let runType = 'Local'; // Default to Local for CleanedUp
 
     console.log(`Running solver: ${solverName} on ${matrixPattern}`);
 
@@ -39,18 +31,11 @@ export async function runSolver(scriptPath: string, matrixPattern: string): Prom
         let command: string;
         let cwd: string;
 
-        if (parentDir === 'Languages') {
-            // Use runMeGlobal.sh
-            // matrixPattern is like "1.matrix", runMeGlobal expects "1"
-            const matrixName = matrixPattern.replace('.matrix', '');
-            const globalScript = path.resolve(solverDir, '../../runMeGlobal.sh');
-            command = `${globalScript} ${langName} ${matrixName}`;
-            cwd = path.dirname(globalScript); // Run from CleanedUp dir
-        } else {
-            // Legacy behavior
-            command = `./runMe_ai.sh "../../Matrices/${matrixPattern}"`;
-            cwd = solverDir;
-        }
+        // matrixPattern is like "1.matrix", runMeGlobal expects "1"
+        const matrixName = matrixPattern.replace('.matrix', '');
+        const globalScript = path.resolve(solverDir, '../../runMeGlobal.sh');
+        command = `${globalScript} ${langName} ${matrixName}`;
+        cwd = path.dirname(globalScript); // Run from CleanedUp dir
 
         const { stdout, stderr } = await execPromise(command, {
             cwd: cwd,

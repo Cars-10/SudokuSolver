@@ -1,0 +1,142 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sudoku Benchmark History - Neon</title>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+        <style>
+            :root {
+                --bg: #0d0d12;
+                --surface: #16161e;
+                --primary: #00ff9d;
+                --text: #e0e0e0;
+                --border: #2a2a35;
+            }
+            body {
+                font-family: 'JetBrains Mono', monospace;
+                background-color: var(--bg);
+                color: var(--text);
+                margin: 0;
+                padding: 40px;
+            }
+            h1 {
+                text-align: center;
+                color: var(--primary);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+                margin-bottom: 40px;
+            }
+            .chart-container {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 30px rgba(0, 255, 157, 0.1);
+                position: relative;
+                height: 600px;
+                width: 90%;
+                margin: 0 auto;
+            }
+            .back-link {
+                display: block;
+                margin-bottom: 20px;
+                color: var(--primary);
+                text-decoration: none;
+                text-transform: uppercase;
+                font-size: 0.9em;
+            }
+            .back-link:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="benchmark_report.html" class="back-link">← Back to Report</a>
+        <h1>Benchmark Performance History</h1>
+
+        <div class="chart-container">
+            <canvas id="historyChart"></canvas>
+        </div>
+
+        <script>
+            const ctx = document.getElementById('historyChart').getContext('2d');
+            const data = ${JSON.stringify(datasets)};
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: data
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            },
+                            grid: {
+                                color: '#2a2a35'
+                            },
+                            ticks: {
+                                color: '#e0e0e0'
+                            }
+                        },
+                        y: {
+                            type: 'logarithmic',
+                            grid: {
+                                color: '#2a2a35'
+                            },
+                            ticks: {
+                                color: '#e0e0e0',
+                                callback: function (value) {
+                                    return value + 's';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Execution Time (Seconds) - Log Scale',
+                                color: '#5c5c66'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e0e0e0',
+                                font: {
+                                    family: 'JetBrains Mono'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(22, 22, 30, 0.9)',
+                            titleColor: '#00ff9d',
+                            bodyColor: '#e0e0e0',
+                            borderColor: '#2a2a35',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + 's';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
