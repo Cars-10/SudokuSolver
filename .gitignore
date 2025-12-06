@@ -72,3 +72,6 @@ screenshots/benchmark_.png
 # Rust build artifacts in CleanedUp
 CleanedUp/Languages/*/Sudoku_bin
 CleanedUp/Languages/*/run_type
+
+# CleanedUp screenshots
+CleanedUp/screenshots/
