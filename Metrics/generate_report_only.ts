@@ -9,7 +9,9 @@ import {
     languageMetadata,
     methodologyTexts,
     mismatchLabels,
-    narratorIntros
+    narratorIntros,
+    HistoryManager,
+    generateHistoryHtml
 } from './gather_metrics.ts';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +23,11 @@ const htmlFile = path.join(rootDir, 'CleanedUp', 'benchmark_report.html');
 
 async function run() {
     try {
+        // Load History
+        const historyMgr = new HistoryManager(rootDir);
+        const history = await historyMgr.getHistory();
+        console.log(`Loaded ${history.length} historical records.`);
+
         // Load main metrics (usually just C or recent run)
         let mainMetrics: any[] = [];
         try {
@@ -55,9 +62,21 @@ async function run() {
                     }
 
                     const stats = await fs.stat(file);
+
+                    // Check for run_type file
+                    let runType = 'Local';
+                    try {
+                        const runTypePath = path.join(path.dirname(file), 'run_type');
+                        const rt = await fs.readFile(runTypePath, 'utf-8');
+                        runType = rt.trim();
+                    } catch (e) {
+                        // ignore, default to Local
+                    }
+
                     metricsList.push({
                         solver: solverName,
                         timestamp: stats.mtimeMs, // Use file modification time
+                        runType: runType,
                         results: parsedMetrics
                     });
                 } else {
@@ -89,16 +108,32 @@ async function run() {
             }
         }
 
-        // Filter out languages with no actual results
-        const allMetrics = aggregatedMetrics.filter(m => m.results && m.results.length > 0);
-        console.log(`Loaded ${allMetrics.length} total metrics (filtered from ${aggregatedMetrics.length}).`);
+        const allMetrics = aggregatedMetrics;
+        console.log(`Loaded ${allMetrics.length} total metrics.`);
 
         // Read allowed matrices from TypeScript metrics
         const allowedMatrices = ['1.matrix', '2.matrix', '3.matrix', '4.matrix', '5.matrix', '6.matrix'];
         console.log(`Filtering report to standard suite: ${allowedMatrices.join(', ')}`);
 
-        const htmlContent = await generateHtml(allMetrics, [], personalities, languageMetadata, methodologyTexts, {}, allowedMatrices);
+        // Load benchmark config for expected matrices per language
+        let benchmarkConfig: { languages?: Record<string, any> } = {};
+        try {
+            const configPath = path.join(rootDir, 'CleanedUp', 'benchmark_config.json');
+            const configData = await fs.readFile(configPath, 'utf-8');
+            benchmarkConfig = JSON.parse(configData);
+            console.log(`Loaded benchmark config with ${Object.keys(benchmarkConfig.languages || {}).length} language configurations.`);
+        } catch (e) {
+            console.warn("Could not read benchmark_config.json, using defaults");
+        }
+
+        const htmlContent = await generateHtml(allMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig);
         await fs.writeFile(htmlFile, htmlContent);
+
+        // Generate History Report
+        const historyHtml = await generateHistoryHtml(history);
+        const historyHtmlFile = path.join(rootDir, 'CleanedUp', 'benchmark_history.html');
+        await fs.writeFile(historyHtmlFile, historyHtml);
+        console.log(`Successfully generated ${historyHtmlFile}`);
 
         // Write timestamp file for smart refresh
         const timestampFile = path.join(rootDir, 'CleanedUp', 'timestamp.js');

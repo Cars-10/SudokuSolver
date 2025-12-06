@@ -1,142 +1,783 @@
 
     <!DOCTYPE html>
-    <html lang="en">
+    <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Sudoku Benchmark History - Neon</title>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+        <title>Benchmark History</title>
         <style>
-            :root {
-                --bg: #0d0d12;
-                --surface: #16161e;
-                --primary: #00ff9d;
-                --text: #e0e0e0;
-                --border: #2a2a35;
-            }
-            body {
-                font-family: 'JetBrains Mono', monospace;
-                background-color: var(--bg);
-                color: var(--text);
-                margin: 0;
-                padding: 40px;
-            }
-            h1 {
-                text-align: center;
-                color: var(--primary);
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-                margin-bottom: 40px;
-            }
-            .chart-container {
-                background: var(--surface);
-                border: 1px solid var(--border);
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 30px rgba(0, 255, 157, 0.1);
-                position: relative;
-                height: 600px;
-                width: 90%;
-                margin: 0 auto;
-            }
-            .back-link {
-                display: block;
-                margin-bottom: 20px;
-                color: var(--primary);
-                text-decoration: none;
-                text-transform: uppercase;
-                font-size: 0.9em;
-            }
-            .back-link:hover {
-                text-decoration: underline;
-            }
+            body { font-family: 'JetBrains Mono', monospace; background: #0d0d12; color: #e0e0e0; padding: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #2a2a35; padding: 10px; text-align: left; }
+            th { background: #1a1a20; color: #00ff9d; }
+            tr:nth-child(even) { background: #16161e; }
+            h1 { color: #00ff9d; }
+            .status-failure, .status-error, .status-suspect { color: #ff0055; }
+            .status-optimized { color: #00b8ff; }
         </style>
     </head>
     <body>
-        <a href="benchmark_report.html" class="back-link">← Back to Report</a>
-        <h1>Benchmark Performance History</h1>
-
-        <div class="chart-container">
-            <canvas id="historyChart"></canvas>
-        </div>
-
-        <script>
-            const ctx = document.getElementById('historyChart').getContext('2d');
-            const data = ${JSON.stringify(datasets)};
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: data
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day'
-                            },
-                            grid: {
-                                color: '#2a2a35'
-                            },
-                            ticks: {
-                                color: '#e0e0e0'
-                            }
-                        },
-                        y: {
-                            type: 'logarithmic',
-                            grid: {
-                                color: '#2a2a35'
-                            },
-                            ticks: {
-                                color: '#e0e0e0',
-                                callback: function (value) {
-                                    return value + 's';
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Execution Time (Seconds) - Log Scale',
-                                color: '#5c5c66'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e0e0e0',
-                                font: {
-                                    family: 'JetBrains Mono'
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(22, 22, 30, 0.9)',
-                            titleColor: '#00ff9d',
-                            bodyColor: '#e0e0e0',
-                            borderColor: '#2a2a35',
-                            borderWidth: 1,
-                            padding: 10,
-                            displayColors: true,
-                            callbacks: {
-                                label: function (context) {
-                                    return context.dataset.label + ': ' + context.parsed.y + 's';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        </script>
+        <h1>Benchmark History</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Solver</th>
+                    <th>Matrix</th>
+                    <th>Time (s)</th>
+                    <th>Iterations</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td>12/5/2025, 10:44:49 PM</td>
+                        <td>Awk</td>
+                        <td>6.matrix</td>
+                        <td>180.0000</td>
+                        <td>0</td>
+                        <td class="status-timeout">timeout</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:45 PM</td>
+                        <td>C</td>
+                        <td>6.matrix</td>
+                        <td>3.6073</td>
+                        <td>622577597</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:37 PM</td>
+                        <td>C++</td>
+                        <td>6.matrix</td>
+                        <td>0.0963</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:33 PM</td>
+                        <td>Awk</td>
+                        <td>5.matrix</td>
+                        <td>0.8672</td>
+                        <td>445778</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:28 PM</td>
+                        <td>C</td>
+                        <td>5.matrix</td>
+                        <td>0.0248</td>
+                        <td>445778</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:25 PM</td>
+                        <td>C++</td>
+                        <td>5.matrix</td>
+                        <td>0.0490</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:21 PM</td>
+                        <td>Awk</td>
+                        <td>4.matrix</td>
+                        <td>0.0394</td>
+                        <td>9085</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:17 PM</td>
+                        <td>C</td>
+                        <td>4.matrix</td>
+                        <td>0.0333</td>
+                        <td>9085</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:13 PM</td>
+                        <td>C++</td>
+                        <td>4.matrix</td>
+                        <td>0.0470</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:10 PM</td>
+                        <td>Awk</td>
+                        <td>3.matrix</td>
+                        <td>0.1923</td>
+                        <td>98847</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:06 PM</td>
+                        <td>C</td>
+                        <td>3.matrix</td>
+                        <td>0.0284</td>
+                        <td>98847</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:02 PM</td>
+                        <td>C++</td>
+                        <td>3.matrix</td>
+                        <td>0.0443</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:58 PM</td>
+                        <td>Awk</td>
+                        <td>2.matrix</td>
+                        <td>0.7575</td>
+                        <td>439269</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:54 PM</td>
+                        <td>C</td>
+                        <td>2.matrix</td>
+                        <td>0.0260</td>
+                        <td>439269</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:50 PM</td>
+                        <td>C++</td>
+                        <td>2.matrix</td>
+                        <td>0.0448</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:46 PM</td>
+                        <td>Awk</td>
+                        <td>1.matrix</td>
+                        <td>0.0272</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:42 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0262</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:40:37 PM</td>
+                        <td>C++</td>
+                        <td>1.matrix</td>
+                        <td>0.0490</td>
+                        <td>0</td>
+                        <td class="status-suspect">suspect</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:26:37 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0998</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:16:36 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0983</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:15:07 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0418</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:13:46 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0225</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:11:52 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0403</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 1:06:13 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0132</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 12:56:28 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0151</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 12:45:07 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0165</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 12:42:25 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0211</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 12:42:16 PM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0210</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:52:42 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0164</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:52:15 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0162</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:44:03 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0136</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:41:27 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0125</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:06 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0130</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0463</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0540</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0903</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.0977</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/5/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.5141</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/4/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0591</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/4/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0681</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/4/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0877</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/4/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1428</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/4/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.4367</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/3/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0424</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/3/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0678</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/3/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0782</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/3/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1028</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/3/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.6038</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/2/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0420</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/2/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0622</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/2/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0736</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/2/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.0901</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/2/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.3984</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/1/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0510</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/1/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0552</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/1/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0866</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/1/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1044</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/1/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.4754</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/30/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0451</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/30/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0601</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/30/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0817</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/30/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1322</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/30/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.5330</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/29/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0534</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/29/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0700</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/29/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0859</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/29/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1244</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/29/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.6594</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/28/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0491</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/28/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0622</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/28/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0804</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/28/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1339</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/28/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.5094</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/27/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0423</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/27/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0589</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/27/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0795</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/27/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.1337</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/27/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.6322</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/26/2025, 10:38:05 AM</td>
+                        <td>C</td>
+                        <td>1.matrix</td>
+                        <td>0.0471</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/26/2025, 10:38:05 AM</td>
+                        <td>Rust</td>
+                        <td>1.matrix</td>
+                        <td>0.0653</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/26/2025, 10:38:05 AM</td>
+                        <td>Go</td>
+                        <td>1.matrix</td>
+                        <td>0.0819</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/26/2025, 10:38:05 AM</td>
+                        <td>Java</td>
+                        <td>1.matrix</td>
+                        <td>0.0940</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11/26/2025, 10:38:05 AM</td>
+                        <td>Python</td>
+                        <td>1.matrix</td>
+                        <td>1.6339</td>
+                        <td>100</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+            </tbody>
+        </table>
     </body>
     </html>
     

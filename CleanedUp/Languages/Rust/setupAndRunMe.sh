@@ -20,13 +20,32 @@ report_env_error() {
 # --- SETUP PHASE ---
 
 # Compile/Setup
-if [ -f "Sudoku.rs" ]; then
-    rustc -C opt-level=3 Sudoku.rs
-    if [ $? -ne 0 ]; then
-        report_env_error "Compilation failed"
+# Compile/Setup
+if [ -d "Sudoku" ]; then
+    cd Sudoku
+    # Check for cargo
+    if ! command -v cargo &> /dev/null; then
+         echo "Cargo not found, attempting single file search..."
+    else
+        cargo build --release --quiet
+        if [ $? -ne 0 ]; then
+            cd ..
+            report_env_error "Compilation failed"
+        fi
+        cp target/release/Sudoku ../Sudoku_bin
+        cd ..
     fi
-else
-    report_env_error "Sudoku.rs not found"
+fi
+
+if [ ! -f "Sudoku_bin" ]; then
+    if [ -f "Sudoku.rs" ]; then
+        rustc -C opt-level=3 Sudoku.rs -o Sudoku_bin
+        if [ $? -ne 0 ]; then
+            report_env_error "Compilation failed"
+        fi
+    else
+        report_env_error "Sudoku binary/source not found"
+    fi
 fi
 
 # --- EXECUTION PHASE ---
@@ -57,12 +76,12 @@ for matrix in $MATRICES; do
     # Detect OS for time command
     OS="$(uname)"
     if [ "$OS" = "Darwin" ]; then
-        /usr/bin/time -l ./Sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
+        /usr/bin/time -l ./Sudoku_bin "$matrix" > "$tmp_out" 2> "$tmp_err"
         memory=$(grep "maximum resident set size" "$tmp_err" | awk '{print $1}')
         cpu_user=$(grep "user" "$tmp_err" | awk '{print $3}')
         cpu_sys=$(grep "sys" "$tmp_err" | awk '{print $5}')
     else
-        /usr/bin/time -v ./Sudoku "$matrix" > "$tmp_out" 2> "$tmp_err"
+        /usr/bin/time -v ./Sudoku_bin "$matrix" > "$tmp_out" 2> "$tmp_err"
         memory=$(grep "Maximum resident set size" "$tmp_err" | awk -F': ' '{print $2}')
         # Convert KB to Bytes
         memory=$((memory * 1024))
