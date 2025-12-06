@@ -3,8 +3,8 @@ import * as path from 'path';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
 import type { SolverMetrics } from './types.ts';
-import { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros } from './LanguagesMetadata.ts';
-export { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros };
+import { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels } from './LanguagesMetadata.ts';
+export { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +15,18 @@ const __dirname = path.dirname(__filename);
 
 
 
-export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = []): Promise<string> {
+// Helper to safely serialize data for injection into template literals
+// We ONLY need to escape </script> to prevent breaking out of the script tag.
+// JSON.stringify handles quotes and backslashes correctly for the JS parser.
+function safeJSON(obj: any): string {
+    return JSON.stringify(obj)
+        .replace(/<\/script>/g, '<\\/script>')
+        .replace(/\u2028/g, '\\u2028') // Line separator
+        .replace(/\u2029/g, '\\u2029'); // Paragraph separator
+}
+
+export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}): Promise<string> {
+    const clientJs = await fs.readFile(path.join(__dirname, 'report_client.js'), 'utf-8');
     console.log(`generateHtml received ${metrics.length} metrics.`);
     // Pre-load local logos
     const localLogos = await glob('CleanedUp/logos/*.{png,svg}');
@@ -87,20 +98,26 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     const cTotalMem = cMetrics ? Math.max(...cMetrics.results.map(r => r.memory)) : 1; // Max RSS
     const cTotalCpu = cMetrics ? cMetrics.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0) : 1;
 
-    // Calculate mismatch count - only compare iterations for matrices both ran
+    // Calculate mismatch count
+    // Calculate mismatch count (Per-matrix logic, verified against C)
     let mismatchCount = 0;
-    if (cMetrics && cMetrics.results.length > 0) {
-        const cItersByMatrix = new Map(cMetrics.results.map(r => [r.matrix, r.iterations]));
+    if (cMetrics) {
+        // Create map for C
+        const cMap = new Map<string, number>();
+        cMetrics.results.forEach(r => cMap.set(r.matrix, r.iterations));
+
         mismatchCount = metrics.filter(m => {
             if (m.solver === 'C') return false;
-            // Only compare iterations for matrices this solver actually ran
-            for (const result of m.results) {
-                const cIters = cItersByMatrix.get(result.matrix);
-                if (cIters !== undefined && result.iterations !== cIters) {
-                    return true; // Mismatch found
+
+            // Check each result for this solver
+            for (const r of m.results) {
+                const expected = cMap.get(r.matrix);
+                // Only count as mismatch if we have a baseline and they differ
+                if (expected !== undefined && r.iterations !== expected) {
+                    return true;
                 }
             }
-            return false; // All matching matrices have correct iterations
+            return false;
         }).length;
     }
 
@@ -248,6 +265,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
         .lang-col {
             font-weight: bold;
+            min-width: 250px;
             color: var(--primary);
             border-left: 3px solid transparent;
             cursor: pointer;
@@ -321,7 +339,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
         }
         
-        .imposter {
+        .mismatch {
             color: #ff4444;
             font-weight: bold;
             text-decoration: underline;
@@ -455,7 +473,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
         .content-slide-active {
             transform: translateY(100vh);
-            opacity: 0.3;
+            opacity: 0;
         }
 
         /* Blue Pill Slide-Down Animation */
@@ -739,16 +757,23 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             font-family: 'JetBrains Mono', monospace;
             color: #00ff9d;
             text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d;
-            font-size: 1.5em;
-            margin: 5px 0;
+            font-size: 0.3em; /* Smaller to fit in box */
+            margin-top: 0px;
             perspective: 1000px;
             cursor: default;
             text-align: center;
+            position: absolute; /* Bound to bottom of relative parent */
+            bottom: 4px;
+            left: 0;
+            right: 0;
             width: 100%;
-            position: relative;
-            z-index: 10005; /* On top of everything */
+            pointer-events: none;
+            z-index: 200;
+            display: block;
+            height: auto;
+            letter-spacing: 1px;
         }
-        
+
         .riddle-char {
             display: inline-block;
             transform-style: preserve-3d;
@@ -888,14 +913,32 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
         .pill-combined {
             display: flex;
-            width: 100px;
-            height: 32px;
-            border-radius: 16px;
+            width: 70px;
+            height: 24px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: transform 0.2s ease;
+        }
+
+        .zoom-btn {
+            background: transparent;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        .zoom-btn:hover {
+            opacity: 1;
+            color: var(--primary);
         }
 
         .pill-combined:hover {
@@ -1039,6 +1082,90 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             background-color: rgba(0, 255, 157, 0.1);
             color: var(--primary);
         }
+
+        /* Log Modal */
+        #logModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+        
+        #logModal .modal-content {
+            background: #1e1e24;
+            width: 80%;
+            max-width: 900px;
+            height: 80%;
+            border-radius: 8px;
+            border: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        #logHeader {
+            padding: 15px;
+            background: #2a2a35;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #logOutput {
+            flex: 1;
+            padding: 15px;
+            overflow: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: #d0d0d0;
+            white-space: pre-wrap;
+            background: #16161a;
+        }
+
+        .run-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #00ff9d;
+            cursor: pointer;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 5px;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+        .run-btn:hover {
+            opacity: 1;
+            background: rgba(0, 255, 157, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Matrix Cell Content Layout */
+        .cell-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* Make Matrix Cell Relative for absolute positioning of play button if needed, 
+           or use flex row for header */
+        .cell-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -1046,6 +1173,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
     
+    <!-- Log Modal -->
+    <div id="logModal" onclick="if(event.target === this) closeLogModal()">
+        <div class="modal-content">
+            <div id="logHeader">
+                <span id="logTitle" style="color: #fff; font-weight: bold;">Execution Log</span>
+                <button class="btn" onclick="closeLogModal()" style="background:#ff5555; padding: 5px 15px;">Close</button>
+            </div>
+            <div id="logOutput"></div>
+        </div>
+    </div>
+
     <!-- Modal -->
     <div id="langModal" class="modal" style="display: none;" onclick="closeModal(event)">
         <div class="modal-content" id="modalContent">
@@ -1072,7 +1210,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
                             
                             <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
+                            <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
                             <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
+                            <a id="modalGrokepia" class="view-only" href="#" target="_blank" style="margin: 5px 0 0 0; color: #4fd6be; font-size: 0.9em; text-decoration: none; display:none;">🔗 https://grokipedia.com</a>
                         </div>
                     </div>
                 </div>
@@ -1122,6 +1262,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <div style="font-size: 1.4em; letter-spacing: 1px; display: inline-block;">
                         &Psi; = 
                         <span style="display: inline-block; text-align: center; vertical-align: middle; margin-left: 10px;">
+                            <a href="https://grokipedia.com" target="_blank" style="color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9em; transition: color 0.3s;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                </svg>
+                                View on Grokepia
+                            </a>
                             <div style="border-bottom: 1px solid #fff; padding-bottom: 5px; margin-bottom: 2px;">
                                 3&cdot;&rho;<sub>cpu</sub> + 2&cdot;&rho;<sub>mem</sub> + 1&cdot;&rho;<sub>time</sub>
                             </div>
@@ -1187,11 +1334,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <!-- Fullscreen header overlay - matches main page header -->
     <div id="fullscreen-header">
         <div class="header-counters">
-            <div class="solver-counter">
-                SOLVER ${metrics.length} OF ${metrics.length}
+            <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
+                <span id="solver-text">SOLVER ${metrics.length} OF ${metrics.length}</span>
+                <div id="riddle-container" class="riddle-text"></div>
+                <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
             </div>
-             <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
-            <div id="riddle-container" class="riddle-text"></div>
             ${mismatchCount > 0 ? `<div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
         </div>
     </div>
@@ -1201,7 +1348,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     class RiddleSystem {
         constructor() {
             this.target = "OptionIsEscape";
-            this.container = document.getElementById('riddle-container');
+            this.container = document.getElementById('riddle-container'); // Specific container
+            // this.textSpan = document.getElementById('solver-text'); // No longer hiding this
             this.aliens = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789";
             this.chars = [];
             this.active = false;
@@ -1211,7 +1359,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         start() {
             if (!this.container) return;
             this.active = true;
-            this.restartCycle();
+            this.runScanOnly(); // Skip scramble
+        }
+
+        runScanOnly() {
+             this.container.innerHTML = '';
+             this.chars = [];
+             
+             // Create chars directly without animation
+             for (let i = 0; i < this.target.length; i++) {
+                const span = document.createElement('span');
+                span.className = 'riddle-char';
+                span.innerText = this.target[i];
+                this.container.appendChild(span);
+                this.chars.push({ span: span, value: this.target[i] });
+             }
+             
+             // Start Scan Loop
+             this.runScan();
         }
 
         stop() {
@@ -1222,9 +1387,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         restartCycle() {
             if (!this.active) return;
             
-            // Reset container
-            this.container.innerHTML = '';
-            this.container.style.opacity = '1';
+            // Start
+            // this.container.classList.add('riddle-mode'); // No longer needed
+            if (this.textSpan) this.textSpan.style.display = 'none';
+
+            // Clean up old chars if any (though we shouldn't have any if we cleared, but here we append)
+            // Actually, we want to REMOVE existing chars but KEEP the textSpan.
+            // InnerHTML = '' would kill textSpan.
+            // So let's remove children that are spans (riddle-char)
+            Array.from(this.container.getElementsByClassName('riddle-char')).forEach(el => el.remove());
+            
             this.chars = [];
             
             // Generate chars
@@ -1298,11 +1470,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 const now = performance.now();
                 const elapsed = now - startTime;
                 
+                // Indefinite Scan loop - keeps "OptionIsEscape" visible
+                /*
                 if (elapsed > duration) {
                     // Phase 3: Hold Single Char
                     this.runSingleCharHold(); 
                     return;
                 }
+                */
 
                 // Knight Rider Scan Effect
                 // Triangle Wave for constant speed (no pause at ends)
@@ -1353,9 +1528,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             this.container.style.opacity = '0';
             
             setTimeout(() => {
+                // Stop/Reset
+                // Clear chars
+                this.container.innerHTML = '';
+                this.chars = [];
+
                 // Phase 4: Wait (60 seconds) then Restart
                 setTimeout(() => {
-                    this.restartCycle();
+                    this.start(); // Restart directly
                 }, 60000); 
             }, 2000);
         }
@@ -1363,309 +1543,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     const riddleSystem = new RiddleSystem();
     window.startRiddleAnimation = () => riddleSystem.start();
-    const timerSystem = new MatrixTimerSystem();
-    window.startTimerAnimation = () => timerSystem.start();
-    window.matrixTimerSystem = timerSystem;
-
-    document.addEventListener('keydown', (e) => {
-        if (!active) return;
-        if (e.key === 'Control') {
-            if (currentMode === 'red') puzzleVisible = !puzzleVisible;
-        }
-        if (e.key === 'Shift') {
-            // Show elapsed time since screensaver started? Or just some numbers.
-            // Let's show elapsed time since page load for now, or just random.
-            // User said "load the elapsed time".
-            const elapsed = (performance.now() / 1000).toFixed(1);
-            timerSystem.triggerText(elapsed);
-        }
-    });
-    let puzzleVisible = true;
-    
-    // --- Matrix Timer Logic ---
-    class MatrixTimerSystem {
-        constructor() {
-            this.container = document.getElementById('matrix-timer');
-            this.active = false;
-            this.visible = false;
-            this.introDone = false;
-            this.lastTriggerTime = 0;
-            this.interval = 600000; // 10 minutes
-            this.showDuration = 10000; 
-            this.currentDigit = 6; 
-            this.particles = [];
-            
-            // 5x7 Bitmaps
-            this.digits = {
-                "0": [
-                    0,1,1,1,0,
-                    1,0,0,0,1,
-                    1,0,0,1,1,
-                    1,0,1,0,1,
-                    1,1,0,0,1,
-                    1,0,0,0,1,
-                    0,1,1,1,0
-                ],
-                "1": [
-                    0,0,1,0,0,
-                    0,1,1,0,0,
-                    0,0,1,0,0,
-                    0,0,1,0,0,
-                    0,0,1,0,0,
-                    0,0,1,0,0,
-                    0,1,1,1,0
-                ],
-                "2": [
-                    0,1,1,1,0,
-                    1,0,0,0,1,
-                    0,0,0,0,1,
-                    0,0,0,1,0,
-                    0,0,1,0,0,
-                    0,1,0,0,0,
-                    1,1,1,1,1
-                ],
-                "3": [
-                    0,1,1,1,0,
-                    1,0,0,0,1,
-                    0,0,0,0,1,
-                    0,0,1,1,0,
-                    0,0,0,0,1,
-                    1,0,0,0,1,
-                    0,1,1,1,0
-                ],
-                "4": [
-                    0,0,0,1,0,
-                    0,0,1,1,0,
-                    0,1,0,1,0,
-                    1,0,0,1,0,
-                    1,1,1,1,1,
-                    0,0,0,1,0,
-                    0,0,0,1,0
-                ],
-                "5": [
-                    1,1,1,1,1,
-                    1,0,0,0,0,
-                    1,1,1,1,0,
-                    0,0,0,0,1,
-                    0,0,0,0,1,
-                    1,0,0,0,1,
-                    0,1,1,1,0
-                ],
-                "6": [
-                    0,1,1,1,0,
-                    1,0,0,0,0,
-                    1,0,0,0,0,
-                    1,1,1,1,0,
-                    1,0,0,0,1,
-                    1,0,0,0,1,
-                    0,1,1,1,0
-                ],
-                ".": [
-                    0,0,0,0,0,
-                    0,0,0,0,0,
-                    0,0,0,0,0,
-                    0,0,0,0,0,
-                    0,0,0,0,0,
-                    0,0,1,0,0, // Dot
-                    0,0,0,0,0
-                ]
-            };
-            
-            this.aliens = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789";
-            
-            const particleCount = 3500; // Increased for "0.0"
-            for(let i=0; i<particleCount; i++) {
-                const el = document.createElement('div');
-                el.className = 'timer-particle';
-                el.innerText = this.randomChar();
-                this.container.appendChild(el);
-                this.particles.push({
-                    el: el,
-                    x: 0,
-                    y: 0,
-                    targetX: null,
-                    targetY: null,
-                    state: 'idle', 
-                    startX: 0,
-                    startY: 0,
-                    progress: 0
-                });
-            }
-        }
-        
-        randomChar() {
-            return this.aliens[Math.floor(Math.random() * this.aliens.length)];
-        }
-        
-        start() {
-            this.active = true;
-            this.visible = false;
-            this.introDone = false;
-            this.currentDigit = 7;
-            
-            // Start with "0.0" immediately
-            this.show();
-            this.triggerText("0.0");
-            this.lastTriggerTime = performance.now(); // Intro start
-            
-            this.container.style.display = 'block'; 
-            this.animate();
-        }
-        
-        stop() {
-            this.active = false;
-            this.container.style.display = 'none';
-        }
-        
-        show() {
-            this.visible = true;
-            this.container.style.display = 'block';
-            this.visibleStartTime = performance.now();
-            
-            const w = this.container.clientWidth;
-            const h = this.container.clientHeight;
-            
-            this.particles.forEach(p => {
-                p.x = Math.random() * w;
-                p.y = Math.random() * h;
-                p.state = 'field'; 
-                p.el.style.opacity = 1;
-                elUpdate(p);
-            });
-        }
-        
-        hide() {
-            this.visible = false;
-            this.container.style.display = 'none';
-        }
-        
-        triggerDigit(num) {
-            this.triggerText(num.toString());
-        }
-        
-        triggerText(text) {
-            const w = this.container.clientWidth;
-            const h = this.container.clientHeight;
-            
-            // Calculate total width
-            const chars = text.split('');
-            const scale = Math.min(w, h) / 8; // Adjust scale for multi-char
-            const totalGridW = chars.length * 5 * scale + (chars.length - 1) * scale; // 1px gap (scaled)
-            
-            let currentX = (w - totalGridW) / 2;
-            const offsetY = (h - (7 * scale)) / 2;
-            
-            let usedParticles = 0;
-            const particlesPerPixel = 20; 
-            
-            this.particles.forEach(p => {
-                p.targetX = null;
-                p.targetY = null;
-                p.startX = p.x;
-                p.startY = p.y;
-                p.progress = 0;
-                p.speed = 0.005 + Math.random() * 0.01;
-            });
-            
-            chars.forEach(char => {
-                const grid = this.digits[char];
-                if (grid) {
-                    for(let row=0; row<7; row++) {
-                        for(let col=0; col<5; col++) {
-                            if(grid[row*5 + col]) {
-                                for(let k=0; k<particlesPerPixel; k++) {
-                                    if(usedParticles >= this.particles.length) break;
-                                    const p = this.particles[usedParticles++];
-                                    p.targetX = currentX + col * scale + Math.random() * scale;
-                                    p.targetY = offsetY + row * scale + Math.random() * scale;
-                                    p.state = 'merging'; 
-                                }
-                            }
-                        }
-                    }
-                }
-                currentX += 6 * scale; // 5 width + 1 gap
-            });
-            
-            for(let i=usedParticles; i<this.particles.length; i++) {
-                this.particles[i].state = 'dissolve';
-            }
-        }
-        
-        animate() {
-            if (!this.active) return;
-            
-            const now = performance.now();
-            
-            if (!this.introDone) {
-                 // Handling Intro "0.0"
-                 if (this.visible && (now - this.visibleStartTime > this.showDuration)) {
-                     this.hide();
-                     this.introDone = true;
-                     this.lastTriggerTime = now; // Reset trigger for next interval
-                     // Start countdown sequence from 6 next time? Yes.
-                 }
-            } else {
-                // Regular Interval
-                if (now - this.lastTriggerTime > this.interval) {
-                    this.show();
-                    this.currentDigit--;
-                    if (this.currentDigit < 1) this.currentDigit = 6;
-                    this.triggerDigit(this.currentDigit);
-                    this.lastTriggerTime = now;
-                }
-                
-                if (this.visible && (now - this.visibleStartTime > this.showDuration)) {
-                    this.hide();
-                }
-            }
-            
-            if (this.visible) {
-                const w = this.container.clientWidth;
-                const h = this.container.clientHeight;
-                
-                this.particles.forEach(p => {
-                    if (Math.random() < 0.05) p.el.innerText = this.randomChar();
-                    
-                    if (p.state === 'field') {
-                        p.x += (Math.random() - 0.5) * 5;
-                        p.y += (Math.random() - 0.5) * 5;
-                        if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
-                        if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
-                        
-                    } else if (p.state === 'merging') {
-                        const dx = p.targetX - p.x;
-                        const dy = p.targetY - p.y;
-                        p.x += dx * p.speed;
-                        p.y += dy * p.speed;
-                        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
-                            p.x = p.targetX;
-                            p.y = p.targetY;
-                            p.state = 'hold';
-                        }
-                    } else if (p.state === 'hold') {
-                        p.x += (Math.random() - 0.5);
-                        p.y += (Math.random() - 0.5);
-                    } else if (p.state === 'dissolve') {
-                         p.el.style.opacity = Math.max(0, parseFloat(p.el.style.opacity || 1) - 0.01);
-                         p.x += (Math.random() - 0.5) * 2;
-                         p.y += (Math.random() - 0.5) * 2;
-                    }
-                    elUpdate(p);
-                });
-            }
-            requestAnimationFrame(() => this.animate());
-        }
-    }
-
-    const timerSystem = new MatrixTimerSystem();
-
-    window.startRiddleAnimation = startRiddleAnimation;
-    window.startTimerAnimation = () => timerSystem.start();
-    window.stopTimerAnimation = () => timerSystem.stop();
-    
-    // I should call these from startScreensaver / stopScreensaver
-    </script>
+    // Global active state for screensaver
     
     <div id="main-content" class="content-wrapper">
     <h1>Sudoku Benchmark Results</h1>
@@ -1680,11 +1558,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     </div>
     
     <div style="width: 95%; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
-        <div style="position: absolute; top: 10px; right: 20px; z-index: 100; display: flex; gap: 10px;">
+        <div style="position: absolute; top: 10px; right: 20px; z-index: 100; display: flex; gap: 10px; align-items: center;">
+            <button class="zoom-btn" onclick="undoZoom()" title="Zoom Extent">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
             <select id="chart-selector" class="btn active" onchange="switchChart(this.value)" style="cursor: pointer;">
                 <option value="line">Line Chart</option>
-                <option value="jockey">Jockey Leaderboard</option>
-                <option value="race">Matrix Race (Bar Chart)</option>
+                <option value="jockey">Horse Race</option>
+                <option value="race">Matrix Race</option>
+                <option value="history">History</option>
             </select>
             <div class="pill-container" onclick="event.stopPropagation();">
                 <div class="pill-combined">
@@ -1706,7 +1590,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <div class="dropdown">
                 <button class="btn">Menu ▼</button>
                 <div class="dropdown-content">
-                    <a href="benchmark_history.html" target="_blank">View History</a>
                     <a onclick="showMethodology()">Methodology</a>
                     <a onclick="showGoals()">Project Goals</a>
                     <a onclick="showWhy()">Why???</a>
@@ -1721,17 +1604,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="The Professor">The Professor</option>
                 <option value="The Surfer">The Surfer</option>
                 <option value="The Matrix">The Matrix</option>
-                <option value="Battlestar Galactica">Battlestar Galactica</option>
+                <option value="Galactica">Galactica</option>
                 <option value="Star Trek">Star Trek</option>
                 <option value="Star Wars">Star Wars</option>
             </select>
             <button class="btn" onclick="sortRows('lang', this)">Name</button>
-            <button class="btn active" onclick="sortRows('time', this)">Time (Fastest)</button>
-            <button class="btn" onclick="sortRows('mem', this)">Memory (Highest)</button>
-            <button class="btn" onclick="sortRows('iters', this)">Iterations</button>
-            <button class="btn" onclick="sortRows('score', this)">Total Score</button>
+            <button class="btn active" onclick="sortRows('time', this)">Time</button>
+            <button class="btn" onclick="sortRows('mem', this)">Memory</button>
+            <button class="btn" onclick="sortRows('iters', this)">Entropy</button>
+            <button class="btn" onclick="sortRows('score', this)">Score</button>
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
-                <span>Filter Mismatches</span>
+                <span>Show Mismatches</span>
             </button>
         </div>
     </div>
@@ -1782,10 +1665,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         html += `<th>
             Matrix ${i + 1}
             <div class="sort-group">
-                <button class="sort-btn" onclick="sortMatrix(${i}, 'time', this)" title="Sort by Time">S</button>
-                <button class="sort-btn" onclick="sortMatrix(${i}, 'iters', this)" title="Sort by Iterations">I</button>
-                <button class="sort-btn" onclick="sortMatrix(${i}, 'mem', this)" title="Sort by Memory">M</button>
-                <button class="sort-btn" onclick="sortMatrix(${i}, 'score', this)" title="Sort by Score">Sc</button>
+                <button class="sort-btn sort-time" onclick="sortMatrix(${i}, 'time', this)" title="Sort by Time">S</button>
+                <button class="sort-btn sort-iters" onclick="sortMatrix(${i}, 'iters', this)" title="Sort by Iterations">I</button>
+                <button class="sort-btn sort-mem" onclick="sortMatrix(${i}, 'mem', this)" title="Sort by Memory">M</button>
+                <button class="sort-btn sort-score" onclick="sortMatrix(${i}, 'score', this)" title="Sort by Score">Sc</button>
             </div>
         </th>`;
     }
@@ -1830,18 +1713,25 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const isFastest = totalTime === minTime;
         const isSlowest = totalTime === maxTime;
 
-        // Suspect Logic
-        const isSuspect = m.results.length !== maxMatrices;
+        // Suspect Logic - Check against configured expected matrices
+        const langConfig = benchmarkConfig?.languages?.[lang];
+        const expectedMatrixCount = langConfig?.matrices?.length || maxMatrices;
+        const isSuspect = m.results.length < expectedMatrixCount;
 
-        // Iteration Mismatch Logic - compare only matrices this solver ran
-        const cItersByMatrix = cMetrics ? new Map(cMetrics.results.map(r => [r.matrix, r.iterations])) : new Map();
+        // Iteration Mismatch Logic
+        // Iteration Mismatch Logic
+        // Calculate expected iterations based on the matrices this solver successfully ran
+        let expectedIters = 0;
+        if (cMetrics) {
+            m.results.forEach(r => {
+                const cRes = cMetrics.results.find(cm => cm.matrix === r.matrix);
+                if (cRes) expectedIters += Number(cRes.iterations);
+            });
+        }
+
         // Baseline is C (Local)
         const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
-        // Check if any matrix has wrong iterations (only for matrices this solver ran)
-        const isMismatch = !isBaseline && m.results.some(r => {
-            const cIters = cItersByMatrix.get(r.matrix);
-            return cIters !== undefined && r.iterations !== cIters;
-        });
+        const isMismatch = !isBaseline && expectedIters > 0 && totalIters !== expectedIters;
 
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
@@ -1936,8 +1826,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
-
-                        <div class="time" title="Wall Clock Time">${r.time < 0.0001 && r.time > 0 ? r.time.toExponential(4) : r.time.toFixed(5)}s</div>
+                        <div class="cell-header">
+                             <button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">▶</button>
+                             <div class="time" title="Wall Clock Time">${r.time != null ? (r.time < 0.0001 && r.time > 0 ? r.time.toExponential(4) : r.time.toFixed(5)) : '0.00000'}s</div>
+                        </div>
                         <div class="meta">
                             ${(() => {
                         const cRes = cMetrics?.results.find(res => res.matrix === r.matrix);
@@ -1946,9 +1838,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         const rIter = Number(r.iterations);
                         const cIter = Number(cIterations);
                         const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
-                        const isImposter = !isBaseline && cIterations !== null && rIter !== cIter;
+                        const isMismatch = !isBaseline && cIterations !== null && rIter !== cIter;
 
-                        return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isImposter ? 'imposter' : ''}">#${r.iterations}</span>`;
+                        return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isMismatch ? 'mismatch' : ''}">#${r.iterations}</span>`;
                     })()}
                             <span title="Memory">${memMb.toFixed(1)}M</span>
                         </div>
@@ -1965,2117 +1857,100 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     html += `
         </tbody></table></div>
         <script>
-            const personalities = ${JSON.stringify(personalities)};
-            const narratorIntros = ${JSON.stringify(narratorIntros)};
-            const languageMetadata = ${JSON.stringify(languageMetadata)};
-            const methodologyTexts = ${JSON.stringify(methodologyTexts)};
-            
-            let currentSort = { metric: 'time', dir: 1 }; // 1 = Asc, -1 = Desc
-
-            // Search Logic
-            function filterLanguages() {
-                const input = document.getElementById('search-input');
-                const filter = input.value.toUpperCase();
-                const tbody = document.querySelector('tbody');
-                const rows = tbody.getElementsByTagName('tr');
-
-                for (let i = 0; i < rows.length; i++) {
-                    const row = rows[i];
-                    const lang = row.getAttribute('data-lang');
-                    if (lang) {
-                        if (lang.toUpperCase().indexOf(filter) > -1) {
-                            row.style.display = "";
-                        } else {
-                            row.style.display = "none";
-                        }
-                    }
-                }
-            }
-
-            // Sorting Logic
-            function sortRows(metric, btn) {
-                const tbody = document.querySelector('tbody');
-                const rows = Array.from(tbody.querySelectorAll('tr'));
-                
-                // Toggle direction
-                if (currentSort.metric === metric) {
-                    currentSort.dir *= -1;
-                } else {
-                    currentSort.metric = metric;
-                    currentSort.dir = 1;
-                }
-                
-                // Update buttons
-                document.querySelectorAll('.btn, .sort-btn').forEach(b => {
-                    b.classList.remove('active');
-                    b.classList.remove('rotate-180');
-                });
-                
-                if (btn) {
-                    btn.classList.add('active');
-                    if (currentSort.dir === -1) {
-                        btn.classList.add('rotate-180');
-                    }
-                }
-
-                rows.sort((a, b) => {
-                    const aVal = a.getAttribute('data-' + metric);
-                    const bVal = b.getAttribute('data-' + metric);
-                    
-                    if (metric === 'lang') {
-                        return aVal.localeCompare(bVal) * currentSort.dir;
-                    } else if (metric === 'year') {
-                        return (parseInt(aVal) - parseInt(bVal)) * currentSort.dir;
-                    } else {
-                        return (parseFloat(aVal) - parseFloat(bVal)) * currentSort.dir;
-                    }
-                });
-
-                rows.forEach(row => tbody.appendChild(row));
-            }
-            
-            function sortMatrix(index, metric, btn) {
-                const tbody = document.querySelector('tbody');
-                const rows = Array.from(tbody.querySelectorAll('tr'));
-                const attr = 'data-m' + index + '-' + metric;
-                const fullMetric = 'm' + index + '_' + metric;
-                
-                if (currentSort.metric === fullMetric) {
-                    currentSort.dir *= -1;
-                } else {
-                    currentSort.metric = fullMetric;
-                    currentSort.dir = metric === 'time' || metric === 'score' ? 1 : -1;
-                }
-
-                // Update buttons
-                document.querySelectorAll('.btn, .sort-btn').forEach(b => {
-                    b.classList.remove('active');
-                    b.classList.remove('rotate-180');
-                });
-                
-                if (btn) {
-                    btn.classList.add('active');
-                    if (currentSort.dir === -1) {
-                        btn.classList.add('rotate-180');
-                    }
-                }
-
-                rows.sort((a, b) => {
-                    const aVal = parseFloat(a.getAttribute(attr));
-                    const bVal = parseFloat(b.getAttribute(attr));
-                    return (aVal - bVal) * currentSort.dir;
-                });
-
-                rows.forEach(row => tbody.appendChild(row));
-            }
-            
-            // Mismatch Filter
-            function toggleMismatches() {
-                const btn = document.getElementById('toggleMismatchesBtn');
-                const isFilterActive = btn.classList.toggle('active');
-
-                if (isFilterActive) {
-                    btn.classList.add('filter-active-red');
-                    btn.querySelector('span').textContent = "Show All";
-                } else {
-                    btn.classList.remove('filter-active-red');
-                    btn.querySelector('span').textContent = "Filter Mismatches";
-                }
-
-                const rows = document.querySelectorAll('tbody tr');
-                rows.forEach(row => {
-                    if (isFilterActive) {
-                        if (row.classList.contains('mismatch-iterations')) {
-                            row.style.display = 'none';
-                        } else {
-                            row.style.display = '';
-                        }
-                    } else {
-                        row.style.display = '';
-                    }
-                });
-            }
-
-            // Personality Selector
-            function changePersonality() {
-                const selector = document.getElementById('personality-selector');
-                const persona = selector.value;
-                const intro = document.getElementById('personality-intro');
-                
-                // Update Intro Text
-                intro.innerText = narratorIntros[persona] || narratorIntros['Standard'] || "Welcome to the Sudoku Benchmark.";
-
-                // Update Tooltips
-                const rows = document.querySelectorAll('tbody tr');
-                rows.forEach(row => {
-                    const lang = row.getAttribute('data-lang');
-                    const quotes = personalities[persona] || personalities['Standard'];
-                    let quote = quotes[lang] || quotes['default'] || "Unknown.";
-                    
-                    // Append Efficiency
-                    const score = row.getAttribute('data-score');
-                    let time = parseFloat(row.getAttribute('data-time'));
-                    let timeStr = time < 0.0001 && time > 0 ? time.toExponential(2) + "s" : time.toFixed(6) + "s";
-                    quote += " Efficiency: " + parseFloat(score).toFixed(2) + " MB/s | Time: " + timeStr;
-                    
-                    row.setAttribute('data-quote', quote);
-                });
-                // Update Methodology Modal
-                const methodDesc = document.querySelector('#methodModal .modal-desc');
-                if (methodDesc) {
-                    methodDesc.innerHTML = methodologyTexts[persona] || methodologyTexts['Standard'];
-                }
-
-            }
-
-            // Tooltip Logic
-            const tooltip = document.getElementById('tooltip');
-            
-            // Attach to all cells
-            // Attach to all cells
-            // Attach to all cells
-            
-            document.querySelectorAll('tbody td').forEach(cell => {
-                cell.addEventListener('mousemove', (e) => {
-                    const row = cell.parentElement;
-                    const lang = row.getAttribute('data-lang');
-                    
-                    let content = "";
-                    
-                    if (cell.classList.contains('lang-col')) {
-                        // Language Cell -> Show History
-                        const history = row.getAttribute('data-history');
-                        if (history) {
-                            content = '<strong style="color: var(--primary)">' + lang + '</strong><br>' +
-                                '<div style="max-width: 250px; white-space: normal; margin-top: 5px;">' + history + '</div>';
-                        }
-                    } else if (cell.classList.contains('matrix-cell')) {
-                        // Matrix Cell -> Detailed Metrics
-                        const matrixIdx = parseInt(cell.getAttribute('data-matrix-index'));
-                        const time = row.getAttribute('data-m' + matrixIdx + '-time');
-                        const iters = row.getAttribute('data-m' + matrixIdx + '-iters');
-                        const mem = row.getAttribute('data-m' + matrixIdx + '-mem');
-                        const score = row.getAttribute('data-m' + matrixIdx + '-score');
-                        
-                        if (time && time !== '999999') {
-                            const memMb = (parseFloat(mem) / 1024 / 1024).toFixed(1);
-                            content = '<strong style="color: var(--primary)">Matrix ' + (matrixIdx + 1) + '</strong><br>' +
-                                '<span style="color: var(--secondary)">' + lang + '</span><br>' +
-                                '<hr style="border: 0; border-bottom: 1px solid var(--border); margin: 5px 0;">' +
-                                'Time: <span style="color: #fff">' + parseFloat(time).toFixed(5) + 's</span><br>' +
-                                'Score: <span style="color: ' + (parseFloat(score) <= 1 ? 'var(--primary)' : '#ff0055') + '">' + score + 'x</span><br>' +
-                                'Iters: ' + parseInt(iters).toLocaleString() + '<br>' +
-                                'Mem: ' + memMb + ' MB';
-                        } else {
-                            content = row.getAttribute('data-quote');
-                        }
-                    } else if (cell.classList.contains('score-col')) {
-                        // Score Cell -> Show Breakdown + Quote
-                        const breakdown = row.getAttribute('data-score-breakdown');
-                        const quote = row.getAttribute('data-quote');
-                        content = '<strong style="color: var(--primary)">Composite Score</strong><br>' +
-                                  '<span style="font-size: 0.8em; color: var(--secondary)">' + breakdown + '</span><br>' +
-                                  '<hr style="border: 0; border-bottom: 1px solid var(--border); margin: 5px 0;">' +
-                                  quote;
-                    }
-
-                    if (content) {
-                        const tooltip = document.getElementById('tooltip');
-                        tooltip.style.display = 'block';
-                        tooltip.style.left = (e.clientX + 15) + 'px';
-                        tooltip.style.top = (e.clientY + 15) + 'px';
-                        tooltip.innerHTML = content;
-                    }
-                });
-                
-                cell.addEventListener('mouseleave', () => {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.style.display = 'none';
-                });
-            });
-            
-            // Add click handler to language cells to show modal
-            document.querySelectorAll('.lang-col').forEach(cell => {
-                cell.addEventListener('click', () => {
-                    const row = cell.parentElement;
-                    const lang = row.getAttribute('data-lang');
-                    if (lang) {
-                        showLanguageDetails(lang);
-                    }
-                });
-                cell.style.cursor = 'pointer';  // Make it obvious it's clickable
-            });
-            // Modal Logic
-            let currentEditingLang = null;
-            let currentMetadata = null;
-
-            // Updated Show Function
-            window.showLanguageDetails = async function(lang) {
-                console.log("Opening modal for:", lang);
-                currentEditingLang = lang;
-                const modal = document.getElementById('langModal');
-                const modalContent = document.getElementById('modalContent');
-                
-                // Fetch dynamic metadata from backend first? 
-                // We fallback to static if fetch fails.
-                let meta = languageMetadata[lang] || {};
-                
-                try {
-                    const res = await fetch(\`http://localhost:3000/api/metadata/\${lang}\`);
-    if (res.ok) {
-        const dynamicMeta = await res.json();
-        // Merge: dynamic takes precedence, but keep static defaults if missing
-        meta = { ...meta, ...dynamicMeta };
-    }
-} catch (e) {
-    console.warn("Could not fetch dynamic metadata:", e);
-}
-
-currentMetadata = meta;
-
-// View Mode Population
-const img = meta.image || meta.logo || "";
-document.getElementById('modalImg').src = img;
-
-const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
-document.getElementById('modalTitle').innerText = displayName;
-document.getElementById('modalSubtitle').innerText = (meta.creator || "?") + " • " + (meta.date || "????");
-document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
-document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
-document.getElementById('modalDesc').innerText = meta.description || "No description available.";
-
-// Edit Mode Population
-document.getElementById('editInputs-title').value = displayName;
-document.getElementById('editInputs-creator').value = meta.creator || "";
-document.getElementById('editInputs-image').value = meta.image || meta.logo || "";
-document.getElementById('editInputs-date').value = meta.date || "";
-document.getElementById('editInputs-location').value = meta.location || "";
-document.getElementById('editInputs-benefits').value = meta.benefits || "";
-document.getElementById('editInputs-desc').value = meta.description || "";
-
-// Authors Population
-const authorList = document.getElementById('authorList');
-authorList.innerHTML = '';
-
-const authors = meta.authors || [];
-// If no specific authors list, use creator + main image as one entry? or just rely on main header?
-// Let's rely on main header for primary, but allow adding more.
-
-authors.forEach((auth, idx) => {
-    const div = document.createElement('div');
-    div.className = 'author-item';
-    div.innerHTML = \`
-                        <img src="\${auth.image || ''}" class="author-img">
-                        <span class="view-only">\${auth.name}</span>
-                        <input type="text" class="modal-edit-input edit-only" value="\${auth.name}" placeholder="Name" onchange="updateAuthor(\${idx}, 'name', this.value)">
-                        <input type="text" class="modal-edit-input edit-only" value="\${auth.image}" placeholder="Image URL" onchange="updateAuthor(\${idx}, 'image', this.value)">
-                        <button class="btn edit-only" style="background:#ff5555; padding: 2px 5px; font-size: 0.7em;" onclick="removeAuthor(\${idx})"> Remove </button>
-                    \`;
-    authorList.appendChild(div);
-});
-
-modalContent.classList.remove('editing');
-document.getElementById('editBtn').innerText = "Edit";
-modal.style.display = 'flex';
-            };
-
-window.toggleEditMode = function () {
-    const content = document.getElementById('modalContent');
-    const btn = document.getElementById('editBtn');
-    if (content.classList.contains('editing')) {
-        content.classList.remove('editing');
-        btn.innerText = "Edit";
-    } else {
-        content.classList.add('editing');
-        btn.innerText = "Cancel";
-    }
-};
-
-window.toggleLock = async function () {
-    if (!currentEditingLang) return;
-    
-    const btn = document.getElementById('lockBtn');
-    const isCurrentlyLocked = btn.innerText.includes('Locked 🔒');
-    const newLockState = !isCurrentlyLocked;
-    
-    try {
-        const res = await fetch('http://localhost:9101/api/lock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lang: currentEditingLang, locked: newLockState })
-        });
-
-        if (res.ok) {
-            btn.innerText = newLockState ? '🔒 Locked' : '🔓 Unlocked';
-            btn.style.background = newLockState ? '#4caf50' : '';
-            btn.style.color = newLockState ? '#fff' : '';
-        } else {
-            alert("Error locking: " + res.statusText);
-        }
-    } catch (e) {
-        alert("Error locking: " + e.message + ". Is ContentServer running?");
-    }
-};
-
-window.saveLanguageDetails = async function () {
-    if (!currentEditingLang) return;
-
-    const newData = {
-        creator: document.getElementById('editInputs-creator').value,
-        image: document.getElementById('editInputs-image').value,
-        date: document.getElementById('editInputs-date').value,
-        location: document.getElementById('editInputs-location').value,
-        benefits: document.getElementById('editInputs-benefits').value,
-        description: document.getElementById('editInputs-desc').value,
-        authors: currentMetadata.authors || []
-    };
-
-    // Save to backend
-    try {
-        const res = await fetch('http://localhost:3000/api/save-metadata', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lang: currentEditingLang, metadata: newData })
-        });
-
-        if (res.ok) {
-            alert("Saved!");
-            window.showLanguageDetails(currentEditingLang); // Refresh
-        } else {
-            alert("Error saving: " + res.statusText);
-        }
-    } catch (e) {
-        alert("Error saving: " + e.message);
-    }
-};
-
-window.addAuthorField = function () {
-    if (!currentMetadata.authors) currentMetadata.authors = [];
-    currentMetadata.authors.push({ name: "New Author", image: "" });
-    window.showLanguageDetails(currentEditingLang); // Re-render triggers populate
-    document.getElementById('modalContent').classList.add('editing'); // Keep edit mode
-};
-
-window.removeAuthor = function (idx) {
-    if (!currentMetadata.authors) return;
-    currentMetadata.authors.splice(idx, 1);
-    window.showLanguageDetails(currentEditingLang);
-    document.getElementById('modalContent').classList.add('editing');
-};
-
-window.updateAuthor = function (idx, field, value) {
-    if (!currentMetadata.authors[idx]) return;
-    currentMetadata.authors[idx][field] = value;
-};
-
-window.openGoogleImageSearch = function () {
-    if (currentEditingLang) {
-        window.open(\`https://www.google.com/search?tbm=isch&q=\${encodeURIComponent(currentEditingLang + " programming language logo")}\`, '_blank');
-    }
-};
-
-// Paste Listener for Modal
-document.addEventListener('paste', async (e) => {
-    // Only if modal is open and editing
-    const modal = document.getElementById('langModal');
-    const modalContent = document.getElementById('modalContent');
-    if (modal.style.display !== 'flex' || !modalContent.classList.contains('editing')) return;
-
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-    for (let index in items) {
-        const item = items[index];
-        if (item.kind === 'file') {
-            const blob = item.getAsFile();
-            const formData = new FormData();
-            formData.append('file', blob);
-            formData.append('lang', currentEditingLang);
-
-            try {
-                const res = await fetch('http://localhost:3000/api/upload-media', {
-                    method: 'POST',
-                    body: formData
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    // Assuming response gives us the local path or URL
-                    // We need to serve this file now. 
-                    // Since we don't have a file server for CleanedUp yet in the browser (file:// protocol),
-                    // we might need to rely on the backend to Serve static files or just assume the path.
-                    // For now, let's just update the metdata image path to the absolute path? 
-                    // No, browser can't load partial absolute paths easily if security restricted.
-                    // But this is a local report. 
-                    // "CleanedUp/Languages/..."
-                    const relativePath = \`CleanedUp/Languages/\${currentEditingLang}/Media/\${data.filename}\`;
-
-                    // Update Main Logo?
-                    // If user pasted, they probably want it as the main logo.
-                    // Or we could ask? Let's just set as Main Logo for now.
-
-                    // We need to update existing metadata locally
-                    currentMetadata.image = relativePath;
-                    document.getElementById('modalImg').src = relativePath;
-
-                    const updateRes = await fetch('http://localhost:3000/api/save-metadata', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ lang: currentEditingLang, metadata: { ...currentMetadata, image: relativePath } })
-                    });
-
-                }
-            } catch (e) {
-                console.error("Upload failed", e);
-            }
-        }
-    }
-});
-
-// Upload Input
-window.uploadLogo = async function (input) {
-    if (input.files && input.files[0]) {
-        const formData = new FormData();
-        formData.append('file', input.files[0]);
-        formData.append('lang', currentEditingLang);
-
-        try {
-            const res = await fetch('http://localhost:3000/api/upload-media', {
-                method: 'POST',
-                body: formData
-            });
-            if (res.ok) {
-                const data = await res.json();
-                const relativePath = \`CleanedUp/Languages/\${currentEditingLang}/Media/\${data.filename}\`;
-                currentMetadata.image = relativePath;
-                document.getElementById('modalImg').src = relativePath;
-            }
-        } catch (e) {
-            alert("Upload failed");
-        }
-    }
-};
-
-
-function closeModal(event) {
-    if (event.target.id === 'langModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('langModal').style.display = 'none';
-    }
-}
-
-function showMethodology() {
-    document.getElementById('methodModal').style.display = 'flex';
-}
-
-function closeMethodology(event) {
-    if (event.target.id === 'methodModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('methodModal').style.display = 'none';
-    }
-}
-
-function showGoals() {
-    document.getElementById('goalsModal').style.display = 'flex';
-}
-
-function closeGoals(event) {
-    if (event.target.id === 'goalsModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('goalsModal').style.display = 'none';
-    }
-}
-
-function showWhy() {
-    document.getElementById('whyModal').style.display = 'flex';
-}
-
-function closeWhy(event) {
-    if (event.target.id === 'whyModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('whyModal').style.display = 'none';
-    }
-}
-
-// Initialize
-toggleMismatches(); // Default hide
-
-// --- D3.js Chart Implementation ---
-(function () {
-    // Inject metrics with logo data
-    const historyData = ${JSON.stringify(history)
-        };
-const referenceOutputs = ${JSON.stringify(referenceOutputs)};
-const tailoring = ${JSON.stringify(tailoringConfig)};
-const metricsData = ${JSON.stringify(metrics.map(m => {
-            const baseLang = m.solver.replace(/ \((AI)\)$/, '');
-            const localLogo = logoMap.get(baseLang.toLowerCase());
-            const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
-            return {
-                ...m,
-                logo: localLogo || meta.logo || meta.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png"
-            };
-        }))};
-
-let data = metricsData;
-const allTimes = data.flatMap(d => d.results.map(r => r ? r.time : 999999)).filter(t => t < 999999);
-const minTime = allTimes.length ? Math.min(...allTimes) : 0.001;
-const maxTime = allTimes.length ? Math.max(...allTimes) : 100;
-
-let currentChart = 'line';
-
-// Expose switchChart globally
-// Expose switchChart globally - DEFINED EARLY TO PREVENT REFERENCE ERRORS
-// Expose switchChart globally
-let raceTicker = null;
-
-window.switchChart = function (type) {
-    try {
-        currentChart = type;
-
-        // Stop race if running
-        if (raceTicker) {
-            raceTicker.stop();
-            raceTicker = null;
-        }
-
-        // Update Dropdown UI
-        const selector = document.getElementById('chart-selector');
-        if (selector) selector.value = type;
-
-        // Check if D3 is loaded
-        if (typeof d3 === 'undefined') {
-            throw new Error("D3.js library not loaded. Please check your internet connection.");
-        }
-
-        const container = d3.select("#d3-chart-container");
-        container.selectAll("*").remove();
-
-        if (type === 'line') {
-            drawLineChart();
-        } else if (type === 'jockey') {
-            drawJockeyChart();
-        } else if (type === 'race') {
-            drawMatrixRace();
-        }
-    } catch (e) {
-        console.error("Error switching chart:", e);
-        const container = document.getElementById('d3-chart-container');
-        if (container) {
-            container.innerHTML = "<div style='color:#ff4444; padding:20px; text-align:center; font-family:monospace;'>" +
-                "<h3>Chart Error</h3>" +
-                "<p>" + e.message + "</p>" +
-                "</div>";
-        }
-    }
-};
-
-function drawMatrixRace() {
-    const container = document.getElementById('d3-chart-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const margin = { top: 40, right: 40, bottom: 20, left: 150 };
-
-    const svg = d3.select("#d3-chart-container")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    const raceDuration = 15000; // 15s
-    const topN = 15;
-
-    // X scale: 0 to 5 (Matrices)
-    const x = d3.scaleLinear()
-        .domain([0, 5])
-        .range([margin.left, width - margin.right]);
-
-    // Y scale: Rank
-    const y = d3.scaleBand()
-        .domain(d3.range(topN))
-        .range([margin.top, height - margin.bottom])
-        .padding(0.1);
-
-    // Solver processing
-    const solvers = data
-        .filter(d => d.results && d.results.length >= 5)
-        .map(d => {
-        let cum = 0;
-        const checkpoints = d.results.map(r => {
-            cum += r.time;
-            return { time: r.time, cum: cum, matrix: r.matrix };
-        });
+            // Static Data
+            const personalities = ${safeJSON(personalities)};
+            const narratorIntros = ${safeJSON(narratorIntros)};
+            const languageMetadata = ${safeJSON(languageMetadata)};
+            const methodologyTexts = ${safeJSON(methodologyTexts)};
+            const mismatchLabels = ${safeJSON(mismatchLabels)};
+            const iterationLabels = ${safeJSON(iterationLabels)};
+            const timeLabels = ${safeJSON(timeLabels)};
+            const memoryLabels = ${safeJSON(memoryLabels)};
+            const scoreLabels = ${safeJSON(scoreLabels)};
+
+            // Dynamic Data
+            const historyData = ${safeJSON(history)};
+            const referenceOutputs = ${safeJSON(referenceOutputs)};
+            const tailoring = ${safeJSON(tailoringConfig)};
+            const metricsData = ${safeJSON(metrics.map(m => {
+        const baseLang = m.solver.replace(/ \((AI)\)$/, '');
+        const localLogo = logoMap.get(baseLang.toLowerCase());
+        const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
         return {
-            solver: d.solver,
-            checkpoints: checkpoints,
-            totalTime: cum,
-            progress: 0,
-            logo: d.logo || null
+            ...m,
+            logo: localLogo || meta.logo || meta.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png"
         };
-    });
-
-    // Race Clock
-    const logMin = Math.log(minTime / 10 || 0.0001);
-    const logMax = Math.log(maxTime * 1.5 || 100);
-
-    // Initial Draw
-    let bars = svg.append("g").selectAll("g");
-
-    // Axis
-    svg.append("g")
-        .attr("transform", "translate(0," + margin.top + ")")
-        .call(d3.axisTop(x).ticks(5).tickFormat(d => "Matrix " + d))
-        .attr("color", "#5c5c66")
-        .selectAll("text")
-        .attr("font-family", "JetBrains Mono")
-        .attr("font-size", "12px")
-        .attr("color", "#e0e0e0");
-
-    // Current Time Label
-    const timeLabel = svg.append("text")
-        .attr("x", width - margin.right)
-        .attr("y", height - 20)
-        .attr("text-anchor", "end")
-        .attr("fill", "#00ff9d")
-        .attr("font-size", "24px")
-        .attr("font-family", "JetBrains Mono")
-        .text("0.00s");
-
-    // Slider Controls
-    const controls = d3.select("#d3-chart-container")
-        .append("div")
-        .attr("id", "race-controls")
-        .style("position", "absolute")
-        .style("bottom", "50px") 
-        .style("left", "50%")
-        .style("transform", "translateX(-50%)")
-        .style("width", "60%")
-        .style("display", "flex")
-        .style("align-items", "center")
-        .style("gap", "15px")
-        .style("background", "rgba(13, 13, 18, 0.8)")
-        .style("padding", "10px 20px")
-        .style("border", "1px solid #00ff9d")
-        .style("border-radius", "20px")
-        .style("z-index", "100");
-
-    controls.append("span")
-        .style("color", "#00ff9d")
-        .style("font-family", "JetBrains Mono")
-        .style("font-size", "0.9em")
-        .text("TIME TRAVEL");
-
-    const slider = controls.append("input")
-        .attr("type", "range")
-        .attr("min", 0)
-        .attr("max", raceDuration)
-        .attr("value", 0)
-        .style("flex-grow", "1")
-        .style("cursor", "pointer")
-        .style("accent-color", "#00ff9d");
-
-    let isPaused = false;
-    let currentElapsed = 0;
-    let lastFrameTime = 0;
-
-    slider.on("input", function(event) {
-        isPaused = true;
-        currentElapsed = +this.value;
-        updateFrame(currentElapsed);
-    });
-
-    // Update Function
-    function updateFrame(elapsed) {
-        // Clamp
-        if (elapsed > raceDuration) elapsed = raceDuration;
-        if (elapsed < 0) elapsed = 0;
-
-        // Calculate Sim Time
-        const normT = elapsed / raceDuration;
-        const logCurrent = logMin + normT * (logMax - logMin);
-        const simTime = Math.exp(logCurrent);
-
-        // Update Solvers
-        solvers.forEach(s => {
-            let prog = 0;
-            // Find where simTime lands
-            // Checkpoints: [ {time: t1, cum: c1}, {time: t2, cum: c2}, ... ]
-            /* 
-               If simTime < c1: prog = 0 + (simTime - 0) / t1
-               If c1 < simTime < c2: prog = 1 + (simTime - c1) / t2
-            */
-            let prevCum = 0;
-            for (let i = 0; i < s.checkpoints.length; i++) {
-                const cp = s.checkpoints[i];
-                if (simTime < cp.cum) {
-                    const fraction = (simTime - prevCum) / cp.time;
-                    prog = i + fraction;
-                    break;
-                } else {
-                    prog = i + 1; // Completed this matrix
-                    prevCum = cp.cum;
-                }
-            }
-            // Clamp to 5.0
-            if (prog > 5) prog = 5;
-            s.progress = prog;
-        });
-
-        // Rank and Slice
-        const ranked = solvers.sort((a, b) => b.progress - a.progress).slice(0, topN);
-
-        // Bind Data (Key by solver name)
-        const group = svg.selectAll(".bar-group")
-            .data(ranked, d => d.solver);
-
-        // Enter
-        const groupEnter = group.enter().append("g")
-            .attr("class", "bar-group")
-            .attr("transform", (d, i) => "translate(0," + y(i) + ")");
-
-        groupEnter.append("rect")
-            .attr("x", x(0))
-            .attr("height", y.bandwidth())
-            .attr("fill", d => color(d.solver))
-            .attr("opacity", 0.8)
-            .attr("width", 0); 
-
-        // Label
-        groupEnter.append("text")
-            .attr("class", "label")
-            .attr("y", y.bandwidth() / 2)
-            .attr("dy", "0.35em")
-            .attr("text-anchor", "end")
-            .attr("fill", "#e0e0e0")
-            .attr("font-family", "JetBrains Mono")
-            .attr("font-size", "12px")
-            .text(d => d.solver);
-        
-        // Icon
-        groupEnter.append("image")
-            .attr("class", "icon")
-            .attr("href", d => d.logo)
-            .attr("height", y.bandwidth())
-            .attr("width", y.bandwidth())
-            .attr("x", margin.left - 140) 
-            .attr("y", 0);
-
-        // Update
-        const groupUpdate = group.merge(groupEnter);
-
-        // Immediate update for slider dragging (no transition)
-        // If paused (scrubbing), use 0 duration. If playing, use small duration.
-        const dura = isPaused ? 0 : 50; 
-        const ease = d3.easeLinear;
-
-        groupUpdate.transition().duration(dura).ease(ease)
-            .attr("transform", (d, i) => "translate(0," + y(i) + ")");
-
-        groupUpdate.select("rect")
-            .transition().duration(dura).ease(ease)
-            .attr("width", d => x(d.progress) - x(0));
-
-        groupUpdate.select("text")
-             .attr("x", margin.left - 10);
-
-        // Exit
-        group.exit().remove();
-
-        // Update Clock Label
-        timeLabel.text(simTime.toFixed(4) + "s");
-        
-        // Sync Slider if playing
-        if (!isPaused) {
-            slider.property("value", elapsed);
-        }
-    }
-
-    // Animation Loop
-    raceTicker = d3.timer((now) => {
-        if (!lastFrameTime) lastFrameTime = now;
-        const dt = now - lastFrameTime;
-        lastFrameTime = now;
-
-        if (!isPaused) {
-            currentElapsed += dt;
-            if (currentElapsed > raceDuration) {
-                currentElapsed = raceDuration; // Don't stop, just stay at end? Or loop?
-                // Previously it stopped. Let's start pause state at end.
-                isPaused = true; 
-            }
-            updateFrame(currentElapsed);
-        }
-    });
-}
-
-try {
-    // Check for D3 availability immediately
-    if (typeof d3 === 'undefined') {
-        throw new Error("D3.js library failed to load.");
-    }
-
-    // Filter out mismatched solvers
-    const cSolver = data.find(s => s.solver === 'C');
-    if (cSolver) {
-        const cIters = {};
-        cSolver.results.forEach(r => cIters[r.matrix] = r.iterations);
-
-        data = data.filter(s => {
-            if (s.solver === 'C') return true;
-            const hasMismatch = s.results.some(r => {
-                const expected = cIters[r.matrix];
-                return expected && r.iterations !== expected;
-            });
-            return !hasMismatch;
-        });
-    }
-
-    const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
-    const minTime = ${Math.min(...metrics.flatMap(m => m.results.map(r => r.time)).filter(t => t > 0))
-        };
-const maxTime = ${Math.max(...metrics.flatMap(m => m.results.map(r => r.time)))};
-
-// Color Palette
-const color = d3.scaleOrdinal()
-    .domain(data.map(d => d.solver))
-    .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
-
-
-
-function drawLineChart() {
-    const container = document.getElementById('d3-chart-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const margin = { top: 20, right: 120, bottom: 50, left: 60 };
-
-    const svg = d3.select("#d3-chart-container")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
-
-    // Zoom
-    const zoom = d3.zoom()
-        .scaleExtent([0.5, 5])
-        .filter(function (event) {
-            // Only allow zoom if mouse is within the chart area
-            if (event.type === 'wheel' || event.type === 'mousedown') {
-                const [mx, my] = d3.pointer(event, this);
-                return mx >= 0 && mx <= chartWidth && my >= 0 && my <= chartHeight;
-            }
-            return true;
-        })
-        .on("zoom", (event) => {
-            // Apply transform with margin offset
-            svg.attr("transform", "translate(" + (margin.left + event.transform.x) + "," + (margin.top + event.transform.y) + ") scale(" + event.transform.k + ")");
-        });
-
-    d3.select("#d3-chart-container svg").call(zoom);
-
-    // X Axis
-    const x = d3.scalePoint()
-        .domain(matrices)
-        .range([0, chartWidth])
-        .padding(0.5);
-
-    svg.append("g")
-        .attr("transform", "translate(0," + chartHeight + ")")
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .style("fill", "#e0e0e0")
-        .style("font-family", "JetBrains Mono");
-
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("x", chartWidth)
-        .attr("y", chartHeight + 40)
-        .style("fill", "#5c5c66")
-        .style("font-size", "12px")
-        .text("Matrix Input");
-
-    // Y Axis
-    const y = d3.scaleLog()
-        .domain([minTime, maxTime])
-        .range([chartHeight, 0]);
-
-    svg.append("g")
-        .call(d3.axisLeft(y)
-            .ticks(5)
-            .tickFormat((d) => {
-                const ticks = y.ticks(5);
-                if (ticks.indexOf(d) % 2 === 0 || ticks.length <= 3) {
-                    return d >= 1 ? d3.format(".1f")(d) + "s" : d3.format(".2f")(d) + "s";
-                }
-                return "";
-            })
-        )
-        .selectAll("text")
-        .style("fill", "#e0e0e0")
-        .style("font-family", "JetBrains Mono");
-
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (chartHeight / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .style("fill", "#5c5c66")
-        .style("font-size", "12px")
-        .text("Time (seconds) - Log Scale");
-
-    // Grid lines
-    svg.append("g")
-        .attr("class", "grid")
-        .attr("opacity", 0.1)
-        .call(d3.axisLeft(y).tickSize(-chartWidth).tickFormat(""));
-
-    // Line Generator
-    const line = d3.line()
-        .x(d => x(d.matrix))
-        .y(d => y(Math.max(d.time, minTime)));
-
-    // Draw Lines
-    data.forEach(solver => {
-        const solverData = solver.results.filter(r => matrices.includes(r.matrix));
-        const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
-
-        svg.append("path")
-            .datum(solverData)
-            .attr("fill", "none")
-            .attr("stroke", color(solver.solver))
-            .attr("stroke-width", 2)
-            .attr("d", line)
-            .attr("class", "line-path");
-
-        const pointGroup = svg.selectAll("." + safeSolverClass)
-            .data(solverData)
-            .enter().append("g")
-            .attr("class", safeSolverClass)
-            .attr("transform", d => "translate(" + x(d.matrix) + ", " + y(Math.max(d.time, minTime)) + ")");
-
-        // Logo Image
-        pointGroup.append("image")
-            .attr("xlink:href", solver.logo)
-            .attr("x", -8)
-            .attr("y", -8)
-            .attr("width", 16)
-            .attr("height", 16)
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("filter", d => {
-                const baseLang = solver.solver.replace(/ \((AI)\)$/, '');
-                const config = tailoring[baseLang] || tailoring[solver.solver];
-                if (config?.invert) return "url(#filter-invert)";
-                if (config?.transparent_white) return "url(#filter-transparent-white)";
-                return null;
-            });
-
-        // Docker Icon (Whale)
-        if (solver.runType === 'Docker') {
-            pointGroup.append("text")
-                .text("🐳")
-                .attr("x", 6)
-                .attr("y", 6)
-                .attr("font-size", "10px")
-                .style("pointer-events", "none");
-        }
-
-        // Interactions
-        pointGroup.on("mouseover", function (event, d) {
-            d3.select(this).raise();
-            d3.select(this).select("image")
-                .attr("width", 24)
-                .attr("height", 24)
-                .attr("x", -12)
-                .attr("y", -12);
-
-            const tooltip = document.getElementById('tooltip');
-            tooltip.style.display = 'block';
-            tooltip.style.left = (event.clientX + 15) + 'px';
-            tooltip.style.top = (event.clientY + 15) + 'px';
-            tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.solver + "</strong>" +
-                (solver.runType === 'Docker' ? " 🐳" : "") +
-                "<br>Matrix: " + d.matrix + "<br>Time: " + d.time.toFixed(6) + "s<br>Iters: " + d.iterations;
-        })
-            .on("mouseout", function () {
-                d3.select(this).select("image")
-                    .attr("width", 16)
-                    .attr("height", 16)
-                    .attr("x", -8)
-                    .attr("y", -8);
-                document.getElementById('tooltip').style.display = 'none';
-            });
-
-        // Label
-        const lastPoint = solverData[solverData.length - 1];
-        if (lastPoint) {
-            svg.append("text")
-                .attr("x", x(lastPoint.matrix) + 10)
-                .attr("y", y(Math.max(lastPoint.time, minTime)))
-                .attr("dy", "0.35em")
-                .style("fill", color(solver.solver))
-                .style("font-size", "12px")
-                .style("font-weight", "bold")
-                .text(solver.solver);
-        }
-    });
-}
-
-function drawJockeyChart() {
-    const container = document.getElementById('d3-chart-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const margin = { top: 20, right: 60, bottom: 20, left: 150 };
-
-    const svg = d3.select("#d3-chart-container")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
-
-    // Zoom
-    const zoom = d3.zoom()
-        .scaleExtent([0.5, 5])
-        .filter(function (event) {
-            // Only allow zoom if mouse is within the chart area
-            if (event.type === 'wheel' || event.type === 'mousedown') {
-                const [mx, my] = d3.pointer(event, this);
-                return mx >= 0 && mx <= chartWidth && my >= 0 && my <= chartHeight;
-            }
-            return true;
-        })
-        .on("zoom", (event) => {
-            svg.attr("transform", "translate(" + (margin.left + event.transform.x) + "," + (margin.top + event.transform.y) + ") scale(" + event.transform.k + ")");
-        });
-
-    d3.select("#d3-chart-container svg").call(zoom);
-
-    // Calculate Total Time for sorting
-    const sortedData = [...data].map(s => {
-        const totalTime = s.results.reduce((acc, r) => acc + r.time, 0);
-        return { ...s, totalTime: totalTime > 0 ? totalTime : 0.000001 }; // Prevent 0 for log scale
-    }).sort((a, b) => a.totalTime - b.totalTime); // Fastest first
-
-    const minTotal = d3.min(sortedData, d => d.totalTime);
-    const maxTotal = d3.max(sortedData, d => d.totalTime);
-
-    // Y Axis (Solvers)
-    const y = d3.scaleBand()
-        .domain(sortedData.map(d => d.solver))
-        .range([0, chartHeight])
-        .padding(0.2);
-
-    // X Axis (Total Time - Log Scale)
-    const x = d3.scaleLog()
-        .domain([minTotal, maxTotal])
-        .range([0, chartWidth]);
-
-    // Draw Tracks (Background Lines)
-    svg.selectAll(".track")
-        .data(sortedData)
-        .enter().append("line")
-        .attr("x1", 0)
-        .attr("x2", chartWidth)
-        .attr("y1", d => y(d.solver) + y.bandwidth() / 2)
-        .attr("y2", d => y(d.solver) + y.bandwidth() / 2)
-        .attr("stroke", "#2a2a35")
-        .attr("stroke-width", 1)
-        .attr("stroke-dasharray", "4");
-
-    // Draw Bars (Progress)
-    svg.selectAll(".bar")
-        .data(sortedData)
-        .enter().append("rect")
-        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 2)
-        .attr("height", 4)
-        .attr("x", 0)
-        .attr("width", d => x(d.totalTime))
-        .attr("fill", d => color(d.solver))
-        .attr("opacity", 0.6);
-
-    // Draw Logos (Jockeys)
-    svg.selectAll(".jockey")
-        .data(sortedData)
-        .enter().append("image")
-        .attr("xlink:href", d => d.logo)
-        .attr("x", d => x(d.totalTime) - 20) // Center image on end of bar
-        .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 10)
-        .attr("width", 20)
-        .attr("height", 20)
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("filter", d => {
-            const baseLang = d.solver.replace(/ \((Manual|AI)\)$/, '');
-            const config = tailoring[baseLang] || tailoring[d.solver];
-            if (config?.invert) return "url(#filter-invert)";
-            if (config?.transparent_white) return "url(#filter-transparent-white)";
-            return null;
-        })
-        .on("mouseover", function (event, d) {
-            d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
-            const tooltip = document.getElementById('tooltip');
-            tooltip.style.display = 'block';
-            tooltip.style.left = (event.clientX + 15) + 'px';
-            tooltip.style.top = (event.clientY + 15) + 'px';
-            const timeStr = d.totalTime < 0.0001 && d.totalTime > 0 ? d.totalTime.toExponential(4) + "s" : d.totalTime.toFixed(4) + "s";
-            tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.solver + "</strong><br>Total Time: " + timeStr;
-        })
-        .on("mouseout", function (event, d) {
-            d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.solver) + y.bandwidth() / 2 - 12);
-            document.getElementById('tooltip').style.display = 'none';
-        });
-
-    // Y Axis Labels
-    svg.append("g")
-        .call(d3.axisLeft(y))
-        .selectAll("text")
-        .style("fill", "#e0e0e0")
-        .style("font-family", "JetBrains Mono")
-        .style("font-size", "10px");
-
-    // X Axis
-    svg.append("g")
-        .attr("transform", "translate(0," + chartHeight + ")")
-        .call(d3.axisBottom(x).ticks(5, ".1f"))
-        .selectAll("text")
-        .style("fill", "#5c5c66");
-} // End of drawJockeyChart
-
-// Initial Draw
-if (typeof d3 !== 'undefined') {
-    drawLineChart();
-} else {
-    throw new Error("D3.js not loaded");
-}
-
-                } catch (e) {
-    console.error("Error initializing D3 charts:", e);
-    // If initialization fails, switchChart is still defined and will show error when clicked
-    // Show error immediately
-    window.switchChart('line');
-}
-            }) ();
-</script>
-    <script>
-// Inject Matrix Data
-const matrixPuzzles = ${JSON.stringify(matrixContents)};
-
-// Matrix Screensaver Logic
-// Define variables in outer scope to be accessible
-let startScreensaverGlobal;
-
-(function () {
-    try {
-
-
-        console.log("Initializing Matrix Screensaver...");
-        const canvas = document.getElementById('matrix-canvas');
-        if (!canvas) console.error("Matrix canvas not found!");
-
-        const ctx = canvas.getContext('2d');
-        const container = canvas.parentElement;
-        const chartContainer = document.getElementById('d3-chart-container');
-
-        let width, height;
-        let columns;
-        let active = false;
-        let ignoreInput = false;
-        let animationId;
-        let frame = 0;
-
-        // Expose globally immediately
-        window.startScreensaver = startScreensaver;
-        startScreensaverGlobal = startScreensaver;
-
-        // Puzzle Overlay State
-        let puzzleY = -1000; // Start way above
-        let currentPuzzleIndex = 0;
-        let puzzleLines = [];
-
-        function prepareNextPuzzle() {
-            console.log('prepareNextPuzzle called, matrixPuzzles.length:', matrixPuzzles.length);
-            if (matrixPuzzles.length === 0) return;
-            const rawText = matrixPuzzles[currentPuzzleIndex];
-            puzzleLines = rawText.split('\\n');
-            console.log('Prepared puzzle with', puzzleLines.length, 'lines');
-            // Start from the BOTTOM of the screen
-            puzzleY = height || window.innerHeight;
-            currentPuzzleIndex = (currentPuzzleIndex + 1) % matrixPuzzles.length;
-            specialRows.clear(); // Reset special rows for new puzzle
-        }
-
-        // Matrix characters (Katakana + Latin)
-        const chars = '/Cars10アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        function resize() {
-            if (document.fullscreenElement) {
-                canvas.style.position = 'fixed';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100vw';
-                canvas.style.height = '100vh';
-                canvas.style.zIndex = '1000';
-                width = window.innerWidth;
-                height = window.innerHeight;
-            } else {
-                canvas.style.position = 'absolute';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.zIndex = '10';
-                // Use current parent, which might change
-                const parent = canvas.parentElement || container;
-                width = parent.clientWidth;
-                height = parent.clientHeight;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const fontSize = 14;
-            columns = Math.ceil(width / fontSize);
-
-            // Initialize drops and state
-            drops = [];
-            cars10State = []; // Track index for each column
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.random() * -100; // Start above screen
-                cars10State[i] = -1; // -1 means normal random char
-            }
-        }
-
-        // Glow State
-        let glowHue = 0; // 0 for Red, 240 for Blue
-        let glowDirection = 1;
-
-        // Dancing Highlight State
-        let dancingRow = 0;
-        let dancingCol = 0;
-        let lastDanceTime = 0;
-
-        // Slide-in Animation State
-        let slideInComplete = false;
-
-        // Easter Egg State
-        let lastCars10Time = 0;
-        let specialRows = new Set();
-        let cars10State = []; // Added state array
-        const secretMessage = "/Cars10 "; // Normal reading order with trailing space
-
-        let currentMode = 'red'; // Default to full screen
-
-        function draw() {
-            if (active) {
-                animationId = requestAnimationFrame(draw);
-            }
-
-            frame++;
-            if (frame % 2 !== 0) return;
-
-            // Black background with opacity for trail effect
-            // Lower opacity = longer trails
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-            ctx.fillRect(0, 0, width, height);
-
-            ctx.fillStyle = '#0F0'; // Green text
-            ctx.font = '14px monospace';
-
-            // Draw Matrix Rain
-            for (let i = 0; i < drops.length; i++) {
-                const x = i * 14;
-                const y = drops[i] * 14;
-                // Easter Egg Logic
-                let char = '';
-                let isSpecial = false;
-
-                // If this column is in special state
-                if (cars10State[i] >= 0) {
-                    const idx = cars10State[i] % secretMessage.length;
-                    char = secretMessage[idx];
-                    cars10State[i]++; // Move to next char for next frame
-                    isSpecial = true;
-                } else {
-                    // Random chance to start secret
-                    // Only if at top of screen to make it clean? Or anytime?
-                    // Let's settle for random trigger anytime, but visually it looks best if distinct.
-                    // Or maybe trigger when it resets?
-                    // Let's stick to standard random char
-                    char = chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-
-                // Draw
-                if (isSpecial) {
-                    // Crystal Effect: White with Cyan/Magenta subtle glow
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.font = 'bold 14px monospace';
-
-                    // Flash on entry (first 20 frames)
-                    if (cars10State[i] < 20) {
-                        ctx.shadowColor = '#FFFFFF';
-                        ctx.shadowBlur = 15; // Bright flash
-                        // Occasional flicker
-                        if (Math.random() > 0.5) ctx.fillStyle = '#E0FFFF';
-                    } else {
-                        // Stable Crystal Glow
-                        ctx.shadowColor = 'rgba(200, 255, 255, 0.8)'; // Ice blue glow
-                        ctx.shadowBlur = 8;
-                    }
-                } else {
-                    ctx.fillStyle = '#0F0';
-                    ctx.font = '14px monospace';
-                    // Glow Effect
-                    ctx.shadowBlur = 8;
-                    ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
-                }
-
-                ctx.fillText(char, x, y);
-
-                // Reset
-                ctx.shadowBlur = 0;
-
-                // Reset shadows
-                if (isSpecial) {
-                    ctx.shadowBlur = 0;
-                }
-
-                // Reset drop to top randomly after it has crossed the screen
-                if (y > height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                    // Chance to become special when spawning new drop
-                    if (Math.random() > 0.98) { // 2% chance per drop cycle
-                        cars10State[i] = 0;
-                    } else {
-                        cars10State[i] = -1;
-                    }
-                }
-
-                drops[i]++;
-            }
-
-            // Check if rain has reached halfway
-            let rainHalfway = false;
-            const gridHeight = height / 14; // 14px font for rain
-            for (let i = 0; i < drops.length; i++) {
-                if (drops[i] > gridHeight / 2) {
-                    rainHalfway = true;
-                    break;
-                }
-            }
-
-            // Draw Puzzle Overlay (after slide-in completes)
-            if (puzzleLines.length > 0 && slideInComplete && currentMode === 'red' && puzzleVisible) {
-                // 1. Calculate Font Size
-                // Goal: Row fits 2/3 of screen width
-                const targetWidth = width * 0.66;
-                const charCount = 17; // 9 digits + 8 spaces
-                let fontSize = Math.floor(targetWidth / charCount * 1.6); // Multiplier to adjust
-
-                // "Font size should also increase by 30%" - ONLY for Red Mode (Full Screen)
-                // For Blue Mode (Chart), we scale it down a bit relative to that
-                if (currentMode === 'red') {
-                    fontSize = Math.floor(fontSize * 0.675); // Half the previous size
-                } else {
-                    // Blue mode: maybe keep it standard or slightly smaller
-                    fontSize = Math.floor(fontSize * 0.8);
-                }
-
-                ctx.font = 'bold ' + fontSize + 'px "JetBrains Mono", monospace';
-                ctx.textAlign = 'center';
-
-                // Base color for fallback
-                const color = '#FF0055'; // Bright neon red
-
-                // Reduced glow for "fading trails" look
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = color;
-                ctx.fillStyle = color;
-
-                const lineHeight = fontSize * 3.0; // Double spacing (simulates blank row)
-                const startX = width / 2;
-
-                // 3. Dancing Highlight Logic
-                if (Date.now() - lastDanceTime > 200) {
-                    dancingRow = Math.floor(Math.random() * 9);
-                    dancingCol = Math.floor(Math.random() * 9);
-                    lastDanceTime = Date.now();
-                }
-
-                // 4. Easter Egg Logic: /cars10
-                if (Date.now() - lastCars10Time > 1000) { // Every 1 second
-                    const visibleRows = [];
-                    for (let i = 0; i < puzzleLines.length; i++) {
-                        const lineY = puzzleY + (i * lineHeight);
-                        // Check if fully visible on screen
-                        if (lineY > lineHeight && lineY < height - lineHeight) {
-                            visibleRows.push(i);
-                        }
-                    }
-
-                    if (visibleRows.length > 0) {
-                        // Pick a random row that isn't already special
-                        const candidates = visibleRows.filter(r => !specialRows.has(r));
-                        if (candidates.length > 0) {
-                            const randomRow = candidates[Math.floor(Math.random() * candidates.length)];
-                            specialRows.add(randomRow);
-                        }
-                    }
-                    lastCars10Time = Date.now();
-                }
-
-                // Define columns to draw based on mode
-                let xPositions = [];
-                if (currentMode === 'red') {
-                    // Single centered column for fullscreen
-                    xPositions = [width * 0.5];
-                } else {
-                    // Single centered column for chart mode
-                    xPositions = [width * 0.5];
-                }
-
-                // 3. Iterate over each column position
-                for (const startX of xPositions) {
-                    // Determine visible rows for this column
-                    const visibleRows = [];
-                    for (let i = 0; i < puzzleLines.length; i++) {
-                        const lineY = puzzleY + (i * lineHeight);
-
-                        // Only consider visible rows
-                        if (lineY > -lineHeight * 0.2 && lineY < height + lineHeight * 0.2) {
-                            visibleRows.push(i);
-                        }
-                    }
-
-                    // No background clearing - completely transparent
-                    // Numbers will appear directly over Matrix rain
-
-                    // Draw each line of the puzzle
-                    for (let i = 0; i < puzzleLines.length; i++) {
-                        const lineY = puzzleY + (i * lineHeight);
-
-                        // Only draw if visible
-                        if (lineY > -lineHeight && lineY < height + lineHeight) {
-                            const line = puzzleLines[i];
-
-
-
-                            const parts = line.trim().split(/\s+/);
-
-                            if (parts.length === 9) {
-                                const spacing = fontSize * 1.2;
-                                // Calculate total width of the puzzle block
-                                const totalBlockWidth = (9 * fontSize * 1.2); // 9 chars * spacing
-
-                                // Clear the entire puzzle area for this column to prevent streaks
-                                // We do this ONCE per column loop, not per character, but here we are inside the loop.
-                                // Actually, let's do it per character but simpler:
-                                // Initialize starting X position for this row to center it
-                                let currentX = startX - (totalBlockWidth / 2) + (spacing / 2);
-
-                                for (let j = 0; j < parts.length; j++) {
-                                    const isDancing = (i % 9 === dancingRow) && (j === dancingCol);
-
-                                    // Calculate distance from center for scale effect
-                                    const distFromCenter = Math.abs(lineY - height / 2);
-                                    const maxDist = height / 2;
-                                    const centerFactor = 1 - (distFromCenter / maxDist); // 1 at center, 0 at edges
-
-                                    // Scale animation: grow at center (applies to all numbers)
-                                    const scaleBoost = 1 + (centerFactor * 0.3); // 1.0 to 1.3x at center
-
-                                    ctx.save();
-                                    // Tall Numbers: Scale Y by 2, plus center boost
-                                    ctx.translate(currentX, lineY);
-                                    ctx.scale(scaleBoost, 2 * scaleBoost);
-
-                                    // Draw a semi-transparent background box to hide streaks but keep it "semi transparent"
-                                    ctx.globalCompositeOperation = 'source-over';
-                                    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black
-                                    // Clear from way above to way below
-                                    ctx.fillRect(-fontSize * 0.6, -fontSize * 2, fontSize * 1.2, fontSize * 6);
-
-                                    // Draw number
-                                    ctx.globalCompositeOperation = 'source-over';
-                                    ctx.shadowBlur = 0;
-                                    ctx.shadowColor = 'transparent';
-                                    ctx.strokeStyle = isDancing ? '#00b8ff' : '#FF0055'; // Blue if dancing, Red otherwise
-                                    ctx.lineWidth = isDancing ? 4 : 2;
-
-                                    if (isDancing) {
-                                        ctx.scale(1.5, 1.5); // Extra scale for dancing
-                                        ctx.shadowBlur = 10;
-                                        ctx.shadowColor = '#00b8ff';
-                                    }
-                                    ctx.strokeText(parts[j], 0, 0);
-
-                                    ctx.restore();
-                                    currentX += spacing;
-                                }
-                            } else {
-                                // Header or other text
-                                ctx.save();
-                                ctx.translate(startX, lineY);
-                                ctx.scale(1, 2);
-                                ctx.strokeStyle = color;
-                                ctx.lineWidth = 2;
-                                ctx.strokeText(line, 0, 0);
-                                ctx.restore();
-                            }
-                        }
-                    }
-                }
-
-                // Reset shadow
-                ctx.shadowBlur = 0;
-
-                puzzleY -= 5; // Scroll UP (Ascent)
-
-                // Reset if puzzle went off screen (top)
-                // Total height of puzzle = lines * lineHeight
-                const totalPuzzleHeight = puzzleLines.length * lineHeight;
-                if (puzzleY < -totalPuzzleHeight) {
-                    prepareNextPuzzle();
-                }
-            } else {
-                // If not ready or no lines, ensure we are ready for next
-                if (puzzleLines.length === 0) prepareNextPuzzle();
-            }
-        }
-
-
-        function startScreensaver(mode) {
-            if (active) return;
-            active = true;
-            ignoreInput = true;
-            setTimeout(() => { ignoreInput = false; }, 1500); // Grace period
-
-            currentMode = mode || 'red'; // Default to red
-
-            const canvas = document.getElementById('matrix-canvas');
-            const content = document.getElementById('main-content');
-            const chartContainer = document.getElementById('d3-chart-container');
-
-            if (currentMode === 'red') {
-                // Full Screen Mode
-                document.body.appendChild(canvas); // Move to body
-                canvas.style.position = 'fixed';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100vw';
-                canvas.style.height = '100vh';
-                canvas.style.zIndex = '1000';
-
-                // Add fullscreen class to body to hide scrollbars
-                document.body.classList.add('fullscreen-active');
-
-                // Show fullscreen header
-                const fsHeader = document.getElementById('fullscreen-header');
-                if (fsHeader) {
-                    fsHeader.style.display = 'block';
-                    fsHeader.style.opacity = '1'; // Ensure visibility
-                    if (window.startRiddleAnimation) window.startRiddleAnimation();
-                    if (window.startTimerAnimation) window.startTimerAnimation();
-                }
-
-                // Initial State for Animation
-                canvas.classList.add('matrix-slide-enter');
-                content.classList.add('content-slide-exit');
-
-                // Force Reflow
-                void canvas.offsetWidth;
-
-                // Start Animation
-                requestAnimationFrame(() => {
-                    canvas.classList.add('matrix-slide-active');
-
-                    // Delay content slide until Matrix is halfway down (0.75s of 1.5s total)
-                    setTimeout(() => {
-                        content.classList.add('content-slide-active');
-                    }, 750);
-
-                    // Set flag earlier so numbers appear sooner (0.5s instead of 1.5s)
-                    setTimeout(() => {
-                        slideInComplete = true;
-                        console.log('slideInComplete set to true');
-                    }, 500);
-
-                    // Trigger Browser Fullscreen AFTER animation starts
-                    // This prevents the browser's fullscreen transition from interfering
-                    setTimeout(() => {
-                        if (document.documentElement.requestFullscreen) {
-                            document.documentElement.requestFullscreen().catch(e => console.log(e));
-                        }
-                    }, 100);
-                });
-
-            } else {
-                // Chart Mode (Blue Pill)
-                chartContainer.appendChild(canvas); // Move to chart container
-                canvas.style.position = 'absolute';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.zIndex = '10';
-
-                // Add slide-down animation class
-                canvas.classList.add('slide-down-slow');
-
-                // For blue mode, we also need to trigger the dancing numbers after animation
-                setTimeout(() => {
-                    slideInComplete = true;
-                }, 1000); // 1s delay (animation is 3s but we can start earlier)
-            }
-
-            canvas.style.display = 'block';
-
-            resize();
-            window.addEventListener('resize', resize);
-
-            // Reset puzzle state
-            puzzleLines = [];
-            currentPuzzleIndex = 0;
-            prepareNextPuzzle();
-
-            draw();
-        }
-
-        function stopScreensaver() {
-            if (!active) return;
-            active = false;
-            slideInComplete = false; // Reset flag
-            const canvas = document.getElementById('matrix-canvas');
-            const content = document.getElementById('main-content');
-
-            canvas.style.display = 'none';
-
-            // Remove fullscreen class from body
-            document.body.classList.remove('fullscreen-active');
-
-            // Hide fullscreen header
-            const fsHeader = document.getElementById('fullscreen-header');
-            if (fsHeader) fsHeader.style.display = 'none';
-            if (window.stopTimerAnimation) window.stopTimerAnimation();
-
-            // Remove animation classes
-            canvas.classList.remove('slide-down-slow');
-            canvas.classList.remove('matrix-slide-enter');
-            canvas.classList.remove('matrix-slide-active');
-            content.classList.remove('content-slide-exit');
-            content.classList.remove('content-slide-active');
-
-            // Exit Browser Fullscreen if active
-            if (document.fullscreenElement) {
-                document.exitFullscreen().catch(e => console.log(e));
-            }
-
-            cancelAnimationFrame(animationId);
-            window.removeEventListener('resize', resize);
-
-            canvas.className = '';
-            content.className = 'content-wrapper';
-
-            // Reset to body for safety
-            document.body.appendChild(canvas);
-        }
-
-        // Idle Timer with Persistence
-        const idleLimit = 5 * 60 * 1000; // 5 minutes
-
-        function getLastActive() {
-            return parseInt(localStorage.getItem('lastActive') || Date.now().toString());
-        }
-
-        function setLastActive() {
-            localStorage.setItem('lastActive', Date.now().toString());
-        }
-
-        function checkIdle() {
-            const lastActive = getLastActive();
-            const diff = Date.now() - lastActive;
-            if (diff >= idleLimit) {
-                startScreensaver();
-            }
-        }
-
-        setInterval(checkIdle, 1000);
-
-        function resetTimer(e) {
-            setLastActive();
-            if (active && !ignoreInput) {
-                // Only stop on Option key (Alt)
-                if (e && e.type === 'keydown' && e.key === 'Alt') {
-                    stopScreensaver();
-                }
-            }
-        }
-
-        // Events to reset timer
-        window.onload = resetTimer;
-        document.onmousemove = resetTimer;
-        document.onkeydown = resetTimer;
-        document.onclick = resetTimer;
-        document.onscroll = resetTimer;
-
-        // Initialize
-        if (!localStorage.getItem('lastActive')) {
-            setLastActive();
-        }
-        checkIdle();
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            if (active) resize();
-        });
-
-        // Expose globally
-
-
-        console.log("Matrix Screensaver initialized successfully. startScreensaver is:", typeof window.startScreensaver);
-
-
-    } catch (e) {
-        console.error("CRITICAL ERROR in Matrix Screensaver IIFE:", e);
-        const errDiv = document.createElement('div');
-        errDiv.style.position = 'fixed';
-        errDiv.style.top = '0';
-        errDiv.style.left = '0';
-        errDiv.style.width = '100%';
-        errDiv.style.background = 'red';
-        errDiv.style.color = 'white';
-        errDiv.style.zIndex = '9999';
-        errDiv.style.padding = '10px';
-        errDiv.innerText = 'SCREENSAVER ERROR: ' + e.toString();
-        document.body.appendChild(errDiv);
-    }
-})();
-
-// Ensure global access
-
-
-window.showMismatch = function (solverName, matrixName, cell) {
-    const solver = metricsData.find(s => s.solver === solverName);
-    if (!solver) return;
-    const result = solver.results.find(r => r.matrix === matrixName);
-    if (!result) return;
-
-    document.getElementById('mismatchTitle').innerText = 'Mismatch: ' + solverName + ' on ' + matrixName;
-
-    // Actual Output
-    let actual = result.output || 'No output captured.';
-
-    document.getElementById('actualOutput').innerText = actual;
-
-    // Expected Output
-    const expected = referenceOutputs[matrixName] || 'No reference output found.';
-    document.getElementById('expectedOutput').innerText = expected;
-
-    // Rerun Command
-    currentRerunCommand = '# Run from SudokuSolver root\\nfind . -name runMe_ai.sh | grep "/' + solverName + '/" | head -n 1 | xargs -I {} sh -c \\'cd $(dirname {}) && ./ runMe_ai.sh../../ Matrices / ' + matrixName + '\\'';
-
-    const modal = document.getElementById('mismatchModal');
-    modal.style.display = 'block';
-
-    // Anchor to cell
-    const rect = cell.getBoundingClientRect();
-    const content = modal.querySelector('.modal-content');
-
-    // Calculate position (right of cell, aligned top)
-    const top = rect.top + window.scrollY;
-    const left = rect.right + window.scrollX + 20; // 20px gap
-
-    content.style.position = 'absolute';
-    content.style.top = top + 'px';
-    content.style.left = left + 'px';
-    content.style.margin = '0';
-    content.style.transform = 'none';
-    content.style.width = 'auto';
-    content.style.maxWidth = '600px'; // Constrain width if needed
-}
-
-window.closeMismatchModal = function () {
-    document.getElementById('mismatchModal').style.display = 'none';
-}
-
-window.copyRerunCommand = function () {
-    const btn = document.getElementById('copyRerunBtn');
-    navigator.clipboard.writeText(currentRerunCommand).then(() => {
-        const originalText = btn.innerText;
-        btn.innerText = 'Copied!';
-        setTimeout(() => {
-            btn.innerText = originalText;
-        }, 2000);
-    });
-}
-
-
-
-
-// Modal Dragging Logic
-function makeDraggable(elmnt, header) {
-    if (!elmnt || !header) return;
-    
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    
-    header.style.cursor = 'move';
-    header.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        if (e.target.classList.contains('modal-close')) return;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        
-        // If element is not absolute/fixed yet, make it so (keeping current visual position)
-        const computedStyle = window.getComputedStyle(elmnt);
-        if (computedStyle.position !== 'absolute') {
-            const rect = elmnt.getBoundingClientRect();
-            // We need to calculate position relative to the viewport (since overlay is fixed full screen)
-            // rect.left is relative to viewport.
-            
-            elmnt.style.position = 'absolute';
-            elmnt.style.left = rect.left + 'px';
-            elmnt.style.top = rect.top + 'px';
-            elmnt.style.margin = '0'; // Remove centering margins if any
-            elmnt.style.transform = 'none'; // Remove centering transforms
-            // Adjust width to fixed pixel value to prevent resizing when switching position
-            elmnt.style.width = rect.width + 'px';
-        }
-        
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-
-// Initialize dragging for known modals
-function enableModalDragging() {
-    const modals = ['methodModal', 'goalsModal', 'whyModal'];
-    modals.forEach(id => {
-        const modal = document.getElementById(id);
-        if (modal) {
-            const content = modal.querySelector('.modal-content');
-            const title = modal.querySelector('.modal-title');
-            if (content && title) {
-                makeDraggable(content, title);
-            }
-        }
-    });
-}
-
-// Call initially and on load
-enableModalDragging();
-window.addEventListener('load', enableModalDragging);
-
-    </script>
-    </body>
-    </html>
-        `;
-    return html;
-}
-
-export async function generateHistoryHtml(history: SolverMetrics[]): Promise<string> {
-
-    // Group history by language
-    const langs = [...new Set(history.map(h => h.solver))];
-    const datasets = langs.map((lang, index) => {
-        // Filter history for this language and sort by timestamp
-        const records = history
-            .filter(h => h.solver === lang)
-            .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-        // We'll plot performance on Matrix 1 as the primary metric for now
-        const data = records.map(r => {
-            const time = r.results.find(res => res.matrix.includes('1'))?.time || 0;
-            return {
-                x: r.timestamp,
-                y: time
-            };
-        });
-
-        // Neon Colors Palette
-        const colors = [
-            '#00ff9d', // Primary Green
-            '#00b8ff', // Secondary Blue
-            '#ff00ff', // Magenta
-            '#ffcc00', // Yellow
-            '#ff4444', // Red
-            '#9d00ff', // Purple
-            '#00ffff', // Cyan
-        ];
-        const color = colors[index % colors.length];
-
-        return {
-            label: lang,
-            data: data,
-            borderColor: color,
-            backgroundColor: color,
-            borderWidth: 2,
-            tension: 0.4, // Smooth curves
-            pointRadius: 4,
-            pointHoverRadius: 8
-        };
-    });
-
-    const html = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Sudoku Benchmark History - Neon</title>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
-        <style>
-            :root {
-                --bg: #0d0d12;
-                --surface: #16161e;
-                --primary: #00ff9d;
-                --text: #e0e0e0;
-                --border: #2a2a35;
-            }
-            body {
-                font-family: 'JetBrains Mono', monospace;
-                background-color: var(--bg);
-                color: var(--text);
-                margin: 0;
-                padding: 40px;
-            }
-            h1 {
-                text-align: center;
-                color: var(--primary);
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-                margin-bottom: 40px;
-            }
-            .chart-container {
-                background: var(--surface);
-                border: 1px solid var(--border);
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 30px rgba(0, 255, 157, 0.1);
-                position: relative;
-                height: 600px;
-                width: 90%;
-                margin: 0 auto;
-            }
-            .back-link {
-                display: block;
-                margin-bottom: 20px;
-                color: var(--primary);
-                text-decoration: none;
-                text-transform: uppercase;
-                font-size: 0.9em;
-            }
-            .back-link:hover {
-                text-decoration: underline;
-            }
-        </style>
-    </head>
-    <body>
-        <a href="benchmark_report.html" class="back-link">← Back to Report</a>
-        <h1>Benchmark Performance History</h1>
-
-        <div class="chart-container">
-            <canvas id="historyChart"></canvas>
-        </div>
-
-        <script>
-            const ctx = document.getElementById('historyChart').getContext('2d');
-            const data = \${JSON.stringify(datasets)};
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: data
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day'
-                            },
-                            grid: {
-                                color: '#2a2a35'
-                            },
-                            ticks: {
-                                color: '#e0e0e0'
-                            }
-                        },
-                        y: {
-                            type: 'logarithmic',
-                            grid: {
-                                color: '#2a2a35'
-                            },
-                            ticks: {
-                                color: '#e0e0e0',
-                                callback: function (value) {
-                                    return value + 's';
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Execution Time (Seconds) - Log Scale',
-                                color: '#5c5c66'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e0e0e0',
-                                font: {
-                                    family: 'JetBrains Mono'
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(22, 22, 30, 0.9)',
-                            titleColor: '#00ff9d',
-                            bodyColor: '#e0e0e0',
-                            borderColor: '#2a2a35',
-                            borderWidth: 1,
-                            padding: 10,
-                            displayColors: true,
-                            callbacks: {
-                                label: function (context) {
-                                    return context.dataset.label + ': ' + context.parsed.y + 's';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+    }))};
+            const matrixPuzzles = ${safeJSON(matrixContents)};
         </script>
+    `;
+    html += '<script>' + clientJs + '</script>';
+    html += `
     </body>
     </html>
     `;
     return html;
 }
 
+
+export function generateHistoryHtml(history: any[]): string {
+    const rows = history.flatMap(h =>
+        h.results.map((r: any) => ({
+            timestamp: h.timestamp,
+            solver: h.solver,
+            matrix: r.matrix,
+            time: r.time,
+            iterations: r.iterations,
+            status: r.status
+        }))
+    );
+
+    // Sort by timestamp desc
+    rows.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Benchmark History</title>
+        <style>
+            body { font-family: 'JetBrains Mono', monospace; background: #0d0d12; color: #e0e0e0; padding: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #2a2a35; padding: 10px; text-align: left; }
+            th { background: #1a1a20; color: #00ff9d; }
+            tr:nth-child(even) { background: #16161e; }
+            h1 { color: #00ff9d; }
+            .status-failure, .status-error, .status-suspect { color: #ff0055; }
+            .status-optimized { color: #00b8ff; }
+        </style>
+    </head>
+    <body>
+        <h1>Benchmark History</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Solver</th>
+                    <th>Matrix</th>
+                    <th>Time (s)</th>
+                    <th>Iterations</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows.map(r => `
+                    <tr>
+                        <td>${new Date(r.timestamp).toLocaleString()}</td>
+                        <td>${r.solver}</td>
+                        <td>${r.matrix}</td>
+                        <td>${r.time.toFixed(4)}</td>
+                        <td>${r.iterations}</td>
+                        <td class="status-${r.status.toLowerCase()}">${r.status}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    </body>
+    </html>
+    `;
+}

@@ -65,3 +65,10 @@ CleanedUp/Languages/*/.*
 *.o
 *.obj
 screenshots/benchmark_.png
+
+# Recursive node_modules ignore
+**/node_modules/
+
+# Rust build artifacts in CleanedUp
+CleanedUp/Languages/*/Sudoku_bin
+CleanedUp/Languages/*/run_type

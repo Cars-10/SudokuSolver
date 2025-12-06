@@ -2,20 +2,24 @@
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 import path from 'path';
 import fs from 'fs/promises';
 import { existsSync, mkdirSync } from 'fs';
 import fetch from 'node-fetch';
+import { exec } from 'child_process';
+import util from 'util';
+
+const execPromise = util.promisify(exec);
 
 const app = express();
 const PORT = 9101;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Configuration
-const DATA_ROOT = '/data'; // Mounted volume
+// Helper to find CleanedUp root
+const DATA_ROOT = path.resolve(__dirname, '../../CleanedUp');
 const CLEANED_UP_ROOT = DATA_ROOT;
 app.use(express.static(CLEANED_UP_ROOT));
 
@@ -174,6 +178,97 @@ app.post('/api/download-media', async (req, res) => {
     } catch (e) {
         console.error("Download error:", e);
         res.status(500).json({ error: e.message });
+    }
+});
+
+// 5. Run Solver (Consolidated)
+app.post('/api/run', async (req, res) => {
+    const { language, matrix } = req.body;
+
+    if (!language || !matrix) {
+        return res.status(400).json({ error: 'Language and Matrix are required' });
+    }
+
+    console.log(`[Request] Run ${language} on ${matrix}`);
+
+    // CleanedUp is at /data/CleanedUp inside the container
+    const solverDir = path.join(CLEANED_UP_ROOT, 'Languages', language);
+    const dockerFile = path.join(solverDir, 'Dockerfile');
+    const matrixName = matrix.replace('.matrix', '');
+
+    // Check for Dockerfile
+    let useDocker = false;
+    try {
+        await fs.access(dockerFile);
+        useDocker = true;
+    } catch {
+        useDocker = false;
+    }
+
+    try {
+        if (useDocker) {
+            // --- DOCKER EXECUTION ---
+            const safeLangName = language.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const imageName = `sudoku-${safeLangName}`;
+
+            console.log(`[Docker] Building image ${imageName}...`);
+            // verify build
+            await execPromise(`docker build -t ${imageName} .`, { cwd: solverDir });
+
+            // Run
+            const HOST_MATRICES_DIR = "/Users/cars10/GIT/SudokuSolver/Matrices";
+            const containerMatrixPath = `../Matrices/${matrix}`;
+
+            const command = `docker run --rm -v "${HOST_MATRICES_DIR}:/usr/src/Matrices" ${imageName} "${containerMatrixPath}"`;
+
+            console.log(`[Docker] Executing: ${command}`);
+            const { stdout, stderr } = await execPromise(command);
+
+            res.json({
+                success: true,
+                mode: 'Docker',
+                stdout: stdout,
+                stderr: stderr
+            });
+
+        } else {
+            // --- LOCAL EXECUTION ---
+            const solverPath = path.join(solverDir, 'setupAndRunMe.sh');
+
+            try {
+                await fs.access(solverPath);
+            } catch {
+                return res.status(404).json({ error: `Solver script not found for ${language}` });
+            }
+
+            const globalScript = path.resolve(solverPath, '../../runMeGlobal.sh');
+            // Force bash execution
+            const command = `/bin/bash ${globalScript} ${language} ${matrixName}`;
+            const cwd = path.dirname(globalScript);
+
+            console.log(`[Local] Executing: ${command}`);
+
+            const { stdout, stderr } = await execPromise(command, {
+                cwd: cwd,
+                timeout: 180000
+            });
+
+            res.json({
+                success: true,
+                mode: 'Local',
+                stdout: stdout,
+                stderr: stderr
+            });
+        }
+
+    } catch (error) {
+        console.error("Execution error:", error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            stdout: error.stdout || "",
+            stderr: error.stderr || ""
+        });
     }
 });
 

@@ -68,7 +68,7 @@ export const methodologyTexts: Record<string, string> = {
         </div>
         <p>There is no spoon. Only efficiency.</p>
     `,
-    "Battlestar Galactica": `
+    "Galactica": `
         <p>The Cylons were created by man. They evolved. They rebelled. There are many copies. And they have a plan.</p>
         <h3 style="color: var(--secondary);">FTL Drive: C</h3>
         <p><strong>C</strong> is the Jump Drive at 1.0 efficiency.</p>
@@ -270,12 +270,72 @@ export const mismatchLabels: Record<string, string> = {
     "The Professor": "ERRORS",
     "The Surfer": "WIPEOUTS",
     "The Matrix": "ANOMALIES",
-    "Battlestar Galactica": "FRACK",
+    "Galactica": "FRACK",
     "Star Trek": "RED ALERTS",
     "Star Wars": "DISTURBANCES",
     "Back to the Future": "PARADOXES",
     "Babylon 5": "BREACHES",
     "The Expanse": "HULL BREACHES"
+};
+
+export const iterationLabels: Record<string, string> = {
+    "Standard": "Iterations",
+    "Neuromancer": "Entropy",
+    "The Jockey": "Strides",
+    "The Professor": "Cycles",
+    "The Surfer": "Sets",
+    "The Matrix": "Glitches",
+    "Galactica": "Jumps",
+    "Star Trek": "Stardates",
+    "Star Wars": "Parsecs",
+    "Back to the Future": "Flux",
+    "Babylon 5": "Cycles",
+    "The Expanse": "Rotations"
+};
+
+export const timeLabels: Record<string, string> = {
+    "Standard": "Time (s)",
+    "Neuromancer": "Lag (s)",
+    "The Jockey": "Time",
+    "The Professor": "Duration (s)",
+    "The Surfer": "Hang Time",
+    "The Matrix": "Latency",
+    "Galactica": "FTL Spool",
+    "Star Trek": "Warp Factor",
+    "Star Wars": "Kessel Run",
+    "Back to the Future": "Time Delta",
+    "Babylon 5": "Orbit Time",
+    "The Expanse": "Burn Time"
+};
+
+export const memoryLabels: Record<string, string> = {
+    "Standard": "Memory (MB)",
+    "Neuromancer": "RAM Decay",
+    "The Jockey": "Weight",
+    "The Professor": "Space Complexity",
+    "The Surfer": "Board Size",
+    "The Matrix": "Residual Image",
+    "Galactica": "Dradis Contact",
+    "Star Trek": "Buffer Size",
+    "Star Wars": "Cargo Hold",
+    "Back to the Future": "Plutonium",
+    "Babylon 5": "Capacity",
+    "The Expanse": "Water Reserves"
+};
+
+export const scoreLabels: Record<string, string> = {
+    "Standard": "Score",
+    "Neuromancer": "Index",
+    "The Jockey": "Place",
+    "The Professor": "Grade",
+    "The Surfer": "Stoke",
+    "The Matrix": "Anomaly",
+    "Galactica": "Threat Level",
+    "Star Trek": "Efficiency",
+    "Star Wars": "Midichlorians",
+    "Back to the Future": "Gigawatts",
+    "Babylon 5": "Influence",
+    "The Expanse": "Bounty"
 };
 export const narratorIntros: Record<string, string> = {
     "Standard": "Welcome to the Sudoku Benchmark. Click on any language name for creator details.",
@@ -284,7 +344,7 @@ export const narratorIntros: Record<string, string> = {
     "The Professor": "Let us analyze the computational complexity.",
     "The Surfer": "Catch the wave of data, dude.",
     "The Matrix": "Wake up, Neo... The Matrix has you.",
-    "Battlestar Galactica": "The Cylons were created by man. They evolved. They have a plan.",
+    "Galactica": "The Cylons were created by man. They evolved. They have a plan.",
     "Star Trek": "Space: the final frontier. These are the voyages of the Starship Enterprise.",
     "Star Wars": "A long time ago in a galaxy far, far away...",
     "Back to the Future": "Great Scott! The timeline is changing!",
@@ -414,7 +474,7 @@ export const personalities: Record<string, Record<string, string>> = {
         "JavaScript": "JavaScript: The Squiddies — swarming everywhere, chaotic but deadly.",
         "default": "A glitch in the matrix."
     },
-    "Battlestar Galactica": {
+    "Galactica": {
         "C": "C: The Galactica — old, tough, and gets the job done when everything else fails.",
         "C++": "C++: The Pegasus — more powerful, but prone to hubris.",
         "Python": "Python: Baltar's Lab — brilliant, chaotic, and seductive.",
