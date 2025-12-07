@@ -308,7 +308,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     let meta = languageMetadata[lang] || {};
 
     try {
-        const res = await fetch(`http://localhost:9101/api/metadata/${lang}`);
+        const res = await fetch(`http://localhost:9102/api/metadata/${lang}`);
         if (res.ok) {
             const dynamicMeta = await res.json();
             // Merge: dynamic takes precedence, but keep static defaults if missing
@@ -466,7 +466,7 @@ window.toggleLock = async function () {
     const newLockState = !isCurrentlyLocked;
 
     try {
-        const res = await fetch('http://localhost:9101/api/lock', {
+        const res = await fetch('http://localhost:9102/api/lock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lang: currentEditingLang, locked: newLockState })
@@ -499,7 +499,7 @@ window.saveLanguageDetails = async function () {
 
     // Save to backend
     try {
-        const res = await fetch('http://localhost:9101/api/save-metadata', {
+        const res = await fetch('http://localhost:9102/api/save-metadata', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lang: currentEditingLang, metadata: newData })
@@ -575,7 +575,7 @@ window.uploadLogo = async function (input) {
         formData.append('lang', currentEditingLang);
 
         try {
-            const res = await fetch('http://localhost:9101/api/upload-media', {
+            const res = await fetch('http://localhost:9102/api/upload-media', {
                 method: 'POST',
                 body: formData
             });
@@ -738,6 +738,14 @@ toggleMismatches(); // Default hide
                 // Embed History Report
                 container.append("iframe")
                     .attr("src", "benchmark_history.html")
+                    .style("width", "100%")
+                    .style("height", "100%")
+                    .style("border", "none")
+                    .style("background", "transparent");
+            } else if (type === 'architecture') {
+                // Embed Architecture Overview
+                container.append("iframe")
+                    .attr("src", "system_overview.html")
                     .style("width", "100%")
                     .style("height", "100%")
                     .style("border", "none")
