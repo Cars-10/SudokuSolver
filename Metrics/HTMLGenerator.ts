@@ -1541,9 +1541,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
     }
 
-    const riddleSystem = new RiddleSystem();
-    window.startRiddleAnimation = () => riddleSystem.start();
+    let riddleSystem;
+    window.addEventListener('DOMContentLoaded', () => {
+        riddleSystem = new RiddleSystem();
+    });
+    window.startRiddleAnimation = () => {
+         if (riddleSystem) riddleSystem.start();
+    };
     // Global active state for screensaver
+    </script>
     
     <div id="main-content" class="content-wrapper">
     <h1>Sudoku Benchmark Results</h1>
@@ -1569,6 +1575,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="jockey">Horse Race</option>
                 <option value="race">Matrix Race</option>
                 <option value="history">History</option>
+                <option value="architecture">System Architecture</option>
             </select>
             <div class="pill-container" onclick="event.stopPropagation();">
                 <div class="pill-combined">
