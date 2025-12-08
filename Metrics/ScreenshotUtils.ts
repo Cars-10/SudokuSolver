@@ -1,9 +1,16 @@
-import puppeteer from 'puppeteer';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
 export async function captureScreenshot(htmlFilePath: string, outputPath?: string) {
     try {
+        let puppeteer;
+        try {
+            puppeteer = (await import('puppeteer')).default;
+        } catch (e) {
+            console.log("Puppeteer not found, skipping screenshot.");
+            return;
+        }
+
         const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080']
@@ -12,7 +19,7 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
         await page.setViewport({ width: 1920, height: 1080 });
 
         // Use file:// protocol
-        await page.goto(`file://${htmlFilePath}`, { waitUntil: 'networkidle0' });
+        await page.goto(`file://${htmlFilePath}`, { waitUntil: 'load' });
 
         // Wait a bit for animations
         await new Promise(r => setTimeout(r, 2000));

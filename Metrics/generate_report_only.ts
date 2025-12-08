@@ -1,4 +1,4 @@
-import * as fs from 'fs/promises';
+import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { glob } from 'glob';
@@ -11,7 +11,8 @@ import {
     mismatchLabels,
     narratorIntros,
     HistoryManager,
-    generateHistoryHtml
+    generateHistoryHtml,
+    orderedLanguages
 } from './gather_metrics.ts';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +32,7 @@ async function run() {
         // Load main metrics (usually just C or recent run)
         let mainMetrics: any[] = [];
         try {
-            const data = await fs.readFile(metricsFile, 'utf-8');
+            const data = await fs.promises.readFile(metricsFile, 'utf-8');
             mainMetrics = JSON.parse(data);
         } catch (e) {
             console.warn("Could not read main metrics.json", e);
@@ -48,7 +49,7 @@ async function run() {
         // 1. Load CleanedUp Metrics (Higher Priority)
         for (const file of metricFiles) {
             try {
-                const content = await fs.readFile(file, 'utf-8');
+                const content = await fs.promises.readFile(file, 'utf-8');
                 let parsedMetrics = JSON.parse(content);
                 let metricsList: any[] = [];
 
@@ -61,13 +62,13 @@ async function run() {
                         solverName = pathParts[langIndex + 1];
                     }
 
-                    const stats = await fs.stat(file);
+                    const stats = await fs.promises.stat(file);
 
                     // Check for run_type file
                     let runType = 'Local';
                     try {
                         const runTypePath = path.join(path.dirname(file), 'run_type');
-                        const rt = await fs.readFile(runTypePath, 'utf-8');
+                        const rt = await fs.promises.readFile(runTypePath, 'utf-8');
                         runType = rt.trim();
                     } catch (e) {
                         // ignore, default to Local
@@ -108,6 +109,20 @@ async function run() {
             }
         }
 
+        // Check for metadata overrides
+        let metadataOverrides = {};
+        const metadataPath = path.join(__dirname, '../CleanedUp/Languages/metadata.json');
+        // fs.existsSync is synchronous, but this is fine for a startup config read
+        if (fs.existsSync(metadataPath)) {
+            console.log("Loading metadata overrides from " + metadataPath);
+            try {
+                // fs.readFileSync is synchronous, but this is fine for a startup config read
+                metadataOverrides = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+            } catch (e) {
+                console.error("Failed to load metadata overrides: " + e);
+            }
+        }
+
         const allMetrics = aggregatedMetrics;
         console.log(`Loaded ${allMetrics.length} total metrics.`);
 
@@ -119,30 +134,79 @@ async function run() {
         let benchmarkConfig: { languages?: Record<string, any> } = {};
         try {
             const configPath = path.join(rootDir, 'CleanedUp', 'benchmark_config.json');
-            const configData = await fs.readFile(configPath, 'utf-8');
+            const configData = await fs.promises.readFile(configPath, 'utf-8');
             benchmarkConfig = JSON.parse(configData);
             console.log(`Loaded benchmark config with ${Object.keys(benchmarkConfig.languages || {}).length} language configurations.`);
         } catch (e) {
             console.warn("Could not read benchmark_config.json, using defaults");
         }
 
-        const htmlContent = await generateHtml(allMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig);
-        await fs.writeFile(htmlFile, htmlContent);
+
+
+        // Merge with Ordered Master List
+        const metricsMap = new Map(allMetrics.map(m => [m.solver, m]));
+        const finalMetrics: any[] = [];
+
+        for (const lang of orderedLanguages) {
+            if (metricsMap.has(lang)) {
+                finalMetrics.push(metricsMap.get(lang));
+            } else {
+                // Create Placeholder for Missing Language
+                finalMetrics.push({
+                    solver: lang,
+                    runType: 'Local',
+                    timestamp: Date.now(),
+                    results: [] // No results -> HTMLGenerator will render as Init/Empty
+                });
+            }
+        }
+
+        // Add any discovered languages NOT in the master list at the end
+        for (const m of allMetrics) {
+            if (!orderedLanguages.includes(m.solver)) {
+                finalMetrics.push(m);
+            }
+        }
+
+        console.log(`Final Report contains ${finalMetrics.length} languages.`);
+
+        const htmlContent = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
+        await fs.promises.writeFile(htmlFile, htmlContent);
 
         // Generate History Report
         const historyHtml = await generateHistoryHtml(history);
         const historyHtmlFile = path.join(rootDir, 'CleanedUp', 'benchmark_history.html');
-        await fs.writeFile(historyHtmlFile, historyHtml);
+        await fs.promises.writeFile(historyHtmlFile, historyHtml);
         console.log(`Successfully generated ${historyHtmlFile}`);
 
         // Write timestamp file for smart refresh
         const timestampFile = path.join(rootDir, 'CleanedUp', 'timestamp.js');
-        await fs.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()};`);
+        await fs.promises.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()};`);
 
         console.log(`Successfully generated ${htmlFile}`);
 
-        await captureScreenshot(htmlFile);
-        console.log(`Screenshot captured for ${htmlFile}`);
+        const now = new Date();
+        const formatter = new Intl.DateTimeFormat('en-SE', { // en-SE uses ISO 8601 format
+            timeZone: 'CET',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+        const parts = formatter.formatToParts(now);
+        const getPart = (type: string) => parts.find(p => p.type === type)?.value;
+        const timestamp = `${getPart('year')}-${getPart('month')}-${getPart('day')}_${getPart('hour')}-${getPart('minute')}-${getPart('second')}_CET`;
+
+        const screenshotsDir = path.join(rootDir, 'screenshots');
+        if (!fs.existsSync(screenshotsDir)) {
+            await fs.promises.mkdir(screenshotsDir, { recursive: true });
+        }
+        const screenshotPath = path.join(screenshotsDir, `benchmark_report_${timestamp}.png`);
+        await captureScreenshot(htmlFile, screenshotPath);
+        console.log(`Screenshot captured for ${htmlFile} at ${screenshotPath}`);
     } catch (e) {
         console.error("Error:", e);
     }

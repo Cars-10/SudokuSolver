@@ -21,7 +21,7 @@ report_env_error() {
 
 # Compile/Setup
 if [ -f "Sudoku.cpp" ]; then
-    g++ -O3 -o Sudoku Sudoku.cpp
+    g++ -O3 -march=native -o Sudoku Sudoku.cpp
     if [ $? -ne 0 ]; then
         report_env_error "Compilation failed"
     fi

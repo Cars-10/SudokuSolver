@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "fs-extra": "^11.3.2",
+    "glob": "^13.0.0",
+    "puppeteer": "^24.32.0",
+    "tsx": "^4.21.0"
+  }
+}
