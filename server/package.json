@@ -1,0 +1,24 @@
+{
+    "name": "sudoku-benchmark-server",
+    "version": "1.0.0",
+    "description": "Backend for Sudoku Benchmark execution",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "glob": "^10.0.0",
+        "fs-extra": "^11.0.0",
+        "multer": "^1.4.5-lts.1",
+        "puppeteer": "^21.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0",
+        "ts-node": "^10.9.0",
+        "@types/node": "^20.0.0"
+    },
+    "author": "",
+    "license": "ISC"
+}

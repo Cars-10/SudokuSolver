@@ -79,6 +79,77 @@
             }
         }
 
+        /* Default Logo - Top Left */
+        .logo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #00ff9d;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.4);
+            z-index: 10;
+        }
+
+        /* Fullscreen Mode Overrides */
+        body.fullscreen-mode {
+            padding: 0 !important;
+            overflow: hidden;
+            /* Let zoom handle it */
+            justify-content: center;
+        }
+
+        body.fullscreen-mode .diagram-container {
+            width: 100% !important;
+            max-width: none !important;
+            height: 100vh !important;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            background: transparent;
+            /* Let watermark show */
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.fullscreen-mode svg {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+        }
+
+        /* Watermark Background */
+        .watermark-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            transform: none;
+            opacity: 0;
+            /* Hidden by default */
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body.fullscreen-mode .watermark-container {
+            opacity: 0.15;
+            /* Visible background */
+        }
+
+        .watermark-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Cover the screen */
+            filter: grayscale(100%) brightness(0.8);
+        }
+
+        /* Stylish mono look */
+
+
         /* Mermaid Overrides */
         .node rect,
         .node circle,
@@ -194,10 +265,10 @@
             Runner_Local --> Code
 
             %% Styling
-            classDef plain fill:#fff,stroke:#333,stroke-width:1px,color:#000;
-            classDef front fill:#1a1a2a,stroke:#00d9f9,stroke-width:2px,color:#fff;
-            classDef back fill:#1a1a2a,stroke:#00ff9d,stroke-width:2px,color:#fff;
-            classDef file fill:#1a1a2a,stroke:#ffcc00,stroke-width:2px,color:#fff;
+            classDef plain fill:#ffffff,stroke:#333,stroke-width:1px,color:#000;
+            classDef front fill:#00d9f9,stroke:#000,stroke-width:2px,color:#000;
+            classDef back fill:#00ff9d,stroke:#000,stroke-width:2px,color:#000;
+            classDef file fill:#ffcc00,stroke:#000,stroke-width:2px,color:#000;
 
             class HTML,UI_Logic,Chart_Logic,API_Client,Modal_Handler front;
             class Server,EP_Meta,EP_Lock,EP_Run,EP_Upload,EP_Static,Detect,Runner_Docker,Runner_Local back;
@@ -205,22 +276,110 @@
         </div>
     </div>
 
+    <!-- Watermark Background -->
+    <div class="watermark-container">
+        <!-- Using uploaded system architecture image -->
+        <img src="assets/system_bg.png" class="watermark-img" alt="System Watermark"
+            onerror="this.src='../favicon.png'">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
     <script>
         mermaid.initialize({
             startOnLoad: true,
-            theme: 'dark',
+            theme: 'base', // Use base to allow overrides better
             securityLevel: 'loose',
             fontFamily: 'JetBrains Mono',
             themeVariables: {
                 darkMode: true,
                 background: '#16161e',
-                primaryColor: '#1a1a2a',
-                primaryTextColor: '#e0e0e0',
-                primaryBorderColor: '#00ff9d',
-                lineColor: '#5c5c66',
-                secondaryColor: '#1a1a2a',
-                tertiaryColor: '#16161e'
+                primaryColor: '#ffffff',
+                primaryTextColor: '#000000',
+                primaryBorderColor: '#000000',
+                lineColor: '#5c5c66'
             }
+        });
+
+        // Tooltip Data
+        const nodeDescriptions = {
+            "HTML": { title: "Static HTML", desc: "The final generated report file containing all visualization logic and data." },
+            "UI_Logic": { title: "Report Client", desc: "Client-side JavaScript (report_client.js) handling sorting, filtering, and persona logic." },
+            "Chart_Logic": { title: "Visualization Engine", desc: "D3.js and Mermaid.js libraries responsible for rendering the charts and diagrams." },
+            "API_Client": { title: "API Client", desc: "Handles communication with the backend for running benchmarks and saving metadata." },
+            "Server": { title: "Node.js Server", desc: "Express server (server/index.js) running on port 3000. Handles file I/O and command execution." },
+            "EP_Run": { title: "Run Endpoint", desc: "POST /api/run-benchmark. Triggers the execution of the benchmark script." },
+            "EP_Meta": { title: "Metadata Endpoint", desc: "POST /api/save-metadata. Persists changes to language descriptions and personalities." },
+            "EP_Upload": { title: "Upload Endpoint", desc: "POST /api/upload-media. Handles image uploads for language logos." },
+            "Detect": { title: "Environment Detection", desc: "Logic to determine if the benchmark should run in Docker or locally." },
+            "Runner_Docker": { title: "Docker Runner", desc: "Executes the 'runMe' script inside an isolated container for security and consistency." },
+            "Runner_Local": { title: "Local Runner", desc: "Executes the benchmark script directly on the host machine using /bin/bash." },
+            "MetaFiles": { title: "Metadata Storage", desc: "JSON files (metadata.json) storing persistent configuration and descriptions." },
+            "Media": { title: "Media Storage", desc: "Directory storing uploaded images and screenshots." },
+            "Logs": { title: "Logs & Metrics", desc: "Stores execution logs and raw metric data." },
+            "Code": { title: "Source Code", desc: "The actual implementation files for each language solver." },
+            "Dockerfiles": { title: "Docker Configuration", desc: "Definitions for the build environment of each language." }
+        };
+
+        // Initialize Zoom and Tooltips after Mermaid renders
+        window.addEventListener('load', function () {
+            // Create Tooltip Element
+            const tooltip = document.createElement('div');
+            tooltip.style.position = 'absolute';
+            tooltip.style.display = 'none';
+            tooltip.style.background = 'rgba(0, 0, 0, 0.9)';
+            tooltip.style.border = '1px solid #00ff9d';
+            tooltip.style.padding = '10px';
+            tooltip.style.borderRadius = '4px';
+            tooltip.style.boxShadow = '0 0 10px rgba(0, 255, 157, 0.3)';
+            tooltip.style.color = '#fff';
+            tooltip.style.maxWidth = '300px';
+            tooltip.style.pointerEvents = 'none'; // pass through
+            tooltip.style.zIndex = '1000';
+            document.body.appendChild(tooltip);
+
+            const checkSvg = setInterval(() => {
+                const svg = document.querySelector('.mermaid svg');
+                if (svg) {
+                    clearInterval(checkSvg);
+                    // Ensure SVG fills container for zooming
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+                    svg.style.maxWidth = 'none';
+
+                    // Attach Tooltips
+                    Object.keys(nodeDescriptions).forEach(id => {
+                        // Mermaid nodes often have IDs like "nodeId" or "flowchart-nodeId-..."
+                        // We search by generic ID selector or matching content if ID is mangled.
+                        // Usually mermaid adds id="{id}" to the g element.
+                        const node = svg.querySelector(`g[id^="${id}"]`) || svg.querySelector(`#${id}`);
+                        if (node) {
+                            node.style.cursor = 'help';
+                            node.addEventListener('mouseenter', (e) => {
+                                const data = nodeDescriptions[id];
+                                tooltip.innerHTML = `<strong style="color:#00ff9d; display:block; margin-bottom:4px;">${data.title}</strong>${data.desc}`;
+                                tooltip.style.display = 'block';
+                            });
+                            node.addEventListener('mousemove', (e) => {
+                                // e.clientX is relative to iframe window
+                                tooltip.style.left = (e.clientX + 15) + 'px';
+                                tooltip.style.top = (e.clientY + 15) + 'px';
+                            });
+                            node.addEventListener('mouseleave', () => {
+                                tooltip.style.display = 'none';
+                            });
+                        }
+                    });
+
+                    window.zoomInstance = svgPanZoom(svg, {
+                        zoomEnabled: true,
+                        controlIconsEnabled: true,
+                        fit: true,
+                        center: true,
+                        minZoom: 0.1,
+                        maxZoom: 10
+                    });
+                }
+            }, 100);
         });
     </script>
 </body>

@@ -50,6 +50,7 @@ snapshots/
 Metrics/node_modules/
 Metrics/screenshots/
 Metrics/screenshots
+CleanedUp/Languages/TypeScript/node_modules/
 screenshots/
 *.swp
 AI-2025/Ada/alr

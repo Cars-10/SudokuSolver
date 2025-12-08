@@ -25,8 +25,30 @@ function safeJSON(obj: any): string {
         .replace(/\u2029/g, '\\u2029'); // Paragraph separator
 }
 
-export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}): Promise<string> {
-    const clientJs = await fs.readFile(path.join(__dirname, 'report_client.js'), 'utf-8');
+export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}): Promise<string> {
+    // Merge overrides
+    const finalLanguageMetadata = { ...languageMetadata, ...(metadataOverrides.languageMetadata || {}) };
+    const finalPersonalities = { ...personalities, ...(metadataOverrides.personalities || {}) };
+    const finalNarratorIntros = { ...narratorIntros, ...(metadataOverrides.narratorIntros || {}) };
+
+    // Update local variables to use these finals
+    // Since we passed in languageMetadata as arg, we might need to shadow it or use a new name.
+    // Ideally we'd rename the arg, but that might break other callers?
+    // Actually, we can just reassign the args if they were objects but here they are used in the template.
+    // Let's use the 'final' variables in the template construction.
+    // Note: I will need to ensure the rest of the function (which is huge) uses these new variables.
+    // I can't easily replace all usages in one go without replacing the whole file.
+    // BUT! I can just reassign the arguments!
+    languageMetadata = finalLanguageMetadata;
+    personalities = finalPersonalities;
+    // narratorIntros depends on if it was passed in?
+    // Wait, the signature does NOT include narratorIntros!
+    // Line 28: metrics, history, personalities, languageMetadata, methodologyTexts, referenceOutputs, allowedMatrices, benchmarkConfig.
+    // It is missing narratorIntros from arguments?
+    // Then it must be importing it?
+    // If it imports it, I can't overwrite the import binding.
+    // I should check if narratorIntros is imported.
+
     console.log(`generateHtml received ${metrics.length} metrics.`);
     // Pre-load local logos
     const localLogos = await glob('CleanedUp/logos/*.{png,svg}');
@@ -79,19 +101,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     const cTimes = cMetrics ? cMetrics.results.map(r => r.time) : [];
     const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
 
-    // Filter out mismatches
-    // Filter out mismatches - REVERTED to allow client-side toggle
-    // if (cTotalIters > 0) {
-    //     metrics = metrics.filter(m => {
-    //         if (m.solver === 'C') return true;
-    //         const totalIters = m.results.reduce((a, b) => a + b.iterations, 0);
-    //         if (totalIters !== cTotalIters) {
-    //             console.log(`Marking ${m.solver} as mismatch: ${totalIters} vs ${cTotalIters}`);
-    //             // return false; // Don't exclude, just mark
-    //         }
-    //         return true;
-    //     });
-    // }
 
     // C Baselines for Composite Score
     const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
@@ -121,6 +130,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }).length;
     }
 
+    const metricsJson = safeJSON(sortedMetrics);
+    const historyJson = safeJSON(history);
+    const personalitiesJson = safeJSON(personalities);
+    const metadataJson = safeJSON(languageMetadata);
+    // methodologies is small text, likely safe
+    const methodologiesJson = safeJSON(methodologyTexts);
+
+    // Calculate total planned metrics based on languages * matrices
+    const totalPlanned = languageMetadata ? Object.keys(languageMetadata).length * (Math.min(matrixFiles.length, 6)) : 0;
+
     let html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -147,6 +166,77 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     }
                 }
             };
+
+        
+
+    window.handleZoomExtend = function() {
+        const sysView = document.getElementById('system-architecture-view');
+        if (sysView && sysView.style.display !== 'none') {
+            if (window.systemZoomExtends) window.systemZoomExtends();
+        } else {
+            if (window.undoZoom) window.undoZoom();
+        }
+    };
+
+    window.toggleChartLabels = function(value) {
+        const chart = document.getElementById('d3-chart-container');
+        if (value === 'text') {
+            chart.classList.add('show-text-labels');
+        } else {
+            chart.classList.remove('show-text-labels');
+        }
+    };
+
+    window.toggleLogoMode = function(btn) {
+        const chart = document.getElementById('d3-chart-container');
+        const isText = chart.classList.contains('show-text-labels');
+        
+        if (isText) {
+            // Switch to Logos
+            window.toggleChartLabels('logos');
+            // Restore Image Icon
+            btn.innerHTML = \`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>\`;
+        } else {
+            // Switch to Text
+            window.toggleChartLabels('text');
+            // Show Text Icon
+            btn.innerHTML = \`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>\`;
+        }
+    };
+
+    window.toggleChartFullscreen = function() {
+        const elem = document.getElementById('chart-wrapper');
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen().then(() => {
+                elem.classList.add('fullscreen-active');
+            }).catch(err => {
+                console.error(\`Error attempting to enable full-screen mode: \${err.message} (\${err.name})\`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                elem.classList.remove('fullscreen-active');
+            });
+        }
+    };
+
+    document.addEventListener('fullscreenchange', (event) => {
+        const iframe = document.getElementById('system-iframe');
+        if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+            if (document.fullscreenElement) {
+                iframe.contentDocument.body.classList.add('fullscreen-mode');
+                 // Trigger resize/fit in iframe
+                if (iframe.contentWindow.zoomInstance) {
+                     setTimeout(() => {
+                         iframe.contentWindow.zoomInstance.resize();
+                         iframe.contentWindow.zoomInstance.fit();
+                         iframe.contentWindow.zoomInstance.center();
+                     }, 100);
+                }
+            } else {
+                iframe.contentDocument.body.classList.remove('fullscreen-mode');
+            }
+        }
+    });
 
             function poll() {
                 if (!document.body) return; // Wait for body
@@ -183,727 +273,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Sudoku Benchmark - Neon</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0d0d12;
-            --surface: #16161e;
-            --primary: #00ff9d;
-            --secondary: #00b8ff;
-            --text: #e0e0e0;
-            --muted: #5c5c66;
-            --border: #2a2a35;
-        }
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 40px;
-            overflow-x: hidden; /* Hide horizontal scrollbar */
-        }
-        body.fullscreen-active {
-            overflow: hidden; /* Hide all scrollbars in fullscreen */
-        }
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 4px;
-        }
-        th {
-            text-align: center;
-            padding: 15px;
-            color: var(--secondary);
-            font-size: 1.1em;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--border);
-        }
-        td {
-            background-color: var(--surface);
-            padding: 15px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        tr:hover td {
-            background-color: #1c1c26;
-            border-color: var(--secondary);
-            transform: scale(1.01);
-            box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
-            z-index: 10;
-            position: relative;
-        }
-        td:hover {
-            background-color: #252530 !important;
-            border: 1px solid var(--primary) !important;
-            z-index: 30 !important;
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3) !important;
-        }
-        .active-row td {
-            background-color: #1c1c26;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
-            z-index: 20;
-            position: relative;
-            animation: glow 1.5s infinite alternate;
-        }
-        @keyframes glow {
-            from { box-shadow: 0 0 10px rgba(0, 255, 157, 0.1); }
-            to { box-shadow: 0 0 20px rgba(0, 255, 157, 0.3); }
-        }
-        .lang-col {
-            font-weight: bold;
-            min-width: 250px;
-            color: var(--primary);
-            border-left: 3px solid transparent;
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-            text-decoration-color: var(--secondary);
-        }
-        .lang-col:hover {
-            border-left-color: var(--primary);
-        }
-        .lang-logo {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-            vertical-align: middle;
-            object-fit: contain;
-        }
-        .lang-year {
-            font-size: 0.7em;
-            color: var(--muted);
-            font-weight: normal;
-            text-decoration: none;
-            margin-top: 2px;
-        }
-        .active-row .lang-col {
-            border-left-color: var(--primary);
-        }
-        .cell-content {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .time {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #fff;
-        }
-        .meta {
-            font-size: 0.75em;
-            color: var(--muted);
-            display: flex;
-            gap: 10px;
-        }
-        .meta span {
-            display: inline-block;
-        }
-        .total-time {
-            font-size: 1.2em;
-            color: var(--secondary);
-            font-weight: bold;
-        }
-        .placeholder-row td {
-            background-color: #3d0d0d !important;
-            border-color: #ff4444;
-        }
-        .placeholder-row:hover td {
-            background-color: #4d1111 !important;
-            box-shadow: 0 0 15px rgba(255, 68, 68, 0.2);
-        }
-        .placeholder-row .lang-col {
-            color: #ff4444;
-        }
-        .suspect td {
-            /* border-top: 1px dashed #ffcc00; */
-            /* border-bottom: 1px dashed #ffcc00; */
-        }
-        .suspect .lang-col {
-            color: #ffcc00;
-        }
-        .suspect:hover td {
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-        }
-        
-        .mismatch {
-            color: #ff4444;
-            font-weight: bold;
-            text-decoration: underline;
-            text-decoration-style: wavy;
-        }
-        
-        /* Fastest/Slowest Highlights */
-        .fastest-row td {
-            border-top: 1px solid var(--primary);
-            border-bottom: 1px solid var(--primary);
-            background: rgba(0, 255, 157, 0.05);
-        }
-        .fastest-row .lang-col::after {
-            content: " 👑";
-            font-size: 0.8em;
-        }
-        .slowest-row td {
-            border-top: 1px solid var(--danger);
-            border-bottom: 1px solid var(--danger);
-            background: rgba(255, 68, 68, 0.05);
-        }
-        .slowest-row .lang-col::after {
-            content: " 🐢";
-            font-size: 0.8em;
-        }
-        
-        /* Tooltip */
-        #tooltip {
-            position: fixed;
-            display: none;
-            background: rgba(13, 13, 18, 0.95);
-            border: 1px solid var(--primary);
-            padding: 15px;
-            color: var(--primary);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9em;
-            max-width: 300px;
-            z-index: 1000;
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
-            pointer-events: none;
-            backdrop-filter: blur(5px);
-        }
-        #tooltip::before {
-            content: ">> SYSTEM MSG";
-            display: block;
-            font-size: 0.7em;
-            color: var(--muted);
-            margin-bottom: 5px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 3px;
-        }
-
-        /* Controls */
-        .controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-            position: relative;
-        }
-        .manual-tag, .ai-tag {
-            font-size: 0.75em;
-            color: var(--muted);
-            font-weight: normal;
-            margin-left: 4px;
-        }
-        .filter-active-red {
-            background-color: #ff4444 !important;
-            color: #fff !important;
-            border-color: #ff4444 !important;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
-        }
-        .btn-red {
-            background: rgba(255, 68, 68, 0.2);
-            border-color: #ff4444;
-            color: #ff4444;
-        }
-        .btn-red.active {
-            background: #ff4444;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
-        }
-        .btn {
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            font-size: 0.8em;
-        }
-        .btn:hover {
-            background: var(--primary);
-            color: var(--bg);
-            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-        }
-        .btn.active {
-            background: var(--primary);
-            color: var(--bg);
-        }
-
-        /* Modal */
-        .matrix-canvas {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            pointer-events: none; /* Let clicks pass through initially */
-        }
-        
-        /* Red Pill Slide-In Animation */
-        .matrix-slide-enter {
-            top: -100vh !important;
-            left: 0 !important;
-            transition: top 1.5s ease-in-out;
-        }
-        .matrix-slide-active {
-            top: 0 !important;
-            left: 0 !important;
-        }
-        
-        /* Content Slide-Out Animation */
-        .content-slide-exit {
-            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
-        }
-        .content-slide-active {
-            transform: translateY(100vh);
-            opacity: 0;
-        }
-
-        /* Blue Pill Slide-Down Animation */
-        .slide-down-slow {
-            animation: slideDown 3s ease-out forwards;
-        }
-        @keyframes slideDown {
-            from { top: -100%; }
-            to { top: 0; }
-        }
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #1a1b26;
-            padding: 30px;
-            border-radius: 12px;
-            width: 80%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid #414868;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #414868;
-            padding-bottom: 20px;
-        }
-
-        .modal-info {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        .modal-img-container {
-            flex-shrink: 0;
-            width: 120px;
-            height: 120px;
-            background: #24283b;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid #414868;
-            position: relative;
-        }
-
-        .modal-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-        }
-        
-        /* Edit Mode Styles */
-        .modal-edit-input {
-            background: #24283b;
-            border: 1px solid #565f89;
-            color: #c0caf5;
-            padding: 8px;
-            border-radius: 4px;
-            width: 100%;
-            font-family: inherit;
-            margin-bottom: 5px;
-        }
-        
-        .modal-edit-textarea {
-            width: 100%;
-            min-height: 100px;
-            background: #24283b;
-            border: 1px solid #565f89;
-            color: #c0caf5;
-            padding: 8px;
-            border-radius: 4px;
-            font-family: inherit;
-            resize: vertical;
-        }
-        
-        .edit-controls {
-            display: none; /* Hidden by default */
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .modal-content.editing .edit-controls {
-            display: flex;
-        }
-        
-        .modal-content.editing .view-only {
-            display: none;
-        }
-        
-        .modal-content:not(.editing) .edit-only {
-            display: none;
-        }
-
-        .author-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .author-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            background: #24283b;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #414868;
-        }
-        
-        .author-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 1.5em;
-        }
-        .modal-close:hover {
-            color: var(--primary);
-        }
-        .modal-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
-        }
-        .modal-title {
-            font-size: 2em;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        .modal-subtitle {
-            font-size: 0.9em;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .modal-desc {
-            color: var(--text);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .lang-col {
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-            text-decoration-color: var(--muted);
-        }
-        .lang-col:hover {
-            color: #fff;
-            text-decoration-color: var(--primary);
-        }
-        
-        /* Matrix Sort Buttons */
-        .sort-group {
-            display: flex;
-            gap: 2px;
-            margin-top: 5px;
-            justify-content: center;
-        }
-        .sort-btn {
-            background: #2a2a35;
-            border: none;
-            color: #888;
-            font-size: 0.7em;
-            padding: 2px 6px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .sort-btn:hover {
-            background: var(--primary);
-            color: var(--bg);
-        }
-        
-        /* Rotation for Descending Sort */
-        .rotate-180 {
-            transform: rotate(180deg);
-            display: inline-block;
-        }
-        .sort-btn, .btn {
-            transition: transform 0.3s, background 0.2s, color 0.2s;
-        }
-        
-        .top-bar {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            position: relative;
-        }
-        .solver-counter {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: var(--primary);
-            text-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
-            font-family: 'JetBrains Mono', monospace;
-            /* Positioned in header now */
-            position: relative; /* Anchor for timer */
-        }
-        
-        /* Fullscreen overlay for solver counter - matches main page header */
-        #fullscreen-header {
-            display: none;
-            position: fixed;
-            top: 40px;
-            left: 0;
-            right: 0;
-            z-index: 10000;
-            pointer-events: none;
-            padding: 0 40px;
-        }
-        #fullscreen-header .header-counters {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .mismatch-counter {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #ff4444;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
-            font-family: 'JetBrains Mono', monospace;
-            margin-right: 20px;
-        }
-        .header-counters {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centered in box */
-            z-index: 100;
-            background: rgba(13, 13, 18, 0.8);
-            padding: 10px 20px;
-            border: 1px solid var(--primary);
-            border-radius: 4px;
-        }
-
-        .riddle-text {
-            font-family: 'JetBrains Mono', monospace;
-            color: #00ff9d;
-            text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d;
-            font-size: 0.3em; /* Smaller to fit in box */
-            margin-top: 0px;
-            perspective: 1000px;
-            cursor: default;
-            text-align: center;
-            position: absolute; /* Bound to bottom of relative parent */
-            bottom: 4px;
-            left: 0;
-            right: 0;
-            width: 100%;
-            pointer-events: none;
-            z-index: 200;
-            display: block;
-            height: auto;
-            letter-spacing: 1px;
-        }
-
-        .riddle-char {
-            display: inline-block;
-            transform-style: preserve-3d;
-            /* backface-visibility: hidden; Can cause flickering with text, optional */
-        }
-
-        .matrix-timer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            background: #000; /* Opaque start */
-            overflow: hidden;
-            z-index: 20; /* Ensure on top */
-        }
-
-        .timer-particle {
-            position: absolute;
-            font-family: 'JetBrains Mono', monospace;
-            color: #00ff9d;
-            font-size: 2px; /* 1/10th scale approx */
-            text-shadow: 0 0 1px #00ff9d;
-            font-weight: bold;
-            user-select: none;
-            will-change: transform, opacity;
-        }
-
-        .personality-intro {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9em;
-            color: var(--secondary);
-            max-width: 400px;
-            text-align: right;
-            border-right: 2px solid var(--border);
-            padding-right: 20px;
-            line-height: 1.4;
-            font-style: italic;
-        }
-        
-        /* Score Styling */
-        .score-fast {
-            color: var(--primary);
-            font-weight: bold;
-        }
-        .score-slow {
-            color: var(--danger);
-        }
-        .total-score {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--primary);
-            text-align: right;
-        }
-
-        
-        /* Toggle Button */
-        .toggle-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .toggle-icon {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #333;
-            transition: background 0.2s;
-        }
-        .btn.active .toggle-icon {
-            background: var(--primary);
-            box-shadow: 0 0 5px var(--primary);
-        }
-        
-        /* Iteration Mismatch Highlight */
-        .mismatch-iterations td {
-            background-color: rgba(255, 165, 0, 0.3) !important;
-        }
-        .modal-location, .modal-benefits {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9em;
-            color: var(--secondary);
-            margin-top: 10px;
-            line-height: 1.4;
-        }
-        .modal-benefits {
-            color: var(--primary);
-            font-style: italic;
-        }
-        
-        /* Matrix Screensaver */
-        #matrix-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            display: none; /* Hidden by default */
-            border-radius: 8px;
-            pointer-events: none; /* Let clicks pass through if needed, though we hide chart anyway */
-        }
-        
-        #d3-chart-container {
-            position: relative;
-        }
-
-        /* Vertical Slide Animations */
-        @keyframes slideDownEnter {
-            from { top: -100vh; }
-            to { top: 0; }
-        }
-
-        @keyframes slideDownExit {
-            from { transform: translateY(0); opacity: 1; }
-            to { transform: translateY(100vh); opacity: 0; }
-        }
-
-        .slide-down-enter {
-            animation: slideDownEnter 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        .slide-down-exit {
-            animation: slideDownExit 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-    </style>
+    <link rel="stylesheet" href="../Metrics/index.css">
     <style>
         /* Pill UI */
         .pill-container {
@@ -1166,6 +536,31 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             align-items: center;
             margin-bottom: 2px;
         }
+        /* Fullscreen Wrapper Centering */
+        #chart-wrapper.fullscreen-active {
+            background: #000 !important;
+            border: none !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+        
+        /* Node Label Toggling */
+        .chart-node-label { display: none; fill: #e0e0e0; font-size: 12px; font-weight: bold; text-shadow: 0 0 2px #000; }
+        .show-text-labels .chart-node-label { display: block; }
+        .show-text-labels .chart-node-image { display: none; }
+        
+        /* Narrow Language Cell */
+        .lang-col { width: 120px; max-width: 120px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        
+        /* Total Score/Time Column - Wider */
+        .score-col { width: 140px; min-width: 140px; }
+
+        /* Hide Chart Buttons (using Pulldown now) */
+        .chart-options { display: none !important; }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -1208,11 +603,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <div style="margin-top: 10px;">
                             <input type="text" id="editInputs-location" class="modal-edit-input edit-only" placeholder="Location">
                             <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
+                            <input type="text" id="editInputs-website" class="modal-edit-input edit-only" placeholder="Website URL">
                             
                             <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
                             <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
                             <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
                             <a id="modalGrokepia" class="view-only" href="#" target="_blank" style="margin: 5px 0 0 0; color: #4fd6be; font-size: 0.9em; text-decoration: none; display:none;">🔗 https://grokipedia.com</a>
+                        </div>
+                        
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                             <button class="btn view-only" id="btn-website" onclick="openSidePanel('website')">Website</button>
+                             <button class="btn view-only" id="btn-grokipedia" onclick="openSidePanel('grokipedia')">Grokipedia</button>
+                             <button class="btn view-only" id="btn-wikipedia" onclick="openSidePanel('wikipedia')">Wikipedia</button>
                         </div>
                     </div>
                 </div>
@@ -1242,6 +644,23 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <button class="btn" onclick="openGoogleImageSearch()">Search Google Images</button>
                     <p style="font-size: 0.8em; color: #787c99; margin-top: 5px;">Tip: Paste an image (Ctrl+V) anywhere in this modal to upload it as the main logo.</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide-out Side Panel -->
+    <div id="slidePanel" style="position: fixed; top: 0; right: -600px; width: 600px; height: 100%; background: #1a1b26; border-left: 1px solid #414868; box-shadow: -5px 0 15px rgba(0,0,0,0.5); z-index: 3000; transition: right 0.3s ease-in-out; display: flex; flex-direction: column;">
+        <div style="padding: 15px; background: #16161e; border-bottom: 1px solid #414868; display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="slideTitle" style="margin: 0; color: #7aa2f7;">External Content</h3>
+            <div style="display: flex; gap: 10px;">
+                <a id="slideExternalLink" href="#" target="_blank" class="btn" style="text-decoration: none; font-size: 0.8em;">Open in Tab</a>
+                <button class="btn" style="background: #ff5555; padding: 5px 10px;" onclick="closeSidePanel()">Close</button>
+            </div>
+        </div>
+        <div style="flex: 1; position: relative;">
+            <iframe id="slideFrame" style="width: 100%; height: 100%; border: none;" allow="clipboard-read; clipboard-write"></iframe>
+             <div id="slideLoading" style="position: absolute; top:0; left:0; width:100%; height:100%; display:none; background: #1a1b26; align-items:center; justify-content:center; color: #565f89;">
+                Loading...
             </div>
         </div>
     </div>
@@ -1305,6 +724,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                      <li style="margin-bottom: 10px;">🧪 <strong>Variety</strong>: Include diverse paradigms (procedural, functional, object-oriented).</li>
                      <li style="margin-bottom: 10px;">📊 <strong>Visualization</strong>: Present performance metrics in an engaging, interactive format.</li>
                      <li style="margin-bottom: 10px;">🎨 <strong>Aesthetic</strong>: Use a distinctive cyberpunk style to make data exploration fun.</li>
+                     <li style="margin-bottom: 10px;">🤖 <strong>AI Synergy</strong>: Learn how to leverage AI for software development.</li>
+                     <li style="margin-bottom: 10px;">🛡️ <strong>Guardrails</strong>: Getting agents to follow a TDD approach to keeping guardrails and agent on task.</li>
                 </ul>
             </div>
         </div>
@@ -1335,11 +756,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <div id="fullscreen-header">
         <div class="header-counters">
             <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
-                <span id="solver-text">SOLVER ${metrics.length} OF ${metrics.length}</span>
+                <span id="solver-text">SOLVED ${metrics.length} OF ${metrics.length}</span>
                 <div id="riddle-container" class="riddle-text"></div>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
+                <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
             </div>
-            ${mismatchCount > 0 ? `<div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
         </div>
     </div>
 
@@ -1555,66 +976,108 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <h1>Sudoku Benchmark Results</h1>
     
     <div class="header-counters">
-        <div class="solver-counter">SOLVER ${metrics.length} OF ${metrics.length}</div>
-        ${mismatchCount > 0 ? `<div id="header-mismatch-count" class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>` : ''}
+        <!-- Relocated Pill Container -->
+        <div class="pill-container" onclick="event.stopPropagation();" style="margin: 10px 0;">
+            <div class="pill-combined">
+                <div class="pill-half blue" title="Take the Blue Pill (Slide Effect)" onclick="event.stopPropagation(); window.startScreensaver('blue')"></div>
+                <div class="pill-half red" title="Take the Red Pill (Instant Matrix)" onclick="event.stopPropagation(); window.startScreensaver('red')"></div>
+            </div>
+        </div>
+
         <div id="screensaver-pill" style="display: none; font-size: 0.8em; color: var(--secondary); margin-top: 5px; align-self: flex-start;">
             <span style="display: inline-block; width: 8px; height: 8px; background: #00ff9d; border-radius: 50%; margin-right: 5px; box-shadow: 0 0 5px #00ff9d;"></span>
             Screensaver Active
         </div>
     </div>
     
-    <div style="width: 95%; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
-        <div style="position: absolute; top: 10px; right: 20px; z-index: 100; display: flex; gap: 10px; align-items: center;">
-            <button class="zoom-btn" onclick="undoZoom()" title="Zoom Extent">
+    <div id="chart-wrapper" style="width: 95%; max-width: 1600px; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
+        <div class="chart-controls">
+            <button class="zoom-btn" onclick="toggleLogoMode(this)" title="Toggle Logos/Text" style="margin-right: 2px;">
+                <svg id="logo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Image Icon -->
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+            </button>
+
+            <button class="zoom-btn" onclick="handleZoomExtend()" title="Zoom Extent">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
                 </svg>
             </button>
+            <button class="zoom-btn" onclick="toggleChartFullscreen()" title="Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+            </button>
+
             <select id="chart-selector" class="btn active" onchange="switchChart(this.value)" style="cursor: pointer;">
-                <option value="line">Line Chart</option>
+                <option value="line">Metrics</option>
                 <option value="jockey">Horse Race</option>
                 <option value="race">Matrix Race</option>
                 <option value="history">History</option>
-                <option value="architecture">System Architecture</option>
+                <option value="architecture">Architecture</option>
             </select>
-            <div class="pill-container" onclick="event.stopPropagation();">
-                <div class="pill-combined">
-                    <div class="pill-half blue" title="Take the Blue Pill (Slide Effect)" onclick="event.stopPropagation(); window.startScreensaver('blue')"></div>
-                    <div class="pill-half red" title="Take the Red Pill (Instant Matrix)" onclick="event.stopPropagation(); window.startScreensaver('red')"></div>
-                </div>
-            </div>
         </div>
-        <div id="d3-chart-container" style="width: 100%; height: 100%;"></div>
+                <div id="d3-chart-container" style="width: 100%; height: 100%; position: relative;">
+                    <!-- Chart rendered here -->
+                </div>
 
     </div>
     
     <div class="top-bar">
-        <!-- Removed solver-counter from here -->
-        <div id="personality-intro" class="personality-intro">
-            Welcome to the Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
+        <!-- Old solver-stat removed -->
+        <div id="personality-intro" class="personality-intro" style="text-align: center; margin: 0 auto 20px auto; max-width: 800px;">
+            Welcome to the Polyglot Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
         <div class="controls">
-            <div class="dropdown">
-                <button class="btn">Menu ▼</button>
-                <div class="dropdown-content">
-                    <a onclick="showMethodology()">Methodology</a>
-                    <a onclick="showGoals()">Project Goals</a>
-                    <a onclick="showWhy()">Why???</a>
-                </div>
-            </div>
+
             
-            <input type="text" id="search-input" class="btn" placeholder="Filter Language..." onkeyup="filterLanguages()" style="cursor: text; width: 150px;">
+            <!-- System View Controls (Hidden by default) -->
+            <div id="system-controls" style="display:none; position:absolute; top: 20px; right: 120px; z-index: 100;">
+                 <button class="btn" onclick="systemZoomExtends()" style="background: var(--surface); color: var(--primary); border: 1px solid var(--primary); margin-right: 10px;">Zoom Extends</button>
+                 <button class="btn" onclick="exitSystemMode()" style="background: rgba(255,0,85,0.2); color: #ff0055; border: 1px solid #ff0055;">Exit System View</button>
+            </div>
+
+            <div id="d3-chart"></div>
+
+            <!-- New System Architecture Component (Hidden by default) -->
+            <div id="system-architecture-view" style="display:none; width: 100%; height: 100%; background: #000; position: absolute; top:0; left:0; z-index: 90;">
+                 <iframe id="system-iframe" src="system_overview.html" style="width:100%; height:100%; border:none;"></iframe>
+            </div>
             <select id="personality-selector" class="btn" onchange="changePersonality()">
+                <option value="" disabled selected>PERSONA</option>
                 <option value="Standard">Standard</option>
                 <option value="Neuromancer">Neuromancer</option>
-                <option value="The Jockey">The Jockey</option>
-                <option value="The Professor">The Professor</option>
-                <option value="The Surfer">The Surfer</option>
-                <option value="The Matrix">The Matrix</option>
+                <option value="Jockey">Jockey</option>
+                <option value="Professor">Professor</option>
+                <option value="Surfer">Surfer</option>
+                <option value="Matrix">Matrix</option>
                 <option value="Galactica">Galactica</option>
                 <option value="Star Trek">Star Trek</option>
                 <option value="Star Wars">Star Wars</option>
+                <option value="BTTF">BTTF</option>
+                <option value="Babylon 5">Babylon 5</option>
+                <option value="Expanse">Expanse</option>
+                <option value="Terminator">Terminator</option>
+                <option value="LotR">Lord of the Rings</option>
+                <option value="Dune">Dune</option>
+                <option value="Buck Rogers">Buck Rogers</option>
+                <option value="Flash Gordon">Flash Gordon</option>
+                <option value="Batman">Batman (1966)</option>
+                <option value="Alien">Alien</option>
+                <option value="Blade Runner">Blade Runner</option>
+                <option value="Farscape">Farscape</option>
+                <option value="Apocalypse Now">Apocalypse Now</option>
+                <option value="Airplane">Airplane!</option>
+                <option value="Fast Times">Fast Times</option>
+                <option value="Tron">Tron</option>
+                <option value="Bill and Ted">Bill & Ted</option>
+                <option value="John Wick">John Wick</option>
+                <option value="Dark Knight">Dark Knight</option>
             </select>
+            <button class="btn" onclick="showMethodology()">Methodology</button>
             <button class="btn" onclick="sortRows('lang', this)">Name</button>
             <button class="btn active" onclick="sortRows('time', this)">Time</button>
             <button class="btn" onclick="sortRows('mem', this)">Memory</button>
@@ -1623,6 +1086,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
                 <span>Show Mismatches</span>
             </button>
+            <button class="btn" onclick="showGoals()">Project Goals</button>
+            <button class="btn" onclick="showWhy()">Why???</button>
+            
+            <div style="position: relative; display: inline-block;">
+                <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">Languages ▾</button>
+                <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            
+            <!-- Search Removed -->
         </div>
     </div>
 
@@ -1656,7 +1130,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         </div>
                     </th>
                     <th>
-                        Score
+                        <span id="header-score">Score</span>
                         <div class="sort-group">
                             <button class="sort-btn" onclick="sortRows('score', this)" title="Sort by Score">S</button>
                         </div>
@@ -1681,10 +1155,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     }
 
     html += `<th>
-        <span>Total Time</span>
+        <span id="header-time">Total Time</span>
         <div class="sort-group">
             <button class="sort-btn" onclick="sortRows('time', this)" title="Sort by Total Time">S</button>
         </div>
+    </th>
+    <th>
+        <span>Status</span>
     </th>
     </tr></thead><tbody>`;
 
@@ -1773,7 +1250,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Data Attributes
         let matrixDataAttrs = "";
         for (let i = 0; i < maxMatrices; i++) {
-            const r = m.results[i];
+            const r = m.results.find((res: any) => res.matrix === `${i + 1}.matrix`);
             const t = r ? r.time : 999999;
             const it = r ? r.iterations : -1;
             const mem = r ? r.memory : -1;
@@ -1799,7 +1276,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <td class='lang-col'>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
-                    <div>${displayName}${typeIcon}</div>
+                    <div>
+                        ${displayName}${typeIcon}
+                    </div>
                     <div class='lang-year'>${year}</div>
                 </div>
             </td>
@@ -1858,7 +1337,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
-        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:flex-end;'><div>${totalTime.toFixed(4)}s</div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:flex-end;'><div style="display:flex;align-items:center;gap:5px;"><button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button><div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
     }
 
     html += `
@@ -1891,8 +1370,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const matrixPuzzles = ${safeJSON(matrixContents)};
         </script>
     `;
-    html += '<script>' + clientJs + '</script>';
+
     html += `
+    <script src="../Metrics/report_client.js"></script>
     </body>
     </html>
     `;
@@ -1922,35 +1402,77 @@ export function generateHistoryHtml(history: any[]): string {
         <title>Benchmark History</title>
         <style>
             body { font-family: 'JetBrains Mono', monospace; background: #0d0d12; color: #e0e0e0; padding: 20px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th, td { border: 1px solid #2a2a35; padding: 10px; text-align: left; }
-            th { background: #1a1a20; color: #00ff9d; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+            th, td { border: 1px solid #2a2a35; padding: 4px 8px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+            th { background: #1a1a20; color: #00ff9d; cursor: pointer; user-select: none; }
+            th:hover { background: #2a2a35; color: #fff; }
             tr:nth-child(even) { background: #16161e; }
-            h1 { color: #00ff9d; }
-            .status-failure, .status-error, .status-suspect { color: #ff0055; }
+            h1 { color: #00ff9d; font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 2px; }
+            .status-failure, .status-error, .status-suspect { color: #ff0055; font-weight: bold; }
             .status-optimized { color: #00b8ff; }
+            
+            /* Matrix Timing Style for Time Column */
+            .time-val { font-size: 1.1em; font-weight: bold; color: #fff; font-family: 'JetBrains Mono', monospace; }
         </style>
+        <script>
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.querySelector("table");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        var xContent = x.innerText.toLowerCase();
+                        var yContent = y.innerText.toLowerCase();
+                        if (!isNaN(parseFloat(xContent)) && !isNaN(parseFloat(yContent))) {
+                             xContent = parseFloat(xContent);
+                             yContent = parseFloat(yContent);
+                        }
+                        if (dir == "asc") {
+                            if (xContent > yContent) { shouldSwitch = true; break; }
+                        } else if (dir == "desc") {
+                            if (xContent < yContent) { shouldSwitch = true; break; }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount ++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
     </head>
     <body>
         <h1>Benchmark History</h1>
         <table>
             <thead>
                 <tr>
-                    <th>Timestamp</th>
-                    <th>Solver</th>
-                    <th>Matrix</th>
-                    <th>Time (s)</th>
-                    <th>Iterations</th>
-                    <th>Status</th>
+                    <th onclick="sortTable(0)" style="width: 200px;">Timestamp ↕</th>
+                    <th onclick="sortTable(1)">Solver ↕</th>
+                    <th onclick="sortTable(2)">Matrix ↕</th>
+                    <th onclick="sortTable(3)">Time (s) ↕</th>
+                    <th onclick="sortTable(4)">Iterations ↕</th>
+                    <th onclick="sortTable(5)">Status ↕</th>
                 </tr>
             </thead>
             <tbody>
                 ${rows.map(r => `
                     <tr>
                         <td>${new Date(r.timestamp).toLocaleString()}</td>
-                        <td>${r.solver}</td>
+                        <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
                         <td>${r.matrix}</td>
-                        <td>${r.time.toFixed(4)}</td>
+                        <td class="time-val">${r.time.toFixed(4)}</td>
                         <td>${r.iterations}</td>
                         <td class="status-${r.status.toLowerCase()}">${r.status}</td>
                     </tr>

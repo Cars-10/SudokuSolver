@@ -133,11 +133,17 @@ function toggleMismatches() {
 // Personality Selector
 function changePersonality() {
     const selector = document.getElementById('personality-selector');
-    const persona = selector.value;
+    const persona = selector.value || 'Standard'; // Fallback to Standard
+
+    // Set global state for other components (like modals)
+    window.currentPersona = persona;
+
     const intro = document.getElementById('personality-intro');
 
     // Update Intro Text
     intro.innerText = narratorIntros[persona] || narratorIntros['Standard'] || "Welcome to the Sudoku Benchmark.";
+
+    // Update Badge Styles to match persona? (Optional, skipping for now)
 
     // Update Tooltips
     const rows = document.querySelectorAll('tbody tr');
@@ -219,8 +225,7 @@ function changePersonality() {
 const tooltip = document.getElementById('tooltip');
 
 // Attach to all cells
-// Attach to all cells
-// Attach to all cells
+
 
 document.querySelectorAll('tbody td').forEach(cell => {
     cell.addEventListener('mousemove', (e) => {
@@ -336,7 +341,35 @@ window.showLanguageDetails = async function (lang, x, y) {
         grokepiaLink.innerText = "🔗 View on Grokipedia";
         grokepiaLink.style.display = "inline-block";
     }
-    document.getElementById('modalDesc').innerText = meta.description || "No description available.";
+
+
+    // Description: Check Persona first
+    let desc = meta.description;
+    const currentPersona = window.currentPersona || 'Standard';
+    if (window.personalities && window.personalities[currentPersona]) {
+        // Look for specific lang match
+        const personaDesc = window.personalities[currentPersona][lang];
+        if (personaDesc) {
+            desc = personaDesc;
+        } else {
+            // Fallback to default if available in persona?
+            // "default" key in personalities map
+            const def = window.personalities[currentPersona]['default'];
+            if (def && desc === undefined) {
+                // Only use default if no meta description? Or append?
+                // Let's use generic description if no specific language description exists?
+                // But generic description is like "A glitch in the matrix".
+                // It might overwrite a useful description like "A compiled language..." 
+                // User asked to embellish. Let's PREPEND or REPLACE?
+                // The existing personality entries are full replacements like "C: The Source Code...".
+                // So if we have a match, we use it. If not, we keep the original description?
+                // Let's keep original description if no specific match, maybe append the persona flavor text.
+                if (def) desc = (desc || "") + "\n\n" + def;
+            }
+        }
+    }
+
+    document.getElementById('modalDesc').innerText = desc || "No description available.";
 
     // Edit Mode Population
     document.getElementById('editInputs-title').value = displayName;
@@ -345,6 +378,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('editInputs-date').value = meta.date || "";
     document.getElementById('editInputs-location').value = meta.location || "";
     document.getElementById('editInputs-benefits').value = meta.benefits || "";
+    document.getElementById('editInputs-website').value = meta.website || "";
     document.getElementById('editInputs-desc').value = meta.description || "";
 
     // Authors Population
@@ -383,39 +417,35 @@ window.showLanguageDetails = async function (lang, x, y) {
             // unless a parent has relative positioning. The modal container is 'display:flex' overlay usually.
             // But if we are positioning absolute, let's assume body relative.
 
-            const scrollX = window.scrollX || window.pageXOffset;
-            const scrollY = window.scrollY || window.pageYOffset;
+            // We need viewport relative coordinates because the modal container is fixed
 
-            // Boundaries in document coords
-            const tableTop = tableRect.top + scrollY;
-            const tableLeft = tableRect.left + scrollX;
-            const tableRight = tableRect.right + scrollX;
-            const tableBottom = tableRect.bottom + scrollY;
+            // Boundaries - Constrain to Viewport
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-            let desiredTop = y + scrollY;
-            let desiredLeft = x + scrollX;
-
-            // Ensure we don't go above the table (into the chart)
-            if (desiredTop < tableTop) desiredTop = tableTop;
+            let desiredTop = y;
+            let desiredLeft = x;
 
             // Ensure we calculate with modal height/width
-            // Note: rect.height might be 0 if display none, but we just set display flex above.
-            // Force layout recalc?
             const modalHeight = modalContent.offsetHeight || 600;
             const modalWidth = modalContent.offsetWidth || 500;
 
             // Clamp Right
-            if (desiredLeft + modalWidth > tableRight) {
-                desiredLeft = tableRight - modalWidth;
+            if (desiredLeft + modalWidth > viewportWidth) {
+                desiredLeft = viewportWidth - modalWidth - 20; // 20px padding
             }
             // Clamp Left
-            if (desiredLeft < tableLeft) {
-                desiredLeft = tableLeft;
+            if (desiredLeft < 20) {
+                desiredLeft = 20;
             }
 
             // Clamp Bottom
-            if (desiredTop + modalHeight > tableBottom) {
-                desiredTop = tableBottom - modalHeight;
+            if (desiredTop + modalHeight > viewportHeight) {
+                desiredTop = viewportHeight - modalHeight - 20;
+            }
+            // Clamp Top
+            if (desiredTop < 20) {
+                desiredTop = 20;
             }
 
             modalContent.style.margin = '0';
@@ -493,26 +523,36 @@ window.saveLanguageDetails = async function () {
         date: document.getElementById('editInputs-date').value,
         location: document.getElementById('editInputs-location').value,
         benefits: document.getElementById('editInputs-benefits').value,
+        website: document.getElementById('editInputs-website').value,
         description: document.getElementById('editInputs-desc').value,
         authors: currentMetadata.authors || []
     };
 
     // Save to backend
     try {
-        const res = await fetch('http://localhost:9102/api/save-metadata', {
+        console.log("Attempting to save metadata to:", 'http://localhost:3000/api/save-metadata');
+        const res = await fetch('http://localhost:3000/api/save-metadata', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lang: currentEditingLang, metadata: newData })
         });
 
-        if (res.ok) {
-            alert("Saved!");
-            window.showLanguageDetails(currentEditingLang); // Refresh
-        } else {
-            alert("Error saving: " + res.statusText);
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`Server responded with ${res.status}: ${errorText}`);
         }
+
+        const json = await res.json();
+        // Update local state immediately
+        if (!languageMetadata[currentEditingLang]) languageMetadata[currentEditingLang] = {};
+        Object.assign(languageMetadata[currentEditingLang], newData);
+
+        closeModal(null);
+        alert('Saved successfully!');
+        // Ideally re-render or update UI
     } catch (e) {
-        alert("Error saving: " + e.message);
+        console.error("Save failed:", e);
+        alert("Error saving: " + e.message + "\nCheck console for details.");
     }
 };
 
@@ -553,16 +593,70 @@ document.addEventListener('paste', async (e) => {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                const base64 = event.target.result;
-                document.getElementById('modalImg').src = base64;
-                document.getElementById('editInputs-image').value = "[Base64 Image Data]";
-                // We assume user understands this is temporary unless we have a backend
-                // But for the visual feedback request, this works.
-                if (currentMetadata) currentMetadata.image = base64;
-            };
-            reader.readAsDataURL(blob);
+
+            // Upload immediately
+            const formData = new FormData();
+            formData.append('file', blob);
+            formData.append('lang', currentEditingLang);
+
+            try {
+                // Show loading state
+                const imgEl = document.getElementById('modalImg');
+                imgEl.style.opacity = '0.5';
+
+                const res = await fetch('http://localhost:3000/api/upload-media', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const relativePath = `CleanedUp/Languages/${currentEditingLang}/Media/${data.filename}`;
+                    imgEl.src = relativePath;
+                    document.getElementById('editInputs-image').value = relativePath;
+                    if (currentMetadata) currentMetadata.image = relativePath;
+                } else {
+                    const txt = await res.text();
+                    alert("Upload failed: " + txt);
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Upload failed: " + e.message);
+            } finally {
+                document.getElementById('modalImg').style.opacity = '1';
+            }
+        } else if (item.kind === 'string') {
+            item.getAsString(async (url) => {
+                if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.startsWith('http')) {
+                    const doDownload = confirm("Detected Image URL. Download and save locally?");
+                    if (doDownload) {
+                        try {
+                            const res = await fetch('/api/download-media', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ url: url, lang: currentEditingLang })
+                            });
+
+                            if (res.ok) {
+                                const data = await res.json();
+                                const relativePath = `CleanedUp/Languages/${currentEditingLang}/Media/${data.filename}`;
+                                document.getElementById('modalImg').src = relativePath;
+                                document.getElementById('editInputs-image').value = relativePath;
+                                if (currentMetadata) currentMetadata.image = relativePath;
+                            } else {
+                                alert("Download failed");
+                            }
+                        } catch (e) {
+                            alert("Download error: " + e.message);
+                        } finally {
+                            document.getElementById('modalImg').style.opacity = '1';
+                        }
+                    } else {
+                        // Just paste text
+                        // default behavior might happen or we can manually set it
+                    }
+                }
+            });
         }
     }
 });
@@ -593,6 +687,10 @@ window.uploadLogo = async function (input) {
 
 
 function closeModal(event) {
+    if (!event) {
+        document.getElementById('langModal').style.display = 'none';
+        return;
+    }
     if (event.target.id === 'langModal' || event.target.classList.contains('modal-close')) {
         document.getElementById('langModal').style.display = 'none';
     }
@@ -630,6 +728,392 @@ function closeWhy(event) {
 
 // Initialize
 toggleMismatches(); // Default hide
+window.languageStatus = {};
+window.selectedLanguages = new Set(['C']); // Default C
+window.lockedLanguages = new Map(); // Languages unaffected by Bulk actions (stored with timestamp)
+window.showLogos = true; // Default to showing logos
+
+window.toggleLogoMode = function (btn) {
+    window.showLogos = !window.showLogos;
+    // Update Icon
+    if (window.showLogos) {
+        // Show Text Icon (option to switch to text)
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>`;
+        btn.title = "Switch to Text Labels";
+    } else {
+        // Show Image Icon (option to switch to logos)
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
+        btn.title = "Switch to Logos";
+    }
+    // Redraw
+    if (typeof window.switchChart === 'function') {
+        window.switchChart(currentChart || 'line');
+    }
+};
+
+// --- Status & Selector Logic ---
+window.toggleLanguageSelector = function () {
+    const dropdown = document.getElementById('language-selector-dropdown');
+    if (dropdown.style.display === 'none') {
+        window.populateLanguageSelector();
+        dropdown.style.display = 'block';
+    } else {
+        dropdown.style.display = 'none';
+    }
+};
+
+window.populateLanguageSelector = function () {
+    const dropdown = document.getElementById('language-selector-dropdown');
+    dropdown.innerHTML = '';
+
+    // Get all languages from table rows
+    const rows = document.querySelectorAll('tbody tr');
+    let allLanguages = [];
+    rows.forEach(row => {
+        const lang = row.getAttribute('data-lang');
+        if (lang && !allLanguages.includes(lang)) {
+            allLanguages.push(lang);
+        }
+    });
+
+    // Buckets
+    const locked = [];
+    const selected = [];
+    const available = [];
+
+    allLanguages.forEach(lang => {
+        if (window.lockedLanguages.has(lang)) {
+            locked.push(lang);
+        } else if (window.selectedLanguages.has(lang)) {
+            selected.push(lang);
+        } else {
+            available.push(lang);
+        }
+    });
+
+    // Sort within buckets
+    locked.sort();
+    const selectionOrder = Array.from(window.selectedLanguages);
+    selected.sort((a, b) => selectionOrder.indexOf(a) - selectionOrder.indexOf(b));
+    available.sort();
+
+    // Helper to create item
+    const createItem = (lang, isSelected) => {
+        const div = document.createElement('div');
+        const isLocked = window.lockedLanguages.has(lang);
+        const status = window.languageStatus[lang] || 'Init';
+
+        let statusColor = '#3d5afe';
+        if (status === 'Ready') statusColor = '#00e676';
+        else if (status === 'Testing') statusColor = '#ffa000';
+
+        div.style.padding = '2px 5px';
+        div.style.display = 'flex';
+        div.style.alignItems = 'center';
+        div.style.justifyContent = 'space-between';
+        div.style.borderBottom = '1px solid #333';
+        div.onmouseover = function () { this.style.backgroundColor = '#333'; };
+        div.onmouseout = function () { this.style.backgroundColor = 'transparent'; };
+
+        // Optional: Show lock time? User asked to "Capture" it, not necessarily show it in the tiny dropdown.
+        // We will keep it minimal for now.
+
+        div.innerHTML = `
+            <div style="display:flex; align-items:center; flex:1;">
+                <button onclick="toggleLock('${lang}')" style="background:none; border:none; color: ${isLocked ? '#ffd700' : '#444'}; cursor:pointer; font-size:1em; margin-right:5px; width:20px; text-align:center;" title="${isLocked ? 'Locked' : 'Unlocked'}">
+                    ${isLocked ? '🔒' : '🔓'}
+                </button>
+                <label style="display:flex; align-items:center; cursor:pointer; flex:1;">
+                    <input type="checkbox" value="${lang}" ${isSelected ? 'checked' : ''} onchange="updateLangSelection('${lang}', this.checked)">
+                    <span style="margin-left:5px; color:#fff; font-size:0.8em;">${lang}</span>
+                </label>
+            </div>
+            <span style="font-size:0.6em; padding:1px 4px; border-radius:3px; background:${statusColor}; color:#fff; min-width:35px; text-align:center;">${status}</span>
+        `;
+        return div;
+    };
+
+    // Generic header helper
+    const addHeader = (text) => {
+        const h = document.createElement('div');
+        h.innerHTML = `<div style="font-size:0.7em; color:#888; margin-top:5px; border-bottom:1px solid #444;">${text}</div>`;
+        dropdown.appendChild(h);
+    };
+
+    if (locked.length > 0) {
+        addHeader("LOCKED");
+        locked.forEach(lang => dropdown.appendChild(createItem(lang, window.selectedLanguages.has(lang))));
+    }
+
+    if (selected.length > 0) {
+        addHeader("SELECTED");
+        selected.forEach(lang => dropdown.appendChild(createItem(lang, true)));
+    }
+
+    if (available.length > 0) {
+        addHeader("AVAILABLE");
+        available.forEach(lang => dropdown.appendChild(createItem(lang, false)));
+    }
+
+    const clearBtn = document.createElement('div');
+    clearBtn.style.textAlign = 'center';
+    clearBtn.style.marginTop = '10px';
+    clearBtn.innerHTML = `<button class="btn" style="font-size:0.6em;" onclick="window.clearSelection()">Clear Selection</button>`;
+    dropdown.appendChild(clearBtn);
+};
+
+window.updateSolverStats = function () {
+    // X = count of Languages Locked
+    // Y = Total metrics (Planned)
+    const lockedCount = window.lockedLanguages.size;
+    // metricsData is injected globally by HTMLGenerator
+    const planned = typeof metricsData !== 'undefined' ? metricsData.length : 76;
+
+    const stat = document.getElementById('solver-stat');
+    if (stat) stat.innerHTML = `SOLVED <span style="color: #00ff9d">${lockedCount}</span> OF <span style="color: #00ff9d">${planned}</span>`;
+    const screensaverText = document.getElementById('solver-text');
+    if (screensaverText) screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
+};
+
+window.saveSessionState = async function () {
+    const state = {
+        locked: Array.from(window.lockedLanguages.entries()), // [[lang, time], ...]
+        selected: Array.from(window.selectedLanguages),
+        currentPersona: window.currentPersona || 'Standard'
+    };
+
+    try {
+        await fetch('http://localhost:3000/api/session-state', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(state)
+        });
+    } catch (e) {
+        console.error("Failed to save state", e);
+    }
+};
+
+window.loadSessionState = async function () {
+    try {
+        const res = await fetch('http://localhost:3000/api/session-state?t=' + Date.now());
+        if (res.ok) {
+            const state = await res.json();
+            console.log("Loaded session state:", state);
+            if (state.locked) {
+                window.lockedLanguages = new Map(state.locked);
+            }
+            if (state.selected) {
+                window.selectedLanguages = new Set(state.selected);
+            }
+            if (state.currentPersona) {
+                window.currentPersona = state.currentPersona;
+                // Update UI for persona if needed (but might be too early if DOM not ready? No, this runs after load usually)
+                // Actually, we should probably call changePersonality if it's different.
+                const selector = document.getElementById('personality-selector');
+                if (selector) {
+                    selector.value = window.currentPersona;
+                    window.changePersonality(window.currentPersona);
+                }
+            }
+            // Refresh UI
+            window.populateLanguageSelector(); // If open? Or just to be ready.
+            window.updateSolverStats();
+
+            // Re-apply visibility based on selection
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const lang = row.getAttribute('data-lang');
+                const selected = window.selectedLanguages.has(lang);
+                row.style.display = selected ? '' : 'none';
+            });
+            window.updateSolverStats(); // Update again to be sure
+        }
+    } catch (e) {
+        console.error("Failed to load state", e);
+    }
+};
+
+window.toggleLock = function (lang) {
+    if (window.lockedLanguages.has(lang)) {
+        window.lockedLanguages.delete(lang);
+    } else {
+        window.lockedLanguages.set(lang, Date.now());
+    }
+    window.populateLanguageSelector();
+    window.updateSolverStats();
+    window.saveSessionState();
+};
+
+window.selectAllLangs = function (select) {
+    const checkboxes = document.querySelectorAll('#language-selector-dropdown input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+        if (!window.lockedLanguages.has(cb.value)) {
+            cb.checked = select;
+            // logic inline because calling updateLangSelection triggers save each time? 
+            // Better to batch it? 
+            // updateLangSelection calls row update.
+            // Let's just update memory first then save once.
+            if (select) window.selectedLanguages.add(cb.value);
+            else window.selectedLanguages.delete(cb.value);
+
+            // Update Visibility
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                if (row.getAttribute('data-lang') === cb.value) {
+                    row.style.display = select ? '' : 'none';
+                }
+            });
+        }
+    });
+    window.saveSessionState();
+};
+
+window.updateLangSelection = function (lang, selected) {
+    if (selected) window.selectedLanguages.add(lang);
+    else window.selectedLanguages.delete(lang);
+
+    // Update Visibility
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        if (row.getAttribute('data-lang') === lang) {
+            row.style.display = selected ? '' : 'none';
+        }
+    });
+    window.saveSessionState();
+};
+
+window.applyTableVisibility = function () {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const lang = row.getAttribute('data-lang');
+        const selected = window.selectedLanguages.has(lang);
+        row.style.display = selected ? '' : 'none';
+    });
+};
+
+window.initializeStatus = function () {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const lang = row.getAttribute('data-lang');
+        const iters = parseInt(row.getAttribute('data-iters') || "0");
+        const statusBadge = document.getElementById('status-' + lang);
+
+        // Infer Status
+        // If we have valid iterations, assume Ready. Otherwise Init.
+        let status = 'Init';
+        if (iters > 0) status = 'Ready';
+
+        window.languageStatus[lang] = status;
+
+        if (statusBadge) {
+            updateStatusBadgeUI(lang, status);
+        }
+    });
+    // Load persisted state
+    window.loadSessionState();
+    window.applyTableVisibility(); // Apply initial visibility
+    window.updateSolverStats();
+};
+
+window.updateStatusBadgeUI = function (lang, status) {
+    const badge = document.getElementById('status-' + lang);
+    if (!badge) return;
+
+    // Update Badge Color/Text
+    badge.className = 'status-badge';
+    badge.innerText = status;
+
+    // ... Badge styling ...
+
+    // Refresh stats (status changed)
+    window.updateSolverStats();
+    // Refresh dropdown to show new status?
+    // Doing full re-populate might be heavy if done frequently, 
+    // but useful for visual consistency in the dropdown.
+    // window.populateLanguageSelector(); 
+
+
+    if (status === 'Init') {
+        badge.classList.add('status-init');
+        badge.title = "Environment initializing / Unverified";
+        badge.style.cursor = "pointer";
+        badge.onclick = () => verifyLanguage(lang);
+    } else if (status === 'Testing') {
+        badge.classList.add('status-testing');
+        badge.title = "Verifying environment...";
+        badge.style.cursor = "wait";
+        badge.onclick = null;
+    } else if (status === 'Ready') {
+        badge.classList.add('status-ready');
+        badge.title = "Ready for Benchmark";
+        badge.style.cursor = "default";
+        badge.onclick = null;
+    }
+
+    // Toggle Run Buttons
+    const row = document.querySelector(`tr[data-lang="${lang}"]`);
+    if (row) {
+        const runBtns = row.querySelectorAll('.run-btn');
+        runBtns.forEach(btn => {
+            if (status === 'Ready') {
+                btn.style.display = 'inline-block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        // Inject Verify Button if Init and not present
+        let verifyBtn = row.querySelector('.verify-btn');
+        if (status === 'Init') {
+            if (!verifyBtn) {
+                // Create verify btn in the Total Time column logic? Or next to Badge?
+                // Badge is clickable, but let's make it obvious.
+                // Actually, let's just use the Badge click for now to save space, or put a button in the first cell actions?
+                // Badge click is implemented above.
+            }
+        }
+    }
+};
+
+window.verifyLanguage = async function (lang) {
+    console.log("Verifying " + lang);
+    updateStatusBadgeUI(lang, 'Testing');
+
+    // Run Matrix 1 as a test
+    try {
+        const res = await fetch('/api/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ language: lang, matrix: '1.matrix' })
+        });
+
+        if (!res.ok) throw new Error("Server error");
+
+        const data = await res.json();
+
+        if (data.success) {
+            // Check if passed?
+            // The JSON output usually contains "status": "pass"
+            // We assume it passed if we got data back for now, or check stdout
+            updateStatusBadgeUI(lang, 'Ready');
+            window.languageStatus[lang] = 'Ready';
+            // Ideally refresh row data?
+        } else {
+            alert("Verification Failed:\n" + (data.stderr || data.error));
+            updateStatusBadgeUI(lang, 'Init');
+            window.languageStatus[lang] = 'Init';
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Verification Error: " + e.message);
+        updateStatusBadgeUI(lang, 'Init');
+        window.languageStatus[lang] = 'Init';
+    }
+};
+
+// Start
+// populateLanguageSelector(); // Don't auto-populate on load, wait for click
+initializeStatus();
 
 // --- D3.js Chart Implementation ---
 (function () {
@@ -660,15 +1144,74 @@ toggleMismatches(); // Default hide
         document.getElementById('logModal').style.display = 'none';
     };
 
+    window.openSidePanel = function (type) {
+        const panel = document.getElementById('slidePanel');
+        const frame = document.getElementById('slideFrame');
+        const title = document.getElementById('slideTitle');
+        const extLink = document.getElementById('slideExternalLink');
+
+        let url = "";
+        let finalTitle = "";
+
+        const lang = currentEditingLang || "Unknown";
+        const meta = currentMetadata || {};
+
+        // Helper specifically for C++
+        let lookupLang = lang;
+        if (lang === "C++") lookupLang = "C++"; // No change needed usually, but URL encoding matters
+
+        if (type === 'website') {
+            url = meta.website;
+            finalTitle = "Official Website";
+            if (!url) {
+                // Try to guess or show placeholder
+                url = "https://www.google.com/search?q=" + encodeURIComponent(lang + " programming language official site") + "&btnI=1"; // I'm Feeling Lucky-ish
+                // Or just fallback
+                finalTitle = "Website (Searching...)";
+            }
+        } else if (type === 'grokipedia') {
+            url = `https://grokipedia.com/languages/${encodeURIComponent(lang)}`;
+            finalTitle = "Grokipedia";
+        } else if (type === 'wikipedia') {
+            // Handle special cases
+            let wikiLang = lang;
+            if (lang === "C_Sharp") wikiLang = "C_Sharp_(programming_language)";
+            else if (lang === "F_Sharp") wikiLang = "F_Sharp_(programming_language)";
+            else wikiLang = lang + "_(programming_language)";
+
+            url = `https://en.wikipedia.org/wiki/${wikiLang}`;
+            finalTitle = "Wikipedia";
+        }
+
+        title.innerText = finalTitle;
+        frame.src = url;
+        extLink.href = url;
+        panel.classList.add('active');
+    };
+
+    window.closeSidePanel = function () {
+        const panel = document.getElementById('slidePanel');
+        const frame = document.getElementById('slideFrame');
+        panel.classList.remove('active');
+        setTimeout(() => { frame.src = ""; }, 400); // Clear after slide out to stop media
+    };
+
+    window.runAllSolver = function (lang, event) {
+        if (event) event.stopPropagation();
+        // Pass empty string or null for matrix to trigger Run All
+        window.runSolver(lang, '', event);
+    };
+
     window.runSolver = async function (lang, matrix, event) {
         if (event) event.stopPropagation(); // Prevent row click or tooltip
 
         const outputDiv = document.getElementById('logOutput');
         const headerTitle = document.getElementById('logTitle');
+        const matrixLabel = matrix || "ALL Matrices";
 
         // Reset Modal
-        outputDiv.innerText = "Running " + lang + " on " + matrix + "...\nPlease wait...";
-        headerTitle.innerText = "Execution Log: " + lang + " (" + matrix + ")";
+        outputDiv.innerText = "Running " + lang + " on " + matrixLabel + "...\nPlease wait...";
+        headerTitle.innerText = "Execution Log: " + lang + " (" + matrixLabel + ")";
         document.getElementById('logModal').style.display = 'flex';
 
         try {
@@ -688,6 +1231,21 @@ toggleMismatches(); // Default hide
             const data = await res.json();
             if (data.success) {
                 outputDiv.innerText = "--- STDOUT ---\n" + data.stdout + "\n\n--- STDERR ---\n" + data.stderr;
+
+                // Trigger Report Generation
+                outputDiv.innerText += "\n\nGenerating updated report...";
+                try {
+                    const reportRes = await fetch('/api/generate-report', { method: 'POST' });
+                    if (reportRes.ok) {
+                        outputDiv.innerText += "\nReport generated. Reloading...";
+                        setTimeout(() => window.location.reload(), 1000);
+                    } else {
+                        outputDiv.innerText += "\nFailed to generate report.";
+                    }
+                } catch (err) {
+                    outputDiv.innerText += "\nError generating report: " + err.message;
+                }
+
             } else {
                 outputDiv.innerText = "Error:\n" + data.error + "\n\nStdout:\n" + data.stdout + "\n\nStderr:\n" + data.stderr;
             }
@@ -815,8 +1373,8 @@ toggleMismatches(); // Default hide
 
         // Axis
         svg.append("g")
-            .attr("transform", "translate(0," + margin.top + ")")
-            .call(d3.axisTop(x).ticks(5).tickFormat(d => "Matrix " + d))
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(5).tickFormat(d => "Matrix " + d))
             .attr("color", "#5c5c66")
             .selectAll("text")
             .attr("font-family", "JetBrains Mono")
@@ -1154,6 +1712,7 @@ toggleMismatches(); // Default hide
 
                 // Logo Image
                 pointGroup.append("image")
+                    .attr("class", "chart-node-image") // Class for toggling
                     .attr("xlink:href", solver.logo)
                     .attr("x", -8)
                     .attr("y", -8)
@@ -1167,6 +1726,14 @@ toggleMismatches(); // Default hide
                         if (config?.transparent_white) return "url(#filter-transparent-white)";
                         return null;
                     });
+
+                // Text Label (Hidden by default via CSS)
+                pointGroup.append("text")
+                    .attr("class", "chart-node-label")
+                    .text(solver.solver)
+                    .attr("text-anchor", "middle")
+                    .attr("y", 20) // Position below image
+                    .style("pointer-events", "none");
 
                 // Docker Icon (Whale)
                 if (solver.runType === 'Docker') {
@@ -1202,6 +1769,13 @@ toggleMismatches(); // Default hide
                             .attr("x", -8)
                             .attr("y", -8);
                         document.getElementById('tooltip').style.display = 'none';
+                    })
+                    .on("click", function (event, d) {
+                        event.stopPropagation();
+                        // Open Language Modal
+                        if (typeof window.showLanguageDetails === 'function') {
+                            window.showLanguageDetails(solver.solver, event.clientX, event.clientY);
+                        }
                     });
 
                 // Label
@@ -1300,43 +1874,48 @@ toggleMismatches(); // Default hide
                 .attr("opacity", 0.6);
 
             // Draw Logos (Jockeys)
-            svg.selectAll(".jockey")
-                .data(sortedData)
-                .enter().append("image")
-                .attr("xlink:href", d => d.logo)
-                .attr("x", d => x(d.totalTime) - 20) // Center image on end of bar
-                .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 10)
-                .attr("width", 20)
-                .attr("height", 20)
-                .attr("preserveAspectRatio", "xMidYMid meet")
-                .attr("filter", d => {
-                    const baseLang = d.solver.replace(/ \((Manual|AI)\)$/, '');
-                    const config = tailoring[baseLang] || tailoring[d.solver];
-                    if (config?.invert) return "url(#filter-invert)";
-                    if (config?.transparent_white) return "url(#filter-transparent-white)";
-                    return null;
-                })
-                .on("mouseover", function (event, d) {
-                    d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.style.display = 'block';
-                    tooltip.style.left = (event.clientX + 15) + 'px';
-                    tooltip.style.top = (event.clientY + 15) + 'px';
-                    const timeStr = d.totalTime < 0.0001 && d.totalTime > 0 ? d.totalTime.toExponential(4) + "s" : d.totalTime.toFixed(4) + "s";
-                    tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.solver + "</strong><br>Total Time: " + timeStr;
-                })
-                .on("mouseout", function (event, d) {
-                    d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.solver) + y.bandwidth() / 2 - 12);
-                    document.getElementById('tooltip').style.display = 'none';
-                });
+            if (window.showLogos) {
+                svg.selectAll(".jockey")
+                    .data(sortedData)
+                    .enter().append("image")
+                    .attr("xlink:href", d => d.logo)
+                    .attr("x", d => x(d.totalTime) - 20) // Center image on end of bar
+                    .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 10)
+                    .attr("width", 20)
+                    .attr("height", 20)
+                    .attr("preserveAspectRatio", "xMidYMid meet")
+                    .attr("filter", d => {
+                        const baseLang = d.solver.replace(/ \((Manual|AI)\)$/, '');
+                        const config = tailoring[baseLang] || tailoring[d.solver];
+                        if (config?.invert) return "url(#filter-invert)";
+                        if (config?.transparent_white) return "url(#filter-transparent-white)";
+                        return null;
+                    })
+                    .on("mouseover", function (event, d) {
+                        d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
+                        const tooltip = document.getElementById('tooltip');
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (event.clientX + 15) + 'px';
+                        tooltip.style.top = (event.clientY + 15) + 'px';
+                        const timeStr = d.totalTime < 0.0001 && d.totalTime > 0 ? d.totalTime.toExponential(4) + "s" : d.totalTime.toFixed(4) + "s";
+                        tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.solver + "</strong><br>Total Time: " + timeStr;
+                    })
+                    .on("mouseout", function (event, d) {
+                        d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.solver) + y.bandwidth() / 2 - 12);
+                        document.getElementById('tooltip').style.display = 'none';
+                    });
+            }
 
             // Y Axis Labels
-            svg.append("g")
-                .call(d3.axisLeft(y))
-                .selectAll("text")
+            // Draw axis, but potentially hide text
+            const yAxis = svg.append("g")
+                .call(d3.axisLeft(y));
+
+            yAxis.selectAll("text")
                 .style("fill", "#e0e0e0")
                 .style("font-family", "JetBrains Mono")
-                .style("font-size", "10px");
+                .style("font-size", "10px")
+                .style("display", window.showLogos ? "none" : ""); // Toggle display
 
             // X Axis
             svg.append("g")
@@ -1384,7 +1963,7 @@ let startScreensaverGlobal;
 
         let width, height;
         let columns;
-        // let active = false; // Moved to global scope
+        let active = false;
         let ignoreInput = false;
         let animationId;
         let frame = 0;
@@ -1419,6 +1998,13 @@ let startScreensaverGlobal;
 
             let attempts = 0;
             // Try up to length times to find a valid puzzle
+            if (!matrixPuzzles || matrixPuzzles.length === 0) {
+                console.warn("Matrix puzzles empty, using fallback.");
+                puzzleLines = ["M A T R I X", "S Y S T E M", "F A I L U R E", "0 1 0 1 0 1"];
+                currentPuzzleIndex = 0;
+                return;
+            }
+
             while (attempts < matrixPuzzles.length) {
                 const rawText = matrixPuzzles[currentPuzzleIndex];
 
@@ -1791,7 +2377,97 @@ let startScreensaverGlobal;
         }
 
 
+        window.setChartMode = function (mode) {
+            if (currentChartMode === mode) return;
+
+            // Deactivate current
+            document.querySelectorAll('.chart-options button').forEach(b => b.classList.remove('active'));
+            // Activate new (find button by text content or index - imperfect but works for now)
+            // Better: add data-mode to buttons. For now, rely on text or order.
+            // Actually, let's just use the index mapping if we can, or just loop labels.
+            const labels = ['3D Cube', 'Scatter', 'Bar', 'Radar', 'System Architecture'];
+            const idx = labels.indexOf(mode === 'system' ? 'System Architecture' : (mode.charAt(0).toUpperCase() + mode.slice(1)));
+            if (idx >= 0) {
+                const buttons = document.querySelectorAll('.chart-options button');
+                if (buttons[idx]) buttons[idx].classList.add('active');
+            }
+
+            currentChartMode = mode;
+
+            // Hide all views first
+            document.getElementById('d3-chart').style.display = 'none';
+            document.getElementById('system-architecture-view').style.display = 'none';
+            document.getElementById('system-controls').style.display = 'none';
+            // Show chart controls by default
+            document.querySelector('.controls').style.display = 'flex';
+            document.getElementById('chart-container').classList.remove('system-mode-active');
+            // Restore table if it was hidden
+            document.getElementById('benchmark-table').style.display = '';
+
+            // Restore header and options by default
+            const container = document.getElementById('chart-container');
+            const header = container.querySelector('h2');
+            const options = document.getElementById('chart-options');
+            if (header) header.style.display = '';
+            if (options) options.style.display = '';
+
+            if (mode === 'system') {
+                // Enforce Fullscreen
+                if (!document.fullscreenElement) {
+                    window.toggleChartFullscreen();
+                }
+
+                // Hide standard chart elements/controls
+                document.querySelector('.controls').style.display = 'none'; // Hide 3D controls
+                if (header) header.style.display = 'none';
+                if (options) options.style.display = 'none';
+
+                // Show System View
+                document.getElementById('system-architecture-view').style.display = 'block';
+                document.getElementById('system-controls').style.display = 'block';
+
+                // Hide Table
+                document.getElementById('benchmark-table').style.display = 'none';
+
+            } else {
+                // Standard D3 Modes
+                document.getElementById('d3-chart').style.display = 'block';
+
+                // Draw standard charts
+                if (mode === '3d') init3DChart();
+                else if (mode === 'scatter') drawScatterPlot();
+                else if (mode === 'bar') drawBarChart();
+                else if (mode === 'radar') drawRadarChart();
+            }
+        };
+
+        window.systemZoomExtends = function () {
+            const iframe = document.getElementById('system-iframe');
+            if (iframe && iframe.contentWindow && iframe.contentWindow.svgPanZoom) {
+                // We need to access the svgPanZoom instance. 
+                // In system_overview.html we didn't expose it globally, just init'd it.
+                // We should fix system_overview.html to expose `window.zoomInstance` or similar.
+                // Assuming we fix that:
+                if (iframe.contentWindow.zoomInstance) {
+                    iframe.contentWindow.zoomInstance.fit();
+                    iframe.contentWindow.zoomInstance.center();
+                } else {
+                    // Fallback: reload iframe to reset
+                    iframe.contentWindow.location.reload();
+                }
+            }
+        };
+
+        window.exitSystemMode = function () {
+            // Exit fullscreen
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            // Revert to 3D mode
+            setChartMode('3d');
+        };
         function startScreensaver(mode) {
+            console.log("startScreensaver called with mode:", mode);
             // Allow switching modes?
             if (active) {
                 if (currentMode !== mode) {
@@ -1915,11 +2591,29 @@ let startScreensaverGlobal;
             if (window.stopTimerAnimation) window.stopTimerAnimation();
 
             // Remove animation classes
+            content.classList.remove('content-slide-active');
+
+            // Remove matrix-slide-active and slide-down-slow if present
+            canvas.classList.remove('matrix-slide-active');
             canvas.classList.remove('slide-down-slow');
             canvas.classList.remove('matrix-slide-enter');
-            canvas.classList.remove('matrix-slide-active');
-            content.classList.remove('content-slide-exit');
-            content.classList.remove('content-slide-active');
+
+            // Reset canvas styles
+            canvas.style.position = '';
+            canvas.style.top = '';
+            canvas.style.left = '';
+            canvas.style.width = '';
+            canvas.style.height = '';
+            canvas.style.zIndex = '';
+            canvas.style.display = 'none';
+
+            // Reset body class
+            document.body.classList.remove('fullscreen-active');
+
+            // Re-enable scrolling if it was disabled (though fullscreen-active handles overflow hidden)
+            // Ensure we are back at the top or where we were?
+            // User complained about bounce, likely due to scroll position restoration or layout shift.
+            // By resetting completely we hope to avoid it.
 
             // Exit Browser Fullscreen if active
             if (document.fullscreenElement) {
