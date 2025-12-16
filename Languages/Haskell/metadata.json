@@ -1,0 +1,8 @@
+{
+  "creator": "Committee (Simon Peyton Jones et al.)",
+  "date": "1990",
+  "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg",
+  "location": "Global",
+  "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
+}

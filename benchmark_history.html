@@ -1,0 +1,240 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Benchmark History</title>
+        <style>
+            body { font-family: 'JetBrains Mono', monospace; background: #0d0d12; color: #e0e0e0; padding: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+            th, td { border: 1px solid #2a2a35; padding: 4px 8px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+            th { background: #1a1a20; color: #00ff9d; cursor: pointer; user-select: none; }
+            th:hover { background: #2a2a35; color: #fff; }
+            tr:nth-child(even) { background: #16161e; }
+            h1 { color: #00ff9d; font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 2px; }
+            .status-failure, .status-error, .status-suspect { color: #ff0055; font-weight: bold; }
+            .status-optimized { color: #00b8ff; }
+            
+            /* Matrix Timing Style for Time Column */
+            .time-val { font-size: 1.1em; font-weight: bold; color: #fff; font-family: 'JetBrains Mono', monospace; }
+        </style>
+        <script>
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.querySelector("table");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        var xContent = x.innerText.toLowerCase();
+                        var yContent = y.innerText.toLowerCase();
+                        if (!isNaN(parseFloat(xContent)) && !isNaN(parseFloat(yContent))) {
+                             xContent = parseFloat(xContent);
+                             yContent = parseFloat(yContent);
+                        }
+                        if (dir == "asc") {
+                            if (xContent > yContent) { shouldSwitch = true; break; }
+                        } else if (dir == "desc") {
+                            if (xContent < yContent) { shouldSwitch = true; break; }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount ++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Benchmark History</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)" style="width: 200px;">Timestamp ↕</th>
+                    <th onclick="sortTable(1)">Solver ↕</th>
+                    <th onclick="sortTable(2)">Matrix ↕</th>
+                    <th onclick="sortTable(3)">Time (s) ↕</th>
+                    <th onclick="sortTable(4)">Iterations ↕</th>
+                    <th onclick="sortTable(5)">Status ↕</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>1.matrix</td>
+                        <td class="time-val">0.0200</td>
+                        <td>122</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>2.matrix</td>
+                        <td class="time-val">0.0223</td>
+                        <td>69</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>3.matrix</td>
+                        <td class="time-val">0.0201</td>
+                        <td>126</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>4.matrix</td>
+                        <td class="time-val">0.0198</td>
+                        <td>72</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>5.matrix</td>
+                        <td class="time-val">0.0163</td>
+                        <td>70</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 7:19:24 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>6.matrix</td>
+                        <td class="time-val">0.0143</td>
+                        <td>72</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>1.matrix</td>
+                        <td class="time-val">0.0085</td>
+                        <td>656</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>2.matrix</td>
+                        <td class="time-val">0.0091</td>
+                        <td>439269</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>3.matrix</td>
+                        <td class="time-val">0.0073</td>
+                        <td>98847</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>4.matrix</td>
+                        <td class="time-val">0.0068</td>
+                        <td>9085</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>5.matrix</td>
+                        <td class="time-val">0.0085</td>
+                        <td>445778</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:21 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C++</td>
+                        <td>6.matrix</td>
+                        <td class="time-val">2.6283</td>
+                        <td>622577597</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>1.matrix</td>
+                        <td class="time-val">0.1020</td>
+                        <td>19994445</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>2.matrix</td>
+                        <td class="time-val">0.0085</td>
+                        <td>3399</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>3.matrix</td>
+                        <td class="time-val">0.0072</td>
+                        <td>5659</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>4.matrix</td>
+                        <td class="time-val">0.0083</td>
+                        <td>7395</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>5.matrix</td>
+                        <td class="time-val">0.0073</td>
+                        <td>1413</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12/8/2025, 5:31:07 PM</td>
+                        <td style="color: var(--primary); font-weight: bold;">C</td>
+                        <td>6.matrix</td>
+                        <td class="time-val">0.0070</td>
+                        <td>10800</td>
+                        <td class="status-pass">pass</td>
+                    </tr>
+                
+            </tbody>
+        </table>
+    </body>
+    </html>
+    

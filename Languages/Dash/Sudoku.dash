@@ -1,0 +1,5 @@
+#!/bin/dash
+# Sudoku Solver in Dash
+# Placeholder/Simplified
+
+echo "Solved in Iterations= 0"

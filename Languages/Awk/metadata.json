@@ -1,0 +1,8 @@
+{
+  "creator": "Aho, Weinberger, Kernighan",
+  "date": "1977",
+  "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg",
+  "location": "Bell Labs, USA",
+  "benefits": "Excellent for text processing, one-liners, and data extraction."
+}

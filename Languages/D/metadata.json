@@ -1,0 +1,8 @@
+{
+  "creator": "Walter Bright",
+  "date": "2001",
+  "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
+  "image": "https://github.com/WalterBright.png",
+  "location": "Digital Mars, USA",
+  "benefits": "System programming, performance, safety, metaprogramming."
+}

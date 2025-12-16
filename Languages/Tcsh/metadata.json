@@ -1,0 +1,8 @@
+{
+  "creator": "Ken Greer",
+  "date": "1975",
+  "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
+  "image": "https://www.oreilly.com/covers/urn:orm:book:9781449377526/160h/?format=webp",
+  "location": "Carnegie Mellon University, USA",
+  "benefits": "Interactive shell, command completion, history."
+}

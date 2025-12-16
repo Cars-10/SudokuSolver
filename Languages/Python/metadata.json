@@ -1,0 +1,9 @@
+{
+  "creator": "Guido van Rossum",
+  "date": "1991",
+  "description": "High-level, interpreted language emphasizing code readability. Excels in data science, machine learning, web development, automation, and rapid prototyping with extensive library ecosystem.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.png",
+  "location": "CWI, Netherlands",
+  "benefits": "Readability, vast libraries, data science, AI."
+}
