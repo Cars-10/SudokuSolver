@@ -1,9 +1,0 @@
-{
-  "creator": "Chris Lattner",
-  "date": "2014",
-  "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
-  "image": "https://github.com/lattner.png",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/64px-Swift_logo.svg.png",
-  "location": "Apple, USA",
-  "benefits": "Safety, speed, modern syntax, Apple ecosystem."
-}

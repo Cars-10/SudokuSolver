@@ -1,9 +1,0 @@
-{
-  "creator": "Graydon Hoare",
-  "date": "2010",
-  "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
-  "image": "https://github.com/graydon.png",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
-  "location": "Mozilla, Canada",
-  "benefits": "Memory safety, performance, concurrency, modern tooling."
-}

@@ -1,8 +1,0 @@
-{
-  "creator": "Andreas Rumpf",
-  "date": "2008",
-  "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
-  "image": "https://github.com/Araq.png",
-  "location": "Germany",
-  "benefits": "Performance, expressiveness, metaprogramming, C compilation."
-}

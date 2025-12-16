@@ -1,8 +1,0 @@
-{
-  "creator": "Andrew Kelley",
-  "date": "2016",
-  "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
-  "location": "USA",
-  "benefits": "No hidden control flow, manual memory management, comptime."
-}

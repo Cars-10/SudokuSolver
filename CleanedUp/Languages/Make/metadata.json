@@ -1,8 +1,0 @@
-{
-  "creator": "Stuart Feldman",
-  "date": "1976",
-  "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Stuart_Feldman_2007_retouched.jpg",
-  "location": "Bell Labs, USA",
-  "benefits": "Dependency management, build automation."
-}
