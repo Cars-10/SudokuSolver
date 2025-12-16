@@ -54,8 +54,8 @@ async function runSuite() {
     const outputDir = process.env.OUTPUT_DIR || repoRoot;
     const metricsFile = process.env.METRICS_FILE
         ? path.join(outputDir, process.env.METRICS_FILE)
-        : path.join(repoRoot, 'CleanedUp', 'CleanedUp_Metrics.json');
-    const htmlFile = path.join(repoRoot, 'CleanedUp', 'benchmark_report.html');
+        : path.join(repoRoot, 'Metrics', 'Metrics.json');
+    const htmlFile = path.join(repoRoot, 'benchmark_report.html');
 
     let allMetrics: SolverMetrics[] = [];
     try {
@@ -178,7 +178,7 @@ async function runSuite() {
                 // Generate History Report
                 const fullHistory = await historyManager.getHistory();
                 const historyHtml = await generateHistoryHtml(fullHistory);
-                const historyHtmlFile = path.join(repoRoot, 'CleanedUp', 'benchmark_history.html');
+                const historyHtmlFile = path.join(repoRoot, 'benchmark_history.html');
                 await fs.writeFile(historyHtmlFile, historyHtml);
                 console.log(`Updated history report at ${historyHtmlFile}`);
 

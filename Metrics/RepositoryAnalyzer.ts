@@ -23,10 +23,9 @@ export async function readReferenceOutputs(rootDir: string): Promise<Record<stri
 }
 
 export async function findSolvers(rootDir: string): Promise<string[]> {
-    // For CleanedUp, we look for language directories directly
-    const cleanedUpSolvers = await glob(path.join(rootDir, 'CleanedUp', 'Languages', '*', 'setupAndRunMe.sh'));
+    const solvers = await glob(path.join(rootDir, 'Languages', '*', 'setupAndRunMe.sh'));
 
-    const allSolvers = [...cleanedUpSolvers];
+    const allSolvers = [...solvers];
     const filteredSolvers = allSolvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
 
     console.log(`Found ${filteredSolvers.length} solvers (excluding Racket and Cobol):`, filteredSolvers);

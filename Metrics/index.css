@@ -1,3 +1,4 @@
+/* Modal Fix - Updated 2025-12-10 11:50 */
 :root {
     --bg: #0d0d12;
     --surface: #16161e;
@@ -228,18 +229,33 @@ footer {
     backdrop-filter: blur(5px);
 }
 
+/* Specific modal IDs with centering - only when visible */
+#langModal[style*="display: flex"],
+#langModal[style*="display:flex"],
+#methodModal[style*="display: flex"],
+#methodModal[style*="display:flex"],
+#goalsModal[style*="display: flex"],
+#goalsModal[style*="display:flex"],
+#whyModal[style*="display: flex"],
+#whyModal[style*="display:flex"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
 .modal-content {
     background-color: #1a1b26;
-    margin: 5% auto;
-    padding: 0;
-    /* Removing padding to let header/image stretch */
+    margin: 0;
+    padding: 30px;
     border: 1px solid #414868;
-    width: 60%;
-    max-width: 900px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 90vh;
     border-radius: 12px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -250,7 +266,10 @@ footer {
     border-bottom: 1px solid #414868;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    margin: -30px -30px 20px -30px;
 }
 
 .modal-body {
@@ -542,8 +561,10 @@ select {
 
 /* Tooltip for graph */
 .tooltip {
-    position: absolute;
-    text-align: center;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    text-align: left;
     padding: 8px;
     font: 12px 'JetBrains Mono';
     background: rgba(22, 22, 30, 0.9);
@@ -737,31 +758,6 @@ select {
     /* Most sites need white bg */
 }
 
-.modal-content {
-    background-color: #1a1b26;
-    padding: 30px;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid #414868;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    /* Hide horizontal overflow for slide panel */
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #414868;
-    padding-bottom: 20px;
-}
 
 .modal-info {
     display: flex;

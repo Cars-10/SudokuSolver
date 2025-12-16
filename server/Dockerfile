@@ -28,7 +28,7 @@ RUN ln -s /app/server/node_modules /app/node_modules
 # Copy server code
 COPY server/ .
 
-# We don't copy CleanedUp/Matrices here because we will mount them
+# We don't copy Matrices here because we will mount them
 # This allows live editing of scripts/matrices without rebuilding
 
 EXPOSE 3000

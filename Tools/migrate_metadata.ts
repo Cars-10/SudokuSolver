@@ -3,7 +3,7 @@ import { languageMetadata, personalities, narratorIntros, methodologyTexts, mism
 import * as fs from 'fs';
 import * as path from 'path';
 
-const outputDir = path.join(__dirname, '../CleanedUp/Languages');
+const outputDir = path.join(__dirname, '../Languages');
 if (!fs.existsSync(outputDir)) {
     console.log("Creating directory: " + outputDir);
     fs.mkdirSync(outputDir, { recursive: true });
