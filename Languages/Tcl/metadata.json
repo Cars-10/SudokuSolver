@@ -1,0 +1,8 @@
+{
+  "creator": "John Ousterhout",
+  "date": "1988",
+  "description": "Tool Command Language. A dynamic programming language.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/John_Ousterhout.jpg",
+  "location": "UC Berkeley, USA",
+  "benefits": "Scripting, GUI (Tk), embedding, simplicity."
+}

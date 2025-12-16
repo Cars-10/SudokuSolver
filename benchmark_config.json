@@ -1,0 +1,94 @@
+{
+  "baseline": "C",
+  "matrix6Threshold": 1.5,
+  "comment": "Only run matrix 6 if language is within 50% of C performance on matrix 5",
+  "completed": [
+    "C",
+    "C++",
+    "Go",
+    "Java",
+    "Python",
+    "Awk",
+    "Rust"
+  ],
+  "languages": {
+    "C": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete"
+    },
+    "C++": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete"
+    },
+    "Go": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete"
+    },
+    "Java": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete"
+    },
+    "Rust": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete"
+    },
+    "Python": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "status": "complete",
+      "note": "Matrix 6 skipped - too slow"
+    },
+    "Awk": {
+      "matrices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "complete",
+      "note": "Matrix 6 enabled upon user request"
+    }
+  }
+}

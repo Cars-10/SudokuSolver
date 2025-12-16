@@ -1,0 +1,8 @@
+{
+  "creator": "Committee (Guy L. Steele Jr. et al.)",
+  "date": "1984",
+  "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
+  "location": "USA",
+  "benefits": "Macros, dynamic typing, interactive development, flexibility."
+}

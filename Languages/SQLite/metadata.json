@@ -1,0 +1,8 @@
+{
+  "creator": "D. Richard Hipp",
+  "date": "2000",
+  "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg",
+  "location": "USA",
+  "benefits": "Serverless, zero-configuration, transactional SQL."
+}

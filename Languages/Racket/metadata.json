@@ -1,0 +1,8 @@
+{
+  "creator": "Matthew Flatt",
+  "date": "1995",
+  "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
+  "image": "https://github.com/mflatt.png",
+  "location": "Rice University, USA",
+  "benefits": "Language creation, education, macros, functional."
+}

@@ -1,0 +1,8 @@
+{
+  "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
+  "date": "1972",
+  "description": "An object-oriented, dynamically typed reflective programming language.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Alan_Kay_2006.jpg",
+  "location": "Xerox PARC, USA",
+  "benefits": "Pure OOP, live environment, influence on modern GUIs."
+}

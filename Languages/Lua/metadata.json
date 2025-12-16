@@ -1,0 +1,8 @@
+{
+  "creator": "Roberto Ierusalimschy et al.",
+  "date": "1993",
+  "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
+  "location": "PUC-Rio, Brazil",
+  "benefits": "Lightweight, embeddable, fast, simple."
+}

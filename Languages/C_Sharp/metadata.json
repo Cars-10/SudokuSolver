@@ -1,0 +1,8 @@
+{
+  "creator": "Anders Hejlsberg",
+  "date": "2000",
+  "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
+  "image": "https://github.com/ahejlsberg.png",
+  "location": "Microsoft, USA",
+  "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
+}
