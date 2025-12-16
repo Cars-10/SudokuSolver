@@ -1,8 +1,0 @@
-{
-  "creator": "Robert Morris, Lorinda Cherry",
-  "date": "1970",
-  "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
-  "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
-  "location": "Bell Labs, USA",
-  "benefits": "RPN, arbitrary precision, stack-based."
-}

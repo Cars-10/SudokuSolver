@@ -1,8 +1,0 @@
-{
-  "creator": "Jürg Billeter, Rafał Pietrak",
-  "date": "2006",
-  "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
-  "image": "https://github.com/juergbi.png",
-  "location": "GNOME Project",
-  "benefits": "GObject system, C performance, modern syntax, GNOME dev."
-}

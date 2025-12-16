@@ -1,8 +1,0 @@
-{
-  "creator": "Paul Falstad",
-  "date": "1990",
-  "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg",
-  "location": "Princeton University, USA",
-  "benefits": "Interactive shell, scripting, plugin ecosystem."
-}

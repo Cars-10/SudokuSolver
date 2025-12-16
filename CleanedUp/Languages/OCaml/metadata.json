@@ -1,8 +1,0 @@
-{
-  "creator": "Xavier Leroy et al.",
-  "date": "1996",
-  "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
-  "image": "https://github.com/xavierleroy.png",
-  "location": "INRIA, France",
-  "benefits": "Functional, type safety, performance, industrial strength."
-}

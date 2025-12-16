@@ -1,8 +1,0 @@
-{
-  "creator": "Herbert Xu",
-  "date": "1997",
-  "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg",
-  "location": "Australia",
-  "benefits": "Speed, POSIX compliance, minimal footprint."
-}

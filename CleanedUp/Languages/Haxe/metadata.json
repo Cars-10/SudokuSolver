@@ -1,8 +1,0 @@
-{
-  "creator": "Nicolas Cannasse",
-  "date": "2005",
-  "description": "A high-level cross-platform language that compiles to many other languages.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Haxe_logo.svg",
-  "location": "France",
-  "benefits": "Cross-platform, strong typing, single codebase."
-}

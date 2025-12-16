@@ -1,9 +1,0 @@
-{
-  "creator": "Kathleen Booth",
-  "date": "1947",
-  "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Simpleicons_Interface_code-file-1.svg/64px-Simpleicons_Interface_code-file-1.svg.png",
-  "location": "Birkbeck College, London",
-  "benefits": "Direct hardware control, maximum performance, zero overhead."
-}

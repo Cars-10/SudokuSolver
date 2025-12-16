@@ -1,9 +1,0 @@
-{
-  "creator": "Brendan Eich",
-  "date": "1995",
-  "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/64px-JavaScript-logo.png",
-  "location": "Netscape, USA",
-  "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
-}

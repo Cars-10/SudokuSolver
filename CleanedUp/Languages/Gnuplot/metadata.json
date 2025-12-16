@@ -1,8 +1,0 @@
-{
-  "creator": "Thomas Williams, Colin Kelley",
-  "date": "1986",
-  "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gnuplot_logo.svg",
-  "location": "USA",
-  "benefits": "Plotting, data visualization, scripting."
-}

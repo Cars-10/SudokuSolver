@@ -1,9 +1,0 @@
-{
-  "creator": "Anders Hejlsberg",
-  "date": "2012",
-  "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
-  "image": "https://github.com/ahejlsberg.png",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg",
-  "location": "Microsoft, USA",
-  "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
-}

@@ -1,8 +1,0 @@
-{
-  "creator": "Joe Armstrong",
-  "date": "1986",
-  "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Joe_Armstrong_2014.jpg",
-  "location": "Ericsson, Sweden",
-  "benefits": "Massive concurrency, fault tolerance, hot code swapping."
-}

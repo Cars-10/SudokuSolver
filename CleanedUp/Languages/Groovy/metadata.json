@@ -1,8 +1,0 @@
-{
-  "creator": "James Strachan",
-  "date": "2003",
-  "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
-  "image": "https://github.com/jstrachan.png",
-  "location": "USA",
-  "benefits": "Java compatibility, scripting, dynamic features, DSLs."
-}

@@ -1,8 +1,0 @@
-{
-  "creator": "David Korn",
-  "date": "1983",
-  "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
-  "image": "https://www.facesofopensource.com/wp-content/uploads/2015/09/david-korn-1.jpg",
-  "location": "Bell Labs, USA",
-  "benefits": "Scripting, interactive use, backward compatibility."
-}

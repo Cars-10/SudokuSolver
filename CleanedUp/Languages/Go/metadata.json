@@ -1,9 +1,0 @@
-{
-  "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
-  "date": "2009",
-  "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
-  "image": "https://github.com/robpike.png",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg",
-  "location": "Google, USA",
-  "benefits": "Simplicity, concurrency, fast compilation, static typing."
-}

@@ -1,8 +1,0 @@
-{
-  "creator": "Rich Hickey",
-  "date": "2007",
-  "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rich_Hickey_2013.jpg/440px-Rich_Hickey_2013.jpg",
-  "location": "USA",
-  "benefits": "Immutability, functional programming, JVM interoperability, simplicity."
-}

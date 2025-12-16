@@ -1,9 +1,0 @@
-{
-  "creator": "Microsoft (Alan Cooper)",
-  "date": "1991",
-  "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/4/40/VB.NET_Logo.svg",
-  "location": "Microsoft, USA",
-  "benefits": "RAD, ease of use, Windows integration, legacy support."
-}
