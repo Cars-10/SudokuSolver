@@ -10,12 +10,12 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve CleanedUp directory for static assets (timestamp.js, images, etc.)
-app.use(express.static(path.join(__dirname, '../CleanedUp')));
+// Serve  directory for static assets (timestamp.js, images, etc.)
+app.use(express.static(path.join(__dirname, '.')));
 
 // Serve the Benchmark Report at Root
 app.get('/', (req, res) => {
-    const reportPath = path.join(__dirname, '../CleanedUp/benchmark_report.html');
+    const reportPath = path.join(__dirname, '../_report.html');
     if (fs.existsSync(reportPath)) {
         res.sendFile(reportPath);
     } else {
@@ -60,7 +60,7 @@ app.use('/js', express.static(path.join(__dirname, '../Metrics')));
 app.use('/css', express.static(path.join(__dirname, '../Metrics')));
 app.use('/Metrics', express.static(path.join(__dirname, '../Metrics')));
 
-const LANGUAGES_DIR = path.join(__dirname, '../CleanedUp/Languages');
+const LANGUAGES_DIR = path.join(__dirname, '../Languages');
 const MATRICES_DIR = path.join(__dirname, '../Matrices');
 
 // Get list of matrices
@@ -114,11 +114,11 @@ app.post('/api/run', (req, res) => {
     const matrixPath = matrix ? path.join(MATRICES_DIR, matrix) : null;
 
     // Relative path to matrix from the language directory (where script runs)
-    // server/../CleanedUp/Languages/Lang -> server/../Matrices/1.matrix
+    // server/../Languages/Lang -> server/../Matrices/1.matrix
     // We need to match how runBenchmarks.sh passes arguments
     // runBenchmarks.sh passes: ../../../Matrices/${m}.matrix
     // The CWD when running setupAndRunMe.sh is the language directory.
-    // So `../../../Matrices` from `CleanedUp/Languages/Lang` refers to `Matrices` at root.
+    // So `../../../Matrices` from `Languages/Lang` refers to `Matrices` at root.
 
     const metricsFile = path.join(langDir, 'metrics.json');
     let previousMetrics = [];
@@ -213,7 +213,23 @@ app.post('/api/run', (req, res) => {
     });
 });
 
-const METADATA_FILE = path.join(__dirname, '../CleanedUp/Languages/metadata.json');
+const METADATA_FILE = path.join(__dirname, '../Languages/metadata.json');
+
+// 2.5 Get Metadata for specific language
+app.get('/api/metadata/:lang', (req, res) => {
+    const lang = req.params.lang;
+    try {
+        let currentData = {};
+        if (fs.existsSync(METADATA_FILE)) {
+            currentData = JSON.parse(fs.readFileSync(METADATA_FILE, 'utf8'));
+        }
+        const meta = (currentData.languageMetadata && currentData.languageMetadata[lang]) || {};
+        res.json(meta);
+    } catch (e) {
+        console.error("Error fetching metadata:", e);
+        res.status(500).json({ error: e.message });
+    }
+});
 
 // Save Metadata
 app.post('/api/save-metadata', (req, res) => {
@@ -232,17 +248,38 @@ app.post('/api/save-metadata', (req, res) => {
         if (!currentData.languageMetadata) currentData.languageMetadata = {};
 
         // Update
-        // Merge with existing to preserve fields not sent if any?
-        // But the client sends generic fields. We assume client sends "creator", "image" etc.
-        // We should merge it carefully.
         const existing = currentData.languageMetadata[lang] || {};
-        currentData.languageMetadata[lang] = { ...existing, ...metadata };
+        currentData.languageMetadata[lang] = { ...existing, ...metadata, lastUpdated: new Date().toISOString() };
 
         fs.writeFileSync(METADATA_FILE, JSON.stringify(currentData, null, 4));
         console.log(`Updated metadata for ${lang}`);
         res.json({ success: true });
     } catch (e) {
         console.error("Error saving metadata:", e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Lock/Unlock Language
+app.post('/api/lock', (req, res) => {
+    const { lang, locked } = req.body;
+    if (!lang || typeof locked !== 'boolean') return res.status(400).json({ error: "Missing lang or locked state" });
+
+    try {
+        let currentData = {};
+        if (fs.existsSync(METADATA_FILE)) {
+            currentData = JSON.parse(fs.readFileSync(METADATA_FILE, 'utf8'));
+        }
+
+        if (!currentData.languageMetadata) currentData.languageMetadata = {};
+        const existing = currentData.languageMetadata[lang] || {};
+
+        currentData.languageMetadata[lang] = { ...existing, locked: locked, lastUpdated: new Date().toISOString() };
+
+        fs.writeFileSync(METADATA_FILE, JSON.stringify(currentData, null, 4));
+        res.json({ success: true, locked });
+    } catch (e) {
+        console.error("Lock error:", e);
         res.status(500).json({ error: e.message });
     }
 });
@@ -335,7 +372,7 @@ app.post('/api/generate-report', (req, res) => {
     });
 });
 
-const SESSION_FILE = path.join(__dirname, '../CleanedUp/session_state.json');
+const SESSION_FILE = path.join(__dirname, '../session_state.json');
 
 // Get Session State
 app.get('/api/session-state', (req, res) => {

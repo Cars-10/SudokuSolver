@@ -1,28 +1,33 @@
-#!/bin/bash
+0#!/bin/bash
 
-CONTAINER_NAME="sudokusolver-app-1"
+# Ensure we are in the project root
+cd "$(dirname "$0")/.."
 
 case "$1" in
     start)
         echo "Starting server..."
-        docker start $CONTAINER_NAME
+        docker-compose up -d
         ;;
     stop)
         echo "Stopping server..."
-        docker stop $CONTAINER_NAME
+        docker-compose stop
         ;;
     restart)
         echo "Restarting server..."
-        docker restart $CONTAINER_NAME
+        docker-compose restart
+        ;;
+    down)
+        echo "Tearing down services..."
+        docker-compose down
         ;;
     status)
-        docker ps --filter "name=$CONTAINER_NAME"
+        docker-compose ps
         ;;
     logs)
-        docker logs -f $CONTAINER_NAME
+        docker-compose logs -f
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart|status|logs}"
+        echo "Usage: $0 {start|stop|restart|down|status|logs}"
         exit 1
         ;;
 esac

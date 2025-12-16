@@ -274,8 +274,7 @@ document.querySelectorAll('tbody td').forEach(cell => {
         if (content) {
             const tooltip = document.getElementById('tooltip');
             tooltip.style.display = 'block';
-            tooltip.style.left = (e.clientX + 15) + 'px';
-            tooltip.style.top = (e.clientY + 15) + 'px';
+
             tooltip.innerHTML = content;
         }
     });
@@ -313,7 +312,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     let meta = languageMetadata[lang] || {};
 
     try {
-        const res = await fetch(`http://localhost:9102/api/metadata/${lang}`);
+        const res = await fetch(`/api/metadata/${lang}`);
         if (res.ok) {
             const dynamicMeta = await res.json();
             // Merge: dynamic takes precedence, but keep static defaults if missing
@@ -405,75 +404,6 @@ window.showLanguageDetails = async function (lang, x, y) {
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
     modal.style.display = 'flex';
-
-    // Positioning - Constrain to Table
-    if (x !== undefined && y !== undefined) {
-        const rect = modalContent.getBoundingClientRect();
-        const table = document.querySelector('table');
-
-        if (table) {
-            const tableRect = table.getBoundingClientRect();
-            // We need document relative coordinates because absolute positioning is usually document relative 
-            // unless a parent has relative positioning. The modal container is 'display:flex' overlay usually.
-            // But if we are positioning absolute, let's assume body relative.
-
-            // We need viewport relative coordinates because the modal container is fixed
-
-            // Boundaries - Constrain to Viewport
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-
-            let desiredTop = y;
-            let desiredLeft = x;
-
-            // Ensure we calculate with modal height/width
-            const modalHeight = modalContent.offsetHeight || 600;
-            const modalWidth = modalContent.offsetWidth || 500;
-
-            // Clamp Right
-            if (desiredLeft + modalWidth > viewportWidth) {
-                desiredLeft = viewportWidth - modalWidth - 20; // 20px padding
-            }
-            // Clamp Left
-            if (desiredLeft < 20) {
-                desiredLeft = 20;
-            }
-
-            // Clamp Bottom
-            if (desiredTop + modalHeight > viewportHeight) {
-                desiredTop = viewportHeight - modalHeight - 20;
-            }
-            // Clamp Top
-            if (desiredTop < 20) {
-                desiredTop = 20;
-            }
-
-            modalContent.style.margin = '0';
-            modalContent.style.position = 'absolute';
-            modalContent.style.top = desiredTop + 'px';
-            modalContent.style.left = desiredLeft + 'px';
-
-            // Also set alignment on parent to avoid centering fights
-            modal.style.justifyContent = 'flex-start';
-            modal.style.alignItems = 'flex-start';
-
-        } else {
-            // Fallback
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
-            modalContent.style.position = 'relative';
-            modalContent.style.top = 'auto';
-            modalContent.style.left = 'auto';
-        }
-
-    } else {
-        // Center it
-        modal.style.justifyContent = 'center';
-        modal.style.alignItems = 'center';
-        modalContent.style.position = 'relative';
-        modalContent.style.top = 'auto';
-        modalContent.style.left = 'auto';
-    }
 };
 
 window.toggleEditMode = function () {
@@ -496,7 +426,7 @@ window.toggleLock = async function () {
     const newLockState = !isCurrentlyLocked;
 
     try {
-        const res = await fetch('http://localhost:9102/api/lock', {
+        const res = await fetch('/api/lock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lang: currentEditingLang, locked: newLockState })
@@ -530,8 +460,8 @@ window.saveLanguageDetails = async function () {
 
     // Save to backend
     try {
-        console.log("Attempting to save metadata to:", 'http://localhost:3000/api/save-metadata');
-        const res = await fetch('http://localhost:3000/api/save-metadata', {
+        console.log("Attempting to save metadata to:", '/api/save-metadata');
+        const res = await fetch('/api/save-metadata', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lang: currentEditingLang, metadata: newData })
@@ -604,14 +534,14 @@ document.addEventListener('paste', async (e) => {
                 const imgEl = document.getElementById('modalImg');
                 imgEl.style.opacity = '0.5';
 
-                const res = await fetch('http://localhost:3000/api/upload-media', {
+                const res = await fetch('/api/upload-media', {
                     method: 'POST',
                     body: formData
                 });
 
                 if (res.ok) {
                     const data = await res.json();
-                    const relativePath = `CleanedUp/Languages/${currentEditingLang}/Media/${data.filename}`;
+                    const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
                     imgEl.src = relativePath;
                     document.getElementById('editInputs-image').value = relativePath;
                     if (currentMetadata) currentMetadata.image = relativePath;
@@ -639,7 +569,7 @@ document.addEventListener('paste', async (e) => {
 
                             if (res.ok) {
                                 const data = await res.json();
-                                const relativePath = `CleanedUp/Languages/${currentEditingLang}/Media/${data.filename}`;
+                                const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
                                 document.getElementById('modalImg').src = relativePath;
                                 document.getElementById('editInputs-image').value = relativePath;
                                 if (currentMetadata) currentMetadata.image = relativePath;
@@ -669,13 +599,13 @@ window.uploadLogo = async function (input) {
         formData.append('lang', currentEditingLang);
 
         try {
-            const res = await fetch('http://localhost:9102/api/upload-media', {
+            const res = await fetch('/api/upload-media', {
                 method: 'POST',
                 body: formData
             });
             if (res.ok) {
                 const data = await res.json();
-                const relativePath = `CleanedUp/Languages/${currentEditingLang}/Media/${data.filename}`;
+                const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
                 currentMetadata.image = relativePath;
                 document.getElementById('modalImg').src = relativePath;
             }

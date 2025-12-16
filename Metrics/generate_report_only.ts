@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const outputDir = process.env.OUTPUT_DIR || rootDir;
 const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
-const htmlFile = path.join(rootDir, 'CleanedUp', 'benchmark_report.html');
+const htmlFile = path.join(rootDir, 'benchmark_report.html');
 
 async function run() {
     try {
@@ -38,15 +38,15 @@ async function run() {
             console.warn("Could not read main metrics.json", e);
         }
 
-        // Aggregate All Metrics from CleanedUp
-        const metricsPattern = path.join(rootDir, 'CleanedUp', 'Languages', '*', 'metrics.json');
+        // Aggregate All Metrics from Languages
+        const metricsPattern = path.join(rootDir, 'Languages', '*', 'metrics.json');
         const metricFiles = await glob(metricsPattern);
         console.log(`Found ${metricFiles.length} additional metric files.`);
 
         let aggregatedMetrics: any[] = [];
         const knownSolvers = new Set();
 
-        // 1. Load CleanedUp Metrics (Higher Priority)
+        // 1. Load Metrics (Higher Priority)
         for (const file of metricFiles) {
             try {
                 const content = await fs.promises.readFile(file, 'utf-8');
@@ -111,7 +111,7 @@ async function run() {
 
         // Check for metadata overrides
         let metadataOverrides = {};
-        const metadataPath = path.join(__dirname, '../CleanedUp/Languages/metadata.json');
+        const metadataPath = path.join(__dirname, '../Languages/metadata.json');
         // fs.existsSync is synchronous, but this is fine for a startup config read
         if (fs.existsSync(metadataPath)) {
             console.log("Loading metadata overrides from " + metadataPath);
@@ -133,7 +133,7 @@ async function run() {
         // Load benchmark config for expected matrices per language
         let benchmarkConfig: { languages?: Record<string, any> } = {};
         try {
-            const configPath = path.join(rootDir, 'CleanedUp', 'benchmark_config.json');
+            const configPath = path.join(rootDir, 'benchmark_config.json');
             const configData = await fs.promises.readFile(configPath, 'utf-8');
             benchmarkConfig = JSON.parse(configData);
             console.log(`Loaded benchmark config with ${Object.keys(benchmarkConfig.languages || {}).length} language configurations.`);
@@ -175,12 +175,12 @@ async function run() {
 
         // Generate History Report
         const historyHtml = await generateHistoryHtml(history);
-        const historyHtmlFile = path.join(rootDir, 'CleanedUp', 'benchmark_history.html');
+        const historyHtmlFile = path.join(rootDir, 'benchmark_history.html');
         await fs.promises.writeFile(historyHtmlFile, historyHtml);
         console.log(`Successfully generated ${historyHtmlFile}`);
 
         // Write timestamp file for smart refresh
-        const timestampFile = path.join(rootDir, 'CleanedUp', 'timestamp.js');
+        const timestampFile = path.join(rootDir, 'timestamp.js');
         await fs.promises.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()};`);
 
         console.log(`Successfully generated ${htmlFile}`);

@@ -9,7 +9,7 @@ services:
       - "3000:3000"
     volumes:
       - ./server:/app/server
-      - ./CleanedUp:/app/CleanedUp
+      - ./:/app/
       - ./Matrices:/app/Matrices
       - ./Metrics:/app/Metrics
       - /app/server/node_modules # Prevent host node_modules from overwriting container's

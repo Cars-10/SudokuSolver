@@ -51,7 +51,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     console.log(`generateHtml received ${metrics.length} metrics.`);
     // Pre-load local logos
-    const localLogos = await glob('CleanedUp/logos/*.{png,svg}');
+    const localLogos = await glob('logos/*.{png,svg}');
     const logoMap = new Map<string, string>();
     for (const p of localLogos) {
         const filename = path.basename(p);
@@ -63,7 +63,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     let tailoringConfig = {};
     try {
         const rootDir = path.resolve(__dirname, '..');
-        const tailoringPath = path.join(rootDir, 'CleanedUp', 'logos', 'Tailoring.json');
+        const tailoringPath = path.join(rootDir, 'logos', 'Tailoring.json');
         const tailoringContent = await fs.readFile(tailoringPath, 'utf-8');
         tailoringConfig = JSON.parse(tailoringContent);
     } catch (e) {
