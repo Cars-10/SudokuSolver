@@ -14,7 +14,8 @@ None - This is a benchmarking/systems project without specialized domain require
 - Integer phases (1, 2, 3, 4, 5, 6): Planned milestone work
 - Decimal phases (X.1, X.2): Urgent insertions if needed (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation & C Baseline** - Infrastructure rebuild and reference validation
+- [x] **Phase 1: Foundation & C Baseline** - Infrastructure rebuild and reference validation
+- [ ] **Phase 1.5: UI Polish & Fixes** - INSERTED: Fix modal display, logo serving, edit workflow
 - [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
@@ -55,6 +56,36 @@ None - This is a benchmarking/systems project without specialized domain require
 - C runs matrices 1-5 successfully with exact iteration count matches
 - All infrastructure tests pass (modals work, screenshots capture, database writes)
 - Pattern established for remaining 14 languages
+
+### Phase 1.5: UI Polish & Fixes (INSERTED)
+**Goal**: Fix critical UI issues preventing proper user interaction
+
+**Depends on**: Phase 1
+
+**Research**: None (known issues, direct fixes)
+
+**Plans**: 4 plans
+1. Fix modal CSS & behavior (floating overlay, backdrop, animations)
+2. Fix logo serving & display (add /logos route, verify images load)
+3. Test & polish edit workflow (metadata save, logo upload, persistence)
+4. General UI polish (accessibility, responsiveness, performance)
+
+**Deliverables**:
+- Language detail modal displays as floating overlay (not top-left inline)
+- Dark backdrop with blur effect, smooth animations
+- All 44 language logos display correctly in report
+- Logo upload and URL fetch working in modal
+- Edit workflow fully functional (save, persist, regenerate)
+- Keyboard navigation (ESC, Tab, Enter)
+- Mobile responsive
+- No console errors
+
+**Success Criteria**:
+- Modal opens centered with proper z-index layering
+- No jerky browser movements when opening modal
+- All logos load successfully (verified with browser dev tools)
+- Can edit language metadata and see changes in regenerated report
+- Professional, polished user experience
 
 ### Phase 2: Compiled Languages Wave
 **Goal**: Implement C++, Go, Rust following established pattern

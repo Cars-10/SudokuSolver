@@ -403,7 +403,64 @@ window.showLanguageDetails = async function (lang, x, y) {
 
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
-    modal.style.display = 'flex';
+
+    // Position modal near cursor (if x, y provided)
+    if (x !== undefined && y !== undefined) {
+        const offsetX = 20;
+        const offsetY = 20;
+
+        // Calculate initial position
+        let modalX = x + offsetX;
+        let modalY = y + offsetY;
+
+        // Show modal temporarily to get dimensions
+        modal.classList.add('active');
+        modal.style.visibility = 'hidden';
+
+        const modalWidth = modalContent.offsetWidth || 400;
+        const modalHeight = modalContent.offsetHeight || 500;
+
+        // Check right edge - flip to left if needed
+        if (modalX + modalWidth > window.innerWidth) {
+            modalX = x - modalWidth - offsetX;
+            // If still off-screen, align to right edge
+            if (modalX < 0) {
+                modalX = window.innerWidth - modalWidth - 20;
+            }
+        }
+
+        // Check bottom edge - move up if needed
+        if (modalY + modalHeight > window.innerHeight) {
+            modalY = window.innerHeight - modalHeight - 20;
+            // If still off-screen, align to top
+            if (modalY < 0) {
+                modalY = 20;
+            }
+        }
+
+        // Ensure minimum spacing from edges
+        modalX = Math.max(10, modalX);
+        modalY = Math.max(10, modalY);
+
+        // Apply position
+        modal.style.position = 'fixed';
+        modal.style.left = `${modalX}px`;
+        modal.style.top = `${modalY}px`;
+        modal.style.visibility = 'visible';
+    } else {
+        // Fallback to centered (original behavior)
+        modal.style.position = 'fixed';
+        modal.style.left = '50%';
+        modal.style.top = '50%';
+        modal.style.transform = 'translate(-50%, -50%)';
+        modal.classList.add('active');
+    }
+
+    // Add modal-open class to body to prevent scrolling
+    document.body.classList.add('modal-open');
+
+    // Enable focus trap for accessibility
+    trapFocus(modalContent);
 };
 
 window.toggleEditMode = function () {
@@ -617,12 +674,16 @@ window.uploadLogo = async function (input) {
 
 
 function closeModal(event) {
+    const modal = document.getElementById('langModal');
+
     if (!event) {
-        document.getElementById('langModal').style.display = 'none';
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
         return;
     }
     if (event.target.id === 'langModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('langModal').style.display = 'none';
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
     }
 }
 
@@ -662,6 +723,48 @@ window.languageStatus = {};
 window.selectedLanguages = new Set(['C']); // Default C
 window.lockedLanguages = new Map(); // Languages unaffected by Bulk actions (stored with timestamp)
 window.showLogos = true; // Default to showing logos
+
+// ESC key handler for closing modal
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+        const modal = document.getElementById('langModal');
+        if (modal && modal.classList.contains('active')) {
+            closeModal(null);
+        }
+    }
+});
+
+// Focus trap for modal accessibility
+function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    element.addEventListener('keydown', function(e) {
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === firstElement) {
+                lastElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            // Tab
+            if (document.activeElement === lastElement) {
+                firstElement.focus();
+                e.preventDefault();
+            }
+        }
+    });
+
+    // Focus first element when modal opens
+    if (firstElement) {
+        firstElement.focus();
+    }
+}
 
 window.toggleLogoMode = function (btn) {
     window.showLogos = !window.showLogos;
