@@ -25,6 +25,49 @@ function safeJSON(obj: any): string {
         .replace(/\u2029/g, '\\u2029'); // Paragraph separator
 }
 
+// Compiler fallback mapping for languages
+const compilerMapping: Record<string, string> = {
+    'C': 'gcc',
+    'C++': 'g++',
+    'Rust': 'rustc',
+    'Go': 'go',
+    'Python': 'python3',
+    'JavaScript': 'node',
+    'TypeScript': 'tsc/node',
+    'Java': 'javac',
+    'C_Sharp': 'dotnet',
+    'PHP': 'php',
+    'Ruby': 'ruby',
+    'Perl': 'perl',
+    'Swift': 'swiftc',
+    'Kotlin': 'kotlinc',
+    'Scala': 'scalac',
+    'Haskell': 'ghc',
+    'OCaml': 'ocamlopt',
+    'F_Sharp': 'dotnet',
+    'Lua': 'lua',
+    'Julia': 'julia',
+    'Fortran': 'gfortran',
+    'Pascal': 'fpc',
+    'Ada': 'gnat',
+    'D': 'dmd',
+    'Nim': 'nim',
+    'Crystal': 'crystal',
+    'Zig': 'zig',
+    'V': 'v',
+    'Dart': 'dart',
+    'Elixir': 'elixir',
+    'Erlang': 'erlc',
+    'Clojure': 'clj',
+    'Groovy': 'groovy',
+    'Bash': 'bash',
+    'Awk': 'awk',
+    'Sed': 'sed',
+    'Assembly': 'nasm',
+    'Cobol': 'cobc',
+    'Prolog': 'swipl',
+};
+
 export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}): Promise<string> {
     // Merge overrides
     const finalLanguageMetadata = { ...languageMetadata, ...(metadataOverrides.languageMetadata || {}) };
@@ -1427,6 +1470,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     }
 
     html += `<th>
+        <span>Compiler</span>
+        <div class="sort-group">
+            <button class="sort-btn" onclick="sortRows('compiler', this)" title="Sort by Compiler">C</button>
+        </div>
+    </th>
+    <th>
+        <span>Mem Peak</span>
+        <div class="sort-group">
+            <button class="sort-btn" onclick="sortRows('memory', this)" title="Sort by Memory">M</button>
+        </div>
+    </th>
+    <th>
         <span id="header-time">Total Time</span>
         <div class="sort-group">
             <button class="sort-btn" onclick="sortRows('time', this)" title="Sort by Total Time">S</button>
@@ -1441,7 +1496,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const lang = m.solver;
         const times = m.results.map(r => r.time);
         const iters = m.results.map(r => r.iterations);
-        const mems = m.results.map(r => r.memory);
+        const mems = m.results.map(r => r.memory || 0).filter(m => !isNaN(m));
 
         const totalTime = times.reduce((a, b) => a + b, 0);
         const totalIters = iters.reduce((a, b) => a + b, 0);
@@ -1535,13 +1590,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             matrixDataAttrs += ` data-m${i}-time='${t}' data-m${i}-iters='${it}' data-m${i}-mem='${mem}' data-m${i}-score='${score.toFixed(2)}'`;
         }
 
-        html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}" 
-            data-lang="${lang}" 
+        // Calculate compiler info early for row data attribute
+        const rowCompilerInfo = meta.compiler || compilerMapping[baseLang] || compilerMapping[lang] || '-';
+
+        html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
+            data-lang="${lang}"
             data-timestamp="${new Date(m.timestamp).getTime()}"
-            data-year="${year}" 
-            data-time="${totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6)}" 
-            data-iters="${totalIters}" 
-            data-mem="${maxMem}" 
+            data-year="${year}"
+            data-time="${totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6)}"
+            data-iters="${totalIters}"
+            data-mem="${maxMem}"
+            data-memory="${maxMem}"
+            data-compiler="${rowCompilerInfo}"
             data-score="${normalizedScore.toFixed(2)}"
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
@@ -1610,10 +1670,33 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
+        // Memory peak - format KB or MB
+        const peakMemoryKB = maxMem / 1024; // Convert bytes to KB
+        const memDisplay = peakMemoryKB > 1024
+            ? `${(peakMemoryKB / 1024).toFixed(1)}MB`
+            : `${peakMemoryKB.toFixed(0)}KB`;
+
+        // Memory color coding
+        const memColorClass = peakMemoryKB > 10240 ? 'color: #ff6b6b' :
+                              peakMemoryKB > 2048 ? 'color: var(--secondary)' :
+                              'color: var(--primary)';
+
+        html += `<td class="compiler-col" data-compiler="${rowCompilerInfo}">
+            <div style="text-align: center; font-size: 0.85em; color: var(--muted);">
+                ${rowCompilerInfo}
+            </div>
+        </td>`;
+
+        html += `<td class="memory-col" data-memory="${maxMem}">
+            <div style="text-align: center; font-size: 0.85em; ${memColorClass}">
+                ${memDisplay}
+            </div>
+        </td>`;
+
         html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:flex-end;'><div style="display:flex;align-items:center;gap:5px;"><button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button><div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
 
         // Add expanded content row
-        const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
+        const totalCols = 3 + maxMatrices + 3; // Language + Score + Updated + Matrices + Compiler + MemPeak + Total
         html += `<tr class="expanded-content">
             <td colspan="${totalCols}">
                 <div class="expanded-sections">
@@ -1623,7 +1706,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     </div>
                     <div class="expanded-section">
                         <div class="section-title">Compilation</div>
-                        <div class="section-content">Compiler: ${meta.compiler || '-'} | Flags: - | Level: -</div>
+                        <div class="section-content">Compiler: ${rowCompilerInfo} | Flags: - | Level: -</div>
                     </div>
                     <div class="expanded-section">
                         <div class="section-title">Matrix Results</div>
@@ -1788,9 +1871,9 @@ export function generateHistoryHtml(history: any[]): string {
                         <td>${new Date(r.timestamp).toLocaleString()}</td>
                         <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
                         <td>${r.matrix}</td>
-                        <td class="time-val">${r.time.toFixed(4)}</td>
-                        <td>${r.iterations}</td>
-                        <td class="status-${r.status.toLowerCase()}">${r.status}</td>
+                        <td class="time-val">${(r.time ?? 0).toFixed(4)}</td>
+                        <td>${r.iterations ?? '-'}</td>
+                        <td class="status-${(r.status || 'unknown').toLowerCase()}">${r.status || '-'}</td>
                     </tr>
                 `).join('')}
             </tbody>
