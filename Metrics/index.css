@@ -1318,3 +1318,14 @@ body.fullscreen-active .header-counters {
     opacity: 0 !important;
     pointer-events: none;
 }
+
+/* Compiler and Memory Peak Columns */
+.compiler-col {
+    min-width: 80px;
+    max-width: 100px;
+}
+
+.memory-col {
+    min-width: 70px;
+    max-width: 90px;
+}

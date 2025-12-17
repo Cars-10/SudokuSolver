@@ -17,7 +17,7 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 1: Foundation & C Baseline** - Infrastructure rebuild and reference validation
 - [x] **Phase 1.5: UI Polish & Fixes** - INSERTED: Fix modal display, logo serving, edit workflow
 - [x] **Phase 1.5.1: Screensaver Issues** - INSERTED: Fix screensaver behavior and performance (SKIPPED)
-- [ ] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
+- [x] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
 - [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
