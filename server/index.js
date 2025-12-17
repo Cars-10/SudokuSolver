@@ -5,7 +5,7 @@ const path = require('path');
 const { exec } = require('child_process');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 9001;
 
 app.use(cors());
 app.use(express.json());
@@ -59,6 +59,9 @@ app.use('/runner', express.static('public'));
 app.use('/js', express.static(path.join(__dirname, '../Metrics')));
 app.use('/css', express.static(path.join(__dirname, '../Metrics')));
 app.use('/Metrics', express.static(path.join(__dirname, '../Metrics')));
+
+// Serve logos directory
+app.use('/logos', express.static(path.join(__dirname, '../logos')));
 
 const LANGUAGES_DIR = path.join(__dirname, '../Languages');
 const MATRICES_DIR = path.join(__dirname, '../Matrices');
@@ -346,29 +349,102 @@ app.post('/api/download-media', async (req, res) => {
     }
 });
 
+// Logo Processing Endpoints
+const logoProcessor = require('./logo_processor');
+
+// Upload logo endpoint
+app.post('/api/upload-logo', upload.single('logo'), async (req, res) => {
+    try {
+        const language = req.body.language;
+        const file = req.file;
+
+        if (!file || !language) {
+            return res.status(400).json({ error: 'Missing file or language parameter' });
+        }
+
+        console.log(`Processing uploaded logo for ${language}: ${file.originalname}`);
+
+        // Read file buffer
+        const fileBuffer = fs.readFileSync(file.path);
+
+        // Process logo (convert SVG if needed, apply tailoring)
+        const logoPath = await logoProcessor.processUploadedLogo(
+            fileBuffer,
+            file.originalname,
+            language
+        );
+
+        // Clean up uploaded file
+        fs.unlinkSync(file.path);
+
+        res.json({ success: true, path: logoPath });
+    } catch (error) {
+        console.error('Error uploading logo:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Fetch logo from URL endpoint
+app.post('/api/fetch-logo', async (req, res) => {
+    try {
+        const { url, language } = req.body;
+
+        if (!url || !language) {
+            return res.status(400).json({ error: 'Missing url or language parameter' });
+        }
+
+        console.log(`Fetching logo from URL for ${language}: ${url}`);
+
+        const logoPath = await logoProcessor.fetchLogoFromUrl(url, language);
+
+        res.json({ success: true, path: logoPath });
+    } catch (error) {
+        console.error('Error fetching logo:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Generate Report
 app.post('/api/generate-report', (req, res) => {
     console.log('Generating benchmark report...');
 
-    // We need to run the TypeScript file.
-    // Using tsx for better ESM support
-    const command = 'npx tsx Metrics/generate_report_only.ts';
+    // Use tsx for TypeScript execution (installed globally in Dockerfile)
+    // Full-featured report with all visualizations and metadata
+    const command = 'tsx Metrics/generate_report_only.ts';
 
     // CWD should be the root of the project (parent of server)
     // In Docker: /app (since server is at /app/server)
-    // We need to move up from __dirname which is /app/server
     const projectRoot = path.join(__dirname, '..');
 
-    exec(command, { cwd: projectRoot }, (error, stdout, stderr) => {
+    exec(command, { cwd: projectRoot, timeout: 120000 }, (error, stdout, stderr) => {
         if (stdout) console.log(stdout);
-        if (stderr) console.error(stderr);
+        if (stderr && !stderr.includes('ExperimentalWarning')) {
+            console.error(stderr);
+        }
 
         if (error) {
             console.error(`Report generation error: ${error}`);
-            return res.status(500).json({ success: false, error: stderr || error.message });
+            // Try JavaScript fallback
+            console.log('Attempting JavaScript fallback generator...');
+            const fallbackCommand = 'node Metrics/generate_report_simple.js';
+            exec(fallbackCommand, { cwd: projectRoot }, (fallbackError, fallbackStdout, fallbackStderr) => {
+                if (fallbackStdout) console.log(fallbackStdout);
+                if (fallbackStderr) console.error(fallbackStderr);
+
+                if (fallbackError) {
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Both TypeScript and JavaScript generators failed',
+                        details: { tsx: stderr || error.message, js: fallbackStderr || fallbackError.message }
+                    });
+                }
+                console.log('Report generated successfully using JavaScript fallback.');
+                res.json({ success: true, generator: 'javascript' });
+            });
+        } else {
+            console.log('Report generated successfully using TypeScript generator.');
+            res.json({ success: true, generator: 'typescript' });
         }
-        console.log('Report generated successfully.');
-        res.json({ success: true });
     });
 });
 

@@ -46,6 +46,19 @@ run.txt
 run_sanity.tmp
 snapshots/
 
+# Environment and secrets
+.env
+
+# Database files
+*.db
+*.db-journal
+
+# Upload directories
+server/uploads/
+
+# Generated output files
+Matrices/reference_output/
+
 # Node dependencies and artifacts
 Metrics/node_modules/
 Metrics/screenshots/

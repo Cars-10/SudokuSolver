@@ -766,6 +766,21 @@ function trapFocus(element) {
     }
 }
 
+// Handle broken logo images
+document.addEventListener('DOMContentLoaded', function() {
+    const logos = document.querySelectorAll('.lang-logo');
+    logos.forEach(img => {
+        img.addEventListener('error', function() {
+            console.warn(`Failed to load logo: ${this.src}`);
+            // Apply fallback styling for broken images
+            this.style.background = 'linear-gradient(135deg, #414868 0%, #24283b 100%)';
+            this.style.padding = '8px';
+            this.alt = this.alt || '?';
+            this.title = `${this.alt} (logo unavailable)`;
+        });
+    });
+});
+
 window.toggleLogoMode = function (btn) {
     window.showLogos = !window.showLogos;
     // Update Icon
