@@ -239,24 +239,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     });
 
             function poll() {
-                if (!document.body) return; // Wait for body
-                
-                const script = document.createElement('script');
-                // Add cache buster
-                script.src = 'timestamp.js?t=' + Date.now();
-                script.onload = () => {
-                    window.checkTimestamp();
-                    if (document.body.contains(script)) {
-                        document.body.removeChild(script); // Clean up
-                    }
-                };
-                script.onerror = () => {
-                    // console.warn('Failed to load timestamp.js');
-                    if (document.body && document.body.contains(script)) {
-                        document.body.removeChild(script);
-                    }
-                };
-                document.body.appendChild(script);
+                // Polling disabled - timestamp.js doesn't exist, causes 404 console noise
+                // If auto-refresh needed, implement proper WebSocket or Server-Sent Events
+                return;
             }
             
             // Initial check - wait for DOM
@@ -501,42 +486,57 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             background: #16161a;
         }
 
-        /* Language Detail Modal Base Styles */
+        /* ========================================
+           MODAL SYSTEM - FLATTENED STRUCTURE
+           ======================================== */
+
+        /* Modal Backdrop - Transparent (no dark overlay) */
         .modal {
             display: none;
             position: fixed;
             z-index: 10000;
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            overflow: auto;
-            animation: fadeIn 0.2s ease-in;
-        }
-
-        .modal.active {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Modal Content Container */
-        .modal .modal-content {
-            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
-            border: 1px solid #414868;
-            border-radius: 12px;
-            padding: 0;
-            max-width: 600px;
-            max-height: 90vh;
-            width: 90%;
-            margin: auto;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+            pointer-events: none;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            position: relative;
-            animation: slideUp 0.3s ease-out;
+        }
+
+        .modal.visible {
+            display: block !important;
+        }
+
+        /* Modal Content Container - Fixed Width for Consistency */
+        .modal .modal-content {
+            /* Box Model - Fixed sizing for width consistency */
+            box-sizing: border-box;
+            width: 900px;
+            max-width: 90vw;
+            max-height: 90vh;
+
+            /* Layout - Simple flexbox, no nesting issues */
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+
+            /* Styling */
+            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            border: 2px solid #7aa2f7;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+            /* Interaction */
+            cursor: move;
+            pointer-events: auto;
+        }
+
+        /* Centered positioning (fallback) */
+        .modal.centered .modal-content {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
         /* Modal Animations */
@@ -587,18 +587,52 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             transform: scale(1.1);
         }
 
-        /* Modal header improvements */
+        /* Modal Header - Flattened, Direct Child */
         .modal-header {
+            /* Box Model - Guaranteed width match */
+            box-sizing: border-box;
+            width: 100%;
             padding: 20px;
+            margin: 0;
+
+            /* Layout - No flex grow/shrink */
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            /* Styling */
             border-bottom: 1px solid #414868;
             background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
         }
 
-        /* Modal body styling */
+        /* Modal Header Top Row (logo + info) */
+        .modal-header-top {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* Modal Header Bottom Row (buttons) */
+        .modal-header-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* Modal Body - Flattened, Direct Child, NO SCROLLBAR */
         .modal-body {
+            /* Box Model - Guaranteed width match */
+            box-sizing: border-box;
+            width: 100%;
             padding: 20px;
-            max-height: calc(90vh - 140px);
-            overflow-y: auto;
+            margin: 0;
+
+            /* Layout - Auto height, no scrollbar */
+            flex: 0 1 auto;
+            overflow: visible;
+
+            /* No scrollbar needed */
         }
 
         /* Modal footer */
@@ -609,6 +643,79 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+        }
+
+        /* Edit Mode Toggle */
+        .edit-only {
+            display: none !important;
+        }
+
+        .editing .edit-only {
+            display: block !important;
+        }
+
+        .editing .view-only {
+            display: none !important;
+        }
+
+        /* Modal Edit Inputs */
+        .modal-edit-input,
+        .modal-edit-textarea {
+            width: 100%;
+            background: #24283b;
+            border: 1px solid #414868;
+            border-radius: 4px;
+            padding: 8px 12px;
+            color: #c0caf5;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+
+        .modal-edit-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-edit-input:focus,
+        .modal-edit-textarea:focus {
+            outline: none;
+            border-color: #7aa2f7;
+            background: #1a1b26;
+        }
+
+        /* Author List Styling */
+        .author-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .author-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: #24283b;
+            border-radius: 8px;
+            border: 1px solid #414868;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #1a1b26;
+            border: 2px solid #7aa2f7;
+            flex-shrink: 0;
+        }
+
+        .author-item span {
+            color: #c0caf5;
+            font-weight: 500;
+            flex: 1;
         }
 
         /* Responsive adjustments */
@@ -639,6 +746,25 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             image-rendering: crisp-edges;
             vertical-align: middle;
             margin-right: 8px;
+        }
+
+        /* Tooltip Styling */
+        #tooltip {
+            position: fixed;
+            display: none;
+            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            border: 1px solid #414868;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #c0caf5;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 300px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .run-btn {
@@ -705,11 +831,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
+    <script>
+        // Cache buster: ${Date.now()}
+    </script>
     <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
     
     <!-- Log Modal -->
-    <div id="logModal" onclick="if(event.target === this) closeLogModal()">
+    <div id="logModal" class="modal" onclick="if(event.target === this) closeLogModal()">
         <div class="modal-content">
             <div id="logHeader">
                 <span id="logTitle" style="color: #fff; font-weight: bold;">Execution Log</span>
@@ -719,50 +849,52 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal - Flattened Structure -->
     <div id="langModal" class="modal" style="display: none;" onclick="closeModal(event)">
-        <div class="modal-content" id="modalContent">
+        <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
+            <!-- Header: Direct child, no nesting -->
             <div class="modal-header">
-                <div class="modal-info">
-                    <div class="modal-img-container" id="modalImgContainer">
-                        <img id="modalImg" class="modal-img" src="" alt="Language Logo">
+                <!-- Close button in top-right corner -->
+                <span class="modal-close" onclick="closeModal(event)">&times;</span>
+
+                <!-- Top Row: Logo + Info -->
+                <div class="modal-header-top">
+                    <div class="modal-img-container" id="modalImgContainer" style="flex-shrink: 0;">
+                        <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100px; height: 100px; object-fit: contain; border-radius: 8px;">
                         <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="document.getElementById('logoInput').click()">
                             Change
                         </div>
                         <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
                     </div>
-                    <div style="flex: 1;">
+                    <div style="flex: 1; min-width: 0;">
                         <input type="text" id="editInputs-title" class="modal-edit-input edit-only" placeholder="Language Name" style="font-size: 1.5em; font-weight: bold;">
                         <h2 id="modalTitle" class="view-only" style="margin: 0 0 5px 0; color: #7aa2f7;"></h2>
-                        
+
                         <input type="text" id="editInputs-creator" class="modal-edit-input edit-only" placeholder="Creator">
                         <input type="text" id="editInputs-image" class="modal-edit-input edit-only" placeholder="Image URL (e.g., https://...)">
                         <input type="text" id="editInputs-date" class="modal-edit-input edit-only" placeholder="Date">
                         <p id="modalSubtitle" class="view-only" style="margin: 0; color: #565f89; font-size: 0.9em;"></p>
-                        
-                        <div style="margin-top: 10px;">
-                            <input type="text" id="editInputs-location" class="modal-edit-input edit-only" placeholder="Location">
-                            <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
-                            <input type="text" id="editInputs-website" class="modal-edit-input edit-only" placeholder="Website URL">
-                            
-                            <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
-                            <p id="modalLocation" class="view-only" style="margin: 5px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
-                            <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
-                            <a id="modalGrokepia" class="view-only" href="#" target="_blank" style="margin: 5px 0 0 0; color: #4fd6be; font-size: 0.9em; text-decoration: none; display:none;">🔗 https://grokipedia.com</a>
-                        </div>
-                        
-                        <div style="margin-top: 15px; display: flex; gap: 10px;">
-                             <button class="btn view-only" id="btn-website" onclick="openSidePanel('website')">Website</button>
-                             <button class="btn view-only" id="btn-grokipedia" onclick="openSidePanel('grokipedia')">Grokipedia</button>
-                             <button class="btn view-only" id="btn-wikipedia" onclick="openSidePanel('wikipedia')">Wikipedia</button>
+
+                        <input type="text" id="editInputs-location" class="modal-edit-input edit-only" placeholder="Location" style="margin-top: 10px;">
+                        <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
+                        <input type="text" id="editInputs-website" class="modal-edit-input edit-only" placeholder="Website URL">
+
+                        <p id="modalLocation" class="view-only" style="margin: 10px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
+                        <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
+
+                        <div class="view-only" style="margin-top: 15px; display: flex; gap: 10px;">
+                             <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
+                             <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
+                             <a class="btn" id="btn-wikipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Wikipedia</a>
                         </div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px;">
-                     <button class="btn" onclick="toggleLock()" id="lockBtn" title="Lock this result to skip future benchmarks">🔓 Unlocked</button>
-                     <button class="btn" onclick="toggleEditMode()" id="editBtn">Edit</button>
-                     <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails()">Save</button>
-                     <span class="modal-close" onclick="closeModal(event)">&times;</span>
+
+                <!-- Bottom Row: Buttons -->
+                <div class="modal-header-buttons">
+                     <button class="btn" onclick="toggleLock(event)" id="lockBtn" title="Lock this result to skip future benchmarks">🔓 Unlocked</button>
+                     <button class="btn" onclick="toggleEditMode(event)" id="editBtn">Edit</button>
+                     <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>
                 </div>
             </div>
             
@@ -1414,6 +1546,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
+                <span class="expand-chevron">▶</span>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
@@ -1478,6 +1611,34 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
 
         html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:flex-end;'><div style="display:flex;align-items:center;gap:5px;"><button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button><div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+
+        // Add expanded content row
+        const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
+        html += `<tr class="expanded-content">
+            <td colspan="${totalCols}">
+                <div class="expanded-sections">
+                    <div class="expanded-section">
+                        <div class="section-title">System</div>
+                        <div class="section-content">OS: - | CPU: - | RAM: - | Arch: -</div>
+                    </div>
+                    <div class="expanded-section">
+                        <div class="section-title">Compilation</div>
+                        <div class="section-content">Compiler: ${meta.compiler || '-'} | Flags: - | Level: -</div>
+                    </div>
+                    <div class="expanded-section">
+                        <div class="section-title">Matrix Results</div>
+                        <div class="section-content">
+                            ${m.results.filter(r => r != null).map((r, idx) => {
+                                const memMb = (r.memory || 0) / 1024 / 1024;
+                                const time = r.time || 0;
+                                const iterations = r.iterations || 0;
+                                return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
+                            }).join(' | ')}
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>`;
     }
 
     html += `
@@ -1511,7 +1672,22 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </script>
     `;
 
+    // Generate timestamp in CET timezone
+    const generatedAt = new Date().toLocaleString('en-GB', {
+        timeZone: 'Europe/Berlin',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+
     html += `
+    <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
+        Report generated: ${generatedAt} CET
+    </footer>
     <script src="../Metrics/report_client.js"></script>
     </body>
     </html>

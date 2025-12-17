@@ -15,7 +15,9 @@ None - This is a benchmarking/systems project without specialized domain require
 - Decimal phases (X.1, X.2): Urgent insertions if needed (marked with INSERTED)
 
 - [x] **Phase 1: Foundation & C Baseline** - Infrastructure rebuild and reference validation
-- [ ] **Phase 1.5: UI Polish & Fixes** - INSERTED: Fix modal display, logo serving, edit workflow
+- [x] **Phase 1.5: UI Polish & Fixes** - INSERTED: Fix modal display, logo serving, edit workflow
+- [x] **Phase 1.5.1: Screensaver Issues** - INSERTED: Fix screensaver behavior and performance (SKIPPED)
+- [ ] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
 - [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
@@ -58,7 +60,7 @@ None - This is a benchmarking/systems project without specialized domain require
 - Pattern established for remaining 14 languages
 
 ### Phase 1.5: UI Polish & Fixes (INSERTED)
-**Goal**: Fix critical UI issues preventing proper user interaction
+**Goal**: Fix modal interactions and display issues
 
 **Depends on**: Phase 1
 
@@ -86,6 +88,43 @@ None - This is a benchmarking/systems project without specialized domain require
 - All logos load successfully (verified with browser dev tools)
 - Can edit language metadata and see changes in regenerated report
 - Professional, polished user experience
+
+### Phase 1.5.1: Screensaver Issues (INSERTED)
+**Goal**: Fix screensaver behavior and performance issues
+
+**Depends on**: Phase 1.5
+
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 1.5.1 to break down)
+
+**Details**:
+[To be added during planning]
+
+### Phase 1.5.2: Table Highlighting (INSERTED)
+**Goal**: Fix table row and cell highlighting causing text to shift
+
+**Depends on**: Phase 1.5
+
+**Research**: None (CSS/JS work using established patterns)
+
+**Plans**: 2 plans
+1. CSS Fix + Expandable Infrastructure (fix hover, add chevron, build expanded rows)
+2. Enhanced Table Columns (add compiler version and memory peak columns)
+
+**Deliverables**:
+- Hover effects without layout shift (transparent borders, no scale transform)
+- Expandable rows with chevron indicator (▶ → ▼)
+- Expanded content with System | Compilation | Results sections
+- Compiler version column in main table
+- Memory peak column in main table
+
+**Success Criteria**:
+- Hovering over rows produces visual feedback without text movement
+- Clicking rows expands/collapses with chevron rotation
+- Expanded content shows organized metrics data
+- New columns sortable and properly formatted
 
 ### Phase 2: Compiled Languages Wave
 **Goal**: Implement C++, Go, Rust following established pattern
