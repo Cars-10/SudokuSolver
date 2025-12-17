@@ -274,8 +274,15 @@ document.querySelectorAll('tbody td').forEach(cell => {
         if (content) {
             const tooltip = document.getElementById('tooltip');
             tooltip.style.display = 'block';
-
             tooltip.innerHTML = content;
+        }
+    });
+
+    cell.addEventListener('mousemove', (e) => {
+        const tooltip = document.getElementById('tooltip');
+        if (tooltip.style.display === 'block') {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY + 15) + 'px';
         }
     });
 
@@ -285,14 +292,30 @@ document.querySelectorAll('tbody td').forEach(cell => {
     });
 });
 
-// Add click handler to language cells to show modal
+// Add click handler to language cells to toggle expansion and show modal
 document.querySelectorAll('.lang-col').forEach(cell => {
     cell.addEventListener('click', (e) => {
         const row = cell.parentElement;
-        const lang = row.getAttribute('data-lang');
-        if (lang) {
-            showLanguageDetails(lang, e.clientX, e.clientY);
+        const expandedRow = row.nextElementSibling;
+
+        // Toggle expanded state on the data row
+        row.classList.toggle('expanded');
+
+        // Toggle visibility of expanded content row
+        if (expandedRow && expandedRow.classList.contains('expanded-content')) {
+            if (row.classList.contains('expanded')) {
+                expandedRow.classList.add('visible');
+            } else {
+                expandedRow.classList.remove('visible');
+            }
         }
+
+        // Don't open modal when clicking chevron - only show expansion
+        // If user wants modal, they can click again or we could add separate handler
+        // For now, just expand/collapse on click
+
+        // Prevent event from bubbling to avoid conflicts
+        e.stopPropagation();
     });
     cell.style.cursor = 'pointer';  // Make it obvious it's clickable
 });
@@ -311,12 +334,19 @@ window.showLanguageDetails = async function (lang, x, y) {
     // We fallback to static if fetch fails.
     let meta = languageMetadata[lang] || {};
 
+    // Save static description from LanguagesMetadata.ts
+    const staticDescription = meta.description;
+
     try {
         const res = await fetch(`/api/metadata/${lang}`);
         if (res.ok) {
             const dynamicMeta = await res.json();
-            // Merge: dynamic takes precedence, but keep static defaults if missing
+            // Merge: dynamic takes precedence for user-edited fields
             meta = { ...meta, ...dynamicMeta };
+            // But prefer static description from LanguagesMetadata.ts (richer content)
+            if (staticDescription) {
+                meta.description = staticDescription;
+            }
         }
     } catch (e) {
         console.warn("Could not fetch dynamic metadata:", e);
@@ -333,17 +363,12 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('modalSubtitle').innerText = (meta.creator || "?") + " • " + (meta.date || "????");
     document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
     document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
-    const grokepiaLink = document.getElementById('modalGrokepia');
-    if (grokepiaLink) {
-        const encodedQuery = encodeURIComponent(displayName + " Programming Language");
-        grokepiaLink.href = `https://grokipedia.com/search?q=${encodedQuery}`;
-        grokepiaLink.innerText = "🔗 View on Grokipedia";
-        grokepiaLink.style.display = "inline-block";
-    }
 
 
     // Description: Check Persona first
     let desc = meta.description;
+    console.log("[DEBUG] meta.description:", meta.description);
+    console.log("[DEBUG] full meta:", meta);
     const currentPersona = window.currentPersona || 'Standard';
     if (window.personalities && window.personalities[currentPersona]) {
         // Look for specific lang match
@@ -358,7 +383,7 @@ window.showLanguageDetails = async function (lang, x, y) {
                 // Only use default if no meta description? Or append?
                 // Let's use generic description if no specific language description exists?
                 // But generic description is like "A glitch in the matrix".
-                // It might overwrite a useful description like "A compiled language..." 
+                // It might overwrite a useful description like "A compiled language..."
                 // User asked to embellish. Let's PREPEND or REPLACE?
                 // The existing personality entries are full replacements like "C: The Source Code...".
                 // So if we have a match, we use it. If not, we keep the original description?
@@ -368,7 +393,23 @@ window.showLanguageDetails = async function (lang, x, y) {
         }
     }
 
+    console.log("[DEBUG] Final desc to display:", desc);
     document.getElementById('modalDesc').innerText = desc || "No description available.";
+
+    // Set button URLs
+    const btnWebsite = document.getElementById('btn-website');
+    const btnGrokipedia = document.getElementById('btn-grokipedia');
+    const btnWikipedia = document.getElementById('btn-wikipedia');
+
+    if (meta.website) {
+        btnWebsite.href = meta.website;
+        btnWebsite.style.display = 'inline-block';
+    } else {
+        btnWebsite.style.display = 'none';
+    }
+
+    btnGrokipedia.href = `https://grokipedia.com/languages/${encodeURIComponent(displayName)}`;
+    btnWikipedia.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(displayName)}_programming_language`;
 
     // Edit Mode Population
     document.getElementById('editInputs-title').value = displayName;
@@ -384,9 +425,16 @@ window.showLanguageDetails = async function (lang, x, y) {
     const authorList = document.getElementById('authorList');
     authorList.innerHTML = '';
 
-    const authors = meta.authors || [];
-    // If no specific authors list, use creator + main image as one entry? or just rely on main header?
-    // Let's rely on main header for primary, but allow adding more.
+    let authors = meta.authors || [];
+    // If no authors array, create one from creator field
+    if (authors.length === 0 && meta.creator) {
+        // Split creators by comma (e.g., "Aho, Weinberger, Kernighan")
+        const creatorNames = meta.creator.split(',').map(n => n.trim());
+        authors = creatorNames.map((name, idx) => ({
+            name: name,
+            image: idx === 0 ? (meta.image || meta.logo || '') : '' // First creator gets the main image
+        }));
+    }
 
     authors.forEach((auth, idx) => {
         const div = document.createElement('div');
@@ -409,51 +457,80 @@ window.showLanguageDetails = async function (lang, x, y) {
         const offsetX = 20;
         const offsetY = 20;
 
-        // Calculate initial position
+        // Show modal to get dimensions
+        modal.classList.add('visible');
+        modalContent.style.visibility = 'hidden';
+        modalContent.style.left = '0px';
+        modalContent.style.top = '0px';
+
+        // Force layout recalc
+        modalContent.offsetHeight;
+
+        const modalWidth = modalContent.offsetWidth;
+        const modalHeight = modalContent.offsetHeight;
+
+        // Calculate position near cursor
         let modalX = x + offsetX;
         let modalY = y + offsetY;
 
-        // Show modal temporarily to get dimensions
-        modal.classList.add('active');
-        modal.style.visibility = 'hidden';
+        console.log('Modal positioning:', {
+            clickX: x,
+            clickY: y,
+            modalWidth,
+            modalHeight,
+            viewportWidth: window.innerWidth,
+            viewportHeight: window.innerHeight,
+            initialModalX: modalX,
+            initialModalY: modalY
+        });
 
-        const modalWidth = modalContent.offsetWidth || 400;
-        const modalHeight = modalContent.offsetHeight || 500;
-
-        // Check right edge - flip to left if needed
-        if (modalX + modalWidth > window.innerWidth) {
-            modalX = x - modalWidth - offsetX;
-            // If still off-screen, align to right edge
-            if (modalX < 0) {
-                modalX = window.innerWidth - modalWidth - 20;
+        // Smart positioning: Try to keep modal near click while staying in viewport
+        // For X axis: prefer right side of cursor, but flip to left if needed
+        if (modalX + modalWidth > window.innerWidth - 20) {
+            // Try left side of cursor instead
+            const leftSideX = x - modalWidth - offsetX;
+            if (leftSideX >= 20) {
+                modalX = leftSideX;
+                console.log('Positioned modal to left of cursor:', modalX);
+            } else {
+                // Neither side works, center horizontally
+                modalX = Math.max(20, (window.innerWidth - modalWidth) / 2);
+                console.log('Centered modal horizontally:', modalX);
             }
         }
 
-        // Check bottom edge - move up if needed
-        if (modalY + modalHeight > window.innerHeight) {
-            modalY = window.innerHeight - modalHeight - 20;
-            // If still off-screen, align to top
-            if (modalY < 0) {
-                modalY = 20;
+        // For Y axis: prefer below cursor, but flip to above if needed
+        if (modalY + modalHeight > window.innerHeight - 20) {
+            // Try above cursor instead
+            const aboveY = y - modalHeight - offsetY;
+            if (aboveY >= 20) {
+                modalY = aboveY;
+                console.log('Positioned modal above cursor:', modalY);
+            } else {
+                // Neither works, center vertically
+                modalY = Math.max(20, (window.innerHeight - modalHeight) / 2);
+                console.log('Centered modal vertically:', modalY);
             }
         }
 
-        // Ensure minimum spacing from edges
-        modalX = Math.max(10, modalX);
-        modalY = Math.max(10, modalY);
+        // Ensure minimum boundaries
+        modalX = Math.max(20, modalX);
+        modalY = Math.max(20, modalY);
 
-        // Apply position
-        modal.style.position = 'fixed';
-        modal.style.left = `${modalX}px`;
-        modal.style.top = `${modalY}px`;
-        modal.style.visibility = 'visible';
+        console.log('Final position:', { modalX, modalY });
+
+        // Apply position to modal-content
+        modalContent.style.left = `${modalX}px`;
+        modalContent.style.top = `${modalY}px`;
+        modalContent.style.transform = 'none';
+        modalContent.style.visibility = 'visible';
+        modal.classList.remove('centered');
     } else {
-        // Fallback to centered (original behavior)
-        modal.style.position = 'fixed';
-        modal.style.left = '50%';
-        modal.style.top = '50%';
-        modal.style.transform = 'translate(-50%, -50%)';
-        modal.classList.add('active');
+        // Fallback to centered
+        modal.classList.add('visible', 'centered');
+        modalContent.style.left = '';
+        modalContent.style.top = '';
+        modalContent.style.transform = '';
     }
 
     // Add modal-open class to body to prevent scrolling
@@ -463,7 +540,12 @@ window.showLanguageDetails = async function (lang, x, y) {
     trapFocus(modalContent);
 };
 
-window.toggleEditMode = function () {
+window.toggleEditMode = function (event) {
+    // Prevent click from bubbling to modal container
+    if (event) {
+        event.stopPropagation();
+    }
+
     const content = document.getElementById('modalContent');
     const btn = document.getElementById('editBtn');
     if (content.classList.contains('editing')) {
@@ -475,7 +557,12 @@ window.toggleEditMode = function () {
     }
 };
 
-window.toggleLock = async function () {
+window.toggleLock = async function (event) {
+    // Prevent click from bubbling to modal container
+    if (event) {
+        event.stopPropagation();
+    }
+
     if (!currentEditingLang) return;
 
     const btn = document.getElementById('lockBtn');
@@ -501,7 +588,12 @@ window.toggleLock = async function () {
     }
 };
 
-window.saveLanguageDetails = async function () {
+window.saveLanguageDetails = async function (event) {
+    // Prevent click from bubbling to modal container
+    if (event) {
+        event.stopPropagation();
+    }
+
     if (!currentEditingLang) return;
 
     const newData = {
@@ -677,43 +769,49 @@ function closeModal(event) {
     const modal = document.getElementById('langModal');
 
     if (!event) {
-        modal.classList.remove('active');
+        modal.classList.remove('visible');
         document.body.classList.remove('modal-open');
         return;
     }
+
+    // Only close if clicking directly on the modal backdrop or close button
+    // Don't close if clicking on modal content or any buttons
     if (event.target.id === 'langModal' || event.target.classList.contains('modal-close')) {
-        modal.classList.remove('active');
+        console.log('Closing modal - clicked on backdrop or close button');
+        modal.classList.remove('visible');
         document.body.classList.remove('modal-open');
+    } else {
+        console.log('Not closing modal - clicked on:', event.target.id || event.target.className);
     }
 }
 
 function showMethodology() {
-    document.getElementById('methodModal').style.display = 'flex';
+    document.getElementById('methodModal').classList.add('visible');
 }
 
 function closeMethodology(event) {
     if (event.target.id === 'methodModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('methodModal').style.display = 'none';
+        document.getElementById('methodModal').classList.remove('visible');
     }
 }
 
 function showGoals() {
-    document.getElementById('goalsModal').style.display = 'flex';
+    document.getElementById('goalsModal').classList.add('visible');
 }
 
 function closeGoals(event) {
     if (event.target.id === 'goalsModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('goalsModal').style.display = 'none';
+        document.getElementById('goalsModal').classList.remove('visible');
     }
 }
 
 function showWhy() {
-    document.getElementById('whyModal').style.display = 'flex';
+    document.getElementById('whyModal').classList.add('visible');
 }
 
 function closeWhy(event) {
     if (event.target.id === 'whyModal' || event.target.classList.contains('modal-close')) {
-        document.getElementById('whyModal').style.display = 'none';
+        document.getElementById('whyModal').classList.remove('visible');
     }
 }
 
@@ -779,6 +877,76 @@ document.addEventListener('DOMContentLoaded', function() {
             this.title = `${this.alt} (logo unavailable)`;
         });
     });
+});
+
+// Make modal draggable
+function makeDraggable(modal, handle) {
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+
+    handle.addEventListener('mousedown', dragStart);
+
+    function dragStart(e) {
+        // Only drag on header, not on buttons
+        if (e.target.closest('button') || e.target.closest('.modal-close')) {
+            return;
+        }
+
+        const modalContent = modal.querySelector('.modal-content');
+        const rect = modalContent.getBoundingClientRect();
+
+        initialX = e.clientX - rect.left;
+        initialY = e.clientY - rect.top;
+
+        isDragging = true;
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        modalContent.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+
+        e.preventDefault();
+
+        const modalContent = modal.querySelector('.modal-content');
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+
+        // Keep within viewport
+        const modalWidth = modalContent.offsetWidth;
+        const modalHeight = modalContent.offsetHeight;
+
+        currentX = Math.max(0, Math.min(currentX, window.innerWidth - modalWidth));
+        currentY = Math.max(0, Math.min(currentY, window.innerHeight - modalHeight));
+
+        modalContent.style.left = `${currentX}px`;
+        modalContent.style.top = `${currentY}px`;
+        modalContent.style.transform = 'none';
+    }
+
+    function dragEnd() {
+        isDragging = false;
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.cursor = 'move';
+
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', dragEnd);
+    }
+}
+
+// Initialize draggable modal on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('langModal');
+    const modalHeader = modal ? modal.querySelector('.modal-header') : null;
+    if (modal && modalHeader) {
+        makeDraggable(modal, modalHeader);
+    }
 });
 
 window.toggleLogoMode = function (btn) {
@@ -919,8 +1087,56 @@ window.updateSolverStats = function () {
 
     const stat = document.getElementById('solver-stat');
     if (stat) stat.innerHTML = `SOLVED <span style="color: #00ff9d">${lockedCount}</span> OF <span style="color: #00ff9d">${planned}</span>`;
+
+    // Calculate real benchmark stats for screensaver
     const screensaverText = document.getElementById('solver-text');
-    if (screensaverText) screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
+    if (screensaverText && typeof metricsData !== 'undefined' && metricsData.length > 0) {
+        // Calculate statistics from real benchmark data
+        let totalTime = 0;
+        let totalIterations = 0;
+        let totalMemory = 0;
+        let validCount = 0;
+        let fastest = null;
+        let slowest = null;
+
+        metricsData.forEach(m => {
+            // Sum up total time across all matrices
+            const time = (m.time_1 || 0) + (m.time_2 || 0) + (m.time_3 || 0) + (m.time_4 || 0) + (m.time_5 || 0);
+            totalTime += time;
+
+            // Sum iterations
+            const iters = (m.iterations_1 || 0) + (m.iterations_2 || 0) + (m.iterations_3 || 0) + (m.iterations_4 || 0) + (m.iterations_5 || 0);
+            totalIterations += iters;
+
+            // Sum memory (in MB)
+            const mem = (m.memory_1 || 0) + (m.memory_2 || 0) + (m.memory_3 || 0) + (m.memory_4 || 0) + (m.memory_5 || 0);
+            totalMemory += mem;
+
+            // Track validation
+            if (m.validated) validCount++;
+
+            // Track fastest/slowest
+            if (!fastest || time < fastest.time) fastest = { solver: m.solver, time };
+            if (!slowest || time > slowest.time) slowest = { solver: m.solver, time };
+        });
+
+        const avgTime = (totalTime / metricsData.length).toFixed(3);
+        const avgMem = (totalMemory / metricsData.length).toFixed(1);
+
+        // Rotating stats display
+        const statsOptions = [
+            `${metricsData.length} LANGUAGES • ${validCount} VALIDATED • ${(validCount/metricsData.length*100).toFixed(0)}% PASS RATE`,
+            `AVG TIME: ${avgTime}s • AVG MEM: ${avgMem}MB • TOTAL ITERS: ${totalIterations.toLocaleString()}`,
+            fastest ? `FASTEST: ${fastest.solver} (${fastest.time.toFixed(3)}s)` : `${metricsData.length} LANGUAGES BENCHMARKED`,
+            slowest ? `SLOWEST: ${slowest.solver} (${slowest.time.toFixed(3)}s)` : `${metricsData.length} LANGUAGES TESTED`
+        ];
+
+        // Rotate every 5 seconds
+        const index = Math.floor(Date.now() / 5000) % statsOptions.length;
+        screensaverText.innerText = statsOptions[index];
+    } else if (screensaverText) {
+        screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
+    }
 };
 
 window.saveSessionState = async function () {
@@ -1189,7 +1405,7 @@ initializeStatus();
 
     // Log Modal Functions
     window.closeLogModal = function () {
-        document.getElementById('logModal').style.display = 'none';
+        document.getElementById('logModal').classList.remove('visible');
     };
 
     window.openSidePanel = function (type) {
@@ -1260,7 +1476,7 @@ initializeStatus();
         // Reset Modal
         outputDiv.innerText = "Running " + lang + " on " + matrixLabel + "...\nPlease wait...";
         headerTitle.innerText = "Execution Log: " + lang + " (" + matrixLabel + ")";
-        document.getElementById('logModal').style.display = 'flex';
+        document.getElementById('logModal').classList.add('visible');
 
         try {
             // Use relative path - assumes server is running on the same origin
@@ -2618,10 +2834,26 @@ let startScreensaverGlobal;
             currentPuzzleIndex = 0;
             prepareNextPuzzle();
 
+            // Start stats update interval for rotating displays
+            if (window.statsUpdateInterval) {
+                clearInterval(window.statsUpdateInterval);
+            }
+            window.statsUpdateInterval = setInterval(() => {
+                if (active) {
+                    window.updateSolverStats();
+                }
+            }, 1000); // Update every second for smooth rotation
+
             draw();
         }
 
         function stopScreensaver() {
+            // Clear stats update interval
+            if (window.statsUpdateInterval) {
+                clearInterval(window.statsUpdateInterval);
+                window.statsUpdateInterval = null;
+            }
+
             if (!active) return;
             active = false;
             slideInComplete = false; // Reset flag
@@ -2785,7 +3017,7 @@ window.showMismatch = function (solverName, matrixName, cell) {
     currentRerunCommand = '# Run from SudokuSolver root\\nfind . -name runMe_ai.sh | grep "/' + solverName + '/" | head -n 1 | xargs -I { } sh -c \'cd $(dirname {}) && ./runMe_ai.sh ../../Matrices/' + matrixName + '\'';
 
     const modal = document.getElementById('mismatchModal');
-    modal.style.display = 'block';
+    modal.classList.add('visible');
 
     // Anchor to cell
     const rect = cell.getBoundingClientRect();
@@ -2805,7 +3037,7 @@ window.showMismatch = function (solverName, matrixName, cell) {
 }
 
 window.closeMismatchModal = function () {
-    document.getElementById('mismatchModal').style.display = 'none';
+    document.getElementById('mismatchModal').classList.remove('visible');
 }
 
 window.copyRerunCommand = function () {

@@ -61,22 +61,20 @@ td {
     padding: 15px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 tr:hover td {
     background-color: #1c1c26;
     border-color: var(--secondary);
-    transform: scale(1.01);
     box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
-    z-index: 10;
-    position: relative;
 }
 
 td:hover {
     background-color: #252530 !important;
-    border: 1px solid var(--primary) !important;
-    z-index: 30 !important;
+    border-color: var(--primary) !important;
     box-shadow: 0 0 20px rgba(0, 255, 157, 0.3) !important;
 }
 
@@ -108,6 +106,65 @@ td:hover {
     text-decoration: underline;
     text-decoration-style: dotted;
     text-decoration-color: var(--secondary);
+}
+
+/* Chevron indicator for expandable rows */
+.expand-chevron {
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 0.15s ease;
+    color: var(--muted);
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+tr.expanded .expand-chevron {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+/* Expanded row content */
+.expanded-content {
+    background: var(--surface);
+    display: none;
+}
+
+.expanded-content.visible {
+    display: table-row;
+}
+
+.expanded-content td {
+    padding: 0;
+    border: none;
+}
+
+.expanded-sections {
+    display: flex;
+    gap: 20px;
+    padding: 15px 20px;
+    background: #12121a;
+    border-left: 3px solid var(--primary);
+    margin: 5px 0;
+}
+
+.expanded-section {
+    flex: 1;
+    padding: 10px;
+}
+
+.section-title {
+    color: var(--secondary);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+}
+
+.section-content {
+    color: var(--text);
+    font-size: 0.85em;
+    line-height: 1.6;
 }
 
 .lang-col:hover {
@@ -229,18 +286,19 @@ footer {
     backdrop-filter: blur(5px);
 }
 
-/* Specific modal IDs with centering - only when visible */
-#langModal[style*="display: flex"],
-#langModal[style*="display:flex"],
-#methodModal[style*="display: flex"],
-#methodModal[style*="display:flex"],
-#goalsModal[style*="display: flex"],
-#goalsModal[style*="display:flex"],
-#whyModal[style*="display: flex"],
-#whyModal[style*="display:flex"] {
+/* Modal visibility control with class-based toggling */
+.modal.visible,
+.modal-overlay.visible {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+}
+
+/* langModal uses different positioning - no centering by default */
+#langModal.visible {
+    display: block !important;
+    justify-content: unset !important;
+    align-items: unset !important;
 }
 
 .modal-content {
@@ -249,7 +307,7 @@ footer {
     padding: 30px;
     border: 1px solid #414868;
     width: 80%;
-    max-width: 800px;
+    max-width: 400px;
     max-height: 90vh;
     border-radius: 12px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
@@ -269,7 +327,6 @@ footer {
     align-items: flex-start;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    margin: -30px -30px 20px -30px;
 }
 
 .modal-body {
