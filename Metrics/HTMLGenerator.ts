@@ -627,6 +627,20 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
+        /* Logo Fallback Styling */
+        .lang-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: rgba(122, 162, 247, 0.1);
+            border-radius: 6px;
+            padding: 4px;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
         .run-btn {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.1);
