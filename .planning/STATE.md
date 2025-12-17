@@ -27,29 +27,30 @@
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation & C Baseline)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2025-12-16 - Project initialized with roadmap
+Phase: 1.5 of 7 (UI Polish & Fixes - INSERTED)
+Plan: 02 of 04 (Fix Logo Serving & Display)
+Status: Plan 01 complete, ready for Plan 02
+Last activity: 2025-12-17 - Modal CSS/JS fixed, ready for logo serving
 
-Progress: ░░░░░░░░░░ 0%
+Progress: ████████░░ 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: N/A
-- Total execution time: 0 hours
+- Total plans completed: 6
+- Average duration: ~2 hours/plan
+- Total execution time: ~12 hours (Phase 1 + Phase 1.5)
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| -     | -     | -     | -        |
+| 1     | 5     | 10h   | 2h       |
+| 1.5   | 1     | 2h    | 2h       |
 
 **Recent Trend:**
-- Last 5 plans: None yet
-- Trend: N/A
+- Last 5 plans: 02(Scripts), 03(Validation), 04(C-Baseline), 05(UI), 1.5.01(Modal)
+- Trend: Steady progress, all plans completed successfully
 
 *Updated after each plan completion*
 
@@ -59,7 +60,9 @@ Progress: ░░░░░░░░░░ 0%
 
 | Phase | Decision | Rationale |
 |-------|----------|-----------|
-| -     | -        | -         |
+| 1.01  | Defer Swift toolchain | Download URLs broken (404), non-blocking |
+| 1.04  | Rewrite C solver (remove MRV) | Algorithm drift detected (122 vs 656 iterations) |
+| 1.05  | Use Sharp for SVG (not svg2png-wasm) | WASM initialization issues, Sharp native support better |
 
 ### Deferred Issues
 
@@ -78,6 +81,6 @@ Drift notes: None
 
 ## Session Continuity
 
-Last session: 2025-12-16 16:00
-Stopped at: Roadmap created, ready to plan Phase 1
+Last session: 2025-12-17 14:00
+Stopped at: Phase 1 complete, ready for Phase 2 (Compiled Languages)
 Resume file: None
