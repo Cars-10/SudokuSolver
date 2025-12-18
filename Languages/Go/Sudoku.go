@@ -13,9 +13,15 @@ func readMatrixFile(filename string) {
 	file, err := os.Open(filename)
 	if err != nil {
 		os.Exit(2)
-		//return nil, err
 	}
 	defer file.Close()
+
+	// Print path with normalization (match C output format)
+	if strings.HasPrefix(filename, "/app/Matrices/") {
+		fmt.Printf("../Matrices/%s\n", filename[14:])
+	} else {
+		fmt.Printf("%s\n", filename)
+	}
 
 	scanner := bufio.NewScanner(file)
 	var j = 0
@@ -33,6 +39,11 @@ func readMatrixFile(filename string) {
 				fmt.Printf("Error %s\n", err)
 				os.Exit(2)
 			}
+			// Print each row as it's read (match C output format)
+			for i := 0; i < 9; i++ {
+				fmt.Printf("%d ", puzzle[j][i])
+			}
+			fmt.Println()
 			j++
 		}
 	}
@@ -120,7 +131,6 @@ var DEBUG int = 0
 func main() {
 	start := time.Now()
 	for _, arg := range os.Args[1:] {
-		fmt.Printf("Arg: %v\n", arg)
 		if strings.HasSuffix(arg, ".matrix") {
 			readMatrixFile(arg)
 			printMatrix()
@@ -128,5 +138,6 @@ func main() {
 			solve()
 		}
 	}
-	fmt.Printf("Seconds to process %.3f\n", float64((time.Now().UnixNano()-start.UnixNano())/1000000000))
+	elapsed := time.Since(start)
+	fmt.Printf("Seconds to process %.3f\n", elapsed.Seconds())
 }
