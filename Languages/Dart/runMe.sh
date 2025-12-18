@@ -3,7 +3,7 @@
 # Uses common.sh for shared benchmark functionality
 
 LANGUAGE="Dart"
-SOLVER_BINARY="dart run Sudoku.dart"
+SOLVER_BINARY="dart Sudoku.dart"
 
 # Source common functions
 source ../common.sh

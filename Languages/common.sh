@@ -112,11 +112,12 @@ run_matrix() {
 
     # Run with timeout and capture timing
     # Format: %e (elapsed seconds) %M (max RSS in KB) %U (user CPU) %S (system CPU)
+    # Note: SOLVER_BINARY is unquoted to allow word splitting for multi-word commands
     if [ -n "$TIMEOUT_CMD" ]; then
-        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S" "$SOLVER_BINARY" "$matrix_path" > "$temp_output" 2> "$temp_timing"
+        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
     else
         # No timeout command available, run without timeout
-        $TIME_CMD -f "%e %M %U %S" "$SOLVER_BINARY" "$matrix_path" > "$temp_output" 2> "$temp_timing"
+        $TIME_CMD -f "%e %M %U %S" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
     fi
     local exit_code=$?
 

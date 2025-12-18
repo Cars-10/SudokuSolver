@@ -26,7 +26,7 @@ CONTAINS
 
 SUBROUTINE readMatrixFile(filename)
     CHARACTER(len=50) :: filename, line
-    INTEGER :: n, ios
+    INTEGER :: n, ios, c
     PRINT '(A)',  filename
     OPEN(UNIT=9,FILE=filename, iostat=ios)
     if ( ios /= 0 ) stop "Error opening file"
@@ -36,9 +36,14 @@ SUBROUTINE readMatrixFile(filename)
         if (ios /= 0) exit
         if (len_trim(line) == 0) cycle
         if (line(1:1) == '#') cycle
-        
+
         read (line, *) puzzle(n,0),puzzle(n,1),puzzle(n,2),puzzle(n,3),puzzle(n,4)&
             ,puzzle(n,5),puzzle(n,6),puzzle(n,7),puzzle(n,8)
+        ! Print row as we read it (matches C format)
+        do c = 0, 8
+            write(*, '(I1,A)', advance='no') puzzle(n,c), ' '
+        end do
+        write(*,*)
         n = n + 1
     END DO
     CLOSE(UNIT=9)
@@ -46,12 +51,14 @@ END SUBROUTINE readMatrixFile
 END PROGRAM MAIN
 
 SUBROUTINE printPuzzle(puzzle)
-    INTEGER :: n
+    INTEGER :: n, c
     INTEGER, DIMENSION(0:8,0:8), INTENT(INOUT) :: puzzle
     print '(/a)','Puzzle:'
     DO n=0,8
-        print "(9i2)", puzzle(n,0),puzzle(n,1),puzzle(n,2),puzzle(n,3),puzzle(n,4)&
-        ,puzzle(n,5),puzzle(n,6),puzzle(n,7),puzzle(n,8)
+        do c = 0, 8
+            write(*, '(I1,A)', advance='no') puzzle(n,c), ' '
+        end do
+        write(*,*)
     END DO
 END SUBROUTINE printPuzzle
 
