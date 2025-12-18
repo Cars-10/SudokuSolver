@@ -1,148 +1,153 @@
+#!/usr/bin/env npx ts-node
 "use strict";
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var e_1, _a;
-Object.defineProperty(exports, "__esModule", { value: true });
-// Had to use full path here in order for it to resovle and compile
-var now = require("performance-now");
-var start = now();
-var count;
-var DEBUG = 0; //0 off, 1 High Level, 3 Low Level
-// JavaScript only has one dimensional arrays, so for 2D need to create an array of arrays
-var puzzle = [];
-for (var i = 0; i < 9; i++) {
-    puzzle[i] = [];
-}
-function printPuzzle() {
-    var line = "";
-    console.log("\nPuzzle:");
-    for (var j = 0; j < 9; j++) {
-        for (var i = 0; i < 9; i++) {
-            line += puzzle[j][i] + " ";
-        }
-        line += "\n";
+/**
+ * Sudoku Solver - TypeScript Implementation
+ * Brute-force backtracking algorithm matching C reference exactly.
+ *
+ * Algorithm:
+ * - Row-major search for empty cells (top-to-bottom, left-to-right)
+ * - Try values 1-9 in ascending order
+ * - Count EVERY placement attempt (algorithm fingerprint)
+ */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-    console.log("%s", line);
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = __importStar(require("fs"));
+const process = __importStar(require("process"));
+// Global puzzle grid [row][col]
+let puzzle = [];
+for (let i = 0; i < 9; i++) {
+    puzzle[i] = new Array(9).fill(0);
+}
+let count = 0; // Iteration counter
+function printPuzzle() {
+    console.log("\nPuzzle:");
+    for (let row = 0; row < 9; row++) {
+        console.log(puzzle[row].join(" ") + " ");
+    }
 }
 function readMatrixFile(filename) {
-    var line_count = 0;
-    var data = fs_1.default.readFileSync(filename, 'utf8');
-    if (DEBUG == 3)
-        console.log('Read File Contents');
-    var lines = data.split('\n');
-    for (i = 0; i < lines.length; i++) {
-        if (lines[i].trim().length === 0)
+    // Normalize path for output (match C format)
+    let displayPath = filename;
+    if (filename.startsWith("/app/Matrices/")) {
+        displayPath = "../" + filename.substring(5); // Skip "/app/" to get "Matrices/..."
+    }
+    console.log(displayPath);
+    const data = fs.readFileSync(filename, 'utf8');
+    const lines = data.split('\n');
+    let lineCount = 0;
+    for (const line of lines) {
+        const trimmed = line.trim();
+        // Skip comments and empty lines
+        if (trimmed === '' || trimmed.startsWith('#'))
             continue;
-        if (DEBUG == 3)
-            console.log('lines substring %s', lines[i].substring(0, 1));
-        if (lines[i].substring(0, 1).localeCompare('#') != 0) {
-            var entries = lines[i].trim().split(/\s+/);
-            if (DEBUG == 3)
-                console.log('line %s', lines[i]);
-            for (var j = 0; j < entries.length; j++) {
-                if (DEBUG == 3)
-                    console.log('Entries %d, %s', j, entries[j]);
-                if (line_count < 9 && j < 9) {
-                    puzzle[line_count][j] = parseInt(entries[j]);
-                }
-            }
-            line_count++;
+        // Parse 9 integers from line
+        const values = trimmed.split(/\s+/).map(Number);
+        if (values.length === 9 && lineCount < 9) {
+            puzzle[lineCount] = values;
+            console.log(values.join(" ") + " ");
+            lineCount++;
         }
     }
 }
-function isPossible(y, x, val) {
-    if (DEBUG)
-        console.log('Is possible %i, %i, %i count=%i\n', y, x, val, count); // Find if a matching number (val) already exists
-    // in the same row (y) or column (x) or within its rectangle
-    for (var i_1 = 0; i_1 < 9; i_1++)
-        if (puzzle[i_1][x] == val)
-            return 0;
-    for (var i_2 = 0; i_2 < 9; i_2++)
-        if (puzzle[y][i_2] == val)
-            return 0;
-    // Search the Rectangle containing x & y
-    // Find which 3x3 square we are in using the floor quotient
-    var x0 = Math.floor(x / 3) * 3;
-    var y0 = Math.floor(y / 3) * 3;
-    if (DEBUG == 3)
-        console.log('Is possible x=%i x0=%i, y=%i y0=%i, val=%i', x, x0, y, y0, val);
-    for (var i_3 = 0; i_3 < 3; i_3++) {
-        for (var j = 0; j < 3; j++) {
-            if (DEBUG == 3)
-                console.log('y0+i=%i i=%i, x0+j=%i j=%i Puzzle[y0+i][x0+j]=%i, val=%i', y0 + i_3, i_3, x0 + j, j, puzzle[y0 + i_3][x0 + j], val);
-            if (puzzle[y0 + i_3][x0 + j] == val)
-                return 0;
+function isValid(row, col, val) {
+    // Check row
+    for (let i = 0; i < 9; i++) {
+        if (puzzle[row][i] === val)
+            return false;
+    }
+    // Check column
+    for (let i = 0; i < 9; i++) {
+        if (puzzle[i][col] === val)
+            return false;
+    }
+    // Check 3x3 box
+    const boxRow = Math.floor(row / 3) * 3;
+    const boxCol = Math.floor(col / 3) * 3;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (puzzle[boxRow + i][boxCol + j] === val)
+                return false;
         }
     }
-    if (DEBUG)
-        console.log('YES possible %i, %i, %i', y, x, val);
-    return 1;
+    return true;
 }
 function solve() {
-    for (var j = 0; j < 9; j++) {
-        for (var i_4 = 0; i_4 < 9; i_4++) {
-            if (DEBUG == 3)
-                console.log('i=%i,j=%i:%i', i_4, j, puzzle[i_4][j]);
-            if (puzzle[j][i_4] == 0) {
-                for (var val = 1; val < 10; val++) {
-                    count += 1;
-                    if (isPossible(j, i_4, val) == 1) {
-                        puzzle[j][i_4] = val;
-                        if (DEBUG == 3)
-                            console.log("Count = %d", count);
-                        if (solve() == 2)
-                            return 2; //Makes sure to do a quick exit when solution was found
-                        puzzle[j][i_4] = 0;
-                    }
-                }
-                return 0;
+    // Find first empty cell (row-major order)
+    let row = -1, col = -1;
+    outer: for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+            if (puzzle[r][c] === 0) {
+                row = r;
+                col = c;
+                break outer;
             }
         }
     }
-    printPuzzle();
-    console.log('\nSolved in Iterations=%i\n', count);
-    return 2;
-}
-var ext = " ";
-var path_1 = __importDefault(require("path"));
-var process_1 = __importDefault(require("process"));
-var fs_1 = __importDefault(require("fs"));
-var iterator = process_1.default.argv.values();
-try {
-    for (var iterator_1 = __values(iterator), iterator_1_1 = iterator_1.next(); !iterator_1_1.done; iterator_1_1 = iterator_1.next()) {
-        var arg = iterator_1_1.value;
-        console.log(arg);
-        if (DEBUG)
-            console.log('Main: %s\n', arg);
-        ext = path_1.default.extname(arg);
-        if (ext.localeCompare(".matrix") == 0) {
-            console.log('Matrix File: %s', arg);
-            readMatrixFile(arg);
-            printPuzzle();
-            count = 0;
-            solve();
+    // If no empty cell found, puzzle is solved
+    if (row === -1) {
+        printPuzzle();
+        console.log(`\nSolved in Iterations=${count}\n`);
+        return true;
+    }
+    // Try values 1-9 in order
+    for (let val = 1; val <= 9; val++) {
+        count++; // COUNT EVERY ATTEMPT - this is the algorithm fingerprint
+        if (isValid(row, col, val)) {
+            puzzle[row][col] = val; // Place value
+            if (solve()) {
+                return true;
+            }
+            puzzle[row][col] = 0; // Backtrack
         }
     }
+    return false;
 }
-catch (e_1_1) { e_1 = { error: e_1_1 }; }
-finally {
-    try {
-        if (iterator_1_1 && !iterator_1_1.done && (_a = iterator_1.return)) _a.call(iterator_1);
+// Main program - process each .matrix file from command line
+const startTime = performance.now();
+for (const arg of process.argv.slice(2)) {
+    if (!arg.endsWith(".matrix"))
+        continue;
+    // Reset puzzle
+    puzzle = [];
+    for (let i = 0; i < 9; i++) {
+        puzzle[i] = new Array(9).fill(0);
     }
-    finally { if (e_1) throw e_1.error; }
+    readMatrixFile(arg);
+    printPuzzle();
+    count = 0;
+    solve();
 }
-var time = (now() - start) / 1000.0;
-console.log('Seconds to process %s\n', time.toFixed(3));
-//# sourceMappingURL=Sudoku.js.map
+const elapsed = (performance.now() - startTime) / 1000;
+console.log(`Seconds to process ${elapsed.toFixed(3)}`);

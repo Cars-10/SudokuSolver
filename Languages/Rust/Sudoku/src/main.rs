@@ -20,7 +20,6 @@ fn print_puzzle(puzzle: Vec<Vec<u8>>) {
 }
 
 fn read_matrix_file(filename: &str, puzzle: &mut Vec<Vec<u8>>) {
-    //let mut puzzle = vec![vec![0u8; 9];9];
     let mut line_num = 0;
 
     println!("{}", filename);
@@ -30,14 +29,19 @@ fn read_matrix_file(filename: &str, puzzle: &mut Vec<Vec<u8>>) {
     for line in contents.split("\n") {
         if line.starts_with('#') {}
         else {
-            //println!("{:?}", line);
             let mut col = 0;
             for value in line.split_whitespace() {
                 puzzle[line_num][col] = value.parse::<u8>().unwrap();
-                //println!("{:?}", puzzle[line_num][col]);
                 col +=1;
             }
-            line_num +=1;
+            if col == 9 {
+                // Print row as we read it (matching C output format)
+                for i in 0..9 {
+                    print!("{} ", puzzle[line_num][i]);
+                }
+                println!("");
+                line_num +=1;
+            }
         }
     }
 }
@@ -101,7 +105,6 @@ fn main() {
     let start = Instant::now();
     let mut puzzle = vec![vec![0u8; 9];9];
     let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
 
     for arg in args.iter() {
          if DEBUG>1 {println!("Main: {}", arg);}
@@ -114,5 +117,5 @@ fn main() {
          }
     }
     let elapsed = start.elapsed();
-    println!("Seconds to process {0:.3}", elapsed.as_millis() as f64/1000.0); 
+    println!("Seconds to process {0:.3}", elapsed.as_millis() as f64/1000.0);
 }
