@@ -1,86 +1,126 @@
-import os, strutils, strformat
+import os, strutils, times
 
-type
-  Grid = array[9, array[9, int]]
+# Sudoku puzzle grid [row][col]
+var puzzle: array[9, array[9, int]]
+var count: int = 0  # Iteration counter
 
-var iterations: int = 0
+proc printPuzzle() =
+  echo "\nPuzzle:"
+  for j in 0 ..< 9:
+    for i in 0 ..< 9:
+      stdout.write(puzzle[j][i], " ")
+    echo ""
 
-proc printGrid(grid: Grid) =
-  for row in grid:
-    for i, cell in row:
-      stdout.write($cell)
-      if i < 8: stdout.write(" ")
-    stdout.write("\n")
+proc readMatrixFile(filename: string): int =
+  var file: File
+  if not open(file, filename, fmRead):
+    stderr.writeLine("Error opening file '", filename, "'")
+    return 1
 
-proc isValid(grid: Grid, row, col, num: int): bool =
-  # Check row and column
-  for i in 0..8:
-    if grid[row][i] == num: return false
-    if grid[i][col] == num: return false
+  # Normalize path for output (convert absolute to relative)
+  if filename.len >= 14 and filename[0..13] == "/app/Matrices/":
+    echo "../", filename[5..^1]
+  else:
+    echo filename
+
+  var lineCount = 0
+  for line in file.lines:
+    let lineStr = line.strip()
+
+    # Skip comments and empty lines
+    if lineStr.len == 0 or lineStr[0] == '#':
+      continue
+
+    if lineCount >= 9:
+      break
+
+    # Parse 9 integers from line
+    let parts = lineStr.splitWhitespace()
+    if parts.len >= 9:
+      for i in 0 ..< 9:
+        puzzle[lineCount][i] = parseInt(parts[i])
+        stdout.write(puzzle[lineCount][i], " ")
+      echo ""
+      lineCount += 1
+
+  file.close()
+  return 0
+
+# Check if placing val at (row, col) is valid
+proc isValid(row, col, val: int): bool =
+  # Check row
+  for i in 0 ..< 9:
+    if puzzle[row][i] == val:
+      return false
+
+  # Check column
+  for i in 0 ..< 9:
+    if puzzle[i][col] == val:
+      return false
 
   # Check 3x3 box
-  let startRow = row - (row mod 3)
-  let startCol = col - (col mod 3)
-  for i in 0..2:
-    for j in 0..2:
-      if grid[startRow + i][startCol + j] == num: return false
+  let boxRow = (row div 3) * 3
+  let boxCol = (col div 3) * 3
+  for i in 0 ..< 3:
+    for j in 0 ..< 3:
+      if puzzle[boxRow + i][boxCol + j] == val:
+        return false
 
   return true
 
-proc solve(grid: var Grid): bool =
-  iterations += 1
-  
+# BRUTE-FORCE SOLVER
+# Searches row-major order (top-to-bottom, left-to-right)
+# Tries candidates 1-9 in ascending order
+# Counts EVERY placement attempt (the algorithm fingerprint)
+proc solve(): bool =
+  # Find first empty cell (row-major order)
   var row = -1
   var col = -1
-  var isEmpty = false
+  block findEmpty:
+    for r in 0 ..< 9:
+      for c in 0 ..< 9:
+        if puzzle[r][c] == 0:
+          row = r
+          col = c
+          break findEmpty
 
-  for r in 0..8:
-    for c in 0..8:
-      if grid[r][c] == 0:
-        row = r
-        col = c
-        isEmpty = true
-        break
-    if isEmpty: break
+  # If no empty cell found, puzzle is solved
+  if row == -1:
+    printPuzzle()
+    echo "\nSolved in Iterations=", count, "\n"
+    return true  # Success
 
-  if not isEmpty: return true
+  # Try values 1-9 in order
+  for val in 1 .. 9:
+    count += 1  # COUNT EVERY ATTEMPT - this is the algorithm fingerprint
 
-  for num in 1..9:
-    if isValid(grid, row, col, num):
-      grid[row][col] = num
-      if solve(grid): return true
-      grid[row][col] = 0
+    if isValid(row, col, val):
+      puzzle[row][col] = val  # Place value
 
-  return false
+      if solve():
+        return true  # Solved
+
+      puzzle[row][col] = 0  # Backtrack
+
+  return false  # No solution found
 
 proc main() =
-  if paramCount() < 1:
-    echo "Usage: ", getAppFilename(), " <matrix_file>"
-    return
+  let startTime = cpuTime()
 
-  let filename = paramStr(1)
-  let content = readFile(filename)
-  
-  var grid: Grid
-  var row = 0
+  # Process each .matrix file from command line
+  let args = commandLineParams()
+  for i in 0 ..< args.len:
+    let filename = args[i]
+    if filename.len >= 7 and filename[^7..^1] == ".matrix":
+      if readMatrixFile(filename) != 0:
+        stderr.writeLine("Error reading ", filename)
+        continue
 
-  for line in content.splitLines():
-    if line.len == 0: continue
-    if line[0] < '0' or line[0] > '9': continue
+      printPuzzle()
+      count = 0
+      discard solve()
 
-    var col = 0
-    for token in line.splitWhitespace():
-      if col < 9:
-        grid[row][col] = parseInt(token)
-        col += 1
-    
-    if col > 0: row += 1
-    if row >= 9: break
-
-  if solve(grid):
-    printGrid(grid)
-    echo fmt"Solved in Iterations={iterations}"
-  else:
-    echo "No solution found."
+  let elapsed = cpuTime() - startTime
+  echo "Seconds to process ", formatFloat(elapsed, ffDecimal, 3)
 
 main()
