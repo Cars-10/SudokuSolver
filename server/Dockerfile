@@ -372,6 +372,24 @@ RUN apt-get update && apt-get install -y \
 # cobc --version: 3.x.x
 
 # ============================================================================
+# TIER 4 LANGUAGES (Transpiled & Niche)
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# 34. CoffeeScript (via npm - already have Node.js)
+# ----------------------------------------------------------------------------
+RUN npm install -g coffeescript
+# coffee --version: 2.x.x
+
+# ----------------------------------------------------------------------------
+# 35. Racket
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    racket \
+    && rm -rf /var/lib/apt/lists/*
+# racket --version: 8.x.x
+
+# ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
@@ -414,7 +432,7 @@ CMD ["node", "index.js"]
 # ============================================================================
 # TOOLCHAIN VERSIONS (for reference)
 # ============================================================================
-# This image contains Tier 1 + Tier 2 + Tier 3 toolchains:
+# This image contains Tier 1 + Tier 2 + Tier 3 + Tier 4 toolchains:
 #
 # Tier 1 (Core Languages):
 # - C/C++: gcc/g++ 13.x
@@ -460,6 +478,10 @@ CMD ["node", "index.js"]
 # - Zig: 0.13.x (modern systems)
 # - GnuCOBOL: 3.x (legacy business)
 #
-# Total: 36 languages (Swift deferred, Erlang via elixir)
+# Tier 4 (Transpiled & Niche):
+# - CoffeeScript: 2.x (via npm, transpiles to JS)
+# - Racket: 8.x (modern Scheme)
+#
+# Total: 38 languages (Swift deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================

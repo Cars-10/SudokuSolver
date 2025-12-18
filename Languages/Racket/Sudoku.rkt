@@ -1,106 +1,105 @@
 #lang racket
 (require racket/function)
-(require math/array)
-(define start (current-milliseconds))
-(define puzzle (mutable-array 
-#[#[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] 
-#[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0] 
-#[0 0 0 0 0 0 0 0 0] #[0 0 0 0 0 0 0 0 0]]))
 
-(define DEBUG 0)
+;; Global state
+(define puzzle (make-vector 81 0))  ; 9x9 flattened
 (define count 0)
-(define args (current-command-line-arguments))
+(define start-time (current-milliseconds))
 
-(define (matrixValue j i)
-    (array-ref puzzle (list->vector (list j i)))
-)
+;; Helper: 2D index to 1D
+(define (idx row col) (+ (* row 9) col))
 
-(define (printMatrix)
-    (displayln "\nPuzzle:")
-    (for ([j 9])
-        (for ([i 9])
-            (display (string-append (~r (matrixValue j i)) " "))
-        )
-        (displayln "")
-    )
-)
+;; Get/set cell value
+(define (get-cell row col) (vector-ref puzzle (idx row col)))
+(define (set-cell! row col val) (vector-set! puzzle (idx row col) val))
 
-(define (readMatrixFile filename)
-     (when (file-exists? filename) 
-        (define j 0)
-        (with-input-from-file filename
-            (thunk 
-                (for ([line (in-lines)])
-                    (define i 0)
-                    (unless (or (string-prefix? line "#") (equal? (string-trim line) ""))
-                        (for-each (lambda (arg) 
-                            ;(displayln (string-append "j,i,arg: " (~r j) "," (~r i) "," (~a arg)))
-                            (array-set! puzzle (list->vector (list j i)) (string->number arg))
-                            (set! i (+ i 1))
-                            )
-                            (string-split line)
-                        )
-                        (set! j (+ j 1))
-                    )
-                )
-            )
-        )
-    )
-)
+;; Print puzzle in C format (trailing space after each digit)
+(define (print-puzzle)
+  (displayln "\nPuzzle:")
+  (for ([row 9])
+    (for ([col 9])
+      (display (get-cell row col))
+      (display " "))
+    (displayln "")))
 
-(define (isPossible y x val)
-    (let/ec return
-    (when (= DEBUG 3) (displayln (string-append "isPossible " (~r y) " " (~r x) " " (~r val))))
+;; Print row without header (for initial input)
+(define (print-row row)
+  (for ([col 9])
+    (display (get-cell row col))
+    (display " "))
+  (displayln ""))
+
+;; Read matrix file
+(define (read-matrix-file filename)
+  ;; Normalize path for display
+  (define display-path
+    (if (string-prefix? filename "/app/Matrices/")
+        (string-append "../" (substring filename 5))
+        filename))
+  (displayln display-path)
+
+  (when (file-exists? filename)
+    (define row 0)
+    (with-input-from-file filename
+      (thunk
+        (for ([line (in-lines)])
+          (define trimmed (string-trim line))
+          (unless (or (string-prefix? trimmed "#") (equal? trimmed ""))
+            (define nums (string-split trimmed))
+            (when (and (= (length nums) 9) (< row 9))
+              (for ([col 9])
+                (set-cell! row col (string->number (list-ref nums col))))
+              ;; Print input line as we read (like C does)
+              (print-row row)
+              (set! row (+ row 1)))))))))
+
+;; Check if placing val at (row, col) is valid
+(define (is-valid? row col val)
+  (let/ec return
+    ;; Check row
     (for ([i 9])
-        (when (= (matrixValue y i) val) (return 0))
-        (when (= (matrixValue i x) val) (return 0))
-    )
-    
-    (define x0 (* (floor (/ x 3)) 3))
-    (define y0 (* (floor (/ y 3)) 3))
-    (for ([i 3])
-        (for ([j 3])
-           (when (= (matrixValue(+ y0 j) (+ x0 i)) val) (return 0))
-        )
-    )
-    (when (= DEBUG 3) (displayln "YES Possible"))
-    (return 1)
-    )
-)
+      (when (= (get-cell row i) val) (return #f)))
+    ;; Check column
+    (for ([i 9])
+      (when (= (get-cell i col) val) (return #f)))
+    ;; Check 3x3 box
+    (define box-row (* (quotient row 3) 3))
+    (define box-col (* (quotient col 3) 3))
+    (for ([r 3])
+      (for ([c 3])
+        (when (= (get-cell (+ box-row r) (+ box-col c)) val) (return #f))))
+    (return #t)))
 
+;; Solve using brute-force backtracking
 (define (solve)
-    (let/ec return
-    (for ([j 9])
-        (for ([i 9])
-            (when (= (matrixValue j i) 0)
-                (for ([val (in-range 1 10)])
-                    (set! count (+ count 1))
-                    (when (= DEBUG 3) (displayln (string-append "Count= " (~r count))))
-                    (when (= (isPossible j i val) 1)
-                        (define ix (list->vector (list j i)))
-                        (array-set! puzzle ix val)
-                        (when (= (solve) 2) (return 2))
-                        (array-set! puzzle ix 0)  
-                    )
-                )
-                (return 0)
-            )
-        )
-    )
-    (printMatrix)
-    (displayln (string-append "\nSolved in Iterations=" (~r count) "\n"))
-    (return 2)
-    )
-)
+  (let/ec return
+    ;; Find first empty cell (row-major order)
+    (for ([row 9])
+      (for ([col 9])
+        (when (= (get-cell row col) 0)
+          ;; Try values 1-9
+          (for ([val (in-range 1 10)])
+            (set! count (+ count 1))  ; COUNT BEFORE validity check
+            (when (is-valid? row col val)
+              (set-cell! row col val)
+              (when (= (solve) 1)
+                (return 1))
+              (set-cell! row col 0)))
+          (return 0))))  ; Backtrack
+    ;; No empty cell found - puzzle solved
+    (print-puzzle)
+    (displayln (string-append "\nSolved in Iterations=" (number->string count) "\n"))
+    (return 1)))
 
+;; Main
+(define args (current-command-line-arguments))
 (for ([i (vector-length args)])
-    (define file (vector-ref args i))
-    (displayln file)
-    (when (string-suffix? file ".matrix") 
-         (readMatrixFile file)
-         (printMatrix)
-         (set! count 0)
-         (solve)
-    )
-    (displayln (string-append "Seconds to process " (~r (/ (- (current-milliseconds) start) 1000.))))
-)
+  (define file (vector-ref args i))
+  (when (string-suffix? file ".matrix")
+    (read-matrix-file file)
+    (print-puzzle)  ; Print input puzzle with header (like C does before solve)
+    (set! count 0)
+    (solve)
+    (displayln (string-append "Seconds to process "
+                             (~r (/ (- (current-milliseconds) start-time) 1000.0)
+                                 #:precision 3)))))

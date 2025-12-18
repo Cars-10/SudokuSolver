@@ -1,54 +1,56 @@
 fs = require 'fs'
 
 class Sudoku
-  constructor: (@board) ->
+  constructor: ->
+    @board = []
     @iterations = 0
+    for i in [0..8]
+      @board.push([0, 0, 0, 0, 0, 0, 0, 0, 0])
 
-  solve: ->
-    empty = @findEmpty()
-    return true unless empty
+  setCell: (row, col, val) ->
+    @board[row][col] = val
 
-    [row, col] = empty
+  getCell: (row, col) ->
+    @board[row][col]
 
-    for num in [1..9]
-      if @isValid(row, col, num)
-        @board[row][col] = num
-        @iterations++
-        
-        if @solve()
-          return true
-        
-        @board[row][col] = 0
+  printBoard: ->
+    console.log "\nPuzzle:"
+    for row in @board
+      console.log row.join(' ')
 
-    return false
-
-  findEmpty: ->
-    for r in [0..8]
-      for c in [0..8]
-        return [r, c] if @board[r][c] == 0
-    return null
-
-  isValid: (row, col, num) ->
+  isValid: (row, col, val) ->
     # Check row
     for c in [0..8]
-      return false if @board[row][c] == num
+      return false if @board[row][c] == val
 
     # Check column
     for r in [0..8]
-      return false if @board[r][col] == num
+      return false if @board[r][col] == val
 
     # Check 3x3 box
-    startRow = row - (row % 3)
-    startCol = col - (col % 3)
+    boxRow = Math.floor(row / 3) * 3
+    boxCol = Math.floor(col / 3) * 3
     for r in [0..2]
       for c in [0..2]
-        return false if @board[r + startRow][c + startCol] == num
+        return false if @board[boxRow + r][boxCol + c] == val
 
     return true
 
-  printBoard: ->
-    for row in @board
-      console.log row.join(' ')
+  solve: ->
+    # Find first empty cell (row-major order)
+    for row in [0..8]
+      for col in [0..8]
+        if @board[row][col] == 0
+          # Try values 1-9
+          for val in [1..9]
+            @iterations++  # COUNT BEFORE validity check
+            if @isValid(row, col, val)
+              @board[row][col] = val
+              if @solve()
+                return true
+              @board[row][col] = 0  # Backtrack
+          return false  # No valid value found
+    return true  # No empty cell = solved
 
   getIterations: ->
     @iterations
@@ -62,23 +64,35 @@ inputFile = process.argv[2]
 content = fs.readFileSync(inputFile, 'utf8')
 lines = content.trim().split('\n')
 
-# Parse input
-board = []
+# Normalize path for output (convert absolute to relative)
+displayPath = inputFile
+if inputFile.startsWith('/app/Matrices/')
+  displayPath = '../' + inputFile.substring(5)  # Skip "/app/" to get "Matrices/..."
+console.log displayPath
+
+# Create solver
+solver = new Sudoku()
+
+# Parse input and print as we go (like C does)
+row = 0
 for line in lines
-  continue if line.trim() == ''
-  row = []
-  for char in line.trim()
-    if char >= '0' and char <= '9'
-      row.push parseInt(char)
-    else
-      row.push 0
-  board.push row
+  trimmed = line.trim()
+  continue if trimmed == '' or trimmed.startsWith('#')
 
-solver = new Sudoku(board)
-startTime = Date.now()
-solver.solve()
-endTime = Date.now()
+  nums = trimmed.split(/\s+/)
+  if nums.length == 9 and row < 9
+    for col in [0..8]
+      solver.setCell(row, col, parseInt(nums[col]) or 0)
+    # Print input line (space-separated like C)
+    console.log solver.board[row].join(' ')
+    row++
 
-console.log "Solved in Iterations= #{solver.getIterations()}"
-# console.log "Time: #{(endTime - startTime) / 1000}s"
+# Print "\nPuzzle:" header and input again (like C does before solve)
 solver.printBoard()
+
+# Solve
+solver.solve()
+
+# Print solved puzzle and iterations
+solver.printBoard()
+console.log "\nSolved in Iterations=#{solver.getIterations()}\n"
