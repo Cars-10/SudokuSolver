@@ -1,114 +1,162 @@
 import sys.io.File;
 import sys.FileSystem;
+using StringTools;
 
 class Sudoku {
-    var board:Array<Array<Int>>;
-    var iterations:Int = 0;
+    var puzzle:Array<Array<Int>>;
+    var count:Int = 0;
 
-    public function new(board:Array<Array<Int>>) {
-        this.board = board;
+    public function new() {
+        puzzle = [for (i in 0...9) [for (j in 0...9) 0]];
     }
 
-    public function solve():Bool {
-        var empty = findEmpty();
-        if (empty == null) return true;
-
-        var row = empty[0];
-        var col = empty[1];
-
-        for (num in 1...10) {
-            if (isValid(row, col, num)) {
-                board[row][col] = num;
-                iterations++;
-
-                if (solve()) return true;
-
-                board[row][col] = 0;
-            }
-        }
-        return false;
-    }
-
-    function findEmpty():Array<Int> {
-        for (r in 0...9) {
-            for (c in 0...9) {
-                if (board[r][c] == 0) return [r, c];
-            }
-        }
-        return null;
-    }
-
-    function isValid(row:Int, col:Int, num:Int):Bool {
+    function isValid(row:Int, col:Int, val:Int):Bool {
         // Check row
-        for (c in 0...9) {
-            if (board[row][c] == num) return false;
+        for (i in 0...9) {
+            if (puzzle[row][i] == val) return false;
         }
-
         // Check column
-        for (r in 0...9) {
-            if (board[r][col] == num) return false;
+        for (i in 0...9) {
+            if (puzzle[i][col] == val) return false;
         }
-
         // Check 3x3 box
-        var startRow = row - (row % 3);
-        var startCol = col - (col % 3);
-        for (r in 0...3) {
-            for (c in 0...3) {
-                if (board[r + startRow][c + startCol] == num) return false;
+        var boxRow = Std.int(row / 3) * 3;
+        var boxCol = Std.int(col / 3) * 3;
+        for (i in 0...3) {
+            for (j in 0...3) {
+                if (puzzle[boxRow + i][boxCol + j] == val) return false;
             }
         }
-
         return true;
     }
 
-    public function printBoard():Void {
-        for (row in board) {
-            trace(row.join(" "));
+    function solve():Bool {
+        // Find first empty cell (row-major order)
+        var row = -1;
+        var col = -1;
+        for (r in 0...9) {
+            for (c in 0...9) {
+                if (puzzle[r][c] == 0) {
+                    row = r;
+                    col = c;
+                    break;
+                }
+            }
+            if (row != -1) break;
         }
+
+        // If no empty cell found, puzzle is solved
+        if (row == -1) {
+            printPuzzle();
+            Sys.println('\nSolved in Iterations=${count}\n');
+            return true;
+        }
+
+        // Try values 1-9 in order
+        for (val in 1...10) {
+            count++;  // COUNT BEFORE validity check - this is the algorithm fingerprint
+
+            if (isValid(row, col, val)) {
+                puzzle[row][col] = val;  // Place value
+
+                if (solve()) {
+                    return true;  // Solved
+                }
+
+                puzzle[row][col] = 0;  // Backtrack
+            }
+        }
+
+        return false;  // No solution found
     }
-    
-    public function printBoardClean():Void {
-        for (row in board) {
-            Sys.println(row.join(" "));
+
+    function printPuzzle():Void {
+        Sys.println("\nPuzzle:");
+        for (r in 0...9) {
+            var line = "";
+            for (c in 0...9) {
+                if (c > 0) line += " ";
+                line += Std.string(puzzle[r][c]);
+            }
+            Sys.println(line);
         }
     }
 
-    public function getIterations():Int {
-        return iterations;
+    function readMatrix(filename:String):Bool {
+        try {
+            var content = File.getContent(filename);
+            var lines = content.split("\n");
+
+            // Normalize path for output (convert absolute to relative)
+            if (filename.indexOf("/app/Matrices/") == 0) {
+                var displayPath = filename.substr(5);  // Skip "/app/" to get "Matrices/..."
+                Sys.println('../${displayPath}');
+            } else {
+                Sys.println(filename);
+            }
+
+            var row = 0;
+            for (line in lines) {
+                var trimmed = line.trim();
+                // Skip comments and empty lines
+                if (trimmed.length == 0 || trimmed.charAt(0) == "#") continue;
+
+                // Parse 9 space-separated integers
+                var parts = trimmed.split(" ");
+                var col = 0;
+                for (part in parts) {
+                    if (part.length > 0 && col < 9) {
+                        puzzle[row][col] = Std.parseInt(part);
+                        col++;
+                    }
+                }
+
+                // Print the row as we read it (like C does)
+                var lineOutput = "";
+                for (c in 0...9) {
+                    if (c > 0) lineOutput += " ";
+                    lineOutput += Std.string(puzzle[row][c]);
+                }
+                Sys.println(lineOutput);
+
+                row++;
+                if (row >= 9) break;
+            }
+
+            return true;
+        } catch (e:Dynamic) {
+            Sys.stderr().writeString('Error opening file \'${filename}\'\n');
+            return false;
+        }
     }
 
     static function main() {
         var args = Sys.args();
-        if (args.length < 1) {
-            Sys.println("Usage: haxe -main Sudoku -interp -- <input_file>");
+
+        // When running with haxe --run, args might include the working directory at the end
+        // Filter for only .matrix files
+        var matrixFiles:Array<String> = [];
+        for (arg in args) {
+            if (arg.indexOf(".matrix") != -1) {
+                matrixFiles.push(arg);
+            }
+        }
+
+        if (matrixFiles.length == 0) {
+            Sys.println("Usage: haxe --run Sudoku <matrix_file.matrix>");
             Sys.exit(1);
         }
 
-        var inputFile = args[0];
-        var content = File.getContent(inputFile);
-        var lines = content.split("\n");
+        for (matrixFile in matrixFiles) {
+            var solver = new Sudoku();
+            solver.count = 0;  // Reset counter for each matrix
 
-        var board:Array<Array<Int>> = [];
-        for (line in lines) {
-            var trimmed = StringTools.trim(line);
-            if (trimmed.length == 0) continue;
-            
-            var row:Array<Int> = [];
-            for (i in 0...trimmed.length) {
-                var charCode = trimmed.charCodeAt(i);
-                if (charCode >= 48 && charCode <= 57) { // '0' to '9'
-                    row.push(charCode - 48);
-                } else {
-                    row.push(0);
-                }
+            if (!solver.readMatrix(matrixFile)) {
+                continue;
             }
-            board.push(row);
+
+            solver.printPuzzle();
+            solver.solve();
         }
-
-        var solver = new Sudoku(board);
-        solver.solve();
-
-        Sys.println("Solved in Iterations= " + solver.getIterations());
-        solver.printBoardClean();
     }
 }

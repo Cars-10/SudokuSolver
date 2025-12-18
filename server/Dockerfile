@@ -442,6 +442,25 @@ RUN apt-get update && apt-get install -y \
 # TODO: Revisit when Ubuntu packages or Pharo ARM64 binaries stabilize
 # smalltalk --version: DEFERRED
 
+# ----------------------------------------------------------------------------
+# 42. Haxe (with HashLink or Neko runtime)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    haxe \
+    neko \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /usr/share/haxe/lib \
+    && haxelib setup /usr/share/haxe/lib
+# haxe --version: 4.x.x
+
+# ----------------------------------------------------------------------------
+# 43. Regina Rexx
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    regina-rexx \
+    && rm -rf /var/lib/apt/lists/*
+# regina --version: 3.x.x
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -540,7 +559,9 @@ CMD ["node", "index.js"]
 # - Vala: 0.56.x (GNOME/GLib language)
 # - GNU Forth: 0.7.x (stack-based language)
 # - Smalltalk: DEFERRED (GNU/Pharo unavailable on Ubuntu 24.04 ARM64)
+# - Haxe: 4.x (multi-target compiler)
+# - Regina Rexx: 3.x (IBM scripting language)
 #
-# Total: 43 languages (Swift + Smalltalk deferred, Erlang via elixir)
+# Total: 45 languages (Swift + Smalltalk + Forth deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
