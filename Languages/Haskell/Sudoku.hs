@@ -1,7 +1,6 @@
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List (transpose, nub, (\\))
-import Data.Char (digitToInt, isDigit)
+import Data.List (transpose)
 import Control.Monad (when)
 import Data.Time.Clock (getCurrentTime, diffUTCTime)
 import Text.Printf (printf)
@@ -12,34 +11,35 @@ main :: IO ()
 main = do
     start <- getCurrentTime
     args <- getArgs
-    print args
     mapM_ processFile (filter (\f -> reverse (take 7 (reverse f)) == ".matrix") args)
     end <- getCurrentTime
-    printf "Seconds to process %.3f\n" (realToFrac (diffUTCTime end start) :: Double)
+    printf "Time: %.6f seconds\n" (realToFrac (diffUTCTime end start) :: Double)
 
 processFile :: String -> IO ()
 processFile filename = do
     putStrLn filename
     content <- readFile filename
     let board = parseBoard content
-    printBoard board
+    -- Print raw board (matches C output format)
+    mapM_ (\row -> putStrLn $ unwords (map show row) ++ " ") board
+    printBoardFormatted board
     let (solved, solution, count) = solve board 0
     if solved
         then do
-            printBoard solution
-            putStrLn $ "Solved in Iterations=" ++ show count
+            printBoardFormatted solution
+            printf "\nSolved in Iterations=%d\n\n" count
         else putStrLn "No solution found"
 
 parseBoard :: String -> Board
-parseBoard content = 
+parseBoard content =
     let validLines = filter (\l -> not (null l) && head l /= '#') (lines content)
         rows = take 9 validLines
     in map (map (\w -> read w :: Int) . words) rows
 
-printBoard :: Board -> IO ()
-printBoard board = do
+printBoardFormatted :: Board -> IO ()
+printBoardFormatted board = do
     putStrLn "\nPuzzle:"
-    mapM_ (putStrLn . unwords . map show) board
+    mapM_ (\row -> putStrLn $ unwords (map show row) ++ " ") board
 
 -- Explicit recursion to count iterations
 solve :: Board -> Int -> (Bool, Board, Int)
