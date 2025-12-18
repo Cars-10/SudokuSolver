@@ -4,7 +4,7 @@ exports.languageMetadata = exports.personalities = exports.narratorIntros = expo
 // --- Master Language List (Ordered by Performance/Tier) ---
 exports.orderedLanguages = [
     "C", "C++", "Rust", "Zig", "Ada", "Fortran", "Pascal", "D", "Nim", "Crystal", "V", "Vala", "Go",
-    "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "Haxe",
+    "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "R", "Haxe",
     "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy",
     "Erlang", "Elixir", "Haskell", "OCaml", "CommonLisp", "Scheme", "Racket", "Clojure", "EmacsLisp", "Vimscript",
     "Smalltalk", "Objective-C", "VisualBasic", "Cobol", "Prolog", "Rexx", "Tcl", "Expect",
