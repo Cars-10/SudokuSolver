@@ -389,6 +389,22 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 # racket --version: 8.x.x
 
+# ----------------------------------------------------------------------------
+# 36. Raku (Rakudo)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    rakudo \
+    && rm -rf /var/lib/apt/lists/*
+# raku --version: Rakudo 2024.x
+
+# ----------------------------------------------------------------------------
+# 37. GNU Octave
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    octave \
+    && rm -rf /var/lib/apt/lists/*
+# octave --version: 8.x.x
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -481,7 +497,9 @@ CMD ["node", "index.js"]
 # Tier 4 (Transpiled & Niche):
 # - CoffeeScript: 2.x (via npm, transpiles to JS)
 # - Racket: 8.x (modern Scheme)
+# - Raku: 2024.x (Perl 6 successor)
+# - GNU Octave: 8.x (MATLAB-compatible)
 #
-# Total: 38 languages (Swift deferred, Erlang via elixir)
+# Total: 40 languages (Swift deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
