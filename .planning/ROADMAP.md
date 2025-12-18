@@ -449,7 +449,7 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Scripting Languages | 1/1 | Complete | 2025-12-18 |
 | 4. JavaScript Ecosystem | 1/1 | Complete | 2025-12-18 |
 | 5. JVM & Modern Languages | 6/6 | Complete | 2025-12-18 |
-| 5.1 Tier 2 Languages | 5/7 | In progress | - |
+| 5.1 Tier 2 Languages | 6/7 | In progress | - |
 | 6. Matrix 6 Enablement | 0/1 | Not started | - |
 
 ## Notes
