@@ -26,7 +26,8 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [x] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
 - [x] **Phase 5: JVM & Modern Languages** - Java, Kotlin, Scala, C#, PHP, Swift implementation (ALL COMPLETE!)
-- [ ] **Phase 5.1: Tier 2 Languages** - INSERTED: 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
+- [x] **Phase 5.1: Tier 2 Languages** - INSERTED: 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
+- [ ] **Phase 5.2: Tier 3 Languages** - INSERTED: 10 additional languages (Awk, Tcl, Pascal, Prolog, Erlang, Scheme, CommonLisp, Clojure, Zig, COBOL)
 - [ ] **Phase 6: Matrix 6 Enablement** - Enable 622M iteration matrix for all languages
 
 ## Phase Details
@@ -408,6 +409,53 @@ None - This is a benchmarking/systems project without specialized domain require
 - Functional languages demonstrate algorithm equivalence despite paradigm
 - Coverage of major language families
 
+### Phase 5.2: Tier 3 Languages (INSERTED)
+**Goal**: Implement 10 additional languages expanding benchmark to diverse paradigms
+
+**Depends on**: Phase 5.1
+
+**Research**: Likely (logic programming, Lisp family, stack-based)
+
+**Research topics**:
+- Prolog backtracking vs explicit iteration counting
+- Lisp family (Scheme, Common Lisp, Clojure) macro systems and mutable state
+- Zig compile-time vs runtime behavior
+- COBOL data structures for 2D arrays
+
+**Languages (10 total)**:
+
+| Category | Languages | Notes |
+|----------|-----------|-------|
+| Text Processing | Awk/Gawk | Pattern-action scripting |
+| Classic Scripting | Tcl | Embeddable interpreter |
+| Classic Compiled | Pascal (Free Pascal) | Structured programming |
+| Logic Programming | Prolog (SWI-Prolog) | Declarative paradigm |
+| Concurrent/Functional | Erlang (escript) | Already have erlang-base |
+| Lisp Family | Scheme (Guile), Common Lisp (SBCL), Clojure | Multiple Lisp dialects |
+| Modern Systems | Zig | Memory-safe, no hidden control flow |
+| Legacy Business | COBOL (GnuCOBOL) | Historical importance |
+
+**Plans**: 5 plans (2 languages per plan):
+1. 05.2-01: Awk, Tcl (scripting)
+2. 05.2-02: Pascal, Prolog (classic/logic)
+3. 05.2-03: Erlang, Scheme (functional I)
+4. 05.2-04: CommonLisp, Clojure (Lisp family)
+5. 05.2-05: Zig, COBOL (systems/legacy)
+
+**Deliverables**:
+- 10 language implementations with exact output/iteration match
+- Each with runMe.sh following common.sh pattern
+- Each validated against reference (matrices 1-5)
+- README.md for each language
+- All runs captured in metrics system
+- Docker image updated with new toolchains
+
+**Success Criteria**:
+- 40 languages total passing validation (Tier 1 + Tier 2 + Tier 3)
+- Logic programming (Prolog) demonstrates algorithm equivalence
+- Multiple Lisp dialects show paradigm flexibility
+- Coverage of historical and modern systems languages
+
 ### Phase 6: Matrix 6 Enablement
 **Goal**: Enable the 622M iteration Matrix 6 for all validated languages
 
@@ -449,7 +497,8 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Scripting Languages | 1/1 | Complete | 2025-12-18 |
 | 4. JavaScript Ecosystem | 1/1 | Complete | 2025-12-18 |
 | 5. JVM & Modern Languages | 6/6 | Complete | 2025-12-18 |
-| 5.1 Tier 2 Languages | 6/7 | In progress | - |
+| 5.1 Tier 2 Languages | 7/7 | Complete | 2025-12-18 |
+| 5.2 Tier 3 Languages | 3/5 | In progress | - |
 | 6. Matrix 6 Enablement | 0/1 | Not started | - |
 
 ## Notes
