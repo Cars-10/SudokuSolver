@@ -34,7 +34,7 @@ h1 {
 }
 
 .container {
-    width: 98%;
+    width: 75%;
     max-width: none;
     margin: 0 auto;
     overflow-x: auto;
@@ -42,10 +42,18 @@ h1 {
 }
 
 table {
-    width: max-content;
-    min-width: 100%;
+    width: 100%;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0 4px;
+}
+
+th, td {
+    width: auto;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 th {

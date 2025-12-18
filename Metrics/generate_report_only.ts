@@ -54,34 +54,42 @@ async function run() {
                 let metricsList: any[] = [];
 
                 if (Array.isArray(parsedMetrics)) {
-                    // Normalize flat array
-                    const pathParts = file.split(path.sep);
-                    const langIndex = pathParts.lastIndexOf('Languages');
-                    let solverName = "Unknown";
-                    if (langIndex !== -1 && pathParts[langIndex + 1]) {
-                        solverName = pathParts[langIndex + 1];
+                    // Check if array already contains wrapped metrics (new common.sh format)
+                    // New format: [{solver: "C++", results: [...], ...}]
+                    // Old format: [{matrix: "1", time: 0.01, ...}, ...]
+                    if (parsedMetrics.length > 0 && parsedMetrics[0].results) {
+                        // Already wrapped format - use directly
+                        metricsList = parsedMetrics;
+                    } else {
+                        // Flat array of results - need to wrap
+                        const pathParts = file.split(path.sep);
+                        const langIndex = pathParts.lastIndexOf('Languages');
+                        let solverName = "Unknown";
+                        if (langIndex !== -1 && pathParts[langIndex + 1]) {
+                            solverName = pathParts[langIndex + 1];
+                        }
+
+                        const stats = await fs.promises.stat(file);
+
+                        // Check for run_type file
+                        let runType = 'Local';
+                        try {
+                            const runTypePath = path.join(path.dirname(file), 'run_type');
+                            const rt = await fs.promises.readFile(runTypePath, 'utf-8');
+                            runType = rt.trim();
+                        } catch (e) {
+                            // ignore, default to Local
+                        }
+
+                        metricsList.push({
+                            solver: solverName,
+                            timestamp: stats.mtimeMs, // Use file modification time
+                            runType: runType,
+                            results: parsedMetrics
+                        });
                     }
-
-                    const stats = await fs.promises.stat(file);
-
-                    // Check for run_type file
-                    let runType = 'Local';
-                    try {
-                        const runTypePath = path.join(path.dirname(file), 'run_type');
-                        const rt = await fs.promises.readFile(runTypePath, 'utf-8');
-                        runType = rt.trim();
-                    } catch (e) {
-                        // ignore, default to Local
-                    }
-
-                    metricsList.push({
-                        solver: solverName,
-                        timestamp: stats.mtimeMs, // Use file modification time
-                        runType: runType,
-                        results: parsedMetrics
-                    });
                 } else {
-                    metricsList = parsedMetrics;
+                    metricsList = [parsedMetrics];
                 }
 
                 for (const m of metricsList) {

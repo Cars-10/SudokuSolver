@@ -32,9 +32,17 @@ detect_time_cmd() {
             echo "WARNING: gtime not found on macOS. Install with: brew install gnu-time" >&2
             TIME_CMD="/usr/bin/time"
         fi
+        # macOS uses gtimeout from coreutils (install with: brew install coreutils)
+        if command -v gtimeout &> /dev/null; then
+            TIMEOUT_CMD="gtimeout"
+        else
+            echo "WARNING: gtimeout not found on macOS. Install with: brew install coreutils" >&2
+            TIMEOUT_CMD=""
+        fi
     else
-        # Linux uses /usr/bin/time
+        # Linux uses /usr/bin/time and timeout
         TIME_CMD="/usr/bin/time"
+        TIMEOUT_CMD="timeout"
     fi
 }
 
@@ -103,9 +111,13 @@ run_matrix() {
     local temp_combined=$(mktemp)
 
     # Run with timeout and capture timing
-    # Note: timeout command exists, time output goes to stderr
     # Format: %e (elapsed seconds) %M (max RSS in KB) %U (user CPU) %S (system CPU)
-    timeout "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S" "$SOLVER_BINARY" "$matrix_path" > "$temp_output" 2> "$temp_timing"
+    if [ -n "$TIMEOUT_CMD" ]; then
+        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S" "$SOLVER_BINARY" "$matrix_path" > "$temp_output" 2> "$temp_timing"
+    else
+        # No timeout command available, run without timeout
+        $TIME_CMD -f "%e %M %U %S" "$SOLVER_BINARY" "$matrix_path" > "$temp_output" 2> "$temp_timing"
+    fi
     local exit_code=$?
 
     # Read outputs
@@ -136,6 +148,9 @@ run_matrix() {
     cpu_sys=${cpu_sys:-0}
     iterations=${iterations:-0}
 
+    # Convert memory from KB to bytes (HTMLGenerator expects bytes)
+    local memory_bytes=$((memory_kb * 1024))
+
     # Escape output for JSON (replace newlines, escape quotes and backslashes)
     local escaped_output=$(echo "$output" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}' | sed '$ s/\\n$//')
 
@@ -145,7 +160,7 @@ run_matrix() {
       "matrix": "$matrix_num",
       "time": $time_seconds,
       "iterations": $iterations,
-      "memory": $memory_kb,
+      "memory": $memory_bytes,
       "cpu_user": $cpu_user,
       "cpu_sys": $cpu_sys,
       "status": "$status",
@@ -163,14 +178,14 @@ EOF
 
 # Run benchmarks for all specified matrices
 # Usage: run_benchmarks [matrix_paths...]
-# If no paths given, runs all matrices from ../../../Matrices/*.matrix
+# If no paths given, runs all matrices from ../../Matrices/*.matrix
 run_benchmarks() {
     local matrices="$@"
     local timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
     # If no matrices specified, use all available
     if [ -z "$matrices" ]; then
-        matrices="../../../Matrices/*.matrix"
+        matrices="../../Matrices/*.matrix"
     fi
 
     # Expand glob pattern

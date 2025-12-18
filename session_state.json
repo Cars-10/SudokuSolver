@@ -20,7 +20,9 @@
   "selected": [
     "C",
     "Awk",
-    "C++"
+    "C++",
+    "Go",
+    "Rust"
   ],
   "currentPersona": "Standard"
 }

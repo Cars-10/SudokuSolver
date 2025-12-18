@@ -141,7 +141,9 @@ app.post('/api/run', (req, res) => {
     console.log(`Running ${language} with ${matrix || 'ALL matrices'}...`);
 
     // If matrix is missing, run all (default script behavior)
-    let command = `./setupAndRunMe.sh`;
+    // Try runMe.sh first (new pattern), fall back to setupAndRunMe.sh (legacy)
+    const runMeScript = fs.existsSync(path.join(langDir, 'runMe.sh')) ? './runMe.sh' : './setupAndRunMe.sh';
+    let command = runMeScript;
     if (matrix) {
         const matrixArg = `../../Matrices/${matrix}`;
         command += ` ${matrixArg}`;

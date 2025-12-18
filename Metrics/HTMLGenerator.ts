@@ -25,6 +25,13 @@ function safeJSON(obj: any): string {
         .replace(/\u2029/g, '\\u2029'); // Paragraph separator
 }
 
+// Helper to normalize matrix identifiers (handles both "1" and "1.matrix" formats)
+// Old format: "1.matrix", "2.matrix", etc.
+// New format: "1", "2", etc.
+function normalizeMatrix(m: string | number): string {
+    return String(m).replace('.matrix', '');
+}
+
 // Compiler fallback mapping for languages
 const compilerMapping: Record<string, string> = {
     'C': 'gcc',
@@ -156,14 +163,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     if (cMetrics) {
         // Create map for C
         const cMap = new Map<string, number>();
-        cMetrics.results.forEach(r => cMap.set(r.matrix, r.iterations));
+        cMetrics.results.forEach(r => cMap.set(normalizeMatrix(r.matrix), r.iterations));
 
         mismatchCount = metrics.filter(m => {
             if (m.solver === 'C') return false;
 
             // Check each result for this solver
             for (const r of m.results) {
-                const expected = cMap.get(r.matrix);
+                const expected = cMap.get(normalizeMatrix(r.matrix));
                 // Only count as mismatch if we have a baseline and they differ
                 if (expected !== undefined && r.iterations !== expected) {
                     return true;
@@ -862,11 +869,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         .show-text-labels .chart-node-label { display: block; }
         .show-text-labels .chart-node-image { display: none; }
         
-        /* Narrow Language Cell */
-        .lang-col { width: 120px; max-width: 120px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-        
-        /* Total Score/Time Column - Wider */
-        .score-col { width: 140px; min-width: 140px; }
+        /* All columns equal width */
+        .lang-col, .score-col, .matrix-cell, .total-time {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
 
         /* Hide Chart Buttons (using Pulldown now) */
         .chart-options { display: none !important; }
@@ -1472,25 +1480,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     }
 
     html += `<th>
-        <span>Compiler</span>
-        <div class="sort-group">
-            <button class="sort-btn" onclick="sortRows('compiler', this)" title="Sort by Compiler">C</button>
-        </div>
-    </th>
-    <th>
-        <span>Mem Peak</span>
-        <div class="sort-group">
-            <button class="sort-btn" onclick="sortRows('memory', this)" title="Sort by Memory">M</button>
-        </div>
-    </th>
-    <th>
         <span id="header-time">Total Time</span>
         <div class="sort-group">
             <button class="sort-btn" onclick="sortRows('time', this)" title="Sort by Total Time">S</button>
         </div>
-    </th>
-    <th>
-        <span>Status</span>
     </th>
     </tr></thead><tbody>`;
 
@@ -1540,7 +1533,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         let expectedIters = 0;
         if (cMetrics) {
             m.results.forEach(r => {
-                const cRes = cMetrics.results.find(cm => cm.matrix === r.matrix);
+                const cRes = cMetrics.results.find(cm => normalizeMatrix(cm.matrix) === normalizeMatrix(r.matrix));
                 if (cRes) expectedIters += Number(cRes.iterations);
             });
         }
@@ -1552,6 +1545,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
         if (isMismatch) rowClass += " mismatch-iterations";
+
+        // Check if language is locked (completed)
+        const isLocked = benchmarkConfig?.completed?.includes(lang) || false;
 
         // Quote
         const baseLang = lang; // lang is already clean now
@@ -1582,7 +1578,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Data Attributes
         let matrixDataAttrs = "";
         for (let i = 0; i < maxMatrices; i++) {
-            const r = m.results.find((res: any) => res.matrix === `${i + 1}.matrix`);
+            const r = m.results.find((res: any) => normalizeMatrix(res.matrix) === String(i + 1));
             const t = r ? r.time : 999999;
             const it = r ? r.iterations : -1;
             const mem = r ? r.memory : -1;
@@ -1651,12 +1647,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
-                             <button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>
+                             ${!isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : ''}
                              <div class="time" title="Wall Clock Time">${r.time != null ? (r.time === 0 ? '<0.001' : (r.time < 0.0001 ? r.time.toExponential(2) : r.time.toFixed(5))) : '-'}s</div>
                         </div>
                         <div class="meta">
                             ${(() => {
-                        const cRes = cMetrics?.results.find(res => res.matrix === r.matrix);
+                        const cRes = cMetrics?.results.find(res => normalizeMatrix(res.matrix) === normalizeMatrix(r.matrix));
                         const cIterations = cRes ? cRes.iterations : null;
                         // Ensure strict number comparison and handle potential type issues if JSON parsing was loose
                         const rIter = Number(r.iterations);
@@ -1675,33 +1671,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
-        // Memory peak - format KB or MB
-        const peakMemoryKB = maxMem / 1024; // Convert bytes to KB
-        const memDisplay = peakMemoryKB > 1024
-            ? `${(peakMemoryKB / 1024).toFixed(1)}MB`
-            : `${peakMemoryKB.toFixed(0)}KB`;
-
-        // Memory color coding
-        const memColorClass = peakMemoryKB > 10240 ? 'color: #ff6b6b' :
-                              peakMemoryKB > 2048 ? 'color: var(--secondary)' :
-                              'color: var(--primary)';
-
-        html += `<td class="compiler-col" data-compiler="${rowCompilerInfo}">
-            <div style="text-align: center; font-size: 0.85em; color: var(--muted);">
-                ${rowCompilerInfo}
-            </div>
-        </td>`;
-
-        html += `<td class="memory-col" data-memory="${maxMem}">
-            <div style="text-align: center; font-size: 0.85em; ${memColorClass}">
-                ${memDisplay}
-            </div>
-        </td>`;
-
-        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:flex-end;'><div style="display:flex;align-items:center;gap:5px;"><button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button><div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
 
         // Add expanded content row
-        const totalCols = 3 + maxMatrices + 3; // Language + Score + Updated + Matrices + Compiler + MemPeak + Total
+        const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
         html += `<tr class="expanded-content">
             <td colspan="${totalCols}">
                 <div class="expanded-sections">
