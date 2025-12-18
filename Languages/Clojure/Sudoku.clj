@@ -1,70 +1,116 @@
+;;; Sudoku Solver in Clojure
+;;; Brute-force backtracking algorithm matching C reference exactly
+
 (ns Sudoku
+  (:require [clojure.string :as str])
   (:gen-class))
 
-(def ^:dynamic *iterations* (atom 0))
+;; Mutable counter using atom
+(def count-iterations (atom 0))
 
-(defn print-board [board]
+;; Puzzle state (vector of vectors for immutability)
+(defn create-puzzle []
+  (vec (repeat 9 (vec (repeat 9 0)))))
+
+(defn get-cell [puzzle row col]
+  (get-in puzzle [row col]))
+
+(defn set-cell [puzzle row col val]
+  (assoc-in puzzle [row col] val))
+
+(defn print-puzzle [puzzle]
+  (println)
   (println "Puzzle:")
-  (doseq [row board]
-    (println (clojure.string/join " " row))))
+  (doseq [row puzzle]
+    (println (str/join " " row))))
 
-(defn is-possible [board row col num]
-  (let [row-vals (get board row)
-        col-vals (map #(get % col) board)
-        start-row (* 3 (quot row 3))
-        start-col (* 3 (quot col 3))
-        subgrid-vals (for [r (range start-row (+ start-row 3))
-                           c (range start-col (+ start-col 3))]
-                       (get-in board [r c]))]
-    (not (or (some #{num} row-vals)
-             (some #{num} col-vals)
-             (some #{num} subgrid-vals)))))
+(defn normalize-path [filename]
+  "Normalize path for output (convert /app/Matrices to ../Matrices)"
+  (if (str/starts-with? filename "/app/Matrices/")
+    (str "../Matrices/" (subs filename 14))
+    filename))
 
-(defn solve [board row col]
-  (if (= row 9)
-    board
-    (let [next-row (if (= col 8) (inc row) row)
-          next-col (if (= col 8) 0 (inc col))]
-      (if (not= 0 (get-in board [row col]))
-        (recur board next-row next-col)
-        (loop [n 1]
-          (if (> n 9)
-            nil
-            (do
-              (swap! *iterations* inc)
-              (if (is-possible board row col n)
-                (let [new-board (assoc-in board [row col] n)
-                      result (solve new-board next-row next-col)]
-                  (if result
-                    result
-                    (recur (inc n))))
-                (recur (inc n))))))))))
+(defn read-matrix [filename]
+  (println (normalize-path filename))
+  (let [lines (str/split-lines (slurp filename))
+        puzzle (atom (create-puzzle))
+        row (atom 0)]
+    (doseq [line lines]
+      (let [trimmed (str/trim line)]
+        (when (and (not (str/blank? trimmed))
+                   (not (str/starts-with? trimmed "#"))
+                   (< @row 9))
+          (let [numbers (mapv #(Integer/parseInt %)
+                              (filter #(not (str/blank? %))
+                                      (str/split trimmed #"\s+")))]
+            (when (= (count numbers) 9)
+              (dotimes [col 9]
+                (swap! puzzle set-cell @row col (nth numbers col))
+                (print (str (nth numbers col) " ")))
+              (println)
+              (swap! row inc))))))
+    @puzzle))
 
-(defn parse-board [filename]
-  (let [content (slurp filename)
-        lines (clojure.string/split-lines content)
-        valid-lines (filter #(and (not (clojure.string/starts-with? % "#"))
-                                  (not (clojure.string/blank? %))) lines)]
-    (vec (map (fn [line]
-                (vec (map #(Integer/parseInt %) (clojure.string/split (clojure.string/trim line) #"\s+"))))
-              (take 9 valid-lines)))))
+(defn is-valid [puzzle row col val]
+  ;; Check row
+  (let [row-valid (not (some #(= % val) (get puzzle row)))]
+    ;; Check column
+    (let [col-valid (not (some #(= (get-cell puzzle % col) val) (range 9)))]
+      ;; Check 3x3 box
+      (let [box-row (* (quot row 3) 3)
+            box-col (* (quot col 3) 3)
+            box-valid (not (some (fn [[br bc]]
+                                   (= (get-cell puzzle (+ box-row br) (+ box-col bc)) val))
+                                 (for [br (range 3) bc (range 3)] [br bc])))]
+        (and row-valid col-valid box-valid)))))
+
+(defn find-empty [puzzle]
+  "Find first empty cell in row-major order. Returns [row col] or nil."
+  (first
+   (for [r (range 9)
+         c (range 9)
+         :when (= (get-cell puzzle r c) 0)]
+     [r c])))
+
+(defn solve [puzzle]
+  (let [empty (find-empty puzzle)]
+    (if (nil? empty)
+      ;; No empty cell - puzzle is solved
+      (do
+        (print-puzzle puzzle)
+        (println)
+        (println (str "Solved in Iterations=" @count-iterations))
+        (println)
+        puzzle)
+      ;; Try values 1-9
+      (let [[row col] empty]
+        (loop [val 1]
+          (when (<= val 9)
+            (swap! count-iterations inc)  ; Count EVERY attempt
+            (if (is-valid puzzle row col val)
+              (let [new-puzzle (set-cell puzzle row col val)
+                    result (solve new-puzzle)]
+                (if result
+                  result
+                  (recur (inc val))))
+              (recur (inc val)))))))))
+
+(defn process-matrix [filename]
+  (when (str/ends-with? filename ".matrix")
+    (let [puzzle (read-matrix filename)]
+      (print-puzzle puzzle)
+      (reset! count-iterations 0)
+      (when-not (solve puzzle)
+        (println "No solution found")))))
 
 (defn -main [& args]
-  (if (empty? args)
-    (println "Usage: clojure Sudoku.clj <file1> <file2> ...")
-    (doseq [filename args]
-      (println (str "\nProcessing " filename))
-      (try
-        (let [board (parse-board filename)]
-          (print-board board)
-          (reset! *iterations* 0)
-          (let [solved-board (solve board 0 0)]
-            (if solved-board
-              (do
-                (print-board solved-board)
-                (println (str "\nSolved in Iterations=" @*iterations*)))
-              (println "No solution found"))))
-        (catch Exception e
-          (println (str "Error processing file " filename ": " (.getMessage e))))))))
+  (when (empty? args)
+    (binding [*out* *err*]
+      (println "Usage: clojure -M Sudoku.clj <matrix_file>")
+      (System/exit 1)))
 
+  (doseq [filename args]
+    (process-matrix filename)))
+
+;; Run main with command line args
 (apply -main *command-line-args*)
