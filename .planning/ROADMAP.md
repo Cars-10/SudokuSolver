@@ -20,7 +20,9 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
 - [x] **Phase 1.5.3: Comprehensive Scoring System** - INSERTED: Create scoring calculation using all collected metrics
 - [x] **Phase 1.5.4: UI Button Handling & Language Filtering** - INSERTED: Manage language lock-in and skip already-run languages
-- [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
+- [x] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
+- [x] **Phase 2.1: Realign Buttons Above the Table** - INSERTED: UI fix for button alignment
+- [x] **Phase 2.2: Fix Screenshot Automation** - INSERTED: Reliable capture after every report generation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
 - [ ] **Phase 5: JVM & Modern Languages** - Java, Kotlin, Scala, C#, PHP, Swift implementation
@@ -245,6 +247,45 @@ None - This is a benchmarking/systems project without specialized domain require
 - Benchmark report shows comparative performance
 - Screenshots document progress
 
+### Phase 2.1: Realign Buttons Above the Table (INSERTED)
+**Goal**: Fix button alignment in the UI above the benchmark table
+
+**Depends on**: Phase 2
+
+**Research**: None (CSS/HTML fix using established patterns)
+
+**Plans**: TBD (run /gsd:plan-phase 2.1 to break down)
+
+**Deliverables**:
+- Buttons above table properly aligned
+- Consistent spacing and visual hierarchy
+- Responsive layout maintained
+
+**Success Criteria**:
+- Buttons are visually aligned and properly spaced
+- No layout issues on different screen sizes
+- Professional, polished appearance
+
+### Phase 2.2: Fix Screenshot Automation (INSERTED)
+**Goal**: Reliable screenshot capture after every report generation
+
+**Depends on**: Phase 2.1
+
+**Research**: None (Puppeteer configuration fix)
+
+**Plans**: TBD (run /gsd:plan-phase 2.2 to break down)
+
+**Deliverables**:
+- Screenshot automation working reliably
+- Different wait strategy (domcontentloaded or networkidle0 instead of load)
+- Screenshots captured after every HTMLGenerator run
+- Timestamped screenshots in screenshots/ directory
+
+**Success Criteria**:
+- Running generate_report_only.ts produces a screenshot without errors
+- Screenshots captured reliably for all report generations
+- No timeout errors during capture
+
 ### Phase 3: Scripting Languages
 **Goal**: Implement Python, Ruby, Perl
 
@@ -355,7 +396,9 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 1.5.2 Table Highlighting | 2/2 | Complete | 2025-12-17 |
 | 1.5.3 Scoring System | 1/1 | Complete | 2025-12-17 |
 | 1.5.4 UI Button Handling | 1/1 | Complete | 2025-12-18 |
-| 2. Compiled Languages Wave | 2/3 | In progress | - |
+| 2. Compiled Languages Wave | 3/3 | Complete | 2025-12-18 |
+| 2.1 Realign Buttons | 1/1 | Complete | 2025-12-18 |
+| 2.2 Fix Screenshot Automation | 1/1 | Complete | 2025-12-18 |
 | 3. Scripting Languages | 0/3 | Not started | - |
 | 4. JavaScript Ecosystem | 0/2 | Not started | - |
 | 5. JVM & Modern Languages | 0/6 | Not started | - |
