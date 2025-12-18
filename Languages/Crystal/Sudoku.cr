@@ -1,101 +1,142 @@
-class Sudoku
+module Sudoku
+  # Sudoku puzzle grid [row][col]
   @@puzzle = Array(Array(Int32)).new(9) { Array(Int32).new(9, 0) }
-  @@iterations = 0
+  @@count = 0  # Iteration counter
 
-  def self.main
-    if ARGV.empty?
-      puts "Usage: ./Sudoku <file1> <file2> ..."
+  def self.print_puzzle
+    puts "\nPuzzle:"
+    9.times do |j|
+      9.times do |i|
+        print "#{@@puzzle[j][i]} "
+      end
+      puts ""
+    end
+  end
+
+  def self.read_matrix_file(filename : String) : Int32
+    file = File.open(filename, "r") rescue nil
+    if file.nil?
+      STDERR.puts "Error opening file '#{filename}'"
+      return 1
+    end
+
+    # Normalize path for output (convert absolute to relative)
+    if filename.size >= 14 && filename[0, 14] == "/app/Matrices/"
+      puts "../#{filename[5..]}"
     else
-      ARGV.each do |filename|
-        puts "\nProcessing #{filename}"
-        if read_board(filename)
-          print_board
-          @@iterations = 0
-          if solve(0, 0)
-            print_board
-            puts "\nSolved in Iterations=#{@@iterations}"
-          else
-            puts "No solution found"
-          end
+      puts filename
+    end
+
+    line_count = 0
+    file.each_line do |line|
+      line_str = line.strip
+
+      # Skip comments and empty lines
+      next if line_str.empty? || line_str[0] == '#'
+
+      break if line_count >= 9
+
+      # Parse 9 integers from line
+      parts = line_str.split
+      if parts.size >= 9
+        9.times do |i|
+          @@puzzle[line_count][i] = parts[i].to_i32
+          print "#{@@puzzle[line_count][i]} "
         end
+        puts ""
+        line_count += 1
       end
     end
+
+    file.close
+    0
   end
 
-  def self.read_board(filename)
-    begin
-      lines = File.read_lines(filename)
-      row = 0
-      lines.each do |line|
-        trimmed = line.strip
-        if !trimmed.empty? && !trimmed.starts_with?("#")
-          parts = trimmed.split(/\s+/)
-          col = 0
-          parts.each do |part|
-            if col < 9
-              @@puzzle[row][col] = part.to_i
-              col += 1
-            end
-          end
-          row += 1
-          return true if row == 9
-        end
-      end
-      return true
-    rescue ex
-      puts "Error reading file #{filename}: #{ex.message}"
-      return false
-    end
-  end
-
-  def self.print_board
-    puts "Puzzle:"
-    @@puzzle.each do |row|
-      row.each do |val|
-        print "#{val} "
-      end
-      puts
-    end
-  end
-
-  def self.is_possible(row, col, num)
-    (0..8).each do |i|
-      return false if @@puzzle[row][i] == num || @@puzzle[i][col] == num
+  # Check if placing val at (row, col) is valid
+  def self.is_valid(row : Int32, col : Int32, val : Int32) : Bool
+    # Check row
+    9.times do |i|
+      return false if @@puzzle[row][i] == val
     end
 
-    start_row = (row // 3) * 3
-    start_col = (col // 3) * 3
-    (0..2).each do |i|
-      (0..2).each do |j|
-        return false if @@puzzle[start_row + i][start_col + j] == num
+    # Check column
+    9.times do |i|
+      return false if @@puzzle[i][col] == val
+    end
+
+    # Check 3x3 box
+    box_row = (row // 3) * 3
+    box_col = (col // 3) * 3
+    3.times do |i|
+      3.times do |j|
+        return false if @@puzzle[box_row + i][box_col + j] == val
       end
     end
+
     true
   end
 
-  def self.solve(row, col)
-    return true if row == 9
-
-    next_row = row
-    next_col = col + 1
-    if next_col == 9
-      next_row = row + 1
-      next_col = 0
+  # BRUTE-FORCE SOLVER
+  # Searches row-major order (top-to-bottom, left-to-right)
+  # Tries candidates 1-9 in ascending order
+  # Counts EVERY placement attempt (the algorithm fingerprint)
+  def self.solve : Bool
+    # Find first empty cell (row-major order)
+    row = -1
+    col = -1
+    9.times do |r|
+      9.times do |c|
+        if @@puzzle[r][c] == 0
+          row = r
+          col = c
+          break
+        end
+      end
+      break if row != -1
     end
 
-    if @@puzzle[row][col] != 0
-      return solve(next_row, next_col)
+    # If no empty cell found, puzzle is solved
+    if row == -1
+      print_puzzle
+      puts "\nSolved in Iterations=#{@@count}\n"
+      return true  # Success
     end
 
-    (1..9).each do |num|
-      @@iterations += 1
-      if is_possible(row, col, num)
-        @@puzzle[row][col] = num
-        return true if solve(next_row, next_col)
-        @@puzzle[row][col] = 0
+    # Try values 1-9 in order
+    (1..9).each do |val|
+      @@count += 1  # COUNT EVERY ATTEMPT - this is the algorithm fingerprint
+
+      if is_valid(row, col, val)
+        @@puzzle[row][col] = val  # Place value
+
+        return true if solve  # Solved
+
+        @@puzzle[row][col] = 0  # Backtrack
       end
     end
-    false
+
+    false  # No solution found
+  end
+
+  def self.main
+    start_time = Time.monotonic
+
+    # Process each .matrix file from command line
+    ARGV.each do |filename|
+      if filename.size >= 7 && filename[-7..] == ".matrix"
+        if read_matrix_file(filename) != 0
+          STDERR.puts "Error reading #{filename}"
+          next
+        end
+
+        print_puzzle
+        @@count = 0
+        solve
+      end
+    end
+
+    elapsed = Time.monotonic - start_time
+    puts "Seconds to process %.3f" % elapsed.total_seconds
   end
 end
 

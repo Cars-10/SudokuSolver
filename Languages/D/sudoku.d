@@ -2,130 +2,154 @@ import std.stdio;
 import std.file;
 import std.string;
 import std.conv;
-import std.algorithm;
-import std.array;
+import std.datetime.stopwatch;
+import core.time;
 
-int[9][9] board;
-long iterations = 0;
+// Sudoku puzzle grid [row][col]
+int[9][9] puzzle;
+int count = 0;  // Iteration counter
 
-void readMatrix(string filename) {
-    auto content = readText(filename);
-    auto lines = content.splitLines();
-    int row = 0;
-    
-    foreach (line; lines) {
-        if (line.strip().length == 0 || line.strip()[0] == '#') {
-            continue;
-        }
-        
-        if (row >= 9) break;
-        
-        int col = 0;
-        foreach (char c; line) {
-            if (c >= '0' && c <= '9') {
-                if (col < 9) {
-                    board[row][col] = c - '0';
-                    col++;
-                }
-            } else if (c == '.') {
-                if (col < 9) {
-                    board[row][col] = 0;
-                    col++;
-                }
-            }
-        }
-        row++;
-    }
-}
-
-void printBoard() {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            writef("%d ", board[i][j]);
+void printPuzzle() {
+    writeln("\nPuzzle:");
+    for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 9; i++) {
+            writef("%d ", puzzle[j][i]);
         }
         writeln();
     }
 }
 
-bool isValid(int row, int col, int num) {
-    // Row check
-    for (int c = 0; c < 9; c++) {
-        if (board[row][c] == num) return false;
+int readMatrixFile(string filename) {
+    File file;
+    try {
+        file = File(filename, "r");
+    } catch (Exception e) {
+        stderr.writefln("Error opening file '%s'", filename);
+        return 1;
     }
 
-    // Col check
-    for (int r = 0; r < 9; r++) {
-        if (board[r][col] == num) return false;
+    // Normalize path for output (convert absolute to relative)
+    if (filename.length >= 14 && filename[0..14] == "/app/Matrices/") {
+        writefln("../%s", filename[5..$]);
+    } else {
+        writeln(filename);
     }
 
-    // Box check
+    int lineCount = 0;
+    foreach (line; file.byLine()) {
+        string lineStr = line.idup.strip();
+
+        // Skip comments and empty lines
+        if (lineStr.length == 0 || lineStr[0] == '#') {
+            continue;
+        }
+
+        if (lineCount >= 9) break;
+
+        // Parse 9 integers from line
+        auto parts = lineStr.split();
+        if (parts.length >= 9) {
+            for (int i = 0; i < 9; i++) {
+                puzzle[lineCount][i] = to!int(parts[i]);
+                writef("%d ", puzzle[lineCount][i]);
+            }
+            writeln();
+            lineCount++;
+        }
+    }
+
+    file.close();
+    return 0;
+}
+
+// Check if placing val at (row, col) is valid
+bool isValid(int row, int col, int val) {
+    // Check row
+    for (int i = 0; i < 9; i++) {
+        if (puzzle[row][i] == val)
+            return false;
+    }
+
+    // Check column
+    for (int i = 0; i < 9; i++) {
+        if (puzzle[i][col] == val)
+            return false;
+    }
+
+    // Check 3x3 box
     int boxRow = (row / 3) * 3;
     int boxCol = (col / 3) * 3;
-
-    for (int r = 0; r < 3; r++) {
-        for (int c = 0; c < 3; c++) {
-            if (board[boxRow + r][boxCol + c] == num) return false;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (puzzle[boxRow + i][boxCol + j] == val)
+                return false;
         }
     }
 
     return true;
 }
 
-bool findEmpty(out int row, out int col) {
-    for (int r = 0; r < 9; r++) {
+// BRUTE-FORCE SOLVER
+// Searches row-major order (top-to-bottom, left-to-right)
+// Tries candidates 1-9 in ascending order
+// Counts EVERY placement attempt (the algorithm fingerprint)
+bool solve() {
+    // Find first empty cell (row-major order)
+    int row = -1, col = -1;
+    outer: for (int r = 0; r < 9; r++) {
         for (int c = 0; c < 9; c++) {
-            if (board[r][c] == 0) {
+            if (puzzle[r][c] == 0) {
                 row = r;
                 col = c;
-                return true;
+                break outer;
             }
         }
     }
-    row = -1;
-    col = -1;
-    return false;
-}
 
-bool solve() {
-    int row, col;
-    
-    if (!findEmpty(row, col)) {
-        return true;
+    // If no empty cell found, puzzle is solved
+    if (row == -1) {
+        printPuzzle();
+        writefln("\nSolved in Iterations=%d\n", count);
+        return true;  // Success
     }
 
-    for (int num = 1; num <= 9; num++) {
-        iterations++;
-        if (isValid(row, col, num)) {
-            board[row][col] = num;
-            
+    // Try values 1-9 in order
+    for (int val = 1; val <= 9; val++) {
+        count++;  // COUNT EVERY ATTEMPT - this is the algorithm fingerprint
+
+        if (isValid(row, col, val)) {
+            puzzle[row][col] = val;  // Place value
+
             if (solve()) {
-                return true;
+                return true;  // Solved
             }
-            
-            board[row][col] = 0;
+
+            puzzle[row][col] = 0;  // Backtrack
         }
     }
 
-    return false;
+    return false;  // No solution found
 }
 
 void main(string[] args) {
-    if (args.length < 2) {
-        writeln("Usage: ./sudoku <matrix_file>");
-        return;
+    auto sw = StopWatch(AutoStart.yes);
+
+    // Process each .matrix file from command line
+    for (int i = 1; i < args.length; i++) {
+        string filename = args[i];
+        if (filename.length >= 7 && filename[$-7..$] == ".matrix") {
+            if (readMatrixFile(filename) != 0) {
+                stderr.writefln("Error reading %s", filename);
+                continue;
+            }
+
+            printPuzzle();
+            count = 0;
+            solve();
+        }
     }
 
-    string filename = args[1];
-    readMatrix(filename);
-
-    writeln("Puzzle:");
-    printBoard();
-
-    if (solve()) {
-        writeln("Puzzle:");
-        printBoard();
-        writefln("Solved in Iterations=%d", iterations);
-    } else {
-        writeln("No solution found.");
-    }
+    sw.stop();
+    auto elapsed = sw.peek();
+    writefln("Seconds to process %.3f", elapsed.total!"nsecs" / 1_000_000_000.0);
 }
