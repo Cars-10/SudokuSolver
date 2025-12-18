@@ -21,10 +21,15 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
         // Use file:// protocol
         await page.goto(`file://${htmlFilePath}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
-        // Wait a bit for animations
-        await new Promise(r => setTimeout(r, 2000));
+        // Wait for D3 to load and chart to render
+        await page.waitForSelector('#d3-chart-container svg', { timeout: 15000 }).catch(() => {
+            console.log('Warning: Chart SVG not found within timeout');
+        });
 
-        // Scroll to top of page before screenshot
+        // Additional wait for chart animations to complete
+        await new Promise(r => setTimeout(r, 1000));
+
+        // Scroll to top
         await page.evaluate(() => window.scrollTo(0, 0));
         await new Promise(r => setTimeout(r, 100));
 
@@ -33,7 +38,7 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const htmlDir = path.dirname(htmlFilePath);
             const screenshotsDir = path.join(htmlDir, 'screenshots');
-            await fs.mkdir(screenshotsDir, { recursive: true },); // Ensure dir exists
+            await fs.mkdir(screenshotsDir, { recursive: true });
             screenshotPath = path.join(screenshotsDir, `benchmark_${timestamp}.png`);
         } else {
             await fs.mkdir(path.dirname(screenshotPath), { recursive: true });

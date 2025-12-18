@@ -139,7 +139,7 @@ async function run() {
         console.log(`Filtering report to standard suite: ${allowedMatrices.join(', ')}`);
 
         // Load benchmark config for expected matrices per language
-        let benchmarkConfig: { languages?: Record<string, any> } = {};
+        let benchmarkConfig: { languages?: Record<string, any>, lockedLanguages?: string[] } = {};
         try {
             const configPath = path.join(rootDir, 'benchmark_config.json');
             const configData = await fs.promises.readFile(configPath, 'utf-8');
@@ -147,6 +147,22 @@ async function run() {
             console.log(`Loaded benchmark config with ${Object.keys(benchmarkConfig.languages || {}).length} language configurations.`);
         } catch (e) {
             console.warn("Could not read benchmark_config.json, using defaults");
+        }
+
+        // Load session state to get locked languages
+        try {
+            const sessionStatePath = path.join(rootDir, 'session_state.json');
+            const sessionData = await fs.promises.readFile(sessionStatePath, 'utf-8');
+            const sessionState = JSON.parse(sessionData);
+            // Extract language names from locked array (format: [[lang, timestamp], ...])
+            const lockedLanguages = (sessionState.locked || [])
+                .map((entry: any) => entry[0])
+                .filter((lang: any) => lang !== null);
+            benchmarkConfig.lockedLanguages = lockedLanguages;
+            console.log(`Loaded ${lockedLanguages.length} locked languages: ${lockedLanguages.join(', ')}`);
+        } catch (e) {
+            console.warn("Could not read session_state.json, no languages will be locked");
+            benchmarkConfig.lockedLanguages = [];
         }
 
 
@@ -181,6 +197,19 @@ async function run() {
         const htmlContent = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
         await fs.promises.writeFile(htmlFile, htmlContent);
 
+        // Generate screenshot-specific report with only selected languages (those with results)
+        const selectedLangs = benchmarkConfig.lockedLanguages || [];
+        const screenshotMetrics = finalMetrics.filter(m =>
+            selectedLangs.includes(m.solver) && m.results && m.results.length > 0
+        );
+
+        const screenshotHtmlFile = path.join(rootDir, '_report_screenshot.html');
+        if (screenshotMetrics.length > 0) {
+            console.log(`Generating screenshot report with ${screenshotMetrics.length} languages: ${screenshotMetrics.map(m => m.solver).join(', ')}`);
+            const screenshotHtmlContent = await generateHtml(screenshotMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
+            await fs.promises.writeFile(screenshotHtmlFile, screenshotHtmlContent);
+        }
+
         // Generate History Report
         const historyHtml = await generateHistoryHtml(history);
         const historyHtmlFile = path.join(rootDir, 'benchmark_history.html');
@@ -213,8 +242,10 @@ async function run() {
             await fs.promises.mkdir(screenshotsDir, { recursive: true });
         }
         const screenshotPath = path.join(screenshotsDir, `benchmark_report_${timestamp}.png`);
-        await captureScreenshot(htmlFile, screenshotPath);
-        console.log(`Screenshot captured for ${htmlFile} at ${screenshotPath}`);
+        // Use the screenshot-specific HTML if it was generated, otherwise fall back to main report
+        const fileToCapture = fs.existsSync(screenshotHtmlFile) ? screenshotHtmlFile : htmlFile;
+        await captureScreenshot(fileToCapture, screenshotPath);
+        console.log(`Screenshot captured for ${fileToCapture} at ${screenshotPath}`);
     } catch (e) {
         console.error("Error:", e);
     }
