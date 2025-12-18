@@ -27,7 +27,8 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
 - [x] **Phase 5: JVM & Modern Languages** - Java, Kotlin, Scala, C#, PHP, Swift implementation (ALL COMPLETE!)
 - [x] **Phase 5.1: Tier 2 Languages** - INSERTED: 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
-- [ ] **Phase 5.2: Tier 3 Languages** - INSERTED: 10 additional languages (Awk, Tcl, Pascal, Prolog, Erlang, Scheme, CommonLisp, Clojure, Zig, COBOL)
+- [x] **Phase 5.2: Tier 3 Languages** - INSERTED: 10 additional languages (Awk, Tcl, Pascal, Prolog, Erlang, Scheme, CommonLisp, Clojure, Zig, COBOL)
+- [ ] **Phase 5.3: Tier 4 Languages** - INSERTED: 10 additional languages (CoffeeScript, Racket, Raku, Octave, V, Vala, Forth, Smalltalk, Haxe, Rexx)
 - [ ] **Phase 6: Matrix 6 Enablement** - Enable 622M iteration matrix for all languages
 
 ## Phase Details
@@ -456,6 +457,56 @@ None - This is a benchmarking/systems project without specialized domain require
 - Multiple Lisp dialects show paradigm flexibility
 - Coverage of historical and modern systems languages
 
+### Phase 5.3: Tier 4 Languages (INSERTED)
+**Goal**: Implement 10 additional languages expanding benchmark to 49+ languages
+
+**Depends on**: Phase 5.2
+
+**Research**: Likely (stack-based paradigms, cross-compilers, legacy systems)
+
+**Research topics**:
+- Forth stack-based programming model for backtracking
+- Smalltalk message-passing and mutable arrays
+- Haxe cross-compilation targets and runtime
+- V language syntax and memory model
+- Raku (Perl 6) grammar and array handling
+
+**Languages (10 total)**:
+
+| Category | Languages | Notes |
+|----------|-----------|-------|
+| Transpiled | CoffeeScript | Compiles to JavaScript |
+| Scheme Family | Racket | Modern Scheme with batteries |
+| Perl Family | Raku (Perl 6) | Complete redesign of Perl |
+| Scientific | Octave | MATLAB-compatible |
+| Modern Systems | V | Simple, fast compilation |
+| GNOME Stack | Vala | C-like with GObject |
+| Stack-Based | Forth | Classic concatenative |
+| OOP Pioneer | Smalltalk | Message-passing paradigm |
+| Cross-Platform | Haxe | Multi-target compiler |
+| Legacy IBM | Rexx | Classic scripting |
+
+**Plans**: 5 plans (2 languages per plan):
+1. 05.3-01: CoffeeScript, Racket (scripting/functional)
+2. 05.3-02: Raku, Octave (modern scripting)
+3. 05.3-03: V, Vala (modern compiled)
+4. 05.3-04: Forth, Smalltalk (classic paradigms)
+5. 05.3-05: Haxe, Rexx (cross-platform/legacy)
+
+**Deliverables**:
+- 10 language implementations with exact output/iteration match
+- Each with runMe.sh following common.sh pattern
+- Each validated against reference (matrices 1-5)
+- README.md for each language
+- All runs captured in metrics system
+- Docker image updated with new toolchains
+
+**Success Criteria**:
+- 49 languages total passing validation (Tier 1 + Tier 2 + Tier 3 + Tier 4)
+- Stack-based (Forth) demonstrates algorithm in concatenative style
+- OOP pioneer (Smalltalk) shows message-passing approach
+- Coverage spans 5 decades of language design
+
 ### Phase 6: Matrix 6 Enablement
 **Goal**: Enable the 622M iteration Matrix 6 for all validated languages
 
@@ -498,7 +549,8 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 4. JavaScript Ecosystem | 1/1 | Complete | 2025-12-18 |
 | 5. JVM & Modern Languages | 6/6 | Complete | 2025-12-18 |
 | 5.1 Tier 2 Languages | 7/7 | Complete | 2025-12-18 |
-| 5.2 Tier 3 Languages | 4/5 | In progress | - |
+| 5.2 Tier 3 Languages | 5/5 | Complete | 2025-12-18 |
+| 5.3 Tier 4 Languages | 0/5 | Not started | - |
 | 6. Matrix 6 Enablement | 0/1 | Not started | - |
 
 ## Notes

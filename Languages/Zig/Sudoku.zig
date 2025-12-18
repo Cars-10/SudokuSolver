@@ -39,13 +39,11 @@ fn isValid(grid: *Grid, row: usize, col: usize, num: u8) bool {
 }
 
 fn solve(grid: *Grid) bool {
-    iterations += 1;
-
     var row: usize = 0;
     var col: usize = 0;
     var isEmpty = false;
 
-    // Find empty cell
+    // Find empty cell (row-major order)
     outer: for (0..9) |r| {
         for (0..9) |c| {
             if (grid[r][c] == 0) {
@@ -59,7 +57,9 @@ fn solve(grid: *Grid) bool {
 
     if (!isEmpty) return true;
 
+    // Try values 1-9 in order
     for (1..10) |num| {
+        iterations += 1; // COUNT EVERY ATTEMPT - algorithm fingerprint
         const n = @as(u8, @intCast(num));
         if (isValid(grid, row, col, n)) {
             grid[row][col] = n;
