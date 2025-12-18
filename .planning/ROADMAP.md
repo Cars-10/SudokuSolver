@@ -26,6 +26,7 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [x] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
 - [x] **Phase 5: JVM & Modern Languages** - Java, Kotlin, Scala, C#, PHP, Swift implementation (ALL COMPLETE!)
+- [ ] **Phase 5.1: Tier 2 Languages** - INSERTED: 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
 - [ ] **Phase 6: Matrix 6 Enablement** - Enable 622M iteration matrix for all languages
 
 ## Phase Details
@@ -361,6 +362,52 @@ None - This is a benchmarking/systems project without specialized domain require
 - Database populated with comprehensive benchmark data
 - Can query: fastest language, least memory, trends
 
+### Phase 5.1: Tier 2 Languages (INSERTED)
+**Goal**: Implement 15 additional languages expanding benchmark coverage
+
+**Depends on**: Phase 5
+
+**Research**: Likely (functional language patterns, niche toolchains)
+
+**Research topics**:
+- Haskell lazy evaluation impact on iteration counting
+- OCaml/F# functional-to-imperative translation
+- Elixir/Erlang process model for single-threaded algorithm
+- Julia JIT compilation warmup
+- Nim/Crystal compilation and runtime requirements
+
+**Languages (15 total)**:
+
+| Category | Languages | Notes |
+|----------|-----------|-------|
+| Functional | Haskell, OCaml, F#, Elixir | Pure/hybrid functional |
+| Scientific | Julia, R | Data science focus |
+| Systems | D, Nim, Crystal | Modern compiled |
+| Scripting | Lua, Groovy, Bash | Lightweight/shell |
+| Classic | Fortran, Ada | Historical/safety-critical |
+| Mobile | Dart | Flutter ecosystem |
+
+**Plans**: 7 plans (2-3 languages per plan):
+1. 05.1-01: Lua, Bash (scripting)
+2. 05.1-02: D, Nim, Crystal (modern compiled)
+3. 05.1-03: Groovy, Dart (JVM/Flutter)
+4. 05.1-04: Julia, R (scientific)
+5. 05.1-05: Haskell, OCaml (functional I)
+6. 05.1-06: F#, Elixir (functional II)
+7. 05.1-07: Fortran, Ada (classic)
+
+**Deliverables**:
+- 15 language implementations with exact output/iteration match
+- Each with runMe.sh following common.sh pattern
+- Each validated against reference (matrices 1-5)
+- README.md for each language
+- All runs captured in metrics system
+
+**Success Criteria**:
+- 30 languages total passing validation (Tier 1 + Tier 2)
+- Functional languages demonstrate algorithm equivalence despite paradigm
+- Coverage of major language families
+
 ### Phase 6: Matrix 6 Enablement
 **Goal**: Enable the 622M iteration Matrix 6 for all validated languages
 
@@ -402,6 +449,7 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Scripting Languages | 1/1 | Complete | 2025-12-18 |
 | 4. JavaScript Ecosystem | 1/1 | Complete | 2025-12-18 |
 | 5. JVM & Modern Languages | 6/6 | Complete | 2025-12-18 |
+| 5.1 Tier 2 Languages | 1/7 | In progress | - |
 | 6. Matrix 6 Enablement | 0/1 | Not started | - |
 
 ## Notes
