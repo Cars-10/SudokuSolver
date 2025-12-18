@@ -19,6 +19,7 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 1.5.1: Screensaver Issues** - INSERTED: Fix screensaver bounce on auto-trigger
 - [x] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
 - [x] **Phase 1.5.3: Comprehensive Scoring System** - INSERTED: Create scoring calculation using all collected metrics
+- [x] **Phase 1.5.4: UI Button Handling & Language Filtering** - INSERTED: Manage language lock-in and skip already-run languages
 - [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
@@ -197,6 +198,29 @@ None - This is a benchmarking/systems project without specialized domain require
 - Score is sortable in table
 - Methodology is documented and transparent
 - Users can understand why a language scored as it did
+
+### Phase 1.5.4: UI Button Handling & Language Filtering (INSERTED)
+**Goal**: Manage UI button handling and filtering - track which languages have been run and allow locking them in the Languages pulldown so benchmark runs skip locked languages
+
+**Depends on**: Phase 1.5.3
+
+**Research**: None (UI/state management using established patterns)
+
+**Plans**: TBD (run /gsd:plan-phase 1.5.4 to break down)
+
+**Deliverables**:
+- Language "lock-in" mechanism in the Languages dropdown
+- Visual indicator for locked/completed languages
+- Benchmark runner respects locked status (skips locked languages)
+- Persistent state for locked languages (survives page refresh)
+- UI buttons properly wired for filtering actions
+
+**Success Criteria**:
+- Can lock a language after running its benchmark
+- Locked languages show distinct visual state in dropdown
+- Running "all benchmarks" skips locked languages
+- Lock state persists across sessions
+- Clean button handling without state conflicts
 
 ### Phase 2: Compiled Languages Wave
 **Goal**: Implement C++, Go, Rust following established pattern
