@@ -54,6 +54,7 @@ const compilerMapping: Record<string, string> = {
     'F_Sharp': 'dotnet',
     'Lua': 'lua',
     'Julia': 'julia',
+    'R': 'Rscript',
     'Fortran': 'gfortran',
     'Pascal': 'fpc',
     'Ada': 'gnat',
