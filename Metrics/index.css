@@ -15,8 +15,8 @@ body {
     color: var(--text);
     margin: 0;
     padding: 40px;
-    overflow-x: hidden;
-    /* Hide horizontal scrollbar */
+    overflow-x: auto;
+    /* Allow horizontal scroll for wide tables */
 }
 
 body.fullscreen-active {
@@ -34,15 +34,16 @@ h1 {
 }
 
 .container {
-    width: 95%;
-    max-width: 1600px;
+    width: 98%;
+    max-width: none;
     margin: 0 auto;
     overflow-x: auto;
     padding-bottom: 60px;
 }
 
 table {
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     border-collapse: separate;
     border-spacing: 0 4px;
 }
@@ -113,14 +114,34 @@ td:hover {
     display: inline-block;
     margin-right: 8px;
     transition: transform 0.15s ease;
-    color: var(--muted);
-    font-size: 0.8em;
+    color: var(--secondary);
+    font-size: 1.4em;
+    font-weight: bold;
     vertical-align: middle;
 }
 
 tr.expanded .expand-chevron {
     transform: rotate(90deg);
     color: var(--primary);
+}
+
+/* Run button styling - make it distinct from chevron */
+.run-btn {
+    background: rgba(0, 255, 157, 0.15) !important;
+    border: 1px solid rgba(0, 255, 157, 0.4) !important;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Show run button on hover over the cell */
+.matrix-cell:hover .run-btn,
+.total-time:hover .run-btn {
+    opacity: 0.8;
+}
+
+.run-btn:hover {
+    opacity: 1 !important;
+    background: rgba(0, 255, 157, 0.3) !important;
 }
 
 /* Expanded row content */
@@ -1025,15 +1046,13 @@ select {
     /* Removed min-width or reduced it implies intrinsic width */
 }
 
-/* Fullscreen overlay for solver counter - matches main page header */
+/* Fullscreen overlay for solver counter - centered at top */
 #fullscreen-header {
     display: none;
     position: fixed;
     top: 20px;
-    right: 20px;
-    /* Aligned to right */
-    left: auto;
-    /* Not full width */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10000;
     pointer-events: none;
     padding: 0;
@@ -1041,13 +1060,11 @@ select {
 
 #fullscreen-header .header-counters {
     display: flex;
-    justify-content: flex-end;
-    /* Align right */
+    justify-content: center;
     align-items: center;
     gap: 15px;
     flex-wrap: nowrap;
     position: static;
-    /* Let parent handle pos */
     background: transparent;
     border: none;
     padding: 0;

@@ -97,35 +97,43 @@ function sortMatrix(index, metric, btn) {
     rows.forEach(row => tbody.appendChild(row));
 }
 
-// Mismatch Filter
+// Mismatch Filter - Hides mismatches when active (clean view), shows all when inactive
 function toggleMismatches() {
     const btn = document.getElementById('toggleMismatchesBtn');
-    const isFilterActive = btn.classList.toggle('active');
+    const isHidingMismatches = btn.classList.toggle('active');
 
-    if (isFilterActive) {
+    const selector = document.getElementById('personality-selector');
+    const persona = selector ? selector.value : 'Standard';
+    const curseWord = mismatchLabels[persona] || mismatchLabels['Standard'] || "MISMATCHES";
+
+    if (isHidingMismatches) {
+        // Active = mismatches are hidden
         btn.classList.add('filter-active-red');
-        const selector = document.getElementById('personality-selector');
-        const persona = selector ? selector.value : 'Standard';
-        const curseWord = mismatchLabels[persona] || mismatchLabels['Standard'] || "MISMATCHES";
-        btn.querySelector('span').textContent = curseWord;
-    } else {
-        btn.classList.remove('filter-active-red');
-        const selector = document.getElementById('personality-selector');
-        const persona = selector ? selector.value : 'Standard';
-        const curseWord = mismatchLabels[persona] || mismatchLabels['Standard'] || "MISMATCHES";
         btn.querySelector('span').textContent = "Show " + curseWord;
+    } else {
+        // Inactive = all rows visible
+        btn.classList.remove('filter-active-red');
+        btn.querySelector('span').textContent = "Hide " + curseWord;
     }
 
-    const rows = document.querySelectorAll('tbody tr');
+    // Only affect data rows (those with data-lang), not expanded-content rows
+    const rows = document.querySelectorAll('tbody tr[data-lang]');
     rows.forEach(row => {
-        if (isFilterActive) {
-            if (row.classList.contains('mismatch-iterations')) {
-                row.style.display = 'none';
-            } else {
-                row.style.display = '';
+        const expandedRow = row.nextElementSibling;
+        const isMismatch = row.classList.contains('mismatch-iterations');
+
+        if (isHidingMismatches && isMismatch) {
+            // Hide mismatch rows when filter is active
+            row.style.display = 'none';
+            if (expandedRow?.classList.contains('expanded-content')) {
+                expandedRow.style.display = 'none';
             }
         } else {
+            // Show all other rows
             row.style.display = '';
+            if (expandedRow?.classList.contains('expanded-content')) {
+                expandedRow.style.display = row.classList.contains('expanded') ? 'table-row' : 'none';
+            }
         }
     });
 }
@@ -166,14 +174,16 @@ function changePersonality() {
         methodDesc.innerHTML = methodologyTexts[persona] || methodologyTexts['Standard'];
     }
 
-    // Update Mismatch Button if active
+    // Update Mismatch Button text based on active state
     const btn = document.getElementById('toggleMismatchesBtn');
     if (btn) {
         const curseWord = mismatchLabels[persona] || mismatchLabels['Standard'] || "MISMATCHES";
         if (btn.classList.contains('active')) {
-            btn.querySelector('span').textContent = curseWord;
+            // Active = mismatches hidden, button shows "Show X" to reveal them
+            btn.querySelector('span').textContent = "Show " + curseWord;
         } else {
-            btn.querySelector('span').textContent = "Show " + curseWord; // Dynamic "Show Mismatches" text
+            // Inactive = all visible, button shows "Hide X" to hide mismatches
+            btn.querySelector('span').textContent = "Hide " + curseWord;
         }
     }
 
@@ -293,32 +303,51 @@ document.querySelectorAll('tbody td').forEach(cell => {
 });
 
 // Add click handler to language cells to toggle expansion and show modal
-document.querySelectorAll('.lang-col').forEach(cell => {
-    cell.addEventListener('click', (e) => {
-        const row = cell.parentElement;
-        const expandedRow = row.nextElementSibling;
+// Wrapped in DOMContentLoaded to ensure elements exist
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.lang-col').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            // Prevent any default action and stop propagation immediately
+            e.preventDefault();
+            e.stopPropagation();
 
-        // Toggle expanded state on the data row
-        row.classList.toggle('expanded');
-
-        // Toggle visibility of expanded content row
-        if (expandedRow && expandedRow.classList.contains('expanded-content')) {
-            if (row.classList.contains('expanded')) {
-                expandedRow.classList.add('visible');
-            } else {
-                expandedRow.classList.remove('visible');
+            // If click was on a button, don't handle
+            if (e.target.closest('button')) {
+                return;
             }
-        }
 
-        // Don't open modal when clicking chevron - only show expansion
-        // If user wants modal, they can click again or we could add separate handler
-        // For now, just expand/collapse on click
+            const row = cell.parentElement;
+            const expandedRow = row.nextElementSibling;
+            const lang = row.getAttribute('data-lang');
 
-        // Prevent event from bubbling to avoid conflicts
-        e.stopPropagation();
+            // If clicking the chevron, just toggle expansion
+            if (e.target.classList.contains('expand-chevron')) {
+                row.classList.toggle('expanded');
+                if (expandedRow && expandedRow.classList.contains('expanded-content')) {
+                    if (row.classList.contains('expanded')) {
+                        expandedRow.classList.add('visible');
+                    } else {
+                        expandedRow.classList.remove('visible');
+                    }
+                }
+            } else {
+                // Clicking on language name/logo opens the modal
+                if (lang && typeof window.showLanguageDetails === 'function') {
+                    window.showLanguageDetails(lang, e.clientX, e.clientY);
+                }
+            }
+        });
+        cell.style.cursor = 'pointer';  // Make it obvious it's clickable
     });
-    cell.style.cursor = 'pointer';  // Make it obvious it's clickable
+
+    // Prevent clicks on expanded content from bubbling
+    document.querySelectorAll('.expanded-content').forEach(row => {
+        row.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    });
 });
+
 // Modal Logic
 let currentEditingLang = null;
 let currentMetadata = null;
@@ -816,7 +845,7 @@ function closeWhy(event) {
 }
 
 // Initialize
-toggleMismatches(); // Default hide
+// Note: Mismatch filter starts inactive (showing all rows)
 window.languageStatus = {};
 window.selectedLanguages = new Set(['C']); // Default C
 window.lockedLanguages = new Map(); // Languages unaffected by Bulk actions (stored with timestamp)
@@ -1123,17 +1152,9 @@ window.updateSolverStats = function () {
         const avgTime = (totalTime / metricsData.length).toFixed(3);
         const avgMem = (totalMemory / metricsData.length).toFixed(1);
 
-        // Rotating stats display
-        const statsOptions = [
-            `${metricsData.length} LANGUAGES • ${validCount} VALIDATED • ${(validCount/metricsData.length*100).toFixed(0)}% PASS RATE`,
-            `AVG TIME: ${avgTime}s • AVG MEM: ${avgMem}MB • TOTAL ITERS: ${totalIterations.toLocaleString()}`,
-            fastest ? `FASTEST: ${fastest.solver} (${fastest.time.toFixed(3)}s)` : `${metricsData.length} LANGUAGES BENCHMARKED`,
-            slowest ? `SLOWEST: ${slowest.solver} (${slowest.time.toFixed(3)}s)` : `${metricsData.length} LANGUAGES TESTED`
-        ];
-
-        // Rotate every 5 seconds
-        const index = Math.floor(Date.now() / 5000) % statsOptions.length;
-        screensaverText.innerText = statsOptions[index];
+        // Simplified stats display - just numbers
+        const passRate = (validCount/metricsData.length*100).toFixed(0);
+        screensaverText.innerText = `${metricsData.length} • ${validCount} • ${passRate}%`;
     } else if (screensaverText) {
         screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
     }
@@ -1501,8 +1522,13 @@ initializeStatus();
                 try {
                     const reportRes = await fetch('/api/generate-report', { method: 'POST' });
                     if (reportRes.ok) {
-                        outputDiv.innerText += "\nReport generated. Reloading...";
-                        setTimeout(() => window.location.reload(), 1000);
+                        outputDiv.innerHTML += "\n\n<strong style='color:#00ff9d'>✓ Report generated successfully!</strong>\n\n";
+                        // Add reload button instead of auto-reload
+                        const reloadBtn = document.createElement('button');
+                        reloadBtn.innerText = '🔄 Reload Page to See Results';
+                        reloadBtn.style.cssText = 'background:#00ff9d; color:#000; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;';
+                        reloadBtn.onclick = () => window.location.reload();
+                        outputDiv.appendChild(reloadBtn);
                     } else {
                         outputDiv.innerText += "\nFailed to generate report.";
                     }
@@ -2232,6 +2258,10 @@ let startScreensaverGlobal;
         let animationId;
         let frame = 0;
 
+        // Scroll position management for smooth screensaver transitions
+        let savedScrollX = 0;
+        let savedScrollY = 0;
+
         // Expose globally immediately
         window.startScreensaver = startScreensaver;
         startScreensaverGlobal = startScreensaver;
@@ -2754,16 +2784,26 @@ let startScreensaverGlobal;
 
             if (currentMode === 'red') {
                 // Full Screen Mode
-                document.body.appendChild(canvas); // Move to body
+
+                // Save scroll position BEFORE any DOM changes to prevent bounce
+                savedScrollX = window.scrollX;
+                savedScrollY = window.scrollY;
+
+                // Scroll to top BEFORE adding fullscreen-active class
+                // This prevents the "bounce" when overflow:hidden is applied
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+                // Add fullscreen class to body to hide scrollbars (now safe - already at top)
+                document.body.classList.add('fullscreen-active');
+
+                // Now move canvas to body
+                document.body.appendChild(canvas);
                 canvas.style.position = 'fixed';
                 canvas.style.top = '0';
                 canvas.style.left = '0';
                 canvas.style.width = '100vw';
                 canvas.style.height = '100vh';
                 canvas.style.zIndex = '1000';
-
-                // Add fullscreen class to body to hide scrollbars
-                document.body.classList.add('fullscreen-active');
 
                 // Show fullscreen header
                 const fsHeader = document.getElementById('fullscreen-header');
@@ -2890,11 +2930,6 @@ let startScreensaverGlobal;
             // Reset body class
             document.body.classList.remove('fullscreen-active');
 
-            // Re-enable scrolling if it was disabled (though fullscreen-active handles overflow hidden)
-            // Ensure we are back at the top or where we were?
-            // User complained about bounce, likely due to scroll position restoration or layout shift.
-            // By resetting completely we hope to avoid it.
-
             // Exit Browser Fullscreen if active
             if (document.fullscreenElement) {
                 document.exitFullscreen().catch(e => console.log(e));
@@ -2908,6 +2943,12 @@ let startScreensaverGlobal;
 
             // Reset to body for safety
             document.body.appendChild(canvas);
+
+            // Restore saved scroll position AFTER all cleanup is done
+            // Use requestAnimationFrame to ensure DOM has settled
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: savedScrollY, left: savedScrollX, behavior: 'instant' });
+            });
         }
 
         // Idle Timer with Persistence
