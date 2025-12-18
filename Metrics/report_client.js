@@ -481,6 +481,9 @@ window.showLanguageDetails = async function (lang, x, y) {
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
 
+    // Update lock button state based on lockedLanguages
+    updateModalLockButtonState();
+
     // Position modal near cursor (if x, y provided)
     if (x !== undefined && y !== undefined) {
         const offsetX = 20;
@@ -586,7 +589,8 @@ window.toggleEditMode = function (event) {
     }
 };
 
-window.toggleLock = async function (event) {
+// Modal wrapper for toggleLock - uses unified lock implementation
+window.toggleLockFromModal = function (event) {
     // Prevent click from bubbling to modal container
     if (event) {
         event.stopPropagation();
@@ -594,28 +598,23 @@ window.toggleLock = async function (event) {
 
     if (!currentEditingLang) return;
 
-    const btn = document.getElementById('lockBtn');
-    const isCurrentlyLocked = btn.innerText.includes('Locked 🔒');
-    const newLockState = !isCurrentlyLocked;
+    // Call the unified toggleLock function (defined in dropdown section)
+    window.toggleLock(currentEditingLang);
 
-    try {
-        const res = await fetch('/api/lock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lang: currentEditingLang, locked: newLockState })
-        });
-
-        if (res.ok) {
-            btn.innerText = newLockState ? '🔒 Locked' : '🔓 Unlocked';
-            btn.style.background = newLockState ? '#4caf50' : '';
-            btn.style.color = newLockState ? '#fff' : '';
-        } else {
-            alert("Error locking: " + res.statusText);
-        }
-    } catch (e) {
-        alert("Error locking: " + e.message + ". Is ContentServer running?");
-    }
+    // Update modal button UI to reflect new state
+    updateModalLockButtonState();
 };
+
+// Helper to update modal lock button based on current lock state
+function updateModalLockButtonState() {
+    const btn = document.getElementById('lockBtn');
+    if (!btn || !currentEditingLang) return;
+
+    const isLocked = window.lockedLanguages.has(currentEditingLang);
+    btn.innerText = isLocked ? '🔒 Locked' : '🔓 Unlocked';
+    btn.style.background = isLocked ? '#4caf50' : '';
+    btn.style.color = isLocked ? '#fff' : '';
+}
 
 window.saveLanguageDetails = async function (event) {
     // Prevent click from bubbling to modal container
@@ -1227,6 +1226,34 @@ window.toggleLock = function (lang) {
     window.populateLanguageSelector();
     window.updateSolverStats();
     window.saveSessionState();
+    window.updateRunButtonsForLockState();
+};
+
+// Update run button visual state based on locked languages
+window.updateRunButtonsForLockState = function () {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const lang = row.getAttribute('data-lang');
+        const isLocked = window.lockedLanguages && window.lockedLanguages.has(lang);
+        const runButtons = row.querySelectorAll('.run-btn');
+
+        runButtons.forEach(btn => {
+            if (isLocked) {
+                btn.classList.add('locked');
+                btn.style.opacity = '0.4';
+                btn.title = `${lang} is locked - click lock icon to unlock`;
+            } else {
+                btn.classList.remove('locked');
+                btn.style.opacity = '';
+                // Restore original title based on button content
+                if (btn.textContent.includes('⏩')) {
+                    btn.title = 'Run All Matrices';
+                } else {
+                    btn.title = btn.title.replace(/^.* is locked.*$/, '') || 'Run Matrix';
+                }
+            }
+        });
+    });
 };
 
 window.selectAllLangs = function (select) {
@@ -1297,6 +1324,7 @@ window.initializeStatus = function () {
     // Load persisted state
     window.loadSessionState();
     window.applyTableVisibility(); // Apply initial visibility
+    window.updateRunButtonsForLockState(); // Apply lock state to run buttons
     window.updateSolverStats();
 };
 
@@ -1493,6 +1521,19 @@ initializeStatus();
         const outputDiv = document.getElementById('logOutput');
         const headerTitle = document.getElementById('logTitle');
         const matrixLabel = matrix || "ALL Matrices";
+
+        // Check if language is locked - skip with notification
+        if (window.lockedLanguages && window.lockedLanguages.has(lang)) {
+            console.log(`Skipping ${lang} - locked`);
+            headerTitle.innerText = "Execution Skipped: " + lang;
+            outputDiv.innerHTML = `<div style="color:#ffd700; font-size:1.2em; text-align:center; padding:40px;">
+                <div style="font-size:2em; margin-bottom:10px;">🔒</div>
+                <strong>${lang} is locked</strong>
+                <p style="color:#888; margin-top:15px; font-size:0.9em;">Unlock this language to run benchmarks.<br>Click the lock icon in the dropdown or modal to unlock.</p>
+            </div>`;
+            document.getElementById('logModal').classList.add('visible');
+            return { skipped: true, reason: 'locked' };
+        }
 
         // Reset Modal
         outputDiv.innerText = "Running " + lang + " on " + matrixLabel + "...\nPlease wait...";

@@ -935,7 +935,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
                 <!-- Bottom Row: Buttons -->
                 <div class="modal-header-buttons">
-                     <button class="btn" onclick="toggleLock(event)" id="lockBtn" title="Lock this result to skip future benchmarks">🔓 Unlocked</button>
+                     <button class="btn" onclick="toggleLockFromModal(event)" id="lockBtn" title="Lock this result to skip future benchmarks">🔓 Unlocked</button>
                      <button class="btn" onclick="toggleEditMode(event)" id="editBtn">Edit</button>
                      <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>
                 </div>
