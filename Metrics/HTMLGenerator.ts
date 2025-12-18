@@ -986,39 +986,41 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <span class="modal-close" onclick="closeMethodology(event)">&times;</span>
             <div class="modal-title" style="text-align: center;">Scoring Methodology</div>
             <div class="modal-desc">
-                <p>The <strong>Composite Score</strong> $(\Psi)$ quantifies efficiency relative to the C baseline.</p>
-                
+                <p>The <strong>Composite Score</strong> (&Psi;) uses the <strong>geometric mean</strong> of four performance ratios, an industry-standard method used by SPEC and Geekbench benchmarks.</p>
+
                 <h3 style="color: var(--secondary);">The Baseline: C</h3>
-                <p>$\mathbb{C}_{ref} = 1.0$ (Unity Vector)</p>
-                
-                <h3 style="color: var(--secondary);">The Algorithm</h3>
+                <p style="font-family: 'JetBrains Mono', monospace;">&Psi;<sub>C</sub> = 1.0 (Reference Point)</p>
+
+                <h3 style="color: var(--secondary);">The Formula</h3>
                 <div style="background: rgba(0, 20, 0, 0.8); padding: 20px; border: 1px solid #00ff9d; box-shadow: 0 0 15px rgba(0, 255, 157, 0.2); border-radius: 4px; text-align: center; font-family: 'Times New Roman', serif; margin: 20px 0; color: #fff;">
-                    <div style="font-size: 1.4em; letter-spacing: 1px; display: inline-block;">
-                        &Psi; = 
-                        <span style="display: inline-block; text-align: center; vertical-align: middle; margin-left: 10px;">
-                            <a href="https://grokipedia.com" target="_blank" style="color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9em; transition: color 0.3s;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                                </svg>
-                                View on Grokepia
-                            </a>
-                            <div style="border-bottom: 1px solid #fff; padding-bottom: 5px; margin-bottom: 2px;">
-                                3&cdot;&rho;<sub>cpu</sub> + 2&cdot;&rho;<sub>mem</sub> + 1&cdot;&rho;<sub>time</sub>
-                            </div>
-                            <div style="padding-top: 2px;">6</div>
-                        </span>
+                    <div style="font-size: 1.3em; letter-spacing: 1px;">
+                        &Psi; = <sup style="font-size: 0.7em;">4</sup>&radic;(&rho;<sub>time</sub> &sdot; &rho;<sub>mem</sub> &sdot; &rho;<sub>iter</sub> &sdot; &rho;<sub>cpu</sub>)
                     </div>
                 </div>
                 <p style="font-size: 0.9em; text-align: center; color: var(--muted); font-family: 'JetBrains Mono', monospace;">
-                    where &rho;<sub>x</sub> = V<sub>solver</sub> / V<sub>c_ref</sub>
+                    where &rho;<sub>x</sub> = Value<sub>solver</sub> / Value<sub>C</sub>
                 </p>
-                
+
+                <h3 style="color: var(--secondary);">Metrics Used</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.95em;">
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>time</sub></strong> : Total execution time ratio</li>
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>mem</sub></strong> : Peak memory usage ratio</li>
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>iter</sub></strong> : Algorithm iterations ratio</li>
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>cpu</sub></strong> : CPU time (user+sys) ratio</li>
+                </ul>
+
+                <h3 style="color: var(--secondary);">Why Geometric Mean?</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.9em; color: var(--text-muted);">
+                    <li style="margin-bottom: 6px;">&bull; Prevents one metric from dominating</li>
+                    <li style="margin-bottom: 6px;">&bull; Penalizes imbalanced performance</li>
+                    <li style="margin-bottom: 6px;">&bull; Industry standard (SPEC, Geekbench)</li>
+                </ul>
+
                 <h3 style="color: var(--secondary);">Interpretation</h3>
                 <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">&Psi; &approx; 1.0</strong> : Parity.</li>
-                    <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&Psi; &gt; 1.0</strong> : Sub-optimal.</li>
-                    <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&Psi; &lt; 1.0</strong> : Super-optimal.</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--primary);">&Psi; = 1.0</strong> : Matches C baseline exactly</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: #00b8ff;">&Psi; &lt; 1.0</strong> : Outperforms C (lower is better)</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: #ff0055;">&Psi; &gt; 1.0</strong> : Underperforms C</li>
                 </ul>
             </div>
         </div>
@@ -1506,16 +1508,19 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const memMbTotal = maxMem / 1024 / 1024;
         const efficiencyScore = totalTime > 0 ? memMbTotal / totalTime : 0;
 
-        // Composite Score (vs C)
-        // Score = (3*CpuRatio + 2*MemRatio + 1*TimeRatio) / 6
+        // Composite Score (vs C) - Geometric Mean
+        // Ψ = (ρ_time · ρ_mem · ρ_iter · ρ_cpu)^(1/4)
+        // Floor values at 0.001 to avoid zero/negative issues
 
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
-        const timeRatio = (cTotalTime > 0) ? (totalTime / cTotalTime) : 0;
-        const memRatio = (cTotalMem > 0) ? (maxMem / cTotalMem) : 0;
-        const cpuRatio = (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 0;
+        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
+        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
+        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
+        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
 
-        const normalizedScore = (3.0 * cpuRatio + 2.0 * memRatio + 1.0 * timeRatio) / 6.0;
+        // Geometric mean: 4th root of product of all ratios
+        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
 
         // Find min/max for highlighting
         const minTime = Math.min(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
@@ -1606,7 +1611,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
-                <span class="expand-chevron">▶</span>
+                <span class="expand-chevron">›</span>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
@@ -1646,8 +1651,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
-                             <button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">▶</button>
-                             <div class="time" title="Wall Clock Time">${r.time != null ? (r.time < 0.0001 && r.time > 0 ? r.time.toExponential(4) : r.time.toFixed(5)) : '0.00000'}s</div>
+                             <button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>
+                             <div class="time" title="Wall Clock Time">${r.time != null ? (r.time === 0 ? '<0.001' : (r.time < 0.0001 ? r.time.toExponential(2) : r.time.toFixed(5))) : '-'}s</div>
                         </div>
                         <div class="meta">
                             ${(() => {
