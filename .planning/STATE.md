@@ -27,12 +27,12 @@
 
 ## Current Position
 
-Phase: 5 of 6 (JVM & Modern Languages) - COMPLETE
-Plan: 6 of 6 in current phase
-Status: Completed 05-05-PLAN.md (C#)
-Last activity: 2025-12-18 - Completed C# solver implementation
+Phase: 5.1 of 6 (Tier 2 Languages)
+Plan: 1 of 7 in current phase
+Status: Completed 05.1-01-PLAN.md (Lua and Bash)
+Last activity: 2025-12-18 - Completed Lua and Bash solver implementations
 
-Progress: ████████████████████ 100% (15 of 15 languages complete)
+Progress: ████████████████░░░░ 80% (17 of 30 Tier 1+2 languages)
 
 ## Performance Metrics
 
@@ -76,6 +76,7 @@ Progress: ████████████████████ 100% (15 
 - Phase 1.5.4 inserted after Phase 1.5.3: UI button handling & language filtering - lock-in mechanism for completed languages (URGENT)
 - Phase 2.1 inserted after Phase 2: Realign buttons above the table (URGENT)
 - Phase 2.2 inserted after Phase 2.1: Fix screenshot automation - reliable capture after every report generation (URGENT)
+- Phase 5.1 inserted after Phase 5: Tier 2 Languages - 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
 
 ### Deferred Issues
 
@@ -94,11 +95,13 @@ Drift notes: None
 
 ## Session Continuity
 
-Last session: 2025-12-18 12:50
-Stopped at: Completed 05-05-PLAN.md (C# solver) - ALL 15 LANGUAGES COMPLETE!
+Last session: 2025-12-18 13:14
+Stopped at: Completed 05.1-01-PLAN.md (Lua and Bash solvers) - 17 languages complete
 Resume file: None
 
-## Completed Languages (15/15)
+## Completed Languages (17/30)
+
+### Tier 1 (15/15) - Complete
 
 | Language   | Phase | Status    | Date       |
 |------------|-------|-----------|------------|
@@ -118,6 +121,13 @@ Resume file: None
 | Scala      | 5     | ✓ Pass    | 2025-12-18 |
 | C#         | 5     | ✓ Pass    | 2025-12-18 |
 
-## Remaining Languages (0/15)
+### Tier 2 (2/15) - In Progress
 
-All 15 Tier 1 languages validated!
+| Language   | Phase | Status    | Date       |
+|------------|-------|-----------|------------|
+| Lua        | 5.1   | ✓ Pass    | 2025-12-18 |
+| Bash       | 5.1   | ✓ Pass    | 2025-12-18 |
+
+## Remaining Tier 2 Languages (13/15)
+
+D, Nim, Crystal, Groovy, Dart, Julia, R, Haskell, OCaml, F#, Elixir, Fortran, Ada
