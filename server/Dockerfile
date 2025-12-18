@@ -58,6 +58,22 @@ RUN apt-get update && apt-get install -y \
 # g++ --version: 13.x
 
 # ----------------------------------------------------------------------------
+# 1b. Fortran (gfortran)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    gfortran \
+    && rm -rf /var/lib/apt/lists/*
+# gfortran --version: 13.x
+
+# ----------------------------------------------------------------------------
+# 1c. Ada (GNAT)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    gnat \
+    && rm -rf /var/lib/apt/lists/*
+# gnat --version: 13.x
+
+# ----------------------------------------------------------------------------
 # 2. Python 3 (3.12+)
 # ----------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y \
@@ -103,7 +119,9 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN apt-get update && apt-get install -y \
     openjdk-21-jdk \
     && rm -rf /var/lib/apt/lists/*
-ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+# Create architecture-agnostic symlink for JAVA_HOME
+RUN ln -sf /usr/lib/jvm/java-21-openjdk-* /usr/lib/jvm/java-21-openjdk
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 # java --version: openjdk 21.x
 
@@ -156,15 +174,118 @@ RUN apt-get update && apt-get install -y \
 # perl --version: 5.38.x (built-in)
 
 # ----------------------------------------------------------------------------
-# 13. Swift (5.9+)
+# 13. Swift (5.9+) - DEFERRED
 # ----------------------------------------------------------------------------
-# Note: Swift download URLs are broken (404). Deferring Swift to Phase 5.
-# RUN SWIFT_VERSION=5.9.2 \
-#     && SWIFT_PLATFORM=ubuntu2204 \
-#     && wget https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2204/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-${SWIFT_PLATFORM}.tar.gz \
-#     && tar xzf swift-${SWIFT_VERSION}-RELEASE-${SWIFT_PLATFORM}.tar.gz -C /usr/local --strip-components=1 \
-#     && rm swift-${SWIFT_VERSION}-RELEASE-${SWIFT_PLATFORM}.tar.gz
-# swift --version: 5.9.x (deferred to Phase 5)
+# Note: Swift requires manual download for Ubuntu 24.04
+# swift --version: DEFERRED
+
+# ============================================================================
+# TIER 2 LANGUAGES (Scripting & Functional)
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# 14. Lua (5.4)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    lua5.4 \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/bin/lua5.4 /usr/bin/lua
+# lua -v: 5.4.x
+
+# ----------------------------------------------------------------------------
+# 15. R (4.x)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    r-base \
+    && rm -rf /var/lib/apt/lists/*
+# Rscript --version: 4.x.x
+
+# ----------------------------------------------------------------------------
+# 16. Julia (1.10+)
+# ----------------------------------------------------------------------------
+RUN JULIA_VERSION=1.10.7 \
+    && ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "arm64" ]; then JULIA_ARCH="aarch64"; else JULIA_ARCH="x86_64"; fi \
+    && wget -q https://julialang-s3.julialang.org/bin/linux/${JULIA_ARCH}/1.10/julia-${JULIA_VERSION}-linux-${JULIA_ARCH}.tar.gz \
+    && tar xzf julia-${JULIA_VERSION}-linux-${JULIA_ARCH}.tar.gz -C /usr/local --strip-components=1 \
+    && rm julia-${JULIA_VERSION}-linux-${JULIA_ARCH}.tar.gz
+# julia --version: 1.10.x
+
+# ----------------------------------------------------------------------------
+# 17. Elixir (1.15+)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    elixir \
+    && rm -rf /var/lib/apt/lists/*
+# elixir --version: 1.15.x
+
+# ----------------------------------------------------------------------------
+# 18. Haskell (GHC 9.x)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    ghc \
+    && rm -rf /var/lib/apt/lists/*
+# ghc --version: 9.x.x
+
+# ----------------------------------------------------------------------------
+# 19. OCaml (4.14+)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    ocaml \
+    && rm -rf /var/lib/apt/lists/*
+# ocaml -version: 4.14.x
+
+# ----------------------------------------------------------------------------
+# 20. Groovy (via SDKMAN, already installed)
+# ----------------------------------------------------------------------------
+RUN bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install groovy"
+ENV PATH="/root/.sdkman/candidates/groovy/current/bin:${PATH}"
+# groovy --version: 4.x.x
+
+# ----------------------------------------------------------------------------
+# 21. Dart (3.x)
+# ----------------------------------------------------------------------------
+RUN ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "arm64" ]; then DART_ARCH="arm64"; else DART_ARCH="x64"; fi \
+    && wget -q https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-${DART_ARCH}-release.zip \
+    && unzip -q dartsdk-linux-${DART_ARCH}-release.zip -d /usr/local \
+    && rm dartsdk-linux-${DART_ARCH}-release.zip
+ENV PATH="/usr/local/dart-sdk/bin:${PATH}"
+# dart --version: 3.x.x
+
+# ----------------------------------------------------------------------------
+# 22. Crystal (1.x) - x86_64 only (no ARM64 binaries available)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    libyaml-dev libssl-dev libgmp-dev libevent-dev \
+    && rm -rf /var/lib/apt/lists/*
+# Crystal only has x86_64 binaries - skip on ARM64
+RUN ARCH=$(dpkg --print-architecture) \
+    && CRYSTAL_VERSION=1.14.0 \
+    && if [ "$ARCH" != "arm64" ]; then \
+         wget -q https://github.com/crystal-lang/crystal/releases/download/${CRYSTAL_VERSION}/crystal-${CRYSTAL_VERSION}-1-linux-x86_64.tar.gz \
+         && tar xzf crystal-${CRYSTAL_VERSION}-1-linux-x86_64.tar.gz -C /usr/local --strip-components=1 \
+         && rm crystal-${CRYSTAL_VERSION}-1-linux-x86_64.tar.gz; \
+       else \
+         echo "Crystal: Skipping on ARM64 (no binaries available)"; \
+       fi
+# crystal --version: 1.14.x (x86_64 only)
+
+# ----------------------------------------------------------------------------
+# 23. Nim (2.x)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    nim \
+    && rm -rf /var/lib/apt/lists/*
+# nim --version: 2.x.x
+
+# ----------------------------------------------------------------------------
+# 24. D (LDC2)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    ldc \
+    && rm -rf /var/lib/apt/lists/*
+# ldc2 --version: 1.x.x
 
 # ============================================================================
 # PUPPETEER CONFIGURATION
@@ -209,7 +330,9 @@ CMD ["node", "index.js"]
 # ============================================================================
 # TOOLCHAIN VERSIONS (for reference)
 # ============================================================================
-# This image contains 14 of 15 Tier 1 toolchains:
+# This image contains Tier 1 + Tier 2 toolchains:
+#
+# Tier 1 (Core Languages):
 # - C/C++: gcc/g++ 13.x
 # - Python: 3.12.x
 # - JavaScript: Node.js 20.x
@@ -223,7 +346,25 @@ CMD ["node", "index.js"]
 # - PHP: 8.3.x
 # - Ruby: 3.x
 # - Perl: 5.38.x (built-in)
-# - Swift: DEFERRED TO PHASE 5 (download URLs broken)
+# - Swift: DEFERRED (Ubuntu 24.04 support pending)
 #
-# Estimated image size: 8-12GB
+# Tier 2 (Compiled):
+# - Fortran: gfortran 13.x
+# - Ada: gnat 13.x
+# - D: ldc 1.x
+# - Nim: 2.x
+# - Crystal: 1.14.x
+#
+# Tier 2 (Scripting & Functional):
+# - Lua: 5.4.x
+# - R: 4.x
+# - Julia: 1.10.x
+# - Elixir: 1.15.x
+# - Haskell: GHC 9.x
+# - OCaml: 4.14.x
+# - Groovy: 4.x
+# - Dart: 3.x
+#
+# Total: 27 languages (Swift deferred)
+# Estimated image size: 10-15GB
 # ============================================================================
