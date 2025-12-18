@@ -1767,7 +1767,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>
-    <script src="../Metrics/report_client.js"></script>
+    <script src="./Metrics/report_client.js"></script>
     </body>
     </html>
     `;
