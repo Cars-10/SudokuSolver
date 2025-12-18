@@ -1631,5 +1631,2194 @@
         "output": "/Users/vibe/SudokuSolver/Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n0 0 0 0 0 0 0 0 0 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 2 0 \n0 0 0 0 0 0 0 0 0 \n2 0 0 7 0 0 9 0 0 \n0 0 0 0 0 0 0 0 0 \n0 8 0 0 9 0 0 3 0 \n\nPuzzle:\n8 1 3 2 6 5 7 9 4 \n6 2 9 3 4 7 1 5 8 \n5 4 7 9 8 1 2 6 3 \n3 5 1 8 2 4 6 7 9 \n4 6 8 1 7 9 3 2 5 \n9 7 2 5 3 6 4 8 1 \n2 3 5 7 1 8 9 4 6 \n7 9 4 6 5 3 8 1 2 \n1 8 6 4 9 2 5 3 7 \n\nSolved in Iterations=69\n\nSeconds to process 0.000\n"
       }
     ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T20:54:31.807Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.02115,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.002\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:03:01.388Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.02115,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.002\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:03:42.458Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.009001,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:03:46.149Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.006772,
+        "iterations": 0,
+        "memory": 1409024,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:03:49.861Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007684,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:04:58.573Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.00864,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:08:21.285Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.008085,
+        "iterations": 0,
+        "memory": 1413120,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:18:54.440Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007912,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:18:57.396Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007158,
+        "iterations": 0,
+        "memory": 1335296,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.013041,
+        "iterations": 0,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:19:04.228Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007158,
+        "iterations": 0,
+        "memory": 1335296,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.006766,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:19:07.758Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007158,
+        "iterations": 0,
+        "memory": 1335296,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.006741,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:19:12.473Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007158,
+        "iterations": 0,
+        "memory": 1335296,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:19:19.441Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.007152,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:20:09.925Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.008913,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:25:34.082Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.008,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:26:39.264Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.00746,
+        "iterations": 0,
+        "memory": 1400832,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:28:27.518Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.008208,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:46:47.025Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.014895,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:49:53.164Z",
+    "results": [
+      {
+        "solver": "C",
+        "runType": "automated",
+        "timestamp": "2025-12-17T12:06:04Z",
+        "results": [
+          {
+            "matrix": "1",
+            "time": 0,
+            "iterations": 656,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "2",
+            "time": 0,
+            "iterations": 439269,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002"
+          },
+          {
+            "matrix": "3",
+            "time": 0,
+            "iterations": 98847,
+            "memory": 1380,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001"
+          },
+          {
+            "matrix": "4",
+            "time": 0,
+            "iterations": 9085,
+            "memory": 1368,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000"
+          },
+          {
+            "matrix": "5",
+            "time": 0,
+            "iterations": 445778,
+            "memory": 1316,
+            "cpu_user": 0,
+            "cpu_sys": 0,
+            "status": "success",
+            "output": "../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.001"
+          }
+        ]
+      },
+      {
+        "matrix": "1.matrix",
+        "time": 0.013026,
+        "iterations": 0,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.00683,
+        "iterations": 0,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "fail",
+        "output": "Seconds to process 0.000\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:56:33.580Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.008308,
+        "iterations": 656,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.027292,
+        "iterations": 439269,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.026142,
+        "iterations": 98847,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.026919,
+        "iterations": 445778,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:56:44.273Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.008308,
+        "iterations": 656,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.007976,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.026142,
+        "iterations": 98847,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.026919,
+        "iterations": 445778,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:56:54.248Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.008308,
+        "iterations": 656,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.007976,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.006914,
+        "iterations": 98847,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.026919,
+        "iterations": 445778,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T21:59:18.727Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.008308,
+        "iterations": 656,
+        "memory": 1351680,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.007976,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.006914,
+        "iterations": 98847,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T22:28:37.979Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.009298,
+        "iterations": 656,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.007976,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.006914,
+        "iterations": 98847,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T22:37:17.383Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.012022,
+        "iterations": 656,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.007976,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.006914,
+        "iterations": 98847,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T22:37:32.747Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.012022,
+        "iterations": 656,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.010558,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.006914,
+        "iterations": 98847,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-17T22:37:38.830Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.012022,
+        "iterations": 656,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.010558,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.008784,
+        "iterations": 98847,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
+  },
+  {
+    "solver": "C",
+    "runType": "Local",
+    "timestamp": "2025-12-18T07:24:56.889Z",
+    "results": [
+      {
+        "matrix": "1.matrix",
+        "time": 0.011177,
+        "iterations": 656,
+        "memory": 1400832,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "2.matrix",
+        "time": 0.010558,
+        "iterations": 439269,
+        "memory": 1417216,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/2.matrix\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n0 0 3 0 0 5 0 0 4 \n5 0 0 9 8 1 0 0 0 \n0 0 0 0 0 0 0 2 0 \n2 0 0 7 0 0 9 0 0 \n0 8 0 0 9 0 0 3 0 \n0 0 9 0 0 2 0 0 1 \n0 3 0 0 0 0 0 0 0 \n0 0 0 1 4 9 0 0 5 \n9 0 0 3 0 0 8 0 0 \n\nPuzzle:\n8 6 3 2 7 5 1 9 4 \n5 4 2 9 8 1 6 7 3 \n1 9 7 4 3 6 5 2 8 \n2 5 4 7 1 3 9 8 6 \n6 8 1 5 9 4 2 3 7 \n3 7 9 8 6 2 4 5 1 \n4 3 5 6 2 8 7 1 9 \n7 2 8 1 4 9 3 6 5 \n9 1 6 3 5 7 8 4 2 \n\nSolved in Iterations=439269\n\nSeconds to process 0.001\n"
+      },
+      {
+        "matrix": "3.matrix",
+        "time": 0.008784,
+        "iterations": 98847,
+        "memory": 1404928,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/3.matrix\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n0 9 0 6 0 0 0 7 0 \n0 5 2 0 7 0 0 4 8 \n0 8 0 0 0 1 0 2 0 \n0 0 5 0 0 0 0 0 3 \n0 1 0 0 0 0 0 6 0 \n3 0 0 0 0 0 4 0 0 \n0 4 0 2 0 0 0 1 0 \n2 6 0 0 4 0 5 3 0 \n0 3 0 0 0 6 0 9 0 \n\nPuzzle:\n4 9 3 6 8 2 1 7 5 \n1 5 2 3 7 9 6 4 8 \n7 8 6 4 5 1 3 2 9 \n6 7 5 1 2 4 9 8 3 \n8 1 4 5 9 3 7 6 2 \n3 2 9 8 6 7 4 5 1 \n9 4 7 2 3 5 8 1 6 \n2 6 1 9 4 8 5 3 7 \n5 3 8 7 1 6 2 9 4 \n\nSolved in Iterations=98847\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "4.matrix",
+        "time": 0.025011,
+        "iterations": 9085,
+        "memory": 1294336,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/4.matrix\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n0 7 0 0 0 0 0 0 6 \n1 0 0 2 7 0 5 0 0 \n0 0 0 0 4 0 0 3 0 \n2 1 9 0 0 0 0 7 0 \n0 0 8 0 0 0 4 0 0 \n0 4 0 0 0 0 2 5 9 \n0 9 0 0 3 0 0 0 0 \n0 0 5 0 9 6 0 0 7 \n7 0 0 0 0 0 0 8 0 \n\nPuzzle:\n3 7 4 5 8 9 1 2 6 \n1 8 6 2 7 3 5 9 4 \n9 5 2 6 4 1 7 3 8 \n2 1 9 4 6 5 8 7 3 \n5 3 8 9 2 7 4 6 1 \n6 4 7 3 1 8 2 5 9 \n8 9 1 7 3 2 6 4 5 \n4 2 5 8 9 6 3 1 7 \n7 6 3 1 5 4 9 8 2 \n\nSolved in Iterations=9085\n\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "5.matrix",
+        "time": 0.01005,
+        "iterations": 445778,
+        "memory": 1548288,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=445778\n\nSeconds to process 0.002\n"
+      },
+      {
+        "matrix": "6.matrix",
+        "time": 2.06304,
+        "iterations": 622577597,
+        "memory": 1294336,
+        "cpu_user": 2.02,
+        "cpu_sys": 0,
+        "status": "pass",
+        "output": "../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 2.037\n"
+      }
+    ]
   }
 ]

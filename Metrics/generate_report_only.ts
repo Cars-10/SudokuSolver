@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const outputDir = process.env.OUTPUT_DIR || rootDir;
 const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
-const htmlFile = path.join(rootDir, 'benchmark_report.html');
+const htmlFile = path.join(rootDir, '_report.html');
 
 async function run() {
     try {
