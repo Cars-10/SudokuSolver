@@ -1,5 +1,10 @@
 let currentSort = { metric: 'time', dir: 1 }; // 1 = Asc, -1 = Desc
 
+// Helper to normalize matrix identifiers (handles both "1" and "1.matrix" formats)
+function normalizeMatrix(m) {
+    return String(m).replace('.matrix', '');
+}
+
 // Search Logic
 function filterLanguages() {
     const input = document.getElementById('search-input');
@@ -1167,7 +1172,7 @@ window.saveSessionState = async function () {
     };
 
     try {
-        await fetch('http://localhost:3000/api/session-state', {
+        await fetch('http://localhost:9001/api/session-state', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(state)
@@ -1179,7 +1184,7 @@ window.saveSessionState = async function () {
 
 window.loadSessionState = async function () {
     try {
-        const res = await fetch('http://localhost:3000/api/session-state?t=' + Date.now());
+        const res = await fetch('http://localhost:9001/api/session-state?t=' + Date.now());
         if (res.ok) {
             const state = await res.json();
             console.log("Loaded session state:", state);
@@ -1438,9 +1443,10 @@ initializeStatus();
     // const metricsData = ...
 
     let data = metricsData;
-    const allTimes = data.flatMap(d => d.results.map(r => r ? r.time : 999999)).filter(t => t < 999999);
-    const minTime = allTimes.length ? Math.min(...allTimes) : 0.001;
-    const maxTime = allTimes.length ? Math.max(...allTimes) : 100;
+    const allTimes = data.flatMap(d => d.results.map(r => r ? r.time : 999999)).filter(t => t > 0 && t < 999999);
+    // Ensure minTime has a floor value for log scale (log(0) is undefined)
+    const minTime = allTimes.length ? Math.max(0.001, Math.min(...allTimes)) : 0.001;
+    const maxTime = allTimes.length ? Math.max(...allTimes, 1) : 100;
 
     let currentChart = 'line';
     let color; // Exposed for charts
@@ -1899,12 +1905,12 @@ initializeStatus();
         const cSolver = data.find(s => s.solver === 'C');
         if (cSolver) {
             const cIters = {};
-            cSolver.results.forEach(r => cIters[r.matrix] = r.iterations);
+            cSolver.results.forEach(r => cIters[normalizeMatrix(r.matrix)] = r.iterations);
 
             data = data.filter(s => {
                 if (s.solver === 'C') return true;
                 const hasMismatch = s.results.some(r => {
-                    const expected = cIters[r.matrix];
+                    const expected = cIters[normalizeMatrix(r.matrix)];
                     return expected && r.iterations !== expected;
                 });
                 return !hasMismatch;
@@ -1912,6 +1918,8 @@ initializeStatus();
         }
 
         // Use global minTime/maxTime
+        // Support both old format ("1.matrix") and new format ("1")
+        const matrixNumbers = ["1", "2", "3", "4", "5", "6"];
         const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
 
 
@@ -1960,9 +1968,9 @@ initializeStatus();
 
             d3.select("#d3-chart-container svg").call(zoom);
 
-            // X Axis
+            // X Axis (use normalized matrix numbers for domain)
             const x = d3.scalePoint()
-                .domain(matrices)
+                .domain(matrixNumbers)
                 .range([0, chartWidth])
                 .padding(0.5);
 
@@ -2019,12 +2027,12 @@ initializeStatus();
 
             // Line Generator
             const line = d3.line()
-                .x(d => x(d.matrix))
+                .x(d => x(normalizeMatrix(d.matrix)))
                 .y(d => y(Math.max(d.time, minTime)));
 
             // Draw Lines
             data.forEach(solver => {
-                const solverData = solver.results.filter(r => matrices.includes(r.matrix));
+                const solverData = solver.results.filter(r => matrixNumbers.includes(normalizeMatrix(r.matrix)));
                 const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
 
                 svg.append("path")
@@ -2039,7 +2047,7 @@ initializeStatus();
                     .data(solverData)
                     .enter().append("g")
                     .attr("class", safeSolverClass)
-                    .attr("transform", d => "translate(" + x(d.matrix) + ", " + y(Math.max(d.time, minTime)) + ")");
+                    .attr("transform", d => "translate(" + x(normalizeMatrix(d.matrix)) + ", " + y(Math.max(d.time, minTime)) + ")");
 
                 // Logo Image
                 pointGroup.append("image")
@@ -2113,7 +2121,7 @@ initializeStatus();
                 const lastPoint = solverData[solverData.length - 1];
                 if (lastPoint) {
                     svg.append("text")
-                        .attr("x", x(lastPoint.matrix) + 10)
+                        .attr("x", x(normalizeMatrix(lastPoint.matrix)) + 10)
                         .attr("y", y(Math.max(lastPoint.time, minTime)))
                         .attr("dy", "0.35em")
                         .style("fill", color(solver.solver))
@@ -3081,7 +3089,7 @@ let startScreensaverGlobal;
 window.showMismatch = function (solverName, matrixName, cell) {
     const solver = metricsData.find(s => s.solver === solverName);
     if (!solver) return;
-    const result = solver.results.find(r => r.matrix === matrixName);
+    const result = solver.results.find(r => normalizeMatrix(r.matrix) === normalizeMatrix(matrixName));
     if (!result) return;
 
     document.getElementById('mismatchTitle').innerText = 'Mismatch: ' + solverName + ' on ' + matrixName;
