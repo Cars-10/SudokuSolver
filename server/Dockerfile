@@ -426,6 +426,22 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 # valac --version: 0.56.x
 
+# ----------------------------------------------------------------------------
+# 40. GNU Forth
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    gforth \
+    && rm -rf /var/lib/apt/lists/*
+# gforth --version: 0.7.x
+
+# ----------------------------------------------------------------------------
+# 41. Smalltalk - DEFERRED
+# ----------------------------------------------------------------------------
+# GNU Smalltalk: Not available in Ubuntu 24.04 repositories
+# Pharo Smalltalk: ARM64 VM download issues on Ubuntu 24.04
+# TODO: Revisit when Ubuntu packages or Pharo ARM64 binaries stabilize
+# smalltalk --version: DEFERRED
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -522,7 +538,9 @@ CMD ["node", "index.js"]
 # - GNU Octave: 8.x (MATLAB-compatible)
 # - V: 0.4.x (simple systems language)
 # - Vala: 0.56.x (GNOME/GLib language)
+# - GNU Forth: 0.7.x (stack-based language)
+# - Smalltalk: DEFERRED (GNU/Pharo unavailable on Ubuntu 24.04 ARM64)
 #
-# Total: 42 languages (Swift deferred, Erlang via elixir)
+# Total: 43 languages (Swift + Smalltalk deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================

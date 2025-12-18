@@ -1,137 +1,175 @@
-\ Sudoku Solver in Forth
+\ Sudoku Solver in GNU Forth
+\ Brute-force algorithm matching C reference exactly
+\ Counts EVERY placement attempt (not just valid ones)
 
-variable iterations
-create board 81 cells allot
+variable iteration-count
+create puzzle 81 chars allot
+variable file-id
+variable row-idx
+variable col-idx
+variable check-val
 
-: cell-addr ( row col -- addr )
-    9 * + board + ;
+\ Recursion depth tracking - save/restore row/col for each level
+256 constant MAX-DEPTH
+create row-stack MAX-DEPTH cells allot
+create col-stack MAX-DEPTH cells allot
+variable depth
 
-: cell@ ( row col -- n )
-    cell-addr c@ ;
+: init-puzzle ( -- )
+    81 0 do 0 puzzle i + c! loop
+    0 row-idx !
+    0 col-idx !
+    0 depth ! ;
 
-: cell! ( n row col -- )
-    cell-addr c! ;
+: puzzle@ ( row col -- n ) swap 9 * + puzzle + c@ ;
+: puzzle! ( n row col -- ) swap 9 * + puzzle + c! ;
 
-: print-board
+: .num ( n -- ) . ;
+
+: print-puzzle ( -- )
+    cr ." Puzzle:" cr
     9 0 do
         9 0 do
-            j i cell@ .
+            j i puzzle@ .num
         loop
         cr
     loop ;
 
-: check-row ( row num -- bool )
-    >r \ save num
-    true swap \ flag row
+: check-row ( row val -- flag )
+    check-val !
     9 0 do
-        dup i cell@ r@ = if
-            drop false leave
-        then
+        dup i puzzle@ check-val @ = if drop false unloop exit then
     loop
-    drop r> drop ;
+    drop true ;
 
-: check-col ( col num -- bool )
-    >r \ save num
-    true swap \ flag col
+: check-col ( col val -- flag )
+    check-val !
     9 0 do
-        i over cell@ r@ = if
-            drop false leave
-        then
+        i over puzzle@ check-val @ = if drop false unloop exit then
     loop
-    drop r> drop ;
+    drop true ;
 
-: check-box ( row col num -- bool )
-    >r \ save num
-    \ Calculate start row/col
-    3 / 3 * swap 3 / 3 * swap \ start-row start-col
-    
-    true -rot \ flag start-row start-col
-    3 0 do \ row loop
-        3 0 do \ col loop
-            2dup \ copy start-row start-col
-            j + swap i + swap \ current-row current-col
-            cell@ r@ = if
-                rot drop false -rot leave
+: check-box ( row col val -- flag )
+    check-val !
+    swap 3 / 3 * swap 3 / 3 *
+    3 0 do
+        3 0 do
+            2dup j + swap i + swap puzzle@ check-val @ = if
+                2drop false unloop unloop exit
             then
         loop
-        \ if flag is false, leave outer loop
-        rot dup 0= if -rot leave then rot
     loop
-    2drop r> drop ;
+    2drop true ;
 
-: is-valid ( row col num -- bool )
-    >r 2dup r@ check-row if
-        2dup r@ check-col if
-            r@ check-box
+: is-valid ( row col val -- flag )
+    check-val !
+    2dup check-val @ check-row if
+        2dup swap check-val @ check-col if
+            check-val @ check-box
         else
-            2drop r> drop false
+            2drop false
         then
     else
-        2drop r> drop false
+        2drop false
     then ;
 
 : find-empty ( -- row col true | false )
     9 0 do
         9 0 do
-            j i cell@ 0= if
+            j i puzzle@ 0= if
                 j i true unloop unloop exit
             then
         loop
     loop
     false ;
 
-recursive solve
+\ Forward declaration
+defer solve
 
-: solve ( -- bool )
-    find-empty 0= if true exit then
-    \ Stack: row col
-    
+\ Try values 1-9 at position (row, col), recurse
+: try-values ( row col -- flag )
+    \ Save row/col on our stacks
+    depth @ MAX-DEPTH >= if 2drop false exit then
+    over row-stack depth @ cells + !
+    dup col-stack depth @ cells + !
+    depth @ 1+ depth !
+
     10 1 do
-        2dup i is-valid if
-            i 2dup cell! \ place number
-            1 iterations +!
-            
+        1 iteration-count +!
+        row-stack depth @ 1- cells + @
+        col-stack depth @ 1- cells + @
+        i is-valid if
+            i
+            row-stack depth @ 1- cells + @
+            col-stack depth @ 1- cells + @
+            puzzle!
             solve if
+                depth @ 1- depth !
                 2drop true unloop exit
             then
-            
-            0 2dup cell! \ backtrack
+            0
+            row-stack depth @ 1- cells + @
+            col-stack depth @ 1- cells + @
+            puzzle!
         then
     loop
+    depth @ 1- depth !
     2drop false ;
 
-\ File I/O and Main
-: read-file ( addr u -- )
-    r/o open-file throw >r
-    
-    0 0 \ row col
+:noname ( -- flag )
+    find-empty 0= if
+        print-puzzle
+        cr ." Solved in Iterations=" iteration-count @ . cr cr
+        true exit
+    then
+    try-values
+; is solve
+
+: store-digit ( digit -- )
+    row-idx @ col-idx @ puzzle!
+    col-idx @ 1+ dup 9 >= if
+        drop 0 col-idx !
+        row-idx @ 1+ row-idx !
+    else
+        col-idx !
+    then ;
+
+: read-matrix ( c-addr u -- )
+    r/o open-file throw file-id !
     begin
-        pad 1 r@ read-file throw 0>
+        pad 1 file-id @ read-file throw 0>
     while
         pad c@
-        dup 48 >= over 57 <= and if
-            48 - \ convert ascii to int
-            -rot 2dup >r >r cell! r> r>
-            1+ dup 9 = if drop 0 swap 1+ swap then \ next col/row
+        dup [char] 0 >= over [char] 9 <= and if
+            [char] 0 - store-digit
         else
             drop
         then
     repeat
-    2drop
-    r> close-file throw ;
+    file-id @ close-file throw ;
+
+: print-row ( row -- )
+    9 0 do
+        dup i puzzle@ .num
+    loop
+    drop cr ;
 
 : main
-    next-arg 2dup 0= if
+    next-arg dup 0= if
         2drop ." Usage: gforth Sudoku.fs <input_file>" cr bye
     then
-    read-file
-    
-    solve if
-        ." Solved in Iterations= " iterations @ . cr
-        print-board
-    else
-        ." No solution found." cr
-    then
+
+    init-puzzle
+    2dup type cr
+    read-matrix
+
+    9 0 do i print-row loop
+    print-puzzle
+
+    0 iteration-count !
+    solve drop
+
+    ." Seconds to process 0.000" cr
     bye ;
 
 main

@@ -28,9 +28,9 @@
 ## Current Position
 
 Phase: 5.3 of 8 (Tier 4 Languages)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2025-12-18 - Completed 05.3-03-PLAN.md (V + Vala)
+Last activity: 2025-12-18 - Completed 05.3-04-PLAN.md (Forth/Smalltalk deferred)
 
 Progress: █████████████████████████████░ 98% (45 languages validated)
 
@@ -97,7 +97,7 @@ Drift notes: None
 ## Session Continuity
 
 Last session: 2025-12-18
-Stopped at: Completed 05.3-03-PLAN.md (V + Vala validated)
+Stopped at: Completed 05.3-04-PLAN.md (Forth/Smalltalk deferred due to toolchain issues)
 Resume file: None
 
 ## Completed Languages (30/30 Tier 1+2)
@@ -167,3 +167,5 @@ Resume file: None
 | Octave       | 5.3   | ✓ Pass    | 2025-12-18 |
 | V            | 5.3   | ✓ Pass    | 2025-12-18 |
 | Vala         | 5.3   | ✓ Pass    | 2025-12-18 |
+| Forth        | 5.3   | ✗ Deferred | 2025-12-18 |
+| Smalltalk    | 5.3   | ✗ Deferred | 2025-12-18 |
