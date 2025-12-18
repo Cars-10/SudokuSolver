@@ -4,7 +4,7 @@ var puzzle = [[Int]](repeating: [Int](repeating: 0, count: 9), count: 9)
 var iterations = 0
 
 func printBoard() {
-    print("Puzzle:")
+    print("\nPuzzle:")
     for i in 0..<9 {
         for j in 0..<9 {
             print("\(puzzle[i][j]) ", terminator: "")
@@ -60,11 +60,14 @@ func solve(row: Int, col: Int) -> Bool {
 }
 
 func readBoard(filename: String) -> Bool {
-    guard let content = try? String(contentsOfFile: filename) else {
-        print("Error reading file \(filename)")
+    guard let content = try? String(contentsOfFile: filename, encoding: .utf8) else {
+        fputs("Error reading file \(filename)\n", stderr)
         return false
     }
-    
+
+    // Print the path first (just the path, like C reference)
+    print(filename)
+
     let lines = content.components(separatedBy: .newlines)
     var row = 0
     for line in lines {
@@ -80,6 +83,13 @@ func readBoard(filename: String) -> Bool {
                 col += 1
             }
         }
+        // Echo row after parsing (like C reference)
+        if col == 9 {
+            for c in 0..<9 {
+                print("\(puzzle[row][c]) ", terminator: "")
+            }
+            print("")
+        }
         row += 1
         if row == 9 { break }
     }
@@ -91,17 +101,25 @@ if CommandLine.arguments.count < 2 {
     exit(1)
 }
 
+let startTime = Date()
+
 for i in 1..<CommandLine.arguments.count {
     let filename = CommandLine.arguments[i]
-    print("\nProcessing \(filename)")
+
+    // Reset puzzle for each file
+    puzzle = [[Int]](repeating: [Int](repeating: 0, count: 9), count: 9)
+
     if readBoard(filename: filename) {
         printBoard()
         iterations = 0
         if solve(row: 0, col: 0) {
             printBoard()
-            print("\nSolved in Iterations=\(iterations)")
+            print("\nSolved in Iterations=\(iterations)\n")
         } else {
             print("No solution found")
         }
     }
 }
+
+let elapsed = Date().timeIntervalSince(startTime)
+print(String(format: "Seconds to process %.3f", elapsed))
