@@ -19,10 +19,14 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
         await page.setViewport({ width: 1920, height: 1080 });
 
         // Use file:// protocol
-        await page.goto(`file://${htmlFilePath}`, { waitUntil: 'load' });
+        await page.goto(`file://${htmlFilePath}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
         // Wait a bit for animations
         await new Promise(r => setTimeout(r, 2000));
+
+        // Scroll to top of page before screenshot
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await new Promise(r => setTimeout(r, 100));
 
         let screenshotPath = outputPath;
         if (!screenshotPath) {
@@ -35,8 +39,7 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
             await fs.mkdir(path.dirname(screenshotPath), { recursive: true });
         }
 
-        await page.screenshot({ path: screenshotPath, fullPage: true });
-        console.log(`Screenshot saved to ${screenshotPath}`);
+        await page.screenshot({ path: screenshotPath });
 
         await browser.close();
     } catch (e) {

@@ -308,7 +308,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Sudoku Benchmark - Neon</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Metrics/index.css">
+    <link rel="stylesheet" href="./Metrics/index.css">
     <style>
         /* Pill UI */
         .pill-container {
@@ -1291,6 +1291,21 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     window.addEventListener('DOMContentLoaded', () => {
         riddleSystem = new RiddleSystem();
     });
+
+    // Random persona selection on load - use window.onload to ensure report_client.js is loaded
+    window.addEventListener('load', () => {
+        const personaSelector = document.getElementById('personality-selector');
+        if (personaSelector) {
+            const options = Array.from(personaSelector.options).filter(o => !o.disabled && o.value);
+            if (options.length > 0) {
+                const randomIndex = Math.floor(Math.random() * options.length);
+                personaSelector.value = options[randomIndex].value;
+                if (typeof changePersonality === 'function') {
+                    changePersonality();
+                }
+            }
+        }
+    });
     window.startRiddleAnimation = () => {
          if (riddleSystem) riddleSystem.start();
     };
@@ -1402,18 +1417,21 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="John Wick">John Wick</option>
                 <option value="Dark Knight">Dark Knight</option>
             </select>
-            <button class="btn" onclick="showMethodology()">Methodology</button>
             <button class="btn" onclick="sortRows('lang', this)">Name</button>
             <button class="btn active" onclick="sortRows('time', this)">Time</button>
             <button class="btn" onclick="sortRows('mem', this)">Memory</button>
-            <button class="btn" onclick="sortRows('iters', this)">Entropy</button>
             <button class="btn" onclick="sortRows('score', this)">Score</button>
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
                 <span>Show Mismatches</span>
             </button>
-            <button class="btn" onclick="showGoals()">Project Goals</button>
-            <button class="btn" onclick="showWhy()">Why???</button>
-            
+            <div class="dropdown">
+                <button class="btn">Info ▾</button>
+                <div class="dropdown-content">
+                    <a onclick="showMethodology()">Methodology</a>
+                    <a onclick="showGoals()">Project Goals</a>
+                    <a onclick="showWhy()">Why???</a>
+                </div>
+            </div>
             <div style="position: relative; display: inline-block;">
                 <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">Languages ▾</button>
                 <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
@@ -1447,7 +1465,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <table>
             <thead>
                 <tr>
-                    <th>
+                    <th class="lang-col-header">
                         Language
                         <div class="sort-group">
                             <button class="sort-btn" onclick="sortRows('lang', this)" title="Sort by Name">N</button>
@@ -1546,8 +1564,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         if (isSuspect) rowClass += " suspect";
         if (isMismatch) rowClass += " mismatch-iterations";
 
-        // Check if language is locked (completed)
-        const isLocked = benchmarkConfig?.completed?.includes(lang) || false;
+        // Check if language is locked (from session_state.json)
+        const isLocked = benchmarkConfig?.lockedLanguages?.includes(lang) || false;
 
         // Quote
         const baseLang = lang; // lang is already clean now
