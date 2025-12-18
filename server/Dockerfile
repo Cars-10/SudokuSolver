@@ -405,6 +405,27 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 # octave --version: 8.x.x
 
+# ----------------------------------------------------------------------------
+# 38. V Language
+# ----------------------------------------------------------------------------
+RUN ARCH=$(dpkg --print-architecture) \
+    && V_VERSION=weekly.2025.51 \
+    && if [ "$ARCH" = "arm64" ]; then V_ARCH="linux_arm64"; else V_ARCH="linux_amd64"; fi \
+    && wget -q https://github.com/vlang/v/releases/download/${V_VERSION}/v_${V_ARCH}.zip \
+    && unzip -q v_${V_ARCH}.zip -d /usr/local \
+    && ln -s /usr/local/v/v /usr/local/bin/v \
+    && rm v_${V_ARCH}.zip
+# v --version: V 0.4.x
+
+# ----------------------------------------------------------------------------
+# 39. Vala
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    valac \
+    libglib2.0-dev \
+    && rm -rf /var/lib/apt/lists/*
+# valac --version: 0.56.x
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -499,7 +520,9 @@ CMD ["node", "index.js"]
 # - Racket: 8.x (modern Scheme)
 # - Raku: 2024.x (Perl 6 successor)
 # - GNU Octave: 8.x (MATLAB-compatible)
+# - V: 0.4.x (simple systems language)
+# - Vala: 0.56.x (GNOME/GLib language)
 #
-# Total: 40 languages (Swift deferred, Erlang via elixir)
+# Total: 42 languages (Swift deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
