@@ -1,92 +1,114 @@
--module(sudoku).
--export([main/1]).
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%% Sudoku Solver in Erlang
+%% Brute-force backtracking algorithm matching C reference exactly
 
-main(Args) ->
-    lists:foreach(fun process_file/1, Args).
+main([Filename|_]) ->
+    put(count, 0),
+    read_matrix(Filename),
+    print_puzzle(),
+    case solve() of
+        true -> ok;
+        false -> io:format("No solution found~n")
+    end;
+main(_) ->
+    io:format(standard_error, "Usage: escript sudoku.erl <matrix_file>~n", []),
+    halt(1).
 
-process_file(Filename) ->
-    io:format("~nProcessing ~s~n", [Filename]),
-    case read_board(Filename) of
-        {ok, Board} ->
-            print_board(Board),
-            put(iterations, 0),
-            case solve(Board, 0, 0) of
-                {ok, SolvedBoard} ->
-                    print_board(SolvedBoard),
-                    io:format("~nSolved in Iterations=~p~n", [get(iterations)]);
-                error ->
-                    io:format("No solution found~n")
-            end;
-        {error, Reason} ->
-            io:format("Error reading file ~s: ~p~n", [Filename, Reason])
+%% Read matrix from file
+read_matrix(Filename) ->
+    %% Print filename (normalize /app/Matrices to ../Matrices)
+    case string:prefix(Filename, "/app/Matrices/") of
+        nomatch -> io:format("~s~n", [Filename]);
+        Rest -> io:format("../Matrices/~s~n", [Rest])
+    end,
+    {ok, Binary} = file:read_file(Filename),
+    Lines = string:split(binary_to_list(Binary), "\n", all),
+    read_rows(Lines, 0).
+
+read_rows(_, 9) -> ok;
+read_rows([], _) -> ok;
+read_rows([Line|Rest], Row) ->
+    Trimmed = string:trim(Line),
+    case Trimmed of
+        "" -> read_rows(Rest, Row);
+        [$#|_] -> read_rows(Rest, Row);  %% Skip comments
+        _ ->
+            Numbers = string:tokens(Trimmed, " "),
+            parse_row(Numbers, Row, 0),
+            io:format("~n"),
+            read_rows(Rest, Row + 1)
     end.
 
-read_board(Filename) ->
-    case file:read_file(Filename) of
-        {ok, Binary} ->
-            Lines = binary:split(Binary, <<"\n">>, [global, trim]),
-            FilteredLines = lists:filter(fun(Line) -> 
-                case binary:match(Line, <<"#">>) of
-                    {0, _} -> false;
-                    _ -> byte_size(Line) > 0
-                end
-            end, Lines),
-            Rows = lists:sublist(FilteredLines, 9),
-            Board = lists:map(fun(Line) ->
-                Parts = binary:split(Line, <<" ">>, [global, trim_all]),
-                lists:map(fun(Part) -> binary_to_integer(Part) end, lists:sublist(Parts, 9))
-            end, Rows),
-            {ok, list_to_tuple(lists:map(fun list_to_tuple/1, Board))};
-        Error -> Error
-    end.
+parse_row(_, _, 9) -> ok;
+parse_row([], _, _) -> ok;
+parse_row([NumStr|Rest], Row, Col) ->
+    Num = list_to_integer(NumStr),
+    put({puzzle, Row, Col}, Num),
+    io:format("~B ", [Num]),
+    parse_row(Rest, Row, Col + 1).
 
-print_board(Board) ->
-    io:format("Puzzle:~n"),
-    lists:foreach(fun(RowIndex) ->
-        Row = element(RowIndex, Board),
-        lists:foreach(fun(ColIndex) ->
-            io:format("~p ", [element(ColIndex, Row)])
-        end, lists:seq(1, 9)),
+%% Print puzzle in C format
+print_puzzle() ->
+    io:format("~nPuzzle:~n"),
+    lists:foreach(fun(R) ->
+        lists:foreach(fun(C) ->
+            io:format("~B ", [get({puzzle, R, C})])
+        end, lists:seq(0, 8)),
         io:format("~n")
-    end, lists:seq(1, 9)).
+    end, lists:seq(0, 8)).
 
-is_possible(Board, Row, Col, Num) ->
-    RowData = element(Row + 1, Board),
-    RowValid = not lists:member(Num, tuple_to_list(RowData)),
-    ColValid = not lists:any(fun(R) -> element(Col + 1, element(R, Board)) == Num end, lists:seq(1, 9)),
-    
-    StartRow = (Row div 3) * 3,
-    StartCol = (Col div 3) * 3,
-    BoxValid = not lists:any(fun(R) ->
-        lists:any(fun(C) ->
-            element(C + 1, element(R + 1, Board)) == Num
-        end, lists:seq(StartCol, StartCol + 2))
-    end, lists:seq(StartRow, StartRow + 2)),
-    
-    RowValid andalso ColValid andalso BoxValid.
+%% Check if value is valid at position
+is_valid(Row, Col, Val) ->
+    %% Check row
+    RowOk = not lists:any(fun(C) -> get({puzzle, Row, C}) =:= Val end, lists:seq(0, 8)),
+    %% Check column
+    ColOk = not lists:any(fun(R) -> get({puzzle, R, Col}) =:= Val end, lists:seq(0, 8)),
+    %% Check 3x3 box
+    BoxRow = (Row div 3) * 3,
+    BoxCol = (Col div 3) * 3,
+    BoxOk = not lists:any(fun(R) ->
+        lists:any(fun(C) -> get({puzzle, R, C}) =:= Val end,
+                  lists:seq(BoxCol, BoxCol + 2))
+    end, lists:seq(BoxRow, BoxRow + 2)),
+    RowOk andalso ColOk andalso BoxOk.
 
-solve(Board, 9, _) -> {ok, Board};
-solve(Board, Row, 9) -> solve(Board, Row + 1, 0);
-solve(Board, Row, Col) ->
-    CurrentVal = element(Col + 1, element(Row + 1, Board)),
-    if
-        CurrentVal /= 0 ->
-            solve(Board, Row, Col + 1);
-        true ->
-            try_numbers(Board, Row, Col, 1)
+%% Find first empty cell (row-major order)
+find_empty() ->
+    find_empty(0, 0).
+
+find_empty(9, _) -> none;
+find_empty(Row, 9) -> find_empty(Row + 1, 0);
+find_empty(Row, Col) ->
+    case get({puzzle, Row, Col}) of
+        0 -> {Row, Col};
+        _ -> find_empty(Row, Col + 1)
     end.
 
-try_numbers(_Board, _Row, _Col, 10) -> error;
-try_numbers(Board, Row, Col, Num) ->
-    put(iterations, get(iterations) + 1),
-    case is_possible(Board, Row, Col, Num) of
+%% Solve the puzzle
+solve() ->
+    case find_empty() of
+        none ->
+            %% Puzzle solved
+            print_puzzle(),
+            io:format("~nSolved in Iterations=~B~n~n", [get(count)]),
+            true;
+        {Row, Col} ->
+            try_values(Row, Col, 1)
+    end.
+
+try_values(_, _, 10) -> false;
+try_values(Row, Col, Val) ->
+    put(count, get(count) + 1),  %% Count EVERY attempt
+    case is_valid(Row, Col, Val) of
         true ->
-            NewRowData = setelement(Col + 1, element(Row + 1, Board), Num),
-            NewBoard = setelement(Row + 1, Board, NewRowData),
-            case solve(NewBoard, Row, Col + 1) of
-                {ok, SolvedBoard} -> {ok, SolvedBoard};
-                error -> try_numbers(Board, Row, Col, Num + 1)
+            put({puzzle, Row, Col}, Val),
+            case solve() of
+                true -> true;
+                false ->
+                    put({puzzle, Row, Col}, 0),  %% Backtrack
+                    try_values(Row, Col, Val + 1)
             end;
         false ->
-            try_numbers(Board, Row, Col, Num + 1)
+            try_values(Row, Col, Val + 1)
     end.

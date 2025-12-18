@@ -34,7 +34,7 @@ h1 {
 }
 
 .container {
-    width: 75%;
+    width: 90%;
     max-width: none;
     margin: 0 auto;
     overflow-x: auto;
@@ -43,17 +43,14 @@ h1 {
 
 table {
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
     border-collapse: separate;
     border-spacing: 0 4px;
 }
 
 th, td {
-    width: auto;
     text-align: center;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 th {
@@ -106,9 +103,13 @@ td:hover {
     }
 }
 
+.lang-col-header,
+.lang-col {
+    white-space: nowrap;
+}
+
 .lang-col {
     font-weight: bold;
-    min-width: 250px;
     color: var(--primary);
     border-left: 3px solid transparent;
     cursor: pointer;
@@ -497,6 +498,45 @@ footer {
 
 .editing .view-only {
     display: none;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1a1b26;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--primary);
 }
 
 .btn {

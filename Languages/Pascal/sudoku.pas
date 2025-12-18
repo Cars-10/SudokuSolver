@@ -1,103 +1,187 @@
 program Sudoku;
 {$mode objfpc}{$H+}
-uses sysutils, classes;
+uses SysUtils;
 
 var
-  board: array[0..80] of integer;
-  iterations: longint;
+  puzzle: array[0..8, 0..8] of Integer;
+  count: LongInt;
 
-procedure ReadBoard(filename: string);
+procedure PrintPuzzle;
 var
-  f: text;
-  c: char;
-  i: integer;
+  r, c: Integer;
 begin
-  assign(f, filename);
-  reset(f);
-  i := 0;
-  while not eof(f) do
+  WriteLn;
+  WriteLn('Puzzle:');
+  for r := 0 to 8 do
   begin
-    read(f, c);
-    if (c >= '0') and (c <= '9') then
-    begin
-      board[i] := ord(c) - ord('0');
-      inc(i);
-    end;
+    for c := 0 to 8 do
+      Write(puzzle[r, c], ' ');
+    WriteLn;
   end;
-  close(f);
 end;
 
-function IsValid(idx, num: integer): boolean;
+function ReadMatrix(const filename: string): Boolean;
 var
-  r, c, br, bc, i, j: integer;
+  f: TextFile;
+  line: string;
+  r, c, idx: Integer;
+  display_path: string;
 begin
-  r := idx div 9;
-  c := idx mod 9;
-  
+  Result := False;
+
+  { Print filename (normalize /app/Matrices to ../Matrices) }
+  if Pos('/app/Matrices/', filename) = 1 then
+  begin
+    display_path := '../' + Copy(filename, 6, Length(filename));
+    WriteLn(display_path);
+  end
+  else
+    WriteLn(filename);
+
+  AssignFile(f, filename);
+  try
+    Reset(f);
+  except
+    WriteLn(StdErr, 'Error opening file: ', filename);
+    Exit;
+  end;
+
+  r := 0;
+  while (not Eof(f)) and (r < 9) do
+  begin
+    ReadLn(f, line);
+    line := Trim(line);
+
+    { Skip comments and empty lines }
+    if (line = '') then
+      Continue;
+    if (Length(line) > 0) and (line[1] = '#') then
+      Continue;
+
+    { Parse 9 space-separated integers }
+    c := 0;
+    idx := 1;
+    while (idx <= Length(line)) and (c < 9) do
+    begin
+      { Skip spaces }
+      while (idx <= Length(line)) and (line[idx] = ' ') do
+        Inc(idx);
+
+      if idx <= Length(line) then
+      begin
+        puzzle[r, c] := Ord(line[idx]) - Ord('0');
+        Write(puzzle[r, c], ' ');
+        Inc(c);
+        Inc(idx);
+      end;
+    end;
+    WriteLn;
+    Inc(r);
+  end;
+
+  CloseFile(f);
+  Result := True;
+end;
+
+function IsValid(row, col, val: Integer): Boolean;
+var
+  i, box_row, box_col, br, bc: Integer;
+begin
   { Check row }
   for i := 0 to 8 do
-    if board[r * 9 + i] = num then exit(false);
-    
-  { Check col }
+    if puzzle[row, i] = val then
+      Exit(False);
+
+  { Check column }
   for i := 0 to 8 do
-    if board[i * 9 + c] = num then exit(false);
-    
-  { Check box }
-  br := (r div 3) * 3;
-  bc := (c div 3) * 3;
-  for i := 0 to 2 do
-    for j := 0 to 2 do
-      if board[(br + i) * 9 + (bc + j)] = num then exit(false);
-      
-  IsValid := true;
+    if puzzle[i, col] = val then
+      Exit(False);
+
+  { Check 3x3 box }
+  box_row := (row div 3) * 3;
+  box_col := (col div 3) * 3;
+  for br := 0 to 2 do
+    for bc := 0 to 2 do
+      if puzzle[box_row + br, box_col + bc] = val then
+        Exit(False);
+
+  Result := True;
 end;
 
-function Solve(idx: integer): boolean;
+function Solve: Boolean;
 var
-  num: integer;
+  r, c, row, col, val: Integer;
 begin
-  if idx = 81 then exit(true);
-  
-  if board[idx] <> 0 then exit(Solve(idx + 1));
-  
-  for num := 1 to 9 do
+  { Find first empty cell (row-major order) }
+  row := -1;
+  col := -1;
+  for r := 0 to 8 do
   begin
-    if IsValid(idx, num) then
+    for c := 0 to 8 do
     begin
-      board[idx] := num;
-      inc(iterations);
-      if Solve(idx + 1) then exit(true);
-      board[idx] := 0;
+      if puzzle[r, c] = 0 then
+      begin
+        row := r;
+        col := c;
+        Break;
+      end;
+    end;
+    if row <> -1 then
+      Break;
+  end;
+
+
+  { If no empty cell, puzzle is solved }
+  if row = -1 then
+  begin
+    PrintPuzzle;
+    WriteLn;
+    WriteLn('Solved in Iterations=', count);
+    WriteLn;
+    Exit(True);
+  end;
+
+  { Try values 1-9 in order }
+  for val := 1 to 9 do
+  begin
+    Inc(count);  { Count EVERY attempt }
+
+    if IsValid(row, col, val) then
+    begin
+      puzzle[row, col] := val;
+
+      if Solve() then
+        Exit(True);
+
+      puzzle[row, col] := 0;  { Backtrack }
     end;
   end;
-  
-  Solve := false;
+
+  Result := False;
 end;
 
-procedure PrintBoard;
 var
-  i: integer;
-begin
-  for i := 0 to 80 do
-    write(board[i]);
-  writeln;
-end;
-
+  i: Integer;
+  filename: string;
 begin
   if ParamCount < 1 then
   begin
-    writeln('Usage: Sudoku <input_file>');
-    halt(1);
+    WriteLn(StdErr, 'Usage: Sudoku <matrix_file>');
+    Halt(1);
   end;
-  
-  ReadBoard(ParamStr(1));
-  iterations := 0;
-  
-  if Solve(0) then
+
+  for i := 1 to ParamCount do
   begin
-    writeln('Solved in Iterations=', iterations);
-    PrintBoard;
-  end
-  else
-    writeln('No solution found.');
+    filename := ParamStr(i);
+    if Pos('.matrix', filename) > 0 then
+    begin
+      if ReadMatrix(filename) then
+      begin
+        PrintPuzzle;
+        count := 0;
+        if not Solve() then
+          WriteLn('No solution found');
+      end;
+    end;
+  end;
 end.

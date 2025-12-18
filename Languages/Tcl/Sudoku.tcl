@@ -1,99 +1,146 @@
-  #!/usr/bin/env tclsh
+#!/usr/bin/env tclsh
+# Sudoku Solver in Tcl
+# Brute-force backtracking algorithm matching C reference exactly
 
-set start [clock microseconds]
+# Global variables
+array set puzzle {}
+set count 0
 
-package require Tclx
-global puzzle count previous
-
-proc readMatrixFile {filename} {
+proc read_matrix {filename} {
     global puzzle
-    set index  0
-    set matrix  [split [read_file $filename] \n]
-    foreach line $matrix {
-        if {[string length [string trim $line]] == 0} { continue }
-        if ![string match "#*" $line] {
-            if {[llength $line] == 9} {
-                lassign [split $line " "] puzzle($index,0) puzzle($index,1) puzzle($index,2) puzzle($index,3)\
-                 puzzle($index,4) puzzle($index,5) puzzle($index,6) puzzle($index,7) puzzle($index,8) 
-                 incr index
-            } else {
-                puts "Matrix input error with line $line"
-                exit 1
+
+    # Print filename (normalize /app/Matrices to ../Matrices)
+    if {[string match "/app/Matrices/*" $filename]} {
+        set display_path "../[string range $filename 5 end]"
+        puts $display_path
+    } else {
+        puts $filename
+    }
+
+    set f [open $filename r]
+    set row 0
+
+    while {[gets $f line] >= 0 && $row < 9} {
+        # Skip comments and empty lines
+        set line [string trim $line]
+        if {$line eq "" || [string index $line 0] eq "#"} {
+            continue
+        }
+
+        # Parse 9 numbers from line
+        set values [split $line " "]
+        set col 0
+        foreach val $values {
+            if {$val ne "" && $col < 9} {
+                set puzzle($row,$col) [expr {int($val)}]
+                puts -nonewline "$puzzle($row,$col) "
+                incr col
             }
         }
+        puts ""
+        incr row
     }
+
+    close $f
 }
 
-proc printPuzzleValues {} {
+proc print_puzzle {} {
     global puzzle
-        puts "\nPuzzle:"
-    for {set j 0} {$j < 9} {incr j} {
-        for {set i 0} {$i < 9} {incr i} {
-            puts -nonewline "$puzzle($j,$i) "
+    puts "\nPuzzle:"
+    for {set r 0} {$r < 9} {incr r} {
+        for {set c 0} {$c < 9} {incr c} {
+            puts -nonewline "$puzzle($r,$c) "
         }
         puts ""
     }
 }
 
-proc isPossible {y x val} {
-    global puzzle count
-    #puts "Is possible $y,$x,$val   count=$count" 
-       
-    # Find if a matching number (val) already exists
-    # in the same row (y) or column (x) or within its rectangle
-    for {set j 0} {$j < 9} {incr j} { 
-        if {$puzzle($j,$x) == $val} {return 0}
-        if {$puzzle($y,$j) == $val} {return 0}
-    }
-    
-    # Search the Rectangle containing x & y
-    # Find which 3x3 square we are in using the floor quotient
-    set x0 [expr int(floor([expr $x/3*1.0]))*3]
-    set y0 [expr int(floor([expr $y/3*1.0]))*3]
-    #puts "Is possible x=$x x0=$x0 ,y=$y y0=$y0 val=$val" 
-    for {set i 0} {$i < 3} {incr i} {
-        for {set j 0} {$j < 3} {incr j} {
-            #puts "y0+i=[expr $y0+$i] i=$i, x0+j=[expr $x0+$j] j=$j Puzzle(y0+i,x0+j)=$puzzle([expr $y0+$i],[expr $x0+$j]), val=$val"
-            if {$puzzle([expr $y0+$j],[expr $x0+$i]) == $val} {return 0}
+proc is_valid {row col val} {
+    global puzzle
+
+    # Check row
+    for {set i 0} {$i < 9} {incr i} {
+        if {$puzzle($row,$i) == $val} {
+            return 0
         }
     }
-    #puts "YES Is possible $y, $x, $val"
+
+    # Check column
+    for {set i 0} {$i < 9} {incr i} {
+        if {$puzzle($i,$col) == $val} {
+            return 0
+        }
+    }
+
+    # Check 3x3 box
+    set box_row [expr {($row / 3) * 3}]
+    set box_col [expr {($col / 3) * 3}]
+    for {set i 0} {$i < 3} {incr i} {
+        for {set j 0} {$j < 3} {incr j} {
+            if {$puzzle([expr {$box_row + $i}],[expr {$box_col + $j}]) == $val} {
+                return 0
+            }
+        }
+    }
+
     return 1
 }
 
 proc solve {} {
     global puzzle count
-    for {set j 0} {$j < 9} {incr j} {
-        for {set i 0} {$i < 9} {incr i} {
-            if {$puzzle($j,$i) == 0} {
-                for {set val 1} {$val < 10} {incr val} {
-                    incr count
-                    #puts "Level: [info level]"
-                    if {[isPossible $j $i $val]} {
-                        set puzzle($j,$i) $val
-                        solve 
-                        set puzzle($j,$i) 0
-                    }
-                }
-                return
+
+    # Find first empty cell (row-major order)
+    set found_row -1
+    set found_col -1
+    for {set r 0} {$r < 9} {incr r} {
+        for {set c 0} {$c < 9} {incr c} {
+            if {$puzzle($r,$c) == 0} {
+                set found_row $r
+                set found_col $c
+                break
             }
         }
+        if {$found_row != -1} {
+            break
+        }
     }
-    printPuzzleValues
-    puts "\nSolved in Iterations=$count\n"
-    # Return to top of caller stack so that solve() does not get called anymore.
-    return -level [info level] 
+
+    # If no empty cell, puzzle is solved
+    if {$found_row == -1} {
+        print_puzzle
+        puts "\nSolved in Iterations=$count\n"
+        return 1
+    }
+
+    # Try values 1-9 in order
+    for {set val 1} {$val <= 9} {incr val} {
+        incr count  ;# Count EVERY attempt
+
+        if {[is_valid $found_row $found_col $val]} {
+            set puzzle($found_row,$found_col) $val
+
+            if {[solve]} {
+                return 1
+            }
+
+            set puzzle($found_row,$found_col) 0  ;# Backtrack
+        }
+    }
+
+    return 0
 }
 
-##### Main Program Starts Here #####
-# For each .matrix file supplied on the commandline run the solver
+# Main entry point
+if {$argc < 1} {
+    puts stderr "Usage: tclsh Sudoku.tcl <matrix_file>"
+    exit 1
+}
+
 foreach datafile $argv {
-    if {[file extension $datafile] == ".matrix"} {
-        puts $datafile
-        readMatrixFile $datafile
-        printPuzzleValues
+    if {[file extension $datafile] eq ".matrix"} {
+        read_matrix $datafile
+        print_puzzle
         set count 0
-        solve 
+        solve
     }
- }
-puts [format "Seconds to process %.3f" [expr ([clock microseconds] - $start)/1000000.0]]
+}

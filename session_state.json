@@ -15,6 +15,14 @@
     [
       null,
       1765368537456
+    ],
+    [
+      "Go",
+      1766051140925
+    ],
+    [
+      "Rust",
+      1766057436000
     ]
   ],
   "selected": [
@@ -22,7 +30,34 @@
     "Awk",
     "C++",
     "Go",
-    "Rust"
+    "Rust",
+    "Python",
+    "Ruby",
+    "Perl",
+    "JavaScript",
+    "TypeScript",
+    "Kotlin",
+    "C_Sharp",
+    "PHP",
+    "Scala",
+    "Swift",
+    "Bash",
+    "D",
+    "Nim",
+    "Crystal",
+    "Groovy",
+    "Dart",
+    "Java",
+    "Julia",
+    "R",
+    "C#",
+    "Haskell",
+    "OCaml",
+    "Elixir",
+    "F_Sharp",
+    "Ada",
+    "Fortran",
+    "Lua"
   ],
-  "currentPersona": "Standard"
+  "currentPersona": "Matrix"
 }

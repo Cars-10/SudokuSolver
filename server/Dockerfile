@@ -288,6 +288,90 @@ RUN apt-get update && apt-get install -y \
 # ldc2 --version: 1.x.x
 
 # ============================================================================
+# TIER 3 LANGUAGES (Diverse Paradigms)
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# 25. Gawk (GNU Awk - better than mawk for complex scripts)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    gawk \
+    && rm -rf /var/lib/apt/lists/*
+# gawk --version: 5.x.x
+
+# ----------------------------------------------------------------------------
+# 26. Tcl (Tool Command Language)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    tcl \
+    && rm -rf /var/lib/apt/lists/*
+# tclsh: 8.6.x
+
+# ----------------------------------------------------------------------------
+# 27. Free Pascal
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    fpc \
+    && rm -rf /var/lib/apt/lists/*
+# fpc -v: 3.2.x
+
+# ----------------------------------------------------------------------------
+# 28. SWI-Prolog
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    swi-prolog \
+    && rm -rf /var/lib/apt/lists/*
+# swipl --version: 9.x.x
+
+# ----------------------------------------------------------------------------
+# 29. Guile (GNU Scheme)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    guile-3.0 \
+    && rm -rf /var/lib/apt/lists/*
+# guile --version: 3.0.x
+
+# ----------------------------------------------------------------------------
+# 30. SBCL (Steel Bank Common Lisp)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    sbcl \
+    && rm -rf /var/lib/apt/lists/*
+# sbcl --version: 2.x.x
+
+# ----------------------------------------------------------------------------
+# 31. Clojure (via official installer)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    rlwrap \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh \
+    && chmod +x linux-install.sh \
+    && ./linux-install.sh \
+    && rm linux-install.sh
+# clojure --version: 1.x.x
+
+# ----------------------------------------------------------------------------
+# 32. Zig (modern systems language)
+# ----------------------------------------------------------------------------
+RUN ZIG_VERSION=0.13.0 \
+    && ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "arm64" ]; then ZIG_ARCH="aarch64"; else ZIG_ARCH="x86_64"; fi \
+    && wget -q https://ziglang.org/download/${ZIG_VERSION}/zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz \
+    && tar xf zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz -C /usr/local \
+    && ln -s /usr/local/zig-linux-${ZIG_ARCH}-${ZIG_VERSION}/zig /usr/local/bin/zig \
+    && rm zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz
+# zig version: 0.13.x
+
+# ----------------------------------------------------------------------------
+# 33. GnuCOBOL
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    gnucobol \
+    && rm -rf /var/lib/apt/lists/*
+# cobc --version: 3.x.x
+
+# ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
@@ -330,7 +414,7 @@ CMD ["node", "index.js"]
 # ============================================================================
 # TOOLCHAIN VERSIONS (for reference)
 # ============================================================================
-# This image contains Tier 1 + Tier 2 toolchains:
+# This image contains Tier 1 + Tier 2 + Tier 3 toolchains:
 #
 # Tier 1 (Core Languages):
 # - C/C++: gcc/g++ 13.x
@@ -365,6 +449,17 @@ CMD ["node", "index.js"]
 # - Groovy: 4.x
 # - Dart: 3.x
 #
-# Total: 27 languages (Swift deferred)
-# Estimated image size: 10-15GB
+# Tier 3 (Diverse Paradigms):
+# - Gawk: 5.x (text processing)
+# - Tcl: 8.6.x (embeddable scripting)
+# - Free Pascal: 3.2.x (classic compiled)
+# - SWI-Prolog: 9.x (logic programming)
+# - Guile: 3.0.x (GNU Scheme)
+# - SBCL: 2.x (Common Lisp)
+# - Clojure: 1.x (JVM Lisp)
+# - Zig: 0.13.x (modern systems)
+# - GnuCOBOL: 3.x (legacy business)
+#
+# Total: 36 languages (Swift deferred, Erlang via elixir)
+# Estimated image size: 15-20GB
 # ============================================================================

@@ -28,7 +28,17 @@ function filterLanguages() {
 // Sorting Logic
 function sortRows(metric, btn) {
     const tbody = document.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+    // Only get main data rows, not expanded-content rows
+    const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
+
+    // Capture row pairs BEFORE sorting (each data row with its expanded-content)
+    const rowPairs = rows.map(row => {
+        const expandedRow = row.nextElementSibling;
+        return {
+            dataRow: row,
+            expandedRow: (expandedRow && expandedRow.classList.contains('expanded-content')) ? expandedRow : null
+        };
+    });
 
     // Toggle direction
     if (currentSort.metric === metric) {
@@ -51,9 +61,9 @@ function sortRows(metric, btn) {
         }
     }
 
-    rows.sort((a, b) => {
-        const aVal = a.getAttribute('data-' + metric);
-        const bVal = b.getAttribute('data-' + metric);
+    rowPairs.sort((a, b) => {
+        const aVal = a.dataRow.getAttribute('data-' + metric);
+        const bVal = b.dataRow.getAttribute('data-' + metric);
 
         if (metric === 'lang') {
             return aVal.localeCompare(bVal) * currentSort.dir;
@@ -64,12 +74,29 @@ function sortRows(metric, btn) {
         }
     });
 
-    rows.forEach(row => tbody.appendChild(row));
+    // Re-append rows with their expanded-content siblings
+    rowPairs.forEach(pair => {
+        tbody.appendChild(pair.dataRow);
+        if (pair.expandedRow) {
+            tbody.appendChild(pair.expandedRow);
+        }
+    });
 }
 
 function sortMatrix(index, metric, btn) {
     const tbody = document.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+    // Only get main data rows, not expanded-content rows
+    const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
+
+    // Capture row pairs BEFORE sorting (each data row with its expanded-content)
+    const rowPairs = rows.map(row => {
+        const expandedRow = row.nextElementSibling;
+        return {
+            dataRow: row,
+            expandedRow: (expandedRow && expandedRow.classList.contains('expanded-content')) ? expandedRow : null
+        };
+    });
+
     const attr = 'data-m' + index + '-' + metric;
     const fullMetric = 'm' + index + '_' + metric;
 
@@ -93,13 +120,19 @@ function sortMatrix(index, metric, btn) {
         }
     }
 
-    rows.sort((a, b) => {
-        const aVal = parseFloat(a.getAttribute(attr));
-        const bVal = parseFloat(b.getAttribute(attr));
+    rowPairs.sort((a, b) => {
+        const aVal = parseFloat(a.dataRow.getAttribute(attr));
+        const bVal = parseFloat(b.dataRow.getAttribute(attr));
         return (aVal - bVal) * currentSort.dir;
     });
 
-    rows.forEach(row => tbody.appendChild(row));
+    // Re-append rows with their expanded-content siblings
+    rowPairs.forEach(pair => {
+        tbody.appendChild(pair.dataRow);
+        if (pair.expandedRow) {
+            tbody.appendChild(pair.expandedRow);
+        }
+    });
 }
 
 // Mismatch Filter - Hides mismatches when active (clean view), shows all when inactive
@@ -307,42 +340,50 @@ document.querySelectorAll('tbody td').forEach(cell => {
     });
 });
 
-// Add click handler to language cells to toggle expansion and show modal
-// Wrapped in DOMContentLoaded to ensure elements exist
+// Add click handler to expand chevrons
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.lang-col').forEach(cell => {
-        cell.addEventListener('click', (e) => {
-            // Prevent any default action and stop propagation immediately
+    document.querySelectorAll('.expand-chevron').forEach(chevron => {
+        chevron.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
 
-            // If click was on a button, don't handle
-            if (e.target.closest('button')) {
-                return;
-            }
+            const row = chevron.closest('tr[data-lang]');
+            if (!row) return;
 
-            const row = cell.parentElement;
             const expandedRow = row.nextElementSibling;
-            const lang = row.getAttribute('data-lang');
+            row.classList.toggle('expanded');
 
-            // If clicking the chevron, just toggle expansion
-            if (e.target.classList.contains('expand-chevron')) {
-                row.classList.toggle('expanded');
-                if (expandedRow && expandedRow.classList.contains('expanded-content')) {
-                    if (row.classList.contains('expanded')) {
-                        expandedRow.classList.add('visible');
-                    } else {
-                        expandedRow.classList.remove('visible');
-                    }
-                }
-            } else {
-                // Clicking on language name/logo opens the modal
-                if (lang && typeof window.showLanguageDetails === 'function') {
-                    window.showLanguageDetails(lang, e.clientX, e.clientY);
+            if (expandedRow && expandedRow.classList.contains('expanded-content')) {
+                if (row.classList.contains('expanded')) {
+                    expandedRow.classList.add('visible');
+                } else {
+                    expandedRow.classList.remove('visible');
                 }
             }
         });
-        cell.style.cursor = 'pointer';  // Make it obvious it's clickable
+        chevron.style.cursor = 'pointer';
+    });
+
+    // Add click handler to language cells for modal
+    document.querySelectorAll('.lang-col').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            // If click was on chevron or button, don't handle
+            if (e.target.classList.contains('expand-chevron') || e.target.closest('button')) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const row = cell.parentElement;
+            const lang = row.getAttribute('data-lang');
+
+            // Clicking on language name/logo opens the modal
+            if (lang && typeof window.showLanguageDetails === 'function') {
+                window.showLanguageDetails(lang, e.clientX, e.clientY);
+            }
+        });
+        cell.style.cursor = 'pointer';
     });
 
     // Prevent clicks on expanded content from bubbling
