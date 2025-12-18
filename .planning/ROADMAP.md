@@ -16,8 +16,9 @@ None - This is a benchmarking/systems project without specialized domain require
 
 - [x] **Phase 1: Foundation & C Baseline** - Infrastructure rebuild and reference validation
 - [x] **Phase 1.5: UI Polish & Fixes** - INSERTED: Fix modal display, logo serving, edit workflow
-- [x] **Phase 1.5.1: Screensaver Issues** - INSERTED: Fix screensaver behavior and performance (SKIPPED)
+- [x] **Phase 1.5.1: Screensaver Issues** - INSERTED: Fix screensaver bounce on auto-trigger
 - [x] **Phase 1.5.2: Table Highlighting** - INSERTED: Fix table row/cell highlighting text shift
+- [ ] **Phase 1.5.3: Comprehensive Scoring System** - INSERTED: Create scoring calculation using all collected metrics
 - [ ] **Phase 2: Compiled Languages Wave** - C++, Go, Rust implementation
 - [ ] **Phase 3: Scripting Languages** - Python, Ruby, Perl implementation
 - [ ] **Phase 4: JavaScript Ecosystem** - JavaScript, TypeScript implementation
@@ -90,17 +91,25 @@ None - This is a benchmarking/systems project without specialized domain require
 - Professional, polished user experience
 
 ### Phase 1.5.1: Screensaver Issues (INSERTED)
-**Goal**: Fix screensaver behavior and performance issues
+**Goal**: Fix screensaver bounce on auto-trigger
 
 **Depends on**: Phase 1.5
 
-**Plans**: 0 plans
+**Research**: None (CSS/JS fix using established patterns)
 
-Plans:
-- [ ] TBD (run /gsd:plan-phase 1.5.1 to break down)
+**Plans**: 1 plan
+1. Fix bounce + verify (scroll position management, smooth transitions)
 
-**Details**:
-[To be added during planning]
+**Deliverables**:
+- Scroll position saved before screensaver starts
+- Page scrolled to top before fullscreen mode applied
+- Scroll position restored after screensaver exits
+- Smooth transitions for both auto-trigger and manual trigger
+
+**Success Criteria**:
+- Auto-triggered screensaver transitions smoothly without bounce
+- Manual pill triggers continue to work smoothly
+- Scroll position preserved and restored correctly
 
 ### Phase 1.5.2: Table Highlighting (INSERTED)
 **Goal**: Fix table row and cell highlighting causing text to shift
@@ -125,6 +134,69 @@ Plans:
 - Clicking rows expands/collapses with chevron rotation
 - Expanded content shows organized metrics data
 - New columns sortable and properly formatted
+
+### Phase 1.5.3: Comprehensive Scoring System (INSERTED)
+**Goal**: Create a comprehensive scoring calculation using all collected benchmark metrics
+
+**Depends on**: Phase 1.5.2
+
+**Research**: Yes - scoring methodology research required
+
+**Proposed Scoring Methods**:
+
+1. **Weighted Multi-Criteria Score (Recommended)**
+   - Normalize each metric to 0-100 scale
+   - Apply configurable weights (e.g., Time: 40%, Memory: 30%, Validation: 20%, Iterations: 10%)
+   - **Why important**: Allows users to prioritize what matters most for their use case
+   - Formula: `Score = Σ(weight_i × normalized_metric_i)`
+
+2. **Geometric Mean (Industry Standard)**
+   - Calculate geometric mean across all metrics
+   - Used by SPEC benchmarks, Geekbench
+   - **Why important**: Prevents one exceptional metric from dominating; penalizes imbalance
+   - Formula: `Score = (∏ normalized_metrics)^(1/n)`
+
+3. **Percentile Ranking**
+   - Rank each language against the field per metric
+   - Average percentile across all metrics
+   - **Why important**: Intuitive (0-100), relative positioning, resistant to outliers
+   - Display: "Faster than 85% of languages"
+
+4. **Tier Classification (A/B/C/D/F)**
+   - Group languages into performance tiers based on standard deviations
+   - A: >1σ above mean, B: 0-1σ above, C: 0-1σ below, D: 1-2σ below, F: >2σ below
+   - **Why important**: Quick visual assessment, familiar grading system
+
+5. **Pareto Efficiency Score**
+   - Identify non-dominated solutions (no other language better in ALL metrics)
+   - Mark Pareto-optimal languages with special indicator
+   - **Why important**: Highlights "best tradeoff" languages objectively
+
+**Available Metrics for Scoring**:
+- `time_1` through `time_5`: Execution time per matrix (seconds)
+- `memory_1` through `memory_5`: Memory usage per matrix (MB)
+- `iterations_1` through `iterations_5`: Algorithm iterations per matrix
+- `validated`: Boolean validation status
+- `compiler_version`: Toolchain info (categorical, not scored)
+- `memory_peak`: Peak memory across all matrices
+
+**Plans**: TBD (estimate 2-3 plans)
+1. Research & finalize scoring methodology
+2. Implement scoring calculation in report generator
+3. Add score display to UI (column, badges, tooltips)
+
+**Deliverables**:
+- Scoring algorithm implemented in HTMLGenerator.ts
+- New "Score" column in benchmark table (sortable)
+- Score breakdown tooltip on hover
+- Visual tier badges (A/B/C/D/F or color-coded)
+- Documentation explaining scoring methodology
+
+**Success Criteria**:
+- Each language has a calculated score displayed
+- Score is sortable in table
+- Methodology is documented and transparent
+- Users can understand why a language scored as it did
 
 ### Phase 2: Compiled Languages Wave
 **Goal**: Implement C++, Go, Rust following established pattern
