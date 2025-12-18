@@ -198,18 +198,18 @@ run_benchmarks() {
     # Detect time command for this platform
     detect_time_cmd
 
-    # Start JSON structure
-    cat > "$METRICS_FILE" <<EOF
-[
-  {
-    "solver": "$LANGUAGE",
-    "runType": "automated",
-    "timestamp": "$timestamp",
-    "results": [
-EOF
+    # Load existing results if metrics.json exists (for merging)
+    local existing_results=""
+    if [ -f "$METRICS_FILE" ]; then
+        # Extract existing results array using simple parsing
+        existing_results=$(cat "$METRICS_FILE")
+    fi
+
+    # Collect new results in temp file
+    local temp_results=$(mktemp)
+    local first=true
 
     # Run each matrix
-    local first=true
     for matrix in $matrices; do
         if [ ! -f "$matrix" ]; then
             echo "WARNING: Matrix file not found: $matrix" >&2
@@ -222,20 +222,66 @@ EOF
         if [ "$first" = true ]; then
             first=false
         else
-            echo "," >> "$METRICS_FILE"
+            echo "," >> "$temp_results"
         fi
 
         # Run matrix and append result
-        run_matrix "$matrix" >> "$METRICS_FILE"
+        run_matrix "$matrix" >> "$temp_results"
     done
 
-    # Close JSON structure
-    cat >> "$METRICS_FILE" <<EOF
+    # Read new results
+    local new_results=$(cat "$temp_results")
+    rm -f "$temp_results"
 
+    # Merge results: use node/python if available, otherwise just use new results
+    if [ -n "$existing_results" ] && command -v node &> /dev/null; then
+        # Use Node.js to merge results
+        node -e "
+            const existing = JSON.parse(process.argv[1]);
+            const newResults = JSON.parse('[' + process.argv[2] + ']');
+            const timestamp = process.argv[3];
+            const solver = process.argv[4];
+
+            // Get existing results array or create new
+            let results = existing[0]?.results || [];
+
+            // Create map of existing results by matrix
+            const resultMap = new Map(results.map(r => [r.matrix, r]));
+
+            // Update/add new results
+            newResults.forEach(r => resultMap.set(r.matrix, r));
+
+            // Convert back to array and sort by matrix number
+            results = Array.from(resultMap.values()).sort((a, b) => {
+                const numA = parseInt(a.matrix) || 0;
+                const numB = parseInt(b.matrix) || 0;
+                return numA - numB;
+            });
+
+            // Output merged JSON
+            const output = [{
+                solver: solver,
+                runType: 'automated',
+                timestamp: timestamp,
+                results: results
+            }];
+            console.log(JSON.stringify(output, null, 2));
+        " "$existing_results" "$new_results" "$timestamp" "$LANGUAGE" > "$METRICS_FILE"
+    else
+        # No merge capability, just write new results
+        cat > "$METRICS_FILE" <<EOF
+[
+  {
+    "solver": "$LANGUAGE",
+    "runType": "automated",
+    "timestamp": "$timestamp",
+    "results": [
+$new_results
     ]
   }
 ]
 EOF
+    fi
 
     echo "Metrics written to $METRICS_FILE" >&2
 }
