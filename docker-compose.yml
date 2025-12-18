@@ -1,17 +1,20 @@
-version: '3.8'
 
 services:
   app:
+    image: sudoku-benchmark:latest
     build:
       context: .
       dockerfile: server/Dockerfile
     ports:
-      - "3000:3000"
+      - "9001:9001"
     volumes:
       - ./server:/app/server
       - ./:/app/
       - ./Matrices:/app/Matrices
       - ./Metrics:/app/Metrics
+      - ./Languages:/app/Languages
+      - ./logos:/app/logos
+      - ./screenshots:/app/screenshots
       - /app/server/node_modules # Prevent host node_modules from overwriting container's
     working_dir: /app/server
     environment:

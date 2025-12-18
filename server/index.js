@@ -10,7 +10,10 @@ const port = process.env.PORT || 9001;
 app.use(cors());
 app.use(express.json());
 
-// Serve  directory for static assets (timestamp.js, images, etc.)
+// Serve root directory for static assets (timestamp.js, images, etc.)
+app.use(express.static(path.join(__dirname, '..')));
+
+// Serve server directory for static assets
 app.use(express.static(path.join(__dirname, '.')));
 
 // Serve the Benchmark Report at Root
@@ -140,7 +143,7 @@ app.post('/api/run', (req, res) => {
     // If matrix is missing, run all (default script behavior)
     let command = `./setupAndRunMe.sh`;
     if (matrix) {
-        const matrixArg = `../../../Matrices/${matrix}`;
+        const matrixArg = `../../Matrices/${matrix}`;
         command += ` ${matrixArg}`;
     }
 
