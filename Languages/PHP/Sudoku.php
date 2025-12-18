@@ -1,10 +1,11 @@
+#!/usr/bin/env php
 <?php
 $puzzle = [];
 $iterations = 0;
 
 function print_board() {
     global $puzzle;
-    echo "Puzzle:\n";
+    echo "\nPuzzle:\n";
     for ($i = 0; $i < 9; $i++) {
         for ($j = 0; $j < 9; $j++) {
             echo $puzzle[$i][$j] . " ";
@@ -64,6 +65,10 @@ function solve($row, $col) {
 function read_board($filename) {
     global $puzzle;
     $puzzle = [];
+
+    // Print filename (just the path)
+    echo "$filename\n";
+
     $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $row = 0;
     foreach ($lines as $line) {
@@ -73,11 +78,21 @@ function read_board($filename) {
         }
         $parts = preg_split('/\s+/', $line);
         $col = 0;
+        $row_values = [];
         foreach ($parts as $part) {
             if ($col < 9) {
-                $puzzle[$row][$col] = (int)$part;
+                $val = (int)$part;
+                $puzzle[$row][$col] = $val;
+                $row_values[] = $val;
                 $col++;
             }
+        }
+        // Echo raw row as read (matching C output)
+        if ($col == 9) {
+            foreach ($row_values as $v) {
+                echo "$v ";
+            }
+            echo "\n";
         }
         $row++;
         if ($row == 9) break;
@@ -89,17 +104,22 @@ if ($argc < 2) {
     exit(1);
 }
 
+$start_time = microtime(true);
+
 for ($i = 1; $i < $argc; $i++) {
     $filename = $argv[$i];
-    echo "\nProcessing $filename\n";
     read_board($filename);
     print_board();
     $iterations = 0;
     if (solve(0, 0)) {
         print_board();
-        echo "\nSolved in Iterations=$iterations\n";
+        echo "\nSolved in Iterations=$iterations\n\n";
     } else {
         echo "No solution found\n";
     }
 }
+
+$end_time = microtime(true);
+$elapsed = $end_time - $start_time;
+printf("Seconds to process %.3f\n", $elapsed);
 ?>
