@@ -462,6 +462,25 @@ RUN apt-get update && apt-get install -y \
 # regina --version: 3.x.x
 
 # ============================================================================
+# TIER 5 LANGUAGES (Practical Niche)
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# 44. Io - DEFERRED
+# ----------------------------------------------------------------------------
+# Io language has ARM64 coroutine assembly issues (undefined coro_arm64_getcontext)
+# The coroutine library doesn't properly support ARM64 architecture
+# TODO: Revisit when Io upstream fixes ARM64 assembly issues
+# io -v: DEFERRED
+
+# ----------------------------------------------------------------------------
+# 45. Factor - DEFERRED
+# ----------------------------------------------------------------------------
+# Factor language only has x86_64 pre-built binaries
+# TODO: Revisit when Factor releases ARM64 binaries
+# factor -version: DEFERRED
+
+# ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
@@ -562,6 +581,11 @@ CMD ["node", "index.js"]
 # - Haxe: 4.x (multi-target compiler)
 # - Regina Rexx: 3.x (IBM scripting language)
 #
-# Total: 45 languages (Swift + Smalltalk + Forth deferred, Erlang via elixir)
+#
+# Tier 5 (Practical Niche):
+# - Io: DEFERRED (ARM64 coroutine assembly issues)
+# - Factor: DEFERRED (x86_64 only)
+#
+# Total: 45 languages (Swift + Smalltalk + Forth + Io + Factor deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
