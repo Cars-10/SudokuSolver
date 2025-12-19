@@ -27,12 +27,12 @@
 
 ## Current Position
 
-Phase: 5.3 of 8 (Tier 4 Languages)
-Plan: 5 of 5 in current phase
-Status: Phase complete
-Last activity: 2025-12-18 - Completed 05.3-05-PLAN.md (Haxe & Rexx validated)
+Phase: 5.4 of 8 (Tier 5 Languages)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2025-12-19 - Completed 05.4-01-PLAN.md (Io & Factor deferred - ARM64 limitations)
 
-Progress: ██████████████████████████████ 100% (47 languages validated)
+Progress: ██████████████████████████████ 100% (47 languages validated, 2 more deferred)
 
 ## Performance Metrics
 
@@ -67,6 +67,8 @@ Progress: ███████████████████████�
 | 1.04  | Rewrite C solver (remove MRV) | Algorithm drift detected (122 vs 656 iterations) |
 | 1.05  | Use Sharp for SVG (not svg2png-wasm) | WASM initialization issues, Sharp native support better |
 | 1.5.3 | Geometric Mean Scoring | Industry standard (SPEC/Geekbench), prevents single metric dominance |
+| 5.4.01 | Defer Io | ARM64 coroutine assembly issues (undefined coro_arm64_getcontext) |
+| 5.4.01 | Defer Factor | x86_64-only pre-built binaries available |
 
 ### Roadmap Evolution
 
@@ -78,6 +80,7 @@ Progress: ███████████████████████�
 - Phase 2.2 inserted after Phase 2.1: Fix screenshot automation - reliable capture after every report generation (URGENT)
 - Phase 5.1 inserted after Phase 5: Tier 2 Languages - 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
 - Phase 5.3 inserted after Phase 5.2: Tier 4 Languages - 10 additional languages (CoffeeScript, Racket, Raku, Octave, V, Vala, Forth, Smalltalk, Haxe, Rexx)
+- Phase 5.4 inserted after Phase 5.3: Tier 5 Languages - 8 practical niche languages (Io, Factor, Red, Wren, Janet, Pike, Icon, Fennel)
 
 ### Deferred Issues
 
@@ -96,8 +99,8 @@ Drift notes: None
 
 ## Session Continuity
 
-Last session: 2025-12-18
-Stopped at: Completed 05.3-05-PLAN.md (Haxe & Rexx validated - Phase 5.3 complete)
+Last session: 2025-12-19
+Stopped at: Completed 05.4-01-PLAN.md (Io & Factor deferred - ARM64 limitations)
 Resume file: None
 
 ## Completed Languages (30/30 Tier 1+2)
@@ -171,3 +174,16 @@ Resume file: None
 | Smalltalk    | 5.3   | ✗ Deferred | 2025-12-18 |
 | Haxe         | 5.3   | ✓ Pass    | 2025-12-18 |
 | Rexx         | 5.3   | ✓ Pass    | 2025-12-18 |
+
+### Tier 5 (0/8) - In Progress
+
+| Language     | Phase | Status     | Date       |
+|--------------|-------|------------|------------|
+| Io           | 5.4   | ✗ Deferred | 2025-12-19 |
+| Factor       | 5.4   | ✗ Deferred | 2025-12-19 |
+| Red          | 5.4   | Pending    | -          |
+| Wren         | 5.4   | Pending    | -          |
+| Janet        | 5.4   | Pending    | -          |
+| Pike         | 5.4   | Pending    | -          |
+| Icon         | 5.4   | Pending    | -          |
+| Fennel       | 5.4   | Pending    | -          |

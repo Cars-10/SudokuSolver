@@ -29,6 +29,7 @@ None - This is a benchmarking/systems project without specialized domain require
 - [x] **Phase 5.1: Tier 2 Languages** - INSERTED: 15 additional languages (Haskell, OCaml, F#, Elixir, Lua, Julia, R, D, Nim, Crystal, Dart, Groovy, Fortran, Ada, Bash)
 - [x] **Phase 5.2: Tier 3 Languages** - INSERTED: 10 additional languages (Awk, Tcl, Pascal, Prolog, Erlang, Scheme, CommonLisp, Clojure, Zig, COBOL)
 - [x] **Phase 5.3: Tier 4 Languages** - INSERTED: 10 additional languages (CoffeeScript, Racket, Raku, Octave, V, Vala, Forth, Smalltalk, Haxe, Rexx)
+- [ ] **Phase 5.4: Tier 5 Languages** - INSERTED: 8 practical niche languages (Io, Factor, Red, Wren, Janet, Pike, Icon, Fennel)
 - [ ] **Phase 6: Matrix 6 Enablement** - Enable 622M iteration matrix for all languages
 
 ## Phase Details
@@ -507,10 +508,56 @@ None - This is a benchmarking/systems project without specialized domain require
 - OOP pioneer (Smalltalk) shows message-passing approach
 - Coverage spans 5 decades of language design
 
+### Phase 5.4: Tier 5 Languages (INSERTED)
+**Goal**: Implement 8 practical niche languages expanding benchmark to 55 languages
+
+**Depends on**: Phase 5.3
+
+**Research**: Likely (prototype-based OOP, concatenative paradigms, embedded scripting)
+
+**Research topics**:
+- Io prototype-based object model and message passing
+- Factor concatenative programming and stack manipulation
+- Red/Rebol dialect DSL patterns
+- Wren class-based scripting and fibers
+- Janet Lisp macros and PEG parsing
+
+**Languages (8 total)**:
+
+| Category | Languages | Notes |
+|----------|-----------|-------|
+| Prototype OOP | Io | Minimalist, everything is an object |
+| Concatenative | Factor | Modern stack-based, practical |
+| Full-Stack | Red | Rebol successor, dialect-oriented |
+| Embeddable | Wren | Small, fast, class-based scripting |
+| Lisp-like | Janet | Modern, embeddable, PEG parsing |
+| C-like Scripting | Pike | Long history, object-oriented |
+| Goal-Directed | Icon | Unique evaluation model |
+| Lua Lisp | Fennel | Compiles to Lua, macro system |
+
+**Plans**: 4 plans (2 languages per plan):
+1. 05.4-01: Io, Factor (prototype/concatenative)
+2. 05.4-02: Red, Wren (full-stack/embedded)
+3. 05.4-03: Janet, Pike (Lisp/C-like)
+4. 05.4-04: Icon, Fennel (goal-directed/Lua)
+
+**Deliverables**:
+- 8 language implementations with exact output/iteration match
+- Each with runMe.sh following common.sh pattern
+- Each validated against reference (matrices 1-5)
+- README.md for each language
+- All runs captured in metrics system
+- Docker image updated with new toolchains
+
+**Success Criteria**:
+- 55 languages total passing validation (Tier 1-5)
+- Prototype-based (Io) and concatenative (Factor) paradigms represented
+- Coverage of embedded scripting and DSL-oriented languages
+
 ### Phase 6: Matrix 6 Enablement
 **Goal**: Enable the 622M iteration Matrix 6 for all validated languages
 
-**Depends on**: Phase 5
+**Depends on**: Phase 5.4
 
 **Research**: Unlikely (configuration change, no new integrations)
 
@@ -551,6 +598,7 @@ Phases execute sequentially: 1 → 2 → 3 → 4 → 5 → 6
 | 5.1 Tier 2 Languages | 7/7 | Complete | 2025-12-18 |
 | 5.2 Tier 3 Languages | 5/5 | Complete | 2025-12-18 |
 | 5.3 Tier 4 Languages | 5/5 | Complete | 2025-12-18 |
+| 5.4 Tier 5 Languages | 1/4 | In progress | - |
 | 6. Matrix 6 Enablement | 0/1 | Not started | - |
 
 ## Notes
