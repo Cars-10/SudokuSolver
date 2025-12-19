@@ -2,7 +2,7 @@
 export const orderedLanguages = [
     "C", "C++", "Rust", "Zig", "Ada", "Fortran", "Pascal", "D", "Nim", "Crystal", "V", "Vala", "Go",
     "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "R", "Haxe",
-    "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy",
+    "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy", "Wren", "Red", "Janet", "Pike",
     "Erlang", "Elixir", "Haskell", "OCaml", "CommonLisp", "Scheme", "Racket", "Clojure", "EmacsLisp", "Vimscript",
     "Smalltalk", "Objective-C", "VisualBasic", "Cobol", "Prolog", "Rexx", "Tcl", "Expect",
     "Bash", "Zsh", "Fish", "Ksh", "Tcsh", "Dash", "PowerShell", "AppleScript", "Make", "M4",
@@ -323,6 +323,9 @@ export const languageHistories: Record<string, string> = {
     "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
     "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
     "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
+    "Red": "2011. A next-generation functional and symbolic language inspired by REBOL. It's designed to be a full-stack language, capable of everything from low-level systems programming to high-level GUI application development.",
+    "Janet": "2018. A lightweight, modern Lisp-like programming language. It is designed to be embeddable, fast, and minimal, making it suitable for scripting, configuration, and small programs.",
+    "Pike": "1994. A dynamic, object-oriented, C-like programming language with a powerful module system and built-in support for internet protocols. It is designed for rapid development of network services and applications.",
     "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
     "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
     "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
@@ -343,6 +346,7 @@ export const languageHistories: Record<string, string> = {
     "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
     "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
     "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
+    "Wren": "2013. A small, fast, class-based concurrent scripting language. Designed by Bob Nystrom, Wren aims to be a modern, improved version of Lua, featuring a small footprint and high performance.",
     "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
 };
 
@@ -403,6 +407,7 @@ export const quotes: Record<string, string> = {
     "AppleScript": "Automation for Mac. English-like syntax. Weird.",
     "PowerShell": "Windows automation. Object-oriented shell.",
     "Rexx": "Mainframe scripting. Easy to learn, hard to kill.",
+    "Red": "Rebol's successor. Symbolic, functional, and full-stack. A hidden powerhouse.",
     "SNOBOL": "String manipulation. Ancient and powerful.",
     "Vala": "GObject type system. C# syntax for C.",
     "V": "Simple, fast, safe. A new contender.",
@@ -415,6 +420,9 @@ export const quotes: Record<string, string> = {
     "Algol68": "The ancestor. It defined the block structure.",
     "APL": "A Programming Language. cryptic symbols. Array processing.",
     "Jupyter": "Interactive notebooks. Data science playground.",
+    "Wren": "Small, fast, class-based. Like Lua, but with more feathers.",
+    "Janet": "A Lisp for the 21st century. Fast, minimal, and embeddable. It whispers in your ear.",
+    "Pike": "C-like syntax, dynamic typing. A multi-paradigm language for internet applications. A true workhorse.",
     "Matrices": "The input data. The puzzle itself.",
     "Matrices_Backup": "The backup.",
     "Matrices_Filtered": "The filter."
@@ -636,6 +644,10 @@ export const personalities: Record<string, Record<string, string>> = {
         "Julia": "Julia: High-performance scientific computing with friendly syntax.",
         "WebAssembly": "WebAssembly: Portable, fast binary target for running multiple languages on the web.",
         "Zig": "Zig: Explicit, simple systems language aiming for predictable performance.",
+        "Wren": "Wren: Small, fast, class-based concurrent scripting language.",
+        "Red": "Red: Functional and symbolic language inspired by REBOL.",
+        "Janet": "Janet: Lisp-like, embeddable, and minimalist. Perfect for scripting and small programs.",
+        "Pike": "Pike: C-like syntax, dynamic typing, and built for internet applications.",
         "default": "A language with its own strengths and tradeoffs."
     },
 
@@ -1501,5 +1513,41 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/BASIC.png",
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance."
+    },
+    "Wren": {
+        "creator": "Bob Nystrom",
+        "date": "2013",
+        "description": "A small, fast, class-based concurrent scripting language.",
+        "image": "https://wren.io/logo.png",
+        "logo": "logos/Wren.png",
+        "location": "USA",
+        "benefits": "High performance, small footprint, clean syntax."
+    },
+    "Red": {
+        "creator": "Nenad Rakocevic",
+        "date": "2011",
+        "description": "A functional and symbolic language inspired by REBOL.",
+        "image": "https://static.red-lang.org/red-logo.png",
+        "logo": "logos/Red.png",
+        "location": "Global",
+        "benefits": "Full-stack, symbolic, cross-platform."
+    },
+    "Janet": {
+        "creator": "Bobby Nystrom",
+        "date": "2018",
+        "description": "A lightweight, modern Lisp-like programming language. It is designed to be embeddable, fast, and minimal, making it suitable for scripting, configuration, and small programs.",
+        "image": "https://janet-lang.org/img/logo.svg",
+        "logo": "logos/Janet.png",
+        "location": "USA",
+        "benefits": "Embeddable, Lisp-like, fast, minimal."
+    },
+    "Pike": {
+        "creator": "Lars Aronsson, Fredrik Hübinette",
+        "date": "1994",
+        "description": "A dynamic, object-oriented, C-like programming language with a powerful module system and built-in support for internet protocols. It is designed for rapid development of network services and applications.",
+        "image": "https://pike.lysator.liu.se/images/logo.png",
+        "logo": "logos/Pike.png",
+        "location": "Uppsala University, Sweden",
+        "benefits": "C-like syntax, dynamic, internet protocols, modules."
     }
 };
