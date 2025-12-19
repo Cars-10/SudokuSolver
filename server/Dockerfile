@@ -509,6 +509,24 @@ RUN git clone --depth 1 --branch 0.4.0 https://github.com/wren-lang/wren-cli.git
     && rm -rf /tmp/wren-cli
 # wren --version
 
+# ----------------------------------------------------------------------------
+# 48. Janet (build from source)
+# ----------------------------------------------------------------------------
+RUN git clone --depth 1 https://github.com/janet-lang/janet.git /tmp/janet \
+    && cd /tmp/janet \
+    && make \
+    && make install \
+    && rm -rf /tmp/janet
+# janet --version
+
+# ----------------------------------------------------------------------------
+# 49. Pike
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    pike8.0-core \
+    && rm -rf /var/lib/apt/lists/*
+# pike --version
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -616,7 +634,9 @@ CMD ["node", "index.js"]
 # - Factor: DEFERRED (x86_64 only)
 # - Red: DEFERRED (requires i386 libs unavailable on ARM64)
 # - Wren: 0.4.0 (embeddable scripting)
+# - Janet: Latest (Lisp-like)
+# - Pike: 8.0 (C-like scripting)
 #
-# Total: 46 languages (Swift + Smalltalk + Forth + Io + Factor + Red deferred, Erlang via elixir)
+# Total: 48 languages (Swift + Smalltalk + Forth + Io + Factor + Red deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
