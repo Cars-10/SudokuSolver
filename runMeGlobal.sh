@@ -15,7 +15,7 @@ if [ -z "$LANGUAGE" ] || [ -z "$MATRIX_SPEC" ]; then
 fi
 
 # Resolve Matrix Spec to File Paths
-MATRIX_DIR="$(cd ../Matrices && pwd)"
+MATRIX_DIR="$(cd Matrices && pwd)"
 MATRIX_FILES=""
 
 if [ "$MATRIX_SPEC" == "all" ]; then

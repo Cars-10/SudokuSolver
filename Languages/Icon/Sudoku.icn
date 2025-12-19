@@ -1,23 +1,119 @@
-global puzzle, count
+# Sudoku Solver in Icon
+# Exact match of C brute-force algorithm
+
+global iterations, grid
 
 procedure main(args)
-    local filename, f, line, i, j, row_str, a, line_count
-    filename := args[1]
-    if not filename then {
-        write("Usage: ", image(args[0]), " <filename>")
-        exit(1)
-    }
-
-    f := open(filename)
-    if not f then {
-        write("Cannot open ", filename)
-        exit(1)
-    }
-    write("File opened successfully: ", filename)
-
-    while line := read(f) do {
-        write("Read line: ", line)
-    }
+    local filename, f
+    filename := args[1] | stop("Usage: Sudoku <matrix_file>")
+    
+    f := open(filename, "r") | stop("Error opening file: ", filename)
+    write(filename)
+    
+    grid := list(9)
+    every !grid := list(9, 0)
+    
+    read_matrix(f)
     close(f)
-    exit(0)
+    
+    write("\nPuzzle:")
+    print_grid()
+    
+    iterations := 0
+    if solve() then {
+        write("\nPuzzle:")
+        print_grid()
+        write("\nSolved in Iterations=", iterations)
+    } else {
+        write("No solution found.")
+    }
+end
+
+procedure read_matrix(f)
+    local line, row, col, char
+    row := 1
+    while line := read(f) do {
+        if row > 9 then break
+        if *line = 0 | line[1] == "#" then next
+        
+        col := 1
+        every char := !line do {
+            if col > 9 then break
+            if any('0123456789', char) then {
+                grid[row][col] := integer(char)
+                col +:= 1
+            }
+        }
+        if col > 9 then {
+            # Echo row
+            every col := 1 to 9 do {
+                writes(grid[row][col], " ")
+            }
+            write()
+            row +:= 1
+        }
+    }
+end
+
+procedure print_grid()
+    local r, c
+    every r := 1 to 9 do {
+        every c := 1 to 9 do {
+            writes(grid[r][c], " ")
+        }
+        write()
+    }
+end
+
+procedure is_valid(r, c, val)
+    local i, br, bc
+    
+    # Check row
+    every i := 1 to 9 do {
+        if grid[r][i] == val then fail
+    }
+    
+    # Check col
+    every i := 1 to 9 do {
+        if grid[i][c] == val then fail
+    }
+    
+    # Check box
+    br := ((r - 1) / 3) * 3 + 1
+    bc := ((c - 1) / 3) * 3 + 1
+    every i := 0 to 2 do {
+        every j := 0 to 2 do {
+            if grid[br + i][bc + j] == val then fail
+        }
+    }
+    
+    return
+end
+
+procedure solve()
+    local r, c, val, found
+    
+    # Find first empty cell
+    found := &null
+    every r := 1 to 9 do {
+        every c := 1 to 9 do {
+            if grid[r][c] == 0 then {
+                found := 1
+                break break
+            }
+        }
+    }
+    
+    if /found then return 1
+    
+    every val := 1 to 9 do {
+        iterations +:= 1
+        if is_valid(r, c, val) then {
+            grid[r][c] := val
+            if solve() then return 1
+            grid[r][c] := 0
+        }
+    }
+    
+    fail
 end

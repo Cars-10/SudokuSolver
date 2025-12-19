@@ -1,92 +1,124 @@
-REM https://qb64.com/wiki
+' Sudoku Solver in FreeBASIC
 
+Dim Shared board(0 To 8, 0 To 8) As Integer
+Dim Shared iterations As LongInt = 0
 
-DIM board(9, 9)
-DIM filename as STRING
+Sub PrintBoard()
+    For r As Integer = 0 To 8
+        For c As Integer = 0 To 8
+            Print Trim(Str(board(r, c)));
+            If c < 8 Then Print " ";
+        Next
+        Print
+    Next
+End Sub
 
+Function IsValid(row As Integer, col As Integer, value As Integer) As Integer
+    ' Check row
+    For i As Integer = 0 To 8
+        If board(row, i) = value Then Return 0
+    Next
 
-count = _COMMANDCOUNT
-FOR c = 1 TO count
-    PRINT COMMAND$(c) 'or process commands sent
-NEXT
+    ' Check col
+    For i As Integer = 0 To 8
+        If board(i, col) = value Then Return 0
+    Next
 
-IF COMMAND$ <> "" THEN
-    filename$ = COMMAND$(1)
-ELSE
-    PRINT "Usage: sudoku_solver.exe input_file.txt"
-    END
-END IF
-filename = "../Matrices/1.matrix"
-CALL ReadSudokuFromFile filename$
-PRINT "Input Sudoku Puzzle:"
-CALL PrintBoard
-IF CALL SolveSudoku() THEN
-    PRINT "Sudoku Solution:"
-    CALL PrintBoard
-ELSE
-    PRINT "No solution found."
-END IF
+    ' Check box
+    Dim startRow As Integer = (row \ 3) * 3
+    Dim startCol As Integer = (col \ 3) * 3
+    For i As Integer = 0 To 2
+        For j As Integer = 0 To 2
+            If board(startRow + i, startCol + j) = value Then Return 0
+        Next
+    Next
 
+    Return 1
+End Function
 
-FUNCTION PrintBoard()
-    FOR row = 1 TO 9
-        FOR col = 1 TO 9
-            PRINT board(row, col);
-        NEXT
-        PRINT
-    NEXT
-END FUNCTION
+Function Solve() As Integer
+    Dim row As Integer = -1
+    Dim col As Integer = -1
 
-FUNCTION IsValidMove(row, col, num)
-    FOR i = 1 TO 9
-        IF board(row, i) = num OR board(i, col) = num THEN
-            IsValidMove = FALSE ' Return FALSE if there's a conflict
-            EXIT FUNCTION
-        END IF
-    NEXT
-    subRow = INT((row - 1) / 3) * 3 + 1
-    subCol = INT((col - 1) / 3) * 3 + 1
-    FOR i = subRow TO subRow + 2
-        FOR j = subCol TO subCol + 2
-            IF board(i, j) = num THEN
-                IsValidMove = FALSE ' Return FALSE if there's a conflict
-                EXIT FUNCTION
-            END IF
-        NEXT
-    NEXT
-    IsValidMove = TRUE ' Return TRUE if the move is valid
-END FUNCTION
+    ' Find first empty cell
+    For r As Integer = 0 To 8
+        For c As Integer = 0 To 8
+            If board(r, c) = 0 Then
+                row = r
+                col = c
+                Exit For, For
+            End If
+        Next
+    Next
 
-FUNCTION SolveSudoku()
-    FOR row = 1 TO 9
-        FOR col = 1 TO 9
-            IF board(row, col) = 0 THEN
-                FOR num = 1 TO 9
-                    IF IsValidMove(row, col, num) THEN
-                        board(row, col) = num
-                        IF SolveSudoku = 1  THEN
-                            SolveSudoku = 1
-                            EXIT FUNCTION
-                        END IF
-                        board(row, col) = 0
-                    END IF
-                NEXT
-                SolveSudoku = 0
-                EXIT FUNCTION
-            END IF
-        NEXT
-    NEXT
-    SolveSudoku = 1
-END FUNCTION
+    ' If no empty cell, solved
+    If row = -1 Then Return 1
 
-FUNCTION ReadSudokuFromFile(filename$)
-    OPEN filename$ FOR INPUT AS #1
-    FOR row = 1 TO 9
-        LINE INPUT #1, linetext$
-        FOR col = 1 TO 9
-            board(row, col) = VAL(MID$(linetext$, col, 1))
-        NEXT
-    NEXT
-    CLOSE #1
-END FUNCTION
+    ' Try values 1-9
+    For value As Integer = 1 To 9
+        iterations += 1
+        If IsValid(row, col, value) Then
+            board(row, col) = value
+            If Solve() = 1 Then Return 1
+            board(row, col) = 0
+        End If
+    Next
 
+    Return 0
+End Function
+
+Sub ReadMatrix(filename As String)
+    Dim f As Integer = FreeFile
+    If Open(filename For Input As #f) <> 0 Then
+        Print "Error opening file: "; filename
+        End 1
+    End If
+
+    Dim line_text As String
+    Dim row As Integer = 0
+    While Not Eof(f) And row < 9
+        Line Input #f, line_text
+        If Len(line_text) > 0 And Left(line_text, 1) <> "#" Then
+            Dim col As Integer = 0
+            Dim i As Integer = 1
+            While i <= Len(line_text) And col < 9
+                Dim char_at As String = Mid(line_text, i, 1)
+                If char_at >= "0" And char_at <= "9" Then
+                    board(row, col) = Val(char_at)
+                    col += 1
+                End If
+                i += 1
+            Wend
+            row += 1
+        End If
+    Wend
+    Close #f
+End Sub
+
+' Main
+If Command(1) = "" Then
+    Print "Usage: Sudoku <matrix_file>"
+    End 1
+End If
+
+Dim filename As String = Command(1)
+
+' Format path for consistency (matches C solver behavior if possible)
+' C solver prints "../Matrices/1.matrix" etc.
+Print filename
+Print
+
+ReadMatrix(filename)
+
+Print "Puzzle:"
+PrintBoard()
+
+If Solve() = 1 Then
+    Print
+    Print "Puzzle:"
+    PrintBoard()
+    Print
+    Print "Solved in Iterations="; iterations
+Else
+    Print "No solution found."
+End If

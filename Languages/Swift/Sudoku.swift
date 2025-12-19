@@ -1,9 +1,10 @@
 import Foundation
 
+// 9x9 Grid
 var puzzle = [[Int]](repeating: [Int](repeating: 0, count: 9), count: 9)
 var iterations = 0
 
-func printBoard() {
+func printPuzzle() {
     print("\nPuzzle:")
     for i in 0..<9 {
         for j in 0..<9 {
@@ -13,113 +14,136 @@ func printBoard() {
     }
 }
 
-func isPossible(row: Int, col: Int, num: Int) -> Bool {
+func isValid(row: Int, col: Int, val: Int) -> Bool {
+    // Check row
     for i in 0..<9 {
-        if puzzle[row][i] == num || puzzle[i][col] == num {
-            return false
-        }
+        if puzzle[row][i] == val { return false }
     }
+    
+    // Check col
+    for i in 0..<9 {
+        if puzzle[i][col] == val { return false }
+    }
+    
+    // Check 3x3 box
     let startRow = (row / 3) * 3
     let startCol = (col / 3) * 3
     for i in 0..<3 {
         for j in 0..<3 {
-            if puzzle[startRow + i][startCol + j] == num {
-                return false
-            }
+            if puzzle[startRow + i][startCol + j] == val { return false }
         }
     }
     return true
 }
 
-func solve(row: Int, col: Int) -> Bool {
-    if row == 9 {
-        return true
-    }
-    var nextRow = row
-    var nextCol = col + 1
-    if nextCol == 9 {
-        nextRow = row + 1
-        nextCol = 0
-    }
-
-    if puzzle[row][col] != 0 {
-        return solve(row: nextRow, col: nextCol)
-    }
-
-    for num in 1...9 {
-        iterations += 1
-        if isPossible(row: row, col: col, num: num) {
-            puzzle[row][col] = num
-            if solve(row: nextRow, col: nextCol) {
-                return true
+// Exact match of C brute-force algorithm:
+// 1. Find first empty cell (row-major order)
+// 2. Try 1-9
+// 3. Count EVERY attempt
+func solve() -> Bool {
+    var row = -1
+    var col = -1
+    
+    // Find first empty cell
+    outerLoop: for r in 0..<9 {
+        for c in 0..<9 {
+            if puzzle[r][c] == 0 {
+                row = r
+                col = c
+                break outerLoop
             }
-            puzzle[row][col] = 0
         }
     }
+    
+    // If no empty cell, solved
+    if row == -1 {
+        return true
+    }
+    
+    for val in 1...9 {
+        iterations += 1
+        
+        if isValid(row: row, col: col, val: val) {
+            puzzle[row][col] = val
+            if solve() {
+                return true
+            }
+            puzzle[row][col] = 0 // Backtrack
+        }
+    }
+    
     return false
 }
 
-func readBoard(filename: String) -> Bool {
+func readMatrix(filename: String) -> Bool {
     guard let content = try? String(contentsOfFile: filename, encoding: .utf8) else {
-        fputs("Error reading file \(filename)\n", stderr)
+        print("Error reading file \(filename)")
         return false
     }
-
-    // Print the path first (just the path, like C reference)
+    
+    // Print filename exactly as passed (to match C output if possible, or close to it)
     print(filename)
-
+    
     let lines = content.components(separatedBy: .newlines)
     var row = 0
+    
     for line in lines {
+        if row >= 9 { break }
+        
         let trimmed = line.trimmingCharacters(in: .whitespaces)
-        if trimmed.isEmpty || trimmed.hasPrefix("#") {
-            continue
-        }
+        if trimmed.isEmpty || trimmed.hasPrefix("#") { continue }
+        
+        // Split by whitespace
         let parts = trimmed.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
-        var col = 0
-        for part in parts {
-            if col < 9, let val = Int(part) {
-                puzzle[row][col] = val
-                col += 1
+        
+        if parts.count >= 9 {
+            // Echo the parsed row
+            for col in 0..<9 {
+                if let val = Int(parts[col]) {
+                    puzzle[row][col] = val
+                    print("\(val) ", terminator: "")
+                }
             }
+            print("") // Newline after row echo
+            row += 1
         }
-        // Echo row after parsing (like C reference)
-        if col == 9 {
-            for c in 0..<9 {
-                print("\(puzzle[row][c]) ", terminator: "")
-            }
-            print("")
-        }
-        row += 1
-        if row == 9 { break }
     }
-    return true
+    
+    return row == 9
 }
 
-if CommandLine.arguments.count < 2 {
-    print("Usage: swift Sudoku.swift <file1> <file2> ...")
+// Main execution
+let args = CommandLine.arguments
+if args.count < 2 {
+    print("Usage: Sudoku <matrix_file>")
     exit(1)
 }
 
-let startTime = Date()
+// Only process the first file for now (to match the pattern of other scripts handling one-by-one or looping themselves)
+// But the benchmark runner passes multiple files. We'll handle arguments properly.
 
-for i in 1..<CommandLine.arguments.count {
-    let filename = CommandLine.arguments[i]
-
-    // Reset puzzle for each file
+// Process all files passed
+for i in 1..<args.count {
+    let filename = args[i]
+    
+    // Reset state
+    iterations = 0
     puzzle = [[Int]](repeating: [Int](repeating: 0, count: 9), count: 9)
-
-    if readBoard(filename: filename) {
-        printBoard()
-        iterations = 0
-        if solve(row: 0, col: 0) {
-            printBoard()
-            print("\nSolved in Iterations=\(iterations)\n")
+    
+    if readMatrix(filename: filename) {
+        printPuzzle()
+        
+        if solve() {
+            print("\nPuzzle:")
+            for r in 0..<9 {
+                for c in 0..<9 {
+                    print("\(puzzle[r][c]) ", terminator: "")
+                }
+                print("")
+            }
+            print("\nSolved in Iterations=\(iterations)")
         } else {
-            print("No solution found")
+            print("No solution found.")
         }
     }
 }
-
-let elapsed = Date().timeIntervalSince(startTime)
-print(String(format: "Seconds to process %.3f", elapsed))

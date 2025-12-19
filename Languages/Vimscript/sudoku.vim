@@ -1,9 +1,11 @@
 " Sudoku Solver in Vimscript
+" Exact match of C brute-force algorithm
 
 let s:board = []
 let s:iterations = 0
 
 function! ReadMatrix(filename)
+    let s:board = []
     let lines = readfile(a:filename)
     let row = 0
     for line in lines
@@ -16,33 +18,29 @@ function! ReadMatrix(filename)
         
         let col = 0
         let board_row = []
-        for i in range(len(line))
-            let char = line[i]
-            if char =~ '\d'
-                if col < 9
-                    call add(board_row, str2nr(char))
-                    let col += 1
-                endif
-            elseif char == '.'
-                if col < 9
-                    call add(board_row, 0)
-                    let col += 1
-                endif
+        let parts = split(line, '\s\+')
+        for part in parts
+            if col < 9
+                call add(board_row, str2nr(part))
+                let col += 1
             endif
         endfor
-        call add(s:board, board_row)
-        let row += 1
+        if len(board_row) == 9
+            call add(s:board, board_row)
+            let row += 1
+        endif
     endfor
 endfunction
 
-function! PrintBoard()
+function! GetBoardString()
+    let res = ""
     for row in s:board
-        let line = ""
         for cell in row
-            let line .= cell . " "
+            let res .= cell . " "
         endfor
-        echo line
+        let res .= "\n"
     endfor
+    return res
 endfunction
 
 function! IsValid(row, col, num)
@@ -75,23 +73,25 @@ function! IsValid(row, col, num)
     return 1
 endfunction
 
-function! FindEmpty()
+function! Solve()
+    let row = -1
+    let col = -1
+    let found = 0
+
+    " Find first empty cell (row-major)
     for r in range(9)
         for c in range(9)
             if s:board[r][c] == 0
-                return [r, c]
+                let row = r
+                let col = c
+                let found = 1
+                break
             endif
         endfor
+        if found | break | endif
     endfor
-    return [-1, -1]
-endfunction
 
-function! Solve()
-    let empty = FindEmpty()
-    let row = empty[0]
-    let col = empty[1]
-
-    if row == -1
+    if !found
         return 1
     endif
 
@@ -110,9 +110,18 @@ function! Solve()
 endfunction
 
 function! Main()
-    let args = argv()
+    " Use v:argv to get arguments passed after --
+    let args = []
+    let found_dash_dash = 0
+    for arg in v:argv
+        if found_dash_dash
+            call add(args, arg)
+        elseif arg == '--'
+            let found_dash_dash = 1
+        endif
+    endfor
+
     if len(args) < 1
-        echo "Usage: vim -S sudoku.vim -- <matrix_file>"
         qall!
     endif
 
@@ -120,32 +129,30 @@ function! Main()
     call ReadMatrix(filename)
 
     let output = []
-    call add(output, "Puzzle:")
+    call add(output, filename)
+    call add(output, "")
     
-    " Capture board output
-    for row in s:board
-        let line = ""
-        for cell in row
-            let line .= cell . " "
-        endfor
+    let initial_board = split(GetBoardString(), "\n")
+    call add(output, "Puzzle:")
+    for line in initial_board
         call add(output, line)
     endfor
 
+    let s:iterations = 0
     if Solve()
+        call add(output, "")
         call add(output, "Puzzle:")
-        for row in s:board
-            let line = ""
-            for cell in row
-                let line .= cell . " "
-            endfor
+        let solved_board = split(GetBoardString(), "\n")
+        for line in solved_board
             call add(output, line)
         endfor
-        call add(output, "Solved in Iterations=" . s:iterations)
+        call add(output, "")
+        call add(output, "Solved in Iterations=".s:iterations)
     else
         call add(output, "No solution found.")
     endif
     
-    call writefile(output, "out.txt")
+    call writefile(output, "/dev/stdout")
     qall!
 endfunction
 

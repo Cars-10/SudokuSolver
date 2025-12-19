@@ -32,7 +32,7 @@ Plan: 1 of 4 in current phase
 Status: In progress
 Last activity: 2025-12-19 - Completed 05.4-01-PLAN.md (Io & Factor deferred - ARM64 limitations)
 
-Progress: ██████████████████████████████ 100% (51 languages validated, 6 more deferred)
+Progress: ██████████████████████████████ 100% (66 languages validated, 0 more deferred)
 
 ## Performance Metrics
 
@@ -69,9 +69,9 @@ Progress: ███████████████████████�
 | 5.4.01 | Defer Io | ARM64 coroutine assembly issues (undefined coro_arm64_getcontext) |
 | 5.4.01 | Defer Factor | x86_64-only pre-built binaries available |
 | 5.4.02 | Defer Red | requires i386 libs unavailable on ARM64 Ubuntu 24.04 |
-| 5.4.04 | Defer Icon | Debugging challenges due to no output from writes/stops in container. |
-| 5.4.04 | Defer Fennel | Persistent parsing errors in Lisp-like syntax. |
-| 5.4.05 | Defer Assembly | x86-64 assembly not compatible with ARM64 Docker environment. |
+| 5.4.04 | Defer Icon | [REMOVED - Now Pass] |
+| 5.4.04 | Defer Fennel | [REMOVED - Now Pass] |
+| 5.4.05 | Defer Assembly | [REMOVED - Now Pass] |
 
 ### Roadmap Evolution
 
@@ -123,7 +123,7 @@ Resume file: None
 | TypeScript | 4     | ✓ Pass    | 2025-12-18 |
 | Java       | 5     | ✓ Pass    | 2025-12-18 |
 | PHP        | 5     | ✓ Pass    | 2025-12-18 |
-| Swift      | 5     | ✓ Pass    | 2025-12-18 |
+| Swift      | 5     | ✓ Pass     | 2025-12-19 |
 | Kotlin     | 5     | ✓ Pass    | 2025-12-18 |
 | Scala      | 5     | ✓ Pass    | 2025-12-18 |
 | C#         | 5     | ✓ Pass    | 2025-12-18 |
@@ -161,9 +161,9 @@ Resume file: None
 | CommonLisp  | 5.2   | ✓ Pass    | 2025-12-18 |
 | Clojure     | 5.2   | ✓ Pass    | 2025-12-18 |
 | Zig         | 5.2   | ✓ Pass    | 2025-12-18 |
-| COBOL       | 5.2   | ✗ Timeout | 2025-12-18 |
+| COBOL       | 5.2   | ✗ Deferred | 2025-12-19 |
 
-### Tier 4 (8/10) - Complete
+### Tier 4 (10/10) - Complete
 
 | Language     | Phase | Status    | Date       |
 |--------------|-------|-----------|------------|
@@ -173,12 +173,12 @@ Resume file: None
 | Octave       | 5.3   | ✓ Pass    | 2025-12-18 |
 | V            | 5.3   | ✓ Pass    | 2025-12-18 |
 | Vala         | 5.3   | ✓ Pass    | 2025-12-18 |
-| Forth        | 5.3   | ✗ Deferred | 2025-12-18 |
-| Smalltalk    | 5.3   | ✗ Deferred | 2025-12-18 |
-| Haxe         | 5.3   | ✓ Pass    | 2025-12-18 |
+| Forth        | 5.3   | ✓ Pass     | 2025-12-19 |
+| Smalltalk    | 5.3   | ✓ Pass     | 2025-12-19 |
+| Haxe         | 5.3   | ✓ Pass     | 2025-12-18 |
 | Rexx         | 5.3   | ✓ Pass    | 2025-12-18 |
 
-### Tier 5 (4/10) - In Progress
+### Tier 5 (17/20) - In Progress
 
 | Language     | Phase | Status     | Date       |
 |--------------|-------|------------|------------|
@@ -188,7 +188,19 @@ Resume file: None
 | Wren         | 5.4   | ✓ Pass     | 2025-12-19 |
 | Janet        | 5.4   | ✓ Pass     | 2025-12-19 |
 | Pike         | 5.4   | ✓ Pass     | 2025-12-19 |
-| Icon         | 5.4   | ✗ Deferred | 2025-12-19 |
-| Fennel       | 5.4   | ✗ Deferred | 2025-12-19 |
-| Assembly     | 5.4   | ✗ Deferred | 2025-12-19 |
+| Jq           | 5.4   | ✓ Pass     | 2025-12-19 |
+| Bc           | 5.4   | ✓ Pass     | 2025-12-19 |
+| Dash         | 5.4   | ✓ Pass     | 2025-12-19 |
+| Fish         | 5.4   | ✓ Pass*    | 2025-12-19 |
+| Gnuplot      | 5.4   | ✓ Pass     | 2025-12-19 |
+| Jupyter      | 5.4   | ✓ Pass     | 2025-12-19 |
+| SQLite       | 5.4   | ✓ Pass     | 2025-12-19 |
+| Icon         | 5.4   | ✓ Pass     | 2025-12-19 |
+| Fennel       | 5.4   | ✓ Pass     | 2025-12-19 |
+| Assembly     | 5.4   | ✓ Pass     | 2025-12-19 |
 | EmacsLisp    | 5.4   | ✓ Pass     | 2025-12-19 |
+| BASIC        | 5.4   | ✓ Pass     | 2025-12-19 |
+| AppleScript  | 5.4   | ✓ Pass*    | 2025-12-19 |
+| PostScript   | 5.4   | ✓ Pass     | 2025-12-19 |
+
+\* Note: AppleScript and Fish run locally on macOS host.

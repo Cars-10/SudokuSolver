@@ -1,10 +1,12 @@
 # Assembly Sudoku Solver
 
-Implementation of the Sudoku solver in x86_64 Assembly using NASM.
+Implementation of the Sudoku solver in:
+- x86_64 Assembly using NASM
+- ARM64 Assembly (AArch64) using GCC
 
 ## Language Notes
 
-This implementation uses direct system calls for I/O and standard C library functions for string manipulation and conversion. It's a low-level implementation that requires manual memory management and register allocation.
+This implementation uses standard C library functions for I/O and logical operations. It supports both x86_64 and ARM64 architectures.
 
 ## Implementation Details
 

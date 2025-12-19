@@ -1,95 +1,104 @@
-(var puzzle {})
-(var count 0)
+(var iterations 0)
+(var grid [])
 
-(fn print-puzzle []
-  (print "\nPuzzle:")
-  (each [i row (pairs puzzle)]
+(fn grid-get [r c]
+  (. grid (+ (* (- r 1) 9) c)))
+
+(fn grid-set [r c val]
+  (tset grid (+ (* (- r 1) 9) c) val))
+
+(fn print-grid []
+  (for [r 1 9]
     (var line "")
-    (each [j col (pairs row)]
-      (set line (.. line col " ")))
+    (for [c 1 9]
+      (set line (.. line (grid-get r c) " ")))
     (print line)))
 
-(fn is-valid [row col val]
+(fn is-valid [r c val]
   (var valid true)
-  (for [i 1 9 &until (not valid)]
-    (when (= (. (. puzzle row) i) val)
-      (set valid false)))
+  ;; Check row
+  (for [i 1 9]
+    (if (= (grid-get r i) val) (set valid false)))
   
-  (when valid
-    (for [i 1 9 &until (not valid)]
-      (when (= (. (. puzzle i) col) val)
-        (set valid false))))
+  (if valid
+      (for [i 1 9]
+        (if (= (grid-get i c) val) (set valid false))))
   
-  (when valid
-    (local box-row (+ (* (math.floor (/ (- row 1) 3)) 3) 1))
-    (local box-col (+ (* (math.floor (/ (- col 1) 3)) 3) 1))
-    (for [i 0 2 &until (not valid)]
-      (for [j 0 2 &until (not valid)]
-        (when (= (. (. puzzle (+ box-row i)) (+ box-col j)) val)
-          (set valid false)))))
+  (if valid
+      (let [br (+ (* (math.floor (/ (- r 1) 3)) 3) 1)
+            bc (+ (* (math.floor (/ (- c 1) 3)) 3) 1)]
+        (for [i 0 2]
+          (for [j 0 2]
+            (if (= (grid-get (+ br i) (+ bc j)) val) (set valid false))))))
   valid)
 
 (fn solve []
-  (var row -1)
-  (var col -1)
-  (var found-empty false)
+  (var r -1)
+  (var c -1)
+  (var found false)
   
-  (for [r 1 9 &until found-empty]
-    (for [c 1 9 &until found-empty]
-      (when (= (. (. puzzle r) c) 0)
-        (set row r)
-        (set col c)
-        (set found-empty true))))
-    
-  (if (not found-empty)
-    (do
-      (print-puzzle)
-      (print (.. "\nSolved in Iterations=" count "\n")))
-    (do
-      (var result false)
-      (for [val 1 9 &until result]
-        (set count (+ count 1))
-        (when (is-valid row col val)
-          (tset (. puzzle row) col val)
-          (when (solve)
-            (set result true))
-          (when (not result)
-            (tset (. puzzle row) col 0))))
-      result)))
+  ;; Find first empty cell
+  (for [row 1 9]
+    (if (not found)
+        (for [col 1 9]
+          (if (and (not found) (= (grid-get row col) 0))
+              (do (set r row) (set c col) (set found true))))))
+  
+  (if (not found)
+      true
+      (do
+        (var solved false)
+        (for [val 1 9]
+          (if (not solved)
+              (do
+                (set iterations (+ iterations 1))
+                (if (is-valid r c val)
+                    (do
+                      (grid-set r c val)
+                      (if (solve) (set solved true)
+                          (grid-set r c 0)))))))
+        solved)))
 
-(fn read-matrix-file [filename]
-  (let [f (io.open filename)]
-    (when f
-      (let [content (f:read "*a")]
-        (f:close)
-        (let [lines (-> content
-                        (string.gsub "\r" "")
-                        (string.split "\n"))]
-          
-          (if (string.match filename "^/app/Matrices/")
-              (print (.. "../" (string.sub filename 6)))
-              (print filename))
-              
-          (var line-count 1)
-          (each [i line (ipairs lines)]
-            (let [trimmed (string.gsub line "%s+" "")]
-              (when (and (not (= trimmed "")) (not (= (string.sub line 1 1) "#")))
-                (let [parts {}]
-                  (each [part (string.gmatch line "%S+")]
+(fn read-matrix [filename]
+  (let [f (io.open filename :r)]
+    (if (not f)
+        false
+        (do
+          (print filename)
+          (var row 1)
+          (each [line (f:lines)]
+            (if (and (<= row 9) (> (length line) 0) (not (= (line:sub 1 1) "#")))
+                (let [parts []]
+                  (each [part (line:gmatch "%S+")]
                     (table.insert parts (tonumber part)))
-                  (when (= (length parts) 9)
-                    (tset puzzle line-count parts)
-                    (print (table.concat parts " "))
-                    (set line-count (+ line-count 1))))))))
-      true)))
+                  (if (>= (length parts) 9)
+                      (do
+                        (for [col 1 9]
+                          (grid-set row col (. parts col))
+                          (io.write (. parts col) " "))
+                        (print "")
+                        (set row (+ row 1)))))))
+          (f:close)
+          (= row 10)))))
 
-(local start (os.clock))
-(each [i arg (ipairs arg)]
-  (set puzzle {})
-  (for [i 1 9] (tset puzzle i {}))
-  (set count 0)
-  (when (read-matrix-file arg)
-    (print-puzzle)
-    (solve)))
-(local end (os.clock))
-(print (.. "Seconds to process " (- end start)))
+(fn main [args]
+  (let [filename (. args 1)]
+    (if (not filename)
+        (do (print "Usage: Sudoku <matrix_file>") (os.exit 1))
+        (do
+          (set grid [])
+          (for [i 1 81] (tset grid i 0))
+          (if (read-matrix filename)
+              (do
+                (print "\nPuzzle:")
+                (print-grid)
+                (set iterations 0)
+                (if (solve)
+                    (do
+                      (print "\nPuzzle:")
+                      (print-grid)
+                      (print (.. "\nSolved in Iterations=" iterations)))
+                    (print "No solution found.")))
+              (print (.. "Error reading matrix file: " filename)))))))
+
+(main arg)
