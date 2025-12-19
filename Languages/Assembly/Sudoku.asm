@@ -1,8 +1,8 @@
 ; Sudoku Solver in NASM (64-bit macOS)
 ; Uses C library functions: fopen, fclose, fgetc, printf
 
-global _main
-extern _fopen, _fclose, _fgetc, _printf, _exit
+global main
+extern fopen, fclose, fgetc, printf, exit
 
 section .data
     fmt_solved db "Solved in Iterations= %d", 10, 0
@@ -19,7 +19,7 @@ section .bss
 
 section .text
 
-_main:
+main:
     push rbp
     mov rbp, rsp
     sub rsp, 16
@@ -31,7 +31,7 @@ _main:
     ; Open file
     mov rdi, [rsi + 8] ; argv[1]
     lea rsi, [rel mode_r]
-    call _fopen
+    call fopen
     test rax, rax
     jz .exit_err
     mov [rel file_handle], rax
@@ -43,7 +43,7 @@ _main:
     jge .read_done
     
     mov rdi, [rel file_handle]
-    call _fgetc
+    call fgetc
     cmp eax, -1 ; EOF
     je .read_done
     
@@ -60,10 +60,9 @@ _main:
 
 .read_done:
     mov rdi, [rel file_handle]
-    call _fclose
+    call fclose
 
-    ; Solve
-    call _solve
+    call solve
     test rax, rax
     jz .no_solution
 
@@ -71,26 +70,26 @@ _main:
     lea rdi, [rel fmt_solved]
     mov rsi, [rel iterations]
     xor rax, rax
-    call _printf
+    call printf
     
-    call _print_board
+    call print_board
     xor rdi, rdi
-    call _exit
+    call exit
 
 .no_solution:
     lea rdi, [rel fmt_nosol]
     xor rax, rax
-    call _printf
+    call printf
     mov rdi, 1
-    call _exit
+    call exit
 
 .exit_err:
     mov rdi, 1
-    call _exit
+    call exit
 
 ; ----------------------------------------------------------------
 ; solve() -> 1 (true) or 0 (false)
-_solve:
+solve:
     push rbp
     mov rbp, rsp
     push rbx ; index
@@ -116,7 +115,7 @@ _solve:
     
     mov rdi, rbx
     mov rsi, r12
-    call _is_valid
+    call is_valid
     test rax, rax
     jz .next_num
     
@@ -127,7 +126,7 @@ _solve:
     ; Increment iterations
     inc qword [rel iterations]
     
-    call _solve
+    call solve
     test rax, rax
     jnz .return_true
     
@@ -158,7 +157,7 @@ _solve:
 
 ; ----------------------------------------------------------------
 ; is_valid(index, num) -> 1 or 0
-_is_valid:
+is_valid:
     push rbp
     mov rbp, rsp
     
@@ -257,7 +256,7 @@ _is_valid:
     ret
 
 ; ----------------------------------------------------------------
-_print_board:
+print_board:
     push rbp
     mov rbp, rsp
     push rbx
@@ -288,13 +287,13 @@ _print_board:
     mov rsi, rdi
     lea rdi, [rel fmt_char]
     xor rax, rax
-    call _printf
+    call printf
     
     cmp r12, 8
     jge .skip_space
     lea rdi, [rel fmt_space]
     xor rax, rax
-    call _printf
+    call printf
 .skip_space:
     
     inc r12
@@ -303,7 +302,7 @@ _print_board:
 .p_next_row:
     lea rdi, [rel fmt_newline]
     xor rax, rax
-    call _printf
+    call printf
     inc rbx
     jmp .p_row
 
