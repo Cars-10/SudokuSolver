@@ -67,23 +67,22 @@
 
 (defun sudoku-solve ()
   (let ((empty (sudoku-find-empty)))
-    (unless empty
-      (throw 'solved t))
-    
-    (let ((row (nth 0 empty))
-          (col (nth 1 empty)))
-      (dotimes (i 9)
-        (let ((num (1+ i)))
-          (setq sudoku-iterations (1+ sudoku-iterations))
-          (when (sudoku-is-valid row col num)
-            (aset (aref sudoku-board row) col num)
-            (catch 'solved
-              (when (sudoku-solve)
-                (throw 'solved t)))
-            (aset (aref sudoku-board row) col 0))))
-      nil)))
+    (if (not empty)
+        t ; Solved
+      (let ((row (nth 0 empty))
+            (col (nth 1 empty)))
+        (catch 'found
+          (dotimes (i 9)
+            (let ((num (1+ i)))
+              (setq sudoku-iterations (1+ sudoku-iterations))
+              (when (sudoku-is-valid row col num)
+                (aset (aref sudoku-board row) col num)
+                (when (sudoku-solve)
+                  (throw 'found t))
+                (aset (aref sudoku-board row) col 0))))
+          nil)))))
 
-(defun sudoku-main ()
+(let ((start-time (current-time)))
   (let ((args command-line-args-left))
     (if (< (length args) 1)
         (princ "Usage: emacs --script sudoku.el <matrix_file>\n")
@@ -93,11 +92,11 @@
         (princ "Puzzle:\n")
         (sudoku-print-board)
         
-        (if (catch 'solved (sudoku-solve))
+        (if (sudoku-solve)
             (progn
-              (princ "Puzzle:\n")
+              (princ "\nPuzzle:\n")
               (sudoku-print-board)
-              (princ (format "Solved in Iterations=%d\n" sudoku-iterations)))
-          (princ "No solution found.\n"))))))
-
-(sudoku-main)
+              (princ (format "\nSolved in Iterations=%d\n\n" sudoku-iterations)))
+          (princ "No solution found.\n")))))
+  (let ((end-time (current-time)))
+    (princ (format "Seconds to process %f\n" (float-time (time-subtract end-time start-time))))))

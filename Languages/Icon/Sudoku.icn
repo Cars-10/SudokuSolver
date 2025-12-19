@@ -1,0 +1,23 @@
+global puzzle, count
+
+procedure main(args)
+    local filename, f, line, i, j, row_str, a, line_count
+    filename := args[1]
+    if not filename then {
+        write("Usage: ", image(args[0]), " <filename>")
+        exit(1)
+    }
+
+    f := open(filename)
+    if not f then {
+        write("Cannot open ", filename)
+        exit(1)
+    }
+    write("File opened successfully: ", filename)
+
+    while line := read(f) do {
+        write("Read line: ", line)
+    }
+    close(f)
+    exit(0)
+end

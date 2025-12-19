@@ -527,6 +527,40 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 # pike --version
 
+# ----------------------------------------------------------------------------
+# 50. Icon
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    icont \
+    iconx \
+    icon-ipl \
+    && rm -rf /var/lib/apt/lists/*
+# icon -version
+
+# ----------------------------------------------------------------------------
+# 51. Fennel (requires Lua - already have lua5.4)
+# ----------------------------------------------------------------------------
+RUN curl -L https://fennel-lang.org/downloads/fennel-1.4.2 \
+    -o /usr/local/bin/fennel \
+    && chmod +x /usr/local/bin/fennel
+# fennel --version
+
+# ----------------------------------------------------------------------------
+# 52. Assembly (NASM)
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    nasm \
+    && rm -rf /var/lib/apt/lists/*
+# nasm -v
+
+# ----------------------------------------------------------------------------
+# 53. EmacsLisp
+# ----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    emacs-nox \
+    && rm -rf /var/lib/apt/lists/*
+# emacs --version
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -636,7 +670,11 @@ CMD ["node", "index.js"]
 # - Wren: 0.4.0 (embeddable scripting)
 # - Janet: Latest (Lisp-like)
 # - Pike: 8.0 (C-like scripting)
+# - Icon: 9.5 (goal-directed)
+# - Fennel: Latest (Lisp that compiles to Lua)
+# - Assembly (NASM): Latest
+# - EmacsLisp: Latest
 #
-# Total: 48 languages (Swift + Smalltalk + Forth + Io + Factor + Red deferred, Erlang via elixir)
+# Total: 52 languages (Swift + Smalltalk + Forth + Io + Factor + Red deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
