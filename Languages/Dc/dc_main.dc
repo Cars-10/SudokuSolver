@@ -1,0 +1,14 @@
+[Puzzle:]P 10P
+lBx
+10P
+
+# Solve
+lsx 1 = [
+  [Puzzle:]P 10P
+  lBx
+  10P
+  [Solved in Iterations=]P li n 10P
+] [
+  [No solution found.]P 10P
+] ifelse
+q

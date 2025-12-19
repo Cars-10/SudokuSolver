@@ -1,5 +1,156 @@
 #!/bin/dash
-# Sudoku Solver in Dash
-# Placeholder/Simplified
+# Sudoku Solver in Dash (POSIX Shell)
+# Iterative backtracking to match C algorithm fingerprint
 
-echo "Solved in Iterations= 0"
+# Global iterations
+iterations=0
+
+print_board() {
+    _pr=0
+    while [ $_pr -lt 9 ]; do
+        _pline=""
+        _pc=0
+        while [ $_pc -lt 9 ]; do
+            eval "_pval=\$c$(( _pr * 9 + _pc ))"
+            _pline="$_pline$_pval "
+            _pc=$(( _pc + 1 ))
+        done
+        echo "$_pline"
+        _pr=$(( _pr + 1 ))
+    done
+}
+
+is_valid() {
+    _vrow=$1; _vcol=$2; _vv=$3
+    
+    # Row
+    _vk=0
+    while [ $_vk -lt 9 ]; do
+        eval "_vcv=\$c$(( _vrow * 9 + _vk ))"
+        if [ "$_vcv" = "$_vv" ]; then return 1; fi
+        _vk=$(( _vk + 1 ))
+    done
+    
+    # Col
+    _vk=0
+    while [ $_vk -lt 9 ]; do
+        eval "_vcv=\$c$(( _vk * 9 + _vcol ))"
+        if [ "$_vcv" = "$_vv" ]; then return 1; fi
+        _vk=$(( _vk + 1 ))
+    done
+    
+    # Box
+    _vbr=$(( (_vrow / 3) * 3 ))
+    _vbc=$(( (_vcol / 3) * 3 ))
+    _vki=0
+    while [ $_vki -lt 3 ]; do
+        _vkj=0
+        while [ $_vkj -lt 3 ]; do
+            eval "_vcv=\$c$(( (_vbr + _vki) * 9 + (_vbc + _vkj) ))"
+            if [ "$_vcv" = "$_vv" ]; then return 1; fi
+            _vkj=$(( _vkj + 1 ))
+        done
+        _vki=$(( _vki + 1 ))
+    done
+    
+    return 0
+}
+
+# Find first empty cell starting from _idx
+find_empty() {
+    _fe_idx=$1
+    while [ $_fe_idx -lt 81 ]; do
+        eval "_fe_val=\$c$_fe_idx"
+        if [ "$_fe_val" = 0 ]; then
+            echo $_fe_idx
+            return 0
+        fi
+        _fe_idx=$(( _fe_idx + 1 ))
+    done
+    echo -1
+}
+
+solve_iterative() {
+    # stack will store the indices of empty cells we've filled
+    # and the last tried value for each
+    _sptr=0
+    
+    _curr_idx=$(find_empty 0)
+    if [ "$_curr_idx" = -1 ]; then return 0; fi
+    
+    # Initial state for first empty cell
+    _sptr=1
+    eval "sc$_sptr=$_curr_idx" # stack cell index
+    eval "sv$_sptr=0"         # stack value tried
+    
+    while [ $_sptr -gt 0 ]; do
+        eval "_idx=\$sc$_sptr"
+        eval "_val=\$sv$_sptr"
+        
+        _row=$(( _idx / 9 ))
+        _col=$(( _idx % 9 ))
+        
+        _next_val=$(( _val + 1 ))
+        
+        _found_valid=0
+        while [ $_next_val -le 9 ]; do
+            iterations=$(( iterations + 1 ))
+            if is_valid $_row $_col $_next_val; then
+                eval "c$_idx=$_next_val"
+                eval "sv$_sptr=$_next_val"
+                _found_valid=1
+                break
+            fi
+            _next_val=$(( _next_val + 1 ))
+        done
+        
+        if [ $_found_valid -eq 1 ]; then
+            # Find next empty cell
+            _next_empty=$(find_empty $(( _idx + 1 )))
+            if [ "$_next_empty" = -1 ]; then
+                return 0 # Solved
+            fi
+            # Push to stack
+            _sptr=$(( _sptr + 1 ))
+            eval "sc$_sptr=$_next_empty"
+            eval "sv$_sptr=0"
+        else
+            # Backtrack
+            eval "c$_idx=0"
+            _sptr=$(( _sptr - 1 ))
+        fi
+    done
+    
+    return 1
+}
+
+# Main
+FILE=$1
+if [ -z "$FILE" ]; then echo "Usage: $0 <file>"; exit 1; fi
+
+echo "$FILE"
+echo ""
+
+# Read and initialize variables c0...c80
+_idx=0
+_digits=$(grep -v '^#' "$FILE" | tr -cd '0-9' | sed 's/./& /g')
+for _d in $_digits; do
+    if [ $_idx -lt 81 ]; then
+        eval "c$_idx=$_d"
+        _idx=$(( _idx + 1 ))
+    fi
+done
+
+echo "Puzzle:"
+print_board
+echo ""
+
+iterations=0
+if solve_iterative; then
+    echo "Puzzle:"
+    print_board
+    echo ""
+    echo "Solved in Iterations=$iterations"
+else
+    echo "No solution found."
+fi

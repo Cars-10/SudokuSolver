@@ -1,20 +1,32 @@
 #!/bin/bash
-# COBOL Sudoku Solver - Benchmark Runner
-# Uses common.sh for shared benchmark infrastructure
-#
-# NOTE: COBOL solver has performance issues and may timeout on complex puzzles
+# Languages/Cobol/runMe.sh
 
-# Configuration
-LANGUAGE="COBOL"
-COMPILE_CMD="cobc -x -free -O2 -o Sudoku sudoku.cob"
+LANGUAGE="Cobol"
 SOLVER_BINARY="./Sudoku"
-TIMEOUT_SECONDS=600  # 10 minutes for COBOL due to slow execution
 
-# Source common functions
+# Source shared functions
 source ../common.sh
 
-# Check for GnuCOBOL compiler
-check_toolchain "cobc"
+compile() {
+    # Prefer /usr/bin/cobc as specified
+    COBC="/usr/bin/cobc"
+    if [ ! -x "$COBC" ]; then
+        if command -v cobc &> /dev/null; then
+            COBC="cobc"
+        else
+            report_env_error "GnuCOBOL compiler (cobc) not found"
+        fi
+    fi
 
-# Run main benchmark
+    echo "Compiling COBOL solver..."
+    # -x: Build executable
+    # -free: Free format source
+    "$COBC" -x -free -o Sudoku sudoku.cob
+    
+    if [ $? -ne 0 ]; then
+        report_env_error "Compilation failed"
+    fi
+}
+
+# Execute benchmarks
 main "$@"

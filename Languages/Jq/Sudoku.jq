@@ -1,52 +1,52 @@
 # Sudoku Solver in Jq
+# Exact match of C brute-force algorithm
 
-# Input: A string of 81 digits (0 for empty)
-# Output: Solved string
+def isValid($grid; $r; $c; $val):
+  # Row check
+  all(range(9); $grid[$r * 9 + .] != $val) and
+  # Col check
+  all(range(9); $grid[. * 9 + $c] != $val) and
+  # Box check
+  ((($r / 3) | floor) * 3) as $br |
+  ((($c / 3) | floor) * 3) as $bc |
+  all(range(3); . as $i | all(range(3); . as $j | $grid[($br + $i) * 9 + ($bc + $j)] != $val));
 
-def to_board: split("") | map(tonumber);
+def findEmpty($grid):
+  label $out | (range(81) | if $grid[.] == 0 then ., break $out else empty end) // null;
 
-def get_row($r): .[$r*9 : $r*9+9];
-def get_col($c): [range(9) | . * 9 + $c] as $idxs | [.[$idxs[]]];
-def get_box($r; $c): 
-  ($r - ($r % 3)) as $sr | ($c - ($c % 3)) as $sc |
-  [range(3) | . as $i | range(3) | . as $j | ($sr+$i)*9 + ($sc+$j)] as $idxs |
-  [.[$idxs[]]];
-
-def is_valid($board; $idx; $num):
-  ($idx / 9 | floor) as $r | ($idx % 9) as $c |
-  # Check row
-  (any($board | get_row($r)[]; . == $num) | not) and
-  # Check col
-  (any($board | get_col($c)[]; . == $num) | not) and
-  # Check box
-  (any($board | get_box($r; $c)[]; . == $num) | not);
-
-def solve($idx; $iterations):
-  if $idx == 81 then
-    {solved: true, board: ., iterations: $iterations}
-  elif .[$idx] != 0 then
-    solve($idx + 1; $iterations)
+def solve:
+  findEmpty(.grid) as $idx |
+  if ($idx == null) then
+    . + {solved: true}
   else
-    # Try 1-9
-    reduce range(1; 10) as $num (
-      {solved: false, board: ., iterations: $iterations};
+    (($idx / 9) | floor) as $r | ($idx % 9) as $c |
+    reduce range(1; 10) as $v (.;
       if .solved then .
       else
-        if is_valid(.board; $idx; $num) then
-          (.board | .[$idx] = $num) as $new_board |
-          ($new_board | solve($idx + 1; .iterations + 1))
-        else
-          .
+        .count += 1 |
+        if isValid(.grid; $r; $c; $v) then
+          .grid[$idx] = $v | solve |
+          if .solved then . else .grid[$idx] = 0 end
+        else .
         end
       end
     )
   end;
 
+def formatBoard($grid):
+  [range(9) | . as $r |
+    [range(9) | . as $c | $grid[$r * 9 + $c] | tostring + " "] | join("")
+  ] | join("\n");
+
 # Main
-split("") | map(tonumber) | solve(0; 0) | 
+select(length >= 81) | 
+split("") | map(tonumber) as $initial |
+{grid: $initial, count: 0, solved: false} | solve |
 if .solved then
-  "Solved in Iterations= \(.iterations)",
-  (.board | _nwise(9) | join(" "))
+  "Puzzle:",
+  formatBoard(.grid),
+  "",
+  "Solved in Iterations=\(.count)"
 else
   "No solution found."
 end

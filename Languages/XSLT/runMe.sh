@@ -1,0 +1,42 @@
+#!/bin/bash
+# Languages/XSLT/runMe.sh
+
+LANGUAGE="XSLT"
+SOLVER_BINARY="./xslt_wrapper.sh"
+
+# Source shared functions
+source ../common.sh
+
+# Create dummy XML if not exists
+echo "<dummy/>" > dummy.xml
+
+cat << 'EOF' > xslt_wrapper.sh
+#!/bin/bash
+MATRIX="$1"
+# 1. Path
+echo "$MATRIX"
+echo ""
+
+# 2. Extract digits
+DIGITS=$(cat "$MATRIX" | tr -cd '0-9')
+
+# 3. Print initial board
+echo "Puzzle:"
+echo "$DIGITS" | sed 's/./& /g' | sed 's/.
+{18}/&\n/g'
+echo ""
+
+# 4. Run XSLT
+xsltproc --maxdepth 10000 --stringparam board "$DIGITS" Sudoku.xslt dummy.xml
+EOF
+chmod +x xslt_wrapper.sh
+
+compile() {
+    # Check for xsltproc
+    if ! command -v xsltproc &> /dev/null; then
+        report_env_error "xsltproc not found"
+    fi
+}
+
+# Execute benchmarks
+main "$@"

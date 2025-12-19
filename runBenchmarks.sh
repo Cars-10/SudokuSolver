@@ -160,7 +160,8 @@ case "$1" in
     --report)
         echo -e "${BLUE}Generating benchmark report...${NC}"
         cd ..
-        npx ts-node Metrics/generate_report_only.ts
+        SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+(cd "$SCRIPT_DIR/Metrics" && npx ts-node generate_report_only.ts)
         echo -e "${GREEN}✓ Report generated: benchmark_report.html${NC}"
         ;;
     --pending)

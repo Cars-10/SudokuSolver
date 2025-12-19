@@ -195,6 +195,16 @@ Key decisions from project exploration:
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
 | Validation Method | Exact iteration count match to C reference | Simple, objective, proves algorithmic consistency without complex trace analysis |
+| Jq Support | jq | Standard package, fully functional and validated. |
+| Bc Support | bc (Basic Calculator) | Standard package, fully functional and validated. |
+| Dash Support | dash (POSIX Shell) | Standard package, fully functional and validated. |
+| Fish Support | fish shell | Brew package, fully functional and validated (Local). |
+| Gnuplot Support | gnuplot | Standard package, fully functional and validated (using Gnuplot 6.0 features). |
+| Jupyter Support | jupyter notebook | Executed via nbconvert, fully functional and validated. |
+| SQLite Support | Node.js / SQLite Tier | Node.js implementation for SQLite tier, fully functional and validated. |
+| Forth Support | GNU Forth (gforth) | Manually installed in container, fully functional and validated. |
+| PostScript Support | Ghostscript (gs) | Manually installed in container, fully functional and validated. |
+| Smalltalk Support | GNU Smalltalk (gst) | Manually installed in container, fully functional and validated. |
 | Database Strategy | SQLite with JSON preservation | SQLite enables queries/trends, JSON kept for debugging and source of truth |
 | Script Architecture | Modular (Languages/common.sh) | Reduce duplication, ensure consistency, easier maintenance across 15+ languages |
 | Logo Processing | Server-side with Sharp, PNG only | Sharp is fast/reliable, PNG is universal, eliminates SVG complexity |
