@@ -480,6 +480,35 @@ RUN apt-get update && apt-get install -y \
 # TODO: Revisit when Factor releases ARM64 binaries
 # factor -version: DEFERRED
 
+# ----------------------------------------------------------------------------
+# 46. Red - DEFERRED
+# ----------------------------------------------------------------------------
+# Red language requires 32-bit i386 libraries (libc6:i386, libcurl4:i386)
+# Ubuntu ports repository does not provide i386 packages for ARM64 architecture
+# Error: "Failed to fetch binary-i386/Packages 404 Not Found"
+# TODO: Revisit when Red supports ARM64 natively or provides ARM-compatible binaries
+# red --version: DEFERRED
+
+# ----------------------------------------------------------------------------
+# 47. Wren (build from source - patched for ARM64 compatibility)
+# ----------------------------------------------------------------------------
+# The premake makefiles use -m64 which doesn't work on ARM64
+# Also fix naming conflict with POSIX write() function in newer GCC
+RUN git clone --depth 1 --branch 0.4.0 https://github.com/wren-lang/wren-cli.git /tmp/wren-cli \
+    && cd /tmp/wren-cli \
+    && git submodule update --init --recursive \
+    && find . -name "*.make" -exec sed -i 's/-m64//g' {} \; \
+    && sed -i 's/static void write(/static void wrenWrite(/g' src/cli/vm.c \
+    && sed -i 's/config\.writeFn = write;/config.writeFn = wrenWrite;/g' src/cli/vm.c \
+    && cd projects/make \
+    && make config=release_64bit \
+    && ls -la ../../bin/ \
+    && mv ../../bin/wren_cli /usr/local/bin/wren \
+    && chmod +x /usr/local/bin/wren \
+    && cd / \
+    && rm -rf /tmp/wren-cli
+# wren --version
+
 # ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================
@@ -585,7 +614,9 @@ CMD ["node", "index.js"]
 # Tier 5 (Practical Niche):
 # - Io: DEFERRED (ARM64 coroutine assembly issues)
 # - Factor: DEFERRED (x86_64 only)
+# - Red: DEFERRED (requires i386 libs unavailable on ARM64)
+# - Wren: 0.4.0 (embeddable scripting)
 #
-# Total: 45 languages (Swift + Smalltalk + Forth + Io + Factor deferred, Erlang via elixir)
+# Total: 46 languages (Swift + Smalltalk + Forth + Io + Factor + Red deferred, Erlang via elixir)
 # Estimated image size: 15-20GB
 # ============================================================================
