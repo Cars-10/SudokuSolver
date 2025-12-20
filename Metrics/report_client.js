@@ -397,13 +397,24 @@ document.addEventListener('DOMContentLoaded', function() {
 // Modal Logic
 let currentEditingLang = null;
 let currentMetadata = null;
+let lastPopulatedMetadata = null; // Track the last saved state to prevent overwriting during edits
 
 // Updated Show Function
-window.showLanguageDetails = async function (lang, x, y) {
+window.showLanguageDetails = async function (lang) {
     console.log("Opening modal for:", lang);
     currentEditingLang = lang;
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
+
+    // Add visible class to modal
+    modal.classList.add('visible');
+    document.body.classList.add('modal-open');
+
+    // Reset scroll and position
+    modalContent.scrollTop = 0;
+    modalContent.style.left = '';
+    modalContent.style.top = '';
+    modalContent.style.transform = '';
 
     // Fetch dynamic metadata from backend first? 
     // We fallback to static if fetch fails.
@@ -428,6 +439,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     }
 
     currentMetadata = meta;
+    lastPopulatedMetadata = JSON.parse(JSON.stringify(meta)); // Deep copy for comparison/restoration
 
     // View Mode Population
     const img = meta.image || meta.logo || "";
@@ -524,98 +536,22 @@ window.showLanguageDetails = async function (lang, x, y) {
         authorList.appendChild(div);
     });
 
+    // Clear editing mode
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
 
     // Update lock button state based on lockedLanguages
     updateModalLockButtonState();
 
-    // Position modal near cursor (if x, y provided)
-    if (x !== undefined && y !== undefined) {
-        const offsetX = 20;
-        const offsetY = 20;
-
-        // Show modal to get dimensions
-        modal.classList.add('visible');
-        modalContent.style.visibility = 'hidden';
-        modalContent.style.left = '0px';
-        modalContent.style.top = '0px';
-
-        // Force layout recalc
-        modalContent.offsetHeight;
-
-        const modalWidth = modalContent.offsetWidth;
-        const modalHeight = modalContent.offsetHeight;
-
-        // Calculate position near cursor
-        let modalX = x + offsetX;
-        let modalY = y + offsetY;
-
-        console.log('Modal positioning:', {
-            clickX: x,
-            clickY: y,
-            modalWidth,
-            modalHeight,
-            viewportWidth: window.innerWidth,
-            viewportHeight: window.innerHeight,
-            initialModalX: modalX,
-            initialModalY: modalY
-        });
-
-        // Smart positioning: Try to keep modal near click while staying in viewport
-        // For X axis: prefer right side of cursor, but flip to left if needed
-        if (modalX + modalWidth > window.innerWidth - 20) {
-            // Try left side of cursor instead
-            const leftSideX = x - modalWidth - offsetX;
-            if (leftSideX >= 20) {
-                modalX = leftSideX;
-                console.log('Positioned modal to left of cursor:', modalX);
-            } else {
-                // Neither side works, center horizontally
-                modalX = Math.max(20, (window.innerWidth - modalWidth) / 2);
-                console.log('Centered modal horizontally:', modalX);
-            }
-        }
-
-        // For Y axis: prefer below cursor, but flip to above if needed
-        if (modalY + modalHeight > window.innerHeight - 20) {
-            // Try above cursor instead
-            const aboveY = y - modalHeight - offsetY;
-            if (aboveY >= 20) {
-                modalY = aboveY;
-                console.log('Positioned modal above cursor:', modalY);
-            } else {
-                // Neither works, center vertically
-                modalY = Math.max(20, (window.innerHeight - modalHeight) / 2);
-                console.log('Centered modal vertically:', modalY);
-            }
-        }
-
-        // Ensure minimum boundaries
-        modalX = Math.max(20, modalX);
-        modalY = Math.max(20, modalY);
-
-        console.log('Final position:', { modalX, modalY });
-
-        // Apply position to modal-content
-        modalContent.style.left = `${modalX}px`;
-        modalContent.style.top = `${modalY}px`;
-        modalContent.style.transform = 'none';
-        modalContent.style.visibility = 'visible';
-        modal.classList.remove('centered');
-    } else {
-        // Fallback to centered
-        modal.classList.add('visible', 'centered');
-        modalContent.style.left = '';
-        modalContent.style.top = '';
-        modalContent.style.transform = '';
-    }
+    // Default center positioning via CSS
+    modal.classList.add('visible', 'centered');
+    modalContent.style.left = '';
+    modalContent.style.top = '';
+    modalContent.style.transform = '';
+    modalContent.style.visibility = 'visible';
 
     // Add modal-open class to body to prevent scrolling
     document.body.classList.add('modal-open');
-
-    // Enable focus trap for accessibility
-    trapFocus(modalContent);
 };
 
 window.toggleEditMode = function (event) {
@@ -700,9 +636,20 @@ window.saveLanguageDetails = async function (event) {
         if (!languageMetadata[currentEditingLang]) languageMetadata[currentEditingLang] = {};
         Object.assign(languageMetadata[currentEditingLang], newData);
 
+        // Background trigger report regeneration
+        fetch('/api/generate-report', { method: 'POST' }).catch(err => console.warn("Background report generation failed:", err));
+
         closeModal(null);
-        alert('Saved successfully!');
-        // Ideally re-render or update UI
+        
+        // Show success and reload to reflect changes
+        const statusEl = document.getElementById('personality-intro');
+        if (statusEl) {
+            statusEl.innerHTML = '<span style="color: var(--primary); font-weight: bold;">✓ Metadata saved. Regenerating report...</span>';
+            setTimeout(() => window.location.reload(), 1500);
+        } else {
+            alert('Saved successfully! Reloading...');
+            window.location.reload();
+        }
     } catch (e) {
         console.error("Save failed:", e);
         alert("Error saving: " + e.message + "\nCheck console for details.");
@@ -1671,13 +1618,8 @@ initializeStatus();
             } else if (type === 'race') {
                 drawMatrixRace();
             } else if (type === 'history') {
-                // Embed History Report
-                container.append("iframe")
-                    .attr("src", "benchmark_history.html")
-                    .style("width", "100%")
-                    .style("height", "100%")
-                    .style("border", "none")
-                    .style("background", "transparent");
+                // Render Native History Table
+                renderNativeHistory(container);
             } else if (type === 'architecture') {
                 // Embed Architecture Overview
                 container.append("iframe")
@@ -1698,6 +1640,77 @@ initializeStatus();
             }
         }
     };
+
+    function renderNativeHistory(container) {
+        const historyRows = historyData.flatMap(h =>
+            h.results.map(r => ({
+                timestamp: h.timestamp,
+                solver: h.solver,
+                matrix: r.matrix,
+                time: r.time,
+                iterations: r.iterations,
+                status: r.status,
+                logo: h.logo
+            }))
+        );
+
+        // Sort by timestamp desc
+        historyRows.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+        const wrapper = container.append("div")
+            .style("height", "100%")
+            .style("overflow-y", "auto")
+            .style("padding", "10px")
+            .attr("class", "history-native-wrapper");
+
+        const table = wrapper.append("table")
+            .style("width", "100%")
+            .style("border-collapse", "collapse")
+            .attr("class", "history-table");
+
+        const thead = table.append("thead");
+        const headerRow = thead.append("tr");
+        ["Time", "Solver", "Matrix", "Duration", "Entropy", "Status"].forEach(h => {
+            headerRow.append("th")
+                .text(h)
+                .style("text-align", "left")
+                .style("padding", "8px")
+                .style("border-bottom", "1px solid var(--primary)")
+                .style("color", "var(--primary)")
+                .style("position", "sticky")
+                .style("top", "0")
+                .style("background", "var(--surface)");
+        });
+
+        const tbody = table.append("tbody");
+        historyRows.forEach(r => {
+            const row = tbody.append("tr")
+                .style("border-bottom", "1px solid var(--border)");
+            
+            row.append("td").text(new Date(r.timestamp).toLocaleString())
+                .style("padding", "8px")
+                .style("font-size", "0.85em")
+                .style("color", "var(--muted)");
+            
+            const solverCell = row.append("td").style("padding", "8px").style("display", "flex").style("align-items", "center").style("gap", "8px");
+            if (r.logo) {
+                solverCell.append("img").attr("src", r.logo).style("width", "20px").style("height", "20px").style("object-fit", "contain");
+            }
+            solverCell.append("span").text(r.solver).style("font-weight", "bold").style("color", "var(--secondary)");
+
+            row.append("td").text(r.matrix).style("padding", "8px");
+            row.append("td").text((r.time ?? 0).toFixed(4) + "s").style("padding", "8px").style("font-family", "monospace").style("color", "#fff");
+            row.append("td").text(r.iterations ?? "-").style("padding", "8px").style("font-family", "monospace");
+            
+            const statusColor = r.status === 'pass' || r.status === 'success' ? 'var(--primary)' : '#ff0055';
+            row.append("td").text(r.status || "-")
+                .style("padding", "8px")
+                .style("text-transform", "uppercase")
+                .style("font-size", "0.8em")
+                .style("font-weight", "bold")
+                .style("color", statusColor);
+        });
+    }
 
     function drawMatrixRace() {
         const container = document.getElementById('d3-chart-container');
@@ -3148,27 +3161,23 @@ window.showMismatch = function (solverName, matrixName, cell) {
     currentRerunCommand = '# Run from SudokuSolver root\\nfind . -name runMe_ai.sh | grep "/' + solverName + '/" | head -n 1 | xargs -I { } sh -c \'cd $(dirname {}) && ./runMe_ai.sh ../../Matrices/' + matrixName + '\'';
 
     const modal = document.getElementById('mismatchModal');
-    modal.classList.add('visible');
-
-    // Anchor to cell
-    const rect = cell.getBoundingClientRect();
     const content = modal.querySelector('.modal-content');
+    modal.classList.add('visible');
+    document.body.classList.add('modal-open');
 
-    // Calculate position (right of cell, aligned top)
-    const top = rect.top + window.scrollY;
-    const left = rect.right + window.scrollX + 20; // 20px gap
-
-    content.style.position = 'absolute';
-    content.style.top = top + 'px';
-    content.style.left = left + 'px';
-    content.style.margin = '0';
-    content.style.transform = 'none';
-    content.style.width = 'auto';
-    content.style.maxWidth = '600px'; // Constrain width if needed
+    // Default center positioning
+    content.style.position = '';
+    content.style.top = '';
+    content.style.left = '';
+    content.style.margin = 'auto';
+    content.style.transform = '';
+    content.style.width = '90%';
+    content.style.maxWidth = '900px';
 }
 
 window.closeMismatchModal = function () {
     document.getElementById('mismatchModal').classList.remove('visible');
+    document.body.classList.remove('modal-open');
 }
 
 window.copyRerunCommand = function () {
