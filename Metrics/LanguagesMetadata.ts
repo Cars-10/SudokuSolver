@@ -268,7 +268,7 @@ export const methodologyTexts: Record<string, string> = {
         <div style="background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);">
              Score = Headshot Accuracy
         </div>
-        <p>Baba Yaga.</p>
+        <p>Yeah.</p>
     `,
     "Dark Knight": `
         <p>You either die a hero, or you live long enough to see yourself become the villain.</p>
@@ -279,73 +279,6 @@ export const methodologyTexts: Record<string, string> = {
         </div>
         <p>It's not about the money. It's about sending a message.</p>
     `
-};
-export const languageHistories: Record<string, string> = {
-    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
-    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
-    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
-    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
-    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
-    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
-    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
-    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
-    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
-    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
-    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
-    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
-    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
-    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
-    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
-    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
-    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
-    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
-    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
-    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
-    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
-    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
-    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
-    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
-    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
-    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
-    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
-    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
-    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
-    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
-    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
-    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
-    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
-    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
-    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
-    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
-    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
-    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
-    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
-    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
-    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
-    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
-    "Red": "2011. A next-generation functional and symbolic language inspired by REBOL. It's designed to be a full-stack language, capable of everything from low-level systems programming to high-level GUI application development.",
-    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
-    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
-    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
-    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
-    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
-    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
-    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
-    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
-    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
-    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
-    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
-    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
-    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
-    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
-    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
-    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
-    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
-    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
-    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
-    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
-    "Wren": "2013. A small, fast, class-based concurrent scripting language. Designed by Bob Nystrom, Wren aims to be a modern, improved version of Lua, featuring a small footprint and high performance.",
-    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
 };
 
 export const quotes: Record<string, string> = {
@@ -424,6 +357,74 @@ export const quotes: Record<string, string> = {
     "Matrices_Filtered": "The filter."
 };
 
+export const languageHistories: Record<string, string> = {
+    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
+    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
+    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
+    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
+    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
+    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
+    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
+    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
+    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
+    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
+    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
+    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
+    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
+    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
+    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
+    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
+    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
+    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
+    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
+    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
+    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
+    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
+    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
+    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
+    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
+    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
+    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
+    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
+    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
+    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
+    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
+    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
+    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
+    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
+    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
+    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
+    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
+    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
+    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
+    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
+    "Red": "2011. A next-generation functional and symbolic language inspired by REBOL. It's designed to be a full-stack language, capable of everything from low-level systems programming to high-level GUI application development.",
+    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
+    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
+    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
+    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
+    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
+    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
+    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
+    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
+    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
+    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
+    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
+    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
+    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
+    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
+    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
+    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
+    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
+    "Wren": "2013. A small, fast, class-based concurrent scripting language. Designed by Bob Nystrom, Wren aims to be a modern, improved version of Lua, featuring a small footprint and high performance.",
+    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
+};
+
 export const mismatchLabels: Record<string, string> = {
     "Standard": "MISMATCHES",
     "Neuromancer": "GLITCHES",
@@ -485,7 +486,6 @@ export const iterationLabels: Record<string, string> = {
     "John Wick": "Bodies",
     "Dark Knight": "Nights"
 };
-
 
 export const timeLabels: Record<string, string> = {
     "Standard": "Time (s)",
@@ -579,6 +579,7 @@ export const scoreLabels: Record<string, string> = {
     "John Wick": "Focus",
     "Dark Knight": "Fear"
 };
+
 export const narratorIntros: Record<string, string> = {
     "Standard": "Welcome to the Sudoku Benchmark. Click on any language name for creator details.",
     "Neuromancer": "The sky above the port was the color of television, tuned to a dead channel.",
@@ -834,6 +835,7 @@ export const personalities: Record<string, Record<string, string>> = {
         "default": "Hasta la vista, baby."
     }
 };
+
 export const languageMetadata: Record<string, any> = {
     "Ada": {
         "creator": "Jean Ichbiah",
@@ -841,299 +843,335 @@ export const languageMetadata: Record<string, any> = {
         "description": "A statically typed, structured, imperative, and object-oriented high-level language, designed for safety-critical and real-time systems.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jean_Ichbiah.jpg/440px-Jean_Ichbiah.jpg",
         "location": "CII Honeywell Bull, France",
-        "benefits": "Strong typing, explicit concurrency, and high reliability."
+        "benefits": "Strong typing, explicit concurrency, and high reliability.",
+        "related": "Pascal, Modula-2, VHDL, PL/SQL"
     },
     "Assembly": {
         "creator": "Kathleen Booth",
         "date": "1947",
-        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
+        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
         "logo": "logos/Assembly.png",
         "location": "Birkbeck College, London",
-        "benefits": "Direct hardware control, maximum performance, zero overhead."
+        "benefits": "Direct hardware control, maximum performance, zero overhead.",
+        "related": "Machine Code, C, Forth"
     },
     "Awk": {
         "creator": "Aho, Weinberger, Kernighan",
         "date": "1977",
-        "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
+        "description": "A concise domain-specific language designed for text processing and typically used as a data extraction and reporting tool. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg", // Alfred Aho
         "location": "Bell Labs, USA",
         "benefits": "Excellent for text processing, one-liners, and data extraction.",
-        "logo": "logos/Awk.png"
+        "logo": "logos/Awk.png",
+        "related": "C, SNOBOL, Shell, Perl, Lua"
     },
     "Bash": {
         "creator": "Brian Fox",
         "date": "1989",
-        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
+        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS. It unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "logo": "logos/Bash.png",
         "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
+        "related": "Bourne Shell, C Shell, KornShell, Zsh"
     },
     "Basic": {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
         "date": "1964",
-        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects.",
         "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Kemeny_and_Kurtz.jpg",
         "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
+        "benefits": "Easy to learn, interactive, historical significance.",
+        "related": "Fortran, JOSS, Visual Basic, COMAL"
     },
     "C": {
         "creator": "Dennis Ritchie",
         "date": "1972",
-        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential. Its influence is evident in modern compilers, runtimes and standards.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
         "logo": "logos/C.png",
         "location": "Bell Labs, USA",
-        "benefits": "High performance, portability, low-level access, massive legacy."
+        "benefits": "High performance, portability, low-level access, massive legacy.",
+        "related": "B, BCPL, Algol 68, C++, C#, Java, Objective-C, Go, Rust, Zig"
     },
     "C++": {
         "creator": "Bjarne Stroustrup",
         "date": "1985",
-        "description": "Multi-paradigm language combining procedural and object-oriented programming. Excels in game engines, high-performance applications, and systems requiring both low-level control and high-level abstractions.",
+        "description": "Multi-paradigm language combining procedural and object-oriented programming. It extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
         "image": "bjarne_stroustrup.png",
         "logo": "logos/C++.png",
         "location": "Bell Labs, USA",
-        "benefits": "Performance, object-oriented, rich ecosystem, hardware control."
+        "benefits": "Performance, object-oriented, rich ecosystem, hardware control.",
+        "related": "C, Simula, Ada, Rust, D, Java, C#"
     },
     "C_Sharp": {
         "creator": "Anders Hejlsberg",
         "date": "2000",
-        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
+        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++. Designed to support enterprise, desktop and web applications on the .NET platform. It emphasizes tooling, libraries and developer productivity.",
         "image": "https://github.com/ahejlsberg.png",
         "location": "Microsoft, USA",
-        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
+        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling.",
+        "related": "C++, Java, Delphi, Modula-3, F#, Visual Basic .NET"
     },
     "Clojure": {
         "creator": "Rich Hickey",
         "date": "2007",
-        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming.",
+        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming. It brings Lisp's code-as-data and immutable data structures to the JVM.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rich_Hickey_2013.jpg/440px-Rich_Hickey_2013.jpg",
         "location": "USA",
-        "benefits": "Immutability, functional programming, JVM interoperability, simplicity."
+        "benefits": "Immutability, functional programming, JVM interoperability, simplicity.",
+        "related": "Lisp, Java, Haskell, Scheme, Racket"
     },
     "Cobol": {
         "creator": "CODASYL Committee (Grace Hopper)",
         "date": "1959",
-        "description": "Common Business-Oriented Language. Designed for business use.",
+        "description": "Common Business-Oriented Language. Designed for business use. COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
         "location": "USA",
-        "benefits": "Business data processing, stability, massive legacy codebases."
+        "benefits": "Business data processing, stability, massive legacy codebases.",
+        "related": "FLOW-MATIC, COMTRAN, PL/I"
     },
     "CoffeeScript": {
         "creator": "Jeremy Ashkenas",
         "date": "2009",
-        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
+        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
         "image": "https://github.com/jashkenas.png",
         "location": "USA",
-        "benefits": "Concise syntax, readability, compiles to clean JavaScript."
+        "benefits": "Concise syntax, readability, compiles to clean JavaScript.",
+        "related": "JavaScript, Ruby, Python, Haskell, TypeScript"
     },
     "CommonLisp": {
         "creator": "Committee (Guy L. Steele Jr. et al.)",
         "date": "1984",
-        "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
+        "description": "A standardized, general-purpose Lisp dialect with powerful macros and dynamic runtime features. Common Lisp supports rapid prototyping and domain-specific language creation.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
         "location": "USA",
-        "benefits": "Macros, dynamic typing, interactive development, flexibility."
+        "benefits": "Macros, dynamic typing, interactive development, flexibility.",
+        "related": "Lisp, Scheme, MacLisp, Interlisp, Clojure"
     },
     "Crystal": {
         "creator": "Ary Borenszweig",
         "date": "2014",
-        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
+        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors. Crystal aims to deliver Ruby-like syntax with static typing and native performance.",
         "image": "https://github.com/asterite.png",
         "location": "Argentina",
-        "benefits": "Ruby-like syntax, C-like performance, static typing."
+        "benefits": "Ruby-like syntax, C-like performance, static typing.",
+        "related": "Ruby, C, Go, Rust, C#"
     },
     "D": {
         "creator": "Walter Bright",
         "date": "2001",
-        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
+        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code. D modernizes systems programming by adding safety and productivity features while keeping C-like performance.",
         "image": "https://github.com/WalterBright.png",
         "location": "Digital Mars, USA",
-        "benefits": "System programming, performance, safety, metaprogramming."
+        "benefits": "System programming, performance, safety, metaprogramming.",
+        "related": "C, C++, Java, C#, Python, Ruby"
     },
     "Dart": {
         "creator": "Lars Bak, Kasper Lund",
         "date": "2011",
-        "description": "A client-optimized language for fast apps on any platform.",
+        "description": "A client-optimized language for fast apps on any platform. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Lars_Bak.jpg",
         "location": "Google, Denmark/USA",
-        "benefits": "UI optimized, fast compilation, cross-platform (Flutter)."
+        "benefits": "UI optimized, fast compilation, cross-platform (Flutter).",
+        "related": "Java, C#, JavaScript, TypeScript, Smalltalk"
     },
     "Elixir": {
         "creator": "José Valim",
         "date": "2011",
-        "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
+        "description": "A dynamic, functional language designed for building scalable and maintainable applications. Built on the Erlang VM, Elixir blends fault-tolerant concurrency with elegant syntax and tooling.",
         "image": "https://github.com/josevalim.png",
         "location": "Plataformatec, Brazil",
-        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax."
+        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
+        "related": "Erlang, Ruby, Clojure, LFE"
     },
     "Erlang": {
         "creator": "Joe Armstrong",
         "date": "1986",
-        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
+        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system. Designed for telecoms, it emphasizes lightweight processes, message-passing concurrency and robust fault-recovery.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Joe_Armstrong_2014.jpg",
         "location": "Ericsson, Sweden",
-        "benefits": "Massive concurrency, fault tolerance, hot code swapping."
+        "benefits": "Massive concurrency, fault tolerance, hot code swapping.",
+        "related": "Prolog, Smalltalk, Elixir, LFE, Rust"
     },
     "F_Sharp": {
         "creator": "Don Syme",
         "date": "2005",
-        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods.",
+        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop.",
         "image": "https://github.com/dsyme.png",
         "location": "Microsoft Research, UK",
-        "benefits": "Functional-first, .NET integration, type inference, concise."
+        "benefits": "Functional-first, .NET integration, type inference, concise.",
+        "related": "OCaml, C#, Haskell, Scala, Python"
     },
     "Fortran": {
         "creator": "John Backus",
         "date": "1957",
-        "description": "General-purpose, compiled imperative programming language that is especially suited to numeric computation and scientific computing.",
+        "description": "The first high-level programming language, designed for numeric computation and scientific computing. It is a third-generation, compiled, imperative programming language, still used today for scientific and mathematical applications.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/6/62/John_Backus_2.jpg", // John Backus
         "logo": "logos/Fortran.png",
         "location": "IBM, USA",
-        "benefits": "Numerical computation, scientific computing, performance."
+        "benefits": "Numerical computation, scientific computing, performance.",
+        "related": "ALGOL, BASIC, PL/I, C, Julia, MATLAB"
     },
     "Go": {
         "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
         "date": "2009",
-        "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
+        "description": "Compiled, statically-typed language with built-in concurrency. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
         "image": "https://github.com/robpike.png",
         "logo": "logos/Go.png",
         "location": "Google, USA",
-        "benefits": "Simplicity, concurrency, fast compilation, static typing."
+        "benefits": "Simplicity, concurrency, fast compilation, static typing.",
+        "related": "C, Pascal, Oberon, Limbo, CSP, Python"
     },
     "Groovy": {
         "creator": "James Strachan",
         "date": "2003",
-        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
+        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.",
         "image": "https://github.com/jstrachan.png",
         "location": "USA",
-        "benefits": "Java compatibility, scripting, dynamic features, DSLs."
+        "benefits": "Java compatibility, scripting, dynamic features, DSLs.",
+        "related": "Java, Python, Ruby, Smalltalk"
     },
     "Haskell": {
         "creator": "Committee (Simon Peyton Jones et al.)",
         "date": "1990",
-        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
+        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing. Haskell is prized for expressiveness and correctness in research and some production systems.",
         "logo": "logos/Haskell.png",
         "location": "Global",
-        "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
+        "benefits": "Pure functional, type safety, lazy evaluation, concurrency.",
+        "related": "Miranda, ML, Clean, Agda, Purescript, Elm, Rust"
     },
     "Java": {
         "creator": "James Gosling",
         "date": "1995",
-        "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
+        "description": "Platform-independent, object-oriented language. Its portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
         "logo": "logos/Java.png",
         "location": "Sun Microsystems, USA",
-        "benefits": "Portability, enterprise ecosystem, performance, stability."
+        "benefits": "Portability, enterprise ecosystem, performance, stability.",
+        "related": "C++, Smalltalk, Objective-C, C#, Kotlin, Scala"
     },
     "JavaScript": {
         "creator": "Brendan Eich",
         "date": "1995",
-        "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
+        "description": "Dynamic, prototype-based scripting language. Created for the browser, JavaScript evolved into a universal platform for web and server-side code (Node.js); its flexibility enabled an enormous ecosystem.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
         "logo": "logos/JavaScript.png",
         "location": "Netscape, USA",
-        "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
+        "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility.",
+        "related": "Scheme, Self, Java, Python, Perl"
     },
     "Julia": {
         "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
         "date": "2012",
-        "description": "A high-level, high-performance, dynamic programming language for technical computing.",
+        "description": "A high-level, high-performance, dynamic programming language for technical computing. It combines the ease of use of Python and R with the performance of C and Fortran.",
         "image": "https://github.com/JeffBezanson.png",
         "location": "MIT, USA",
-        "benefits": "High performance, numerical computing, ease of use."
+        "benefits": "High performance, numerical computing, ease of use.",
+        "related": "Lisp, Python, R, MATLAB, Fortran, C"
     },
     "Kotlin": {
         "creator": "JetBrains",
         "date": "2011",
-        "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
+        "description": "A cross-platform, statically typed, general-purpose programming language with type inference. Kotlin modernizes JVM development with concise syntax, null-safety and great Java interop.",
         "logo": "logos/Kotlin.png",
         "location": "Russia/International",
-        "benefits": "Concise, null safety, Java interoperability, Android standard."
+        "benefits": "Concise, null safety, Java interoperability, Android standard.",
+        "related": "Java, Scala, Groovy, C#, Swift"
     },
     "Lua": {
         "creator": "Roberto Ierusalimschy et al.",
         "date": "1993",
-        "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
+        "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications. It is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
         "logo": "logos/Lua.png",
         "location": "PUC-Rio, Brazil",
-        "benefits": "Lightweight, embeddable, fast, simple."
+        "benefits": "Lightweight, embeddable, fast, simple.",
+        "related": "Scheme, SNOBOL, Modula, C++, Python"
     },
     "Nim": {
         "creator": "Andreas Rumpf",
         "date": "2008",
-        "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
+        "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula. Nim offers Python-like syntax, powerful metaprogramming and C-level performance.",
         "image": "https://github.com/Araq.png",
         "location": "Germany",
-        "benefits": "Performance, expressiveness, metaprogramming, C compilation."
+        "benefits": "Performance, expressiveness, metaprogramming, C compilation.",
+        "related": "Python, Lisp, Oberon, C++, Rust, Ada"
     },
     "OCaml": {
         "creator": "Xavier Leroy et al.",
         "date": "1996",
-        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
+        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features. A pragmatic functional language with strong typing and efficient native code generation.",
         "image": "https://github.com/xavierleroy.png",
         "location": "INRIA, France",
-        "benefits": "Functional, type safety, performance, industrial strength."
+        "benefits": "Functional, type safety, performance, industrial strength.",
+        "related": "Caml, ML, F#, Haskell, Scala, Rust"
     },
     "Octave": {
         "creator": "John W. Eaton",
         "date": "1988",
-        "description": "A high-level language, primarily intended for numerical computations.",
+        "description": "A high-level language, primarily intended for numerical computations. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
         "image": "https://github.com/jwe.png",
         "location": "USA",
-        "benefits": "Numerical computation, MATLAB compatibility, free software."
+        "benefits": "Numerical computation, MATLAB compatibility, free software.",
+        "related": "MATLAB, R, Julia, IDL"
     },
     "Pascal": {
         "creator": "Niklaus Wirth",
         "date": "1970",
-        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
+        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices. It influenced many later languages and educational curricula.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Pascal_programming_language_logo.svg",
         "logo": "logos/Pascal.png",
         "location": "ETH Zurich, Switzerland",
-        "benefits": "Structured programming, teaching, strong typing."
+        "benefits": "Structured programming, teaching, strong typing.",
+        "related": "ALGOL 60, Modula-2, Oberon, Ada, Object Pascal, Java"
     },
     "Perl": {
         "creator": "Larry Wall",
         "date": "1987",
-        "description": "A family of two high-level, general-purpose, interpreted, dynamic programming languages.",
+        "description": "A high-level, general-purpose, interpreted, dynamic programming language. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging.",
         "image": "https://github.com/TimToady.png",
         "location": "USA",
-        "benefits": "Text processing, scripting, flexibility, CPAN."
+        "benefits": "Text processing, scripting, flexibility, CPAN.",
+        "related": "C, sed, awk, sh, Lisp, Python, Ruby, PHP"
     },
     "PHP": {
         "creator": "Rasmus Lerdorf",
         "date": "1995",
-        "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
+        "description": "Originally 'Personal Home Page'. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
         "image": "https://github.com/rlerdorf.png",
         "logo": "logos/PHP.png",
         "location": "Canada",
-        "benefits": "Web development, ease of deployment, vast ecosystem."
+        "benefits": "Web development, ease of deployment, vast ecosystem.",
+        "related": "Perl, C, C++, Java, Tcl"
     },
     "PostScript": {
         "creator": "John Warnock, Charles Geschke",
         "date": "1982",
-        "description": "A page description language in the electronic publishing and desktop publishing business.",
+        "description": "A page description language in the electronic publishing and desktop publishing business. It is a stack-based, Turing-complete language that shaped printing, vector graphics and document rendering workflows.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/John_Warnock.jpg",
         "location": "Adobe, USA",
-        "benefits": "Printing, vector graphics, stack-based, device independence."
+        "benefits": "Printing, vector graphics, stack-based, device independence.",
+        "related": "Forth, Lisp, Interpress"
     },
     "PowerShell": {
         "creator": "Jeffrey Snover",
         "date": "2006",
-        "description": "A task automation and configuration management framework from Microsoft.",
+        "description": "A task automation and configuration management framework from Microsoft. It is an object-oriented shell, combining system tooling with structured pipeline objects.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/PowerShell_5.0_icon.png",
         "location": "Microsoft, USA",
-        "benefits": "Automation, system administration, object-oriented pipeline."
+        "benefits": "Automation, system administration, object-oriented pipeline.",
+        "related": "C#, ksh, DCL, Tcl, Perl"
     },
     "Prolog": {
         "creator": "Alain Colmerauer",
         "date": "1972",
-        "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
+        "description": "A logic programming language associated with artificial intelligence and computational linguistics. It is a declarative language where code expresses facts and rules; suited for symbolic reasoning and constraint solving.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Alain_Colmerauer.jpg",
         "location": "University of Aix-Marseille, France",
-        "benefits": "Logic programming, AI, pattern matching, declarative."
+        "benefits": "Logic programming, AI, pattern matching, declarative.",
+        "related": "Lisp, Planner, Erlang, Datalog, Mercury"
     },
     "Python": {
         "creator": "Guido van Rossum",
@@ -1142,362 +1180,406 @@ export const languageMetadata: Record<string, any> = {
         "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
         "logo": "logos/Python.png",
         "location": "CWI, Netherlands",
-        "benefits": "Readability, vast libraries, data science, AI."
+        "benefits": "Readability, vast libraries, data science, AI.",
+        "related": "ABC, Modula-3, C, C++, Lisp, Java, Perl"
     },
     "R": {
         "creator": "Ross Ihaka, Robert Gentleman",
         "date": "1993",
-        "description": "A programming language and free software environment for statistical computing and graphics.",
+        "description": "A programming language and free software environment for statistical computing and graphics. R offers domain-specific tools for data analysis and reproducible research.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg",
         "location": "University of Auckland, New Zealand",
-        "benefits": "Statistics, data visualization, data analysis."
+        "benefits": "Statistics, data visualization, data analysis.",
+        "related": "S, Scheme, Lisp, C, Fortran"
     },
     "Racket": {
-        "creator": "Matthew Flatt",
+        "creator": "PLT Inc. (a team of computer scientists led by Matthias Felleisen)",
         "date": "1995",
-        "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
+        "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp. It is a platform for programming language design (Language-Oriented Programming) and features an extensive macro system.",
         "image": "https://github.com/mflatt.png",
         "location": "Rice University, USA",
-        "benefits": "Language creation, education, macros, functional."
+        "benefits": "Language creation, education, macros, functional.",
+        "related": "Scheme, Lisp, Clojure, Haskell, Rust"
     },
     "Rexx": {
         "creator": "Mike Cowlishaw",
         "date": "1979",
-        "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+        "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading. Historically used on mainframes for automation and text processing.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Mike_Cowlishaw.jpg",
         "location": "IBM, UK",
-        "benefits": "Scripting, mainframe automation, ease of use."
+        "benefits": "Scripting, mainframe automation, ease of use.",
+        "related": "PL/I, Python, Tcl, NetRexx"
     },
     "Ruby": {
         "creator": "Yukihiro Matsumoto",
         "date": "1995",
-        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
+        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework. Ruby's elegant syntax and metaprogramming made it popular for rapid web development.",
         "image": "https://github.com/matz.png",
         "logo": "logos/Ruby.png",
         "location": "Japan",
-        "benefits": "Developer happiness, web development, scripting, elegance."
+        "benefits": "Developer happiness, web development, scripting, elegance.",
+        "related": "Smalltalk, Perl, Lisp, Python, Eiffel, Dylan"
     },
     "Rust": {
         "creator": "Graydon Hoare",
         "date": "2010",
-        "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
+        "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection. It uses a borrow checker to enforce memory safety.",
         "image": "https://github.com/graydon.png",
         "logo": "logos/Rust.png",
         "location": "Mozilla, Canada",
-        "benefits": "Memory safety, performance, concurrency, modern tooling."
+        "benefits": "Memory safety, performance, concurrency, modern tooling.",
+        "related": "C++, OCaml, Haskell, Erlang, Swift, Cyclone, Alef"
     },
     "Scala": {
         "creator": "Martin Odersky",
         "date": "2004",
-        "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
+        "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming. Scala runs on the JVM and enables concise, type-safe code for large systems and data pipelines.",
         "image": "https://github.com/odersky.png",
         "location": "EPFL, Switzerland",
-        "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
+        "benefits": "Functional/OOP blend, JVM, scalability, conciseness.",
+        "related": "Java, Haskell, Lisp, Pizza, C#, F#"
     },
     "Scheme": {
         "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
         "date": "1975",
-        "description": "A minimalist dialect of the Lisp family of programming languages.",
+        "description": "A minimalist dialect of the Lisp family of programming languages. Scheme focuses on clean semantics and first-class procedures, and is central in programming language education.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
         "location": "MIT, USA",
-        "benefits": "Minimalism, education, functional, macros."
+        "benefits": "Minimalism, education, functional, macros.",
+        "related": "Lisp, ALGOL 60, Common Lisp, Racket, Clojure, Lua, JavaScript"
     },
     "Sed": {
         "creator": "Lee E. McMahon",
         "date": "1974",
-        "description": "A stream editor for filtering and transforming text.",
+        "description": "A stream editor for filtering and transforming text. It was developed for command-line processing of data files and is known for its powerful pattern matching and substitution capabilities.",
         "image": "https://upload.wikimedia.org/wikipedia/en/9/9e/Lee_McMahon.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "Stream editing, text transformation, automation."
+        "benefits": "Stream editing, text transformation, automation.",
+        "related": "ed, AWK, Perl, grep"
     },
     "Smalltalk": {
         "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
         "date": "1972",
-        "description": "An object-oriented, dynamically typed reflective programming language.",
+        "description": "A purely object-oriented programming language, originally created for educational use. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Alan_Kay_2006.jpg",
         "location": "Xerox PARC, USA",
-        "benefits": "Pure OOP, live environment, influence on modern GUIs."
+        "benefits": "Pure OOP, live environment, influence on modern GUIs.",
+        "related": "Lisp, Simula, Self, Objective-C, Java, Ruby, Python"
     },
     "SNOBOL": {
         "creator": "David J. Farber, Ralph E. Griswold, Ivan P. Polonsky",
         "date": "1962",
-        "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories.",
+        "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
         "image": "https://www2.cs.arizona.edu/people/griswold/reg.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "String manipulation, pattern matching, historical significance."
+        "benefits": "String manipulation, pattern matching, historical significance.",
+        "related": "Icon, AWK, Perl"
     },
     "SQL": {
         "creator": "Donald D. Chamberlin, Raymond F. Boyce",
         "date": "1974",
-        "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
+        "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system. The declarative standard for relational data queries and manipulation.",
         "logo": "logos/SQL.svg",
         "location": "IBM, USA",
-        "benefits": "Data management, standard, declarative, powerful queries."
+        "benefits": "Data management, standard, declarative, powerful queries.",
+        "related": "QUEL, Datalog, LINQ"
     },
     "Swift": {
         "creator": "Chris Lattner",
         "date": "2014",
-        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
+        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive. A high-level, general-purpose, multi-paradigm, compiled programming language designed for developing applications on iOS and macOS.",
         "image": "https://github.com/lattner.png",
         "logo": "logos/Swift.png",
         "location": "Apple, USA",
-        "benefits": "Safety, speed, modern syntax, Apple ecosystem."
+        "benefits": "Safety, speed, modern syntax, Apple ecosystem.",
+        "related": "Objective-C, Rust, Haskell, Ruby, Python, C#, Kotlin"
     },
     "Tcl": {
         "creator": "John Ousterhout",
         "date": "1988",
-        "description": "Tool Command Language. A dynamic programming language.",
+        "description": "Tool Command Language. A dynamic programming language designed to be very simple but powerful, casting everything into the mold of a command. A simple, embeddable scripting language often paired with Tk for GUI applications.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/John_Ousterhout.jpg",
         "location": "UC Berkeley, USA",
-        "benefits": "Scripting, GUI (Tk), embedding, simplicity."
+        "benefits": "Scripting, GUI (Tk), embedding, simplicity.",
+        "related": "Lisp, C, Unix shell, Perl, Python, Lua"
     },
     "TypeScript": {
         "creator": "Anders Hejlsberg",
         "date": "2012",
-        "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
+        "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early.",
         "image": "https://github.com/ahejlsberg.png",
         "logo": "logos/TypeScript.png",
         "location": "Microsoft, USA",
-        "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
+        "benefits": "Type safety, scalability, tooling, JavaScript compatibility.",
+        "related": "JavaScript, C#, Java, ActionScript"
     },
     "Vala": {
         "creator": "Jürg Billeter, Rafał Pietrak",
         "date": "2006",
-        "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
+        "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
         "image": "https://github.com/juergbi.png",
         "location": "GNOME Project",
-        "benefits": "GObject system, C performance, modern syntax, GNOME dev."
+        "benefits": "GObject system, C performance, modern syntax, GNOME dev.",
+        "related": "C#, Java, C, D"
     },
     "Verilog": {
         "creator": "Phil Moorby",
         "date": "1984",
-        "description": "A hardware description language (HDL) used to model electronic systems.",
+        "description": "A hardware description language (HDL) used to model electronic systems. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
         "image": "https://www.computerhistory.org/atchm/wp-content/uploads/2016/04/moorby-phil-2016-chm-fellow.jpg",
         "location": "Gateway Design Automation, USA",
-        "benefits": "Hardware modeling, simulation, synthesis, industry standard."
+        "benefits": "Hardware modeling, simulation, synthesis, industry standard.",
+        "related": "C, VHDL, SystemVerilog"
     },
     "VHDL": {
         "creator": "US Department of Defense",
         "date": "1980",
-        "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
+        "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/VHDL_Logo.svg",
         "location": "USA",
-        "benefits": "Hardware description, strong typing, concurrency, standard."
+        "benefits": "Hardware description, strong typing, concurrency, standard.",
+        "related": "Ada, Verilog"
     },
     "Vimscript": {
         "creator": "Bram Moolenaar",
         "date": "1991",
-        "description": "The scripting language of the Vim text editor.",
+        "description": "The scripting language of the Vim text editor. Based on the ex editor language of the original vi editor, it supports advanced data types and functional programming features.",
         "image": "https://github.com/brammool.png",
         "location": "Netherlands",
-        "benefits": "Editor customization, automation, plugins."
+        "benefits": "Editor customization, automation, plugins.",
+        "related": "vi, Ex, Perl, Python, Lua"
     },
     "VisualBasic": {
         "creator": "Microsoft (Alan Cooper)",
         "date": "1991",
-        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
+        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
         "logo": "logos/VisualBasic.png",
         "location": "Microsoft, USA",
-        "benefits": "RAD, ease of use, Windows integration, legacy support."
+        "benefits": "RAD, ease of use, Windows integration, legacy support.",
+        "related": "BASIC, C#, Java"
     },
     "WebAssembly": {
         "creator": "W3C Community Group",
         "date": "2017",
-        "description": "A binary instruction format for a stack-based virtual machine.",
+        "description": "A binary instruction format for a stack-based virtual machine. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/WebAssembly_Logo.svg",
         "logo": "logos/WebAssembly.png",
         "location": "Global",
-        "benefits": "Performance, portability, language agnostic, web standard."
+        "benefits": "Performance, portability, language agnostic, web standard.",
+        "related": "Assembly, C, C++, Rust"
     },
 
     "Jq": {
         "creator": "Stephen Dolan",
         "date": "2012",
-        "description": "A lightweight and flexible command-line JSON processor.",
+        "description": "A lightweight and flexible command-line JSON processor. A very high-level, functional, domain-specific programming language designed for processing JSON data.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/JSON_vector_logo.svg",
         "location": "USA",
-        "benefits": "JSON processing, functional, filter-based."
+        "benefits": "JSON processing, functional, filter-based.",
+        "related": "AWK, Sed, Haskell, JavaScript"
     },
     "Make": {
         "creator": "Stuart Feldman",
         "date": "1976",
-        "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
+        "description": "A build automation tool that automatically builds executable programs and libraries from source code by reading files called Makefiles which specify how to derive the target program.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Stuart_Feldman_2007_retouched.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "Dependency management, build automation."
+        "benefits": "Dependency management, build automation.",
+        "related": "Shell, Python, CMake, Ant"
     },
     "Gnuplot": {
         "creator": "Thomas Williams, Colin Kelley",
         "date": "1986",
-        "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
+        "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits. It can be used interactively or in batch mode using scripts.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gnuplot_logo.svg",
         "location": "USA",
-        "benefits": "Plotting, data visualization, scripting."
+        "benefits": "Plotting, data visualization, scripting.",
+        "related": "C, Python, MATLAB"
     },
     "XSLT": {
         "creator": "W3C",
         "date": "1998",
-        "description": "A language for transforming XML documents into other XML documents.",
+        "description": "A language for transforming XML documents into other XML documents. A declarative language where the transformation is described as a set of template rules.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xml_logo.svg",
         "location": "Worldwide",
-        "benefits": "XML transformation, functional, template-based."
+        "benefits": "XML transformation, functional, template-based.",
+        "related": "XML, XPath, DSSSL, Scheme"
     },
     "Zsh": {
         "creator": "Paul Falstad",
         "date": "1990",
-        "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
+        "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting. An extended Bourne shell with improvements and features from Bash, ksh, and tcsh.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg",
         "location": "Princeton University, USA",
-        "benefits": "Interactive shell, scripting, plugin ecosystem."
+        "benefits": "Interactive shell, scripting, plugin ecosystem.",
+        "related": "Bash, Ksh, Tcsh"
     },
     "AppleScript": {
         "creator": "Apple Inc.",
         "date": "1993",
-        "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
+        "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications. It has a natural language-like syntax designed to be easy to read and write.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/AppleScript_Logo.png/440px-AppleScript_Logo.png",
         "location": "Apple, USA",
-        "benefits": "Automation, inter-application communication, English-like syntax."
+        "benefits": "Automation, inter-application communication, English-like syntax.",
+        "related": "HyperTalk, UserTalk, Python"
     },
 
     "Expect": {
         "creator": "Don Libes",
         "date": "1990",
-        "description": "A program to automate interactions with programs that expose a text terminal interface.",
+        "description": "A program to automate interactions with programs that expose a text terminal interface. It's an extension to the Tcl language, often used for scripting interactions with programs that require user input.",
         "image": "https://www.oreilly.com/covers/urn:orm:book:9781565920903/400w/",
         "location": "NIST, USA",
-        "benefits": "Automation, testing, interactive scripting."
+        "benefits": "Automation, testing, interactive scripting.",
+        "related": "Tcl, Python (pexpect), Perl"
     },
     "SQLite": {
         "creator": "D. Richard Hipp",
         "date": "2000",
-        "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
+        "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine. It is the most used database engine in the world.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg",
         "location": "USA",
-        "benefits": "Serverless, zero-configuration, transactional SQL."
+        "benefits": "Serverless, zero-configuration, transactional SQL.",
+        "related": "SQL, PostgreSQL, MySQL, C"
     },
 
     "Tcsh": {
         "creator": "Ken Greer",
         "date": "1975",
-        "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
+        "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh). It includes features like command-line editing, programmable word completion, spelling correction, history mechanism, and job control.",
         "image": "https://www.oreilly.com/covers/urn:orm:book:9781449377526/160h/?format=webp",
         "location": "Carnegie Mellon University, USA",
-        "benefits": "Interactive shell, command completion, history."
+        "benefits": "Interactive shell, command completion, history.",
+        "related": "C Shell, Bash, Zsh"
     },
     "Ksh": {
         "creator": "David Korn",
         "date": "1983",
-        "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
+        "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s. A Unix shell that is backward-compatible with the Bourne shell and incorporates features from the C shell.",
         "image": "https://www.facesofopensource.com/wp-content/uploads/2015/09/david-korn-1.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "Scripting, interactive use, backward compatibility."
+        "benefits": "Scripting, interactive use, backward compatibility.",
+        "related": "Bourne Shell, C Shell, Bash, Zsh, Awk"
     },
 
     "Dash": {
         "creator": "Herbert Xu",
         "date": "1997",
-        "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
+        "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible. A POSIX-compliant shell designed to be lightweight and fast, commonly used in Unix-like operating systems for scripting tasks.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg",
         "location": "Australia",
-        "benefits": "Speed, POSIX compliance, minimal footprint."
+        "benefits": "Speed, POSIX compliance, minimal footprint.",
+        "related": "Bourne Shell, Ash, Bash"
     },
     "Fish": {
         "creator": "Axel Liljencrantz",
         "date": "2005",
-        "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
+        "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family. Known for its 'friendly interactive shell' features like syntax highlighting, autosuggestions, and tab completion.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Fish_shell_logo_ascii.svg",
         "location": "Sweden",
-        "benefits": "Autosuggestions, web-based configuration, clean syntax."
+        "benefits": "Autosuggestions, web-based configuration, clean syntax.",
+        "related": "Bash, Zsh, Tcsh"
     },
     "Bc": {
         "creator": "Robert Morris, Lorinda Cherry",
         "date": "1975",
-        "description": "An arbitrary-precision calculator language.",
+        "description": "An arbitrary-precision calculator language. It is often used for mathematical computations in shell scripts or interactively.",
         "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "Arbitrary precision, math scripting."
+        "benefits": "Arbitrary precision, math scripting.",
+        "related": "Dc, C, Awk"
     },
     "Dc": {
         "creator": "Robert Morris, Lorinda Cherry",
         "date": "1970",
-        "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
+        "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers. It is one of the oldest Unix utilities.",
         "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "RPN, arbitrary precision, stack-based."
+        "benefits": "RPN, arbitrary precision, stack-based.",
+        "related": "Bc, Forth, PostScript"
     },
     "EmacsLisp": {
         "creator": "Richard Stallman",
         "date": "1985",
-        "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
+        "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs. It is used to implement most of the editing functionality built into Emacs.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/EmacsIcon.svg",
         "location": "MIT, USA",
-        "benefits": "Editor customization, extensibility, live coding."
+        "benefits": "Editor customization, extensibility, live coding.",
+        "related": "Lisp, Common Lisp, Scheme"
     },
     "Forth": {
         "creator": "Charles H. Moore",
         "date": "1970",
-        "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
+        "description": "A stack-oriented, concatenative, procedural, and reflective programming language. It is known for its extreme compactness and efficiency.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Forth_logo.svg",
         "location": "NRAO, USA",
-        "benefits": "Compactness, hardware control, interactivity."
+        "benefits": "Compactness, hardware control, interactivity.",
+        "related": "Factor, PostScript, Lisp"
     },
     "Haxe": {
         "creator": "Nicolas Cannasse",
         "date": "2005",
-        "description": "A high-level cross-platform language that compiles to many other languages.",
+        "description": "A high-level cross-platform language that compiles to many other languages. It is multi-paradigm (object-oriented, functional, generic) and statically typed.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Haxe_logo.svg",
         "location": "France",
-        "benefits": "Cross-platform, strong typing, single codebase."
+        "benefits": "Cross-platform, strong typing, single codebase.",
+        "related": "JavaScript, ActionScript, OCaml, Java, C#"
     },
     "Jupyter": {
         "creator": "Fernando Pérez et al.",
         "date": "2014",
-        "description": "An open-source project that supports interactive data science and scientific computing.",
+        "description": "An open-source project that supports interactive data science and scientific computing. While not a language itself, it provides a language-agnostic interface (kernels) for many languages.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg",
         "location": "Global",
-        "benefits": "Interactive computing, data visualization, education."
+        "benefits": "Interactive computing, data visualization, education.",
+        "related": "Python, Julia, R"
     },
     "M4": {
         "creator": "Brian Kernighan, Dennis Ritchie",
         "date": "1977",
-        "description": "A general-purpose macro processor.",
+        "description": "A general-purpose macro processor. It operates as a text-replacement tool, used for reusing text templates, typically in computer programming applications.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg",
         "location": "Bell Labs, USA",
-        "benefits": "Macro expansion, text processing, configuration."
+        "benefits": "Macro expansion, text processing, configuration.",
+        "related": "C, C++, Make"
     },
     "Objective-C": {
         "creator": "Brad Cox, Tom Love",
         "date": "1984",
-        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
+        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C. It was the standard language for developing macOS and iOS applications until Swift's introduction.",
         "image": "https://m.media-amazon.com/images/I/51+H6XVgf3L.jpg",
         "location": "Stepstone, USA",
-        "benefits": "Dynamic runtime, C compatibility, Apple legacy."
+        "benefits": "Dynamic runtime, C compatibility, Apple legacy.",
+        "related": "C, Smalltalk, Swift, C++"
     },
     "Raku": {
         "creator": "Larry Wall",
         "date": "2015",
-        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
+        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile. A dynamic, high-level, general-purpose language with a strong emphasis on human-readable syntax and advanced text processing.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Raku_logo.svg",
         "location": "Global",
-        "benefits": "Expressiveness, grammars, concurrency."
+        "benefits": "Expressiveness, grammars, concurrency.",
+        "related": "Perl, Haskell, Python, Ruby"
     },
     "V": {
         "creator": "Alexander Medvednikov",
         "date": "2019",
-        "description": "A statically typed, compiled language designed for maintainability and speed.",
+        "description": "A statically typed, compiled language designed for maintainability and speed. It aims to be simple, fast, and safe, compiling to C.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/V-logo.svg",
         "location": "Global",
-        "benefits": "Fast compilation, simplicity, safety."
+        "benefits": "Fast compilation, simplicity, safety.",
+        "related": "Go, Oberon, Rust, Swift, C"
     },
     "Zig": {
         "creator": "Andrew Kelley",
         "date": "2016",
-        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
+        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software. It aims to improve upon C with features like comptime and manual memory management without hidden control flow.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
         "logo": "logos/Zig.png",
         "location": "USA",
-        "benefits": "No hidden control flow, manual memory management, comptime."
+        "benefits": "No hidden control flow, manual memory management, comptime.",
+        "related": "C, C++, Rust, Go, Jai"
     },
     "BASH": {
         "creator": "Brian Fox",
@@ -1505,7 +1587,8 @@ export const languageMetadata: Record<string, any> = {
         "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
+        "related": "Bourne Shell, Zsh, Ksh"
     },
     "BASIC": {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
@@ -1514,24 +1597,81 @@ export const languageMetadata: Record<string, any> = {
         "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
         "logo": "logos/BASIC.png",
         "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
+        "benefits": "Easy to learn, interactive, historical significance.",
+        "related": "Fortran, Visual Basic"
     },
     "Wren": {
         "creator": "Bob Nystrom",
         "date": "2013",
-        "description": "A small, fast, class-based concurrent scripting language.",
+        "description": "A small, fast, class-based concurrent scripting language. Designed for embedding in applications, it is object-oriented and comparable in speed to Lua.",
         "image": "https://wren.io/logo.png",
         "logo": "logos/Wren.png",
         "location": "USA",
-        "benefits": "High performance, small footprint, clean syntax."
+        "benefits": "High performance, small footprint, clean syntax.",
+        "related": "Lua, Smalltalk, Dart, JavaScript"
     },
     "Red": {
         "creator": "Nenad Rakocevic",
         "date": "2011",
-        "description": "A functional and symbolic language inspired by REBOL.",
+        "description": "A functional and symbolic language inspired by REBOL. It is a full-stack language, capable of both high-level scripting and low-level system programming.",
         "image": "https://static.red-lang.org/red-logo.png",
         "logo": "logos/Red.png",
         "location": "Global",
-        "benefits": "Full-stack, symbolic, cross-platform."
+        "benefits": "Full-stack, symbolic, cross-platform.",
+        "related": "Rebol, Lisp, Lua"
+    },
+    "Pike": {
+        "creator": "Fredrik Hübinette, Per Hedbor",
+        "date": "1994",
+        "description": "A general-purpose, high-level, cross-platform, dynamic programming language with a C-like syntax. It features garbage collection, advanced data types, and first-class anonymous functions.",
+        "image": "Languages/Pike/Media/Pike_1766237418806.png",
+        "location": "Linköping, Sweden",
+        "benefits": "C-like syntax, dynamic typing, concurrency.",
+        "related": "LPC, C, C++, Python"
+    },
+    "Fennel": {
+        "creator": "Calvin Rose (Project Lead)",
+        "date": "2016",
+        "description": "A programming language that brings Lisp syntax and macros to the Lua architecture. It compiles to Lua and runs with zero overhead, offering full Lua compatibility.",
+        "image": "Languages/Fennel/Media/Fennel_1766237539834.png",
+        "location": "Global",
+        "benefits": "Lisp syntax, Lua speed, zero overhead, embeddable.",
+        "related": "Lua, Lisp, Clojure"
+    },
+    "Janet": {
+        "creator": "Calvin Rose",
+        "date": "2017",
+        "description": "A functional and imperative programming language designed for system scripting, expressive automation, and embedding. It features a built-in PEG engine and Lisp-like macros.",
+        "image": "Languages/Janet/Media/Janet_1766238064569.png",
+        "location": "USA",
+        "benefits": "Embeddable, PEG parsing, structural editing.",
+        "related": "Lua, Clojure, Lisp, C"
+    },
+    "Io": {
+        "creator": "Steve Dekorte",
+        "date": "2002",
+        "description": "A pure object-oriented, prototype-based programming language. In Io, everything is an object, and it uses a message-passing model similar to Smalltalk but with a prototype-based object model like Self.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Io_Programming_Language_Logo.svg/1200px-Io_Programming_Language_Logo.svg.png",
+        "location": "USA",
+        "benefits": "Simplicity, flexibility, concurrency (coroutines).",
+        "related": "Smalltalk, Self, Lisp, Lua"
+    },
+    "Factor": {
+        "creator": "Slava Pestov",
+        "date": "2003",
+        "description": "A stack-oriented, concatenative, multi-paradigm programming language. It combines the flexibility of dynamic typing with the performance of native compilation.",
+        "image": "https://concatenative.org/mediawiki/images/Factor_logo.png",
+        "location": "USA",
+        "benefits": "Concatenative, metaprogramming, performance.",
+        "related": "Forth, Joy, Lisp, Smalltalk"
+    },
+    "Icon": {
+        "creator": "Ralph Griswold",
+        "date": "1977",
+        "description": "A very high-level programming language based on goal-directed execution and string scanning. It makes extensive use of generators and backtracking.",
+        "image": "https://www2.cs.arizona.edu/icon/logo/icon.gif",
+        "location": "University of Arizona, USA",
+        "benefits": "String processing, goal-directed execution, generators.",
+        "related": "SNOBOL, Python, Unicon"
     }
 };

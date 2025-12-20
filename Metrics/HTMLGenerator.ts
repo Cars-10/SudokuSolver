@@ -967,10 +967,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
                         <input type="text" id="editInputs-location" class="modal-edit-input edit-only" placeholder="Location" style="margin-top: 10px;">
                         <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
+                        <input type="text" id="editInputs-related" class="modal-edit-input edit-only" placeholder="Related Languages">
                         <input type="text" id="editInputs-website" class="modal-edit-input edit-only" placeholder="Website URL">
 
                         <p id="modalLocation" class="view-only" style="margin: 10px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
                         <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
+                        <p id="modalRelated" class="view-only" style="margin: 5px 0 0 0; color: #787c99; font-size: 0.9em; font-style: italic;"></p>
 
                         <div class="view-only" style="margin-top: 15px; display: flex; gap: 10px;">
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
