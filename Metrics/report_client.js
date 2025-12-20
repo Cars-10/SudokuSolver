@@ -441,8 +441,8 @@ let currentMetadata = null;
 let lastPopulatedMetadata = null; // Track the last saved state to prevent overwriting during edits
 
 // Updated Show Function
-window.showLanguageDetails = async function (lang) {
-    console.log("Opening modal for:", lang);
+window.showLanguageDetails = async function (lang, x, y) {
+    console.log("Opening modal for:", lang, "at", x, y);
     currentEditingLang = lang;
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
@@ -451,18 +451,48 @@ window.showLanguageDetails = async function (lang) {
     modal.classList.add('visible');
     document.body.classList.add('modal-open');
 
-    // Reset scroll and position
+    // Reset scroll
     modalContent.scrollTop = 0;
-    modalContent.style.left = '';
-    modalContent.style.top = '';
-    modalContent.style.transform = '';
 
-    // Fetch dynamic metadata from backend first? 
+    // Positioning logic
+    if (x !== undefined && y !== undefined) {
+        modal.classList.remove('centered');
+        
+        // Initial visibility hidden to measure
+        modalContent.style.visibility = 'hidden';
+        modalContent.style.display = 'flex';
+        
+        // Use requestAnimationFrame to ensure it's rendered for measurement
+        requestAnimationFrame(() => {
+            const width = modalContent.offsetWidth;
+            const height = modalContent.offsetHeight;
+            
+            // Center modal on click but keep in viewport
+            let left = x - (width / 2);
+            let top = y - (height / 2);
+            
+            // Viewport padding
+            const padding = 20;
+            
+            left = Math.max(padding, Math.min(left, window.innerWidth - width - padding));
+            top = Math.max(padding, Math.min(top, window.innerHeight - height - padding));
+            
+            modalContent.style.left = left + 'px';
+            modalContent.style.top = top + 'px';
+            modalContent.style.transform = 'none';
+            modalContent.style.visibility = 'visible';
+            modalContent.style.margin = '0';
+        });
+    } else {
+        // Default center positioning via CSS
+        modal.classList.add('centered');
+        modalContent.style.left = '';
+        modalContent.style.top = '';
+        modalContent.style.transform = '';
+        modalContent.style.visibility = 'visible';
+    }
     // We fallback to static if fetch fails.
-    let meta = languageMetadata[lang] || {};
-
-    // Save static description from LanguagesMetadata.ts
-    const staticDescription = meta.description;
+    let meta = { ...(languageMetadata[lang] || {}) };
 
     try {
         const res = await fetch(`/api/metadata/${lang}`);
@@ -470,10 +500,6 @@ window.showLanguageDetails = async function (lang) {
             const dynamicMeta = await res.json();
             // Merge: dynamic takes precedence for user-edited fields
             meta = { ...meta, ...dynamicMeta };
-            // But prefer static description from LanguagesMetadata.ts (richer content)
-            if (staticDescription) {
-                meta.description = staticDescription;
-            }
         }
     } catch (e) {
         console.warn("Could not fetch dynamic metadata:", e);
@@ -484,7 +510,19 @@ window.showLanguageDetails = async function (lang) {
 
     // View Mode Population
     const img = meta.image || meta.logo || "";
-    document.getElementById('modalImg').src = img;
+    const modalImg = document.getElementById('modalImg');
+    modalImg.src = img;
+
+    // Apply tailoring to modal logo
+    const tailoringData = (typeof tailoring !== 'undefined') ? tailoring : {};
+    const langTailoring = tailoringData[lang];
+    if (langTailoring?.invert) {
+        modalImg.style.filter = "url(#filter-invert)";
+    } else if (langTailoring?.transparent_white) {
+        modalImg.style.filter = "url(#filter-transparent-white)";
+    } else {
+        modalImg.style.filter = "none";
+    }
 
     const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
     document.getElementById('modalTitle').innerText = displayName;
@@ -569,10 +607,15 @@ window.showLanguageDetails = async function (lang) {
         const div = document.createElement('div');
         div.className = 'author-item';
         div.innerHTML = `
-                        <img src="${auth.image || ''}" class="author-img">
+                        <div class="modal-img-container" style="width: 60px; height: 60px; position: relative; border-radius: 50%; overflow: hidden;">
+                            <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
+                                Change
+                            </div>
+                        </div>
                         <span class="view-only">${auth.name}</span>
                         <input type="text" class="modal-edit-input edit-only" value="${auth.name}" placeholder="Name" onchange="updateAuthor(${idx}, 'name', this.value)">
-                        <input type="text" class="modal-edit-input edit-only" value="${auth.image}" placeholder="Image URL" onchange="updateAuthor(${idx}, 'image', this.value)">
+                        <input type="text" class="modal-edit-input edit-only" id="author-input-${idx}" value="${auth.image}" placeholder="Image URL" onchange="updateAuthor(${idx}, 'image', this.value)">
                         <button class="btn edit-only" style="background:#ff5555; padding: 2px 5px; font-size: 0.7em;" onclick="removeAuthor(${idx})"> Remove </button>
                     `;
         authorList.appendChild(div);
@@ -703,10 +746,6 @@ window.uploadBlob = async function(blob) {
     formData.append('lang', currentEditingLang);
 
     try {
-        // Show loading state
-        const imgEl = document.getElementById('modalImg');
-        imgEl.style.opacity = '0.5';
-
         const res = await fetch('/api/upload-media', {
             method: 'POST',
             body: formData
@@ -715,18 +754,16 @@ window.uploadBlob = async function(blob) {
         if (res.ok) {
             const data = await res.json();
             const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-            imgEl.src = relativePath;
-            document.getElementById('editInputs-image').value = relativePath;
-            if (currentMetadata) currentMetadata.image = relativePath;
+            return relativePath;
         } else {
             const txt = await res.text();
             alert("Upload failed: " + txt);
+            return null;
         }
     } catch (e) {
         console.error(e);
         alert("Upload failed: " + e.message);
-    } finally {
-        document.getElementById('modalImg').style.opacity = '1';
+        return null;
     }
 };
 
@@ -735,22 +772,27 @@ window.handleLogoChange = async function(event) {
 
     // Try reading clipboard first
     try {
-        // Check if clipboard has image
         const clipboardItems = await navigator.clipboard.read();
         for (const item of clipboardItems) {
-            // Prefer image types
             const imageTypes = item.types.filter(type => type.startsWith('image/'));
             if (imageTypes.length > 0) {
                 const blob = await item.getType(imageTypes[0]);
-                // Found an image, upload it
-                console.log("Found image in clipboard, uploading...");
-                uploadBlob(blob);
-                return; // Done
+                // Show loading on main logo
+                const imgEl = document.getElementById('modalImg');
+                imgEl.style.opacity = '0.5';
+                
+                const relativePath = await uploadBlob(blob);
+                
+                if (relativePath) {
+                    imgEl.src = relativePath;
+                    document.getElementById('editInputs-image').value = relativePath;
+                    if (currentMetadata) currentMetadata.image = relativePath;
+                }
+                imgEl.style.opacity = '1';
+                return;
             }
         }
     } catch (err) {
-        // Clipboard read failed or denied (or not supported/focused)
-        // Fallback to file picker
         console.log("Clipboard access not available or empty, falling back to file picker.");
     }
 
@@ -758,20 +800,70 @@ window.handleLogoChange = async function(event) {
     document.getElementById('logoInput').click();
 };
 
+window.handleAuthorImageChange = async function(index, event) {
+    if (event) event.stopPropagation();
+    
+    // Try reading clipboard first
+    try {
+        const clipboardItems = await navigator.clipboard.read();
+        for (const item of clipboardItems) {
+            const imageTypes = item.types.filter(type => type.startsWith('image/'));
+            if (imageTypes.length > 0) {
+                const blob = await item.getType(imageTypes[0]);
+                
+                // Show loading
+                const imgEl = document.getElementById(`author-img-${index}`);
+                if (imgEl) imgEl.style.opacity = '0.5';
+                
+                const relativePath = await uploadBlob(blob);
+                
+                if (relativePath) {
+                    // Update Author Data
+                    updateAuthor(index, 'image', relativePath);
+                    // Update DOM
+                    if (imgEl) imgEl.src = relativePath;
+                    const inputEl = document.getElementById(`author-input-${index}`);
+                    if (inputEl) inputEl.value = relativePath;
+                }
+                
+                if (imgEl) imgEl.style.opacity = '1';
+                return;
+            }
+        }
+    } catch (err) {
+        console.log("Clipboard access not available, falling back to file input");
+    }
+    
+    // Fallback to hidden input specific for authors
+    // We need to set a global or data attribute to know WHICH author we are updating
+    window.currentAuthorIndex = index;
+    document.getElementById('authorFileInput').click();
+};
+
 // Paste Listener for Modal
 document.addEventListener('paste', async (e) => {
     // Only if modal is open and editing
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
-    if (modal.style.display !== 'flex' && !modal.classList.contains('visible')) return;
-    if (!modalContent.classList.contains('editing')) return;
+    if (!modal || !modal.classList.contains('visible')) return;
+    if (!modalContent || !modalContent.classList.contains('editing')) return;
 
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
     for (let index in items) {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-            uploadBlob(blob);
+            // Default paste behavior: update main logo (legacy behavior)
+            // Or should we ask? For now, keep existing behavior: update main logo
+            const imgEl = document.getElementById('modalImg');
+            imgEl.style.opacity = '0.5';
+            const relativePath = await uploadBlob(blob);
+            if (relativePath) {
+                imgEl.src = relativePath;
+                document.getElementById('editInputs-image').value = relativePath;
+                if (currentMetadata) currentMetadata.image = relativePath;
+            }
+            imgEl.style.opacity = '1';
         } else if (item.kind === 'string') {
             item.getAsString(async (url) => {
                 if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.startsWith('http')) {
@@ -803,10 +895,37 @@ document.addEventListener('paste', async (e) => {
     }
 });
 
-// Upload Input
+// Upload Input (Main Logo)
 window.uploadLogo = async function (input) {
     if (input.files && input.files[0]) {
-        uploadBlob(input.files[0]);
+        const imgEl = document.getElementById('modalImg');
+        imgEl.style.opacity = '0.5';
+        const relativePath = await uploadBlob(input.files[0]);
+        if (relativePath) {
+            imgEl.src = relativePath;
+            document.getElementById('editInputs-image').value = relativePath;
+            if (currentMetadata) currentMetadata.image = relativePath;
+        }
+        imgEl.style.opacity = '1';
+    }
+};
+
+// Upload Input (Author)
+window.uploadAuthorLogo = async function (input) {
+    if (input.files && input.files[0] && window.currentAuthorIndex !== undefined) {
+        const idx = window.currentAuthorIndex;
+        const imgEl = document.getElementById(`author-img-${idx}`);
+        if (imgEl) imgEl.style.opacity = '0.5';
+        
+        const relativePath = await uploadBlob(input.files[0]);
+        
+        if (relativePath) {
+            updateAuthor(idx, 'image', relativePath);
+            if (imgEl) imgEl.src = relativePath;
+            const inputEl = document.getElementById(`author-input-${idx}`);
+            if (inputEl) inputEl.value = relativePath;
+        }
+        if (imgEl) imgEl.style.opacity = '1';
     }
 };
 

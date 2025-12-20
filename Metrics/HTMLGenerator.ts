@@ -559,6 +559,26 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             display: block !important;
         }
 
+        /* Modal Overlay for non-draggable modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+            pointer-events: auto;
+        }
+
+        .modal-overlay.visible {
+            display: flex !important;
+        }
+
         /* Modal Content Container - Fixed Width for Consistency */
         .modal .modal-content {
             /* Box Model - Fixed sizing for width consistency */
@@ -579,7 +599,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 
             /* Interaction */
-            cursor: move;
+            cursor: default;
             pointer-events: auto;
         }
 
@@ -655,6 +675,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             /* Styling */
             border-bottom: 1px solid #414868;
             background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            cursor: move;
         }
 
         /* Modal Header Top Row (logo + info) */
@@ -684,6 +705,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             overflow: visible;
 
             /* No scrollbar needed */
+            cursor: auto;
         }
 
         /* Modal footer */
@@ -917,6 +939,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             Change
                         </div>
                         <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
+                        <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <input type="text" id="editInputs-title" class="modal-edit-input edit-only" placeholder="Language Name" style="font-size: 1.5em; font-weight: bold;">
@@ -1602,6 +1625,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const localLogo = logoMap.get(baseLang.toLowerCase());
         const logoUrl = localLogo || meta.logo || meta.image;
 
+        // Apply tailoring filters if configured
+        const tailoring = (tailoringConfig as any)[baseLang] || (tailoringConfig as any)[lang];
+        let filterStyle = "";
+        if (tailoring?.invert) {
+            filterStyle = "filter: url(#filter-invert);";
+        } else if (tailoring?.transparent_white) {
+            filterStyle = "filter: url(#filter-transparent-white);";
+        }
+
         // Data Attributes
         let matrixDataAttrs = "";
         for (let i = 0; i < maxMatrices; i++) {
@@ -1635,7 +1667,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
                 <span class="expand-chevron">›</span>
-                ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo">` : ''}
+                ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
                         ${displayName}${typeIcon}
