@@ -1481,6 +1481,28 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- Tier Legend -->
+    <div class="legend-container" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; font-size: 0.85em; flex-wrap: wrap; color: var(--muted);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-s" style="font-size: 0.8em; width: 20px; height: 20px;">S</div> <span style="color: #ffd700;">&lt; 0.95 (Godlike)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-a" style="font-size: 0.8em; width: 20px; height: 20px;">A</div> <span style="color: #00ff9d;">0.95 - 1.05 (Baseline)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-b" style="font-size: 0.8em; width: 20px; height: 20px;">B</div> <span style="color: #00b8ff;">1.05 - 1.50 (Efficient)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-c" style="font-size: 0.8em; width: 20px; height: 20px;">C</div> <span style="color: #e0e0e0;">1.50 - 3.00 (Acceptable)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-d" style="font-size: 0.8em; width: 20px; height: 20px;">D</div> <span style="color: #ffaa00;">3.00 - 10.00 (Slow)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="tier-badge tier-f" style="font-size: 0.8em; width: 20px; height: 20px;">F</div> <span style="color: #ff0055;">&gt; 10.00 (Glacial)</span>
+        </div>
+    </div>
+
     <!-- SVG Filters for Logo Tailoring -->
     <svg style="display: none;">
         <defs>
