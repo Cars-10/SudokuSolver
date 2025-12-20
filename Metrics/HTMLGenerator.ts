@@ -1369,7 +1369,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     
     <div class="top-bar">
         <!-- Old solver-stat removed -->
-        <div id="personality-intro" class="personality-intro" style="text-align: center; margin: 0 auto 20px auto; max-width: 800px;">
+        <div id="personality-intro" class="personality-intro" style="text-align: center; margin: 0 auto 20px auto; max-width: 800px; padding: 15px; background: rgba(0, 255, 157, 0.05); border: 1px solid rgba(0, 255, 157, 0.1); border-radius: 8px; box-shadow: 0 0 15px rgba(0, 255, 157, 0.05); color: var(--text); line-height: 1.6;">
             Welcome to the Polyglot Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
         <div class="controls">
