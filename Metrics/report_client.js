@@ -952,8 +952,8 @@ function makeDraggable(modal, handle) {
     handle.addEventListener('mousedown', dragStart);
 
     function dragStart(e) {
-        // Only drag on header, not on buttons
-        if (e.target.closest('button') || e.target.closest('.modal-close')) {
+        // Only drag on header, not on buttons or links
+        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.modal-close')) {
             return;
         }
 
