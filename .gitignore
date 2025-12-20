@@ -73,11 +73,18 @@ Languages/*/Sudoku
 Languages/*/sudoku
 !Languages/Rust/Sudoku/
 Languages/*/.*
+Languages/**/bin/
+Languages/**/obj/
 
 *.class
 *.dSYM/
 *.o
 *.obj
+*.hi
+*.cmi
+*.cmx
+*.jar
+*.dwarf
 screenshots/benchmark_.png
 
 # Recursive node_modules ignore

@@ -95,7 +95,21 @@
     "VisualBasic",
     "Wren",
     "XSLT",
-    "Zig"
+    "Zig",
+    "Zsh",
+    "Smalltalk",
+    "SQL",
+    "Red",
+    "PostScript",
+    "Jupyter",
+    "Icon",
+    "Gnuplot",
+    "Fennel",
+    "Cobol",
+    "Bc",
+    "BASIC",
+    "Assembly",
+    "AppleScript"
   ],
-  "currentPersona": "Alien"
+  "currentPersona": "Dark Knight"
 }

@@ -11,8 +11,13 @@ export async function captureScreenshot(htmlFilePath: string, outputPath?: strin
             return;
         }
 
+        const executablePath = process.platform === 'darwin' 
+            ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+            : undefined;
+
         const browser = await puppeteer.launch({
             headless: true,
+            executablePath: executablePath,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080']
         });
         const page = await browser.newPage();

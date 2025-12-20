@@ -152,8 +152,8 @@ run_matrix() {
     # Convert memory from KB to bytes (HTMLGenerator expects bytes)
     local memory_bytes=$((memory_kb * 1024))
 
-    # Escape output for JSON (replace newlines, escape quotes and backslashes)
-    local escaped_output=$(echo "$output" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}' | sed '$ s/\\n$//')
+    # Escape output for JSON (using python for robust escaping of control chars/newlines)
+    local escaped_output=$(echo "$output" | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read())[1:-1])')
 
     # Write JSON result object (caller handles array wrapping)
     cat <<EOF
@@ -236,10 +236,17 @@ run_benchmarks() {
 
     # Merge results: use node/python if available, otherwise just use new results
     if [ -n "$existing_results" ] && command -v node &> /dev/null; then
+        # Create temp files for the JSON data to avoid shell escaping issues
+        local temp_existing=$(mktemp)
+        local temp_new=$(mktemp)
+        echo "$existing_results" > "$temp_existing"
+        echo "[$new_results]" > "$temp_new"
+
         # Use Node.js to merge results
         node -e "
-            const existing = JSON.parse(process.argv[1]);
-            const newResults = JSON.parse('[' + process.argv[2] + ']');
+            const fs = require('fs');
+            const existing = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
+            const newResults = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
             const timestamp = process.argv[3];
             const solver = process.argv[4];
 
@@ -267,7 +274,8 @@ run_benchmarks() {
                 results: results
             }];
             console.log(JSON.stringify(output, null, 2));
-        " "$existing_results" "$new_results" "$timestamp" "$LANGUAGE" > "$METRICS_FILE"
+        " "$temp_existing" "$temp_new" "$timestamp" "$LANGUAGE" > "$METRICS_FILE"
+        rm -f "$temp_existing" "$temp_new"
     else
         # No merge capability, just write new results
         cat > "$METRICS_FILE" <<EOF
