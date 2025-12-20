@@ -1637,7 +1637,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
         const historyText = (languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
 
-        const localLogo = logoMap.get(baseLang.toLowerCase());
+        // Logo Lookup with Special Handling
+        let lookupKey = baseLang.toLowerCase();
+        if (lookupKey === 'c#') lookupKey = 'c_sharp';
+        if (lookupKey === 'f#') lookupKey = 'f_sharp';
+        const localLogo = logoMap.get(lookupKey);
         const logoUrl = localLogo || meta.logo || meta.image;
 
         // Apply tailoring filters if configured
@@ -1754,24 +1758,26 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
         html += `<tr class="expanded-content">
             <td colspan="${totalCols}">
-                <div class="expanded-sections">
-                    <div class="expanded-section">
-                        <div class="section-title">System</div>
-                        <div class="section-content">OS: - | CPU: - | RAM: - | Arch: -</div>
-                    </div>
-                    <div class="expanded-section">
-                        <div class="section-title">Compilation</div>
-                        <div class="section-content">Compiler: ${rowCompilerInfo} | Flags: - | Level: -</div>
-                    </div>
-                    <div class="expanded-section">
-                        <div class="section-title">Matrix Results</div>
-                        <div class="section-content">
-                            ${m.results.filter(r => r != null).map((r, idx) => {
-                                const memMb = (r.memory || 0) / 1024 / 1024;
-                                const time = r.time || 0;
-                                const iterations = r.iterations || 0;
-                                return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
-                            }).join(' | ')}
+                <div class="expanded-wrapper">
+                    <div class="expanded-sections">
+                        <div class="expanded-section">
+                            <div class="section-title">System</div>
+                            <div class="section-content">OS: - | CPU: - | RAM: - | Arch: -</div>
+                        </div>
+                        <div class="expanded-section">
+                            <div class="section-title">Compilation</div>
+                            <div class="section-content">Compiler: ${rowCompilerInfo} | Flags: - | Level: -</div>
+                        </div>
+                        <div class="expanded-section">
+                            <div class="section-title">Matrix Results</div>
+                            <div class="section-content">
+                                ${m.results.filter(r => r != null).map((r, idx) => {
+                                    const memMb = (r.memory || 0) / 1024 / 1024;
+                                    const time = r.time || 0;
+                                    const iterations = r.iterations || 0;
+                                    return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
+                                }).join(' | ')}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1799,7 +1805,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const tailoring = ${safeJSON(tailoringConfig)};
             const metricsData = ${safeJSON(metrics.map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
-        const localLogo = logoMap.get(baseLang.toLowerCase());
+        
+        // Logo Lookup with Special Handling
+        let lookupKey = baseLang.toLowerCase();
+        if (lookupKey === 'c#') lookupKey = 'c_sharp';
+        if (lookupKey === 'f#') lookupKey = 'f_sharp';
+        const localLogo = logoMap.get(lookupKey);
+        
         const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
         
         // Calculate Score & Tier for Client Use
