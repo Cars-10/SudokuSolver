@@ -8,8 +8,149 @@
             "benefits": "Strong typing, explicit concurrency, and high reliability.",
             "website": "",
             "description": "A statically typed, structured, imperative, and object-oriented high-level language, designed for safety-critical and real-time systems.",
-            "authors": [],
-            "lastUpdated": "2025-12-20T11:22:16.296Z"
+            "authors": [
+                {
+                    "name": "Jean Ichbiah",
+                    "image": "Languages/Ada/Media/Ada_1766232834951.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:13:57.114Z"
+        },
+        "Red": {
+            "creator": "Nenad Rakocevic",
+            "image": "Languages/Red/Media/Red_1766232983592.png",
+            "date": "2011",
+            "location": "Global",
+            "benefits": "Full-stack, symbolic, cross-platform.",
+            "website": "",
+            "description": "A functional and symbolic language inspired by REBOL.",
+            "authors": [
+                {
+                    "name": "Nenad Rakocevic",
+                    "image": "Languages/Red/Media/Red_1766232933716.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:16:25.427Z"
+        },
+        "Assembly": {
+            "creator": "Kathleen Booth",
+            "image": "Languages/Assembly/Media/Assembly_1766233067941.png",
+            "date": "1947",
+            "location": "Birkbeck College, London",
+            "benefits": "Direct hardware control, maximum performance, zero overhead.",
+            "website": "",
+            "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
+            "authors": [
+                {
+                    "name": "Kathleen Booth",
+                    "image": "Languages/Assembly/Media/Assembly_1766233131381.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:19:02.893Z"
+        },
+        "BASIC": {
+            "creator": "John G. Kemeny, Thomas E. Kurtz",
+            "image": "Languages/BASIC/Media/BASIC_1766233201144.png",
+            "date": "1964",
+            "location": "Dartmouth College, USA",
+            "benefits": "Easy to learn, interactive, historical significance.",
+            "website": "",
+            "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+            "authors": [
+                {
+                    "name": "John G. Kemeny",
+                    "image": "Languages/BASIC/Media/BASIC_1766233247366.png"
+                },
+                {
+                    "name": "Thomas E. Kurtz",
+                    "image": "Languages/BASIC/Media/BASIC_1766233291157.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:21:33.971Z"
+        },
+        "VisualBasic": {
+            "creator": "Microsoft (Alan Cooper)",
+            "image": "Languages/VisualBasic/Media/VisualBasic_1766233459591.png",
+            "date": "1991",
+            "location": "Microsoft, USA",
+            "benefits": "RAD, ease of use, Windows integration, legacy support.",
+            "website": "",
+            "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
+            "authors": [
+                {
+                    "name": "Microsoft (Alan Cooper)",
+                    "image": "Languages/VisualBasic/Media/VisualBasic_1766233508472.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:25:10.894Z"
+        },
+        "Ksh": {
+            "creator": "David Korn",
+            "image": "Languages/Ksh/Media/Ksh_1766233593296.png",
+            "date": "1983",
+            "location": "Bell Labs, USA",
+            "benefits": "Scripting, interactive use, backward compatibility.",
+            "website": "",
+            "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
+            "authors": [
+                {
+                    "name": "David Korn",
+                    "image": "Languages/Ksh/Media/Ksh_1766233640986.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:27:24.222Z"
+        },
+        "SQL": {
+            "creator": "Donald D. Chamberlin, Raymond F. Boyce",
+            "image": "Languages/SQL/Media/SQL_1766233784959.png",
+            "date": "1974",
+            "location": "IBM, USA",
+            "benefits": "Data management, standard, declarative, powerful queries.",
+            "website": "",
+            "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
+            "authors": [
+                {
+                    "name": "Donald D. Chamberlin",
+                    "image": "Languages/SQL/Media/SQL_1766233686237.png"
+                },
+                {
+                    "name": "Raymond F. Boyce",
+                    "image": "Languages/SQL/Media/SQL_1766233743560.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:29:46.022Z"
+        },
+        "Zsh": {
+            "creator": "Paul Falstad",
+            "image": "Languages/Zsh/Media/Zsh_1766233813269.png",
+            "date": "1990",
+            "location": "Princeton University, USA",
+            "benefits": "Interactive shell, scripting, plugin ecosystem.",
+            "website": "",
+            "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
+            "authors": [
+                {
+                    "name": "Paul Falstad",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:35:38.173Z"
+        },
+        "Tcl": {
+            "creator": "John Ousterhout",
+            "image": "Languages/Tcl/Media/Tcl_1766234168095.png",
+            "date": "1988",
+            "location": "UC Berkeley, USA",
+            "benefits": "Scripting, GUI (Tk), embedding, simplicity.",
+            "website": "",
+            "description": "Tool Command Language. A dynamic programming language.",
+            "authors": [
+                {
+                    "name": "John Ousterhout",
+                    "image": "Languages/Tcl/Media/Tcl_1766234246574.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:37:30.903Z"
         }
     }
 }
