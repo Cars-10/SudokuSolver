@@ -3226,7 +3226,7 @@ window.copyRerunCommand = function () {
 
 
 // Modal Dragging Logic
-function makeDraggable(elmnt, header) {
+function makeElementDraggable(elmnt, header) {
     if (!elmnt || !header) return;
 
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -3290,7 +3290,7 @@ function enableModalDragging() {
             const content = modal.querySelector('.modal-content');
             const title = modal.querySelector('.modal-title');
             if (content && title) {
-                makeDraggable(content, title);
+                makeElementDraggable(content, title);
             }
         }
     });
