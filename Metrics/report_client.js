@@ -356,6 +356,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (expandedRow && expandedRow.classList.contains('expanded-content')) {
                 if (row.classList.contains('expanded')) {
                     expandedRow.classList.add('visible');
+                    // Force reflow
+                    void expandedRow.offsetWidth;
+                    expandedRow.classList.add('open');
                     
                     // Populate Content dynamically if empty or placeholders
                     const lang = row.getAttribute('data-lang');
@@ -398,7 +401,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 } else {
-                    expandedRow.classList.remove('visible');
+                    expandedRow.classList.remove('open');
+                    // Wait for transition to end before hiding
+                    const handleTransitionEnd = () => {
+                        if (!row.classList.contains('expanded')) {
+                            expandedRow.classList.remove('visible');
+                        }
+                        expandedRow.removeEventListener('transitionend', handleTransitionEnd);
+                    };
+                    expandedRow.addEventListener('transitionend', handleTransitionEnd);
+                    // Fallback
+                    setTimeout(handleTransitionEnd, 350);
                 }
             }
         });
@@ -529,6 +542,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('modalSubtitle').innerText = (meta.creator || "?") + " • " + (meta.date || "????");
     document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
     document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
+    document.getElementById('modalRelated').innerText = meta.related ? "🔗 Related: " + meta.related : "";
 
 
     // Description: Check Persona first
@@ -585,6 +599,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('editInputs-date').value = meta.date || "";
     document.getElementById('editInputs-location').value = meta.location || "";
     document.getElementById('editInputs-benefits').value = meta.benefits || "";
+    document.getElementById('editInputs-related').value = meta.related || "";
     document.getElementById('editInputs-website').value = meta.website || "";
     document.getElementById('editInputs-desc').value = meta.description || "";
 
@@ -605,25 +620,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     // IMPORTANT: Assign back to meta so currentMetadata has the initialized array
     meta.authors = authors;
 
-    authors.forEach((auth, idx) => {
-        const div = document.createElement('div');
-        div.className = 'author-item';
-        div.innerHTML = `
-                        <div class="modal-img-container" style="width: 80px; height: 80px; position: relative; border-radius: 50%; overflow: hidden; margin-bottom: 5px;">
-                            <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
-                                Change
-                            </div>
-                        </div>
-                        <span class="view-only">${auth.name}</span>
-                        <div class="edit-only" style="width: 100%;">
-                            <input type="text" class="modal-edit-input" value="${auth.name}" placeholder="Name" onchange="updateAuthor(${idx}, 'name', this.value)" style="margin-bottom: 2px;">
-                            <input type="text" class="modal-edit-input" id="author-input-${idx}" value="${auth.image}" placeholder="Image URL" onchange="checkAndDownloadAuthorImage(${idx}, this.value)">
-                            <button class="btn" style="background:#ff5555; padding: 2px 0; font-size: 0.7em; width: 100%; margin-top: 2px;" onclick="removeAuthor(${idx})">Remove</button>
-                        </div>
-                    `;
-        authorList.appendChild(div);
-    });
+    window.renderAuthorList();
 
     // Clear editing mode
     modalContent.classList.remove('editing');
@@ -675,6 +672,7 @@ window.saveLanguageDetails = async function (event) {
         date: document.getElementById('editInputs-date').value,
         location: document.getElementById('editInputs-location').value,
         benefits: document.getElementById('editInputs-benefits').value,
+        related: document.getElementById('editInputs-related').value,
         website: document.getElementById('editInputs-website').value,
         description: document.getElementById('editInputs-desc').value,
         authors: currentMetadata.authors || []
@@ -719,18 +717,43 @@ window.saveLanguageDetails = async function (event) {
     }
 };
 
+window.renderAuthorList = function() {
+    const authorList = document.getElementById('authorList');
+    if (!authorList || !currentMetadata || !currentMetadata.authors) return;
+    
+    authorList.innerHTML = '';
+    
+    currentMetadata.authors.forEach((auth, idx) => {
+        const div = document.createElement('div');
+        div.className = 'author-item';
+        div.innerHTML = `
+            <div class="modal-img-container" style="width: 80px; height: 80px; position: relative; border-radius: 50%; overflow: hidden; margin-bottom: 5px;">
+                <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
+                    Change
+                </div>
+            </div>
+            <span class="view-only">${auth.name}</span>
+            <div class="edit-only" style="width: 100%;">
+                <input type="text" class="modal-edit-input" value="${auth.name}" placeholder="Name" onchange="updateAuthor(${idx}, 'name', this.value)" style="margin-bottom: 2px;">
+                <input type="text" class="modal-edit-input" id="author-input-${idx}" value="${auth.image}" placeholder="Image URL" onchange="checkAndDownloadAuthorImage(${idx}, this.value)">
+                <button class="btn" style="background:#ff5555; padding: 2px 0; font-size: 0.7em; width: 100%; margin-top: 2px;" onclick="removeAuthor(${idx})">Remove</button>
+            </div>
+        `;
+        authorList.appendChild(div);
+    });
+};
+
 window.addAuthorField = function () {
     if (!currentMetadata.authors) currentMetadata.authors = [];
     currentMetadata.authors.push({ name: "New Author", image: "" });
-    window.showLanguageDetails(currentEditingLang); // Re-render triggers populate
-    document.getElementById('modalContent').classList.add('editing'); // Keep edit mode
+    window.renderAuthorList();
 };
 
 window.removeAuthor = function (idx) {
     if (!currentMetadata.authors) return;
     currentMetadata.authors.splice(idx, 1);
-    window.showLanguageDetails(currentEditingLang);
-    document.getElementById('modalContent').classList.add('editing');
+    window.renderAuthorList();
 };
 
 window.updateAuthor = function (idx, field, value) {
