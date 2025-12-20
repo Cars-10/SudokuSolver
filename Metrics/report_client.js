@@ -697,50 +697,81 @@ window.openGoogleImageSearch = function () {
     }
 };
 
+window.uploadBlob = async function(blob) {
+    const formData = new FormData();
+    formData.append('file', blob);
+    formData.append('lang', currentEditingLang);
+
+    try {
+        // Show loading state
+        const imgEl = document.getElementById('modalImg');
+        imgEl.style.opacity = '0.5';
+
+        const res = await fetch('/api/upload-media', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
+            imgEl.src = relativePath;
+            document.getElementById('editInputs-image').value = relativePath;
+            if (currentMetadata) currentMetadata.image = relativePath;
+        } else {
+            const txt = await res.text();
+            alert("Upload failed: " + txt);
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Upload failed: " + e.message);
+    } finally {
+        document.getElementById('modalImg').style.opacity = '1';
+    }
+};
+
+window.handleLogoChange = async function(event) {
+    if (event) event.stopPropagation();
+
+    // Try reading clipboard first
+    try {
+        // Check if clipboard has image
+        const clipboardItems = await navigator.clipboard.read();
+        for (const item of clipboardItems) {
+            // Prefer image types
+            const imageTypes = item.types.filter(type => type.startsWith('image/'));
+            if (imageTypes.length > 0) {
+                const blob = await item.getType(imageTypes[0]);
+                // Found an image, upload it
+                console.log("Found image in clipboard, uploading...");
+                uploadBlob(blob);
+                return; // Done
+            }
+        }
+    } catch (err) {
+        // Clipboard read failed or denied (or not supported/focused)
+        // Fallback to file picker
+        console.log("Clipboard access not available or empty, falling back to file picker.");
+    }
+
+    // Fallback
+    document.getElementById('logoInput').click();
+};
+
 // Paste Listener for Modal
 document.addEventListener('paste', async (e) => {
     // Only if modal is open and editing
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
-    if (modal.style.display !== 'flex' || !modalContent.classList.contains('editing')) return;
+    if (modal.style.display !== 'flex' && !modal.classList.contains('visible')) return;
+    if (!modalContent.classList.contains('editing')) return;
 
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
     for (let index in items) {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-
-            // Upload immediately
-            const formData = new FormData();
-            formData.append('file', blob);
-            formData.append('lang', currentEditingLang);
-
-            try {
-                // Show loading state
-                const imgEl = document.getElementById('modalImg');
-                imgEl.style.opacity = '0.5';
-
-                const res = await fetch('/api/upload-media', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-                    imgEl.src = relativePath;
-                    document.getElementById('editInputs-image').value = relativePath;
-                    if (currentMetadata) currentMetadata.image = relativePath;
-                } else {
-                    const txt = await res.text();
-                    alert("Upload failed: " + txt);
-                }
-            } catch (e) {
-                console.error(e);
-                alert("Upload failed: " + e.message);
-            } finally {
-                document.getElementById('modalImg').style.opacity = '1';
-            }
+            uploadBlob(blob);
         } else if (item.kind === 'string') {
             item.getAsString(async (url) => {
                 if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.startsWith('http')) {
@@ -764,12 +795,7 @@ document.addEventListener('paste', async (e) => {
                             }
                         } catch (e) {
                             alert("Download error: " + e.message);
-                        } finally {
-                            document.getElementById('modalImg').style.opacity = '1';
                         }
-                    } else {
-                        // Just paste text
-                        // default behavior might happen or we can manually set it
                     }
                 }
             });
@@ -780,24 +806,7 @@ document.addEventListener('paste', async (e) => {
 // Upload Input
 window.uploadLogo = async function (input) {
     if (input.files && input.files[0]) {
-        const formData = new FormData();
-        formData.append('file', input.files[0]);
-        formData.append('lang', currentEditingLang);
-
-        try {
-            const res = await fetch('/api/upload-media', {
-                method: 'POST',
-                body: formData
-            });
-            if (res.ok) {
-                const data = await res.json();
-                const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-                currentMetadata.image = relativePath;
-                document.getElementById('modalImg').src = relativePath;
-            }
-        } catch (e) {
-            alert("Upload failed");
-        }
+        uploadBlob(input.files[0]);
     }
 };
 

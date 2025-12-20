@@ -913,7 +913,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <div class="modal-header-top">
                     <div class="modal-img-container" id="modalImgContainer" style="flex-shrink: 0;">
                         <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100px; height: 100px; object-fit: contain; border-radius: 8px;">
-                        <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="document.getElementById('logoInput').click()">
+                        <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
                             Change
                         </div>
                         <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
