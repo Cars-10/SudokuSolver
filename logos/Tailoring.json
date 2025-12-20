@@ -1,8 +1,8 @@
 {
     "Awk": {
-        "invert": true
+        "invert": false
     },
     "C": {
-        "transparent_white": true
+        "transparent_white": false
     }
 }

@@ -118,7 +118,7 @@
                     "image": "Languages/SQL/Media/SQL_1766233743560.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:29:46.022Z"
+            "lastUpdated": "2025-12-20T14:19:15.825Z"
         },
         "Zsh": {
             "creator": "Paul Falstad",
@@ -138,7 +138,7 @@
         },
         "Tcl": {
             "creator": "John Ousterhout",
-            "image": "Languages/Tcl/Media/Tcl_1766234168095.png",
+            "image": "Languages/Tcl/Media/Tcl_1766250358323.png",
             "date": "1988",
             "location": "UC Berkeley, USA",
             "benefits": "Scripting, GUI (Tk), embedding, simplicity.",
@@ -150,7 +150,661 @@
                     "image": "Languages/Tcl/Media/Tcl_1766234246574.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:37:30.903Z"
+            "lastUpdated": "2025-12-20T17:05:59.708Z",
+            "related": ""
+        },
+        "Awk": {
+            "creator": "Aho, Weinberger, Kernighan",
+            "image": "Languages/Awk/Media/Awk_1766234340958.png",
+            "date": "1977",
+            "location": "Bell Labs, USA",
+            "benefits": "Excellent for text processing, one-liners, and data extraction.",
+            "website": "",
+            "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
+            "authors": [
+                {
+                    "name": "Alfred Aho",
+                    "image": "Languages/Awk/Media/Awk_1766234413850.png"
+                },
+                {
+                    "name": "Peter Weinberger",
+                    "image": "Languages/Awk/Media/Awk_1766234448364.png"
+                },
+                {
+                    "name": "Brian Kernighan",
+                    "image": "Languages/Awk/Media/Awk_1766234371636.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:40:51.762Z"
+        },
+        "Verilog": {
+            "creator": "Phil Moorby",
+            "image": "Languages/Verilog/Media/Verilog_1766234478715.png",
+            "date": "1984",
+            "location": "Gateway Design Automation, USA",
+            "benefits": "Hardware modeling, simulation, synthesis, industry standard.",
+            "website": "",
+            "description": "A hardware description language (HDL) used to model electronic systems.",
+            "authors": [
+                {
+                    "name": "Phil Moorby",
+                    "image": "Languages/Verilog/Media/Verilog_1766234506301.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:41:47.286Z"
+        },
+        "Smalltalk": {
+            "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
+            "image": "Languages/Smalltalk/Media/Smalltalk_1766234558182.png",
+            "date": "1972",
+            "location": "Xerox PARC, USA",
+            "benefits": "Pure OOP, live environment, influence on modern GUIs.",
+            "website": "",
+            "description": "An object-oriented, dynamically typed reflective programming language.",
+            "authors": [
+                {
+                    "name": "Alan Kay",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234593243.png"
+                },
+                {
+                    "name": "Dan Ingalls",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234610616.png"
+                },
+                {
+                    "name": "Adele Goldberg",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234692083.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:44:53.977Z"
+        },
+        "C": {
+            "creator": "Dennis Ritchie",
+            "image": "Languages/C/Media/C_1766234786004.png",
+            "date": "1972",
+            "location": "Bell Labs, USA",
+            "benefits": "High performance, portability, low-level access, massive legacy.",
+            "website": "",
+            "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+            "authors": [
+                {
+                    "name": "Dennis Ritchie",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:46:27.494Z"
+        },
+        "V": {
+            "creator": "Alexander Medvednikov",
+            "image": "Languages/V/Media/V_1766234952522.png",
+            "date": "2019",
+            "location": "Global",
+            "benefits": "Fast compilation, simplicity, safety.",
+            "website": "",
+            "description": "A statically typed, compiled language designed for maintainability and speed.",
+            "authors": [
+                {
+                    "name": "Alexander Medvednikov",
+                    "image": "Languages/V/Media/V_1766234992055.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:49:54.877Z"
+        },
+        "Objective-C": {
+            "creator": "Brad Cox, Tom Love",
+            "image": "Languages/Objective-C/Media/Objective-C_1766235044391.png",
+            "date": "1984",
+            "location": "Stepstone, USA",
+            "benefits": "Dynamic runtime, C compatibility, Apple legacy.",
+            "website": "",
+            "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
+            "authors": [
+                {
+                    "name": "Brad Cox",
+                    "image": "Languages/Objective-C/Media/Objective-C_1766235124598.png"
+                },
+                {
+                    "name": "Tom Love",
+                    "image": "Languages/Objective-C/Media/Objective-C_1766235102093.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:52:05.730Z"
+        },
+        "Zig": {
+            "creator": "Andrew Kelley",
+            "image": "Languages/Zig/Media/Zig_1766235162099.png",
+            "date": "2016",
+            "location": "USA",
+            "benefits": "No hidden control flow, manual memory management, comptime.",
+            "website": "",
+            "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
+            "authors": [
+                {
+                    "name": "Andrew Kelley",
+                    "image": "Languages/Zig/Media/Zig_1766235184332.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T12:53:05.078Z"
+        },
+        "Dc": {
+            "creator": "Robert Morris, Lorinda Cherry",
+            "image": "Languages/Dc/Media/Dc_1766235574610.png",
+            "date": "1970",
+            "location": "Bell Labs, USA",
+            "benefits": "RPN, arbitrary precision, stack-based.",
+            "website": "",
+            "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
+            "authors": [
+                {
+                    "name": "Robert Morris",
+                    "image": "Languages/Dc/Media/Dc_1766235619914.png"
+                },
+                {
+                    "name": "Lorinda Cherry",
+                    "image": "Languages/Dc/Media/Dc_1766235225430.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:00:21.312Z"
+        },
+        "Vala": {
+            "creator": "Jürg Billeter, Rafał Pietrak",
+            "image": "Languages/Vala/Media/Vala_1766235799985.png",
+            "date": "2006",
+            "location": "GNOME Project",
+            "benefits": "GObject system, C performance, modern syntax, GNOME dev.",
+            "website": "",
+            "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
+            "authors": [
+                {
+                    "name": "Jürg Billeter",
+                    "image": "Languages/Vala/Media/Vala_1766235908486.png"
+                },
+                {
+                    "name": "Raffaele Sandrini",
+                    "image": "Languages/Vala/Media/Vala_1766236115955.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:08:38.118Z"
+        },
+        "XSLT": {
+            "creator": "W3C",
+            "image": "Languages/XSLT/Media/XSLT_1766236308194.png",
+            "date": "1998",
+            "location": "Worldwide",
+            "benefits": "XML transformation, functional, template-based.",
+            "website": "",
+            "description": "A language for transforming XML documents into other XML documents.",
+            "authors": [
+                {
+                    "name": "W3C",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xml_logo.svg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:12:23.985Z"
+        },
+        "CoffeeScript": {
+            "creator": "Jeremy Ashkenas",
+            "image": "Languages/CoffeeScript/Media/CoffeeScript_1766236436767.png",
+            "date": "2009",
+            "location": "USA",
+            "benefits": "Concise syntax, readability, compiles to clean JavaScript.",
+            "website": "",
+            "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
+            "authors": [
+                {
+                    "name": "Jeremy Ashkenas",
+                    "image": "Languages/CoffeeScript/Media/CoffeeScript_1766236504203.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:15:10.129Z"
+        },
+        "Pascal": {
+            "creator": "Niklaus Wirth",
+            "image": "Languages/Pascal/Media/Pascal_1766236558308.png",
+            "date": "1970",
+            "location": "ETH Zurich, Switzerland",
+            "benefits": "Structured programming, teaching, strong typing.",
+            "website": "",
+            "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
+            "authors": [
+                {
+                    "name": "Niklaus Wirth",
+                    "image": "Languages/Pascal/Media/Pascal_1766236576239.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:16:18.464Z"
+        },
+        "Sed": {
+            "creator": "Lee E. McMahon",
+            "image": "Languages/Sed/Media/Sed_1766236857136.png",
+            "date": "1974",
+            "location": "Bell Labs, USA",
+            "benefits": "Stream editing, text transformation, automation.",
+            "website": "",
+            "description": "A stream editor for filtering and transforming text.",
+            "authors": [
+                {
+                    "name": "Lee E. McMahon",
+                    "image": "Languages/Sed/Media/Sed_1766236805475.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:21:01.322Z"
+        },
+        "Cobol": {
+            "creator": "CODASYL Committee (Grace Hopper)",
+            "image": "Languages/Cobol/Media/Cobol_1766236882910.png",
+            "date": "1959",
+            "location": "USA",
+            "benefits": "Business data processing, stability, massive legacy codebases.",
+            "website": "",
+            "description": "Common Business-Oriented Language. Designed for business use.",
+            "authors": [
+                {
+                    "name": "CODASYL Committee (Grace Hopper)",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:21:24.713Z"
+        },
+        "SQLite": {
+            "creator": "D. Richard Hipp",
+            "image": "Languages/SQLite/Media/SQLite_1766236915533.png",
+            "date": "2000",
+            "location": "USA",
+            "benefits": "Serverless, zero-configuration, transactional SQL.",
+            "website": "",
+            "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
+            "authors": [
+                {
+                    "name": "D. Richard Hipp",
+                    "image": "Languages/SQLite/Media/SQLite_1766236938044.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:22:19.598Z"
+        },
+        "Crystal": {
+            "creator": "Ary Borenszweig",
+            "image": "Languages/Crystal/Media/Crystal_1766236959218.png",
+            "date": "2014",
+            "location": "Argentina",
+            "benefits": "Ruby-like syntax, C-like performance, static typing.",
+            "website": "",
+            "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
+            "authors": [
+                {
+                    "name": "Ary Borenszweig",
+                    "image": "Languages/Crystal/Media/Crystal_1766236978770.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:23:00.810Z"
+        },
+        "AppleScript": {
+            "creator": "Apple Inc.",
+            "image": "Languages/AppleScript/Media/AppleScript_1766237010477.png",
+            "date": "1993",
+            "location": "Apple, USA",
+            "benefits": "Automation, inter-application communication, English-like syntax.",
+            "website": "",
+            "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
+            "authors": [
+                {
+                    "name": "Apple Inc.",
+                    "image": "Languages/AppleScript/Media/AppleScript_1766237045007.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:24:06.600Z"
+        },
+        "Forth": {
+            "creator": "Charles H. Moore",
+            "image": "Languages/Forth/Media/Forth_1766237078911.png",
+            "date": "1970",
+            "location": "NRAO, USA",
+            "benefits": "Compactness, hardware control, interactivity.",
+            "website": "",
+            "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
+            "authors": [
+                {
+                    "name": "Charles H. Moore",
+                    "image": "Languages/Forth/Media/Forth_1766237118262.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:25:19.824Z"
+        },
+        "Fortran": {
+            "creator": "John Backus",
+            "image": "Languages/Fortran/Media/Fortran_1766237167392.png",
+            "date": "1957",
+            "location": "IBM, USA",
+            "benefits": "Numerical computation, scientific computing, performance.",
+            "website": "",
+            "description": "General-purpose, compiled imperative programming language that is especially suited to numeric computation and scientific computing.",
+            "authors": [
+                {
+                    "name": "John Backus",
+                    "image": "Languages/Fortran/Media/Fortran_1766237188509.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:26:31.134Z"
+        },
+        "CommonLisp": {
+            "creator": "Committee (Guy L. Steele Jr. et al.)",
+            "image": "Languages/CommonLisp/Media/CommonLisp_1766237370462.png",
+            "date": "1984",
+            "location": "USA",
+            "benefits": "Macros, dynamic typing, interactive development, flexibility.",
+            "website": "",
+            "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
+            "authors": [
+                {
+                    "name": "Committee (Guy L. Steele Jr. et al.)",
+                    "image": "Languages/CommonLisp/Media/CommonLisp_1766237386488.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:29:48.681Z"
+        },
+        "Pike": {
+            "creator": "",
+            "image": "Languages/Pike/Media/Pike_1766237418806.png",
+            "date": "",
+            "location": "",
+            "benefits": "",
+            "website": "",
+            "description": "",
+            "authors": [],
+            "lastUpdated": "2025-12-20T13:30:51.739Z"
+        },
+        "M4": {
+            "creator": "Brian Kernighan, Dennis Ritchie",
+            "image": "Languages/M4/Media/M4_1766237497660.png",
+            "date": "1977",
+            "location": "Bell Labs, USA",
+            "benefits": "Macro expansion, text processing, configuration.",
+            "website": "",
+            "description": "A general-purpose macro processor.",
+            "authors": [
+                {
+                    "name": "Brian Kernighan",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg"
+                },
+                {
+                    "name": "Dennis Ritchie",
+                    "image": "Languages/M4/Media/M4_1766237517525.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:32:00.153Z"
+        },
+        "Fennel": {
+            "creator": "",
+            "image": "Languages/Fennel/Media/Fennel_1766237539834.png",
+            "date": "",
+            "location": "",
+            "benefits": "",
+            "website": "",
+            "description": "",
+            "authors": [],
+            "lastUpdated": "2025-12-20T13:36:45.732Z"
+        },
+        "Elixir": {
+            "creator": "José Valim",
+            "image": "Languages/Elixir/Media/Elixir_1766237829313.png",
+            "date": "2011",
+            "location": "Plataformatec, Brazil",
+            "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
+            "website": "",
+            "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
+            "authors": [
+                {
+                    "name": "José Valim",
+                    "image": "https://github.com/josevalim.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T14:21:54.799Z"
+        },
+        "Rexx": {
+            "creator": "Mike Cowlishaw",
+            "image": "Languages/Rexx/Media/Rexx_1766237957485.png",
+            "date": "1979",
+            "location": "IBM, UK",
+            "benefits": "Scripting, mainframe automation, ease of use.",
+            "website": "",
+            "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+            "authors": [
+                {
+                    "name": "Mike Cowlishaw",
+                    "image": "Languages/Rexx/Media/Rexx_1766237986052.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:39:47.054Z"
+        },
+        "Prolog": {
+            "creator": "Alain Colmerauer",
+            "image": "Languages/Prolog/Media/Prolog_1766238007428.png",
+            "date": "1972",
+            "location": "University of Aix-Marseille, France",
+            "benefits": "Logic programming, AI, pattern matching, declarative.",
+            "website": "",
+            "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
+            "authors": [
+                {
+                    "name": "Alain Colmerauer",
+                    "image": "Languages/Prolog/Media/Prolog_1766238037920.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:40:41.174Z"
+        },
+        "Janet": {
+            "creator": "",
+            "image": "Languages/Janet/Media/Janet_1766238064569.png",
+            "date": "",
+            "location": "",
+            "benefits": "",
+            "website": "",
+            "description": "Janet is a functional and imperative programming language. It runs on Windows, Linux, macOS, BSDs, and should run on other systems with some porting. The entire language (core library, interpreter, compiler, assembler, PEG) is less than 1MB. You can also add Janet scripting to an application by embedding a single C source file and a single header.",
+            "authors": [],
+            "lastUpdated": "2025-12-20T13:41:39.218Z"
+        },
+        "Wren": {
+            "creator": "Bob Nystrom",
+            "image": "Languages/Wren/Media/Wren_1766238435821.png",
+            "date": "2013",
+            "location": "USA",
+            "benefits": "High performance, small footprint, clean syntax.",
+            "website": "",
+            "description": "A small, fast, class-based concurrent scripting language.",
+            "authors": [
+                {
+                    "name": "Bob Nystrom",
+                    "image": "Languages/Wren/Media/Wren_1766238481340.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:48:02.833Z"
+        },
+        "Raku": {
+            "creator": "Larry Wall",
+            "image": "Languages/Raku/Media/Raku_1766238511927.png",
+            "date": "2015",
+            "location": "Global",
+            "benefits": "Expressiveness, grammars, concurrency.",
+            "website": "",
+            "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
+            "authors": [
+                {
+                    "name": "Larry Wall",
+                    "image": "Languages/Raku/Media/Raku_1766238533801.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:48:54.435Z"
+        },
+        "Fish": {
+            "creator": "Axel Liljencrantz",
+            "image": "Languages/Fish/Media/Fish_1766238565702.png",
+            "date": "2005",
+            "location": "Sweden",
+            "benefits": "Autosuggestions, web-based configuration, clean syntax.",
+            "website": "",
+            "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
+            "authors": [
+                {
+                    "name": "Axel Liljencrantz",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Fish_shell_logo_ascii.svg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:50:01.163Z"
+        },
+        "PostScript": {
+            "creator": "John Warnock, Charles Geschke",
+            "image": "Languages/PostScript/Media/PostScript_1766238625179.png",
+            "date": "1982",
+            "location": "Adobe, USA",
+            "benefits": "Printing, vector graphics, stack-based, device independence.",
+            "website": "",
+            "description": "A page description language in the electronic publishing and desktop publishing business.",
+            "authors": [
+                {
+                    "name": "John Warnock",
+                    "image": "Languages/PostScript/Media/PostScript_1766238646639.png"
+                },
+                {
+                    "name": "Charles Geschke",
+                    "image": "Languages/PostScript/Media/PostScript_1766238664221.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:51:07.099Z"
+        },
+        "Gnuplot": {
+            "creator": "Thomas Williams, Colin Kelley",
+            "image": "Languages/Gnuplot/Media/Gnuplot_1766238704342.png",
+            "date": "1986",
+            "location": "USA",
+            "benefits": "Plotting, data visualization, scripting.",
+            "website": "",
+            "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
+            "authors": [
+                {
+                    "name": "Thomas Williams",
+                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238759425.png"
+                },
+                {
+                    "name": "Colin Kelley",
+                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238793629.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:53:14.575Z"
+        },
+        "Jq": {
+            "creator": "Stephen Dolan",
+            "image": "Languages/Jq/Media/Jq_1766238816968.png",
+            "date": "2012",
+            "location": "USA",
+            "benefits": "JSON processing, functional, filter-based.",
+            "website": "",
+            "description": "A lightweight and flexible command-line JSON processor.",
+            "authors": [
+                {
+                    "name": "Stephen Dolan",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/JSON_vector_logo.svg"
+                }
+            ],
+            "lastUpdated": "2025-12-20T13:59:12.446Z"
+        },
+        "OCaml": {
+            "creator": "Xavier Leroy et al.",
+            "image": "Languages/OCaml/Media/OCaml_1766240455863.png",
+            "date": "1996",
+            "location": "INRIA, France",
+            "benefits": "Functional, type safety, performance, industrial strength.",
+            "website": "",
+            "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
+            "authors": [
+                {
+                    "name": "Xavier Leroy et al.",
+                    "image": "https://github.com/xavierleroy.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T14:21:00.236Z"
+        },
+        "Haxe": {
+            "creator": "Nicolas Cannasse",
+            "image": "Languages/Haxe/Media/Haxe_1766240482489.png",
+            "date": "2005",
+            "location": "France",
+            "benefits": "Cross-platform, strong typing, single codebase.",
+            "website": "",
+            "description": "A high-level cross-platform language that compiles to many other languages.",
+            "authors": [
+                {
+                    "name": "Nicolas Cannasse",
+                    "image": "Languages/Haxe/Media/Haxe_1766240504489.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T14:21:45.812Z"
+        },
+        "F_Sharp": {
+            "creator": "Don Syme",
+            "image": "Languages/F_Sharp/Media/F_Sharp_1766249967434.png",
+            "date": "2005",
+            "location": "Microsoft Research, UK",
+            "benefits": "Functional-first, .NET integration, type inference, concise.",
+            "related": "OCaml, C#, Haskell, Scala, Python",
+            "website": "",
+            "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop.",
+            "authors": [
+                {
+                    "name": "Don Syme",
+                    "image": "https://github.com/dsyme.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T16:59:29.029Z"
+        },
+        "Clojure": {
+            "creator": "Rich Hickey",
+            "image": "Languages/Clojure/Media/Clojure_1766250041395.png",
+            "date": "2007",
+            "location": "USA",
+            "benefits": "Immutability, functional programming, JVM interoperability, simplicity.",
+            "related": "Lisp, Java, Haskell, Scheme, Racket",
+            "website": "",
+            "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming. It brings Lisp's code-as-data and immutable data structures to the JVM.",
+            "authors": [
+                {
+                    "name": "Rich Hickey",
+                    "image": "Languages/Clojure/Media/Clojure_1766250076236.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T17:01:18.114Z"
+        },
+        "Bash": {
+            "creator": "Brian Fox",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
+            "date": "1989",
+            "location": "Free Software Foundation, USA",
+            "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
+            "related": "Bourne Shell, C Shell, KornShell, Zsh",
+            "website": "",
+            "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS. It unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
+            "authors": [
+                {
+                    "name": "Brian Fox",
+                    "image": "Languages/Bash/Media/Bash_1766250114289.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T17:01:55.962Z"
+        },
+        "C_Sharp": {
+            "creator": "Anders Hejlsberg",
+            "image": "Languages/C_Sharp/Media/C_Sharp_1766250136978.png",
+            "date": "2000",
+            "location": "Microsoft, USA",
+            "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling.",
+            "related": "C++, Java, Delphi, Modula-3, F#, Visual Basic .NET",
+            "website": "",
+            "description": "A modern, object-oriented, and type-safe programming language derived from C and C++. Designed to support enterprise, desktop and web applications on the .NET platform. It emphasizes tooling, libraries and developer productivity.",
+            "authors": [
+                {
+                    "name": "Anders Hejlsberg",
+                    "image": "https://github.com/ahejlsberg.png"
+                }
+            ],
+            "lastUpdated": "2025-12-20T17:02:17.986Z"
         }
     }
 }
