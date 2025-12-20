@@ -536,7 +536,8 @@ window.showLanguageDetails = async function (lang) {
         btnWebsite.style.display = 'none';
     }
 
-    btnGrokipedia.href = `https://grokipedia.com/languages/${encodeURIComponent(displayName)}`;
+    // Fix Grokipedia Link
+    btnGrokipedia.href = `https://grokipedia.com/languages/${encodeURIComponent(lang.toLowerCase())}`; // Use lang key directly
     btnWikipedia.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(displayName)}_programming_language`;
 
     // Edit Mode Population
@@ -581,9 +582,6 @@ window.showLanguageDetails = async function (lang) {
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
 
-    // Update lock button state based on lockedLanguages
-    updateModalLockButtonState();
-
     // Default center positioning via CSS
     modal.classList.add('visible', 'centered');
     modalContent.style.left = '';
@@ -599,6 +597,7 @@ window.toggleEditMode = function (event) {
     // Prevent click from bubbling to modal container
     if (event) {
         event.stopPropagation();
+        event.preventDefault(); // Stop default action (link navigation if any)
     }
 
     const content = document.getElementById('modalContent');
@@ -612,32 +611,8 @@ window.toggleEditMode = function (event) {
     }
 };
 
-// Modal wrapper for toggleLock - uses unified lock implementation
-window.toggleLockFromModal = function (event) {
-    // Prevent click from bubbling to modal container
-    if (event) {
-        event.stopPropagation();
-    }
-
-    if (!currentEditingLang) return;
-
-    // Call the unified toggleLock function (defined in dropdown section)
-    window.toggleLock(currentEditingLang);
-
-    // Update modal button UI to reflect new state
-    updateModalLockButtonState();
-};
-
-// Helper to update modal lock button based on current lock state
-function updateModalLockButtonState() {
-    const btn = document.getElementById('lockBtn');
-    if (!btn || !currentEditingLang) return;
-
-    const isLocked = window.lockedLanguages.has(currentEditingLang);
-    btn.innerText = isLocked ? '🔒 Locked' : '🔓 Unlocked';
-    btn.style.background = isLocked ? '#4caf50' : '';
-    btn.style.color = isLocked ? '#fff' : '';
-}
+// Remove Lock button logic from modal (per user request)
+// window.toggleLockFromModal was here - removed reference in HTML and JS
 
 window.saveLanguageDetails = async function (event) {
     // Prevent click from bubbling to modal container
