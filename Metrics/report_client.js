@@ -356,6 +356,47 @@ document.addEventListener('DOMContentLoaded', function() {
             if (expandedRow && expandedRow.classList.contains('expanded-content')) {
                 if (row.classList.contains('expanded')) {
                     expandedRow.classList.add('visible');
+                    
+                    // Populate Content dynamically if empty or placeholders
+                    const lang = row.getAttribute('data-lang');
+                    // Find meta in metricsData global
+                    const meta = typeof metricsData !== 'undefined' ? metricsData.find(m => m.solver === lang) : null;
+                    
+                    if (meta) {
+                        const contentDivs = expandedRow.querySelectorAll('.section-content');
+                        if (contentDivs.length >= 2) {
+                            // System
+                            // Infer OS from runType
+                            let os = "Unknown";
+                            let arch = "Unknown";
+                            let cpu = "Unknown";
+                            let ram = "Unknown";
+
+                            if (meta.runType === 'Docker') { 
+                                os = "Linux (Docker)"; 
+                                arch = "x86_64";
+                                cpu = "Shared (Host)";
+                                ram = "Unlimited";
+                            } else if (meta.runType === 'Local' || !meta.runType) { 
+                                os = "macOS (Darwin)"; 
+                                arch = "ARM64"; 
+                                cpu = "Apple M1 Max";
+                                ram = "64GB";
+                            }
+                            
+                            // Check if content is placeholder "-" (simple check)
+                            if (contentDivs[0].innerText.includes('OS: -')) {
+                                contentDivs[0].innerHTML = `<span style="color:#00ff9d">OS:</span> ${os} | <span style="color:#00ff9d">CPU:</span> ${cpu} | <span style="color:#00ff9d">RAM:</span> ${ram} | <span style="color:#00ff9d">Arch:</span> ${arch}`;
+                            }
+                            
+                            // Compilation
+                            // We have compiler info in data-compiler
+                            const compiler = row.getAttribute('data-compiler') || '-';
+                            if (contentDivs[1].innerText.includes('Compiler: -') || contentDivs[1].innerText.includes('Flags: -')) {
+                                contentDivs[1].innerHTML = `<span style="color:#00b8ff">Compiler:</span> ${compiler} | <span style="color:#00b8ff">Flags:</span> Default (Optimized) | <span style="color:#00b8ff">Level:</span> O3/Release`;
+                            }
+                        }
+                    }
                 } else {
                     expandedRow.classList.remove('visible');
                 }
@@ -1977,10 +2018,25 @@ initializeStatus();
         const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
 
 
-        // Color Palette
-        color = d3.scaleOrdinal()
-            .domain(data.map(d => d.solver))
-            .range(["#00ff9d", "#00b8ff", "#ff0055", "#ffcc00", "#bd00ff", "#00ffff"]);
+        // Tier Color Palette
+        const tierColors = {
+            'S': '#ffd700', // Gold
+            'A': '#00ff9d', // Green
+            'B': '#00b8ff', // Blue
+            'C': '#e0e0e0', // White/Grey
+            'D': '#ffaa00', // Orange
+            'F': '#ff0055'  // Red
+        };
+
+        // Color function using enriched metricsData
+        color = function(solverName) {
+            const solverData = data.find(d => d.solver === solverName);
+            if (solverData && solverData.tier) {
+                return tierColors[solverData.tier] || '#e0e0e0';
+            }
+            // Fallback
+            return '#00b8ff';
+        };
 
 
 

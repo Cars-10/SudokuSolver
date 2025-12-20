@@ -1755,8 +1755,34 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
         const localLogo = logoMap.get(baseLang.toLowerCase());
         const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
+        
+        // Calculate Score & Tier for Client Use
+        const times = m.results.map(r => r.time);
+        const iters = m.results.map(r => r.iterations);
+        const mems = m.results.map(r => r.memory || 0).filter(m => !isNaN(m));
+        const totalTime = times.reduce((a, b) => a + b, 0);
+        const totalIters = iters.reduce((a, b) => a + b, 0);
+        const maxMem = mems.length > 0 ? Math.max(...mems) : 0;
+        const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
+
+        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
+        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
+        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
+        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
+        
+        const score = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
+        
+        let tier = 'F';
+        if (score < 0.95) tier = 'S';
+        else if (score < 1.05) tier = 'A';
+        else if (score < 1.50) tier = 'B';
+        else if (score < 3.00) tier = 'C';
+        else if (score < 10.00) tier = 'D';
+
         return {
             ...m,
+            score: score,
+            tier: tier,
             logo: localLogo || meta.logo || meta.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png"
         };
     }))};
