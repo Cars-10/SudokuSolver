@@ -602,21 +602,25 @@ window.showLanguageDetails = async function (lang, x, y) {
             image: idx === 0 ? (meta.image || meta.logo || '') : '' // First creator gets the main image
         }));
     }
+    // IMPORTANT: Assign back to meta so currentMetadata has the initialized array
+    meta.authors = authors;
 
     authors.forEach((auth, idx) => {
         const div = document.createElement('div');
         div.className = 'author-item';
         div.innerHTML = `
-                        <div class="modal-img-container" style="width: 60px; height: 60px; position: relative; border-radius: 50%; overflow: hidden;">
+                        <div class="modal-img-container" style="width: 80px; height: 80px; position: relative; border-radius: 50%; overflow: hidden; margin-bottom: 5px;">
                             <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
                                 Change
                             </div>
                         </div>
                         <span class="view-only">${auth.name}</span>
-                        <input type="text" class="modal-edit-input edit-only" value="${auth.name}" placeholder="Name" onchange="updateAuthor(${idx}, 'name', this.value)">
-                        <input type="text" class="modal-edit-input edit-only" id="author-input-${idx}" value="${auth.image}" placeholder="Image URL" onchange="updateAuthor(${idx}, 'image', this.value)">
-                        <button class="btn edit-only" style="background:#ff5555; padding: 2px 5px; font-size: 0.7em;" onclick="removeAuthor(${idx})"> Remove </button>
+                        <div class="edit-only" style="width: 100%;">
+                            <input type="text" class="modal-edit-input" value="${auth.name}" placeholder="Name" onchange="updateAuthor(${idx}, 'name', this.value)" style="margin-bottom: 2px;">
+                            <input type="text" class="modal-edit-input" id="author-input-${idx}" value="${auth.image}" placeholder="Image URL" onchange="checkAndDownloadAuthorImage(${idx}, this.value)">
+                            <button class="btn" style="background:#ff5555; padding: 2px 0; font-size: 0.7em; width: 100%; margin-top: 2px;" onclick="removeAuthor(${idx})">Remove</button>
+                        </div>
                     `;
         authorList.appendChild(div);
     });
@@ -848,22 +852,42 @@ document.addEventListener('paste', async (e) => {
     if (!modal || !modal.classList.contains('visible')) return;
     if (!modalContent || !modalContent.classList.contains('editing')) return;
 
+    // Check for active element (Author Input)
+    const activeEl = document.activeElement;
+    let targetAuthorIdx = -1;
+    if (activeEl && activeEl.id && activeEl.id.startsWith('author-input-')) {
+        targetAuthorIdx = parseInt(activeEl.id.replace('author-input-', ''));
+    }
+
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
     for (let index in items) {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-            // Default paste behavior: update main logo (legacy behavior)
-            // Or should we ask? For now, keep existing behavior: update main logo
-            const imgEl = document.getElementById('modalImg');
-            imgEl.style.opacity = '0.5';
-            const relativePath = await uploadBlob(blob);
-            if (relativePath) {
-                imgEl.src = relativePath;
-                document.getElementById('editInputs-image').value = relativePath;
-                if (currentMetadata) currentMetadata.image = relativePath;
+            
+            if (targetAuthorIdx >= 0) {
+                // Upload for Author
+                const imgEl = document.getElementById(`author-img-${targetAuthorIdx}`);
+                if (imgEl) imgEl.style.opacity = '0.5';
+                const relativePath = await uploadBlob(blob);
+                if (relativePath) {
+                    updateAuthor(targetAuthorIdx, 'image', relativePath);
+                    if (imgEl) imgEl.src = relativePath;
+                    activeEl.value = relativePath;
+                }
+                if (imgEl) imgEl.style.opacity = '1';
+            } else {
+                // Upload for Main Logo
+                const imgEl = document.getElementById('modalImg');
+                imgEl.style.opacity = '0.5';
+                const relativePath = await uploadBlob(blob);
+                if (relativePath) {
+                    imgEl.src = relativePath;
+                    document.getElementById('editInputs-image').value = relativePath;
+                    if (currentMetadata) currentMetadata.image = relativePath;
+                }
+                imgEl.style.opacity = '1';
             }
-            imgEl.style.opacity = '1';
         } else if (item.kind === 'string') {
             item.getAsString(async (url) => {
                 if (url.match(/\.(jpeg|jpg|gif|png|webp)$/i) || url.startsWith('http')) {
@@ -879,9 +903,18 @@ document.addEventListener('paste', async (e) => {
                             if (res.ok) {
                                 const data = await res.json();
                                 const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-                                document.getElementById('modalImg').src = relativePath;
-                                document.getElementById('editInputs-image').value = relativePath;
-                                if (currentMetadata) currentMetadata.image = relativePath;
+                                
+                                if (targetAuthorIdx >= 0) {
+                                    // Update Author
+                                    updateAuthor(targetAuthorIdx, 'image', relativePath);
+                                    document.getElementById(`author-img-${targetAuthorIdx}`).src = relativePath;
+                                    activeEl.value = relativePath;
+                                } else {
+                                    // Update Main Logo
+                                    document.getElementById('modalImg').src = relativePath;
+                                    document.getElementById('editInputs-image').value = relativePath;
+                                    if (currentMetadata) currentMetadata.image = relativePath;
+                                }
                             } else {
                                 alert("Download failed");
                             }
@@ -894,6 +927,43 @@ document.addEventListener('paste', async (e) => {
         }
     }
 });
+
+window.checkAndDownloadAuthorImage = async function(idx, value) {
+    // Check if URL
+    if (value.match(/\.(jpeg|jpg|gif|png|webp)$/i) || value.startsWith('http')) {
+        const doDownload = confirm("Detected Image URL. Download and save locally?");
+        if (doDownload) {
+            try {
+                const res = await fetch('/api/download-media', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: value, lang: currentEditingLang })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
+                    
+                    // Update field and data
+                    updateAuthor(idx, 'image', relativePath);
+                    document.getElementById(`author-input-${idx}`).value = relativePath;
+                    
+                    // Update Image Preview
+                    const imgEl = document.getElementById(`author-img-${idx}`);
+                    if (imgEl) imgEl.src = relativePath;
+                    
+                    return;
+                } else {
+                    alert("Download failed");
+                }
+            } catch (e) {
+                alert("Download error: " + e.message);
+            }
+        }
+    }
+    // Fallback: just update the value
+    updateAuthor(idx, 'image', value);
+};
 
 // Upload Input (Main Logo)
 window.uploadLogo = async function (input) {

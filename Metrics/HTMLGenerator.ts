@@ -703,6 +703,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             /* Layout - Auto height, no scrollbar */
             flex: 0 1 auto;
             overflow: visible;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
 
             /* No scrollbar needed */
             cursor: auto;
@@ -760,24 +763,27 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         /* Author List Styling */
         .author-list {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             gap: 15px;
             margin-top: 10px;
         }
 
         .author-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
             padding: 10px;
             background: #24283b;
             border-radius: 8px;
             border: 1px solid #414868;
+            width: 140px; /* Fixed width for grid alignment */
         }
 
         .author-img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
             background: #1a1b26;
@@ -788,7 +794,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         .author-item span {
             color: #c0caf5;
             font-weight: 500;
-            flex: 1;
+            text-align: center;
+            font-size: 0.9em;
+            word-break: break-word;
+        }
+        
+        .author-item .modal-edit-input {
+            font-size: 0.8em;
+            padding: 4px;
+            margin-bottom: 4px;
+            text-align: center;
         }
 
         /* Responsive adjustments */
