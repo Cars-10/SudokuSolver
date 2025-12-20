@@ -312,8 +312,18 @@ app.post('/api/upload-media', upload.single('file'), (req, res) => {
         const filename = `${lang}_${Date.now()}${ext}`;
         const targetPath = path.join(langDir, filename);
 
-        // Move file (copy then unlink because simple rename might fail across partitions/devices in some envs, but rename is usually fine)
-        fs.renameSync(req.file.path, targetPath);
+        // Move file (copy then unlink because simple rename might fail across partitions/devices in some envs)
+        try {
+            fs.renameSync(req.file.path, targetPath);
+        } catch (renameErr) {
+            if (renameErr.code === 'EXDEV') {
+                // Cross-device link not permitted, use copy and unlink
+                fs.copyFileSync(req.file.path, targetPath);
+                fs.unlinkSync(req.file.path);
+            } else {
+                throw renameErr;
+            }
+        }
 
         res.json({ success: true, filename: filename });
     } catch (e) {
