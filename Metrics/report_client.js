@@ -537,7 +537,7 @@ window.showLanguageDetails = async function (lang) {
     }
 
     // Fix Grokipedia Link
-    btnGrokipedia.href = `https://grokipedia.com/languages/${encodeURIComponent(lang.toLowerCase())}`; // Use lang key directly
+    btnGrokipedia.href = `https://grokipedia.com/search?q=${encodeURIComponent(displayName + " programming language")}`;
     btnWikipedia.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(displayName)}_programming_language`;
 
     // Edit Mode Population
