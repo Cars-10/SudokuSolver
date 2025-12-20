@@ -1534,6 +1534,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Geometric mean: 4th root of product of all ratios
         const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
 
+        // Tier Calculation
+        let tier = 'F';
+        let tierClass = 'tier-f';
+        if (normalizedScore < 0.95) { tier = 'S'; tierClass = 'tier-s'; }
+        else if (normalizedScore < 1.05) { tier = 'A'; tierClass = 'tier-a'; }
+        else if (normalizedScore < 1.50) { tier = 'B'; tierClass = 'tier-b'; }
+        else if (normalizedScore < 3.00) { tier = 'C'; tierClass = 'tier-c'; }
+        else if (normalizedScore < 10.00) { tier = 'D'; tierClass = 'tier-d'; }
+
         // Find min/max for highlighting
         const minTime = Math.min(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
         const maxTime = Math.max(...sortedMetrics.map(m => m.results.reduce((a, b) => a + b.time, 0)));
@@ -1636,8 +1645,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 </div>
             </td>
             <td class="score-col">
-                <div class="total-score" style="text-align: center; color: ${normalizedScore <= 1.0 ? 'var(--primary)' : '#ff0055'};">
-                    ${normalizedScore.toFixed(2)}
+                <div class="score-container" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <div class="tier-badge ${tierClass}" title="Tier ${tier}">${tier}</div>
+                    <div class="total-score" style="color: ${normalizedScore <= 1.0 ? 'var(--primary)' : '#ff0055'};">
+                        ${normalizedScore.toFixed(2)}
+                    </div>
                 </div>
             </td>
             <td>
