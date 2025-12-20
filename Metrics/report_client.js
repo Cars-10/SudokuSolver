@@ -522,7 +522,10 @@ window.showLanguageDetails = async function (lang, x, y) {
     lastPopulatedMetadata = JSON.parse(JSON.stringify(meta)); // Deep copy for comparison/restoration
 
     // View Mode Population
-    const img = meta.image || meta.logo || "";
+    // Use the same logo as the table (pre-calculated in metricsData)
+    const tableData = (typeof metricsData !== 'undefined') ? metricsData.find(m => m.solver === lang) : null;
+    const img = tableData?.logo || meta.image || meta.logo || "";
+    
     const modalImg = document.getElementById('modalImg');
     modalImg.src = img;
 
@@ -595,7 +598,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     // Edit Mode Population
     document.getElementById('editInputs-title').value = displayName;
     document.getElementById('editInputs-creator').value = meta.creator || "";
-    document.getElementById('editInputs-image').value = meta.image || meta.logo || "";
+    document.getElementById('editInputs-image').value = img;
     document.getElementById('editInputs-date').value = meta.date || "";
     document.getElementById('editInputs-location').value = meta.location || "";
     document.getElementById('editInputs-benefits').value = meta.benefits || "";
