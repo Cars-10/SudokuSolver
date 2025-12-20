@@ -835,6 +835,14 @@ export const personalities: Record<string, Record<string, string>> = {
     }
 };
 export const languageMetadata: Record<string, any> = {
+    "Ada": {
+        "creator": "Jean Ichbiah",
+        "date": "1980",
+        "description": "A statically typed, structured, imperative, and object-oriented high-level language, designed for safety-critical and real-time systems.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jean_Ichbiah.jpg/440px-Jean_Ichbiah.jpg",
+        "location": "CII Honeywell Bull, France",
+        "benefits": "Strong typing, explicit concurrency, and high reliability."
+    },
     "Assembly": {
         "creator": "Kathleen Booth",
         "date": "1947",
