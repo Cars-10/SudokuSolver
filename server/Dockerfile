@@ -32,8 +32,10 @@ RUN apt-get update && apt-get install -y \
     # Libraries for image processing (Sharp/libvips + SVG support)
     libvips-dev \
     librsvg2-dev \
-    # Chromium for Puppeteer
-    chromium-browser \
+    # Google Chrome for Puppeteer
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update && apt-get install -y google-chrome-stable \
     # Font packages for international support
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \

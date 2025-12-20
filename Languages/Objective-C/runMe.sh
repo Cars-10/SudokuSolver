@@ -10,12 +10,15 @@ source ../common.sh
 compile() {
     echo "Compiling Objective-C solver..."
     
-    # Use gnustep-config to get flags and libs
-    OBJC_FLAGS=$(gnustep-config --objc-flags)
-    OBJC_LIBS=$(gnustep-config --objc-libs)
-    
-    # Add -std=c99 for for-loop declarations and other modern C features
-    gcc -o sudoku sudoku.m $OBJC_FLAGS $OBJC_LIBS -lgnustep-base
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS native compilation
+        clang -O3 -o sudoku sudoku.m -framework Foundation
+    else
+        # Linux/GNUStep fallback
+        OBJC_FLAGS=$(gnustep-config --objc-flags)
+        OBJC_LIBS=$(gnustep-config --objc-libs)
+        gcc -o sudoku sudoku.m $OBJC_FLAGS $OBJC_LIBS -lgnustep-base
+    fi
     
     if [ $? -ne 0 ]; then
         report_env_error "Compilation failed"

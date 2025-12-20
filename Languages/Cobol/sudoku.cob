@@ -25,32 +25,35 @@
           05 G-ROW OCCURS 9.
              10 G-COL OCCURS 9 PIC 9.
              
-       01 ITERATIONS PIC 9(12) COMP VALUE 0.
-       01 SOLVED-FLAG PIC X VALUE 'N'.
+       01 ITERATIONS      PIC 9(12) COMP VALUE 0.
+       01 DISP-ITER       PIC Z(12).
+       01 SOLVED-FLAG     PIC X VALUE 'N'.
 
-       01 DISP-LINE PIC X(20).
-       01 DISP-R PIC 9.
-       01 DISP-C PIC 9.
+       01 DISP-LINE       PIC X(20).
+       01 DISP-R          PIC 99.
+       01 DISP-C          PIC 99.
        
-       01 TEMP-R PIC 9.
-       01 TEMP-C PIC 9.
+       01 TEMP-R          PIC 99.
+       01 TEMP-C          PIC 99.
 
-       *> Stack for iterative backtracking
+       *> Stack for manual backtracking (depth max 81)
        01 STACK-DATA.
           05 STACK-PTR PIC 99 VALUE 0.
           05 STACK-ENTRY OCCURS 81.
-             10 S-R PIC 9.
-             10 S-C PIC 9.
-             10 S-VAL PIC 9.
+             10 S-R PIC 99.
+             10 S-C PIC 99.
+             10 S-VAL PIC 99.
 
-       01 CUR-R PIC 9.
-       01 CUR-C PIC 9.
-       01 CUR-VAL PIC 9.
-       01 IS-VALID PIC X.
+       01 CUR-R PIC 99.
+       01 CUR-C PIC 99.
+       01 CUR-VAL PIC 99.
+       01 IS-VALID-FLAG PIC X.
        01 I PIC 99.
        01 J PIC 99.
-       01 BOX-R PIC 9.
-       01 BOX-C PIC 9.
+       01 BOX-R PIC 99.
+       01 BOX-C PIC 99.
+       01 TI PIC 99.
+       01 TJ PIC 99.
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
@@ -59,7 +62,7 @@
                STOP RUN
            END-IF
 
-           DISPLAY WS-FILENAME
+           DISPLAY FUNCTION TRIM(WS-FILENAME)
 
            PERFORM READ-MATRIX
            DISPLAY " "
@@ -69,14 +72,15 @@
            MOVE 0 TO ITERATIONS
            MOVE 'N' TO SOLVED-FLAG
            
-           PERFORM SOLVE-ITERATIVE
+           PERFORM SOLVE-SUDOKU
            
            IF SOLVED-FLAG = 'Y'
                DISPLAY " "
                DISPLAY "Puzzle:"
                PERFORM PRINT-BOARD
                DISPLAY " "
-               DISPLAY "Solved in Iterations=" ITERATIONS
+               MOVE ITERATIONS TO DISP-ITER
+               DISPLAY "Solved in Iterations=" FUNCTION TRIM(DISP-ITER)
            ELSE
                DISPLAY "No solution found."
            END-IF
@@ -118,9 +122,10 @@
                DISPLAY FUNCTION TRIM(DISP-LINE)
            END-PERFORM.
 
-       SOLVE-ITERATIVE.
+       SOLVE-SUDOKU.
            MOVE 0 TO STACK-PTR
            PERFORM FIND-NEXT-EMPTY
+           
            IF CUR-R = 0
                MOVE 'Y' TO SOLVED-FLAG
                EXIT PARAGRAPH
@@ -134,6 +139,7 @@
            PERFORM UNTIL STACK-PTR = 0 OR SOLVED-FLAG = 'Y'
                MOVE S-R(STACK-PTR) TO CUR-R
                MOVE S-C(STACK-PTR) TO CUR-C
+               
                ADD 1 TO S-VAL(STACK-PTR)
                MOVE S-VAL(STACK-PTR) TO CUR-VAL
                
@@ -143,7 +149,7 @@
                ELSE
                    ADD 1 TO ITERATIONS
                    PERFORM CHECK-VALIDITY
-                   IF IS-VALID = 'Y'
+                   IF IS-VALID-FLAG = 'Y'
                        MOVE CUR-VAL TO G-COL(CUR-R, CUR-C)
                        PERFORM FIND-NEXT-EMPTY
                        IF CUR-R = 0
@@ -171,32 +177,41 @@
            END-PERFORM.
 
        CHECK-VALIDITY.
-           MOVE 'Y' TO IS-VALID
+           MOVE 'Y' TO IS-VALID-FLAG
            *> Check Row
-           PERFORM VARYING J FROM 1 BY 1 UNTIL J > 9 OR IS-VALID = 'N'
+           PERFORM VARYING J FROM 1 BY 1 UNTIL J > 9
                IF G-COL(CUR-R, J) = CUR-VAL
-                   MOVE 'N' TO IS-VALID
+                   MOVE 'N' TO IS-VALID-FLAG
+                   EXIT PARAGRAPH
                END-IF
            END-PERFORM
            
            *> Check Col
-           IF IS-VALID = 'Y'
-               PERFORM VARYING I FROM 1 BY 1 UNTIL I > 9 OR IS-VALID = 'N'
-                   IF G-COL(I, CUR-C) = CUR-VAL
-                       MOVE 'N' TO IS-VALID
-                   END-IF
-               END-PERFORM
-           END-IF
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 9
+               IF G-COL(I, CUR-C) = CUR-VAL
+                   MOVE 'N' TO IS-VALID-FLAG
+                   EXIT PARAGRAPH
+               END-IF
+           END-PERFORM
            
            *> Check Box
-           IF IS-VALID = 'Y'
-               COMPUTE BOX-R = FUNCTION INTEGER((CUR-R - 1) / 3) * 3 + 1
-               COMPUTE BOX-C = FUNCTION INTEGER((CUR-C - 1) / 3) * 3 + 1
-               PERFORM VARYING I FROM 0 BY 1 UNTIL I > 2 OR IS-VALID = 'N'
-                   PERFORM VARYING J FROM 0 BY 1 UNTIL J > 2 OR IS-VALID = 'N'
-                       IF G-COL(BOX-R + I, BOX-C + J) = CUR-VAL
-                           MOVE 'N' TO IS-VALID
-                       END-IF
-                   END-PERFORM
+           COMPUTE TI = CUR-R - 1
+           DIVIDE 3 INTO TI GIVING BOX-R
+           COMPUTE BOX-R = BOX-R * 3 + 1
+           
+           COMPUTE TJ = CUR-C - 1
+           DIVIDE 3 INTO TJ GIVING BOX-C
+           COMPUTE BOX-C = BOX-C * 3 + 1
+
+           PERFORM VARYING I FROM 0 BY 1 UNTIL I > 2
+               PERFORM VARYING J FROM 0 BY 1 UNTIL J > 2
+                   COMPUTE TI = BOX-R + I
+                   COMPUTE TJ = BOX-C + J
+                   IF G-COL(TI, TJ) = CUR-VAL
+                       MOVE 'N' TO IS-VALID-FLAG
+                       EXIT PARAGRAPH
+                   END-IF
                END-PERFORM
-           END-IF.
+           END-PERFORM.
+
+       END PROGRAM SUDOKU.
