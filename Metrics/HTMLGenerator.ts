@@ -1659,7 +1659,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             typeIcon = '<span title="Local Run" style="margin-left:5px; font-size: 0.8em;">💻</span>';
         }
 
-        const historyText = (languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
+        const historyText = (meta.history || languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
 
         // Logo Lookup with Special Handling
         let lookupKey = baseLang.toLowerCase();
@@ -1796,11 +1796,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <div class="section-title">Matrix Results</div>
                             <div class="section-content">
                                 ${m.results.filter(r => r != null).map((r, idx) => {
-                                    const memMb = (r.memory || 0) / 1024 / 1024;
-                                    const time = r.time || 0;
-                                    const iterations = r.iterations || 0;
-                                    return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
-                                }).join(' | ')}
+            const memMb = (r.memory || 0) / 1024 / 1024;
+            const time = r.time || 0;
+            const iterations = r.iterations || 0;
+            return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
+        }).join(' | ')}
                             </div>
                         </div>
                     </div>
@@ -1829,15 +1829,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const tailoring = ${safeJSON(tailoringConfig)};
             const metricsData = ${safeJSON(metrics.map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
-        
+
         // Logo Lookup with Special Handling
         let lookupKey = baseLang.toLowerCase();
         if (lookupKey === 'c#') lookupKey = 'c_sharp';
         if (lookupKey === 'f#') lookupKey = 'f_sharp';
         const localLogo = logoMap.get(lookupKey);
-        
+
         const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
-        
+
         // Calculate Score & Tier for Client Use
         const times = m.results.map(r => r.time);
         const iters = m.results.map(r => r.iterations);
@@ -1851,9 +1851,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
         const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
         const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
-        
+
         const score = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
-        
+
         let tier = 'F';
         if (score < 0.95) tier = 'S';
         else if (score < 1.05) tier = 'A';
