@@ -805,6 +805,23 @@
                 }
             ],
             "lastUpdated": "2025-12-20T17:02:17.986Z"
+        },
+        "C++": {
+            "creator": "Bjarne Stroustrup",
+            "image": "logos/C++.png",
+            "date": "1985",
+            "location": "Bell Labs, USA",
+            "benefits": "Performance, object-oriented, rich ecosystem, hardware control.",
+            "related": "C, Simula, Ada, Rust, D, Java, C#",
+            "website": "",
+            "description": "Multi-paradigm language combining procedural and object-oriented programming. It extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
+            "authors": [
+                {
+                    "name": "Bjarne Stroustrup",
+                    "image": "Languages/C++/Media/C++_1766311229769.png"
+                }
+            ],
+            "lastUpdated": "2025-12-21T10:00:33.766Z"
         }
     }
 }

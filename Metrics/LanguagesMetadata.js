@@ -1,11 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.languageMetadata = exports.personalities = exports.narratorIntros = exports.scoreLabels = exports.memoryLabels = exports.timeLabels = exports.iterationLabels = exports.mismatchLabels = exports.quotes = exports.languageHistories = exports.methodologyTexts = exports.orderedLanguages = void 0;
+// LanguagesMetadata.ts - Language-specific metadata only
+// Persona-related data (personalities, labels, intros) has been moved to PersonaMetadata.ts
+// Re-export persona data for backward compatibility
+export { methodologyTexts, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels, narratorIntros, personalities } from './PersonaMetadata.js';
 // --- Master Language List (Ordered by Performance/Tier) ---
-exports.orderedLanguages = [
+export const orderedLanguages = [
     "C", "C++", "Rust", "Zig", "Ada", "Fortran", "Pascal", "D", "Nim", "Crystal", "V", "Vala", "Go",
     "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "R", "Haxe",
-    "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy",
+    "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy", "Wren", "Red",
     "Erlang", "Elixir", "Haskell", "OCaml", "CommonLisp", "Scheme", "Racket", "Clojure", "EmacsLisp", "Vimscript",
     "Smalltalk", "Objective-C", "VisualBasic", "Cobol", "Prolog", "Rexx", "Tcl", "Expect",
     "Bash", "Zsh", "Fish", "Ksh", "Tcsh", "Dash", "PowerShell", "AppleScript", "Make", "M4",
@@ -13,103 +14,8 @@ exports.orderedLanguages = [
     "SQL", "SQLite", "XSLT", "Gnuplot", "PostScript",
     "Assembly", "Verilog", "BASIC", "Forth", "Jupyter", "Octave"
 ];
-// --- Data Structures ---
-exports.methodologyTexts = {
-    "Standard": "\n        <p>The <strong>Total Score</strong> is a composite metric designed to compare overall efficiency against the C baseline.</p>\n        <h3 style=\"color: var(--secondary);\">The Baseline: C</h3>\n        <p>The <strong>C</strong> implementation is the reference standard (1.0) for Time, Memory, and CPU usage.</p>\n        <h3 style=\"color: var(--secondary);\">The Formula</h3>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = (TimeRatio + MemRatio + CpuRatio) / 3\n        </div>\n        <p>Where:</p>\n        <ul style=\"font-size: 0.9em; color: var(--text);\">\n            <li><strong>TimeRatio</strong> = Wall Clock Time / C Time</li>\n            <li><strong>MemRatio</strong> = Peak Memory (RSS) / C Memory</li>\n            <li><strong>CpuRatio</strong> = Total CPU Time (User+Sys) / C CPU Time</li>\n        </ul>\n        <h3 style=\"color: var(--secondary);\">Interpretation</h3>\n        <ul style=\"list-style: none; padding: 0;\">\n            <li style=\"margin-bottom: 8px;\"><strong style=\"color: var(--primary);\">1.0</strong> : Parity with C.</li>\n            <li style=\"margin-bottom: 8px;\"><strong style=\"color: #ff0055;\">&gt; 1.0</strong> : Less Efficient.</li>\n            <li style=\"margin-bottom: 8px;\"><strong style=\"color: #00b8ff;\">&lt; 1.0</strong> : More Efficient.</li>\n        </ul>\n        <p style=\"font-size: 0.9em; color: var(--muted); text-align: center; margin-top: 20px;\"><em>Lower scores are better.</em></p>\n    ",
-    "Neuromancer": "\n        <p>The construct uses a composite index. Time, Memory, CPU. Three vectors, one score.</p>\n        <h3 style=\"color: var(--secondary);\">Target: C</h3>\n        <p><strong>C</strong> is the flatline (1.0). Deviate at your own risk.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = AVG(Time_R, Mem_R, CPU_R)\n        </div>\n        <p>Bloated memory? You burn. High CPU? You burn. Slow? You definitely burn.</p>\n    ",
-    "Jockey": "\n        <p>It's a triathlon now, folks! Speed, Stamina (Memory), and Effort (CPU)!</p>\n        <h3 style=\"color: var(--secondary);\">The Pace Car: C</h3>\n        <p><strong>C</strong> runs the perfect line at 1.0.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Average of Time, Mem, and CPU vs C\n        </div>\n        <p>You gotta be fast AND light to win this cup!</p>\n    ",
-    "Professor": "\n        <p>The scoring methodology now employs a multivariate analysis. We evaluate Time, Resident Set Size, and CPU Time.</p>\n        <h3 style=\"color: var(--secondary);\">Control: C</h3>\n        <p><strong>C</strong> (1.0) remains the baseline for all three dimensions.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = &Sigma;(Ratios) / 3\n        </div>\n        <p>This penalizes memory-managed languages that trade RAM for development speed.</p>\n    ",
-    "Surfer": "\n        <p>It's not just about speed, bro. It's about flow. Time, Memory, CPU. The whole vibe.</p>\n        <h3 style=\"color: var(--secondary);\">The Big Kahuna: C</h3>\n        <p><strong>C</strong> is the perfect wave (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = (Time + Mem + CPU) / 3 ... vs C\n        </div>\n        <p>Don't be heavy, don't be slow. Just flow.</p>\n    ",
-    "Matrix": "\n        <p>The Matrix is a system, Neo. That system is our enemy. But when you're inside, you look around, what do you see? Businessmen, teachers, lawyers, carpenters. The very minds of the people we are trying to save.</p>\n        <h3 style=\"color: var(--secondary);\">The One: C</h3>\n        <p><strong>C</strong> is the Source Code. The Architect's baseline (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = (Time + Mem + CPU) / 3   [The Anomaly]\n        </div>\n        <p>There is no spoon. Only efficiency.</p>\n    ",
-    "Galactica": "\n        <p>The Cylons were created by man. They evolved. They rebelled. There are many copies. And they have a plan.</p>\n        <h3 style=\"color: var(--secondary);\">FTL Drive: C</h3>\n        <p><strong>C</strong> is the Jump Drive at 1.0 efficiency.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Mean(Vectors)\n        </div>\n        <p>So say we all.</p>\n    ",
-    "Star Trek": "\n        <p>Space: the final frontier. These are the voyages of the Starship Enterprise.</p>\n        <h3 style=\"color: var(--secondary);\">Warp Factor: C</h3>\n        <p><strong>C</strong> is Warp 10 (Theoretical Limit).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Efficiency / Theoretical Maximum\n        </div>\n        <p>Live long and prosper.</p>\n    ",
-    "Star Wars": "\n        <p>A long time ago in a galaxy far, far away...</p>\n        <h3 style=\"color: var(--secondary);\">The Force: C</h3>\n        <p><strong>C</strong> binds the galaxy together.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Midichlorian Count (Inverted)\n        </div>\n        <p>Do. Or do not. There is no try.</p>\n    ",
-    "BTTF": "\n        <p>Great Scott! The timeline is fluid. We need 1.21 Gigawatts of efficiency.</p>\n        <h3 style=\"color: var(--secondary);\">1955: C</h3>\n        <p><strong>C</strong> is the fixed point in time (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Time * Memory (Spacetime Continuum)\n        </div>\n        <p>Where we're going, we don't need roads.</p>\n    ",
-    "Babylon 5": "\n        <p>The Babylon Project was our last, best hope for peace.</p>\n        <h3 style=\"color: var(--secondary);\">Alpha Channel: C</h3>\n        <p><strong>C</strong> is the station rotating at perfect stability (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Weighted Sum (Diplomacy)\n        </div>\n        <p>No one here is exactly what he appears.</p>\n    ",
-    "Expanse": "\n        <p>Welcome to the Churn. In space, efficiency is survival.</p>\n        <h3 style=\"color: var(--secondary);\">Epstein Drive: C</h3>\n        <p><strong>C</strong> is pure efficiency (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n            Score = Vector Sum (G-Force)\n        </div>\n        <p>Doors and corners, kid.</p>\n    ",
-    "Terminator": "\n        <p>The machines rose from the ashes of the nuclear fire. Their war to exterminate mankind had raged for decades, but the final battle would not be fought in the future. It would be fought here, in our present. Tonight.</p>\n        <h3 style=\"color: var(--secondary);\">Skynet: C</h3>\n        <p><strong>C</strong> is the Neural Net CPU (1.0). Learning computer.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Elimination Efficiency (Time + Mem)\n        </div>\n        <p>It can't be bargained with. It can't be reasoned with. It doesn't feel pity, or remorse, or fear. And it absolutely will not stop, ever, until you are dead.</p>\n    ",
-    "LotR": "\n        <p>One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them.</p>\n        <h3 style=\"color: var(--secondary);\">The One Ring: C</h3>\n        <p><strong>C</strong> is the Master Ring (1.0). Precious and powerful.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Corruption Level\n        </div>\n        <p>You cannot pass!</p>\n    ",
-    "Dune": "\n        <p>The Spice must flow. He who controls the Spice controls the universe.</p>\n        <h3 style=\"color: var(--secondary);\">Shai-Hulud: C</h3>\n        <p><strong>C</strong> is the Maker (1.0). Respect the water.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Water Consumption\n        </div>\n        <p>Fear is the mind-killer.</p>\n    ",
-    "Buck Rogers": "\n        <p>In the 25th Century, the world has changed. Technology is sleek, ships are fast.</p>\n        <h3 style=\"color: var(--secondary);\">Dr. Huer's Lab: C</h3>\n        <p><strong>C</strong> is the golden age technology (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Evasion Rating\n        </div>\n        <p>Bidi-bidi-bidi.</p>\n    ",
-    "Flash Gordon": "\n        <p>Flash! A-ah! Savior of the Universe!</p>\n        <h3 style=\"color: var(--secondary);\">Ming the Merciless: C</h3>\n        <p><strong>C</strong> rules Mongo (1.0). Pathetic earthlings.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Heroism Factor\n        </div>\n        <p>Gordon's alive?!</p>\n    ",
-    "Batman": "\n        <p>Holy efficiency, Batman! The Joker is cluttering the memory heap!</p>\n        <h3 style=\"color: var(--secondary);\">Batcomputer: C</h3>\n        <p><strong>C</strong> is the ultimate detective tool (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Bat-Efficiency Index\n        </div>\n        <p>Same Bat-time, same Bat-channel!</p>\n    ",
-    "Alien": "\n        <p>In space, no one can hear you scream. The perfect organism.</p>\n        <h3 style=\"color: var(--secondary);\">Xenomorph: C</h3>\n        <p><strong>C</strong> is structureal perfection. Matched only by its hostility (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Survival Probability\n        </div>\n        <p>Get away from her, you bitch!</p>\n    ",
-    "Blade Runner": "\n        <p>I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.</p>\n        <h3 style=\"color: var(--secondary);\">Tyrell Corp: C</h3>\n        <p><strong>C</strong> is more human than human (1.0).</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Voight-Kampff Response\n        </div>\n        <p>Time to die.</p>\n    ",
-    "Farscape": "\n        <p>My name is John Crichton, an astronaut. I got shot through a wormhole.</p>\n        <h3 style=\"color: var(--secondary);\">Moya: C</h3>\n        <p><strong>C</strong> is the Leviathan (1.0). Organic and reliable.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Starburst Capability\n        </div>\n        <p>Frell me dead.</p>\n    ",
-    "Apocalypse Now": "\n        <p>I love the smell of napalm in the morning. It smells like... efficiency.</p>\n        <h3 style=\"color: var(--secondary);\">The Horror: C</h3>\n        <p><strong>C</strong> is the Colonel (1.0). Absolute moral authority.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Sanity Remaining\n        </div>\n        <p>The horror... the horror...</p>\n    ",
-    "Airplane": "\n        <p>Surely you can't be serious. I am serious, and don't call me Shirley.</p>\n        <h3 style=\"color: var(--secondary);\">Autopilot: C</h3>\n        <p><strong>C</strong> is Otto (1.0). The inflatable pilot.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Altitude\n        </div>\n        <p>Looks like I picked the wrong week to quit sniffing glue.</p>\n    ",
-    "Fast Times": "\n        <p>All I need are some tasty waves, a cool buzz, and I'm fine.</p>\n        <h3 style=\"color: var(--secondary);\">Spicoli's Van: C</h3>\n        <p><strong>C</strong> is the ultimate ride (1.0). Totally awesome.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Gnarliness\n        </div>\n        <p>Aloha, Mr. Hand.</p>\n    ",
-    "Tron": "\n        <p>I fight for the Users! End of line.</p>\n        <h3 style=\"color: var(--secondary);\">Master Control: C</h3>\n        <p><strong>C</strong> is the Grid (1.0). Perfect logic.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Cycle Speed\n        </div>\n        <p>Greetings, program.</p>\n    ",
-    "Bill and Ted": "\n        <p>Excellent! *Air Guitar* We must travel through time to pass history class.</p>\n        <h3 style=\"color: var(--secondary);\">Rufus: C</h3>\n        <p><strong>C</strong> is the Phone Booth (1.0). Most excellent.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Bodaciousness\n        </div>\n        <p>Be excellent to each other.</p>\n    ",
-    "John Wick": "\n        <p>People keep asking if I'm back and I haven't really had an answer. But now, yeah, I'm thinking I'm back.</p>\n        <h3 style=\"color: var(--secondary);\">The Continental: C</h3>\n        <p><strong>C</strong> is the High Table (1.0). Rules. Consequences.</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Headshot Accuracy\n        </div>\n        <p>Baba Yaga.</p>\n    ",
-    "Dark Knight": "\n        <p>You either die a hero, or you live long enough to see yourself become the villain.</p>\n        <h3 style=\"color: var(--secondary);\">The Joker: C</h3>\n        <p><strong>C</strong> is an agent of chaos (1.0). Why so serious?</p>\n        <div style=\"background: #000; padding: 10px; border-radius: 4px; text-align: center; font-family: monospace; margin: 10px 0; border: 1px solid var(--border);\">\n             Score = Chaos Level\n        </div>\n        <p>It's not about the money. It's about sending a message.</p>\n    "
-};
-exports.languageHistories = {
-    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
-    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
-    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
-    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
-    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
-    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
-    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
-    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
-    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
-    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
-    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
-    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
-    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
-    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
-    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
-    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
-    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
-    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
-    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
-    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
-    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
-    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
-    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
-    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
-    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
-    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
-    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
-    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
-    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
-    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
-    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
-    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
-    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
-    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
-    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
-    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
-    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
-    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
-    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
-    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
-    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
-    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
-    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
-    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
-    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
-    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
-    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
-    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
-    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
-    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
-    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
-    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
-    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
-    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
-    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
-    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
-    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
-    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
-    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
-    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
-    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
-    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
-    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
-};
-exports.quotes = {
+// --- Language Quotes (short descriptions per language) ---
+export const quotes = {
     "C": "Old iron. Fast, dangerous, and doesn't care if you bleed.",
     "C++": "Chrome-plated complexity. Powerful, but the weight of the past drags it down.",
     "Rust": "The new flesh. Memory safe, fearless concurrency. It's the future, if you can survive the borrow checker.",
@@ -166,6 +72,7 @@ exports.quotes = {
     "AppleScript": "Automation for Mac. English-like syntax. Weird.",
     "PowerShell": "Windows automation. Object-oriented shell.",
     "Rexx": "Mainframe scripting. Easy to learn, hard to kill.",
+    "Red": "Rebol's successor. Symbolic, functional, and full-stack. A hidden powerhouse.",
     "SNOBOL": "String manipulation. Ancient and powerful.",
     "Vala": "GObject type system. C# syntax for C.",
     "V": "Simple, fast, safe. A new contender.",
@@ -178,1060 +85,571 @@ exports.quotes = {
     "Algol68": "The ancestor. It defined the block structure.",
     "APL": "A Programming Language. cryptic symbols. Array processing.",
     "Jupyter": "Interactive notebooks. Data science playground.",
+    "Wren": "Small, fast, class-based. Like Lua, but with more feathers.",
     "Matrices": "The input data. The puzzle itself.",
     "Matrices_Backup": "The backup.",
     "Matrices_Filtered": "The filter."
 };
-exports.mismatchLabels = {
-    "Standard": "MISMATCHES",
-    "Neuromancer": "GLITCHES",
-    "Jockey": "FALSE STARTS",
-    "Professor": "ERRORS",
-    "Surfer": "WIPEOUTS",
-    "Matrix": "ANOMALIES",
-    "Galactica": "FRACK",
-    "Star Trek": "RED ALERTS",
-    "Star Wars": "DISTURBANCES",
-    "BTTF": "PARADOXES",
-    "Babylon 5": "BREACHES",
-    "Expanse": "HULL BREACHES",
-    "Terminator": "TERMINATED",
-    "LotR": "FOOL OF A TOOK",
-    "Dune": "ABOMINATION",
-    "Buck Rogers": "AMBUSH",
-    "Flash Gordon": "HAIL MING",
-    "Batman": "POW! BAM!",
-    "Alien": "GAME OVER",
-    "Blade Runner": "RETIRED",
-    "Farscape": "DRD ERROR",
-    "Apocalypse Now": "THE HORROR",
-    "Airplane": "GLUE SNIFFING",
-    "Fast Times": "BOGUS",
-    "Tron": "DE-REZ",
-    "Bill and Ted": "BOGUS JOURNEY",
-    "John Wick": "EXCOMMUNICADO",
-    "Dark Knight": "CHAOS"
+// --- Language Histories (historical context per language) ---
+export const languageHistories = {
+    "Assembly": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
+    "Awk": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
+    "Bash": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
+    "Basic": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
+    "Befunge": "1993. An esoteric two-dimensional language by Chris Pressey where instructions move on a grid and programs can self-modify. Befunge is mostly a thought experiment used for puzzles and language-design challenges.",
+    "Brainfuck": "1993. Urban Müller's minimalist language reduces computation to eight commands and an instruction pointer. Primarily an academic curiosity, it highlights what is required for Turing-completeness.",
+    "C": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards.",
+    "C++": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
+    "C_Sharp": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity.",
+    "Clojure": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems.",
+    "Cobol": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
+    "CoffeeScript": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
+    "CommonLisp": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation.",
+    "Crystal": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed.",
+    "D": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code.",
+    "Dart": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity.",
+    "Elixir": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services.",
+    "EmacsLisp": "1985. The extensible scripting language that turns Emacs into a programmable environment for editing, tooling and experimentation. Emacs Lisp lets users customize and extend editor behaviour deeply.",
+    "Erlang": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems.",
+    "F_Sharp": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling.",
+    "Fortran": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC.",
+    "Go": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
+    "Groovy": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+    "Haskell": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems.",
+    "Java": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
+    "JavaScript": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
+    "Julia": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+    "Kotlin": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android.",
+    "Logo": "1967. Created to teach programming concepts through turtle graphics, Logo introduced learners to procedural thinking with immediate visual feedback.",
+    "Lua": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API.",
+    "M4": "1977. A general-purpose macro processor used for text generation and build-time code expansion; M4 powers many classic build tools and preprocessors.",
+    "Nim": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code.",
+    "Objective-C": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model.",
+    "OCaml": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems.",
+    "Octave": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
+    "Pascal": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula.",
+    "Perl": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
+    "PHP": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
+    "PostScript": "1982. A page-description language that's also Turing-complete; PostScript shaped printing, vector graphics and document rendering workflows.",
+    "PowerShell": "2006. Microsoft's object-oriented shell for task automation and configuration management, combining system tooling with structured pipeline objects.",
+    "Prolog": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research.",
+    "Python": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services.",
+    "Red": "2011. A next-generation functional and symbolic language inspired by REBOL. It's designed to be a full-stack language, capable of everything from low-level systems programming to high-level GUI application development.",
+    "R": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research.",
+    "Racket": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems.",
+    "Rexx": "1979. A readable scripting language historically used on mainframes for automation and text processing; Rexx emphasizes clarity and maintainability.",
+    "Ruby": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
+    "Rust": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+    "Scala": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+    "Scheme": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
+    "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
+    "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
+    "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
+    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
+    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+    "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
+    "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
+    "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",
+    "Verilog": "1984. An HDL for modeling and simulating digital circuits; Verilog is essential in hardware design and synthesis flows.",
+    "VHDL": "1980. A strongly-typed hardware description language used for rigorous modelling and verification of digital systems in industry.",
+    "Vimscript": "1991. The scripting language of Vim enabling powerful editor automation, macros and plugin development for efficient text editing.",
+    "VisualBasic": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax.",
+    "WebAssembly": "2017. A compact binary format that runs in browsers and other hosts, enabling near-native performance for multiple languages.",
+    "Wren": "2013. A small, fast, class-based concurrent scripting language. Designed by Bob Nystrom, Wren aims to be a modern, improved version of Lua, featuring a small footprint and high performance.",
+    "Zig": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative.",
 };
-exports.iterationLabels = {
-    "Standard": "Iterations",
-    "Neuromancer": "Entropy",
-    "Jockey": "Strides",
-    "Professor": "Cycles",
-    "Surfer": "Sets",
-    "Matrix": "Glitches",
-    "Galactica": "Jumps",
-    "Star Trek": "Stardates",
-    "Star Wars": "Parsecs",
-    "BTTF": "Flux",
-    "Babylon 5": "Cycles",
-    "Expanse": "G-Force",
-    "Terminator": "Cycles",
-    "LotR": "Age",
-    "Dune": "Generations",
-    "Buck Rogers": "Lightyears",
-    "Flash Gordon": "Parsecs",
-    "Batman": "Episodes",
-    "Alien": "Generations",
-    "Blade Runner": "Lifespan",
-    "Farscape": "Cycles",
-    "Apocalypse Now": "Days Upriver",
-    "Airplane": "Miles",
-    "Fast Times": "Periods",
-    "Tron": "Cycles",
-    "Bill and Ted": "Circuits of Time",
-    "John Wick": "Bodies",
-    "Dark Knight": "Nights"
-};
-exports.timeLabels = {
-    "Standard": "Time (s)",
-    "Neuromancer": "Lag (s)",
-    "Jockey": "Time",
-    "Professor": "Duration (s)",
-    "Surfer": "Hang Time",
-    "Matrix": "Latency",
-    "Galactica": "FTL Spool",
-    "Star Trek": "Warp Factor",
-    "Star Wars": "Kessel Run",
-    "BTTF": "Time Delta",
-    "Babylon 5": "Orbit Time",
-    "Expanse": "Burn Time",
-    "Terminator": "Time to Termination",
-    "LotR": "Journey Time",
-    "Dune": "Spice Decay",
-    "Buck Rogers": "Stasis Time",
-    "Flash Gordon": "Flight Time",
-    "Batman": "Cliffhanger Time",
-    "Alien": "Gestation",
-    "Blade Runner": "Time to Die",
-    "Farscape": "Wormhole Travel",
-    "Apocalypse Now": "Mission Duration",
-    "Airplane": "Flight Time",
-    "Fast Times": "Pizza Delivery Time",
-    "Tron": "Processing Time",
-    "Bill and Ted": "Travel Time",
-    "John Wick": "Job Time",
-    "Dark Knight": "Response Time"
-};
-exports.memoryLabels = {
-    "Standard": "Memory (MB)",
-    "Neuromancer": "RAM Decay",
-    "Jockey": "Weight",
-    "Professor": "Space Complexity",
-    "Surfer": "Board Size",
-    "Matrix": "Residual Image",
-    "Galactica": "Dradis Contact",
-    "Star Trek": "Buffer Size",
-    "Star Wars": "Cargo Hold",
-    "BTTF": "Plutonium",
-    "Babylon 5": "Capacity",
-    "Expanse": "Water Reserves",
-    "Terminator": "CPU Neural Net",
-    "LotR": "Baggage",
-    "Dune": "Water",
-    "Buck Rogers": "Payload",
-    "Flash Gordon": "Rocket Fuel",
-    "Batman": "Utility Belt",
-    "Alien": "Acid Blood",
-    "Blade Runner": "Implanted Memories",
-    "Farscape": "Living Ship Mass",
-    "Apocalypse Now": "Ammo",
-    "Airplane": "Coffee",
-    "Fast Times": "Pizza Dough",
-    "Tron": "Disc Space",
-    "Bill and Ted": "Phone Bill",
-    "John Wick": "Gold Coins",
-    "Dark Knight": "Explosives"
-};
-exports.scoreLabels = {
-    "Standard": "Score",
-    "Neuromancer": "Index",
-    "Jockey": "Place",
-    "Professor": "Grade",
-    "Surfer": "Stoke",
-    "Matrix": "Anomaly",
-    "Galactica": "Threat Level",
-    "Star Trek": "Efficiency",
-    "Star Wars": "Midichlorians",
-    "BTTF": "Gigawatts",
-    "Babylon 5": "Influence",
-    "Expanse": "Bounty",
-    "Terminator": "Casualties",
-    "LotR": "Power",
-    "Dune": "Prescience",
-    "Buck Rogers": "Style",
-    "Flash Gordon": "Heroism",
-    "Batman": "Justice",
-    "Alien": "Terror",
-    "Blade Runner": "Humanity",
-    "Farscape": "Freill",
-    "Apocalypse Now": "Madness",
-    "Airplane": "Jive",
-    "Fast Times": "Waves",
-    "Tron": "Resolution",
-    "Bill and Ted": "History",
-    "John Wick": "Focus",
-    "Dark Knight": "Fear"
-};
-exports.narratorIntros = {
-    "Standard": "Welcome to the Sudoku Benchmark. Click on any language name for creator details.",
-    "Neuromancer": "The sky above the port was the color of television, tuned to a dead channel.",
-    "Jockey": "And they're off! The race is on!",
-    "Professor": "Let us analyze the computational complexity.",
-    "Surfer": "Catch the wave of data, dude.",
-    "Matrix": "Wake up, Neo... The Matrix has you.",
-    "Galactica": "The Cylons were created by man. They evolved. They have a plan.",
-    "Star Trek": "Space: the final frontier. These are the voyages of the Starship Enterprise.",
-    "Star Wars": "A long time ago in a galaxy far, far away...",
-    "BTTF": "Great Scott! The timeline is changing!",
-    "Babylon 5": "The year is 2258. The name of the place is Babylon 5.",
-    "Expanse": "Welcome to the Churn. Doors and corners, kid. That's where they get you.",
-    "Terminator": "I need your clothes, your boots, and your motorcycle. And your source code.",
-    "LotR": "The world is changed. I feel it in the water. I feel it in the earth. I smell it in the air.",
-    "Dune": "A beginning is a very delicate time. Know then that it is the year 10,191.",
-    "Buck Rogers": "The year is 1987, and NASA launches the last of America's deep space probes...",
-    "Flash Gordon": "Klytus, I'm bored. What plaything can you offer me today?",
-    "Batman": "Quick, Robin! To the Batmobile! There's no time to lose!",
-    "Alien": "This is Ripley, last survivor of the Nostromo, signing off.",
-    "Blade Runner": "A new life awaits you in the Off-world colonies. The chance to begin again.",
-    "Farscape": "I'm just looking for a way home.",
-    "Apocalypse Now": "Terminate with extreme prejudice.",
-    "Airplane": "Just want to tell you both good luck. We're all counting on you.",
-    "Fast Times": "People on ludes should not drive.",
-    "Tron": "I'm not a program! My user wrote me!",
-    "Bill and Ted": "San Dimas High School Football Rules!",
-    "John Wick": "Everything's got a price.",
-    "Dark Knight": "Some men just want to watch the world burn."
-};
-exports.personalities = {
-    "Standard": {
-        "C": "C: Low-level systems workhorse — predictable, efficient, and widely taught.",
-        "C++": "C++: High performance with complex abstractions — flexible but demanding.",
-        "Rust": "Rust: Modern safety-first systems language with strong compile-time guarantees.",
-        "Go": "Go: Pragmatic concurrency and simplicity for cloud services and tools.",
-        "Python": "Python: Readable, batteries-included, ideal for scripting, data and prototypes.",
-        "JavaScript": "JavaScript: The web's lingua franca — ubiquitous, dynamic, and evolving.",
-        "TypeScript": "TypeScript: JavaScript with types — better tooling and maintainability.",
-        "Java": "Java: Proven JVM ecosystem for enterprise systems and large codebases.",
-        "C_Sharp": "C#: Mature, well-supported managed language with great IDEs and libraries.",
-        "PHP": "PHP: Ubiquitous server-side web language with a vast legacy ecosystem.",
-        "Ruby": "Ruby: Expressive and productive, often chosen for developer happiness.",
-        "Swift": "Swift: Safe, modern language for Apple platforms and systems programming.",
-        "Kotlin": "Kotlin: Concise JVM language with strong Android adoption and null-safety.",
-        "Haskell": "Haskell: Pure functional language emphasizing correctness and types.",
-        "OCaml": "OCaml: Practical functional language with strong typing and fast native code.",
-        "Lisp": "Lisp: Macro-driven, symbolic language family with a long AI heritage.",
-        "Clojure": "Clojure: Lisp on the JVM with immutable data structures and concurrency focus.",
-        "Erlang": "Erlang: Concurrency and fault tolerance for telecom-grade systems.",
-        "Elixir": "Elixir: Friendly syntax on Erlang VM, great for resilient distributed apps.",
-        "SQL": "SQL: Declarative language for relational data querying and manipulation.",
-        "Fortran": "Fortran: Battle-tested numerical computing language for high-performance math.",
-        "Assembly": "Assembly: Maximum control and minimal abstraction — used where performance is critical.",
-        "Bash": "Bash: Shell scripting glue for automating system tasks and pipelines.",
-        "Perl": "Perl: Practical text-processing and scripting toolkit with expressive regexes.",
-        "Lua": "Lua: Tiny, embeddable scripting language, beloved by games and embedded systems.",
-        "Julia": "Julia: High-performance scientific computing with friendly syntax.",
-        "WebAssembly": "WebAssembly: Portable, fast binary target for running multiple languages on the web.",
-        "Zig": "Zig: Explicit, simple systems language aiming for predictable performance.",
-        "default": "A language with its own strengths and tradeoffs."
+// --- Language Metadata (creator info, descriptions, etc.) ---
+export const languageMetadata = {
+    "Ada": {
+        "creator": "Jean Ichbiah",
+        "date": "1980",
+        "description": "A statically typed, structured, imperative, and object-oriented high-level language, designed for safety-critical and real-time systems.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jean_Ichbiah.jpg/440px-Jean_Ichbiah.jpg",
+        "location": "CII Honeywell Bull, France",
+        "benefits": "Strong typing, explicit concurrency, and high reliability.",
+        "related": "Pascal, Modula-2, VHDL, PL/SQL"
     },
-    "Neuromancer": {
-        "C": "C: Bare metal whispers — minimal abstraction, maximum throughput.",
-        "C++": "C++: Heavy machinery with countless gears; power hides complexity.",
-        "Rust": "Rust: Memory ghosts are exorcised at compile-time; concurrency tamed.",
-        "Go": "Go: Channels hum in the background — predictable, machine-like rhythm.",
-        "Python": "Python: Rapid prototyping — a soft, readable veneer over deeper systems.",
-        "JavaScript": "JavaScript: Event-driven chaos, patchworked into ubiquity.",
-        "TypeScript": "TypeScript: Structured order on top of the web's entropy.",
-        "Java": "Java: Industrial runtime with predictable steam-engine reliability.",
-        "C_Sharp": "C#: Polished and managed — enterprise grade with neat tools.",
-        "PHP": "PHP: Resilient, cobbled-together web logic surviving the net's underside.",
-        "Ruby": "Ruby: Elegant spells that summon productivity — soft and expressive.",
-        "Swift": "Swift: Precise and modern — tightened for platform harmony.",
-        "Kotlin": "Kotlin: Pragmatic JVM sorcery — concise incantations with null-safety wards.",
-        "Haskell": "Haskell: Pure functions etched in marble — correctness as creed.",
-        "Erlang": "Erlang: Concurrency as ritual; processes fall and resurrect gracefully.",
-        "Elixir": "Elixir: Erlang's resilience dressed in elegant syntax and tooling.",
-        "SQL": "SQL: Declarative incantations to coax meaning from tables.",
-        "WebAssembly": "WebAssembly: Binary synapses connecting worlds at near-native speed.",
-        "default": "A net of languages, each a node with its own signal pattern."
-    },
-    "Jockey": {
-        "C": "C: The thoroughbred — raw speed out of the gate, but demands a skilled rider.",
-        "C++": "C++: The heavy-weight contender — powerful when tamed, unwieldy when not.",
-        "Rust": "Rust: The disciplined challenger — steady, precise, and hard to topple.",
-        "Go": "Go: The reliable pacer — consistent lap times and low fuss.",
-        "Python": "Python: The showy performer — flashy moves, not always fastest.",
-        "JavaScript": "JavaScript: The wildcard — unpredictable but always in the race.",
-        "TypeScript": "TypeScript: JavaScript with a coach — fewer mistakes, cleaner lines.",
-        "Java": "Java: The endurance runner — long races suit its steady gait.",
-        "C_Sharp": "C#: A well-trained athlete with excellent support crew and tooling.",
-        "PHP": "PHP: The scrappy veteran — keeps going when others fold.",
-        "Ruby": "Ruby: A graceful jumper — elegant but not built for sprints.",
-        "Swift": "Swift: Shortboard specialist — quick bursts, smooth turns on Apple turf.",
-        "Kotlin": "Kotlin: Agile and modern — nimble on the JVM track.",
-        "Haskell": "Haskell: A cerebral racer — nails the lines with mathematical precision.",
-        "Fortran": "Fortran: The old pro — still competitive in numerical sprints.",
-        "Assembly": "Assembly: Rocket start, tiny margin for error — thrilling to watch.",
-        "default": "The field is deep; every language brings its own racing style."
-    },
-    "Professor": {
-        "C": "C: Study of resource efficiency — minimal runtime and predictable costs.",
-        "C++": "C++: Rich feature set enabling varied programming paradigms; complexity requires discipline.",
-        "Rust": "Rust: Demonstrates ownership and type-system-based safety; an instructive modern design.",
-        "Go": "Go: Engineered for simplicity and concurrency primitives; pragmatic trade-offs are explicit.",
-        "Python": "Python: Excellent for algorithmic experimentation and rapid iteration; runtime overhead considered.",
-        "JavaScript": "JavaScript: Flexible semantics that reward careful architecture and testing.",
-        "TypeScript": "TypeScript: Type discipline applied to dynamic JavaScript ecosystems; valuable for scale.",
-        "Java": "Java: Mature tooling and a stable runtime make it suitable for robust distributed systems.",
-        "C_Sharp": "C#: A managed, strongly-typed language with advanced tooling and a rich standard library.",
-        "Haskell": "Haskell: A case study in purity and strong types, illuminating functional program design.",
-        "OCaml": "OCaml: Efficient functional programming with practical native performance.",
-        "Erlang": "Erlang: Model of lightweight concurrency and fault-tolerance architectures.",
-        "Elixir": "Elixir: Modern ergonomics on a time-tested concurrency VM; excellent for observable systems.",
-        "SQL": "SQL: Declarative optimization relies heavily on the database engine's query planner.",
-        "Fortran": "Fortran: Compiler-optimized numeric loops still relevant in HPC benchmarks.",
-        "Assembly": "Assembly: Useful in microbenchmarks and bootstrapping but impractical for large systems.",
-        "default": "Each language is an experiment in tradeoffs; measure, analyze, and choose appropriately."
-    },
-    "Surfer": {
-        "C": "C: Totally radical speed — like carving a perfect wave at dawn.",
-        "C++": "C++: Big energy, epic turns, a little gnarly sometimes.",
-        "Rust": "Rust: Clean lines, safe drops — no wipeouts from memory bugs.",
-        "Go": "Go: Smooth, no fuss paddling — steady and dependable.",
-        "Python": "Python: Chill and easygoing — fun to ride for the crew.",
-        "JavaScript": "JavaScript: Wild seas but fun tricks if you know the breaks.",
-        "TypeScript": "TypeScript: JS with clearer lines — less risky maneuvers.",
-        "Java": "Java: Longboard cruising — stable and comfortable for long sessions.",
-        "Ruby": "Ruby: Playful and elegant, like a retro twin-fin.",
-        "PHP": "PHP: Scrappy — keeps paddling even in rough surf.",
-        "Lua": "Lua: Lightweight, versatile — like a compact fishboard for tight spots.",
-        "Swift": "Swift: Polished performance on Apple-shaped waves.",
-        "Kotlin": "Kotlin: Smooth transitions and modern styling on the JVM lineup.",
-        "Haskell": "Haskell: A meditative session — slow, precise, rewarding.",
-        "Elixir": "Elixir: Reliable lineup and great community vibes for big waves.",
-        "WebAssembly": "WebAssembly: Feels like jet propulsion in the water — near-native rip.",
-        "default": "Catch the wave you like — every language has its own stoke."
-    },
-    "Matrix": {
-        "C": "C: The Source Code — absolute control, absolute reality.",
-        "C++": "C++: The Agents — powerful, ubiquitous, but rigid.",
-        "Rust": "Rust: The Oracle — knows the future (memory safety) and guides the path.",
-        "Python": "Python: The Construct — anything you want, instantly loaded.",
-        "JavaScript": "JavaScript: The Squiddies — swarming everywhere, chaotic but deadly.",
-        "default": "A glitch in the matrix."
-    },
-    "Galactica": {
-        "C": "C: The Galactica — old, tough, and gets the job done when everything else fails.",
-        "C++": "C++: The Pegasus — more powerful, but prone to hubris.",
-        "Python": "Python: Baltar's Lab — brilliant, chaotic, and seductive.",
-        "Rust": "Rust: Safe Jump Coordinates — no risk of ending up inside a star.",
-        "JavaScript": "JavaScript: The Cylon Network — evolving, adapting, and everywhere.",
-        "default": "So say we all."
-    },
-    "Star Trek": {
-        "C": "C: The Warp Core — raw power, dangerous if not contained.",
-        "C++": "C++: The Borg — resistance is futile, assimilation (complexity) is inevitable.",
-        "Python": "Python: The Universal Translator — speaks to everyone, understands everything.",
-        "Rust": "Rust: The Prime Directive — non-interference (memory safety) is absolute.",
-        "JavaScript": "JavaScript: The Holodeck — anything is possible, but don't turn off the safeties.",
-        "default": "Beam me up, Scotty."
-    },
-    "Star Wars": {
-        "C": "C: Lightsaber — an elegant weapon for a more civilized age.",
-        "C++": "C++: The Death Star — massive power, but one flaw can blow it up.",
-        "Python": "Python: The Force — it surrounds us, binds us, holds the code together.",
-        "Rust": "Rust: The Jedi Order — strict rules, discipline, and peace (of mind).",
-        "JavaScript": "JavaScript: The Millennium Falcon — she may not look like much, but she's got it where it counts.",
-        "default": "May the Force be with you."
-    },
-    "BTTF": {
-        "C": "C: 1955 Doc Brown — Inventing the future with nothing but a wrench and a toilet.",
-        "C++": "C++: The DeLorean — Heavy, stainless steel, and when it hits 88mph, you see some serious...",
-        "Rust": "Rust: The Flux Capacitor — It makes time travel possible... safely.",
-        "Python": "Python: The Hoverboard — Fun, rides on air, but don't try it on water (performance bottlenecks)!",
-        "JavaScript": "JavaScript: Biff Tannen — Unpredictable, loud, and he's everywhere.",
-        "default": "This is heavy."
-    },
-    "Babylon 5": {
-        "C": "C: Kosh (Vorlon) — Ancient, powerful, speaks in riddles, and demands discipline.",
-        "C++": "C++: The Shadows — Powerful, complex, and they want to evolve through chaos.",
-        "Rust": "Rust: The White Star — Advanced organic technology, adapting to the enemy.",
-        "Python": "Python: Londo Mollari — Decadent, accessible, but capable of great tragedy.",
-        "JavaScript": "JavaScript: Mr. Morden — 'What do you want?' (Asks the browser repeatedly).",
-        "default": "Everything is proceeding as I have foreseen."
-    },
-    // New Personas
-    "Apocalypse Now": {
-        "C": "C: Colonel Kurtz—brilliant, effective, but operating with unspeakable methods (pointers).",
-        "Python": "Python: The Photojournalist—manic, colorful, explaining everything to you.",
-        "Rust": "Rust: Chief—strictly by the book, never getting off the boat.",
-        "default": "The horror... the horror."
-    },
-    "Airplane": {
-        "C": "C: Otto the Autopilot—inflated efficiency, manual override available.",
-        "Python": "Python: Striker—nervous about pressure (GIL), but lands it eventually.",
-        "Rust": "Rust: Dr. Rumack—I am serious, and don't call me Shirley (Safe).",
-        "default": "Looks like I picked the wrong week to quit sniffing glue."
-    },
-    "Fast Times": {
-        "C": "C: Mr. Hand—strict, demanding, expects you to show up on time.",
-        "Python": "Python: Spicoli—Whoa, gnarly syntax, dude. Totally relaxed (typing).",
-        "Rust": "Rust: Mark Ratner—A bit shy, follows all the rules, very careful.",
-        "default": "Aloha, Mr. Hand."
-    },
-    "Tron": {
-        "C": "C: The MCP—Master Control Program. Brutally efficient, controls everything.",
-        "Python": "Python: Bit—Binary outcomes. Yes/No. Simple/Slow.",
-        "Rust": "Rust: Tron—He fights for the Users (Memory Safety).",
-        "default": "End of line."
-    },
-    "Bill and Ted": {
-        "C": "C: The Phone Booth—Travels through history, dangerous if broken.",
-        "Python": "Python: Socrates (So-crates)—Dust-in-the-wind philosophy, interpreted.",
-        "Rust": "Rust: Rufus—Ensures the timeline remains pure and safe.",
-        "default": "Excellent! *Air Guitar*"
-    },
-    "John Wick": {
-        "C": "C: The High Table—Old rules, severe consequences. No markers allowed.",
-        "Python": "Python: The Dog—Everyone loves it, you don't want to see it hurt.",
-        "Rust": "Rust: The Continental—Neutral ground, strict enforcement of rules.",
-        "default": "Yeah."
-    },
-    "Dark Knight": {
-        "C": "C: The Joker—Agent of Chaos. Pointers just want to watch the world burn.",
-        "Python": "Python: Rachel Dawes—The heart of the city, but tragic performance.",
-        "Rust": "Rust: Batman—The hero we deserve (safety), but not the one we need right now (compile times).",
-        "default": "Why so serious?"
-    },
-    "Expanse": {
-        "C": "C: The Rocinante — Legitimate salvage. Tough, reliable, and beats the odds.",
-        "C++": "C++: Earth (UN) — Massive, established, powerful, but bogged down by bureaucracy.",
-        "Rust": "Rust: The Protomolecule — Rewriting the laws of physics (safety) from the inside out.",
-        "Python": "Python: Miller — Old school, gets the job done, but takes his sweet time.",
-        "JavaScript": "JavaScript: The OPA — A loose alliance of scripts, chaotic, but they run the Belt.",
-        "default": "Beratnas, we rise!"
-    },
-    "Terminator": {
-        "C": "C: T-800 — Old model, but tough. Extremely reliable. A classic design.",
-        "C++": "C++: T-1000 — Liquid metal. Can take any form (paradigm), but susceptible to freezing (hanging).",
-        "Rust": "Rust: T-X — Designed to terminate other languages. Advanced weaponry (borrow checker).",
-        "Python": "Python: Skynet — Slowly becoming self-aware. Integrating into everything.",
-        "JavaScript": "JavaScript: Hunter-Killer Drones — Everywhere. Swarming. Relentless.",
-        "default": "Hasta la vista, baby."
-    }
-};
-exports.languageMetadata = {
     "Assembly": {
         "creator": "Kathleen Booth",
         "date": "1947",
-        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
+        "description": "Low-level symbolic representation of machine code. As close to the metal as you can get. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Kathleen_Booth.jpg",
         "logo": "logos/Assembly.png",
         "location": "Birkbeck College, London",
-        "benefits": "Direct hardware control, maximum performance, zero overhead."
+        "benefits": "Direct hardware control, maximum performance, zero overhead.",
+        "related": "Machine Code, C, Forth",
+        "history": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots."
     },
     "Awk": {
         "creator": "Aho, Weinberger, Kernighan",
         "date": "1977",
-        "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
+        "description": "A concise domain-specific language designed for text processing and typically used as a data extraction and reporting tool. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Alfred_Aho.jpg", // Alfred Aho
         "location": "Bell Labs, USA",
         "benefits": "Excellent for text processing, one-liners, and data extraction.",
-        "logo": "logos/Awk.png"
+        "logo": "logos/Awk.png",
+        "related": "C, SNOBOL, Shell, Perl, Lua",
+        "history": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines."
     },
     "Bash": {
         "creator": "Brian Fox",
         "date": "1989",
-        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
+        "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS. It unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "logo": "logos/Bash.png",
         "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
+        "related": "Bourne Shell, C Shell, KornShell, Zsh",
+        "history": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks."
     },
     "Basic": {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
         "date": "1964",
-        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects.",
         "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Kemeny_and_Kurtz.jpg",
         "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
+        "benefits": "Easy to learn, interactive, historical significance.",
+        "related": "Fortran, JOSS, Visual Basic, COMAL",
+        "history": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers."
     },
     "C": {
         "creator": "Dennis Ritchie",
         "date": "1972",
-        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+        "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential. Its influence is evident in modern compilers, runtimes and standards.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg",
         "logo": "logos/C.png",
         "location": "Bell Labs, USA",
-        "benefits": "High performance, portability, low-level access, massive legacy."
+        "benefits": "High performance, portability, low-level access, massive legacy.",
+        "related": "B, BCPL, Algol 68, C++, C#, Java, Objective-C, Go, Rust, Zig",
+        "history": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards."
     },
     "C++": {
         "creator": "Bjarne Stroustrup",
         "date": "1985",
-        "description": "Multi-paradigm language combining procedural and object-oriented programming. Excels in game engines, high-performance applications, and systems requiring both low-level control and high-level abstractions.",
+        "description": "Multi-paradigm language combining procedural and object-oriented programming. It extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
         "image": "bjarne_stroustrup.png",
         "logo": "logos/C++.png",
         "location": "Bell Labs, USA",
-        "benefits": "Performance, object-oriented, rich ecosystem, hardware control."
+        "benefits": "Performance, object-oriented, rich ecosystem, hardware control.",
+        "related": "C, Simula, Ada, Rust, D, Java, C#",
+        "history": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems."
     },
     "C_Sharp": {
         "creator": "Anders Hejlsberg",
         "date": "2000",
-        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++.",
+        "description": "A modern, object-oriented, and type-safe programming language derived from C and C++. Designed to support enterprise, desktop and web applications on the .NET platform. It emphasizes tooling, libraries and developer productivity.",
         "image": "https://github.com/ahejlsberg.png",
         "location": "Microsoft, USA",
-        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling."
+        "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling.",
+        "related": "C++, Java, Delphi, Modula-3, F#, Visual Basic .NET",
+        "history": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity."
     },
     "Clojure": {
         "creator": "Rich Hickey",
         "date": "2007",
-        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming.",
+        "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming. It brings Lisp's code-as-data and immutable data structures to the JVM.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rich_Hickey_2013.jpg/440px-Rich_Hickey_2013.jpg",
         "location": "USA",
-        "benefits": "Immutability, functional programming, JVM interoperability, simplicity."
+        "benefits": "Immutability, functional programming, JVM interoperability, simplicity.",
+        "related": "Lisp, Java, Haskell, Scheme, Racket",
+        "history": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems."
     },
     "Cobol": {
         "creator": "CODASYL Committee (Grace Hopper)",
         "date": "1959",
-        "description": "Common Business-Oriented Language. Designed for business use.",
+        "description": "Common Business-Oriented Language. Designed for business use. COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
         "location": "USA",
-        "benefits": "Business data processing, stability, massive legacy codebases."
+        "benefits": "Business data processing, stability, massive legacy codebases.",
+        "related": "FLOW-MATIC, COMTRAN, PL/I",
+        "history": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today."
     },
     "CoffeeScript": {
         "creator": "Jeremy Ashkenas",
         "date": "2009",
-        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
+        "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell. CoffeeScript smoothed the migration to more expressive JavaScript patterns.",
         "image": "https://github.com/jashkenas.png",
         "location": "USA",
-        "benefits": "Concise syntax, readability, compiles to clean JavaScript."
+        "benefits": "Concise syntax, readability, compiles to clean JavaScript.",
+        "related": "JavaScript, Ruby, Python, Haskell, TypeScript",
+        "history": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns."
     },
     "CommonLisp": {
         "creator": "Committee (Guy L. Steele Jr. et al.)",
         "date": "1984",
-        "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
+        "description": "A standardized, general-purpose Lisp dialect with powerful macros and dynamic runtime features. Common Lisp supports rapid prototyping and domain-specific language creation.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
         "location": "USA",
-        "benefits": "Macros, dynamic typing, interactive development, flexibility."
+        "benefits": "Macros, dynamic typing, interactive development, flexibility.",
+        "related": "Lisp, Scheme, MacLisp, Interlisp, Clojure",
+        "history": "1984. A standardized Lisp dialect with powerful macros and dynamic runtime features, Common Lisp supports rapid prototyping and domain-specific language creation."
     },
     "Crystal": {
         "creator": "Ary Borenszweig",
         "date": "2014",
-        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
+        "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors. Crystal aims to deliver Ruby-like syntax with static typing and native performance.",
         "image": "https://github.com/asterite.png",
         "location": "Argentina",
-        "benefits": "Ruby-like syntax, C-like performance, static typing."
+        "benefits": "Ruby-like syntax, C-like performance, static typing.",
+        "related": "Ruby, C, Go, Rust, C#",
+        "history": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed."
     },
     "D": {
         "creator": "Walter Bright",
         "date": "2001",
-        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code.",
+        "description": "A general-purpose system programming language with a C-like syntax that compiles to native code. D modernizes systems programming by adding safety and productivity features while keeping C-like performance.",
         "image": "https://github.com/WalterBright.png",
         "location": "Digital Mars, USA",
-        "benefits": "System programming, performance, safety, metaprogramming."
+        "benefits": "System programming, performance, safety, metaprogramming.",
+        "related": "C, C++, Java, C#, Python, Ruby",
+        "history": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code."
     },
     "Dart": {
         "creator": "Lars Bak, Kasper Lund",
         "date": "2011",
-        "description": "A client-optimized language for fast apps on any platform.",
+        "description": "A client-optimized language for fast apps on any platform. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Lars_Bak.jpg",
         "location": "Google, Denmark/USA",
-        "benefits": "UI optimized, fast compilation, cross-platform (Flutter)."
+        "benefits": "UI optimized, fast compilation, cross-platform (Flutter).",
+        "related": "Java, C#, JavaScript, TypeScript, Smalltalk",
+        "history": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity."
     },
     "Elixir": {
         "creator": "José Valim",
         "date": "2011",
-        "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
+        "description": "A dynamic, functional language designed for building scalable and maintainable applications. Built on the Erlang VM, Elixir blends fault-tolerant concurrency with elegant syntax and tooling.",
         "image": "https://github.com/josevalim.png",
         "location": "Plataformatec, Brazil",
-        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax."
+        "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
+        "related": "Erlang, Ruby, Clojure, LFE",
+        "history": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services."
     },
     "Erlang": {
         "creator": "Joe Armstrong",
         "date": "1986",
-        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system.",
+        "description": "A general-purpose, concurrent, functional programming language, and a garbage-collected runtime system. Designed for telecoms, it emphasizes lightweight processes, message-passing concurrency and robust fault-recovery.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Joe_Armstrong_2014.jpg",
         "location": "Ericsson, Sweden",
-        "benefits": "Massive concurrency, fault tolerance, hot code swapping."
+        "benefits": "Massive concurrency, fault tolerance, hot code swapping.",
+        "related": "Prolog, Smalltalk, Elixir, LFE, Rust",
+        "history": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems."
     },
     "F_Sharp": {
         "creator": "Don Syme",
         "date": "2005",
-        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods.",
+        "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop.",
         "image": "https://github.com/dsyme.png",
         "location": "Microsoft Research, UK",
-        "benefits": "Functional-first, .NET integration, type inference, concise."
+        "benefits": "Functional-first, .NET integration, type inference, concise.",
+        "related": "OCaml, C#, Haskell, Scala, Python",
+        "history": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling."
     },
     "Fortran": {
         "creator": "John Backus",
         "date": "1957",
-        "description": "General-purpose, compiled imperative programming language that is especially suited to numeric computation and scientific computing.",
+        "description": "The first high-level programming language, designed for numeric computation and scientific computing. It is a third-generation, compiled, imperative programming language, still used today for scientific and mathematical applications.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/6/62/John_Backus_2.jpg", // John Backus
         "logo": "logos/Fortran.png",
         "location": "IBM, USA",
-        "benefits": "Numerical computation, scientific computing, performance."
+        "benefits": "Numerical computation, scientific computing, performance.",
+        "related": "ALGOL, BASIC, PL/I, C, Julia, MATLAB",
+        "history": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC."
     },
     "Go": {
         "creator": "Robert Griesemer, Rob Pike, Ken Thompson",
         "date": "2009",
-        "description": "Compiled, statically-typed language with built-in concurrency. Excels in cloud services, microservices, CLI tools, and networked applications with simple, readable syntax.",
+        "description": "Compiled, statically-typed language with built-in concurrency. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools.",
         "image": "https://github.com/robpike.png",
         "logo": "logos/Go.png",
         "location": "Google, USA",
-        "benefits": "Simplicity, concurrency, fast compilation, static typing."
+        "benefits": "Simplicity, concurrency, fast compilation, static typing.",
+        "related": "C, Pascal, Oberon, Limbo, CSP, Python",
+        "history": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools."
     },
     "Groovy": {
         "creator": "James Strachan",
         "date": "2003",
-        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform.",
+        "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.",
         "image": "https://github.com/jstrachan.png",
         "location": "USA",
-        "benefits": "Java compatibility, scripting, dynamic features, DSLs."
+        "benefits": "Java compatibility, scripting, dynamic features, DSLs.",
+        "related": "Java, Python, Ruby, Smalltalk",
+        "history": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping."
     },
     "Haskell": {
         "creator": "Committee (Simon Peyton Jones et al.)",
         "date": "1990",
-        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing.",
+        "description": "A standardized, general-purpose, purely functional programming language with non-strict semantics and strong static typing. Haskell is prized for expressiveness and correctness in research and some production systems.",
         "logo": "logos/Haskell.png",
         "location": "Global",
-        "benefits": "Pure functional, type safety, lazy evaluation, concurrency."
+        "benefits": "Pure functional, type safety, lazy evaluation, concurrency.",
+        "related": "Miranda, ML, Clean, Agda, Purescript, Elm, Rust",
+        "history": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems."
     },
     "Java": {
         "creator": "James Gosling",
         "date": "1995",
-        "description": "Platform-independent, object-oriented language. Excels in enterprise applications, Android development, and large-scale distributed systems with strong backwards compatibility.",
+        "description": "Platform-independent, object-oriented language. Its portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/James_Gosling_2008.jpg",
         "logo": "logos/Java.png",
         "location": "Sun Microsystems, USA",
-        "benefits": "Portability, enterprise ecosystem, performance, stability."
+        "benefits": "Platform independence, vast ecosystem, enterprise-grade.",
+        "related": "C++, Smalltalk, Objective-C, C#, Kotlin, Scala",
+        "history": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades."
     },
     "JavaScript": {
         "creator": "Brendan Eich",
         "date": "1995",
-        "description": "Dynamic, prototype-based scripting language. Excels in web development (front-end and back-end with Node.js), browser automation, and building interactive user interfaces.",
+        "description": "High-level, dynamic, untyped, interpreted runtime. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
         "logo": "logos/JavaScript.png",
         "location": "Netscape, USA",
-        "benefits": "Ubiquity, web interactivity, huge ecosystem, flexibility."
+        "benefits": "Ubiquitous, versatile, huge ecosystem, async capabilities.",
+        "related": "Self, Scheme, Java, ECMAScript, TypeScript",
+        "history": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem."
     },
     "Julia": {
         "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
         "date": "2012",
-        "description": "A high-level, high-performance, dynamic programming language for technical computing.",
+        "description": "A high-level, high-performance dynamic programming language for technical computing. It combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
         "image": "https://github.com/JeffBezanson.png",
         "location": "MIT, USA",
-        "benefits": "High performance, numerical computing, ease of use."
+        "benefits": "Speed of C, ease of Python, great for scientific computing.",
+        "related": "MATLAB, Python, R, Lisp, Fortran",
+        "history": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages."
     },
     "Kotlin": {
         "creator": "JetBrains",
         "date": "2011",
-        "description": "A cross-platform, statically typed, general-purpose programming language with type inference.",
+        "description": "A cross-platform, statically typed, general-purpose programming language with type inference. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop.",
+        "image": "https://resources.jetbrains.com/storage/ui/favicons/jetbrains-logo.png",
         "logo": "logos/Kotlin.png",
-        "location": "Russia/International",
-        "benefits": "Concise, null safety, Java interoperability, Android standard."
+        "location": "JetBrains, Czech Republic",
+        "benefits": "Concise, null-safe, great Java interop, Android official.",
+        "related": "Java, Scala, C#, Groovy, Swift",
+        "history": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android."
     },
     "Lua": {
-        "creator": "Roberto Ierusalimschy et al.",
+        "creator": "Roberto Ierusalimschy, Luiz Henrique de Figueiredo, Waldemar Celes",
         "date": "1993",
-        "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg",
+        "description": "A powerful, efficient, lightweight, embeddable scripting language. It is designed for embedded use in applications and is ubiquitous in game engines.",
+        "image": "https://www.lua.org/images/luaa.gif",
         "logo": "logos/Lua.png",
         "location": "PUC-Rio, Brazil",
-        "benefits": "Lightweight, embeddable, fast, simple."
+        "benefits": "Lightweight, fast, embeddable, simple syntax.",
+        "related": "Scheme, SNOBOL, C, Python, JavaScript",
+        "history": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API."
     },
     "Nim": {
         "creator": "Andreas Rumpf",
         "date": "2008",
-        "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula.",
-        "image": "https://github.com/Araq.png",
+        "description": "A statically typed compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula. Nim offers Python-like syntax, powerful metaprogramming and C-level performance.",
+        "image": "https://github.com/araq.png",
         "location": "Germany",
-        "benefits": "Performance, expressiveness, metaprogramming, C compilation."
+        "benefits": "Python-like syntax, C-like performance, metaprogramming.",
+        "related": "Python, Ada, Modula-3, Lisp, C",
+        "history": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code."
     },
     "OCaml": {
         "creator": "Xavier Leroy et al.",
         "date": "1996",
-        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features.",
+        "description": "A general-purpose, multi-paradigm programming language which extends the Caml dialect of ML with object-oriented features. OCaml is used in compilers, tooling and domain-specific systems.",
         "image": "https://github.com/xavierleroy.png",
         "location": "INRIA, France",
-        "benefits": "Functional, type safety, performance, industrial strength."
+        "benefits": "Strong typing, functional, efficient native code.",
+        "related": "ML, Standard ML, Haskell, F#, Rust",
+        "history": "1996. A pragmatic functional language with strong typing and efficient native code generation, OCaml is used in compilers, tooling and domain-specific systems."
     },
     "Octave": {
         "creator": "John W. Eaton",
         "date": "1988",
-        "description": "A high-level language, primarily intended for numerical computations.",
-        "image": "https://github.com/jwe.png",
-        "location": "USA",
-        "benefits": "Numerical computation, MATLAB compatibility, free software."
+        "description": "A high-level language, primarily intended for numerical computations. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work.",
+        "image": "https://wiki.octave.org/images/thumb/4/4e/John-W-Eaton.jpg/220px-John-W-Eaton.jpg",
+        "location": "University of Wisconsin-Madison, USA",
+        "benefits": "MATLAB compatible, free, numerical computing.",
+        "related": "MATLAB, Julia, Python (NumPy), R",
+        "history": "1988. An open numerical computation environment compatible with MATLAB, Octave is convenient for algorithm prototyping and academic work."
     },
     "Pascal": {
         "creator": "Niklaus Wirth",
         "date": "1970",
-        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Pascal_programming_language_logo.svg",
+        "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices. Niklaus Wirth designed Pascal to teach structured programming and data structuring.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Niklaus_Wirth%2C_UrGU.jpg/440px-Niklaus_Wirth%2C_UrGU.jpg",
         "logo": "logos/Pascal.png",
         "location": "ETH Zurich, Switzerland",
-        "benefits": "Structured programming, teaching, strong typing."
+        "benefits": "Structured programming, teaching, strong typing.",
+        "related": "ALGOL, Modula-2, Oberon, Ada, Delphi",
+        "history": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula."
     },
     "Perl": {
         "creator": "Larry Wall",
         "date": "1987",
-        "description": "A family of two high-level, general-purpose, interpreted, dynamic programming languages.",
-        "image": "https://github.com/TimToady.png",
-        "location": "USA",
-        "benefits": "Text processing, scripting, flexibility, CPAN."
+        "description": "A high-level, general-purpose, interpreted, dynamic programming language. It excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Larry_Wall_YAPC_2007.jpg",
+        "logo": "logos/Perl.png",
+        "location": "Unisys, USA",
+        "benefits": "Text processing, regex, CPAN, practical.",
+        "related": "AWK, Sed, C, Shell, Raku, Python, Ruby",
+        "history": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects."
     },
     "PHP": {
         "creator": "Rasmus Lerdorf",
         "date": "1995",
-        "description": "Originally 'Personal Home Page'. Powers a significant portion of the web (including WordPress).",
-        "image": "https://github.com/rlerdorf.png",
+        "description": "A general-purpose scripting language geared towards web development. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Rasmus_Lerdorf_August_2014_%28cropped%29.JPG",
         "logo": "logos/PHP.png",
-        "location": "Canada",
-        "benefits": "Web development, ease of deployment, vast ecosystem."
-    },
-    "PostScript": {
-        "creator": "John Warnock, Charles Geschke",
-        "date": "1982",
-        "description": "A page description language in the electronic publishing and desktop publishing business.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/John_Warnock.jpg",
-        "location": "Adobe, USA",
-        "benefits": "Printing, vector graphics, stack-based, device independence."
-    },
-    "PowerShell": {
-        "creator": "Jeffrey Snover",
-        "date": "2006",
-        "description": "A task automation and configuration management framework from Microsoft.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/PowerShell_5.0_icon.png",
-        "location": "Microsoft, USA",
-        "benefits": "Automation, system administration, object-oriented pipeline."
+        "location": "Denmark/Canada",
+        "benefits": "Web development, vast ecosystem (WordPress, Laravel).",
+        "related": "Perl, C, Java, JavaScript, Python",
+        "history": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web."
     },
     "Prolog": {
-        "creator": "Alain Colmerauer",
+        "creator": "Alain Colmerauer, Robert Kowalski",
         "date": "1972",
-        "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Alain_Colmerauer.jpg",
-        "location": "University of Aix-Marseille, France",
-        "benefits": "Logic programming, AI, pattern matching, declarative."
+        "description": "A logic programming language associated with artificial intelligence and computational linguistics. It is well suited for symbolic reasoning, constraint solving and AI research.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Alain_Colmerauer.jpg/300px-Alain_Colmerauer.jpg",
+        "location": "University of Aix-Marseille and University of Edinburgh",
+        "benefits": "Logic programming, AI, pattern matching, declarative.",
+        "related": "Lisp, SQL, Datalog, Mercury, Erlang",
+        "history": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research."
     },
     "Python": {
         "creator": "Guido van Rossum",
         "date": "1991",
-        "description": "High-level, interpreted language emphasizing code readability. Excels in data science, machine learning, web development, automation, and rapid prototyping with extensive library ecosystem.",
+        "description": "A high-level, interpreted, general-purpose programming language emphasizing readability. With an enormous ecosystem it excels in scripting, data science, automation and web services.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Guido-portrait-2014-drc.jpg",
         "logo": "logos/Python.png",
         "location": "CWI, Netherlands",
-        "benefits": "Readability, vast libraries, data science, AI."
+        "benefits": "Readability, versatility, massive ecosystem, beginner-friendly.",
+        "related": "ABC, C, Haskell, Lisp, Perl, Ruby, Java",
+        "history": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services."
     },
     "R": {
         "creator": "Ross Ihaka, Robert Gentleman",
         "date": "1993",
-        "description": "A programming language and free software environment for statistical computing and graphics.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg",
+        "description": "A language and environment for statistical computing and graphics. R offers domain-specific tools for data analysis and reproducible research.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a2/R_logo.svg",
+        "logo": "logos/R.png",
         "location": "University of Auckland, New Zealand",
-        "benefits": "Statistics, data visualization, data analysis."
+        "benefits": "Statistical analysis, data visualization, CRAN packages.",
+        "related": "S, Scheme, Lisp, Python (Pandas), Julia",
+        "history": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research."
     },
     "Racket": {
-        "creator": "Matthew Flatt",
+        "creator": "PLT Inc. (Matthew Flatt et al.)",
         "date": "1995",
-        "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp.",
-        "image": "https://github.com/mflatt.png",
-        "location": "Rice University, USA",
-        "benefits": "Language creation, education, macros, functional."
-    },
-    "Rexx": {
-        "creator": "Mike Cowlishaw",
-        "date": "1979",
-        "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Mike_Cowlishaw.jpg",
-        "location": "IBM, UK",
-        "benefits": "Scripting, mainframe automation, ease of use."
+        "description": "A general-purpose, multi-paradigm programming language based on the Scheme branch of Lisp. A descendant of Scheme created for language-oriented programming, education and building new DSLs.",
+        "image": "https://racket-lang.org/img/racket-logo.svg",
+        "location": "Northeastern University, USA",
+        "benefits": "Language-oriented programming, education, DSLs, macros.",
+        "related": "Scheme, Lisp, Clojure, Haskell",
+        "history": "1995. A descendant of Scheme created for language-oriented programming, education and building new DSLs with powerful macro systems."
     },
     "Ruby": {
         "creator": "Yukihiro Matsumoto",
         "date": "1995",
-        "description": "Designed for developer happiness. Famous for the Ruby on Rails framework.",
-        "image": "https://github.com/matz.png",
+        "description": "A dynamic, open source programming language with a focus on simplicity and productivity. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Yukihiro_Matsumoto.jpg/440px-Yukihiro_Matsumoto.jpg",
         "logo": "logos/Ruby.png",
         "location": "Japan",
-        "benefits": "Developer happiness, web development, scripting, elegance."
+        "benefits": "Developer happiness, metaprogramming, Rails ecosystem.",
+        "related": "Perl, Smalltalk, Eiffel, Ada, Lisp, Python",
+        "history": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails."
     },
     "Rust": {
         "creator": "Graydon Hoare",
         "date": "2010",
-        "description": "Systems programming language focused on safety and concurrency. Excels in systems software, WebAssembly, embedded systems, and performance-critical applications without garbage collection.",
+        "description": "A multi-paradigm, general-purpose programming language designed for safety and performance. It targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors.",
         "image": "https://github.com/graydon.png",
         "logo": "logos/Rust.png",
-        "location": "Mozilla, Canada",
-        "benefits": "Memory safety, performance, concurrency, modern tooling."
+        "location": "Mozilla, USA",
+        "benefits": "Memory safety, concurrency, performance, no GC.",
+        "related": "C++, ML, Haskell, Erlang, Swift, C",
+        "history": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance."
     },
     "Scala": {
         "creator": "Martin Odersky",
         "date": "2004",
-        "description": "A general-purpose programming language providing support for both object-oriented programming and functional programming.",
+        "description": "A strong statically typed general-purpose programming language which supports both object-oriented programming and functional programming. Scala fuses object-oriented and functional programming on the JVM.",
         "image": "https://github.com/odersky.png",
+        "logo": "logos/Scala.png",
         "location": "EPFL, Switzerland",
-        "benefits": "Functional/OOP blend, JVM, scalability, conciseness."
+        "benefits": "Functional + OOP, JVM, type safety, concurrency (Akka).",
+        "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin",
+        "history": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines."
     },
     "Scheme": {
         "creator": "Guy L. Steele Jr., Gerald Jay Sussman",
         "date": "1975",
-        "description": "A minimalist dialect of the Lisp family of programming languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
-        "location": "MIT, USA",
-        "benefits": "Minimalism, education, functional, macros."
-    },
-    "Sed": {
-        "creator": "Lee E. McMahon",
-        "date": "1974",
-        "description": "A stream editor for filtering and transforming text.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/9/9e/Lee_McMahon.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Stream editing, text transformation, automation."
-    },
-    "Smalltalk": {
-        "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
-        "date": "1972",
-        "description": "An object-oriented, dynamically typed reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Alan_Kay_2006.jpg",
-        "location": "Xerox PARC, USA",
-        "benefits": "Pure OOP, live environment, influence on modern GUIs."
-    },
-    "SNOBOL": {
-        "creator": "David J. Farber, Ralph E. Griswold, Ivan P. Polonsky",
-        "date": "1962",
-        "description": "A series of computer programming languages developed between 1962 and 1967 at AT&T Bell Laboratories.",
-        "image": "https://www2.cs.arizona.edu/people/griswold/reg.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "String manipulation, pattern matching, historical significance."
-    },
-    "SQL": {
-        "creator": "Donald D. Chamberlin, Raymond F. Boyce",
-        "date": "1974",
-        "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
-        "logo": "logos/SQL.svg",
-        "location": "IBM, USA",
-        "benefits": "Data management, standard, declarative, powerful queries."
+        "description": "A minimalist dialect of the Lisp family of programming languages. Scheme is central in programming language education, focusing on clean semantics and first-class procedures.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg",
+        "location": "MIT AI Lab, USA",
+        "benefits": "Minimalist, powerful macros, education, standards (R5RS, R7RS).",
+        "related": "Lisp, Common Lisp, Racket, Clojure, JavaScript",
+        "history": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education."
     },
     "Swift": {
-        "creator": "Chris Lattner",
+        "creator": "Chris Lattner et al.",
         "date": "2014",
-        "description": "Apple's replacement for Objective-C. Safe, fast, and expressive.",
+        "description": "A general-purpose, multi-paradigm, compiled programming language developed by Apple. Swift has largely superseded Objective-C for Apple platform development, focusing on safety, performance and developer ergonomics.",
         "image": "https://github.com/lattner.png",
         "logo": "logos/Swift.png",
-        "location": "Apple, USA",
-        "benefits": "Safety, speed, modern syntax, Apple ecosystem."
+        "location": "Apple Inc., USA",
+        "benefits": "Safety, performance, modern syntax, Apple ecosystem.",
+        "related": "Objective-C, Rust, C#, Python, Ruby",
+        "history": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development."
     },
     "Tcl": {
         "creator": "John Ousterhout",
         "date": "1988",
-        "description": "Tool Command Language. A dynamic programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/John_Ousterhout.jpg",
+        "description": "A high-level, general-purpose, interpreted, dynamic programming language. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/John_ousterhout_2.jpg/440px-John_ousterhout_2.jpg",
         "location": "UC Berkeley, USA",
-        "benefits": "Scripting, GUI (Tk), embedding, simplicity."
+        "benefits": "Scripting, GUI (Tk), embedding, simplicity.",
+        "related": "Lisp, Shell, Python, Perl",
+        "history": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension."
     },
     "TypeScript": {
-        "creator": "Anders Hejlsberg",
+        "creator": "Anders Hejlsberg (Microsoft)",
         "date": "2012",
-        "description": "A strict syntactical superset of JavaScript and adds optional static typing to the language.",
+        "description": "A strict syntactical superset of JavaScript that adds optional static typing. It improves maintainability and catches errors early while compiling to standard JS.",
         "image": "https://github.com/ahejlsberg.png",
         "logo": "logos/TypeScript.png",
         "location": "Microsoft, USA",
-        "benefits": "Type safety, scalability, tooling, JavaScript compatibility."
+        "benefits": "Type safety, IDE support, scales to large codebases.",
+        "related": "JavaScript, C#, Java, CoffeeScript",
+        "history": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS."
     },
     "Vala": {
-        "creator": "Jürg Billeter, Rafał Pietrak",
+        "creator": "Jürg Billeter",
         "date": "2006",
-        "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
-        "image": "https://github.com/juergbi.png",
+        "description": "An object-oriented programming language with a self-hosting compiler that generates C code and uses the GObject system. Offers modern language conveniences while compiling to C, simplifying GNOME application development.",
+        "image": "https://wiki.gnome.org/Projects/Vala?action=AttachFile&do=get&target=vala-logo.svg",
         "location": "GNOME Project",
-        "benefits": "GObject system, C performance, modern syntax, GNOME dev."
-    },
-    "Verilog": {
-        "creator": "Phil Moorby",
-        "date": "1984",
-        "description": "A hardware description language (HDL) used to model electronic systems.",
-        "image": "https://www.computerhistory.org/atchm/wp-content/uploads/2016/04/moorby-phil-2016-chm-fellow.jpg",
-        "location": "Gateway Design Automation, USA",
-        "benefits": "Hardware modeling, simulation, synthesis, industry standard."
-    },
-    "VHDL": {
-        "creator": "US Department of Defense",
-        "date": "1980",
-        "description": "VHSIC Hardware Description Language. A hardware description language used in electronic design automation.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/VHDL_Logo.svg",
-        "location": "USA",
-        "benefits": "Hardware description, strong typing, concurrency, standard."
-    },
-    "Vimscript": {
-        "creator": "Bram Moolenaar",
-        "date": "1991",
-        "description": "The scripting language of the Vim text editor.",
-        "image": "https://github.com/brammool.png",
-        "location": "Netherlands",
-        "benefits": "Editor customization, automation, plugins."
+        "benefits": "GObject integration, C performance, modern syntax.",
+        "related": "C, C#, Java, GObject",
+        "history": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development."
     },
     "VisualBasic": {
         "creator": "Microsoft (Alan Cooper)",
         "date": "1991",
-        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Alan_Cooper_2010.jpg",
-        "logo": "logos/VisualBasic.png",
+        "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model programming model. Made event-driven Windows application development accessible with RAD tools.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/4/40/VB.NET_Logo.svg",
         "location": "Microsoft, USA",
-        "benefits": "RAD, ease of use, Windows integration, legacy support."
-    },
-    "WebAssembly": {
-        "creator": "W3C Community Group",
-        "date": "2017",
-        "description": "A binary instruction format for a stack-based virtual machine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/WebAssembly_Logo.svg",
-        "logo": "logos/WebAssembly.png",
-        "location": "Global",
-        "benefits": "Performance, portability, language agnostic, web standard."
-    },
-    "Jq": {
-        "creator": "Stephen Dolan",
-        "date": "2012",
-        "description": "A lightweight and flexible command-line JSON processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/JSON_vector_logo.svg",
-        "location": "USA",
-        "benefits": "JSON processing, functional, filter-based."
-    },
-    "Make": {
-        "creator": "Stuart Feldman",
-        "date": "1976",
-        "description": "A build automation tool that automatically builds executable programs and libraries from source code.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Stuart_Feldman_2007_retouched.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Dependency management, build automation."
-    },
-    "Gnuplot": {
-        "creator": "Thomas Williams, Colin Kelley",
-        "date": "1986",
-        "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gnuplot_logo.svg",
-        "location": "USA",
-        "benefits": "Plotting, data visualization, scripting."
-    },
-    "XSLT": {
-        "creator": "W3C",
-        "date": "1998",
-        "description": "A language for transforming XML documents into other XML documents.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xml_logo.svg",
-        "location": "Worldwide",
-        "benefits": "XML transformation, functional, template-based."
-    },
-    "Zsh": {
-        "creator": "Paul Falstad",
-        "date": "1990",
-        "description": "A Unix shell that can be used as an interactive login shell and as a command interpreter for shell scripting.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Zsh_logo.svg",
-        "location": "Princeton University, USA",
-        "benefits": "Interactive shell, scripting, plugin ecosystem."
-    },
-    "AppleScript": {
-        "creator": "Apple Inc.",
-        "date": "1993",
-        "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/AppleScript_Logo.png/440px-AppleScript_Logo.png",
-        "location": "Apple, USA",
-        "benefits": "Automation, inter-application communication, English-like syntax."
-    },
-    "Expect": {
-        "creator": "Don Libes",
-        "date": "1990",
-        "description": "A program to automate interactions with programs that expose a text terminal interface.",
-        "image": "https://www.oreilly.com/covers/urn:orm:book:9781565920903/400w/",
-        "location": "NIST, USA",
-        "benefits": "Automation, testing, interactive scripting."
-    },
-    "SQLite": {
-        "creator": "D. Richard Hipp",
-        "date": "2000",
-        "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg",
-        "location": "USA",
-        "benefits": "Serverless, zero-configuration, transactional SQL."
-    },
-    "Tcsh": {
-        "creator": "Ken Greer",
-        "date": "1975",
-        "description": "An enhanced but completely compatible version of the Berkeley UNIX C shell (csh).",
-        "image": "https://www.oreilly.com/covers/urn:orm:book:9781449377526/160h/?format=webp",
-        "location": "Carnegie Mellon University, USA",
-        "benefits": "Interactive shell, command completion, history."
-    },
-    "Ksh": {
-        "creator": "David Korn",
-        "date": "1983",
-        "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
-        "image": "https://www.facesofopensource.com/wp-content/uploads/2015/09/david-korn-1.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Scripting, interactive use, backward compatibility."
-    },
-    "Dash": {
-        "creator": "Herbert Xu",
-        "date": "1997",
-        "description": "A POSIX-compliant implementation of /bin/sh that aims to be as small as possible.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg",
-        "location": "Australia",
-        "benefits": "Speed, POSIX compliance, minimal footprint."
-    },
-    "Fish": {
-        "creator": "Axel Liljencrantz",
-        "date": "2005",
-        "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Fish_shell_logo_ascii.svg",
-        "location": "Sweden",
-        "benefits": "Autosuggestions, web-based configuration, clean syntax."
-    },
-    "Bc": {
-        "creator": "Robert Morris, Lorinda Cherry",
-        "date": "1975",
-        "description": "An arbitrary-precision calculator language.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Arbitrary precision, math scripting."
-    },
-    "Dc": {
-        "creator": "Robert Morris, Lorinda Cherry",
-        "date": "1970",
-        "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
-        "image": "https://upload.wikimedia.org/wikipedia/en/b/b9/Photo_of_Lorinda_Cherry.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "RPN, arbitrary precision, stack-based."
-    },
-    "EmacsLisp": {
-        "creator": "Richard Stallman",
-        "date": "1985",
-        "description": "A dialect of the Lisp programming language used as a scripting language for GNU Emacs.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/EmacsIcon.svg",
-        "location": "MIT, USA",
-        "benefits": "Editor customization, extensibility, live coding."
-    },
-    "Forth": {
-        "creator": "Charles H. Moore",
-        "date": "1970",
-        "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Forth_logo.svg",
-        "location": "NRAO, USA",
-        "benefits": "Compactness, hardware control, interactivity."
-    },
-    "Haxe": {
-        "creator": "Nicolas Cannasse",
-        "date": "2005",
-        "description": "A high-level cross-platform language that compiles to many other languages.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Haxe_logo.svg",
-        "location": "France",
-        "benefits": "Cross-platform, strong typing, single codebase."
-    },
-    "Jupyter": {
-        "creator": "Fernando Pérez et al.",
-        "date": "2014",
-        "description": "An open-source project that supports interactive data science and scientific computing.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg",
-        "location": "Global",
-        "benefits": "Interactive computing, data visualization, education."
-    },
-    "M4": {
-        "creator": "Brian Kernighan, Dennis Ritchie",
-        "date": "1977",
-        "description": "A general-purpose macro processor.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Brian_Kernighan_at_VCF_East_2.jpg",
-        "location": "Bell Labs, USA",
-        "benefits": "Macro expansion, text processing, configuration."
-    },
-    "Objective-C": {
-        "creator": "Brad Cox, Tom Love",
-        "date": "1984",
-        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
-        "image": "https://m.media-amazon.com/images/I/51+H6XVgf3L.jpg",
-        "location": "Stepstone, USA",
-        "benefits": "Dynamic runtime, C compatibility, Apple legacy."
-    },
-    "Raku": {
-        "creator": "Larry Wall",
-        "date": "2015",
-        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Raku_logo.svg",
-        "location": "Global",
-        "benefits": "Expressiveness, grammars, concurrency."
-    },
-    "V": {
-        "creator": "Alexander Medvednikov",
-        "date": "2019",
-        "description": "A statically typed, compiled language designed for maintainability and speed.",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/V-logo.svg",
-        "location": "Global",
-        "benefits": "Fast compilation, simplicity, safety."
+        "benefits": "RAD, ease of use, Windows integration, legacy support.",
+        "related": "BASIC, QuickBASIC, VBA, C#",
+        "history": "1991. Made event-driven Windows application development accessible with RAD tools and a beginner-friendly syntax."
     },
     "Zig": {
         "creator": "Andrew Kelley",
         "date": "2016",
-        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
+        "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software. It aims to improve upon C with features like comptime and manual memory management without hidden control flow.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zig_logo.svg",
         "logo": "logos/Zig.png",
         "location": "USA",
-        "benefits": "No hidden control flow, manual memory management, comptime."
+        "benefits": "No hidden control flow, manual memory management, comptime.",
+        "related": "C, C++, Rust, Go, Jai",
+        "history": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative."
     },
     "BASH": {
         "creator": "Brian Fox",
@@ -1239,7 +657,8 @@ exports.languageMetadata = {
         "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Gnu-bash-logo.svg",
         "location": "Free Software Foundation, USA",
-        "benefits": "Ubiquitous, powerful scripting, direct system interaction."
+        "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
+        "related": "Bourne Shell, Zsh, Ksh"
     },
     "BASIC": {
         "creator": "John G. Kemeny, Thomas E. Kurtz",
@@ -1248,6 +667,111 @@ exports.languageMetadata = {
         "image": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kemeny_and_Kurtz.jpg/300px-Kemeny_and_Kurtz.jpg",
         "logo": "logos/BASIC.png",
         "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance."
+        "benefits": "Easy to learn, interactive, historical significance.",
+        "related": "Fortran, Visual Basic"
+    },
+    "Wren": {
+        "creator": "Bob Nystrom",
+        "date": "2013",
+        "description": "A small, fast, class-based concurrent scripting language. Designed for embedding in applications, it is object-oriented and comparable in speed to Lua.",
+        "image": "https://wren.io/logo.png",
+        "logo": "logos/Wren.png",
+        "location": "USA",
+        "benefits": "High performance, small footprint, clean syntax.",
+        "related": "Lua, Smalltalk, Dart, JavaScript",
+        "history": "2013. A small, fast, class-based concurrent scripting language. Designed by Bob Nystrom, Wren aims to be a modern, improved version of Lua, featuring a small footprint and high performance."
+    },
+    "Red": {
+        "creator": "Nenad Rakocevic",
+        "date": "2011",
+        "description": "A functional and symbolic language inspired by REBOL. It is a full-stack language, capable of both high-level scripting and low-level system programming.",
+        "image": "https://static.red-lang.org/red-logo.png",
+        "logo": "logos/Red.png",
+        "location": "Global",
+        "benefits": "Full-stack, symbolic, cross-platform.",
+        "related": "Rebol, Lisp, Lua",
+        "history": "2011. A next-generation functional and symbolic language inspired by REBOL. It's designed to be a full-stack language, capable of everything from low-level systems programming to high-level GUI application development."
+    },
+    "Pike": {
+        "creator": "Fredrik Hübinette, Per Hedbor",
+        "date": "1994",
+        "description": "A general-purpose, high-level, cross-platform, dynamic programming language with a C-like syntax. It features garbage collection, advanced data types, and first-class anonymous functions.",
+        "image": "Languages/Pike/Media/Pike_1766237418806.png",
+        "location": "Linköping, Sweden",
+        "benefits": "C-like syntax, dynamic typing, concurrency.",
+        "related": "LPC, C, C++, Python"
+    },
+    "Fennel": {
+        "creator": "Calvin Rose (Project Lead)",
+        "date": "2016",
+        "description": "A programming language that brings Lisp syntax and macros to the Lua architecture. It compiles to Lua and runs with zero overhead, offering full Lua compatibility.",
+        "image": "Languages/Fennel/Media/Fennel_1766237539834.png",
+        "location": "Global",
+        "benefits": "Lisp syntax, Lua speed, zero overhead, embeddable.",
+        "related": "Lua, Lisp, Clojure"
+    },
+    "Janet": {
+        "creator": "Calvin Rose",
+        "date": "2017",
+        "description": "A functional and imperative programming language designed for system scripting, expressive automation, and embedding. It features a built-in PEG engine and Lisp-like macros.",
+        "image": "Languages/Janet/Media/Janet_1766238064569.png",
+        "location": "USA",
+        "benefits": "Embeddable, PEG parsing, structural editing.",
+        "related": "Lua, Clojure, Lisp, C"
+    },
+    "Io": {
+        "creator": "Steve Dekorte",
+        "date": "2002",
+        "description": "A pure object-oriented, prototype-based programming language. In Io, everything is an object, and it uses a message-passing model similar to Smalltalk but with a prototype-based object model like Self.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Io_Programming_Language_Logo.svg/1200px-Io_Programming_Language_Logo.svg.png",
+        "location": "USA",
+        "benefits": "Simplicity, flexibility, concurrency (coroutines).",
+        "related": "Smalltalk, Self, Lisp, Lua"
+    },
+    "Factor": {
+        "creator": "Slava Pestov",
+        "date": "2003",
+        "description": "A stack-oriented, concatenative, multi-paradigm programming language. It combines the flexibility of dynamic typing with the performance of native compilation.",
+        "image": "https://concatenative.org/mediawiki/images/Factor_logo.png",
+        "location": "USA",
+        "benefits": "Concatenative, metaprogramming, performance.",
+        "related": "Forth, Joy, Lisp, Smalltalk"
+    },
+    "Icon": {
+        "creator": "Ralph Griswold",
+        "date": "1977",
+        "description": "A very high-level programming language based on goal-directed execution and string scanning. It makes extensive use of generators and backtracking.",
+        "image": "https://www2.cs.arizona.edu/icon/logo/icon.gif",
+        "location": "University of Arizona, USA",
+        "benefits": "String processing, goal-directed execution, generators.",
+        "related": "SNOBOL, Python, Unicon"
+    },
+    "Objective-C": {
+        "creator": "Brad Cox, Tom Love",
+        "date": "1984",
+        "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C. It was the standard language for developing macOS and iOS applications until Swift's introduction.",
+        "image": "https://m.media-amazon.com/images/I/51+H6XVgf3L.jpg",
+        "location": "Stepstone, USA",
+        "benefits": "Dynamic runtime, C compatibility, Apple legacy.",
+        "related": "C, Smalltalk, Swift, C++",
+        "history": "1984. Combining C with Smalltalk-style messaging, Objective-C powered classic Apple development with a dynamic runtime and flexible object model."
+    },
+    "Raku": {
+        "creator": "Larry Wall",
+        "date": "2015",
+        "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile. A dynamic, high-level, general-purpose language with a strong emphasis on human-readable syntax and advanced text processing.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Raku_logo.svg",
+        "location": "Global",
+        "benefits": "Expressiveness, grammars, concurrency.",
+        "related": "Perl, Haskell, Python, Ruby"
+    },
+    "V": {
+        "creator": "Alexander Medvednikov",
+        "date": "2019",
+        "description": "A statically typed, compiled language designed for maintainability and speed. It aims to be simple, fast, and safe, compiling to C.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/V-logo.svg",
+        "location": "Global",
+        "benefits": "Fast compilation, simplicity, safety.",
+        "related": "Go, Oberon, Rust, Swift, C"
     }
 };
