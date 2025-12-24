@@ -68,6 +68,12 @@ report_env_error() {
     "memory": 0,
     "cpu_user": 0,
     "cpu_sys": 0,
+    "page_faults_major": 0,
+    "page_faults_minor": 0,
+    "context_switches_voluntary": 0,
+    "context_switches_involuntary": 0,
+    "io_inputs": 0,
+    "io_outputs": 0,
     "status": "env_error",
     "output": "$error_msg"
   }]
@@ -112,12 +118,15 @@ run_matrix() {
 
     # Run with timeout and capture timing
     # Format: %e (elapsed seconds) %M (max RSS in KB) %U (user CPU) %S (system CPU)
+    #         %F (major page faults) %R (minor page faults)
+    #         %w (voluntary ctx switches) %c (involuntary ctx switches)
+    #         %I (file system inputs) %O (file system outputs)
     # Note: SOLVER_BINARY is unquoted to allow word splitting for multi-word commands
     if [ -n "$TIMEOUT_CMD" ]; then
-        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
+        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S %F %R %w %c %I %O" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
     else
         # No timeout command available, run without timeout
-        $TIME_CMD -f "%e %M %U %S" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
+        $TIME_CMD -f "%e %M %U %S %F %R %w %c %I %O" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
     fi
     local exit_code=$?
 
@@ -133,11 +142,17 @@ run_matrix() {
         status="error"
     fi
 
-    # Parse timing data (format: time_seconds memory_kb cpu_user cpu_sys)
+    # Parse timing data (format: time_seconds memory_kb cpu_user cpu_sys page_faults_major page_faults_minor ctx_vol ctx_invol io_in io_out)
     local time_seconds=$(echo "$timing_line" | awk '{print $1}')
     local memory_kb=$(echo "$timing_line" | awk '{print $2}')
     local cpu_user=$(echo "$timing_line" | awk '{print $3}')
     local cpu_sys=$(echo "$timing_line" | awk '{print $4}')
+    local page_faults_major=$(echo "$timing_line" | awk '{print $5}')
+    local page_faults_minor=$(echo "$timing_line" | awk '{print $6}')
+    local ctx_switches_vol=$(echo "$timing_line" | awk '{print $7}')
+    local ctx_switches_invol=$(echo "$timing_line" | awk '{print $8}')
+    local io_inputs=$(echo "$timing_line" | awk '{print $9}')
+    local io_outputs=$(echo "$timing_line" | awk '{print $10}')
 
     # Extract iterations from output
     local iterations=$(extract_iterations "$output")
@@ -147,6 +162,12 @@ run_matrix() {
     memory_kb=${memory_kb:-0}
     cpu_user=${cpu_user:-0}
     cpu_sys=${cpu_sys:-0}
+    page_faults_major=${page_faults_major:-0}
+    page_faults_minor=${page_faults_minor:-0}
+    ctx_switches_vol=${ctx_switches_vol:-0}
+    ctx_switches_invol=${ctx_switches_invol:-0}
+    io_inputs=${io_inputs:-0}
+    io_outputs=${io_outputs:-0}
     iterations=${iterations:-0}
 
     # Convert memory from KB to bytes (HTMLGenerator expects bytes)
@@ -164,6 +185,12 @@ run_matrix() {
       "memory": $memory_bytes,
       "cpu_user": $cpu_user,
       "cpu_sys": $cpu_sys,
+      "page_faults_major": $page_faults_major,
+      "page_faults_minor": $page_faults_minor,
+      "context_switches_voluntary": $ctx_switches_vol,
+      "context_switches_involuntary": $ctx_switches_invol,
+      "io_inputs": $io_inputs,
+      "io_outputs": $io_outputs,
       "status": "$status",
       "output": "$escaped_output"
     }
