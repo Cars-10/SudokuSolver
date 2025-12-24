@@ -5,200 +5,172 @@
 ## Test Framework
 
 **Runner:**
-- None configured - No vitest, jest, or mocha
+- No traditional test framework (Jest, Vitest, Mocha) installed
+- Custom validation scripts replace unit testing
+- Reference-based regression testing
 
-**Assertion Library:**
-- Not applicable
+**Validation Library:**
+- Custom implementation in `Metrics/validation.js`
+- Format validation in `Metrics/format_validation.js`
+- CLI runner in `Metrics/validate_run.js`
 
 **Run Commands:**
 ```bash
-# No test commands available
-# Validation is done via utility scripts:
-node check_invalid.mjs          # Find invalid metrics entries
-node Metrics/validation.js      # Validate iteration counts
+node Metrics/validate_run.js <path>           # Iteration validation (default)
+node Metrics/validate_run.js --format <path>  # Format validation
+node Metrics/validate_run.js --all <path>     # Both validations
 ```
 
 ## Test File Organization
 
 **Location:**
-- No `*.test.ts` or `*.spec.ts` files
-- No `__tests__/` directories
-- Validation scripts in `Metrics/` and root
+- Validation scripts in `Metrics/` directory
+- No separate `tests/` or `__tests__/` directories
+- Co-located with production code
 
 **Naming:**
-- Not applicable (no test files)
+- `validation.js` - Core validation logic
+- `format_validation.js` - Output format checking
+- `validate_run.js` - CLI test runner
 
 **Structure:**
 ```
-SudokuSolver/
-  check_invalid.mjs         # Metrics validation script
-  Metrics/
-    validation.js           # Iteration count validation
-    format_validation.js    # Format validation utilities
-    validate_run.js         # Run validation
-    db_utils.js             # Database utilities (with JSDoc)
+Metrics/
+  ├── validation.js         # Iteration count validation
+  ├── format_validation.js  # Output format validation
+  ├── validate_run.js       # CLI test runner
+  └── [core logic files]
 ```
 
 ## Test Structure
 
-**No formal test suites.** The project uses manual validation:
-
-**Validation Pattern (from `check_invalid.mjs`):**
+**Validation Pattern:**
 ```javascript
-for (const file of files) {
-    try {
-        const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-        if (Array.isArray(data)) {
-            for (const entry of data) {
-                if (!entry.results || entry.results.length === 0) {
-                    invalid.push({ file, reason: 'No results array' });
-                }
-                if (r.status === 'env_error' || r.status === 'error') {
-                    invalid.push({ file, reason: 'Error status: ' + r.status });
-                }
-            }
-        }
-    } catch (e) {
-        invalid.push({ file, reason: 'JSON parse error' });
-    }
+// Load reference
+const reference = loadReferenceIterations();
+
+// Validate against expected
+const result = validateIterations(matrix, actualIterations);
+
+// Result structure
+{
+  valid: boolean,
+  expected: number,
+  actual: number,
+  matrix: string
 }
 ```
+
+**Patterns:**
+- Reference-based comparison against C baseline
+- Expected iterations stored in `Matrices/reference_iterations.json`
+- Status codes: `success`, `timeout`, `error`, `env_error`
 
 ## Mocking
 
 **Framework:**
-- Not applicable (no test framework)
+- No mocking framework installed
+- Integration testing via actual execution
+- No unit test isolation
 
-**Patterns:**
-- Not applicable
+**What Gets Tested:**
+- Actual solver execution
+- Real file I/O
+- Full benchmark pipeline
 
 ## Fixtures and Factories
 
 **Test Data:**
-- Reference outputs in `Matrices/ReferenceForAllMatrixRun.txt`
-- Expected iterations in `Matrices/reference_iterations.json`
-- 6 matrix puzzle files (`Matrices/1.matrix` through `6.matrix`)
+- Reference outputs in `Matrices/reference_output/`
+- Reference iterations in `Matrices/reference_iterations.json`
+- Test matrices: `Matrices/1.matrix` through `Matrices/6.matrix`
 
 **Location:**
-- `Matrices/` directory contains reference data
-- Per-language `metrics.json` files serve as historical fixtures
+- All fixtures in `Matrices/` directory
+- No factory functions for test data
 
 ## Coverage
 
 **Requirements:**
-- No coverage tracking
-- No coverage targets
+- No coverage target defined
+- Focus on correctness via reference comparison
+- Manual verification of algorithm matching
 
-**Configuration:**
-- Not applicable
+**View Coverage:**
+- No coverage tooling configured
 
 ## Test Types
 
-**Unit Tests:**
-- Not implemented
+**Validation Tests (Primary):**
+- Compare iteration counts against C reference (656 for Matrix 1)
+- Verify output format matches specification
+- Check status codes are correct
 
 **Integration Tests:**
-- Not implemented
+- Full solver execution via shell
+- End-to-end benchmark pipeline
+- Report generation verification
 
-**Validation Scripts (informal testing):**
-- `check_invalid.mjs` - Validates metrics JSON structure
-- `Metrics/validation.js` - Validates iteration counts match reference
-- These are run manually, not in CI
-
-**Benchmark Testing (the project IS a benchmark tool):**
-- `Metrics/SolverRunner.ts` executes language solvers
-- Captures: time, iterations, memory, CPU user/sys, status, output
-- Validates output against reference solutions
+**Manual Tests:**
+- Visual verification of HTML reports
+- Screenshot comparison
+- UI interaction testing
 
 ## Common Patterns
 
-**Data Validation:**
-```typescript
-// From types.ts - Type definitions serve as validation contracts
-export interface MetricResult {
-    matrix: string;
-    time: number;
-    iterations: number;
-    memory: number;
-    cpu_user: number;
-    cpu_sys: number;
-    status: string;
-    output?: string;
-}
+**Language Solver Testing:**
+```bash
+# Run benchmarks
+cd Languages/YourLanguage
+./runMe.sh ../../../Matrices/1.matrix
+
+# Check metrics generated
+cat metrics.json
+
+# Validate against reference
+node /app/Metrics/validate_run.js /app/Languages/YourLanguage/metrics.json
 ```
 
-**Error Detection:**
-```javascript
-// Status-based error detection
-if (r.status === 'env_error' || r.status === 'error') {
-    // Mark as invalid
-}
+**Validation Execution:**
+```bash
+# Full validation
+node Metrics/validate_run.js Languages/C/metrics.json
+
+# Output format
+# ✓ PASS: Matrix 1 - Expected 656, Got 656
+# ✗ FAIL: Matrix 2 - Expected 1000, Got 999
 ```
 
-**Reference Comparison:**
-- Solver output compared against `ReferenceForAllMatrixRun.txt`
-- Iteration counts compared against `reference_iterations.json`
+**Environment Validation:**
+```bash
+# In language script
+check_toolchain gcc  # Validates compiler
+report_env_error "GCC not installed"  # Generates error metrics
+```
 
-## Benchmark Testing Infrastructure
+## Validation Success Criteria
 
-**The project itself is a benchmarking tool:**
+**Iteration Matching:**
+- Matrix 1: 656 iterations (C reference)
+- Must match exactly for validation pass
+- Timeout: 180 seconds maximum
 
-**SolverRunner (`Metrics/SolverRunner.ts`):**
-- Executes language-specific solvers
-- Supports local and Docker execution
-- Captures performance metrics
+**Output Format:**
+- Must match C reference output format
+- JSON structure must be valid
+- Status field must be present
 
-**HistoryManager (`Metrics/HistoryManager.ts`):**
-- Tracks all benchmark runs
-- Append-only log in `benchmark_history.json`
-
-**RepositoryAnalyzer (`Metrics/RepositoryAnalyzer.ts`):**
-- Discovers solver implementations
-- Reads reference outputs for validation
-
-**HTMLGenerator (`Metrics/HTMLGenerator.ts`):**
-- Generates comprehensive reports
-- Includes mismatch detection and scoring
-
-## Known Limitations
-
-- **No unit tests** - All validation is script-based
-- **No CI/CD pipeline** - No automated testing on push
-- **No coverage reports** - No tracking of code coverage
-- **Manual validation** - Relies on running scripts manually
-- **Status-based errors** - Uses status codes instead of exceptions
-
-## Recommendations
-
-To add proper testing:
-
-1. **Install vitest:**
-   ```bash
-   npm install -D vitest @vitest/coverage-v8
-   ```
-
-2. **Add test script to package.json:**
-   ```json
-   "scripts": {
-       "test": "vitest",
-       "test:coverage": "vitest --coverage"
-   }
-   ```
-
-3. **Create test files co-located with source:**
-   ```
-   Metrics/
-     SolverRunner.ts
-     SolverRunner.test.ts
-     HistoryManager.ts
-     HistoryManager.test.ts
-   ```
-
-4. **Priority areas for testing:**
-   - `HistoryManager` - Read/write operations
-   - `RepositoryAnalyzer` - File discovery logic
-   - `SolverRunner` - Timeout and error handling
-   - Input validation in `server/index.js`
+**Metrics File Structure:**
+```json
+{
+  "solver": "LanguageName",
+  "runType": "local|docker",
+  "metrics": {
+    "1.matrix": { "time": 0.5, "iterations": 656, "status": "success" },
+    "2.matrix": { ... }
+  }
+}
+```
 
 ---
 
