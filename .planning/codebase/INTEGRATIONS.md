@@ -5,156 +5,130 @@
 ## APIs & External Services
 
 **Payment Processing:**
-- Not detected
+- Not applicable - No payment integration
 
 **Email/SMS:**
-- Not detected
+- Not applicable - No email or messaging integration
 
 **External APIs:**
-- Logo fetching - Downloads language logos from external URLs
-  - GitHub profile avatars: `https://github.com/{username}.png`
-  - Wikimedia images: `https://upload.wikimedia.org/`
-  - Integration method: node-fetch (`server/index.js:343`)
-  - No authentication required
+- Not applicable - No external API consumption
 
-**Google Fonts:**
-- Font delivery service (Inter, JetBrains Mono)
-- Integration: Preconnect link in `server/public/index.html`
+**Note:** This is a self-contained benchmark system with no external service dependencies.
 
 ## Data Storage
 
 **Databases:**
-- SQLite via better-sqlite3 11.0.0 - Optional metrics storage
-  - Connection: Direct file access (`Metrics/benchmarks.db`)
-  - Client: `Metrics/db_utils.js`
-  - Schema: `runs` table with performance metrics
+- SQLite (better-sqlite3 11.0.0) - Embedded relational database
+  - Connection: Direct file access via better-sqlite3
+  - Client: `better-sqlite3` npm package
+  - Files: `Metrics/benchmarks.db`, `Metrics/db_utils.js`
+  - Usage: Optional database storage for benchmark results
 
 **File Storage:**
-- Local file system - Primary storage mechanism
-  - Metrics: `Languages/*/metrics.json`, `benchmark_history.json`
-  - Configuration: `benchmark_config.json`, `.env`
-  - Reports: `_report.html`, `benchmark_report.html`
-  - Logos: `logos/` directory
-  - Screenshots: `screenshots/` directory
+- Local file system only
+  - Metrics: `Languages/*/metrics.json`
+  - History: `benchmark_history.json`
+  - Reports: `_report.html`, `_report_screenshot.html`
+  - Uploads: `server/uploads/`
 
 **Caching:**
-- None (all data read from files on each request)
+- None - All operations read from disk
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- None - No authentication implemented
-- API endpoints are public
+- None - No authentication system
+- Open API without access control
 
 **OAuth Integrations:**
-- Not detected
+- None
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- None configured
-- Errors logged to console
+- Console logging only
+- No Sentry, Datadog, or similar
 
 **Analytics:**
-- None configured
+- None
 
 **Logs:**
-- Console output only (stdout/stderr)
-- No log aggregation service
+- stdout/stderr to console
+- No centralized logging
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Docker container - Ubuntu 24.04 with 80+ language toolchains
-  - Image: `sudoku-benchmark:latest`
-  - Port: 9001
-  - Configuration: `docker-compose.yml`, `server/Dockerfile`
+- Docker container (Ubuntu 24.04 base)
+- Port 9001 for API
+- Volume mounts for persistent data
 
 **CI Pipeline:**
-- Not detected
-- No GitHub Actions or similar
+- Not configured
+- Manual validation via `validate_run.js`
 
 ## Environment Configuration
 
 **Development:**
-- Required env vars: `WEBHOST`, `WEBPORT` (optional, defaults available)
-- Secrets location: `.env` file (gitignored)
-- No `.env.example` template
-
-**Staging:**
-- Not applicable (no staging environment)
+- Required env vars: `WEBHOST`, `WEBPORT` (in `.env`)
+- No secrets management (no external services)
+- Docker optional for full language support
 
 **Production:**
-- Docker deployment
-- Volume mounts for source code, matrices, metrics, logos, screenshots
+- Same as development
+- Docker recommended for all 80+ languages
+- Environment vars in `docker-compose.yml`
 
 ## Webhooks & Callbacks
 
 **Incoming:**
-- None detected
+- None
 
 **Outgoing:**
-- None detected
+- None
 
-## Third-Party Tools
+## Browser Automation
 
-**Image Processing:**
-- Puppeteer 24.31.0+ - Headless Chrome automation
-  - Used for: Screenshot capture of HTML reports
-  - Chrome detection: macOS (`/Applications/Google Chrome.app/...`)
-  - Configuration: 1920x1080 resolution
+**Puppeteer:**
+- Used for: Screenshot capture of HTML reports
+- Configuration: `Metrics/ScreenshotUtils.ts`
+- Environment: `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser`
+- Chrome path: `/Applications/Google Chrome.app/...` (macOS dev)
+- Viewport: 1920x1080 for consistent rendering
 
-- Sharp 0.33.5 - Image processing library
-  - Used for: SVG to PNG conversion, logo transformations
-  - Location: `server/logo_processor.js`
-  - Features: Color inversion, transparent white conversion
-  - Dependencies: librsvg2-dev (in Dockerfile)
+## Image Processing
 
-## API Endpoints Exposed
+**Sharp:**
+- Used for: Logo processing and transformation
+- Location: `server/logo_processor.js`
+- Features:
+  - SVG to PNG conversion
+  - Color inversion for logos
+  - White-to-transparent transformation
+  - Resize with background specification
 
-**Benchmark Execution:**
-- `POST /api/run` - Execute solver for language + matrix
-- `POST /api/generate-report` - Trigger full report generation
+**svg2png-wasm:**
+- Used for: Alternative SVG conversion
+- Location: `server/package.json`
 
-**Data Retrieval:**
-- `GET /api/matrices` - List available matrix files
-- `GET /api/matrix/:filename` - Fetch matrix content
-- `GET /api/languages` - List available language implementations
-- `GET /api/metrics/:language` - Fetch metrics for specific language
-- `GET /api/session-state` - Retrieve UI session state
+## Process Execution
 
-**Media Management:**
-- `POST /api/fetch-logo` - Download and process external logo
-- `POST /api/upload-logo` - Handle multipart logo file upload
-- `POST /api/save-metadata` - Persist language metadata
+**child_process:**
+- Used for: Running language-specific solvers
+- Location: `server/index.js` (lines 152, 434)
+- Timeout: 120-180 seconds
+- Working directory: Language-specific folders
 
-**Static Assets:**
-- `GET /` - Serve generated benchmark report
-- `GET /runner` - Serve Matrix Runner UI
-- Static directories: `/logos`, `/Metrics`, `/js`, `/css`
+## HTTP Client
 
-## Docker Container Dependencies
-
-From `server/Dockerfile` (Ubuntu 24.04):
-- chromium-browser - For Puppeteer screenshot capture
-- libvips-dev, librsvg2-dev - For image processing (Sharp)
-- 80+ language toolchains installed
-
-## Data Exchange Formats
-
-**JSON:**
-- `metrics.json` - Per-language benchmark results
-- `benchmark_history.json` - Historical run data
-- `benchmark_config.json` - Benchmark parameters
-- `session_state.json` - UI state persistence
-- `Languages/metadata.json` - Language definitions
-
-**HTML:**
-- `_report.html` - Self-contained benchmark report
-- Embedded D3.js for interactive visualizations
-- Embedded JSON data for client-side rendering
+**node-fetch:**
+- Used for: Downloading language logos from URLs
+- Location: `server/index.js`, `server/logo_processor.js`
+- Endpoint: `/api/download-media`
 
 ---
 
 *Integration audit: 2025-12-24*
 *Update when adding/removing external services*
+
+**Summary:** This codebase has NO external API integrations, NO authentication systems, and NO third-party SaaS dependencies. It is a self-contained polyglot benchmark system using only local file I/O, local process execution, local SQLite database, and local browser automation via Puppeteer.

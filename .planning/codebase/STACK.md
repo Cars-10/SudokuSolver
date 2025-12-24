@@ -5,78 +5,87 @@
 ## Languages
 
 **Primary:**
-- TypeScript 5.3.2 - All metrics aggregation, report generation, and service code (`Metrics/*.ts`)
-- JavaScript (Node.js) - Server backend and legacy utilities (`server/index.js`, `Metrics/*.js`)
+- TypeScript 5.x - Metrics processing and report generation (`Metrics/*.ts`)
+- JavaScript - Server API and solver implementations (`server/index.js`, `Languages/JavaScript/`)
 
 **Secondary:**
-- Shell (Bash) - Build scripts, solver execution (`runBenchmarks.sh`, `Languages/*/setupAndRunMe.sh`)
-- HTML/CSS/JavaScript - Static UI for Matrix Runner (`server/public/`)
-- 80+ Programming Languages - Solver implementations (`Languages/`)
+- 80+ programming languages - Sudoku solver implementations (`Languages/*/`)
+- Bash - Build scripts, solver wrappers, benchmarking (`Languages/common.sh`, `runBenchmarks.sh`)
+
+**Polyglot Language Support:**
+- Compiled: C, C++, Rust, Go, Swift, D, Nim, Crystal, Zig, V, Haxe
+- JVM: Java, Kotlin, Scala, Groovy, Clojure
+- .NET: C#, F#
+- Scripting: Python, Ruby, Perl, PHP, Lua, R, Julia
+- Functional: Haskell, OCaml, Elixir, Racket, Lisp
+- Esoteric: Brainfuck, COBOL, Fortran, Ada, Prolog, Verilog
 
 ## Runtime
 
 **Environment:**
-- Node.js 18+ (LTS) - Primary runtime for server and metrics
-- ES2022 module system - TypeScript target (`Metrics/tsconfig.json`)
-- Docker (Ubuntu 24.04) - Polyglot container with 80+ language toolchains (`server/Dockerfile`)
+- Node.js 20.x LTS - Primary runtime (`server/Dockerfile` lines 81-86)
+- Python 3 - Python solver and utilities (`server/Dockerfile` lines 72-78)
+- Go 1.21.5 - Custom compiled binary (`server/Dockerfile` lines 89-98)
+- Rust (stable) - Via rustup (`server/Dockerfile` lines 100-104)
+- OpenJDK 21 - JVM languages (`server/Dockerfile` lines 106-114)
+- .NET SDK 8.0 - C#/F# support (`server/Dockerfile` lines 124-131)
+- Docker Base: Ubuntu 24.04 LTS (Noble Numbat)
 
 **Package Manager:**
-- npm - Primary package manager
-- Lockfiles present:
-  - `package-lock.json` - Root dependencies
-  - `Metrics/package-lock.json` - Metrics module
-  - `server/package-lock.json` - Server module
+- npm - Node.js dependencies
+- Lockfiles: `package-lock.json` present in root, `Metrics/`, `server/`, `Languages/TypeScript/`, `Languages/JavaScript/`
 
 ## Frameworks
 
 **Core:**
-- Express.js 4.18.2/5.2.1 - REST API backend (`server/index.js`, `Metrics/package.json`)
-- CORS 2.8.5 - Cross-origin request handling
+- Express.js 4.18.2 - HTTP server (`server/package.json`)
+- Express.js 5.2.1 - Metrics API (`Metrics/package.json`)
 
 **Testing:**
-- None configured - Manual validation via scripts (`check_invalid.mjs`, `validation.js`)
+- Custom validation framework - Reference-based testing (`Metrics/validation.js`)
+- No traditional test runner (Jest, Vitest) installed
 
 **Build/Dev:**
-- TypeScript 5.3.2 - Type checking and compilation (`Metrics/tsconfig.json`)
 - tsx 4.21.0 - TypeScript execution without build step (`package.json`)
-- ts-node 10.9.1 - TypeScript execution (`Metrics/package.json`)
+- ts-node 10.9.0+ - TypeScript Node runtime
+- TypeScript 5.x - Compilation (`Metrics/tsconfig.json`, `Languages/TypeScript/tsconfig.json`)
 
 ## Key Dependencies
 
 **Critical:**
-- better-sqlite3 11.0.0 - Embedded database for benchmark metrics (`Metrics/db_utils.js`)
-- Puppeteer 24.31.0/24.32.0 - Headless Chrome for screenshots (`Metrics/ScreenshotUtils.ts`)
-- Sharp 0.33.5 - Image processing for logos (`server/logo_processor.js`)
-- fs-extra 11.x - Enhanced file system operations (`package.json`, `Metrics/package.json`)
+- better-sqlite3 11.0.0 - Embedded SQL database (`server/package.json`, `Metrics/package.json`)
+- puppeteer 24.32.0 - Headless browser for screenshots (`package.json`)
+- sharp 0.33.5 - Image processing for logos (`server/package.json`)
 
 **Infrastructure:**
-- glob 10.5.0/13.0.0 - File pattern matching (`Metrics/RepositoryAnalyzer.ts`)
-- multer 1.4.5-lts.1 - File upload middleware (`server/index.js`)
-- node-fetch 3.3.2 - HTTP client for external resources (`server/index.js`)
+- cors 2.8.5 - CORS middleware (`server/package.json`)
+- multer 1.4.5 - File upload handling (`server/package.json`)
+- node-fetch 3.3.2 - HTTP client (`server/package.json`)
+- glob 13.0.0 - File pattern matching (`package.json`)
+- fs-extra 11.3.2 - Enhanced file operations (`package.json`)
+- svg2png-wasm 1.4.1 - SVG to PNG conversion (`server/package.json`)
 
 ## Configuration
 
 **Environment:**
-- `.env` file with `WEBHOST=localhost`, `WEBPORT=3000`
-- `PORT` environment variable (defaults to 9001)
-- No `.env.example` template
+- `.env` file for server configuration
+- Variables: `WEBHOST=localhost`, `WEBPORT=3000`
+- Docker: `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`, `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser`
 
 **Build:**
-- `Metrics/tsconfig.json` - TypeScript configuration (ES2022, strict: false)
-- `benchmark_config.json` - Benchmark execution parameters (baseline language, matrix lists)
-- `docker-compose.yml` - Container orchestration
+- `Metrics/tsconfig.json` - ES2022 target, ESM modules
+- `Languages/TypeScript/tsconfig.json` - ES2020 target, CommonJS, strict mode
+- `benchmark_config.json` - Benchmark execution configuration
 
 ## Platform Requirements
 
 **Development:**
-- macOS/Linux/Windows with Node.js 18+
-- Chrome/Chromium for Puppeteer screenshot capture
-- Docker for containerized benchmark execution (optional)
+- macOS/Linux/Windows (any platform with Node.js and Docker)
+- Docker Desktop for full benchmark suite
 
 **Production:**
-- Docker container with Ubuntu 24.04 base
-- 80+ language toolchains installed
-- Port 9001 exposed for HTTP API
+- Docker container (Ubuntu 24.04 base)
+- Port 9001 for API server
 - Volume mounts for Languages, Matrices, Metrics, logos, screenshots
 
 ---
