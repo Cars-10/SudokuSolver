@@ -16,14 +16,28 @@ echo ""
 INPUT=$(cat "$MATRIX" | tr -cd '0-9')
 RESULT=$(echo "$INPUT" | sed -nf "$SED_SCRIPT")
 
+# Debug: uncomment to see raw result in logs
+# echo "DEBUG RAW: $RESULT" >&2
+
+if [ -z "$RESULT" ]; then
+    echo "Error: Sed produced no output" >&2
+    exit 1
+fi
+
 if [[ "$RESULT" == "No solution found." ]]; then
     echo "$RESULT"
     exit 0
 fi
 
 # 4. Format Result
+# Expecting BOARD|COUNT
 BOARD=$(echo "$RESULT" | cut -d'|' -f1)
 ITERS=$(echo "$RESULT" | cut -d'|' -f2)
+
+if [ -z "$ITERS" ]; then
+    # Maybe Sudoku.sed output Solved in Iterations=...
+    ITERS=$(echo "$RESULT" | grep "Solved in Iterations=" | cut -d'=' -f2)
+fi
 
 echo "Puzzle:"
 echo "$BOARD" | sed 's/./& /g; s/.\{18\}/&\n/g'

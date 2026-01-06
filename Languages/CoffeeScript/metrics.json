@@ -1,0 +1,89 @@
+[
+  {
+    "solver": "CoffeeScript",
+    "runType": "automated",
+    "timestamp": "2025-12-30T15:13:30Z",
+    "results": [
+      {
+        "matrix": "1",
+        "time": 2.9288,
+        "iterations": 0,
+        "memory": 1474560,
+        "cpu_user": 0.636,
+        "cpu_sys": 1.38,
+        "page_faults_major": 1,
+        "page_faults_minor": 366,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 9,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "2",
+        "time": 4.0185,
+        "iterations": 0,
+        "memory": 1474560,
+        "cpu_user": 0.843,
+        "cpu_sys": 1.868,
+        "page_faults_major": 1,
+        "page_faults_minor": 367,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 7,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "3",
+        "time": 2.8984,
+        "iterations": 0,
+        "memory": 1474560,
+        "cpu_user": 0.655,
+        "cpu_sys": 1.41,
+        "page_faults_major": 1,
+        "page_faults_minor": 368,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 7,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "4",
+        "time": 2.9722,
+        "iterations": 0,
+        "memory": 1474560,
+        "cpu_user": 0.638,
+        "cpu_sys": 1.404,
+        "page_faults_major": 1,
+        "page_faults_minor": 365,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 6,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "5",
+        "time": 2.9488,
+        "iterations": 0,
+        "memory": 1474560,
+        "cpu_user": 0.635,
+        "cpu_sys": 1.455,
+        "page_faults_major": 1,
+        "page_faults_minor": 368,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 9,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      }
+    ]
+  }
+]

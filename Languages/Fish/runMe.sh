@@ -17,8 +17,15 @@ compile() {
     fi
 }
 
-# SOLVER_BINARY will be called by main
-SOLVER_BINARY="$FISH Sudoku.fish"
+main() {
+    compile
+    
+    # SOLVER_BINARY must be set after compile has potentially updated FISH path
+    SOLVER_BINARY="$FISH Sudoku.fish"
+    
+    # Run benchmarks
+    run_benchmarks "$@"
+}
 
 # Execute benchmarks
 main "$@"

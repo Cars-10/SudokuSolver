@@ -83,22 +83,30 @@ object Sudoku {
 
   def isValid(row: Int, col: Int, value: Int): Boolean = {
     // Check row
-    for (i <- 0 until 9) {
+    var i = 0
+    while (i < 9) {
       if (puzzle(row)(i) == value) return false
+      i += 1
     }
 
     // Check column
-    for (i <- 0 until 9) {
+    i = 0
+    while (i < 9) {
       if (puzzle(i)(col) == value) return false
+      i += 1
     }
 
     // Check 3x3 box
     val boxRow = (row / 3) * 3
     val boxCol = (col / 3) * 3
-    for (i <- 0 until 3) {
-      for (j <- 0 until 3) {
-        if (puzzle(boxRow + i)(boxCol + j) == value) return false
+    var r = 0
+    while (r < 3) {
+      var c = 0
+      while (c < 3) {
+        if (puzzle(boxRow + r)(boxCol + c) == value) return false
+        c += 1
       }
+      r += 1
     }
 
     true
@@ -132,7 +140,8 @@ object Sudoku {
     }
 
     // Try values 1-9 in order
-    for (value <- 1 to 9) {
+    var value = 1
+    while (value <= 9) {
       count += 1  // COUNT EVERY ATTEMPT - this is the algorithm fingerprint
 
       if (isValid(row, col, value)) {
@@ -144,6 +153,7 @@ object Sudoku {
 
         puzzle(row)(col) = 0  // Backtrack
       }
+      value += 1
     }
 
     false
