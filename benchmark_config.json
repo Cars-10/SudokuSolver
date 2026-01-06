@@ -9,7 +9,12 @@
     "Java",
     "Python",
     "Awk",
-    "Rust"
+    "Rust",
+    "Ada",
+    "BASIC",
+    "D",
+    "Jupyter",
+    "Assembly"
   ],
   "languages": {
     "C": {
@@ -89,6 +94,21 @@
       ],
       "status": "complete",
       "note": "Matrix 6 enabled upon user request"
+    },
+    "Ada": {
+      "status": "complete"
+    },
+    "BASIC": {
+      "status": "complete"
+    },
+    "D": {
+      "status": "complete"
+    },
+    "Jupyter": {
+      "status": "complete"
+    },
+    "Assembly": {
+      "status": "complete"
     }
   }
 }

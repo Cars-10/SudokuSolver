@@ -79,13 +79,15 @@ run_benchmark() {
     # Get matrices for this language
     local matrices=$(get_matrices_for_language "$lang")
     local matrix_args=""
+    local matrix_dir="$(cd Matrices && pwd)"
     
     for m in $matrices; do
-        matrix_args="$matrix_args ../../../Matrices/${m}.matrix"
+        matrix_args="$matrix_args $matrix_dir/${m}.matrix"
     done
     
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${GREEN}Running $lang${NC} with matrices: ${YELLOW}$matrices${NC}"
+    echo "DEBUG: matrix_args=$matrix_args"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     
     cd "$lang_dir"

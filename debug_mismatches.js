@@ -2,10 +2,14 @@ const fs = require('fs');
 const path = require('path');
 
 async function check() {
-    const root = '/Users/cars10/GIT/SudokuSolver/Languages';
+    const root = path.join(process.cwd(), 'Languages');
 
     // Manual directory list
     let files = [];
+    if (!fs.existsSync(root)) {
+        console.error("Languages directory not found at:", root);
+        return;
+    }
     const langs = fs.readdirSync(root);
     for (const lang of langs) {
         if (lang.startsWith('.')) continue;
@@ -18,6 +22,9 @@ async function check() {
     let cMetrics = null;
     let allMetrics = [];
 
+    // Helper to normalize matrix name
+    const normalize = (name) => String(name).replace('.matrix', '');
+
     // Load all
     for (const f of files) {
         const data = JSON.parse(fs.readFileSync(f, 'utf8'));
@@ -29,13 +36,18 @@ async function check() {
             // But verify if it's array of runs or array of results
             if (data.length > 0 && data[0].matrix) {
                 results = data;
-            } else {
+            } else if (data.length > 0) {
                 // Array of runs? Take last
                 const last = data[data.length - 1];
-                results = last.results || last;
+                results = last.results || (Array.isArray(last) ? last : []);
             }
         } else {
             results = data.results || [];
+        }
+
+        if (!Array.isArray(results)) {
+            console.warn(`Warning: Invalid results format for ${solver}`, results);
+            results = [];
         }
 
         const entry = {
@@ -54,9 +66,13 @@ async function check() {
         return;
     }
 
+    // Create a map for C metrics for easier lookup
+    const cMap = new Map();
+    cMetrics.results.forEach(r => cMap.set(normalize(r.matrix), r.iterations));
+
     const cTotal = cMetrics.results.reduce((a, b) => a + b.iterations, 0);
     console.log(`C Total Iters: ${cTotal}`);
-    cMetrics.results.forEach(r => console.log(`  Matrix ${r.matrix}: ${r.iterations}`));
+    cMetrics.results.forEach(r => console.log(`  Matrix ${normalize(r.matrix)}: ${r.iterations}`));
 
     console.log("\n--- Checking Mismatches ---");
     let headerCount = 0;
@@ -64,38 +80,33 @@ async function check() {
     for (const m of allMetrics) {
         if (m.solver === 'C') continue;
 
-        const total = m.results.reduce((a, b) => a + (b.iterations || 0), 0);
-        const isHeaderMismatch = total !== cTotal;
-
         let tableMismatchCount = 0;
         let diffDetails = [];
+        let totalIters = 0;
 
-        // Check per matrix
-        const matrices = ["1.matrix", "2.matrix", "3.matrix", "4.matrix", "5.matrix", "6.matrix"];
-        for (const mat of matrices) {
-            const r = m.results.find(res => res.matrix === mat);
-            const c = cMetrics.results.find(res => res.matrix === mat);
+        // Check per matrix based on what the solver actually ran
+        for (const r of m.results) {
+            const matName = normalize(r.matrix);
+            const expected = cMap.get(matName);
+            const actual = r.iterations;
+            totalIters += actual;
 
-            if (!r) {
-                // Missing result (Timeout?)
-                // Table says "-"
-                diffDetails.push(`${mat}: MISSING`);
-            } else if (c && r.iterations !== c.iterations) {
-                tableMismatchCount++;
-                diffDetails.push(`${mat}: ${r.iterations} vs ${c.iterations}`);
+            if (expected !== undefined) {
+                if (actual !== expected) {
+                    tableMismatchCount++;
+                    diffDetails.push(`${matName}: ${actual} vs ${expected}`);
+                }
+            } else {
+                // Matrix not in C baseline?
+                // diffDetails.push(`${matName}: Unknown baseline`);
             }
         }
 
-        if (isHeaderMismatch) {
+        if (tableMismatchCount > 0) {
             headerCount++;
             console.log(`Solver: ${m.solver}`);
-            console.log(`  Header says MISMATCH (Total: ${total} vs ${cTotal})`);
             console.log(`  Table Mismatches: ${tableMismatchCount}`);
-            if (diffDetails.length > 0) {
-                console.log(`  Details: ${diffDetails.join(', ')}`);
-            } else {
-                console.log(`  Details: Matches per matrix but sum differs? (Missing matrix?)`);
-            }
+            console.log(`  Details: ${diffDetails.join(', ')}`);
             console.log('---');
         }
     }

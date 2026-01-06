@@ -3,8 +3,13 @@
  * Provides helpers for inserting/querying benchmark data
  */
 
-const Database = require('better-sqlite3');
-const path = require('path');
+import Database from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const DB_PATH = path.join(__dirname, 'benchmarks.db');
 
@@ -12,7 +17,7 @@ const DB_PATH = path.join(__dirname, 'benchmarks.db');
  * Get database connection
  * @returns {Database} SQLite database instance
  */
-function getDatabase() {
+export function getDatabase() {
     const db = new Database(DB_PATH);
     db.pragma('foreign_keys = ON');
     return db;
@@ -23,26 +28,36 @@ function getDatabase() {
  * @param {Object} run - Run data object
  * @returns {Object} Insert result with lastInsertRowid
  */
-function insertRun(run) {
+export function insertRun(run) {
     const db = getDatabase();
 
     const stmt = db.prepare(`
         INSERT INTO runs (
-            timestamp, language, matrix, iterations, time_seconds,
-            memory_kb, cpu_user, cpu_sys, status, output,
-            compiler_variant, toolchain_version
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            timestamp, language, matrix, runType, iterations, time_ms,
+            memory_bytes, cpu_user, cpu_sys,
+            page_faults_major, page_faults_minor,
+            context_switches_voluntary, context_switches_involuntary,
+            io_inputs, io_outputs,
+            status, output, compiler_variant, toolchain_version
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const result = stmt.run(
         run.timestamp,
         run.language,
         run.matrix,
+        run.runType || 'Local',
         run.iterations || null,
-        run.time_seconds || null,
-        run.memory_kb || null,
+        run.time || run.time_ms || null,     // Handle 'time' (from JSON) or 'time_ms'
+        run.memory || run.memory_bytes || null, // Handle 'memory' (from JSON) or 'memory_bytes'
         run.cpu_user || null,
         run.cpu_sys || null,
+        run.page_faults_major || null,
+        run.page_faults_minor || null,
+        run.context_switches_voluntary || null,
+        run.context_switches_involuntary || null,
+        run.io_inputs || null,
+        run.io_outputs || null,
         run.status,
         run.output || null,
         run.compiler_variant || 'default',
@@ -58,15 +73,18 @@ function insertRun(run) {
  * @param {Array} runs - Array of run objects
  * @returns {Number} Number of rows inserted
  */
-function insertRuns(runs) {
+export function insertRuns(runs) {
     const db = getDatabase();
 
     const stmt = db.prepare(`
         INSERT INTO runs (
-            timestamp, language, matrix, iterations, time_seconds,
-            memory_kb, cpu_user, cpu_sys, status, output,
-            compiler_variant, toolchain_version
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            timestamp, language, matrix, runType, iterations, time_ms,
+            memory_bytes, cpu_user, cpu_sys,
+            page_faults_major, page_faults_minor,
+            context_switches_voluntary, context_switches_involuntary,
+            io_inputs, io_outputs,
+            status, output, compiler_variant, toolchain_version
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertMany = db.transaction((runs) => {
@@ -75,11 +93,18 @@ function insertRuns(runs) {
                 run.timestamp,
                 run.language,
                 run.matrix,
+                run.runType || 'Local',
                 run.iterations || null,
-                run.time_seconds || null,
-                run.memory_kb || null,
+                run.time || run.time_ms || null,
+                run.memory || run.memory_bytes || null,
                 run.cpu_user || null,
                 run.cpu_sys || null,
+                run.page_faults_major || null,
+                run.page_faults_minor || null,
+                run.context_switches_voluntary || null,
+                run.context_switches_involuntary || null,
+                run.io_inputs || null,
+                run.io_outputs || null,
                 run.status,
                 run.output || null,
                 run.compiler_variant || 'default',
@@ -98,7 +123,7 @@ function insertRuns(runs) {
  * @param {Object} filters - Filter options (language, matrix, status, limit)
  * @returns {Array} Array of run objects
  */
-function queryRuns(filters = {}) {
+export function queryRuns(filters = {}) {
     const db = getDatabase();
 
     let query = 'SELECT * FROM runs WHERE 1=1';
@@ -142,9 +167,9 @@ function queryRuns(filters = {}) {
  * Get latest run for each language/matrix combination
  * @returns {Array} Array of latest run objects
  */
-function getLatestRuns() {
+export function getLatestRuns() {
     const db = getDatabase();
-    const results = db.prepare('SELECT * FROM latest_runs').all();
+    const results = db.prepare('SELECT * FROM v_latest_runs').all(); // Use view name
     db.close();
     return results;
 }
@@ -154,7 +179,7 @@ function getLatestRuns() {
  * @param {Object} validation - Validation data
  * @returns {Object} Insert result
  */
-function insertValidation(validation) {
+export function insertValidation(validation) {
     const db = getDatabase();
 
     const stmt = db.prepare(`
@@ -183,9 +208,9 @@ function insertValidation(validation) {
  * Get validation summary by language
  * @returns {Array} Validation summary with pass rates
  */
-function getValidationSummary() {
+export function getValidationSummary() {
     const db = getDatabase();
-    const results = db.prepare('SELECT * FROM validation_summary').all();
+    const results = db.prepare('SELECT * FROM v_validation_summary').all(); // Use view name
     db.close();
     return results;
 }
@@ -194,9 +219,9 @@ function getValidationSummary() {
  * Get performance leaderboard
  * @returns {Array} Performance leaderboard data
  */
-function getPerformanceLeaderboard() {
+export function getPerformanceLeaderboard() {
     const db = getDatabase();
-    const results = db.prepare('SELECT * FROM performance_leaderboard').all();
+    const results = db.prepare('SELECT * FROM v_leaderboard').all(); // Use view name
     db.close();
     return results;
 }
@@ -206,7 +231,7 @@ function getPerformanceLeaderboard() {
  * @param {String} language - Language name
  * @returns {Array} Validation results
  */
-function getValidationsForLanguage(language) {
+export function getValidationsForLanguage(language) {
     const db = getDatabase();
     const results = db.prepare(`
         SELECT * FROM validations
@@ -221,8 +246,7 @@ function getValidationsForLanguage(language) {
  * Check if database exists and is initialized
  * @returns {Boolean} True if database exists with tables
  */
-function isDatabaseInitialized() {
-    const fs = require('fs');
+export function isDatabaseInitialized() {
     const dbExists = fs.existsSync(DB_PATH);
 
     if (!dbExists) {
@@ -242,16 +266,4 @@ function isDatabaseInitialized() {
     }
 }
 
-module.exports = {
-    getDatabase,
-    insertRun,
-    insertRuns,
-    queryRuns,
-    getLatestRuns,
-    insertValidation,
-    getValidationSummary,
-    getPerformanceLeaderboard,
-    getValidationsForLanguage,
-    isDatabaseInitialized,
-    DB_PATH
-};
+export { DB_PATH };

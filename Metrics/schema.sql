@@ -12,13 +12,22 @@ CREATE TABLE IF NOT EXISTS runs (
     timestamp TEXT NOT NULL,              -- ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)
     language TEXT NOT NULL,               -- Language name (C, Python, Go, etc.)
     matrix INTEGER NOT NULL,              -- Matrix number (1-6)
+    runType TEXT,                         -- Local, Docker, etc.
 
     -- Performance metrics
     iterations INTEGER,                   -- Number of iterations (algorithm fingerprint)
-    time_seconds REAL,                    -- Wall clock time in seconds
-    memory_kb INTEGER,                    -- Peak memory usage in kilobytes
-    cpu_user REAL,                        -- User CPU time in seconds
-    cpu_sys REAL,                         -- System CPU time in seconds
+    time_ms REAL,                         -- Wall clock time in milliseconds
+    memory_bytes INTEGER,                 -- Peak memory usage in bytes
+    cpu_user REAL,                        -- User CPU time in milliseconds
+    cpu_sys REAL,                         -- System CPU time in milliseconds
+
+    -- Detailed OS Metrics
+    page_faults_major INTEGER,
+    page_faults_minor INTEGER,
+    context_switches_voluntary INTEGER,
+    context_switches_involuntary INTEGER,
+    io_inputs INTEGER,
+    io_outputs INTEGER,
 
     -- Execution status
     status TEXT NOT NULL,                 -- success, timeout, error, env_error
@@ -32,7 +41,7 @@ CREATE TABLE IF NOT EXISTS runs (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     -- Constraints
-    CHECK (matrix >= 1 AND matrix <= 6),
+    CHECK (matrix >= 0 AND matrix <= 6),
     CHECK (status IN ('success', 'timeout', 'error', 'env_error'))
 );
 
@@ -68,7 +77,7 @@ CREATE TABLE IF NOT EXISTS validations (
     validated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     -- Constraints
-    CHECK (matrix >= 1 AND matrix <= 6),
+    CHECK (matrix >= 0 AND matrix <= 6),
     CHECK (valid IN (0, 1)),
     CHECK (format_valid IS NULL OR format_valid IN (0, 1))
 );
@@ -201,14 +210,14 @@ CREATE VIEW IF NOT EXISTS v_leaderboard AS
 SELECT
     matrix,
     language,
-    MIN(time_seconds) as best_time,
+    MIN(time_ms) as best_time_ms,
     iterations,
     compiler_variant,
     timestamp
 FROM runs
 WHERE status = 'success'
 GROUP BY matrix, language
-ORDER BY matrix, best_time;
+ORDER BY matrix, best_time_ms;
 
 -- ============================================================================
 -- SCHEMA VERSION

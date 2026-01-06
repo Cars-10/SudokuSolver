@@ -11,7 +11,7 @@ export {
     scoreLabels,
     narratorIntros,
     personalities
-} from './PersonaMetadata';
+} from './PersonaMetadata.js';
 
 // --- Master Language List (Ordered by Performance/Tier) ---
 export const orderedLanguages = [

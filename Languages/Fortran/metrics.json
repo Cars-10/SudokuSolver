@@ -1,0 +1,89 @@
+[
+  {
+    "solver": "Fortran",
+    "runType": "automated",
+    "timestamp": "2025-12-30T15:28:05Z",
+    "results": [
+      {
+        "matrix": "1",
+        "time": 542.5291,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 1.927,
+        "cpu_sys": 3.103,
+        "page_faults_major": 24,
+        "page_faults_minor": 540,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 48,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "2",
+        "time": 4.7372,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 1.676,
+        "cpu_sys": 1.854,
+        "page_faults_major": 3,
+        "page_faults_minor": 564,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 12,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "3",
+        "time": 4.9053,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 1.751,
+        "cpu_sys": 1.835,
+        "page_faults_major": 3,
+        "page_faults_minor": 561,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 11,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "4",
+        "time": 4.9152,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 1.769,
+        "cpu_sys": 1.871,
+        "page_faults_major": 3,
+        "page_faults_minor": 562,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "5",
+        "time": 4.5892,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 1.646,
+        "cpu_sys": 1.714,
+        "page_faults_major": 3,
+        "page_faults_minor": 560,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      }
+    ]
+  }
+]

@@ -218,20 +218,20 @@
             "lastUpdated": "2025-12-20T12:44:53.977Z"
         },
         "C": {
-            "creator": "Dennis Ritchie",
+            "creator": "Dennis Ritchie (Test)",
             "image": "Languages/C/Media/C_1766234786004.png",
             "date": "1972",
             "location": "Bell Labs, USA",
             "benefits": "High performance, portability, low-level access, massive legacy.",
             "website": "",
-            "description": "General-purpose systems programming language. Excels in operating systems, embedded systems, and performance-critical applications where direct hardware access is essential.",
+            "description": "Updated by test script at 2025-12-24T17:04:21.736Z",
             "authors": [
                 {
                     "name": "Dennis Ritchie",
                     "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dennis_Ritchie_2011.jpg"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:46:27.494Z"
+            "lastUpdated": "2025-12-24T17:04:21.809Z"
         },
         "V": {
             "creator": "Alexander Medvednikov",

@@ -1527,43 +1527,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <table>
             <thead>
                 <tr>
-                    <th class="lang-col-header">
+                    <th class="lang-col-header" onclick="sortRows('lang', this)" style="cursor: pointer;" title="Sort by Name">
                         Language
-                        <div class="sort-group">
-                            <button class="sort-btn" onclick="sortRows('lang', this)" title="Sort by Name">N</button>
-                            <button class="sort-btn" onclick="sortRows('year', this)" title="Sort by Year">Y</button>
-                        </div>
                     </th>
-                    <th>
+                    <th onclick="sortRows('score', this)" style="cursor: pointer;" title="Sort by Score">
                         <span id="header-score">Score</span>
-                        <div class="sort-group">
-                            <button class="sort-btn" onclick="sortRows('score', this)" title="Sort by Score">S</button>
-                        </div>
                     </th>
-                    <th>
+                    <th onclick="sortRows('timestamp', this)" style="cursor: pointer;" title="Sort by Age">
                         Updated
-                        <div class="sort-group">
-                             <button class="sort-btn" onclick="sortRows('timestamp', this)" title="Sort by Age">A</button>
-                        </div>
                     </th>`;
 
     for (let i = 0; i < maxMatrices; i++) {
-        html += `<th>
+        html += `<th onclick="sortMatrix(${i}, 'time', this)" style="cursor: pointer;" title="Sort by Matrix ${i + 1} Time">
             Matrix ${i + 1}
-            <div class="sort-group">
-                <button class="sort-btn sort-time" onclick="sortMatrix(${i}, 'time', this)" title="Sort by Time">S</button>
-                <button class="sort-btn sort-iters" onclick="sortMatrix(${i}, 'iters', this)" title="Sort by Iterations">I</button>
-                <button class="sort-btn sort-mem" onclick="sortMatrix(${i}, 'mem', this)" title="Sort by Memory">M</button>
-                <button class="sort-btn sort-score" onclick="sortMatrix(${i}, 'score', this)" title="Sort by Score">Sc</button>
-            </div>
         </th>`;
     }
 
-    html += `<th>
-        <span id="header-time">Total Time</span>
-        <div class="sort-group">
-            <button class="sort-btn" onclick="sortRows('time', this)" title="Sort by Total Time">S</button>
-        </div>
+    html += `<th onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time">
+        <span id="header-time">Total Time (ms)</span>
     </th>
     </tr></thead><tbody>`;
 
@@ -1696,11 +1677,21 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Calculate compiler info early for row data attribute
         const rowCompilerInfo = meta.compiler || compilerMapping[baseLang] || compilerMapping[lang] || '-';
 
+        // Check for time unit based on timestamp (New runs after 2025-12-30 are in ms)
+        // Heuristic: If timestamp is >= 2025-12-30, it's ms. Else, s.
+        // Actually, let's be safe and check the value magnitude too? No, "0.0001" seconds is possible.
+        // Let's rely on the date.
+        const msCutoff = new Date('2025-12-30T00:00:00Z').getTime();
+        const runTime = new Date(m.timestamp).getTime();
+        const isMs = runTime >= msCutoff;
+        const timeUnit = isMs ? 'ms' : 's';
+
         html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
             data-lang="${lang}"
             data-timestamp="${new Date(m.timestamp).getTime()}"
             data-year="${year}"
             data-time="${totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6)}"
+            data-time-unit="${timeUnit}"
             data-iters="${totalIters}"
             data-mem="${maxMem}"
             data-memory="${maxMem}"
@@ -1749,11 +1740,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     scoreDisplay = `${scoreVal.toFixed(2)}x`;
                 }
 
+                const displayTime = isMs ? `${r.time.toFixed(2)} ms` : `${r.time.toFixed(4)} s`;
+
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
                              ${!isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : ''}
-                             <div class="time" title="Wall Clock Time">${r.time != null ? (r.time === 0 ? '<0.001' : (r.time < 0.0001 ? r.time.toExponential(2) : r.time.toFixed(5))) : '-'}s</div>
+                             <div class="time" title="Wall Clock Time">${displayTime}</div>
                         </div>
                         <div class="meta">
                             ${(() => {
@@ -1776,7 +1769,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
-        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalTime.toFixed(3)}s</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+        const totalDisplayTime = isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`;
+
+        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
 
         // Add expanded content row
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
@@ -1988,7 +1983,7 @@ export function generateHistoryHtml(history: any[]): string {
                         <td>${new Date(r.timestamp).toLocaleString()}</td>
                         <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
                         <td>${r.matrix}</td>
-                        <td class="time-val">${(r.time ?? 0).toFixed(4)}</td>
+                        <td class="time-val">${(r.time ?? 0).toFixed(2)} ms</td>
                         <td>${r.iterations ?? '-'}</td>
                         <td class="status-${(r.status || 'unknown').toLowerCase()}">${r.status || '-'}</td>
                     </tr>

@@ -4,7 +4,8 @@
     "description": "Metrics aggregator for Sudoku Benchmark",
     "main": "gather_metrics.ts",
     "scripts": {
-        "start": "ts-node gather_metrics.ts"
+        "start": "ts-node gather_metrics.ts",
+        "sync-db": "ts-node sync_db.ts"
     },
     "type": "module",
     "dependencies": {

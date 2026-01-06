@@ -200,8 +200,16 @@ function changePersonality() {
 
         // Append Efficiency
         const score = row.getAttribute('data-score');
+        const unit = row.getAttribute('data-time-unit') || 's';
         let time = parseFloat(row.getAttribute('data-time'));
-        let timeStr = time < 0.0001 && time > 0 ? time.toExponential(2) + "s" : time.toFixed(6) + "s";
+
+        let timeStr;
+        if (unit === 'ms') {
+            timeStr = time.toFixed(2) + " ms";
+        } else {
+            timeStr = time < 0.0001 && time > 0 ? time.toExponential(2) + "s" : time.toFixed(6) + "s";
+        }
+
         quote += " Efficiency: " + parseFloat(score).toFixed(2) + " MB/s | Time: " + timeStr;
 
         row.setAttribute('data-quote', quote);
@@ -299,10 +307,13 @@ document.querySelectorAll('tbody td').forEach(cell => {
 
             if (time && time !== '999999') {
                 const memMb = (parseFloat(mem) / 1024 / 1024).toFixed(1);
+                const unit = row.getAttribute('data-time-unit') || 's';
+                const timeDisplay = unit === 'ms' ? parseFloat(time).toFixed(2) + ' ms' : parseFloat(time).toFixed(5) + 's';
+
                 content = '<strong style="color: var(--primary)">Matrix ' + (matrixIdx + 1) + '</strong><br>' +
                     '<span style="color: var(--secondary)">' + lang + '</span><br>' +
                     '<hr style="border: 0; border-bottom: 1px solid var(--border); margin: 5px 0;">' +
-                    'Time: <span style="color: #fff">' + parseFloat(time).toFixed(5) + 's</span><br>' +
+                    'Time: <span style="color: #fff">' + timeDisplay + '</span><br>' +
                     'Score: <span style="color: ' + (parseFloat(score) <= 1 ? 'var(--primary)' : '#ff0055') + '">' + score + 'x</span><br>' +
                     'Iters: ' + parseInt(iters).toLocaleString() + '<br>' +
                     'Mem: ' + memMb + ' MB';
@@ -341,7 +352,7 @@ document.querySelectorAll('tbody td').forEach(cell => {
 });
 
 // Add click handler to expand chevrons
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.expand-chevron').forEach(chevron => {
         chevron.addEventListener('click', (e) => {
             e.preventDefault();
@@ -359,12 +370,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Force reflow
                     void expandedRow.offsetWidth;
                     expandedRow.classList.add('open');
-                    
+
                     // Populate Content dynamically if empty or placeholders
                     const lang = row.getAttribute('data-lang');
                     // Find meta in metricsData global
                     const meta = typeof metricsData !== 'undefined' ? metricsData.find(m => m.solver === lang) : null;
-                    
+
                     if (meta) {
                         const contentDivs = expandedRow.querySelectorAll('.section-content');
                         if (contentDivs.length >= 2) {
@@ -375,23 +386,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             let cpu = "Unknown";
                             let ram = "Unknown";
 
-                            if (meta.runType === 'Docker') { 
-                                os = "Linux (Docker)"; 
+                            if (meta.runType === 'Docker') {
+                                os = "Linux (Docker)";
                                 arch = "x86_64";
                                 cpu = "Shared (Host)";
                                 ram = "Unlimited";
-                            } else if (meta.runType === 'Local' || !meta.runType) { 
-                                os = "macOS (Darwin)"; 
-                                arch = "ARM64"; 
+                            } else if (meta.runType === 'Local' || !meta.runType) {
+                                os = "macOS (Darwin)";
+                                arch = "ARM64";
                                 cpu = "Apple M1 Max";
                                 ram = "64GB";
                             }
-                            
+
                             // Check if content is placeholder "-" (simple check)
                             if (contentDivs[0].innerText.includes('OS: -')) {
                                 contentDivs[0].innerHTML = `<span style="color:#00ff9d">OS:</span> ${os} | <span style="color:#00ff9d">CPU:</span> ${cpu} | <span style="color:#00ff9d">RAM:</span> ${ram} | <span style="color:#00ff9d">Arch:</span> ${arch}`;
                             }
-                            
+
                             // Compilation
                             // We have compiler info in data-compiler
                             const compiler = row.getAttribute('data-compiler') || '-';
@@ -470,26 +481,26 @@ window.showLanguageDetails = async function (lang, x, y) {
     // Positioning logic
     if (x !== undefined && y !== undefined) {
         modal.classList.remove('centered');
-        
+
         // Initial visibility hidden to measure
         modalContent.style.visibility = 'hidden';
         modalContent.style.display = 'flex';
-        
+
         // Use requestAnimationFrame to ensure it's rendered for measurement
         requestAnimationFrame(() => {
             const width = modalContent.offsetWidth;
             const height = modalContent.offsetHeight;
-            
+
             // Center modal on click but keep in viewport
             let left = x - (width / 2);
             let top = y - (height / 2);
-            
+
             // Viewport padding
             const padding = 20;
-            
+
             left = Math.max(padding, Math.min(left, window.innerWidth - width - padding));
             top = Math.max(padding, Math.min(top, window.innerHeight - height - padding));
-            
+
             modalContent.style.left = left + 'px';
             modalContent.style.top = top + 'px';
             modalContent.style.transform = 'none';
@@ -525,7 +536,7 @@ window.showLanguageDetails = async function (lang, x, y) {
     // Use the same logo as the table (pre-calculated in metricsData)
     const tableData = (typeof metricsData !== 'undefined') ? metricsData.find(m => m.solver === lang) : null;
     const img = tableData?.logo || meta.image || meta.logo || "";
-    
+
     const modalImg = document.getElementById('modalImg');
     modalImg.src = img;
 
@@ -629,12 +640,21 @@ window.showLanguageDetails = async function (lang, x, y) {
     modalContent.classList.remove('editing');
     document.getElementById('editBtn').innerText = "Edit";
 
-    // Default center positioning via CSS
-    modal.classList.add('visible', 'centered');
-    modalContent.style.left = '';
-    modalContent.style.top = '';
-    modalContent.style.transform = '';
-    modalContent.style.visibility = 'visible';
+    // Update Lock Button State
+    const lockBtn = document.getElementById('lockBtn');
+    if (lockBtn) {
+        const isLocked = window.lockedLanguages && window.lockedLanguages.has(lang);
+        if (isLocked) {
+            lockBtn.innerHTML = "🔒 Locked";
+            lockBtn.title = "Unlock this result";
+        } else {
+            lockBtn.innerHTML = "🔓 Unlocked";
+            lockBtn.title = "Lock this result to skip future benchmarks";
+        }
+    }
+
+    // Ensure modal is visible
+    modal.classList.add('visible');
 
     // Add modal-open class to body to prevent scrolling
     document.body.classList.add('modal-open');
@@ -658,8 +678,26 @@ window.toggleEditMode = function (event) {
     }
 };
 
-// Remove Lock button logic from modal (per user request)
-// window.toggleLockFromModal was here - removed reference in HTML and JS
+window.toggleLockFromModal = function (event) {
+    if (event) event.stopPropagation();
+
+    if (!currentEditingLang) return;
+
+    // Toggle lock state
+    window.toggleLock(currentEditingLang);
+
+    // Update button text
+    const btn = document.getElementById('lockBtn');
+    const isLocked = window.lockedLanguages.has(currentEditingLang);
+
+    if (isLocked) {
+        btn.innerHTML = "🔒 Locked";
+        btn.title = "Unlock this result";
+    } else {
+        btn.innerHTML = "🔓 Unlocked";
+        btn.title = "Lock this result to skip future benchmarks";
+    }
+};
 
 window.saveLanguageDetails = async function (event) {
     // Prevent click from bubbling to modal container
@@ -700,32 +738,37 @@ window.saveLanguageDetails = async function (event) {
         if (!languageMetadata[currentEditingLang]) languageMetadata[currentEditingLang] = {};
         Object.assign(languageMetadata[currentEditingLang], newData);
 
-        // Background trigger report regeneration
-        fetch('/api/generate-report', { method: 'POST' }).catch(err => console.warn("Background report generation failed:", err));
-
-        closeModal(null);
-        
-        // Show success and reload to reflect changes
         const statusEl = document.getElementById('personality-intro');
         if (statusEl) {
             statusEl.innerHTML = '<span style="color: var(--primary); font-weight: bold;">✓ Metadata saved. Regenerating report...</span>';
-            setTimeout(() => window.location.reload(), 1500);
-        } else {
-            alert('Saved successfully! Reloading...');
-            window.location.reload();
         }
+
+        // Wait for report regeneration
+        try {
+            await fetch('/api/generate-report', { method: 'POST' });
+            if (statusEl) {
+                statusEl.innerHTML = '<span style="color: var(--primary); font-weight: bold;">✓ Report regenerated. Reloading...</span>';
+            }
+        } catch (err) {
+            console.warn("Report generation failed:", err);
+        }
+
+        closeModal(null);
+
+        // Reload to reflect changes
+        setTimeout(() => window.location.reload(), 500);
     } catch (e) {
         console.error("Save failed:", e);
         alert("Error saving: " + e.message + "\nCheck console for details.");
     }
 };
 
-window.renderAuthorList = function() {
+window.renderAuthorList = function () {
     const authorList = document.getElementById('authorList');
     if (!authorList || !currentMetadata || !currentMetadata.authors) return;
-    
+
     authorList.innerHTML = '';
-    
+
     currentMetadata.authors.forEach((auth, idx) => {
         const div = document.createElement('div');
         div.className = 'author-item';
@@ -770,7 +813,7 @@ window.openGoogleImageSearch = function () {
     }
 };
 
-window.uploadBlob = async function(blob) {
+window.uploadBlob = async function (blob) {
     const formData = new FormData();
     formData.append('file', blob);
     formData.append('lang', currentEditingLang);
@@ -797,7 +840,7 @@ window.uploadBlob = async function(blob) {
     }
 };
 
-window.handleLogoChange = async function(event) {
+window.handleLogoChange = async function (event) {
     if (event) event.stopPropagation();
 
     // Try reading clipboard first
@@ -810,9 +853,9 @@ window.handleLogoChange = async function(event) {
                 // Show loading on main logo
                 const imgEl = document.getElementById('modalImg');
                 imgEl.style.opacity = '0.5';
-                
+
                 const relativePath = await uploadBlob(blob);
-                
+
                 if (relativePath) {
                     imgEl.src = relativePath;
                     document.getElementById('editInputs-image').value = relativePath;
@@ -830,9 +873,9 @@ window.handleLogoChange = async function(event) {
     document.getElementById('logoInput').click();
 };
 
-window.handleAuthorImageChange = async function(index, event) {
+window.handleAuthorImageChange = async function (index, event) {
     if (event) event.stopPropagation();
-    
+
     // Try reading clipboard first
     try {
         const clipboardItems = await navigator.clipboard.read();
@@ -840,13 +883,13 @@ window.handleAuthorImageChange = async function(index, event) {
             const imageTypes = item.types.filter(type => type.startsWith('image/'));
             if (imageTypes.length > 0) {
                 const blob = await item.getType(imageTypes[0]);
-                
+
                 // Show loading
                 const imgEl = document.getElementById(`author-img-${index}`);
                 if (imgEl) imgEl.style.opacity = '0.5';
-                
+
                 const relativePath = await uploadBlob(blob);
-                
+
                 if (relativePath) {
                     // Update Author Data
                     updateAuthor(index, 'image', relativePath);
@@ -855,7 +898,7 @@ window.handleAuthorImageChange = async function(index, event) {
                     const inputEl = document.getElementById(`author-input-${index}`);
                     if (inputEl) inputEl.value = relativePath;
                 }
-                
+
                 if (imgEl) imgEl.style.opacity = '1';
                 return;
             }
@@ -863,7 +906,7 @@ window.handleAuthorImageChange = async function(index, event) {
     } catch (err) {
         console.log("Clipboard access not available, falling back to file input");
     }
-    
+
     // Fallback to hidden input specific for authors
     // We need to set a global or data attribute to know WHICH author we are updating
     window.currentAuthorIndex = index;
@@ -890,7 +933,7 @@ document.addEventListener('paste', async (e) => {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-            
+
             if (targetAuthorIdx >= 0) {
                 // Upload for Author
                 const imgEl = document.getElementById(`author-img-${targetAuthorIdx}`);
@@ -929,7 +972,7 @@ document.addEventListener('paste', async (e) => {
                             if (res.ok) {
                                 const data = await res.json();
                                 const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-                                
+
                                 if (targetAuthorIdx >= 0) {
                                     // Update Author
                                     updateAuthor(targetAuthorIdx, 'image', relativePath);
@@ -954,7 +997,7 @@ document.addEventListener('paste', async (e) => {
     }
 });
 
-window.checkAndDownloadAuthorImage = async function(idx, value) {
+window.checkAndDownloadAuthorImage = async function (idx, value) {
     // Check if URL
     if (value.match(/\.(jpeg|jpg|gif|png|webp)$/i) || value.startsWith('http')) {
         const doDownload = confirm("Detected Image URL. Download and save locally?");
@@ -969,15 +1012,15 @@ window.checkAndDownloadAuthorImage = async function(idx, value) {
                 if (res.ok) {
                     const data = await res.json();
                     const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
-                    
+
                     // Update field and data
                     updateAuthor(idx, 'image', relativePath);
                     document.getElementById(`author-input-${idx}`).value = relativePath;
-                    
+
                     // Update Image Preview
                     const imgEl = document.getElementById(`author-img-${idx}`);
                     if (imgEl) imgEl.src = relativePath;
-                    
+
                     return;
                 } else {
                     alert("Download failed");
@@ -1012,9 +1055,9 @@ window.uploadAuthorLogo = async function (input) {
         const idx = window.currentAuthorIndex;
         const imgEl = document.getElementById(`author-img-${idx}`);
         if (imgEl) imgEl.style.opacity = '0.5';
-        
+
         const relativePath = await uploadBlob(input.files[0]);
-        
+
         if (relativePath) {
             updateAuthor(idx, 'image', relativePath);
             if (imgEl) imgEl.src = relativePath;
@@ -1084,10 +1127,10 @@ window.lockedLanguages = new Map(); // Languages unaffected by Bulk actions (sto
 window.showLogos = true; // Default to showing logos
 
 // ESC key handler for closing modal
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' || event.key === 'Esc') {
         const modal = document.getElementById('langModal');
-        if (modal && modal.classList.contains('active')) {
+        if (modal && modal.classList.contains('visible')) {
             closeModal(null);
         }
     }
@@ -1101,7 +1144,7 @@ function trapFocus(element) {
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
 
-    element.addEventListener('keydown', function(e) {
+    element.addEventListener('keydown', function (e) {
         if (e.key !== 'Tab') return;
 
         if (e.shiftKey) {
@@ -1126,10 +1169,10 @@ function trapFocus(element) {
 }
 
 // Handle broken logo images
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const logos = document.querySelectorAll('.lang-logo');
     logos.forEach(img => {
-        img.addEventListener('error', function() {
+        img.addEventListener('error', function () {
             console.warn(`Failed to load logo: ${this.src}`);
             // Apply fallback styling for broken images
             this.style.background = 'linear-gradient(135deg, #414868 0%, #24283b 100%)';
@@ -1202,7 +1245,7 @@ function makeDraggable(modal, handle) {
 }
 
 // Initialize draggable modal on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('langModal');
     const modalHeader = modal ? modal.querySelector('.modal-header') : null;
     if (modal && modalHeader) {
@@ -1385,7 +1428,7 @@ window.updateSolverStats = function () {
         const avgMem = (totalMemory / metricsData.length).toFixed(1);
 
         // Simplified stats display - just numbers
-        const passRate = (validCount/metricsData.length*100).toFixed(0);
+        const passRate = (validCount / metricsData.length * 100).toFixed(0);
         screensaverText.innerText = `${metricsData.length} • ${validCount} • ${passRate}%`;
     } else if (screensaverText) {
         screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
@@ -1400,7 +1443,7 @@ window.saveSessionState = async function () {
     };
 
     try {
-        await fetch('http://localhost:9001/api/session-state', {
+        await fetch('/api/session-state', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(state)
@@ -1412,7 +1455,7 @@ window.saveSessionState = async function () {
 
 window.loadSessionState = async function () {
     try {
-        const res = await fetch('http://localhost:9001/api/session-state?t=' + Date.now());
+        const res = await fetch('/api/session-state?t=' + Date.now());
         if (res.ok) {
             const state = await res.json();
             console.log("Loaded session state:", state);
@@ -1926,12 +1969,12 @@ initializeStatus();
         historyRows.forEach(r => {
             const row = tbody.append("tr")
                 .style("border-bottom", "1px solid var(--border)");
-            
+
             row.append("td").text(new Date(r.timestamp).toLocaleString())
                 .style("padding", "8px")
                 .style("font-size", "0.85em")
                 .style("color", "var(--muted)");
-            
+
             const solverCell = row.append("td").style("padding", "8px").style("display", "flex").style("align-items", "center").style("gap", "8px");
             if (r.logo) {
                 solverCell.append("img").attr("src", r.logo).style("width", "20px").style("height", "20px").style("object-fit", "contain");
@@ -1941,7 +1984,7 @@ initializeStatus();
             row.append("td").text(r.matrix).style("padding", "8px");
             row.append("td").text((r.time ?? 0).toFixed(4) + "s").style("padding", "8px").style("font-family", "monospace").style("color", "#fff");
             row.append("td").text(r.iterations ?? "-").style("padding", "8px").style("font-family", "monospace");
-            
+
             const statusColor = r.status === 'pass' || r.status === 'success' ? 'var(--primary)' : '#ff0055';
             row.append("td").text(r.status || "-")
                 .style("padding", "8px")
@@ -2228,7 +2271,7 @@ initializeStatus();
         };
 
         // Color function using enriched metricsData
-        color = function(solverName) {
+        color = function (solverName) {
             const solverData = data.find(d => d.solver === solverName);
             if (solverData && solverData.tier) {
                 return tierColors[solverData.tier] || '#e0e0e0';
@@ -3309,29 +3352,9 @@ let startScreensaverGlobal;
             });
         }
 
-        // Idle Timer with Persistence
-        const idleLimit = 5 * 60 * 1000; // 5 minutes
-
-        function getLastActive() {
-            return parseInt(localStorage.getItem('lastActive') || Date.now().toString());
-        }
-
-        function setLastActive() {
-            localStorage.setItem('lastActive', Date.now().toString());
-        }
-
-        function checkIdle() {
-            const lastActive = getLastActive();
-            const diff = Date.now() - lastActive;
-            if (diff >= idleLimit) {
-                startScreensaver();
-            }
-        }
-
-        setInterval(checkIdle, 1000);
+        // Idle Timer removed per user request
 
         function resetTimer(e) {
-            setLastActive();
             if (active && !ignoreInput) {
                 // Blue Pill Mode (Chart): Exit on ANY interaction
                 if (currentMode !== 'red') {
@@ -3352,18 +3375,12 @@ let startScreensaverGlobal;
             }
         }
 
-        // Events to reset timer
+        // Events to handle interactions when screensaver is active
         window.onload = resetTimer;
         document.onmousemove = resetTimer;
         document.onkeydown = resetTimer;
         document.onclick = resetTimer;
         document.onscroll = resetTimer;
-
-        // Initialize
-        if (!localStorage.getItem('lastActive')) {
-            setLastActive();
-        }
-        checkIdle();
 
         // Handle resize
         window.addEventListener('resize', () => {

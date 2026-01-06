@@ -114,36 +114,88 @@ run_matrix() {
     # Create temporary files for output and timing
     local temp_output=$(mktemp)
     local temp_timing=$(mktemp)
-    local temp_combined=$(mktemp)
 
-    # Run with timeout and capture timing
-    # Format: %e (elapsed seconds) %M (max RSS in KB) %U (user CPU) %S (system CPU)
-    #         %F (major page faults) %R (minor page faults)
-    #         %w (voluntary ctx switches) %c (involuntary ctx switches)
-    #         %I (file system inputs) %O (file system outputs)
-    # Note: SOLVER_BINARY is unquoted to allow word splitting for multi-word commands
+    # Python script to run command and measure metrics
+    # Args: output_file, cmd...
+    # We use python to ensure high precision timing (milliseconds) and standardized resource usage
+    local python_cmd="
+import sys, subprocess, time, resource, platform
+
+output_file = sys.argv[1]
+cmd = sys.argv[2:]
+
+start = time.perf_counter()
+try:
+    # Run process and pipe output to file
+    with open(output_file, 'w') as f:
+        # We process stdout primarily, stderr can be passed through or captured if needed. 
+        # Benchmark assumes solver output is on stdout. 
+        # We explicitly don't pipe stderr to the file, to keep separate. 
+        # But wait, original code > temp_output 2> temp_timing. 
+        # Solver output goes to temp_output. 
+        p = subprocess.run(cmd, stdout=f, stderr=sys.stderr)
+        exit_code = p.returncode
+except Exception as e:
+    sys.stderr.write(str(e))
+    exit_code = 1
+
+end = time.perf_counter()
+duration_ms = (end - start) * 1000
+
+usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+
+# Normalize Max RSS to KB
+# macOS: bytes, Linux: KB
+max_rss = usage.ru_maxrss
+if platform.system() == 'Darwin':
+    max_rss = max_rss / 1024
+
+cpu_user_ms = usage.ru_utime * 1000
+cpu_sys_ms = usage.ru_stime * 1000
+
+if (cpu_user_ms + cpu_sys_ms) == 0 and duration_ms > 0:
+    cpu_user_ms = duration_ms
+
+print(f'{duration_ms:.4f} {max_rss:.0f} {cpu_user_ms:.4f} {cpu_sys_ms:.4f} {usage.ru_majflt} {usage.ru_minflt} {usage.ru_nvcsw} {usage.ru_nivcsw} {usage.ru_inblock} {usage.ru_oublock} {exit_code}')
+"
+
+    # Construct the command list
+    # Use array to handle spaces correctly
+    local cmd_array=($SOLVER_BINARY "$matrix_path") 
+    
+    # Handle timeout if set
+    # Note: Python subprocess doesn't easily handle 'timeout' wrapper behavior with rusage of the child *of* the timeout command?
+    # Actually, if we use 'timeout' command, 'timeout' is the child. 
+    # If the solver is killed, 'timeout' exits with 124.
+    # We should wrap the whole thing.
+    
+    local full_cmd=()
     if [ -n "$TIMEOUT_CMD" ]; then
-        $TIMEOUT_CMD "$TIMEOUT_SECONDS" $TIME_CMD -f "%e %M %U %S %F %R %w %c %I %O" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
+        full_cmd=("$TIMEOUT_CMD" "$TIMEOUT_SECONDS" "${cmd_array[@]}")
     else
-        # No timeout command available, run without timeout
-        $TIME_CMD -f "%e %M %U %S %F %R %w %c %I %O" $SOLVER_BINARY "$matrix_path" > "$temp_output" 2> "$temp_timing"
-    fi
-    local exit_code=$?
-
-    # Read outputs
-    local output=$(cat "$temp_output")
-    local timing_line=$(tail -1 "$temp_timing")  # Last line has timing data
-
-    # Determine status
-    local status="success"
-    if [ $exit_code -eq 124 ]; then
-        status="timeout"
-    elif [ $exit_code -ne 0 ]; then
-        status="error"
+        full_cmd=("${cmd_array[@]}")
     fi
 
-    # Parse timing data (format: time_seconds memory_kb cpu_user cpu_sys page_faults_major page_faults_minor ctx_vol ctx_invol io_in io_out)
-    local time_seconds=$(echo "$timing_line" | awk '{print $1}')
+    # Run via Python wrapper
+    # We pass the temp_output path as first arg, then the command
+    python3 -c "$python_cmd" "$temp_output" "${full_cmd[@]}" > "$temp_timing" 2>&1
+    
+    # Python script prints metrics to stdout (redirected to temp_timing)
+    # It might print other stderr from the command too? 
+    # The python script redirects child stderr to sys.stderr (which goes to temp_timing).
+    # So temp_timing will contain stderr + our metrics line at the end? 
+    # No, our script prints metrics to stdout. 
+    # We redirected python stdout to temp_timing.
+    # Child stderr went to python stderr -> shell stderr. We captured 2>&1 into temp_timing.
+    # So temp_timing has mixed content. Metrics line should be parsed carefully.
+    # Actually, let's print metrics to specific file or handle parsing.
+    # Easy way: Print metrics to the very last line. tail -1 should still work if we ensure a newline.
+
+    local timing_line=$(tail -1 "$temp_timing")
+    
+    # Parse timing data (format: time_ms memory_kb cpu_user cpu_sys page_faults_major page_faults_minor ctx_vol ctx_invol io_in io_out exit_code)
+    # Note: added exit_code to the python output for robust status handling
+    local time_ms=$(echo "$timing_line" | awk '{print $1}')
     local memory_kb=$(echo "$timing_line" | awk '{print $2}')
     local cpu_user=$(echo "$timing_line" | awk '{print $3}')
     local cpu_sys=$(echo "$timing_line" | awk '{print $4}')
@@ -153,12 +205,31 @@ run_matrix() {
     local ctx_switches_invol=$(echo "$timing_line" | awk '{print $8}')
     local io_inputs=$(echo "$timing_line" | awk '{print $9}')
     local io_outputs=$(echo "$timing_line" | awk '{print $10}')
+    local exit_code=$(echo "$timing_line" | awk '{print $11}')
+
+    # Validate parsing
+    if [[ -z "$exit_code" ]]; then
+       # Fallback if something crashed hard
+       exit_code=1
+       status="error"
+    fi
+
+    # Read output
+    local output=$(cat "$temp_output")
+
+    # Determine status
+    local status="success"
+    if [ "$exit_code" -eq 124 ]; then
+        status="timeout"
+    elif [ "$exit_code" -ne 0 ]; then
+        status="error"
+    fi
 
     # Extract iterations from output
     local iterations=$(extract_iterations "$output")
 
     # Default values if parsing failed
-    time_seconds=${time_seconds:-0}
+    time_ms=${time_ms:-0}
     memory_kb=${memory_kb:-0}
     cpu_user=${cpu_user:-0}
     cpu_sys=${cpu_sys:-0}
@@ -173,14 +244,14 @@ run_matrix() {
     # Convert memory from KB to bytes (HTMLGenerator expects bytes)
     local memory_bytes=$((memory_kb * 1024))
 
-    # Escape output for JSON (using python for robust escaping of control chars/newlines)
+    # Escape output for JSON
     local escaped_output=$(echo "$output" | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read())[1:-1])')
 
-    # Write JSON result object (caller handles array wrapping)
+    # Write JSON result object
     cat <<EOF
     {
       "matrix": "$matrix_num",
-      "time": $time_seconds,
+      "time": $time_ms,
       "iterations": $iterations,
       "memory": $memory_bytes,
       "cpu_user": $cpu_user,
@@ -197,7 +268,7 @@ run_matrix() {
 EOF
 
     # Cleanup temp files
-    rm -f "$temp_output" "$temp_timing" "$temp_combined"
+    rm -f "$temp_output" "$temp_timing"
 }
 
 # ============================================================================
@@ -217,7 +288,9 @@ run_benchmarks() {
     fi
 
     # Expand glob pattern
+    echo "DEBUG: matrices before ls: $matrices" >&2
     matrices=$(ls $matrices 2>/dev/null)
+    echo "DEBUG: matrices after ls: $matrices" >&2
 
     if [ -z "$matrices" ]; then
         report_env_error "No matrix files found"
