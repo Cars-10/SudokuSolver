@@ -1,94 +1,94 @@
 # Technology Stack
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## Languages
 
 **Primary:**
-- TypeScript 5.x - Metrics processing and report generation (`Metrics/*.ts`)
-- JavaScript - Server API and solver implementations (`server/index.js`, `Languages/JavaScript/`)
+- JavaScript/Node.js - Server, metrics collection, report generation (`server/index.js`, `Metrics/*.js`)
+- TypeScript 5.3.2 - Core metrics modules (`Metrics/*.ts`, `Metrics/tsconfig.json`)
 
 **Secondary:**
-- 80+ programming languages - Sudoku solver implementations (`Languages/*/`)
-- Bash - Build scripts, solver wrappers, benchmarking (`Languages/common.sh`, `runBenchmarks.sh`)
-
-**Polyglot Language Support:**
-- Compiled: C, C++, Rust, Go, Swift, D, Nim, Crystal, Zig, V, Haxe
-- JVM: Java, Kotlin, Scala, Groovy, Clojure
-- .NET: C#, F#
-- Scripting: Python, Ruby, Perl, PHP, Lua, R, Julia
-- Functional: Haskell, OCaml, Elixir, Racket, Lisp
-- Esoteric: Brainfuck, COBOL, Fortran, Ada, Prolog, Verilog
+- Bash/Shell - Build scripts, solver runners (`Languages/*/setupAndRunMe.sh`, `runBenchmarks.sh`)
+- **88 benchmark languages** - Polyglot solver implementations (`Languages/` directory)
+  - Systems: C, C++, Rust, Go, Zig, Nim, Ada, Pascal, D
+  - JVM: Java, Kotlin, Scala, Clojure, Groovy
+  - .NET: C#, F#, VB.NET
+  - Scripting: Python, Ruby, Perl, Lua, PHP, JavaScript, TypeScript
+  - Functional: Haskell, OCaml, Elixir, Erlang, Scheme, Racket
+  - And 50+ more esoteric languages
 
 ## Runtime
 
 **Environment:**
-- Node.js 20.x LTS - Primary runtime (`server/Dockerfile` lines 81-86)
-- Python 3 - Python solver and utilities (`server/Dockerfile` lines 72-78)
-- Go 1.21.5 - Custom compiled binary (`server/Dockerfile` lines 89-98)
-- Rust (stable) - Via rustup (`server/Dockerfile` lines 100-104)
-- OpenJDK 21 - JVM languages (`server/Dockerfile` lines 106-114)
-- .NET SDK 8.0 - C#/F# support (`server/Dockerfile` lines 124-131)
-- Docker Base: Ubuntu 24.04 LTS (Noble Numbat)
+- Node.js 20.x (LTS) - Primary runtime
+- Docker/Ubuntu 24.04 - Containerized execution (`server/Dockerfile`)
 
 **Package Manager:**
-- npm - Node.js dependencies
-- Lockfiles: `package-lock.json` present in root, `Metrics/`, `server/`, `Languages/TypeScript/`, `Languages/JavaScript/`
+- npm - Primary package manager
+- Lockfiles:
+  - `package-lock.json` - Root dependencies
+  - `Metrics/package-lock.json` - Metrics module dependencies
 
 ## Frameworks
 
 **Core:**
-- Express.js 4.18.2 - HTTP server (`server/package.json`)
-- Express.js 5.2.1 - Metrics API (`Metrics/package.json`)
-
-**Testing:**
-- Custom validation framework - Reference-based testing (`Metrics/validation.js`)
-- No traditional test runner (Jest, Vitest) installed
+- Express.js 4.18.2 / 5.2.1 - REST API server (`server/package.json`, `Metrics/package.json`)
 
 **Build/Dev:**
-- tsx 4.21.0 - TypeScript execution without build step (`package.json`)
-- ts-node 10.9.0+ - TypeScript Node runtime
-- TypeScript 5.x - Compilation (`Metrics/tsconfig.json`, `Languages/TypeScript/tsconfig.json`)
+- tsx 4.21.0 - TypeScript execution without compilation (`package.json`)
+- TypeScript 5.3.2 - Type checking (`Metrics/package.json`)
+- ts-node 10.9.1 - TypeScript Node runner (`Metrics/package.json`)
+
+**Browser Automation:**
+- Puppeteer 21.0.0-24.32.0 - Headless Chrome for screenshots/reports (`package.json`, `server/package.json`)
 
 ## Key Dependencies
 
 **Critical:**
-- better-sqlite3 11.0.0 - Embedded SQL database (`server/package.json`, `Metrics/package.json`)
-- puppeteer 24.32.0 - Headless browser for screenshots (`package.json`)
-- sharp 0.33.5 - Image processing for logos (`server/package.json`)
+- better-sqlite3 11.0.0 - SQLite database access (`Metrics/db_utils.js`)
+- sharp 0.33.5 - Image processing, SVG to PNG conversion (`server/logo_processor.js`)
+- multer 1.4.5-lts.1 - File upload handling (`server/index.js`)
+- node-fetch 3.3.2 - HTTP client for external resources (`server/logo_processor.js`)
 
 **Infrastructure:**
 - cors 2.8.5 - CORS middleware (`server/package.json`)
-- multer 1.4.5 - File upload handling (`server/package.json`)
-- node-fetch 3.3.2 - HTTP client (`server/package.json`)
-- glob 13.0.0 - File pattern matching (`package.json`)
-- fs-extra 11.3.2 - Enhanced file operations (`package.json`)
-- svg2png-wasm 1.4.1 - SVG to PNG conversion (`server/package.json`)
+- glob 10.0.0/13.0.0 - File pattern matching (`package.json`, `Metrics/package.json`)
+- fs-extra 11.0.0 - Enhanced file operations (`package.json`)
+- svg2png-wasm 1.4.1 - WebAssembly SVG conversion (`server/package.json`)
 
 ## Configuration
 
 **Environment:**
-- `.env` file for server configuration
-- Variables: `WEBHOST=localhost`, `WEBPORT=3000`
-- Docker: `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`, `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser`
+- `.env` file with minimal config:
+  - `WEBHOST=localhost`
+  - `WEBPORT=3000`
+- Server defaults to port 9001 if PORT not set
+
+**TypeScript:**
+- `Metrics/tsconfig.json`:
+  - Target: ES2022
+  - Module: ES2022 (ESM)
+  - strict: false
+  - noEmit: true (no compilation output)
 
 **Build:**
-- `Metrics/tsconfig.json` - ES2022 target, ESM modules
-- `Languages/TypeScript/tsconfig.json` - ES2020 target, CommonJS, strict mode
-- `benchmark_config.json` - Benchmark execution configuration
+- `docker-compose.yml` - Container orchestration
+- `server/Dockerfile` - Ubuntu 24.04 base image
 
 ## Platform Requirements
 
 **Development:**
-- macOS/Linux/Windows (any platform with Node.js and Docker)
-- Docker Desktop for full benchmark suite
+- macOS/Linux/Windows (cross-platform Node.js)
+- Docker optional for containerized execution
+- 88 language runtimes for full benchmark coverage
 
 **Production:**
-- Docker container (Ubuntu 24.04 base)
-- Port 9001 for API server
-- Volume mounts for Languages, Matrices, Metrics, logos, screenshots
+- Docker container (Ubuntu 24.04)
+- Port 9001 exposed
+- Volumes for Languages, Matrices, Metrics, logos, screenshots
 
 ---
 
-*Stack analysis: 2025-12-24*
+*Stack analysis: 2026-01-07*
 *Update after major dependency changes*

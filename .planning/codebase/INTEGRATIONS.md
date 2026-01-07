@@ -1,83 +1,106 @@
 # External Integrations
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## APIs & External Services
 
-**Payment Processing:**
-- Not applicable - No payment integration
+**No Third-Party External APIs:**
+- No payment processing (Stripe, Square, PayPal)
+- No authentication services (Auth0, Firebase, OAuth)
+- No analytics (Google Analytics, Mixpanel)
+- No email/notification services (SendGrid, Twilio)
+- No cloud storage (AWS S3, Azure Blob)
 
-**Email/SMS:**
-- Not applicable - No email or messaging integration
-
-**External APIs:**
-- Not applicable - No external API consumption
-
-**Note:** This is a self-contained benchmark system with no external service dependencies.
+This is a self-contained benchmarking system with no external API dependencies.
 
 ## Data Storage
 
 **Databases:**
-- SQLite (better-sqlite3 11.0.0) - Embedded relational database
-  - Connection: Direct file access via better-sqlite3
-  - Client: `better-sqlite3` npm package
-  - Files: `Metrics/benchmarks.db`, `Metrics/db_utils.js`
-  - Usage: Optional database storage for benchmark results
+- SQLite - Local benchmark metrics storage
+  - Connection: `better-sqlite3` in `Metrics/db_utils.js`
+  - Location: `Metrics/benchmarks.db`
+  - Schema: `Metrics/schema.sql`
+  - Tables: `runs` with 19 columns tracking performance metrics
 
 **File Storage:**
-- Local file system only
-  - Metrics: `Languages/*/metrics.json`
-  - History: `benchmark_history.json`
-  - Reports: `_report.html`, `_report_screenshot.html`
-  - Uploads: `server/uploads/`
+- Local file system only - No cloud storage
+  - Matrices: `Matrices/*.matrix` (test inputs)
+  - Logos: `logos/*.png` (cached language logos)
+  - Screenshots: `screenshots/` (report captures)
+  - Uploads: `server/uploads/` (temporary file uploads)
 
 **Caching:**
-- None - All operations read from disk
+- File-based caching only
+  - `benchmark_history.json` - All historical runs
+  - `session_state.json` - UI state persistence
+  - `Languages/*/metrics.json` - Per-language results
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- None - No authentication system
-- Open API without access control
-
-**OAuth Integrations:**
-- None
+- None - No authentication implemented
+- Server runs without access controls
+- Intended for local/internal use only
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Console logging only
-- No Sentry, Datadog, or similar
+- None (console.log/console.error only)
 
 **Analytics:**
 - None
 
 **Logs:**
-- stdout/stderr to console
-- No centralized logging
+- stdout/stderr logging only
+- No structured logging or log aggregation
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Docker container (Ubuntu 24.04 base)
-- Port 9001 for API
-- Volume mounts for persistent data
+- Docker container on local machine
+- Port 9001 exposed via docker-compose
+- No cloud deployment configured
 
 **CI Pipeline:**
-- Not configured
-- Manual validation via `validate_run.js`
+- Not detected - No GitHub Actions, Jenkins, etc.
 
 ## Environment Configuration
 
 **Development:**
-- Required env vars: `WEBHOST`, `WEBPORT` (in `.env`)
-- No secrets management (no external services)
-- Docker optional for full language support
+- Required env vars: `WEBHOST`, `WEBPORT` (optional)
+- Secrets location: `.env` (minimal, non-sensitive)
+- No mock services needed - all local execution
 
 **Production:**
-- Same as development
-- Docker recommended for all 80+ languages
-- Environment vars in `docker-compose.yml`
+- Docker container with mounted volumes
+- Environment: `NODE_ENV=development` (in docker-compose.yml)
+
+## Internal API Endpoints
+
+**REST API (port 9001):**
+- `GET /` - Serves benchmark report HTML
+- `GET /runner` - Matrix runner UI
+- `GET /api/matrices` - List test matrices
+- `GET /api/languages` - List available solvers
+- `POST /api/run` - Execute solver benchmark
+- `GET /api/metadata/:lang` - Language metadata
+- `POST /api/save-metadata` - Update metadata
+- `POST /api/lock` - Lock/unlock languages
+- `POST /api/upload-media` - File upload (multer)
+- `POST /api/download-media` - Fetch external media
+- `POST /api/upload-logo` - Logo upload
+- `POST /api/fetch-logo` - Fetch logo from URL
+- `POST /api/generate-report` - Trigger report generation
+- `GET /api/session-state` - Read session state
+- `POST /api/session-state` - Save session state
+
+## HTTP Client Usage
+
+**External Image Fetching:**
+- `node-fetch` used in `server/logo_processor.js`
+- Purpose: Download language logos from URLs
+- Method: `fetchLogoFromUrl()` - fetches and converts SVG to PNG
+- No authentication required
 
 ## Webhooks & Callbacks
 
@@ -87,48 +110,16 @@
 **Outgoing:**
 - None
 
-## Browser Automation
+## Child Process Execution
 
-**Puppeteer:**
-- Used for: Screenshot capture of HTML reports
-- Configuration: `Metrics/ScreenshotUtils.ts`
-- Environment: `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser`
-- Chrome path: `/Applications/Google Chrome.app/...` (macOS dev)
-- Viewport: 1920x1080 for consistent rendering
-
-## Image Processing
-
-**Sharp:**
-- Used for: Logo processing and transformation
-- Location: `server/logo_processor.js`
-- Features:
-  - SVG to PNG conversion
-  - Color inversion for logos
-  - White-to-transparent transformation
-  - Resize with background specification
-
-**svg2png-wasm:**
-- Used for: Alternative SVG conversion
-- Location: `server/package.json`
-
-## Process Execution
-
-**child_process:**
-- Used for: Running language-specific solvers
-- Location: `server/index.js` (lines 152, 434)
-- Timeout: 120-180 seconds
-- Working directory: Language-specific folders
-
-## HTTP Client
-
-**node-fetch:**
-- Used for: Downloading language logos from URLs
-- Location: `server/index.js`, `server/logo_processor.js`
-- Endpoint: `/api/download-media`
+**Benchmark Execution:**
+- Framework: Node.js `child_process.exec()`
+- Purpose: Execute language solvers via shell scripts
+- Scripts: `Languages/*/setupAndRunMe.sh`, `Languages/*/runMe.sh`
+- Location: `server/index.js` (lines 145-170)
+- Timeout: 180 seconds default
 
 ---
 
-*Integration audit: 2025-12-24*
+*Integration audit: 2026-01-07*
 *Update when adding/removing external services*
-
-**Summary:** This codebase has NO external API integrations, NO authentication systems, and NO third-party SaaS dependencies. It is a self-contained polyglot benchmark system using only local file I/O, local process execution, local SQLite database, and local browser automation via Puppeteer.

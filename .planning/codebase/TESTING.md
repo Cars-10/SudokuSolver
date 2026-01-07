@@ -1,178 +1,183 @@
 # Testing Patterns
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## Test Framework
 
 **Runner:**
-- No traditional test framework (Jest, Vitest, Mocha) installed
-- Custom validation scripts replace unit testing
-- Reference-based regression testing
+- No traditional test framework installed (no Jest, Vitest, Mocha)
+- Testing is script-based and manual
 
-**Validation Library:**
-- Custom implementation in `Metrics/validation.js`
-- Format validation in `Metrics/format_validation.js`
-- CLI runner in `Metrics/validate_run.js`
+**Assertion Library:**
+- None configured
+- Ad-hoc validation in utility scripts
 
 **Run Commands:**
 ```bash
-node Metrics/validate_run.js <path>           # Iteration validation (default)
-node Metrics/validate_run.js --format <path>  # Format validation
-node Metrics/validate_run.js --all <path>     # Both validations
+# No npm test script configured
+# Manual validation via:
+./runMeGlobal.sh [Language] [MatrixNumber]    # Run single benchmark
+./runBenchmarks.sh                             # Run all benchmarks
+node Metrics/validate_run.js                   # Validate output format
 ```
 
 ## Test File Organization
 
 **Location:**
-- Validation scripts in `Metrics/` directory
-- No separate `tests/` or `__tests__/` directories
-- Co-located with production code
+- No dedicated test directories (`__tests__/`, `tests/`)
+- No `.test.ts` or `.spec.ts` files found
 
-**Naming:**
-- `validation.js` - Core validation logic
-- `format_validation.js` - Output format checking
-- `validate_run.js` - CLI test runner
+**Validation Scripts:**
+- `Metrics/validate_run.js` - Validates metrics output format
+- `Metrics/format_validation.js` - Checks data structure compliance
+- `check_invalid.mjs` - Validation utility
 
-**Structure:**
-```
-Metrics/
-  ├── validation.js         # Iteration count validation
-  ├── format_validation.js  # Output format validation
-  ├── validate_run.js       # CLI test runner
-  └── [core logic files]
-```
+## Test Philosophy (from MANIFESTO.md)
 
-## Test Structure
+**TDD Approach:**
+> "When adding a new language, your first and only goal is to get `1.matrix` (the simplest case) to run, solve, and output valid metrics."
 
-**Validation Pattern:**
-```javascript
-// Load reference
-const reference = loadReferenceIterations();
+**Test Workflow:**
+1. Setup language environment (compiler/interpreter)
+2. Verify `setupAndRunMe.sh` exists or create it
+3. Compile (if needed)
+4. Execute on simplest test case (`1.matrix`)
+5. Validate metrics output format
+6. Check status field for success/failure
 
-// Validate against expected
-const result = validateIterations(matrix, actualIterations);
+## Test Types
 
-// Result structure
+**Benchmark Tests (Primary):**
+- Run via `./runMeGlobal.sh [Language] [Matrix]`
+- Example: `./runMeGlobal.sh C 1` runs C solver on matrix 1
+- Validates: execution completes, metrics.json produced, status is success
+
+**Reference Comparison:**
+- Compare solver output against `Matrices/ReferenceForAllMatrixRun.txt`
+- Ensures algorithmic correctness
+
+**Integration Tests:**
+- Manual: Run server, execute benchmarks via UI
+- No automated integration test suite
+
+**E2E Tests:**
+- Not implemented
+- CLI and UI tested manually
+
+## Metrics Validation
+
+**Required Fields in metrics.json:**
+```json
 {
-  valid: boolean,
-  expected: number,
-  actual: number,
-  matrix: string
+  "time_ms": number,
+  "memory_bytes": number,
+  "cpu_user": number,
+  "cpu_sys": number,
+  "iterations": number,
+  "status": "success" | "timeout" | "error",
+  "output": string (optional)
 }
 ```
 
-**Patterns:**
-- Reference-based comparison against C baseline
-- Expected iterations stored in `Matrices/reference_iterations.json`
-- Status codes: `success`, `timeout`, `error`, `env_error`
+**Extended Fields (10 total):**
+- `page_faults_major`, `page_faults_minor`
+- `context_switches_voluntary`, `context_switches_involuntary`
+- `io_inputs`, `io_outputs`
+- `compiler_variant`, `toolchain_version`
 
-## Mocking
-
-**Framework:**
-- No mocking framework installed
-- Integration testing via actual execution
-- No unit test isolation
-
-**What Gets Tested:**
-- Actual solver execution
-- Real file I/O
-- Full benchmark pipeline
-
-## Fixtures and Factories
-
-**Test Data:**
-- Reference outputs in `Matrices/reference_output/`
-- Reference iterations in `Matrices/reference_iterations.json`
-- Test matrices: `Matrices/1.matrix` through `Matrices/6.matrix`
-
-**Location:**
-- All fixtures in `Matrices/` directory
-- No factory functions for test data
+**Validation Location:**
+- `Metrics/validate_run.js` - JSON structure validation
+- `Metrics/db_utils.js` - Database constraints
 
 ## Coverage
 
 **Requirements:**
-- No coverage target defined
-- Focus on correctness via reference comparison
-- Manual verification of algorithm matching
-
-**View Coverage:**
+- No formal coverage requirements
 - No coverage tooling configured
+- Focus on solver correctness over code coverage
 
-## Test Types
+**Critical Paths Untested:**
+- `server/index.js` API endpoints
+- `Metrics/db_utils.js` database operations
+- `Metrics/HTMLGenerator.ts` report generation
 
-**Validation Tests (Primary):**
-- Compare iteration counts against C reference (656 for Matrix 1)
-- Verify output format matches specification
-- Check status codes are correct
+## Test Data
 
-**Integration Tests:**
-- Full solver execution via shell
-- End-to-end benchmark pipeline
-- Report generation verification
+**Test Matrices:**
+- `Matrices/1.matrix` through `Matrices/6.matrix`
+- Increasing difficulty levels
+- `1.matrix` is simplest (TDD starting point)
 
-**Manual Tests:**
-- Visual verification of HTML reports
-- Screenshot comparison
-- UI interaction testing
+**Reference Outputs:**
+- `Matrices/reference_output/` - Expected solutions
+- `Matrices/ReferenceForAllMatrixRun.txt` - Combined reference
+
+**Factory Pattern:**
+- Not used (test data is file-based)
+
+## Run Types
+
+**Local:**
+- Direct system execution via shell scripts
+- Uses system-installed compilers/interpreters
+
+**Docker:**
+- Containerized execution via `Languages/*/Dockerfile`
+- Isolated environment for reproducibility
+
+**AI:**
+- Placeholder for AI-assisted runs
+- Noted in metadata but not fully implemented
 
 ## Common Patterns
 
-**Language Solver Testing:**
+**Solver Execution Test:**
 ```bash
-# Run benchmarks
-cd Languages/YourLanguage
-./runMe.sh ../../../Matrices/1.matrix
-
-# Check metrics generated
-cat metrics.json
-
-# Validate against reference
-node /app/Metrics/validate_run.js /app/Languages/YourLanguage/metrics.json
+# From MANIFESTO.md workflow
+cd Languages/[LanguageName]
+./setupAndRunMe.sh ../../Matrices/1.matrix
+cat metrics.json  # Verify output
 ```
 
-**Validation Execution:**
-```bash
-# Full validation
-node Metrics/validate_run.js Languages/C/metrics.json
+**Timeout Handling:**
+- Default timeout: 180 seconds
+- Returns `status: 'timeout'` if exceeded
+- Configured in `SolverRunner.ts`
 
-# Output format
-# ✓ PASS: Matrix 1 - Expected 656, Got 656
-# ✗ FAIL: Matrix 2 - Expected 1000, Got 999
-```
+## Linting & Formatting
 
-**Environment Validation:**
-```bash
-# In language script
-check_toolchain gcc  # Validates compiler
-report_env_error "GCC not installed"  # Generates error metrics
-```
+**TypeScript Configuration:**
+- File: `Metrics/tsconfig.json`
+- Target: ES2022
+- Module: ES2022
+- strict: false
+- noEmit: true
 
-## Validation Success Criteria
+**No Linting Tools:**
+- No ESLint configuration
+- No Prettier configuration
+- Formatting is manual/IDE-based
 
-**Iteration Matching:**
-- Matrix 1: 656 iterations (C reference)
-- Must match exactly for validation pass
-- Timeout: 180 seconds maximum
+## Development Dependencies
 
-**Output Format:**
-- Must match C reference output format
-- JSON structure must be valid
-- Status field must be present
-
-**Metrics File Structure:**
 ```json
-{
-  "solver": "LanguageName",
-  "runType": "local|docker",
-  "metrics": {
-    "1.matrix": { "time": 0.5, "iterations": 656, "status": "success" },
-    "2.matrix": { ... }
-  }
+// From Metrics/package.json
+"devDependencies": {
+  "@types/node": "^20.10.0",
+  "typescript": "^5.3.2"
 }
 ```
 
+## Recommended Improvements
+
+1. Add Jest or Vitest for unit testing
+2. Create test fixtures for API endpoints
+3. Add integration tests for report generation
+4. Configure ESLint for code quality
+5. Add GitHub Actions CI pipeline
+6. Implement coverage reporting
+
 ---
 
-*Testing analysis: 2025-12-24*
+*Testing analysis: 2026-01-07*
 *Update when test patterns change*

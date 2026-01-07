@@ -1,165 +1,200 @@
 # Codebase Structure
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## Directory Layout
 
 ```
 SudokuSolver/
-├── server/                 # Express.js HTTP API
-│   ├── index.js            # Main server (499 lines)
-│   ├── logo_processor.js   # Logo processing utility
-│   ├── package.json        # Server dependencies
-│   ├── public/             # Matrix runner UI
-│   │   ├── index.html      # Runner interface
-│   │   ├── script.js       # UI logic
-│   │   └── style.css       # Styling
-│   └── uploads/            # Uploaded media storage
-├── Metrics/                # Report generation (4283 lines TS)
-│   ├── HTMLGenerator.ts    # Report HTML (2001 lines)
-│   ├── LanguagesMetadata.ts # Language registry (840 lines)
-│   ├── PersonaMetadata.ts  # Narrative personas (688 lines)
-│   ├── generate_report_only.ts # Main generator
-│   ├── SolverRunner.ts     # Solver execution
-│   ├── HistoryManager.ts   # History persistence
-│   ├── ScreenshotUtils.ts  # Puppeteer screenshots
-│   ├── types.ts            # TypeScript interfaces
-│   └── package.json        # Metrics dependencies
-├── Languages/              # 80+ language implementations
-│   ├── common.sh           # Shared bash functions
-│   ├── C/                  # Reference implementation
-│   ├── C++/
-│   ├── Rust/
+├── server/                    # Express.js web server
+│   ├── public/               # Static UI assets
+│   ├── uploads/              # Temporary file uploads
+│   └── Dockerfile            # Container definition
+├── Metrics/                   # Core metrics & reporting
+│   └── node_modules/         # Module dependencies
+├── Languages/                 # 88+ solver implementations
+│   ├── C/                    # Each language has its own dir
 │   ├── Python/
-│   ├── JavaScript/
-│   ├── TypeScript/
-│   └── [80+ more languages]
-├── Matrices/               # Test inputs
-│   ├── 1.matrix - 6.matrix
-│   └── reference_output/
-├── scripts/                # Utility scripts
-├── logos/                  # Language logo assets
-├── screenshots/            # Report screenshots
-├── benchmark_config.json   # Tier/matrix config
-├── benchmark_history.json  # Historical runs
-├── docker-compose.yml      # Docker orchestration
-├── runBenchmarks.sh        # Master runner
-└── package.json            # Root dependencies
+│   ├── Rust/
+│   └── ... (85+ more)
+├── Matrices/                  # Test puzzle inputs
+│   └── reference_output/     # Expected solutions
+├── logos/                     # Language logo cache
+├── screenshots/               # Report screenshots
+├── scripts/                   # Utility shell scripts
+├── Tools/                     # Helper utilities
+├── .planning/                 # Project planning docs
+│   └── codebase/             # This analysis
+└── .claude/                   # Claude AI integration
 ```
 
 ## Directory Purposes
 
 **server/**
-- Purpose: HTTP API and static file serving
-- Contains: Express routes, file handlers, logo processor
-- Key files: `index.js` (main server), `public/index.html` (runner UI)
-- Subdirectories: `public/` (UI), `uploads/` (media storage)
+- Purpose: REST API server and web UI
+- Contains: Express.js server code, static assets, Dockerfile
+- Key files:
+  - `index.js` - Main API server (port 9001)
+  - `logo_processor.js` - Image processing utilities
+  - `public/index.html` - Matrix runner UI
+  - `public/script.js` - Client-side logic
+  - `public/style.css` - Neon-themed styling
 
 **Metrics/**
-- Purpose: Benchmark aggregation, report generation, visualization
-- Contains: TypeScript modules for HTML generation and data processing
-- Key files: `HTMLGenerator.ts` (report builder), `generate_report_only.ts` (entry point)
-- Note: Contains both `.ts` source and compiled `.js` files
+- Purpose: Benchmark data collection, processing, and reporting
+- Contains: TypeScript/JavaScript modules, SQLite database, schema
+- Key files:
+  - `gather_metrics.ts` - Main metrics aggregator
+  - `generate_report_only.ts` - Report generation entry point
+  - `HTMLGenerator.ts` - HTML report builder (1996 lines)
+  - `SolverRunner.ts` - Solver execution handler
+  - `RepositoryAnalyzer.ts` - Solver discovery
+  - `HistoryManager.ts` - Benchmark history persistence
+  - `db_utils.js` - SQLite database operations
+  - `sync_db.ts` - JSON to SQLite sync
+  - `types.ts` - TypeScript interfaces
+  - `benchmarks.db` - SQLite database
+  - `schema.sql` - Database schema definition
 
 **Languages/**
-- Purpose: Multi-language Sudoku solver implementations
-- Contains: 80+ language folders with solver code and scripts
-- Key files: `common.sh` (shared utilities), each folder has `runMe.sh`/`setupAndRunMe.sh`
-- Pattern: Each language is self-contained with `Sudoku.*`, `metrics.json`, `metadata.json`
+- Purpose: Solver implementations for 88+ programming languages
+- Contains: One subdirectory per language
+- Per-language structure:
+  - `setupAndRunMe.sh` - Setup and execution script
+  - `Sudoku.{ext}` - Solver source code
+  - `metrics.json` - Benchmark results
+  - `Media/` - Optional media files
+  - `Dockerfile` - Optional container definition
 
 **Matrices/**
-- Purpose: Benchmark test inputs (Sudoku puzzles)
-- Contains: 6 matrix files of varying difficulty
-- Key files: `*.matrix` (puzzle inputs), `reference_output/` (expected solutions)
+- Purpose: Sudoku test puzzle inputs
+- Contains: `.matrix` files with puzzle data
+- Key files:
+  - `1.matrix` through `6.matrix` - Test puzzles
+  - `reference_output/` - Expected solutions
+  - `ReferenceForAllMatrixRun.txt` - Combined reference
+
+**logos/**
+- Purpose: Cached language logo images
+- Contains: PNG images for each language
+- Key files:
+  - `{language}.png` - Processed logo images
+  - `Tailoring.json` - Image transformation rules
+
+**scripts/**
+- Purpose: Utility shell scripts
+- Contains: Helper scripts for common operations
+- Key files:
+  - `run_benchmark.sh` - Benchmark runner wrapper
+  - `generate_report.sh` - Report generation wrapper
+  - `server_control.sh` - Server start/stop
 
 ## Key File Locations
 
 **Entry Points:**
-- `server/index.js` - HTTP API server (port 9001)
-- `Metrics/generate_report_only.ts` - Report generation CLI
-- `runBenchmarks.sh` - Batch benchmark runner
+- `server/index.js` - Web server entry (port 9001)
+- `Metrics/generate_report_only.ts` - Report generation
+- `Metrics/run_suite.ts` - CLI benchmark runner
+- `Metrics/sync_db.ts` - Database sync
 
 **Configuration:**
-- `package.json` - Root npm config
-- `benchmark_config.json` - Language tiers, matrix thresholds
-- `.env` - Server host/port configuration
+- `.env` - Environment variables (WEBHOST, WEBPORT)
+- `package.json` - Root dependencies
+- `Metrics/package.json` - Metrics module dependencies
+- `Metrics/tsconfig.json` - TypeScript configuration
 - `docker-compose.yml` - Container orchestration
+- `benchmark_config.json` - Benchmark settings
+- `logos/Tailoring.json` - Image processing rules
 
 **Core Logic:**
-- `server/index.js:152` - Benchmark execution
-- `Metrics/HTMLGenerator.ts` - Report visualization
-- `Metrics/SolverRunner.ts` - Solver process management
-- `Languages/common.sh` - Shared bash utilities
+- `Metrics/HTMLGenerator.ts` - Report generation (1996 lines)
+- `Metrics/SolverRunner.ts` - Solver execution
+- `Metrics/db_utils.js` - Database operations
+- `server/logo_processor.js` - Image processing
 
-**Testing:**
-- `Metrics/validation.js` - Iteration validation
-- `Metrics/validate_run.js` - CLI test runner
-- No traditional test framework
+**Data Files:**
+- `benchmark_history.json` - All historical runs
+- `session_state.json` - UI state persistence
+- `Metrics/benchmarks.db` - SQLite database
+- `Languages/metadata.json` - Global language metadata
+
+**Generated Output:**
+- `_report.html` - Main benchmark report
+- `_report_screenshot.html` - Screenshot version
+- `screenshots/benchmark_*.png` - Report screenshots
 
 **Documentation:**
-- `Languages/README.md` - Language implementation guide
-- `CLAUDE.md` - Claude Code instructions
+- `MANIFESTO.md` - Project philosophy & standards
+- `GEMINI.md` - Supplementary documentation
 
 ## Naming Conventions
 
 **Files:**
-- PascalCase.ts: Class-like modules (`SolverRunner.ts`, `HTMLGenerator.ts`)
-- snake_case.ts: Script-style files (`run_suite.ts`, `gather_metrics.ts`)
-- kebab-case.sh: Shell scripts (`runMe.sh`, `setupAndRunMe.sh`)
-- UPPERCASE.md: Important docs (`README.md`, `CLAUDE.md`)
+- PascalCase.ts: TypeScript modules (`HTMLGenerator.ts`, `SolverRunner.ts`)
+- lowercase.js: JavaScript files (`db_utils.js`, `report_client.js`)
+- snake_case.ts: Multi-word scripts (`sync_db.ts`, `run_suite.ts`)
+- setupAndRunMe.sh: Language entry scripts (camelCase)
+- *.matrix: Test puzzle files
+- _report.html: Generated output (underscore prefix)
 
 **Directories:**
-- PascalCase: Language folders (`C++`, `JavaScript`, `C_Sharp`)
-- lowercase: Utility folders (`server`, `scripts`, `logos`)
-- Underscores: Language names with symbols (`C_Sharp`, `F_Sharp`)
+- PascalCase: Language directories (`Languages/C_Sharp/`, `Languages/Python/`)
+- lowercase: Infrastructure dirs (`server/`, `scripts/`, `logos/`)
+- dot-prefix: Hidden/config dirs (`.planning/`, `.claude/`)
 
 **Special Patterns:**
-- `setupAndRunMe.sh`: Full setup + benchmark (compiles if needed)
-- `runMe.sh`: Benchmark only (assumes compiled)
-- `metrics.json`: Per-language execution results
-- `metadata.json`: Per-language custom metadata
+- `metrics.json`: Standard output per language
+- `{Language}/Media/`: Per-language media uploads
+- `benchmark_*.json/html`: Benchmark-related files
 
 ## Where to Add New Code
 
 **New Language Solver:**
-- Create: `Languages/[LanguageName]/`
-- Add: `Sudoku.*` (solver), `runMe.sh` or `setupAndRunMe.sh`
-- Optionally: `metadata.json`, `Media/` folder for screenshots
-- Register in `Metrics/LanguagesMetadata.ts`
+- Implementation: `Languages/{LanguageName}/`
+- Required: `setupAndRunMe.sh` or `runMe.sh`
+- Output: `metrics.json` in same directory
+- Optional: `Dockerfile` for containerized execution
 
 **New API Endpoint:**
-- Location: `server/index.js`
-- Pattern: `app.get/post('/api/[route]', handler)`
-- Add route handling with proper error responses
+- Implementation: `server/index.js`
+- Pattern: Add `app.get/post('/api/endpoint', handler)`
+
+**New Metrics Module:**
+- Implementation: `Metrics/{ModuleName}.ts`
+- Types: Add to `Metrics/types.ts`
+- Exports: Named exports preferred
 
 **New Report Feature:**
-- Location: `Metrics/HTMLGenerator.ts`
-- Add method to generate HTML section
-- Update `generateHtml()` to include new section
+- Implementation: `Metrics/HTMLGenerator.ts`
+- Client-side: `Metrics/report_client.js`
 
-**New Metrics Processing:**
-- Location: `Metrics/` directory
-- Create new `.ts` file following existing patterns
-- Export functions, import in `generate_report_only.ts`
+**Utility Scripts:**
+- Implementation: `scripts/{script-name}.sh`
+- Or root level for main workflows
 
 ## Special Directories
 
 **.planning/**
-- Purpose: Project planning documents (GSD system)
-- Source: Created by /gsd commands
+- Purpose: Project planning and analysis docs
+- Source: GSD workflow outputs
 - Committed: Yes
 
-**logos/**
-- Purpose: Language visual identifiers (PNG/SVG)
-- Served: Static at `/logos/*`
-- Processing: `server/logo_processor.js`
-
 **screenshots/**
-- Purpose: Report visualization captures
-- Generated: By Puppeteer via `ScreenshotUtils.ts`
-- Used: Documentation, history tracking
+- Purpose: Captured report screenshots
+- Source: Puppeteer automation
+- Committed: Selectively (some auto-generated)
+
+**server/uploads/**
+- Purpose: Temporary file upload storage
+- Source: multer middleware
+- Committed: No (gitignored)
+
+**node_modules/**
+- Purpose: npm dependencies
+- Source: npm install
+- Committed: No (gitignored)
 
 ---
 
-*Structure analysis: 2025-12-24*
+*Structure analysis: 2026-01-07*
 *Update when directory structure changes*
