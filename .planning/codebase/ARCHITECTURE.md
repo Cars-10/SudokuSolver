@@ -1,138 +1,164 @@
 # Architecture
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## Pattern Overview
 
-**Overall:** Monolithic Layered Application with Polyglot Solver System
+**Overall:** Polyglot Benchmark Runner with Analytics Platform
 
 **Key Characteristics:**
-- Multi-language Sudoku solver benchmark system
-- REST API serving matrix runner UI and reports
-- TypeScript-based metrics processing and visualization
-- 80+ language solver implementations with standardized interface
-- File-based state persistence (JSON, SQLite)
+- Self-contained monolith with clear layered separation
+- 88+ language solver implementations in isolated directories
+- File-based state (JSON + SQLite) rather than external databases
+- Minimal framework dependencies - pragmatic vanilla approach
+- Docker-ready for consistent execution environment
 
 ## Layers
 
-**API Layer:**
-- Purpose: HTTP endpoints for benchmark execution and UI serving
-- Contains: Express routes, file upload handlers, process execution
-- Location: `server/index.js`
-- Depends on: File system, child_process, Metrics module
-- Used by: Web clients, CLI tools
+**Execution Layer (`Languages/`):**
+- Purpose: Contains solver implementations for 88+ programming languages
+- Contains: `setupAndRunMe.sh` entry scripts, solver source code, `metrics.json` output
+- Depends on: Language runtimes (compilers/interpreters)
+- Used by: Server layer via child_process.exec()
 
-**Service Layer:**
-- Purpose: Business logic for metrics, reports, and history
-- Contains: HTML generation, language metadata, solver execution
-- Location: `Metrics/*.ts`
-- Depends on: File system, Puppeteer, SQLite
-- Used by: API layer, CLI scripts
+**Metrics Collection Layer (`Metrics/`):**
+- Purpose: Aggregate, analyze, and persist benchmark data
+- Contains: TypeScript modules for data processing, SQLite database, report generation
+- Depends on: File system (JSON files), SQLite database
+- Used by: Server API endpoints, CLI tools
 
-**Solver Layer:**
-- Purpose: Language-specific Sudoku solver implementations
-- Contains: 80+ language folders with solver code and scripts
-- Location: `Languages/*/`
-- Depends on: Language-specific compilers/interpreters
-- Used by: Service layer via shell execution
+**Server/API Layer (`server/`):**
+- Purpose: REST API and web UI serving
+- Contains: Express.js server, public assets, logo processing
+- Depends on: Metrics layer for report generation, Execution layer for running solvers
+- Used by: Web browsers, CLI tools
 
-**Utility Layer:**
-- Purpose: Shared bash functions for all solvers
-- Contains: Timing, error handling, output parsing
-- Location: `Languages/common.sh`
-- Depends on: System tools (gtime, awk, grep)
-- Used by: All solver scripts
+**Storage Layer:**
+- Purpose: Persistent data storage
+- Contains: JSON files (metrics, history, state), SQLite database
+- Depends on: File system
+- Used by: All other layers
+
+**Frontend Layer (`server/public/`):**
+- Purpose: Interactive UI for benchmark execution
+- Contains: Vanilla HTML/CSS/JS, matrix runner interface
+- Depends on: Server API endpoints
+- Used by: End users via browser
 
 ## Data Flow
 
-**Benchmark Execution Flow:**
+**Benchmark Execution:**
 
-1. Client sends `POST /api/run` with language + matrix
-2. Server (`server/index.js`) constructs shell command
-3. Shell executes `Languages/[Lang]/runMe.sh ../../../Matrices/N.matrix`
-4. Language script sources `Languages/common.sh`, compiles if needed
-5. Solver runs, outputs `Solved in Iterations=NNN`
-6. `common.sh` captures: time, memory, iterations, CPU
-7. Results written to `Languages/[Lang]/metrics.json`
-8. Server returns execution status + stdout/stderr
-9. Optional: `POST /api/generate-report` triggers full report
-10. `generate_report_only.ts` aggregates all language metrics
-11. `HTMLGenerator.ts` creates interactive report with D3.js
-12. Output saved to `_report.html`, served at `GET /`
+1. User clicks "Run" in UI (`server/public/script.js`)
+2. POST /api/run sent to server (`server/index.js`)
+3. Server locates `Languages/{lang}/setupAndRunMe.sh`
+4. Script executed via `child_process.exec()`
+5. Solver writes `metrics.json` in its directory
+6. Server reads and returns metrics to UI
+7. Metrics appended to `benchmark_history.json`
+
+**Report Generation:**
+
+1. User triggers report via UI or CLI
+2. POST /api/generate-report → `server/index.js`
+3. Server invokes `tsx Metrics/generate_report_only.ts`
+4. Report generator loads `benchmark_history.json`
+5. `HTMLGenerator.ts` produces `_report.html`
+6. Optional: Puppeteer captures screenshot
+7. Report served via GET /
+
+**Database Sync:**
+
+1. Run `tsx Metrics/sync_db.ts`
+2. Deletes existing `benchmarks.db`
+3. Initializes fresh schema from `schema.sql`
+4. Globs all `Languages/*/metrics.json` files
+5. Flattens and inserts records into SQLite
+6. Database ready for queries
 
 **State Management:**
-- File-based: All state in JSON files and SQLite
-- No persistent in-memory state
-- Each benchmark execution is independent
+- File-based: All state in `.json` files
+- No in-memory state between requests
+- Session state persisted in `session_state.json`
 
 ## Key Abstractions
 
-**Type Definitions** (`Metrics/types.ts`):
-- `SolverMetrics`: Wrapper for execution results with solver name and timestamp
-- `MetricResult`: Individual benchmark result (time, memory, iterations, status)
+**SolverRunner (`Metrics/SolverRunner.ts`):**
+- Purpose: Execute solver scripts and capture metrics
+- Methods: `runSolver()`, `runDockerSolver()`
+- Pattern: Async function with timeout handling (180s)
 
-**Core Modules:**
-- `HTMLGenerator.ts` (2001 lines): Transforms metrics into interactive HTML reports
-- `LanguagesMetadata.ts` (840 lines): Master language registry with flavor text
-- `PersonaMetadata.ts` (688 lines): Narrative personas for report generation
-- `SolverRunner.ts` (153 lines): Executes solvers via shell/Docker
-- `HistoryManager.ts` (38 lines): Appends records to benchmark history
+**HTMLGenerator (`Metrics/HTMLGenerator.ts`):**
+- Purpose: Generate self-contained HTML benchmark reports
+- Methods: `generateHtml()`
+- Pattern: String template generation with embedded D3.js
 
-**Service Pattern:**
-- Singleton-like modules (imported, not instantiated)
-- Export async functions: `runSolver()`, `generateHtml()`
-- Promise-based return types with explicit typing
+**HistoryManager (`Metrics/HistoryManager.ts`):**
+- Purpose: Persist benchmark history across runs
+- Methods: `appendRecord()`, `getHistory()`
+- Pattern: Singleton-like file manager
+
+**RepositoryAnalyzer (`Metrics/RepositoryAnalyzer.ts`):**
+- Purpose: Discover available solvers and reference outputs
+- Methods: `findSolvers()`, `readReferenceOutputs()`
+- Pattern: Glob-based file discovery
+
+**Database Utilities (`Metrics/db_utils.js`):**
+- Purpose: SQLite CRUD operations
+- Methods: `getDatabase()`, `insertRun()`, `queryRuns()`
+- Pattern: Direct SQL via better-sqlite3
 
 ## Entry Points
 
-**Server Entry:**
+**Web Server:**
 - Location: `server/index.js`
-- Triggers: HTTP requests to port 9001
-- Responsibilities: Route handling, file serving, process execution
+- Triggers: `node server/index.js` or docker-compose
+- Responsibilities: Serve UI, handle API requests, orchestrate execution
+- Port: 9001 (default)
 
-**Report Generator:**
+**Report Generation:**
 - Location: `Metrics/generate_report_only.ts`
-- Triggers: CLI execution or POST /api/generate-report
-- Responsibilities: Aggregate metrics, generate HTML, capture screenshots
+- Triggers: `tsx Metrics/generate_report_only.ts` or POST /api/generate-report
+- Responsibilities: Load metrics, generate HTML report with D3 charts
 
-**Matrix Runner UI:**
-- Location: `server/public/index.html`
-- Triggers: Browser navigation to /runner
-- Responsibilities: Interactive matrix loading and solver execution
+**Benchmark Suite:**
+- Location: `Metrics/run_suite.ts`
+- Triggers: `ts-node Metrics/run_suite.ts [language] [matrices]`
+- Responsibilities: Run selective benchmarks from CLI
 
-**Benchmark CLI:**
-- Location: `runBenchmarks.sh`
-- Triggers: Shell execution
-- Responsibilities: Batch benchmark execution across languages
+**Database Sync:**
+- Location: `Metrics/sync_db.ts`
+- Triggers: `tsx Metrics/sync_db.ts`
+- Responsibilities: Synchronize JSON metrics to SQLite
 
 ## Error Handling
 
-**Strategy:** Exception-based with per-layer catch and transform
+**Strategy:** Log errors and continue, with fallback paths
 
 **Patterns:**
-- Solvers use structured status codes: `success`, `timeout`, `error`, `env_error`
-- `common.sh` provides `report_env_error()` for environment issues
-- Server wraps exec() in try-catch, returns JSON error responses
-- Timeout handling: 180s limit via `--timeout` flag
+- Server catches exec errors, logs to stderr, returns error response
+- Report generation has fallback: TypeScript → JavaScript generator
+- Solver timeouts return `status: 'timeout'` in metrics
+- Database operations use try/catch with connection cleanup
 
 ## Cross-Cutting Concerns
 
 **Logging:**
-- Console.log for output (extensive usage)
-- No log level control or structured logging
-- Puppeteer: Screenshots captured for report visualization
+- Console.log/console.error throughout
+- Emoji markers for visual clarity: `🔄`, `✅`, `❌`
+- No structured logging framework
 
 **Validation:**
-- Reference-based: Compare iterations against C baseline
-- Format validation: Output structure matching
-- No schema validation on JSON parsing
+- Minimal input validation on API endpoints
+- Zod not used despite being a dependency
+- Metrics JSON parsed without schema validation
 
-**File Operations:**
-- fs-extra for enhanced file I/O
-- glob for file pattern matching
-- Atomic writes for metrics files
+**Configuration:**
+- `.env` file for host/port
+- `benchmark_config.json` for run settings
+- `logos/Tailoring.json` for image processing rules
 
 ---
 
-*Architecture analysis: 2025-12-24*
+*Architecture analysis: 2026-01-07*
 *Update when major patterns change*

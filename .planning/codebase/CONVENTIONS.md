@@ -1,158 +1,193 @@
 # Coding Conventions
 
-**Analysis Date:** 2025-12-24
+**Analysis Date:** 2026-01-07
 
 ## Naming Patterns
 
 **Files:**
-- PascalCase.ts for class-like modules: `SolverRunner.ts`, `HTMLGenerator.ts`, `HistoryManager.ts`
-- snake_case.ts for script-style files: `run_suite.ts`, `gather_metrics.ts`, `generate_report_only.ts`
-- kebab-case.sh for shell scripts: `runBenchmarks.sh`, `setupAndRunMe.sh`
-- UPPERCASE.md for important documents: `README.md`, `CLAUDE.md`, `ALGORITHM.md`
+- PascalCase.ts for TypeScript modules (`HTMLGenerator.ts`, `SolverRunner.ts`, `HistoryManager.ts`)
+- snake_case.ts for multi-word scripts (`sync_db.ts`, `run_suite.ts`, `gather_metrics.ts`)
+- lowercase.js for JavaScript files (`db_utils.js`, `report_client.js`)
+- setupAndRunMe.sh for language entry scripts (camelCase)
+- UPPERCASE.md for important docs (`MANIFESTO.md`, `README.md`)
 
 **Functions:**
-- camelCase for all functions: `runSolver()`, `generateHtml()`, `loadReferenceIterations()`
-- Async functions return `Promise<T>`: `async function runSolver(...): Promise<SolverMetrics | null>`
-- Prefix patterns: `check_*` (validation), `run_*` (execution), `generate_*` (output), `validate_*` (checks)
+- camelCase for all functions (`generateHtml()`, `runSolver()`, `appendRecord()`)
+- No special prefix for async functions
+- Descriptive verb-noun naming (`insertRun()`, `getDatabase()`, `findSolvers()`)
 
 **Variables:**
-- camelCase for local variables: `solverDir`, `langName`, `parentDir`
-- UPPER_SNAKE_CASE for shell constants: `LANGUAGE`, `SOLVER_BINARY`, `METRICS_FILE`
-- camelCase for TypeScript constants: `compilerMapping`, `orderedLanguages`
+- camelCase for variables (`currentSort`, `searchInput`, `solverName`)
+- UPPER_SNAKE_CASE for constants (`DB_PATH`, `MATRICES_DIR`)
+- No underscore prefix for private (use TypeScript `private` keyword)
 
 **Types:**
-- PascalCase for interfaces: `SolverMetrics`, `MetricResult`
-- PascalCase for type aliases: `LanguageMetadata`, `PersonaConfig`
-- No `I` prefix for interfaces
+- PascalCase for interfaces (`MetricResult`, `SolverMetrics`)
+- PascalCase for type aliases
+- No `I` prefix on interfaces
 
 ## Code Style
 
 **Formatting:**
-- 2-space indentation (consistent across TS, JS, shell)
-- Single quotes for strings in JS/TS
-- Semicolons required and present
-- No automatic formatter configured (.prettierrc, .eslintrc not present)
+- 4-space indentation (observed across TS/JS files)
+- Single quotes for strings (`'utf8'`, `'node'`)
+- Semicolons required at end of statements
+- No linter/formatter config files (.eslintrc, .prettierrc not present)
 
-**Linting:**
-- No ESLint or Prettier configuration at project level
-- TypeScript strict mode selective: `strict: true` in `Languages/TypeScript/`, `strict: false` in `Metrics/`
-- Manual code style adherence
+**Line Length:**
+- Generally 80-100 characters
+- Long lines wrapped for readability
 
 ## Import Organization
 
 **Order:**
-1. Node.js built-ins (`import * as fs from 'fs/promises'`)
-2. External packages (`import express from 'express'`)
-3. Internal modules (`import { runSolver } from './SolverRunner'`)
-4. Type imports last (`import type { SolverMetrics } from './types'`)
+1. Node.js builtins (`fs`, `path`, `child_process`)
+2. Third-party packages (`express`, `better-sqlite3`)
+3. Local modules (relative imports)
+4. Type imports last (`import type { ... }`)
 
-**Patterns:**
-- Star imports for modules: `import * as fs from 'fs/promises'`
-- Named imports for specific functions: `import { glob } from 'glob'`
-- Type-only imports: `import type { MetricResult } from './types'`
-- Re-exports for public API: `export * from './types.ts'`
+**Grouping:**
+- Blank line between groups
+- Type imports use `import type { }` syntax
+
+**Example from `SolverRunner.ts`:**
+```typescript
+import * as path from 'path';
+import * as util from 'util';
+import { exec } from 'child_process';
+import * as fs from 'fs/promises';
+import type { SolverMetrics } from './types.ts';
+```
 
 **Path Aliases:**
-- No path aliases configured
-- Relative imports throughout: `./`, `../`
+- None configured
+- Relative imports used (`./types.ts`, `../Metrics/`)
 
 ## Error Handling
 
 **Patterns:**
-- Try-catch at service boundaries
-- Structured status codes: `success`, `timeout`, `error`, `env_error`
-- Shell scripts use `report_env_error()` from `common.sh`
+- try/catch at function boundaries
+- Errors logged to console.error
+- Functions return error objects or throw
 
 **Error Types:**
-- Throw on invalid input, missing dependencies
-- Return `null` on recoverable failures in `SolverRunner.ts`
-- Shell: Exit codes 0 (success), 1 (error), signal handling
+- Standard Error class used
+- No custom error classes
 
-**Async Errors:**
+**Example:**
 ```typescript
 try {
-  const result = await runSolver(...);
+  const result = await exec(command);
+  return result;
 } catch (error) {
-  console.error('Solver failed:', error);
-  return null;
+  console.error('Execution failed:', error);
+  throw error;
 }
 ```
 
 ## Logging
 
 **Framework:**
-- console.log for normal output
-- console.error for errors
-- No structured logging library
+- Console.log/console.error (no logging library)
+- Emoji markers for visual clarity
 
 **Patterns:**
-- Extensive logging throughout codebase (1131+ statements in Metrics)
-- No log level control
-- Format: Plain text messages
+- `console.log('🔄 Starting...')` - Progress indicators
+- `console.log('✅ Complete')` - Success markers
+- `console.error('❌ Error:', err)` - Error markers
+
+**When:**
+- Log at function entry/exit for major operations
+- Log errors with context
+- Log state transitions
 
 ## Comments
 
 **When to Comment:**
-- Algorithm explanations at file header
-- Business logic annotations inline
-- Step-by-step algorithm markers
+- Explain why, not what
+- Document complex algorithms
+- Mark non-obvious workarounds
 
-**File Headers:**
-```typescript
-/**
- * Sudoku Solver - TypeScript Implementation
- * Brute-force backtracking algorithm matching C reference exactly.
- *
- * Algorithm:
- * - Row-major search for empty cells (top-to-bottom, left-to-right)
- * - Try values 1-9 in ascending order
- * - Count EVERY placement attempt (algorithm fingerprint)
- */
-```
+**JSDoc/TSDoc:**
+- Used for exported functions
+- Format: `@param`, `@returns` tags
 
-**JSDoc:**
+**Example from `db_utils.js`:**
 ```javascript
 /**
- * Validate iteration count for a single matrix
- * @param {string|number} matrix - Matrix number (e.g., "1" or 1)
- * @param {number} actualIterations - Actual iteration count from solver
- * @returns {Object} Validation result with valid flag and details
+ * Insert a benchmark run into the database
+ * @param {Object} run - Run data object
+ * @returns {Object} Insert result with lastInsertRowid
  */
+export function insertRun(run) {
 ```
 
 **TODO Comments:**
 - Format: `// TODO: description`
-- Located in code where deferred work is noted
+- Used sparingly
+- Example: `// Optional: Prune history if it gets too large?`
 
 ## Function Design
 
 **Size:**
-- Most functions under 50 lines
-- Exception: `HTMLGenerator.ts` has large generation functions
+- Keep under 50 lines when possible
+- Extract helpers for complex logic
+- Some exceptions (HTMLGenerator has large functions)
 
 **Parameters:**
-- Destructuring in parameter lists
-- Options objects for complex configurations
-- Explicit return types on async functions
+- Max 3-4 parameters
+- Use options object for more
+- Destructure when appropriate
 
 **Return Values:**
-- Explicit returns, no implicit undefined
-- Union types for nullable: `SolverMetrics | null`
-- Promise-wrapped for async
+- Explicit return statements
+- Return early for guard clauses
+- Async functions return Promises
 
 ## Module Design
 
 **Exports:**
 - Named exports preferred
-- Re-export patterns for public API
-- No default exports in Metrics modules
+- `export async function`, `export const`
+- Re-exports for backward compatibility
 
-**Module Pattern:**
-- Singleton-like (imported as modules, not instantiated)
-- Stateless functions with explicit dependencies
-- File-based configuration loading
+**Example from `LanguagesMetadata.ts`:**
+```typescript
+export {
+    methodologyTexts,
+    personalities
+} from './PersonaMetadata.js';
+```
+
+**Barrel Files:**
+- Not used (direct imports to specific modules)
+
+## SQL Conventions
+
+**Column Names:**
+- snake_case: `time_ms`, `memory_bytes`, `cpu_user`, `cpu_sys`
+- Full words preferred: `context_switches_voluntary`
+
+**Queries:**
+- Raw SQL via better-sqlite3
+- Parameterized queries for user input
+
+## Shell Script Conventions
+
+**Shebang:**
+- `#!/bin/bash` for bash scripts
+- `#!/usr/bin/env node` for Node scripts
+
+**Variables:**
+- UPPER_CASE for environment/constants
+- lowercase for local variables
+- Quote variables in expansions: `"$VAR"`
+
+**Functions:**
+- Defined with `function_name() { }`
+- Local variables with `local`
 
 ---
 
-*Convention analysis: 2025-12-24*
+*Convention analysis: 2026-01-07*
 *Update when patterns change*

@@ -1,144 +1,180 @@
 # Codebase Concerns
 
-**Analysis Date:** 2025-12-24
-
-## Tech Debt
-
-**TypeScript/JavaScript Duplication:**
-- Issue: Compiled .js files committed alongside .ts source files
-- Files: `Metrics/HTMLGenerator.ts` + `HTMLGenerator.js`, `Metrics/LanguagesMetadata.ts` + `LanguagesMetadata.js`, `Metrics/PersonaMetadata.ts` + `PersonaMetadata.js`, `Metrics/SolverRunner.ts` + `SolverRunner.js`, `Metrics/HistoryManager.ts` + `HistoryManager.js`, `Metrics/RepositoryAnalyzer.ts` + `RepositoryAnalyzer.js`
-- Why: Likely for fallback execution without TypeScript compilation
-- Impact: Changes must be applied to both versions, maintenance burden
-- Fix approach: Remove .js files, use tsx for direct TS execution
-
-**Overly Large HTML Generator:**
-- Issue: Single file handling too many responsibilities
-- Files: `Metrics/HTMLGenerator.ts` (2001 lines)
-- Why: Organic growth without refactoring
-- Impact: Difficult to locate bugs, hard to test, complex maintenance
-- Fix approach: Extract into smaller modules (template engine, data transformer, D3 wrapper)
-
-## Known Bugs
-
-**No critical bugs identified**
-
-The codebase appears functionally stable based on analysis.
+**Analysis Date:** 2026-01-07
 
 ## Security Considerations
 
-**Path Traversal Risk:**
-- Risk: User input used in file paths without validation
-- Files: `server/index.js` lines 86, 118, 228, 306, 352
-- Current mitigation: `path.join()` normalizes paths somewhat
-- Recommendations: Validate `lang` and `language` parameters against allowlist of valid language directories before path operations
+**Command Injection in API Endpoints:**
+- Risk: User input (`matrix`, `lang` parameters) passed to shell commands without sanitization
+- Files: `server/index.js` (lines 145-170)
+- Current mitigation: None
+- Recommendations:
+  - Use `execFile()` with array arguments instead of `exec()` with string
+  - Validate `lang` against whitelist of known languages
+  - Validate `matrix` against known matrix filenames
+  - Use path normalization to prevent traversal attacks
 
-**Unsafe Shell Command Execution:**
-- Risk: Language parameter flows into exec() command working directory
-- Files: `server/index.js` lines 152, 434
-- Current mitigation: Script names are hardcoded, only cwd changes
-- Recommendations: Validate language parameter against known languages before execution
+**Path Traversal Vulnerability:**
+- Risk: `req.params.filename` used directly in file operations
+- File: `server/index.js` (line 86)
+- Impact: Could expose files outside intended directories via `../../../` sequences
+- Recommendations: Use `path.resolve()` and verify result is within allowed directory
 
-**Unvalidated File Uploads:**
-- Risk: File extension taken from user input without strict validation
-- Files: `server/index.js` lines 299-333, 336-365
-- Current mitigation: Basic sanitization (`safeExt = ext.replace(/[^a-z0-9.]/gi, '')`)
-- Recommendations: Validate against explicit allowlist of file extensions
+**Broad Static File Serving:**
+- Risk: Serves entire parent directory via Express static middleware
+- File: `server/index.js` (lines 14-17)
+- Impact: Could expose `.env`, config files, source code
+- Recommendations: Limit static serving to specific directories only
+
+**Missing .env.example:**
+- Risk: No documentation of required environment variables
+- Impact: New developers may misconfigure deployment
+- Recommendations: Create `.env.example` with documented variables
+
+## Tech Debt
+
+**Duplicate TypeScript/JavaScript Files:**
+- Issue: Paired TS/JS versions of same modules in `Metrics/`
+- Files:
+  - `HTMLGenerator.ts` (1996 lines) + `HTMLGenerator.js` (481 lines)
+  - `LanguagesMetadata.ts` (840 lines) + `LanguagesMetadata.js` (777 lines)
+  - `PersonaMetadata.ts` (688 lines) + `PersonaMetadata.js` (673 lines)
+  - `HistoryManager.ts` + `HistoryManager.js`
+  - `SolverRunner.ts` + `SolverRunner.js`
+  - `RepositoryAnalyzer.ts` + `RepositoryAnalyzer.js`
+  - `ScreenshotUtils.ts` + `ScreenshotUtils.js`
+  - `generate_report_only.ts` + `generate_report_only.js`
+- Impact: Changes must be duplicated, unclear which is authoritative
+- Fix approach: Remove JS duplicates, use only TypeScript with tsx runner
+
+**Large Monolithic Files:**
+- Issue: Several files exceed maintainable size
+- Files:
+  - `Metrics/report_client.js`: 3543 lines
+  - `Metrics/HTMLGenerator.ts`: 1996 lines
+  - `server/index.js`: 500+ lines
+- Impact: Hard to navigate, test, and maintain
+- Fix approach: Extract into smaller focused modules
+
+**Missing Compiler Variant Tracking:**
+- Issue: TODO in sync_db.ts indicates incomplete feature
+- File: `Metrics/sync_db.ts` (line 111)
+- Code: `compiler_variant: 'default' // TODO: add to JSON if needed`
+- Impact: Can't distinguish results from different compiler versions
+- Fix approach: Add compiler_variant field to metrics.json schema
 
 ## Performance Bottlenecks
 
-**Large History File:**
-- Problem: Ever-growing benchmark history without pruning
-- Files: `benchmark_history.json` (4278 lines currently)
-- Measurement: File grows with each benchmark run
-- Cause: No pruning strategy implemented
-- Improvement path: Add rotation or archival after N records
+**Database Connection Per Query:**
+- Problem: New SQLite connection created for every operation
+- File: `Metrics/db_utils.js` (lines 20-24)
+- Impact: Overhead for connection setup/teardown on each query
+- Improvement: Implement connection pooling or singleton pattern
 
-**No Database Connection Pooling:**
-- Problem: Database opened/closed on each operation
-- Files: `Metrics/db_utils.js` (all database functions)
-- Cause: Simple implementation pattern
-- Improvement path: Implement connection pooling or keep-alive
+**No Caching for Metadata:**
+- Problem: Language metadata loaded fresh on each request
+- Files: `Metrics/LanguagesMetadata.ts`, `Metrics/PersonaMetadata.ts`
+- Impact: 840+ lines of data parsed repeatedly
+- Improvement: Cache parsed metadata, invalidate on file change
+
+**Synchronous Report Generation:**
+- Problem: All report content built in memory before output
+- File: `Metrics/HTMLGenerator.ts`
+- Impact: Memory pressure for large datasets, blocking operation
+- Improvement: Stream output, process incrementally
 
 ## Fragile Areas
 
-**Database Connection Handling:**
-- Why fragile: No try-finally blocks for db.close()
-- Files: `Metrics/db_utils.js` lines 134-136
-- Common failures: Connection leaks if operation throws between open and close
-- Safe modification: Wrap all db operations in try-finally
-- Test coverage: No automated tests for database operations
+**Metrics JSON Parsing:**
+- Why fragile: No schema validation on JSON.parse()
+- Files: `server/index.js` (lines 135, 163, 201, 232, 252, 279)
+- Common failures: Malformed JSON, missing fields, type mismatches
+- Safe modification: Add Zod schema validation before processing
+- Test coverage: None
 
-**JSON Parsing Without Validation:**
-- Why fragile: JSON.parse() without schema validation
-- Files: `Metrics/SolverRunner.ts` lines 46, 134; `Metrics/run_suite.ts` lines 63, 118; `Metrics/HistoryManager.ts` lines 16, 33; `server/index.js` lines 201, 232, 252, 279
-- Common failures: Malformed JSON causes cryptic errors deep in processing
-- Safe modification: Add Zod schema validation at parse points
-- Test coverage: No validation tests for malformed input
+**Report HTML Generation:**
+- Why fragile: String concatenation for HTML, complex nested logic
+- File: `Metrics/HTMLGenerator.ts` (lines 80-180)
+- Common failures: XSS vulnerabilities, broken HTML structure
+- Safe modification: Use template engine or JSX
+- Test coverage: None
 
-**Concurrent File Write Race Condition:**
-- Why fragile: Multiple locations write to same files without locking
-- Files: `Metrics/run_suite.ts` line 159, `server/index.js` line 190, `Metrics/HistoryManager.ts` line 27
-- Common failures: Simultaneous benchmark runs can cause data loss
-- Safe modification: Implement file locking or use database for writes
-- Test coverage: No concurrency tests
-
-## Scaling Limits
-
-**File-Based State:**
-- Current capacity: Works fine for single-user local usage
-- Limit: Concurrent benchmark runs may corrupt state
-- Symptoms at limit: Metrics overwritten, history lost
-- Scaling path: Migrate to SQLite with proper locking
-
-## Dependencies at Risk
-
-**None identified** - Core dependencies (Express, Puppeteer, better-sqlite3) are actively maintained.
-
-## Missing Critical Features
-
-**No Input Sanitization Layer:**
-- Problem: Each endpoint implements its own (incomplete) validation
-- Current workaround: Implicit trust of input
-- Blocks: Cannot safely expose to untrusted networks
-- Implementation complexity: Low - add validation middleware
-
-**No .env.example File:**
-- Problem: Environment variables not documented
-- Current workaround: Read .env directly or guess
-- Blocks: Developer onboarding
-- Implementation complexity: Low - create example file
+**Shell Script Execution:**
+- Why fragile: Relies on specific shell behavior and language runtimes
+- Files: `Languages/*/setupAndRunMe.sh`
+- Common failures: Missing dependencies, path issues, permission problems
+- Safe modification: Add better error reporting, dependency checks
+- Test coverage: Manual only
 
 ## Test Coverage Gaps
 
-**No Automated Tests:**
-- What's not tested: All TypeScript and JavaScript code
-- Risk: Regressions go unnoticed until manual testing
-- Priority: Medium
-- Difficulty to test: Low for unit tests, medium for integration
+**API Endpoints:**
+- What's not tested: All `/api/*` routes in `server/index.js`
+- Risk: Breaking changes go unnoticed
+- Priority: High
+- Difficulty: Medium (mock child_process, database)
 
 **Database Operations:**
-- What's not tested: All db_utils.js functions
-- Risk: Connection leaks, data corruption
-- Priority: Medium
-- Difficulty to test: Medium - requires test database setup
+- What's not tested: `Metrics/db_utils.js` CRUD operations
+- Risk: Data corruption, query failures
+- Priority: High
+- Difficulty: Low (use in-memory SQLite)
 
-**API Endpoints:**
-- What's not tested: All Express routes
-- Risk: Breaking changes to API contract
-- Priority: High for /api/run endpoint
-- Difficulty to test: Low with supertest library
+**Report Generation:**
+- What's not tested: HTML output correctness
+- Risk: Broken reports, invalid HTML
+- Priority: Medium
+- Difficulty: Medium (snapshot testing)
+
+**Solver Validation:**
+- What's not tested: metrics.json structure validation
+- Risk: Invalid data stored and processed
+- Priority: Medium
+- Difficulty: Low (add JSON schema)
+
+## Missing Critical Features
+
+**Input Validation:**
+- Problem: No validation on API parameters
+- Current workaround: Trust all input
+- Blocks: Secure deployment
+- Fix: Add Zod/Joi validation middleware
+
+**Error Recovery:**
+- Problem: No graceful handling of partial failures
+- Current workaround: Manual intervention
+- Blocks: Unattended operation
+- Fix: Add retry logic, error aggregation
+
+**Authentication:**
+- Problem: No access controls
+- Current workaround: Local/trusted network only
+- Blocks: Public deployment
+- Fix: Add basic auth or API keys (if needed)
+
+## Dependencies at Risk
+
+**Puppeteer Version Sprawl:**
+- Risk: Multiple versions across packages (21.0.0, 24.31.0, 24.32.0)
+- Files: `package.json`, `server/package.json`, `Metrics/package.json`
+- Impact: Inconsistent behavior, large node_modules
+- Migration: Consolidate to single version in root package.json
+
+**No Lock on Node Version:**
+- Risk: Different Node versions may behave differently
+- Impact: "Works on my machine" issues
+- Migration: Add `.nvmrc` or `engines` field
+
+## Known Issues
+
+**Race Condition in History Append:**
+- Symptoms: Potential data loss if multiple benchmarks finish simultaneously
+- File: `Metrics/HistoryManager.ts`
+- Trigger: Concurrent benchmark execution
+- Workaround: Run benchmarks sequentially
+- Root cause: No file locking on JSON append
 
 ---
 
-*Concerns audit: 2025-12-24*
+*Concerns audit: 2026-01-07*
 *Update as issues are fixed or new ones discovered*
-
-## Summary of Severity
-
-| Severity | Count | Areas |
-|----------|-------|-------|
-| HIGH | 2 | Code duplication, Path traversal risk |
-| MEDIUM | 6 | Large generator, Shell execution, File uploads, JSON parsing, Race conditions, DB handling |
-| LOW | 3 | No .env.example, Large history file, Hardcoded Puppeteer path |
-
-Most actionable issues: Input validation, code duplication cleanup, database connection management.
