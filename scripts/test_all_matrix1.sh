@@ -23,6 +23,9 @@ SINGLE_LANGUAGE=""
 # Expected iterations for Matrix 1
 EXPECTED_ITERATIONS=656
 
+# Docker container (set by validate_docker)
+DOCKER_CONTAINER=""
+
 #######################################
 # Display usage information
 #######################################
@@ -96,6 +99,42 @@ parse_args() {
 }
 
 #######################################
+# Validate Docker environment
+# Sets DOCKER_CONTAINER on success, exits on failure
+#######################################
+validate_docker() {
+    # Check if docker command is available
+    if ! command -v docker &> /dev/null; then
+        echo "Error: docker command not found"
+        echo "Please install Docker: https://docs.docker.com/get-docker/"
+        exit 1
+    fi
+
+    # Look for running container named 'sudoku-benchmark' or from sudoku-benchmark image
+    # First try to find by container name
+    local container_id
+    container_id=$(docker ps --filter "name=sudoku-benchmark" --format "{{.ID}}" 2>/dev/null | head -n1)
+
+    # If not found by name, try by image name
+    if [[ -z "$container_id" ]]; then
+        container_id=$(docker ps --filter "ancestor=sudoku-benchmark" --format "{{.ID}}" 2>/dev/null | head -n1)
+    fi
+
+    # Also check for image name with tag variations
+    if [[ -z "$container_id" ]]; then
+        container_id=$(docker ps --filter "ancestor=sudoku-benchmark:latest" --format "{{.ID}}" 2>/dev/null | head -n1)
+    fi
+
+    if [[ -z "$container_id" ]]; then
+        echo "Error: sudoku-benchmark container not running. Start with: docker-compose up -d"
+        exit 1
+    fi
+
+    DOCKER_CONTAINER="$container_id"
+    echo "Using Docker container: $DOCKER_CONTAINER"
+}
+
+#######################################
 # Discover all language directories
 # Excludes hidden directories and files
 #######################################
@@ -131,6 +170,10 @@ main() {
     # Output start timestamp
     echo "=== Matrix 1 Test Suite ==="
     echo "Started: $(date)"
+    echo ""
+
+    # Validate Docker environment
+    validate_docker
     echo ""
 
     # Discover languages
