@@ -32,6 +32,24 @@ COUNT_FAILED=0
 COUNT_SKIPPED=0
 COUNT_TOTAL=0
 
+# Failure counts by category
+COUNT_COMPILE_ERROR=0
+COUNT_RUNTIME_ERROR=0
+COUNT_TIMEOUT=0
+COUNT_WRONG_ITERATIONS=0
+COUNT_MISSING_RUNME=0
+
+# Arrays to track failed languages by category
+FAILED_COMPILE_ERROR=()
+FAILED_RUNTIME_ERROR=()
+FAILED_TIMEOUT=()
+FAILED_WRONG_ITERATIONS=()
+FAILED_MISSING_RUNME=()
+
+# Results directory and log file
+RESULTS_DIR="$PROJECT_ROOT/test_results"
+FAILURES_LOG="$RESULTS_DIR/matrix1_failures.log"
+
 # Flag to track if interrupted
 INTERRUPTED=false
 
@@ -55,6 +73,80 @@ show_partial_results() {
     echo "Failed:  $COUNT_FAILED"
     echo "Skipped: $COUNT_SKIPPED"
     echo "Tested:  $((COUNT_PASSED + COUNT_FAILED + COUNT_SKIPPED)) / $COUNT_TOTAL"
+}
+
+#######################################
+# Initialize results directory and log file
+#######################################
+init_results_dir() {
+    # Create test_results directory if it doesn't exist
+    if [[ ! -d "$RESULTS_DIR" ]]; then
+        mkdir -p "$RESULTS_DIR"
+    fi
+
+    # Append timestamp header to log file
+    echo "" >> "$FAILURES_LOG"
+    echo "========================================" >> "$FAILURES_LOG"
+    echo "Test Run: $(date)" >> "$FAILURES_LOG"
+    echo "========================================" >> "$FAILURES_LOG"
+}
+
+#######################################
+# Log a failure to the failures log file
+# Arguments:
+#   $1 - Category (compile_error, runtime_error, timeout, wrong_iterations, missing_runme)
+#   $2 - Language name
+#   $3 - Error snippet/message
+#######################################
+log_failure() {
+    local category="$1"
+    local language="$2"
+    local error_msg="$3"
+
+    # Write to log file in format: [CATEGORY] LanguageName: error snippet
+    local category_upper
+    category_upper=$(echo "$category" | tr '[:lower:]' '[:upper:]')
+    echo "[$category_upper] $language: $error_msg" >> "$FAILURES_LOG"
+}
+
+#######################################
+# Record a failure with categorization
+# Arguments:
+#   $1 - Category (compile_error, runtime_error, timeout, wrong_iterations, missing_runme)
+#   $2 - Language name
+#   $3 - Error message
+#######################################
+record_failure() {
+    local category="$1"
+    local language="$2"
+    local error_msg="$3"
+
+    # Track in category arrays and increment category counters
+    case "$category" in
+        compile_error)
+            FAILED_COMPILE_ERROR+=("$language")
+            COUNT_COMPILE_ERROR=$((COUNT_COMPILE_ERROR + 1))
+            ;;
+        runtime_error)
+            FAILED_RUNTIME_ERROR+=("$language")
+            COUNT_RUNTIME_ERROR=$((COUNT_RUNTIME_ERROR + 1))
+            ;;
+        timeout)
+            FAILED_TIMEOUT+=("$language")
+            COUNT_TIMEOUT=$((COUNT_TIMEOUT + 1))
+            ;;
+        wrong_iterations)
+            FAILED_WRONG_ITERATIONS+=("$language")
+            COUNT_WRONG_ITERATIONS=$((COUNT_WRONG_ITERATIONS + 1))
+            ;;
+        missing_runme)
+            FAILED_MISSING_RUNME+=("$language")
+            COUNT_MISSING_RUNME=$((COUNT_MISSING_RUNME + 1))
+            ;;
+    esac
+
+    # Log to file
+    log_failure "$category" "$language" "$error_msg"
 }
 
 #######################################
@@ -170,7 +262,7 @@ validate_docker() {
 # Arguments:
 #   $1 - Language name
 # Sets global variables:
-#   TEST_STATUS  - pass/fail/timeout/error
+#   TEST_STATUS  - pass/compile_error/runtime_error/timeout/wrong_iterations
 #   TEST_ITERATIONS - Iteration count (0 if not parsed)
 #   TEST_ERROR - Error message if applicable
 #   TEST_OUTPUT - Full output from the test
@@ -181,7 +273,7 @@ test_language() {
     local matrix_path="../../Matrices/1.matrix"
 
     # Reset result variables
-    TEST_STATUS="error"
+    TEST_STATUS="runtime_error"
     TEST_ITERATIONS=0
     TEST_ERROR=""
     TEST_OUTPUT=""
@@ -198,10 +290,16 @@ test_language() {
         return
     fi
 
-    # Handle other errors
+    # Handle other errors - try to distinguish compile vs runtime errors
     if [[ $exit_code -ne 0 ]]; then
-        TEST_STATUS="error"
-        TEST_ERROR="Exit code: $exit_code"
+        # Check output for common compilation error indicators
+        if echo "$TEST_OUTPUT" | grep -qiE "(compile|compilation|cannot find|undefined reference|syntax error|error:.*\.c:|error:.*\.cpp:|error:.*\.go:|error:.*\.rs:|cannot execute|command not found|No such file)"; then
+            TEST_STATUS="compile_error"
+            TEST_ERROR="Compilation failed"
+        else
+            TEST_STATUS="runtime_error"
+            TEST_ERROR="Exit code: $exit_code"
+        fi
         # Try to extract meaningful error from output (first 200 chars)
         if [[ -n "$TEST_OUTPUT" ]]; then
             TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
@@ -215,7 +313,7 @@ test_language() {
     metrics_output=$(docker exec -w "$lang_dir" "$DOCKER_CONTAINER" cat metrics.json 2>/dev/null) || true
 
     if [[ -z "$metrics_output" ]]; then
-        TEST_STATUS="error"
+        TEST_STATUS="runtime_error"
         TEST_ERROR="Could not read metrics.json"
         return
     fi
@@ -270,14 +368,14 @@ print('')
             if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
                 TEST_STATUS="pass"
             else
-                TEST_STATUS="fail"
+                TEST_STATUS="wrong_iterations"
                 TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
             fi
         elif [[ "$status" == "timeout" ]]; then
             TEST_STATUS="timeout"
             TEST_ERROR="Solver timed out"
         else
-            TEST_STATUS="error"
+            TEST_STATUS="runtime_error"
             TEST_ERROR="Solver status: $status"
             if [[ -n "$output_field" ]]; then
                 TEST_ERROR="$TEST_ERROR - ${output_field:0:200}"
@@ -291,11 +389,11 @@ print('')
             if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
                 TEST_STATUS="pass"
             else
-                TEST_STATUS="fail"
+                TEST_STATUS="wrong_iterations"
                 TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
             fi
         else
-            TEST_STATUS="error"
+            TEST_STATUS="runtime_error"
             TEST_ERROR="Could not parse iteration count"
             if [[ -n "$TEST_OUTPUT" ]]; then
                 TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
@@ -345,6 +443,9 @@ main() {
     # Validate Docker environment
     validate_docker
     echo ""
+
+    # Initialize results directory and log file
+    init_results_dir
 
     # Discover languages
     local all_languages
@@ -399,6 +500,7 @@ main() {
         if ! docker exec "$DOCKER_CONTAINER" test -f "/app/Languages/$lang/runMe.sh" 2>/dev/null; then
             echo "SKIPPED (no runMe.sh)"
             COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
+            record_failure "missing_runme" "$lang" "No runMe.sh file found"
             continue
         fi
 
@@ -411,17 +513,30 @@ main() {
                 echo "PASS (iterations: $TEST_ITERATIONS)"
                 COUNT_PASSED=$((COUNT_PASSED + 1))
                 ;;
-            fail)
-                echo "FAIL ($TEST_ERROR)"
+            compile_error)
+                echo "COMPILE_ERROR ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
+                record_failure "compile_error" "$lang" "$TEST_ERROR"
+                ;;
+            runtime_error)
+                echo "RUNTIME_ERROR ($TEST_ERROR)"
+                COUNT_FAILED=$((COUNT_FAILED + 1))
+                record_failure "runtime_error" "$lang" "$TEST_ERROR"
                 ;;
             timeout)
                 echo "TIMEOUT (exceeded 60s)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
+                record_failure "timeout" "$lang" "$TEST_ERROR"
                 ;;
-            error|*)
+            wrong_iterations)
+                echo "WRONG_ITERATIONS ($TEST_ERROR)"
+                COUNT_FAILED=$((COUNT_FAILED + 1))
+                record_failure "wrong_iterations" "$lang" "$TEST_ERROR"
+                ;;
+            *)
                 echo "ERROR ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
+                record_failure "runtime_error" "$lang" "$TEST_ERROR"
                 ;;
         esac
     done

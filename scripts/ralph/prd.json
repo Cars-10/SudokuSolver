@@ -63,7 +63,7 @@
         "Handle Ctrl+C gracefully - trap SIGINT and show partial results"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {
@@ -78,7 +78,7 @@
         "Track failure counts by category in arrays"
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {
