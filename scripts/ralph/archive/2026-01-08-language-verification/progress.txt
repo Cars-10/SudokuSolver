@@ -1,0 +1,15 @@
+# Ralph Progress Log
+# Feature: Matrix 1 Test Suite
+# Branch: ralph/matrix1-test
+# Started: 2026-01-08
+
+## Codebase Patterns
+- Test scripts go in scripts/ directory
+- Docker container name: sudoku-benchmark (or from docker-compose)
+- Languages are in Languages/<name>/ with runMe.sh entry point
+- Matrix 1 reference iterations: 656
+- Use timeout command for time limits
+- Test output goes to test_results/ directory
+
+---
+

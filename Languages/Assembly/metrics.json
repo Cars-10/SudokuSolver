@@ -1,21 +1,41 @@
-[{
-  "solver": "Assembly",
-  "runType": "automated",
-  "timestamp": "2025-12-30T15:11:48Z",
-  "results": [{
-    "matrix": "N/A",
-    "time": 0,
-    "iterations": 0,
-    "memory": 0,
-    "cpu_user": 0,
-    "cpu_sys": 0,
-    "page_faults_major": 0,
-    "page_faults_minor": 0,
-    "context_switches_voluntary": 0,
-    "context_switches_involuntary": 0,
-    "io_inputs": 0,
-    "io_outputs": 0,
-    "status": "env_error",
-    "output": "Compilation failed for ARM64"
-  }]
-}]
+[
+  {
+    "solver": "Assembly",
+    "runType": "automated",
+    "timestamp": "2026-01-08T22:12:46Z",
+    "results": [
+      {
+        "matrix": "N/A",
+        "time": 0,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "page_faults_major": 0,
+        "page_faults_minor": 0,
+        "context_switches_voluntary": 0,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "env_error",
+        "output": "Compilation failed for ARM64"
+      },
+      {
+        "matrix": "1",
+        "time": 0.5699,
+        "iterations": 656,
+        "memory": 11472896,
+        "cpu_user": 0.47,
+        "cpu_sys": 0,
+        "page_faults_major": 1,
+        "page_faults_minor": 132,
+        "context_switches_voluntary": 3,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 8,
+        "status": "success",
+        "output": "Solved in Iterations= 656\n9 2 1 6 3 7 5 8 4\n6 7 4 5 1 8 9 2 3\n5 8 3 4 9 2 1 6 7\n2 6 9 8 5 4 3 7 1\n7 4 5 3 6 1 2 9 8\n1 3 8 7 2 9 6 4 5\n8 5 6 2 7 3 4 1 9\n4 1 2 9 8 5 7 3 6\n3 9 7 1 4 6 8 5 2\n"
+      }
+    ]
+  }
+]

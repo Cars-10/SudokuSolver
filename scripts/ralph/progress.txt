@@ -1,0 +1,163 @@
+# Ralph Progress Log
+Started: Thu Jan  8 22:47:41 CET 2026
+
+## Codebase Patterns
+- Script test files are ignored by .gitignore (`test*`), use `git add -f` to force add
+- Languages directory contains 84 implementations (excludes common.sh file)
+- Use `set -e` in bash scripts for error handling
+- runMe.sh writes results to metrics.json (not stdout) - parse JSON for iteration counts
+---
+
+## Thu Jan 8 22:49 CET 2026 - US-001
+- What was implemented:
+  - Created scripts/test_all_matrix1.sh as executable bash script
+  - Implemented language discovery function that finds all directories in Languages/ (excludes hidden dirs and files)
+  - Added --help flag with detailed usage information
+  - Added --language <name> flag to test single language with validation
+  - Added timestamp output at start
+  - Added placeholder flags for --verbose, --quiet, --json (for future stories)
+- Files changed:
+  - scripts/test_all_matrix1.sh (new)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - .gitignore has `test*` pattern - need `git add -f` to add test scripts
+  - Languages/ has 84 directories, not 88+ (some may be missing or the count is outdated)
+  - common.sh is correctly excluded since it's a file, not a directory
+---
+
+## Thu Jan 8 22:51 CET 2026 - US-002
+- What was implemented:
+  - Added validate_docker() function that checks for Docker availability
+  - Validates that sudoku-benchmark container is running (by name or by image)
+  - Displays clear error message with startup instructions if container not running
+  - Stores container ID in DOCKER_CONTAINER variable for use in later stories
+  - Exits with code 1 if Docker requirements not met
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added validate_docker function)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Docker ps filter by name: `docker ps --filter "name=sudoku-benchmark"`
+  - Docker ps filter by image: `docker ps --filter "ancestor=sudoku-benchmark"`
+  - Use `command -v docker &> /dev/null` to check if command exists
+  - DOCKER_CONTAINER variable is now available globally for use in test_language() (US-003)
+---
+
+## Wed Jan 8 23:14 CET 2026 - US-003
+- What was implemented:
+  - Created test_language() function accepting language name as argument
+  - Executes inside Docker: `docker exec -w /app/Languages/<lang> <container> ./runMe.sh ../../Matrices/1.matrix`
+  - Uses timeout command with 60 second limit (returns exit code 124 on timeout)
+  - Captures exit code and stdout to variables
+  - Parses 'Solved in Iterations=NNN' from output using bash regex
+  - Sets global variables: TEST_STATUS (pass/fail/timeout/error), TEST_ITERATIONS, TEST_ERROR, TEST_OUTPUT
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added test_language function)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Bash regex: `[[ "$var" =~ pattern ]] && "${BASH_REMATCH[1]}"` to capture groups
+  - Capture exit code with `cmd || exit_code=$?` pattern to prevent `set -e` from stopping script
+  - `timeout 60 command` returns exit code 124 on timeout
+  - Global variables (TEST_STATUS, TEST_ITERATIONS, TEST_ERROR, TEST_OUTPUT) are ready for US-004 test loop
+---
+
+## Thu Jan 8 22:57 CET 2026 - US-004
+- What was implemented:
+  - Added main test loop that iterates through all discovered languages
+  - Displays progress: 'Testing [N/Total]: LanguageName...'
+  - Tracks pass/fail/skip counts with global counters (COUNT_PASSED, COUNT_FAILED, COUNT_SKIPPED, COUNT_TOTAL)
+  - Skips languages without runMe.sh by checking via docker exec
+  - Added SIGINT trap handler for graceful Ctrl+C handling
+  - Added show_partial_results() to display counts when interrupted
+  - Shows results summary at end: Passed, Failed, Skipped, Total
+  - Updated test_language() to parse metrics.json for iteration counts (runMe.sh doesn't output to stdout)
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added test loop, counters, interrupt handling)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - runMe.sh uses common.sh which writes results to metrics.json, not stdout
+  - Use python3 to parse JSON in bash: `echo "$json" | python3 -c "import json, sys; ..."`
+  - trap SIGINT with handler function to show partial results on Ctrl+C
+  - Exit code 130 is convention for SIGINT termination
+  - Some languages fail due to OS requirements (e.g., AppleScript requires macOS)
+  - 6 languages have no runMe.sh: Brainfuck, Expect, PowerShell, Red, SQL, VisualBasic
+---
+
+## Thu Jan 8 23:30 CET 2026 - US-005
+- What was implemented:
+  - Added failure category counters: COUNT_COMPILE_ERROR, COUNT_RUNTIME_ERROR, COUNT_TIMEOUT, COUNT_WRONG_ITERATIONS, COUNT_MISSING_RUNME
+  - Added failure tracking arrays: FAILED_COMPILE_ERROR, FAILED_RUNTIME_ERROR, FAILED_TIMEOUT, FAILED_WRONG_ITERATIONS, FAILED_MISSING_RUNME
+  - Added init_results_dir() function to create test_results/ directory and append timestamp header to log
+  - Added log_failure() function to write failures in [CATEGORY] LanguageName: error format
+  - Added record_failure() function to track failures in arrays/counters and call log_failure()
+  - Updated test_language() to use granular status codes (compile_error, runtime_error, timeout, wrong_iterations)
+  - Updated main test loop to call record_failure() for each failure type
+  - Log file appends (doesn't overwrite) with timestamp header for each test run
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added failure categorization and logging)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Use `tr '[:lower:]' '[:upper:]'` to convert category to uppercase for log format
+  - Distinguish compile_error vs runtime_error by checking output for compilation keywords
+  - Bash arrays grow with `ARRAY+=("$value")` syntax
+  - The record_failure() function handles both array tracking and log file writing
+  - RESULTS_DIR and FAILURES_LOG variables available for US-006 summary report generation
+---
+
+## Thu Jan 8 23:45 CET 2026 - US-006
+- What was implemented:
+  - Added generate_summary() function that outputs full summary report
+  - Summary includes: Total, Passed, Failed, Skipped counts plus failure breakdown by category
+  - Lists failed languages grouped by failure category (compile errors, runtime errors, timeouts, wrong iterations, missing runMe.sh)
+  - Calculates and displays total execution time (hours/minutes/seconds format)
+  - Added START_TIME and END_TIME variables for timing calculation
+  - Added SUMMARY_FILE variable pointing to test_results/matrix1_summary.txt
+  - Replaced simple results summary in main() with generate_summary() call
+  - Summary is both displayed to stdout and written to matrix1_summary.txt
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added generate_summary function, timing variables)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Use `date +%s` to get Unix epoch timestamp for timing calculations
+  - Bash arithmetic: `$((elapsed / 3600))` for hours, `$(((elapsed % 3600) / 60))` for minutes
+  - Build multi-line strings with `summary+="..."` and newlines in the string literal
+  - Check array length with `${#ARRAY[@]}` before iterating
+  - Write file with `echo "$summary" > "$SUMMARY_FILE"` to overwrite (not append)
+---
+
+## Thu Jan 8 23:08 CET 2026 - US-007
+- What was implemented:
+  - Added JSON_FILE variable for test_results/matrix1_results.json output path
+  - Added JSON_RESULTS array to track individual test results with pipe-delimited entries
+  - Added record_json_result() function to record each test result with base64-encoded error messages
+  - Added generate_json() function that builds JSON using Python for proper escaping
+  - Track per-language timing with TEST_TIME_SECONDS variable in test_language()
+  - JSON output is written to file on every run
+  - JSON output is also printed to stdout when --json flag is set
+  - JSON structure: {timestamp, total_time_seconds, summary: {total, passed, failed, skipped}, results: [{language, status, iterations, time_seconds, error}]}
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added JSON output functionality)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Use base64 encoding for error messages to safely handle special characters in pipe-delimited format
+  - Python3's json.dumps() provides proper JSON escaping for complex strings
+  - `date +%s.%N` provides subsecond timing precision (with fallback to `date +%s`)
+  - `date -Iseconds` gives ISO 8601 format timestamp (with fallback for compatibility)
+  - bc command can do floating-point arithmetic for time calculations
+---
+
+## Thu Jan 8 23:08 CET 2026 - US-008
+- What was implemented:
+  - Added --verbose mode that shows full output from each language test
+  - Added --quiet mode that suppresses per-language progress (only shows summary)
+  - Default mode shows one-line progress per language (unchanged)
+  - Verbose mode displays "--- Output for X ---" section with full solver output
+  - Flags are mutually exclusive (--quiet wins if both specified) - handled in parse_args()
+- Files changed:
+  - scripts/test_all_matrix1.sh (modified - added verbose/quiet output control)
+  - scripts/ralph/prd.json (updated passes: true)
+- **Learnings for future iterations:**
+  - Use simple boolean checks (`[[ "$QUIET" == false ]]`) to control output visibility
+  - Wrap all user-facing output in conditional checks for quiet mode
+  - Verbose output should show the full TEST_OUTPUT variable which contains stdout from docker exec
+  - The flag parsing already handled mutual exclusivity (--quiet wins) since US-001
+---

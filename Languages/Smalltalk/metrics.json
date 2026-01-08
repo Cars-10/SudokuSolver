@@ -1,99 +1,21 @@
-[
-  {
-    "solver": "Smalltalk",
-    "runType": "automated",
-    "timestamp": "2025-12-30T15:56:48Z",
-    "results": [
-      {
-        "matrix": "N/A",
-        "time": 0,
-        "iterations": 0,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "env_error",
-        "output": "gnu-smalltalk (gst) not found"
-      },
-      {
-        "matrix": "1",
-        "time": 40.2285,
-        "iterations": 0,
-        "memory": 9699328,
-        "cpu_user": 2.888,
-        "cpu_sys": 8.403,
-        "page_faults_major": 255,
-        "page_faults_minor": 827,
-        "context_switches_voluntary": 48,
-        "context_switches_involuntary": 160,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "success",
-        "output": "\n"
-      },
-      {
-        "matrix": "2",
-        "time": 9.766,
-        "iterations": 0,
-        "memory": 9682944,
-        "cpu_user": 2.806,
-        "cpu_sys": 5.392,
-        "page_faults_major": 7,
-        "page_faults_minor": 1075,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 16,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "success",
-        "output": "\n"
-      },
-      {
-        "matrix": "3",
-        "time": 9.612,
-        "iterations": 0,
-        "memory": 9699328,
-        "cpu_user": 2.807,
-        "cpu_sys": 5.291,
-        "page_faults_major": 7,
-        "page_faults_minor": 1076,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 15,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "success",
-        "output": "\n"
-      },
-      {
-        "matrix": "4",
-        "time": 9.4573,
-        "iterations": 0,
-        "memory": 9699328,
-        "cpu_user": 2.741,
-        "cpu_sys": 5.332,
-        "page_faults_major": 7,
-        "page_faults_minor": 1075,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 15,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "success",
-        "output": "\n"
-      },
-      {
-        "matrix": "5",
-        "time": 9.5901,
-        "iterations": 0,
-        "memory": 9699328,
-        "cpu_user": 2.787,
-        "cpu_sys": 5.306,
-        "page_faults_major": 7,
-        "page_faults_minor": 1076,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 16,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "success",
-        "output": "\n"
-      }
-    ]
-  }
-]
+[{
+  "solver": "Smalltalk",
+  "runType": "automated",
+  "timestamp": "2026-01-08T22:15:23Z",
+  "results": [{
+    "matrix": "N/A",
+    "time": 0,
+    "iterations": 0,
+    "memory": 0,
+    "cpu_user": 0,
+    "cpu_sys": 0,
+    "page_faults_major": 0,
+    "page_faults_minor": 0,
+    "context_switches_voluntary": 0,
+    "context_switches_involuntary": 0,
+    "io_inputs": 0,
+    "io_outputs": 0,
+    "status": "env_error",
+    "output": "gnu-smalltalk (gst) not found"
+  }]
+}]

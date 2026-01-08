@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver Verification Report</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        header .timestamp {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        .stat-card {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card.total {
+            background: #3498db;
+            color: white;
+        }
+        .stat-card.passed {
+            background: #27ae60;
+            color: white;
+        }
+        .stat-card.failed {
+            background: #e74c3c;
+            color: white;
+        }
+        .stat-card.not-run {
+            background: #95a5a6;
+            color: white;
+        }
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .stat-card .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        .results-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+        .results-section h2 {
+            padding: 15px 20px;
+            background: #ecf0f1;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.not-run {
+            background: #e2e3e5;
+            color: #6c757d;
+        }
+        .status.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .error-details {
+            font-size: 0.85rem;
+            color: #666;
+            max-width: 500px;
+        }
+        .error-details ul {
+            margin: 5px 0 0 15px;
+            padding: 0;
+        }
+        .error-details li {
+            margin-bottom: 3px;
+        }
+        .config-info {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .config-info strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sudoku Solver Verification Report</h1>
+            <div class="timestamp">Generated: 2026-01-08 22:21:15</div>
+        </header>
+
+        <div class="dashboard">
+            <div class="stat-card total">
+                <div class="number">84</div>
+                <div class="label">Total Languages</div>
+            </div>
+            <div class="stat-card passed">
+                <div class="number">26</div>
+                <div class="label">Passed</div>
+            </div>
+            <div class="stat-card failed">
+                <div class="number">48</div>
+                <div class="label">Failed</div>
+            </div>
+            <div class="stat-card not-run">
+                <div class="number">10</div>
+                <div class="label">Not Run</div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Verification Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ada</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix N/A solution: Could not extract solved grid from output</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AppleScript</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Expected at least 2 'Puzzle:' headers, found 0</li><li>...and 20 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assembly</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix N/A solution: Could not extract solved grid from output</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Awk</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No benchmark results found in metrics.json</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>BASH</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BASIC</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix N/A solution: Could not extract solved grid from output</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bc</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Brainfuck</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>C</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5, 6</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C++</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C_Sharp</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>Matrix 6: iteration mismatch - expected 622577597, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clojure</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cobol</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CoffeeScript</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CommonLisp</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Crystal</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No benchmark results found in metrics.json</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>D</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No benchmark results found in metrics.json</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dart</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dash</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dc</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Elixir</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No benchmark results found in metrics.json</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>EmacsLisp</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Erlang</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expect</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>F_Sharp</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fennel</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fish</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>...and 129 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Forth</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fortran</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 20 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gnuplot</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Go</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Groovy</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Haskell</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Haxe</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Icon</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Janet</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Java</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JavaScript</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jq</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Julia</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jupyter</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix N/A solution: Could not extract solved grid from output</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kotlin</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ksh</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 5 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lua</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>M4</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Make</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nim</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OCaml</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Objective-C</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 5 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Octave</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PHP</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pascal</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Perl</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pike</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PostScript</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PowerShell</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prolog</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Python</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>R</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Racket</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Raku</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Red</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rexx</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ruby</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rust</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SQL</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>SQLite</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scala</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scheme</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sed</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 286 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Smalltalk</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 30 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Swift</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tcl</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>Matrix 3 format: Missing 'Seconds to process' line</li><li>Matrix 4 format: Missing 'Seconds to process' line</li><li>Matrix 5 format: Missing 'Seconds to process' line</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tcsh</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TypeScript</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>V</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vala</strong></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td class="error-details">Verified matrices: 1, 2, 3, 4, 5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verilog</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 5 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vimscript</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 5 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>VisualBasic</strong></td>
+                        <td><span class="status not-run">NOT RUN</span></td>
+                        <td class="error-details"><ul><li>No metrics.json found</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wren</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1: iteration mismatch - expected 656, got 0</li><li>Matrix 2: iteration mismatch - expected 439269, got 0</li><li>Matrix 3: iteration mismatch - expected 98847, got 0</li><li>Matrix 4: iteration mismatch - expected 9085, got 0</li><li>Matrix 5: iteration mismatch - expected 445778, got 0</li><li>...and 25 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>XSLT</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 10 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zig</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix 1 format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>Matrix 1 format: Expected at least 18 grid lines (two 9x9 grids), found 9</li><li>Matrix 2 format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix 2 format: Missing 'Seconds to process' line</li><li>...and 10 more errors</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zsh</strong></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td class="error-details"><ul><li>Matrix N/A format: Expected at least 2 'Puzzle:' headers, found 0</li><li>Matrix N/A format: Missing 'Solved in Iterations=' line</li><li>Matrix N/A format: Missing 'Seconds to process' line</li><li>Matrix N/A format: Expected at least 18 grid lines (two 9x9 grids), found 0</li><li>Matrix 1 format: Missing 'Seconds to process' line</li><li>...and 5 more errors</li></ul></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="config-info">
+                <strong>Configuration:</strong>
+                Reference Language: C |
+                Tolerance: 0 |
+                Reference Iterations: M1: 656, M2: 439269, M3: 98847, M4: 9085, M5: 445778, M6: 622577597
+            </div>
+        </div>
+    </div>
+</body>
+</html>
