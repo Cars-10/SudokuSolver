@@ -725,12 +725,16 @@ main() {
 
         current=$((current + 1))
 
-        # Display progress
-        echo -n "Testing [$current/$COUNT_TOTAL]: $lang... "
+        # Display progress (unless quiet mode)
+        if [[ "$QUIET" == false ]]; then
+            echo -n "Testing [$current/$COUNT_TOTAL]: $lang... "
+        fi
 
         # Check if runMe.sh exists for this language
         if ! docker exec "$DOCKER_CONTAINER" test -f "/app/Languages/$lang/runMe.sh" 2>/dev/null; then
-            echo "SKIPPED (no runMe.sh)"
+            if [[ "$QUIET" == false ]]; then
+                echo "SKIPPED (no runMe.sh)"
+            fi
             COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
             record_failure "missing_runme" "$lang" "No runMe.sh file found"
             record_json_result "$lang" "skipped" 0 0 "No runMe.sh file found"
@@ -743,41 +747,62 @@ main() {
         # Display result and update counters
         case "$TEST_STATUS" in
             pass)
-                echo "PASS (iterations: $TEST_ITERATIONS)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "PASS (iterations: $TEST_ITERATIONS)"
+                fi
                 COUNT_PASSED=$((COUNT_PASSED + 1))
                 record_json_result "$lang" "pass" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" ""
                 ;;
             compile_error)
-                echo "COMPILE_ERROR ($TEST_ERROR)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "COMPILE_ERROR"
+                fi
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "compile_error" "$lang" "$TEST_ERROR"
                 record_json_result "$lang" "compile_error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             runtime_error)
-                echo "RUNTIME_ERROR ($TEST_ERROR)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "RUNTIME_ERROR"
+                fi
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "runtime_error" "$lang" "$TEST_ERROR"
                 record_json_result "$lang" "runtime_error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             timeout)
-                echo "TIMEOUT (exceeded 60s)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "TIMEOUT (exceeded 60s)"
+                fi
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "timeout" "$lang" "$TEST_ERROR"
                 record_json_result "$lang" "timeout" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             wrong_iterations)
-                echo "WRONG_ITERATIONS ($TEST_ERROR)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "WRONG_ITERATIONS (expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS)"
+                fi
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "wrong_iterations" "$lang" "$TEST_ERROR"
                 record_json_result "$lang" "wrong_iterations" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             *)
-                echo "ERROR ($TEST_ERROR)"
+                if [[ "$QUIET" == false ]]; then
+                    echo "ERROR"
+                fi
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "runtime_error" "$lang" "$TEST_ERROR"
                 record_json_result "$lang" "error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
         esac
+
+        # Show verbose output if requested
+        if [[ "$VERBOSE" == true && -n "$TEST_OUTPUT" ]]; then
+            echo ""
+            echo "--- Output for $lang ---"
+            echo "$TEST_OUTPUT"
+            echo "--- End output for $lang ---"
+            echo ""
+        fi
     done
 
     # Generate full summary report if not interrupted
