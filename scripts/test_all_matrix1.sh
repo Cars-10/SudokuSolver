@@ -26,6 +26,37 @@ EXPECTED_ITERATIONS=656
 # Docker container (set by validate_docker)
 DOCKER_CONTAINER=""
 
+# Counters for results
+COUNT_PASSED=0
+COUNT_FAILED=0
+COUNT_SKIPPED=0
+COUNT_TOTAL=0
+
+# Flag to track if interrupted
+INTERRUPTED=false
+
+#######################################
+# Handle SIGINT (Ctrl+C) gracefully
+#######################################
+handle_interrupt() {
+    echo ""
+    echo ""
+    echo "=== Interrupted by user (Ctrl+C) ==="
+    INTERRUPTED=true
+}
+
+#######################################
+# Display partial results summary
+#######################################
+show_partial_results() {
+    echo ""
+    echo "=== Partial Results (Interrupted) ==="
+    echo "Passed:  $COUNT_PASSED"
+    echo "Failed:  $COUNT_FAILED"
+    echo "Skipped: $COUNT_SKIPPED"
+    echo "Tested:  $((COUNT_PASSED + COUNT_FAILED + COUNT_SKIPPED)) / $COUNT_TOTAL"
+}
+
 #######################################
 # Display usage information
 #######################################
@@ -157,13 +188,8 @@ test_language() {
 
     # Execute test inside Docker with 60 second timeout
     # timeout returns 124 if command times out
-    local exit_code
+    local exit_code=0
     TEST_OUTPUT=$(timeout 60 docker exec -w "$lang_dir" "$DOCKER_CONTAINER" ./runMe.sh "$matrix_path" 2>&1) || exit_code=$?
-
-    # Check if we got an exit code (command failed or timed out)
-    if [[ -z "$exit_code" ]]; then
-        exit_code=0
-    fi
 
     # Handle timeout (exit code 124)
     if [[ $exit_code -eq 124 ]]; then
@@ -183,24 +209,97 @@ test_language() {
         return
     fi
 
-    # Parse iteration count from output
-    # Expected format: "Solved in Iterations=NNN"
-    if [[ "$TEST_OUTPUT" =~ Solved\ in\ Iterations=([0-9]+) ]]; then
-        TEST_ITERATIONS="${BASH_REMATCH[1]}"
+    # runMe.sh writes results to metrics.json - read it to get the iteration count
+    # The metrics.json contains an array with results for each matrix tested
+    local metrics_output
+    metrics_output=$(docker exec -w "$lang_dir" "$DOCKER_CONTAINER" cat metrics.json 2>/dev/null) || true
 
-        # Check if iterations match expected
-        if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
-            TEST_STATUS="pass"
+    if [[ -z "$metrics_output" ]]; then
+        TEST_STATUS="error"
+        TEST_ERROR="Could not read metrics.json"
+        return
+    fi
+
+    # Parse the metrics.json for matrix 1 results
+    # Look for status and iterations in the results array
+    local status iterations output_field
+
+    # Extract the result for matrix "1" - simple grep/sed approach
+    # Looking for: "matrix": "1", followed by "iterations": N and "status": "..."
+    if echo "$metrics_output" | grep -q '"matrix": "1"'; then
+        # Get the iterations value for matrix 1
+        # The JSON structure has results array with matrix, iterations, status fields
+        iterations=$(echo "$metrics_output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+for entry in data:
+    for result in entry.get('results', []):
+        if result.get('matrix') == '1':
+            print(result.get('iterations', 0))
+            sys.exit(0)
+print(0)
+" 2>/dev/null) || iterations=0
+
+        status=$(echo "$metrics_output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+for entry in data:
+    for result in entry.get('results', []):
+        if result.get('matrix') == '1':
+            print(result.get('status', 'unknown'))
+            sys.exit(0)
+print('unknown')
+" 2>/dev/null) || status="unknown"
+
+        output_field=$(echo "$metrics_output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+for entry in data:
+    for result in entry.get('results', []):
+        if result.get('matrix') == '1':
+            print(result.get('output', '')[:200])
+            sys.exit(0)
+print('')
+" 2>/dev/null) || output_field=""
+
+        TEST_ITERATIONS="$iterations"
+
+        # Check status from metrics
+        if [[ "$status" == "success" ]]; then
+            # Check if iterations match expected
+            if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
+                TEST_STATUS="pass"
+            else
+                TEST_STATUS="fail"
+                TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
+            fi
+        elif [[ "$status" == "timeout" ]]; then
+            TEST_STATUS="timeout"
+            TEST_ERROR="Solver timed out"
         else
-            TEST_STATUS="fail"
-            TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
+            TEST_STATUS="error"
+            TEST_ERROR="Solver status: $status"
+            if [[ -n "$output_field" ]]; then
+                TEST_ERROR="$TEST_ERROR - ${output_field:0:200}"
+            fi
         fi
     else
-        # Could not parse iterations - might be compile error or runtime error
-        TEST_STATUS="error"
-        TEST_ERROR="Could not parse iteration count from output"
-        if [[ -n "$TEST_OUTPUT" ]]; then
-            TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
+        # Fallback: try to parse iteration count from the console output
+        if [[ "$TEST_OUTPUT" =~ Solved\ in\ Iterations=([0-9]+) ]]; then
+            TEST_ITERATIONS="${BASH_REMATCH[1]}"
+
+            if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
+                TEST_STATUS="pass"
+            else
+                TEST_STATUS="fail"
+                TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
+            fi
+        else
+            TEST_STATUS="error"
+            TEST_ERROR="Could not parse iteration count"
+            if [[ -n "$TEST_OUTPUT" ]]; then
+                TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
+            fi
         fi
     fi
 }
@@ -276,8 +375,66 @@ main() {
 
     echo ""
 
-    # Placeholder for test loop (US-004)
-    echo "Test execution will be implemented in US-004"
+    # Set up SIGINT trap for graceful Ctrl+C handling
+    trap handle_interrupt SIGINT
+
+    # Set total count for results display
+    COUNT_TOTAL=${#all_languages[@]}
+
+    # Main test loop
+    local current=0
+    for lang in "${all_languages[@]}"; do
+        # Check if interrupted
+        if [[ "$INTERRUPTED" == true ]]; then
+            show_partial_results
+            exit 130
+        fi
+
+        current=$((current + 1))
+
+        # Display progress
+        echo -n "Testing [$current/$COUNT_TOTAL]: $lang... "
+
+        # Check if runMe.sh exists for this language
+        if ! docker exec "$DOCKER_CONTAINER" test -f "/app/Languages/$lang/runMe.sh" 2>/dev/null; then
+            echo "SKIPPED (no runMe.sh)"
+            COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
+            continue
+        fi
+
+        # Run the test
+        test_language "$lang"
+
+        # Display result and update counters
+        case "$TEST_STATUS" in
+            pass)
+                echo "PASS (iterations: $TEST_ITERATIONS)"
+                COUNT_PASSED=$((COUNT_PASSED + 1))
+                ;;
+            fail)
+                echo "FAIL ($TEST_ERROR)"
+                COUNT_FAILED=$((COUNT_FAILED + 1))
+                ;;
+            timeout)
+                echo "TIMEOUT (exceeded 60s)"
+                COUNT_FAILED=$((COUNT_FAILED + 1))
+                ;;
+            error|*)
+                echo "ERROR ($TEST_ERROR)"
+                COUNT_FAILED=$((COUNT_FAILED + 1))
+                ;;
+        esac
+    done
+
+    # Show final results if not interrupted
+    if [[ "$INTERRUPTED" == false ]]; then
+        echo ""
+        echo "=== Results Summary ==="
+        echo "Passed:  $COUNT_PASSED"
+        echo "Failed:  $COUNT_FAILED"
+        echo "Skipped: $COUNT_SKIPPED"
+        echo "Total:   $COUNT_TOTAL"
+    fi
 }
 
 main "$@"
