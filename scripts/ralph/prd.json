@@ -1,0 +1,130 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/matrix1-test",
+  "description": "Matrix 1 Test Suite - Run Matrix 1 against all 88+ language implementations to identify broken code, verify iteration counts, and establish baseline metrics",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create test script skeleton with help and single-language support",
+      "description": "As a developer, I want a standalone test script that can iterate through all language directories.",
+      "acceptanceCriteria": [
+        "Create scripts/test_all_matrix1.sh as executable bash script",
+        "Script discovers all language directories in Languages/ (exclude hidden dirs and files)",
+        "Script outputs start timestamp when beginning",
+        "Add --help flag that shows usage information",
+        "Add --language <name> flag to test single language only",
+        "Script runs without errors: ./scripts/test_all_matrix1.sh --help"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Add Docker environment validation",
+      "description": "As a developer, I want the script to verify Docker is available and the benchmark container is running.",
+      "acceptanceCriteria": [
+        "Check if docker command is available",
+        "Check if container named 'sudoku-benchmark' or from sudoku-benchmark image is running",
+        "If container not running, display error: 'Error: sudoku-benchmark container not running. Start with: docker-compose up -d'",
+        "Exit with code 1 if Docker requirements not met",
+        "Store container name/id in variable for later use"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Implement test_language function",
+      "description": "As a developer, I want a function that tests one language against Matrix 1 and captures results.",
+      "acceptanceCriteria": [
+        "Create test_language() function accepting language name as argument",
+        "Execute inside Docker: docker exec -w /app/Languages/<lang> <container> ./runMe.sh ../../Matrices/1.matrix",
+        "Use timeout command with 60 second limit",
+        "Capture exit code, stdout to variable",
+        "Parse 'Solved in Iterations=NNN' from output to extract iteration count",
+        "Return/set variables: status (pass/fail/timeout/error), iterations, error_message"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Implement main test loop with progress display",
+      "description": "As a developer, I want the script to test all languages sequentially and show progress.",
+      "acceptanceCriteria": [
+        "Loop through all discovered language directories",
+        "Display progress: 'Testing [N/Total]: LanguageName...'",
+        "Call test_language() for each",
+        "Track counts: passed, failed, skipped",
+        "Skip languages without runMe.sh (increment skipped count)",
+        "Handle Ctrl+C gracefully - trap SIGINT and show partial results"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Categorize failures and create log file",
+      "description": "As a developer, I want failures categorized by type and logged to a file.",
+      "acceptanceCriteria": [
+        "Create test_results/ directory if it doesn't exist",
+        "Categorize failures: compile_error (exit 1 before solve), runtime_error (crash), timeout (60s exceeded), wrong_iterations (not 656), missing_runme",
+        "Write each failure to test_results/matrix1_failures.log with format: [CATEGORY] LanguageName: error snippet",
+        "Append to log (don't overwrite) with timestamp header for each run",
+        "Track failure counts by category in arrays"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Generate summary report at end of run",
+      "description": "As a developer, I want a summary showing pass/fail counts and categorized failure lists.",
+      "acceptanceCriteria": [
+        "Display summary table at end with: Total, Passed, Failed (by category), Skipped",
+        "List failed languages grouped by failure category",
+        "Show total execution time (end - start timestamp)",
+        "Write summary to test_results/matrix1_summary.txt",
+        "Output end timestamp"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Add JSON output flag",
+      "description": "As a developer, I want machine-readable JSON output for CI integration.",
+      "acceptanceCriteria": [
+        "Add --json flag to script",
+        "When --json set, output results as JSON to stdout (in addition to file)",
+        "JSON structure: {timestamp, total_time_seconds, summary: {total, passed, failed, skipped}, results: [{language, status, iterations, time_seconds, error}]}",
+        "Write JSON to test_results/matrix1_results.json",
+        "JSON must be valid (parseable by jq)"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Add verbose and quiet modes",
+      "description": "As a developer, I want to control output verbosity.",
+      "acceptanceCriteria": [
+        "Add --verbose flag to show full output from each language test",
+        "Add --quiet flag to suppress per-language progress (only show summary)",
+        "Default mode: show one-line progress per language",
+        "Verbose mode: show compilation output and full solver output",
+        "Flags are mutually exclusive (--quiet wins if both specified)"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

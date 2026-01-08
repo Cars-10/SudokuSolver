@@ -135,6 +135,77 @@ validate_docker() {
 }
 
 #######################################
+# Test a single language against Matrix 1
+# Arguments:
+#   $1 - Language name
+# Sets global variables:
+#   TEST_STATUS  - pass/fail/timeout/error
+#   TEST_ITERATIONS - Iteration count (0 if not parsed)
+#   TEST_ERROR - Error message if applicable
+#   TEST_OUTPUT - Full output from the test
+#######################################
+test_language() {
+    local lang="$1"
+    local lang_dir="/app/Languages/$lang"
+    local matrix_path="../../Matrices/1.matrix"
+
+    # Reset result variables
+    TEST_STATUS="error"
+    TEST_ITERATIONS=0
+    TEST_ERROR=""
+    TEST_OUTPUT=""
+
+    # Execute test inside Docker with 60 second timeout
+    # timeout returns 124 if command times out
+    local exit_code
+    TEST_OUTPUT=$(timeout 60 docker exec -w "$lang_dir" "$DOCKER_CONTAINER" ./runMe.sh "$matrix_path" 2>&1) || exit_code=$?
+
+    # Check if we got an exit code (command failed or timed out)
+    if [[ -z "$exit_code" ]]; then
+        exit_code=0
+    fi
+
+    # Handle timeout (exit code 124)
+    if [[ $exit_code -eq 124 ]]; then
+        TEST_STATUS="timeout"
+        TEST_ERROR="Test exceeded 60 second timeout"
+        return
+    fi
+
+    # Handle other errors
+    if [[ $exit_code -ne 0 ]]; then
+        TEST_STATUS="error"
+        TEST_ERROR="Exit code: $exit_code"
+        # Try to extract meaningful error from output (first 200 chars)
+        if [[ -n "$TEST_OUTPUT" ]]; then
+            TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
+        fi
+        return
+    fi
+
+    # Parse iteration count from output
+    # Expected format: "Solved in Iterations=NNN"
+    if [[ "$TEST_OUTPUT" =~ Solved\ in\ Iterations=([0-9]+) ]]; then
+        TEST_ITERATIONS="${BASH_REMATCH[1]}"
+
+        # Check if iterations match expected
+        if [[ "$TEST_ITERATIONS" -eq "$EXPECTED_ITERATIONS" ]]; then
+            TEST_STATUS="pass"
+        else
+            TEST_STATUS="fail"
+            TEST_ERROR="Wrong iterations: expected $EXPECTED_ITERATIONS, got $TEST_ITERATIONS"
+        fi
+    else
+        # Could not parse iterations - might be compile error or runtime error
+        TEST_STATUS="error"
+        TEST_ERROR="Could not parse iteration count from output"
+        if [[ -n "$TEST_OUTPUT" ]]; then
+            TEST_ERROR="$TEST_ERROR - ${TEST_OUTPUT:0:200}"
+        fi
+    fi
+}
+
+#######################################
 # Discover all language directories
 # Excludes hidden directories and files
 #######################################
