@@ -49,6 +49,11 @@ FAILED_MISSING_RUNME=()
 # Results directory and log file
 RESULTS_DIR="$PROJECT_ROOT/test_results"
 FAILURES_LOG="$RESULTS_DIR/matrix1_failures.log"
+SUMMARY_FILE="$RESULTS_DIR/matrix1_summary.txt"
+
+# Timing
+START_TIME=""
+END_TIME=""
 
 # Flag to track if interrupted
 INTERRUPTED=false
@@ -73,6 +78,113 @@ show_partial_results() {
     echo "Failed:  $COUNT_FAILED"
     echo "Skipped: $COUNT_SKIPPED"
     echo "Tested:  $((COUNT_PASSED + COUNT_FAILED + COUNT_SKIPPED)) / $COUNT_TOTAL"
+}
+
+#######################################
+# Generate summary report
+# Displays to stdout and writes to summary file
+#######################################
+generate_summary() {
+    END_TIME=$(date +%s)
+    local elapsed=$((END_TIME - START_TIME))
+    local hours=$((elapsed / 3600))
+    local minutes=$(((elapsed % 3600) / 60))
+    local seconds=$((elapsed % 60))
+    local time_str
+
+    if [[ $hours -gt 0 ]]; then
+        time_str="${hours}h ${minutes}m ${seconds}s"
+    elif [[ $minutes -gt 0 ]]; then
+        time_str="${minutes}m ${seconds}s"
+    else
+        time_str="${seconds}s"
+    fi
+
+    # Build the summary output
+    local summary=""
+    summary+="
+========================================
+        MATRIX 1 TEST SUMMARY
+========================================
+
+Test completed: $(date)
+Total execution time: $time_str
+
+--- RESULTS ---
+Total:    $COUNT_TOTAL
+Passed:   $COUNT_PASSED
+Failed:   $COUNT_FAILED
+Skipped:  $COUNT_SKIPPED
+
+--- FAILURE BREAKDOWN ---
+Compile Errors:     $COUNT_COMPILE_ERROR
+Runtime Errors:     $COUNT_RUNTIME_ERROR
+Timeouts:           $COUNT_TIMEOUT
+Wrong Iterations:   $COUNT_WRONG_ITERATIONS
+Missing runMe.sh:   $COUNT_MISSING_RUNME
+"
+
+    # Add failed language lists by category
+    if [[ ${#FAILED_COMPILE_ERROR[@]} -gt 0 ]]; then
+        summary+="
+--- COMPILE ERRORS ---
+"
+        for lang in "${FAILED_COMPILE_ERROR[@]}"; do
+            summary+="  - $lang
+"
+        done
+    fi
+
+    if [[ ${#FAILED_RUNTIME_ERROR[@]} -gt 0 ]]; then
+        summary+="
+--- RUNTIME ERRORS ---
+"
+        for lang in "${FAILED_RUNTIME_ERROR[@]}"; do
+            summary+="  - $lang
+"
+        done
+    fi
+
+    if [[ ${#FAILED_TIMEOUT[@]} -gt 0 ]]; then
+        summary+="
+--- TIMEOUTS ---
+"
+        for lang in "${FAILED_TIMEOUT[@]}"; do
+            summary+="  - $lang
+"
+        done
+    fi
+
+    if [[ ${#FAILED_WRONG_ITERATIONS[@]} -gt 0 ]]; then
+        summary+="
+--- WRONG ITERATIONS ---
+"
+        for lang in "${FAILED_WRONG_ITERATIONS[@]}"; do
+            summary+="  - $lang
+"
+        done
+    fi
+
+    if [[ ${#FAILED_MISSING_RUNME[@]} -gt 0 ]]; then
+        summary+="
+--- MISSING runMe.sh ---
+"
+        for lang in "${FAILED_MISSING_RUNME[@]}"; do
+            summary+="  - $lang
+"
+        done
+    fi
+
+    summary+="
+========================================
+"
+
+    # Display to stdout
+    echo "$summary"
+
+    # Write to summary file
+    echo "$summary" > "$SUMMARY_FILE"
+    echo "Summary written to: $SUMMARY_FILE"
 }
 
 #######################################
@@ -435,6 +547,9 @@ discover_languages() {
 main() {
     parse_args "$@"
 
+    # Record start time for execution time calculation
+    START_TIME=$(date +%s)
+
     # Output start timestamp
     echo "=== Matrix 1 Test Suite ==="
     echo "Started: $(date)"
@@ -541,14 +656,9 @@ main() {
         esac
     done
 
-    # Show final results if not interrupted
+    # Generate full summary report if not interrupted
     if [[ "$INTERRUPTED" == false ]]; then
-        echo ""
-        echo "=== Results Summary ==="
-        echo "Passed:  $COUNT_PASSED"
-        echo "Failed:  $COUNT_FAILED"
-        echo "Skipped: $COUNT_SKIPPED"
-        echo "Total:   $COUNT_TOTAL"
+        generate_summary
     fi
 }
 
