@@ -50,6 +50,11 @@ FAILED_MISSING_RUNME=()
 RESULTS_DIR="$PROJECT_ROOT/test_results"
 FAILURES_LOG="$RESULTS_DIR/matrix1_failures.log"
 SUMMARY_FILE="$RESULTS_DIR/matrix1_summary.txt"
+JSON_FILE="$RESULTS_DIR/matrix1_results.json"
+
+# Array to store individual test results for JSON output
+# Each entry is: "language|status|iterations|time_seconds|error"
+declare -a JSON_RESULTS
 
 # Timing
 START_TIME=""
@@ -185,6 +190,107 @@ Missing runMe.sh:   $COUNT_MISSING_RUNME
     # Write to summary file
     echo "$summary" > "$SUMMARY_FILE"
     echo "Summary written to: $SUMMARY_FILE"
+}
+
+#######################################
+# Record a result for JSON output
+# Arguments:
+#   $1 - Language name
+#   $2 - Status (pass/fail/skip/etc)
+#   $3 - Iterations count
+#   $4 - Time in seconds
+#   $5 - Error message (optional)
+#######################################
+record_json_result() {
+    local language="$1"
+    local status="$2"
+    local iterations="$3"
+    local time_secs="$4"
+    local error="${5:-}"
+
+    # Replace spaces and special chars in error message for pipe-delimited format
+    # Use base64 encoding for error messages to safely handle special characters
+    local encoded_error
+    encoded_error=$(echo -n "$error" | base64 | tr -d '\n')
+
+    # Store as pipe-delimited entry
+    JSON_RESULTS+=("${language}|${status}|${iterations}|${time_secs}|${encoded_error}")
+}
+
+#######################################
+# Generate JSON output
+# Writes to JSON_FILE and optionally to stdout
+#######################################
+generate_json() {
+    END_TIME=$(date +%s)
+    local elapsed=$((END_TIME - START_TIME))
+    local timestamp
+    timestamp=$(date -Iseconds 2>/dev/null || date +"%Y-%m-%dT%H:%M:%S%z")
+
+    # Build JSON using python3 for proper escaping
+    local json_output
+    json_output=$(python3 << PYEOF
+import json
+import sys
+import base64
+
+# Build the results array from the pipe-delimited entries
+results = []
+raw_results = '''${JSON_RESULTS[*]:-}'''
+
+for entry in raw_results.split():
+    if not entry or '|' not in entry:
+        continue
+    parts = entry.split('|', 4)  # Split into 5 parts max
+    if len(parts) >= 4:
+        language = parts[0]
+        status = parts[1]
+        iterations = int(parts[2]) if parts[2].isdigit() else 0
+        try:
+            time_secs = float(parts[3])
+        except (ValueError, TypeError):
+            time_secs = 0.0
+        # Decode base64-encoded error message
+        encoded_error = parts[4] if len(parts) > 4 else ""
+        try:
+            error = base64.b64decode(encoded_error).decode('utf-8') if encoded_error else ""
+        except:
+            error = ""
+        results.append({
+            "language": language,
+            "status": status,
+            "iterations": iterations,
+            "time_seconds": round(time_secs, 3),
+            "error": error
+        })
+
+# Build the full JSON structure
+output = {
+    "timestamp": "$timestamp",
+    "total_time_seconds": $elapsed,
+    "summary": {
+        "total": $COUNT_TOTAL,
+        "passed": $COUNT_PASSED,
+        "failed": $COUNT_FAILED,
+        "skipped": $COUNT_SKIPPED
+    },
+    "results": results
+}
+
+print(json.dumps(output, indent=2))
+PYEOF
+)
+
+    # Write JSON to file
+    echo "$json_output" > "$JSON_FILE"
+    echo "JSON results written to: $JSON_FILE"
+
+    # Output to stdout if --json flag is set
+    if [[ "$JSON_OUTPUT" == true ]]; then
+        echo ""
+        echo "=== JSON OUTPUT ==="
+        echo "$json_output"
+    fi
 }
 
 #######################################
@@ -378,6 +484,7 @@ validate_docker() {
 #   TEST_ITERATIONS - Iteration count (0 if not parsed)
 #   TEST_ERROR - Error message if applicable
 #   TEST_OUTPUT - Full output from the test
+#   TEST_TIME_SECONDS - Time taken for this test in seconds
 #######################################
 test_language() {
     local lang="$1"
@@ -389,6 +496,11 @@ test_language() {
     TEST_ITERATIONS=0
     TEST_ERROR=""
     TEST_OUTPUT=""
+    TEST_TIME_SECONDS=0
+
+    # Start timing this test
+    local test_start_time
+    test_start_time=$(date +%s.%N 2>/dev/null || date +%s)
 
     # Execute test inside Docker with 60 second timeout
     # timeout returns 124 if command times out
@@ -512,6 +624,11 @@ print('')
             fi
         fi
     fi
+
+    # Calculate elapsed time for this test
+    local test_end_time
+    test_end_time=$(date +%s.%N 2>/dev/null || date +%s)
+    TEST_TIME_SECONDS=$(echo "$test_end_time - $test_start_time" | bc 2>/dev/null || echo "0")
 }
 
 #######################################
@@ -616,6 +733,7 @@ main() {
             echo "SKIPPED (no runMe.sh)"
             COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
             record_failure "missing_runme" "$lang" "No runMe.sh file found"
+            record_json_result "$lang" "skipped" 0 0 "No runMe.sh file found"
             continue
         fi
 
@@ -627,31 +745,37 @@ main() {
             pass)
                 echo "PASS (iterations: $TEST_ITERATIONS)"
                 COUNT_PASSED=$((COUNT_PASSED + 1))
+                record_json_result "$lang" "pass" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" ""
                 ;;
             compile_error)
                 echo "COMPILE_ERROR ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "compile_error" "$lang" "$TEST_ERROR"
+                record_json_result "$lang" "compile_error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             runtime_error)
                 echo "RUNTIME_ERROR ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "runtime_error" "$lang" "$TEST_ERROR"
+                record_json_result "$lang" "runtime_error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             timeout)
                 echo "TIMEOUT (exceeded 60s)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "timeout" "$lang" "$TEST_ERROR"
+                record_json_result "$lang" "timeout" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             wrong_iterations)
                 echo "WRONG_ITERATIONS ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "wrong_iterations" "$lang" "$TEST_ERROR"
+                record_json_result "$lang" "wrong_iterations" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
             *)
                 echo "ERROR ($TEST_ERROR)"
                 COUNT_FAILED=$((COUNT_FAILED + 1))
                 record_failure "runtime_error" "$lang" "$TEST_ERROR"
+                record_json_result "$lang" "error" "$TEST_ITERATIONS" "$TEST_TIME_SECONDS" "$TEST_ERROR"
                 ;;
         esac
     done
@@ -659,6 +783,7 @@ main() {
     # Generate full summary report if not interrupted
     if [[ "$INTERRUPTED" == false ]]; then
         generate_summary
+        generate_json
     fi
 }
 
