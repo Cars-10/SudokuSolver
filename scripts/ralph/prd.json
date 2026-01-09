@@ -1,0 +1,214 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/fix-env-errors",
+  "description": "Fix Environment Errors - Fix runMe.sh scripts and document package requirements for 16 languages with environment errors preventing them from running in Docker",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Fix Ada runMe.sh and document",
+      "description": "As a developer, I want Ada to run correctly when gnat is installed.",
+      "acceptanceCriteria": [
+        "Check if gnatmake exists in Docker: docker exec sudokusolver-app-1 which gnatmake",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain gnatmake in compile() function",
+        "Create/update README.md documenting gnat requirement (apt install gnat)",
+        "If gnatmake not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Already properly configured - verified working with 656 iterations"
+    },
+    {
+      "id": "US-002",
+      "title": "Analyze Assembly architecture requirements",
+      "description": "As a developer, I want to understand the current Assembly implementation before creating architecture variants.",
+      "acceptanceCriteria": [
+        "Read Languages/Assembly/Sudoku.s to understand current implementation",
+        "Read Languages/Assembly/runMe.sh to understand build process",
+        "Identify which architecture the current code targets (x86_64 or ARM64)",
+        "Document findings in Languages/Assembly/README.md",
+        "Note: Creating architecture variants is out of scope - just document current state"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Fix BASIC runMe.sh and document",
+      "description": "As a developer, I want BASIC (FreeBASIC) to run correctly when fbc is installed.",
+      "acceptanceCriteria": [
+        "Check if fbc exists in Docker: docker exec sudokusolver-app-1 which fbc",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain fbc in compile() function",
+        "Create/update README.md documenting FreeBASIC requirement",
+        "If fbc not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Fix Crystal runMe.sh and document",
+      "description": "As a developer, I want Crystal to run correctly when crystal is installed.",
+      "acceptanceCriteria": [
+        "Check if crystal exists in Docker: docker exec sudokusolver-app-1 which crystal",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain crystal in compile() function",
+        "Create/update README.md documenting Crystal installation (requires special apt repo setup)",
+        "If crystal not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Investigate and fix C_Sharp build failure",
+      "description": "As a developer, I want C# to build and run correctly.",
+      "acceptanceCriteria": [
+        "Run docker exec -w /app/Languages/C_Sharp sudokusolver-app-1 dotnet build to see error",
+        "Identify root cause of build failure",
+        "Fix project configuration or code as needed",
+        "Update runMe.sh if needed with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Create/update README.md with any special requirements",
+        "Test: docker exec -w /app/Languages/C_Sharp sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Fix Fish runMe.sh and document",
+      "description": "As a developer, I want Fish shell to run correctly when fish is installed.",
+      "acceptanceCriteria": [
+        "Check if fish exists in Docker: docker exec sudokusolver-app-1 which fish",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain fish in compile() function",
+        "Create/update README.md documenting fish requirement (apt install fish)",
+        "If fish not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Fix Jupyter runMe.sh and document",
+      "description": "As a developer, I want Jupyter to run correctly when jupyter is installed.",
+      "acceptanceCriteria": [
+        "Check if jupyter exists in Docker: docker exec sudokusolver-app-1 which jupyter",
+        "Read existing runMe.sh to understand Jupyter notebook execution method",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain for jupyter or python3 as appropriate",
+        "Create/update README.md documenting jupyter requirement (pip install jupyter)",
+        "If jupyter not installed, script should report env_error gracefully"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Fix Ksh runMe.sh and document",
+      "description": "As a developer, I want Korn shell to run correctly when ksh is installed.",
+      "acceptanceCriteria": [
+        "Check if ksh exists in Docker: docker exec sudokusolver-app-1 which ksh",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain ksh in compile() function",
+        "Create/update README.md documenting ksh requirement (apt install ksh)",
+        "If ksh not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Investigate and fix Objective-C build failure",
+      "description": "As a developer, I want Objective-C to build and run correctly in Linux if possible.",
+      "acceptanceCriteria": [
+        "Run compilation manually to see full error output",
+        "Determine if GNUstep or other libraries are needed",
+        "If fixable: install dependencies, update runMe.sh",
+        "If not fixable in Linux: document as platform-limited like AppleScript",
+        "Create/update README.md with requirements or limitations",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Fix Smalltalk runMe.sh and document",
+      "description": "As a developer, I want GNU Smalltalk to run correctly when gst is installed.",
+      "acceptanceCriteria": [
+        "Check if gst exists in Docker: docker exec sudokusolver-app-1 which gst",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain gst in compile() function",
+        "Create/update README.md documenting gnu-smalltalk requirement (apt install gnu-smalltalk)",
+        "If gst not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Fix Vimscript runMe.sh and document",
+      "description": "As a developer, I want Vimscript to run correctly when vim is installed.",
+      "acceptanceCriteria": [
+        "Check if vim exists in Docker: docker exec sudokusolver-app-1 which vim",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain vim in compile() function",
+        "Create/update README.md documenting vim requirement (apt install vim)",
+        "If vim not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Fix XSLT runMe.sh and document",
+      "description": "As a developer, I want XSLT to run correctly when xsltproc is installed.",
+      "acceptanceCriteria": [
+        "Check if xsltproc exists in Docker: docker exec sudokusolver-app-1 which xsltproc",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain xsltproc in compile() function",
+        "Create/update README.md documenting xsltproc requirement (apt install xsltproc)",
+        "If xsltproc not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Fix Zsh runMe.sh and document",
+      "description": "As a developer, I want Zsh to run correctly when zsh is installed.",
+      "acceptanceCriteria": [
+        "Check if zsh exists in Docker: docker exec sudokusolver-app-1 which zsh",
+        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
+        "Add check_toolchain zsh in compile() function",
+        "Create/update README.md documenting zsh requirement (apt install zsh)",
+        "If zsh not installed, script should report env_error gracefully",
+        "Test: verify runMe.sh runs without crashing when toolchain missing"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
