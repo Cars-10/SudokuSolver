@@ -4,6 +4,20 @@ Implementation of the Sudoku solver in:
 - x86_64 Assembly using NASM
 - ARM64 Assembly (AArch64) using GCC
 
+## Requirements
+
+**x86_64:**
+```bash
+apt install nasm gcc
+```
+
+**ARM64/aarch64:**
+```bash
+apt install gcc
+```
+
+The runMe.sh automatically detects architecture via `uname -m` and compiles the appropriate source file.
+
 ## Language Notes
 
 This implementation uses standard C library functions for I/O and logical operations. It supports both x86_64 and ARM64 architectures.

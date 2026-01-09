@@ -1,17 +1,18 @@
 #!/bin/bash
 # Languages/Zsh/runMe.sh
 
+cd "$(dirname "$0")"
+
 LANGUAGE="Zsh"
 SOLVER_BINARY="zsh Sudoku.zsh"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source shared functions
 source ../common.sh
 
 compile() {
-    # Check if zsh is available
-    if ! command -v zsh &> /dev/null; then
-        report_env_error "zsh not found"
-    fi
+    check_toolchain zsh
 }
 
 # Execute benchmarks

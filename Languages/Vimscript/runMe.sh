@@ -1,17 +1,18 @@
 #!/bin/bash
 # Languages/Vimscript/runMe.sh
 
+cd "$(dirname "$0")"
+
 LANGUAGE="Vimscript"
 SOLVER_BINARY="vim -u NONE -es -S sudoku.vim --"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source shared functions
 source ../common.sh
 
 compile() {
-    # Check if vim is available
-    if ! command -v vim &> /dev/null; then
-        report_env_error "vim not found"
-    fi
+    check_toolchain vim
 }
 
 # Execute benchmarks

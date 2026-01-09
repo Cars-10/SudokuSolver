@@ -1,7 +1,11 @@
 #!/bin/bash
 # Languages/Assembly/runMe.sh - Assembly Sudoku solver benchmark script
 
+cd "$(dirname "$0")"
+
 LANGUAGE="Assembly"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source shared functions from common.sh
 source ../common.sh

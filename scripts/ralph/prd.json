@@ -31,8 +31,8 @@
         "Note: Creating architecture variants is out of scope - just document current state"
       ],
       "priority": 2,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Both x86_64 (NASM) and ARM64 (GCC) variants exist. Fixed runMe.sh with METRICS_FILE/TIMEOUT_SECONDS. Verified 656 iterations on ARM64."
     },
     {
       "id": "US-003",
@@ -47,8 +47,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. fbc is installed in Docker, verified 656 iterations."
     },
     {
       "id": "US-004",
@@ -63,8 +63,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 4,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh with proper compile(). Crystal not installed in Docker - properly reports env_error."
     },
     {
       "id": "US-005",
@@ -79,8 +79,8 @@
         "Test: docker exec -w /app/Languages/C_Sharp sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix"
       ],
       "priority": 5,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Root cause: .csproj targeted net9.0 but Docker has .NET 8.0. Fixed by changing to net8.0. Build now succeeds."
     },
     {
       "id": "US-006",
@@ -95,8 +95,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 6,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. fish is installed in Docker, runs successfully."
     },
     {
       "id": "US-007",
@@ -111,8 +111,8 @@
         "If jupyter not installed, script should report env_error gracefully"
       ],
       "priority": 7,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. jupyter is installed, verified 656 iterations."
     },
     {
       "id": "US-008",
@@ -127,8 +127,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 8,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. ksh is installed in Docker, runs successfully."
     },
     {
       "id": "US-009",
@@ -143,8 +143,8 @@
         "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS"
       ],
       "priority": 9,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "GNUstep is installed in Docker. Fixed runMe.sh with better error handling. Created README.md. Verified 445778 iterations on matrix 5."
     },
     {
       "id": "US-010",
@@ -159,8 +159,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 10,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. gst not installed in Docker - properly reports env_error."
     },
     {
       "id": "US-011",
@@ -175,8 +175,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 11,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. vim is installed in Docker, runs successfully."
     },
     {
       "id": "US-012",
@@ -191,8 +191,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 12,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. xsltproc is installed in Docker, runs successfully."
     },
     {
       "id": "US-013",
@@ -207,8 +207,8 @@
         "Test: verify runMe.sh runs without crashing when toolchain missing"
       ],
       "priority": 13,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Fixed runMe.sh, created README.md. zsh is installed in Docker, runs successfully."
     }
   ]
 }

@@ -1,7 +1,11 @@
 #!/bin/bash
 # Languages/Jupyter/runMe.sh
 
+cd "$(dirname "$0")"
+
 LANGUAGE="Jupyter"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source shared functions
 source ../common.sh
@@ -20,10 +24,7 @@ chmod +x jupyter_wrapper.sh
 SOLVER_BINARY="./jupyter_wrapper.sh"
 
 compile() {
-    # Check if jupyter is available
-    if ! command -v jupyter &> /dev/null; then
-        report_env_error "jupyter not found"
-    fi
+    check_toolchain jupyter
 }
 
 # Execute benchmarks
