@@ -1,0 +1,22 @@
+# Ralph Progress Log
+Started: Thu Jan  9 06:50:00 CET 2026
+
+## Codebase Patterns
+- Use `check_toolchain <toolname>` in compile() to gracefully report env_error when toolchain missing
+- runMe.sh scripts should source ../common.sh and define LANGUAGE, SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS
+- README.md should document package requirements with apt install commands
+- Test with matrix 1 first (656 iterations is the expected count)
+
+---
+
+## 2026-01-09 06:50 - US-001
+- Verified Ada implementation was already properly configured
+- gnatmake exists in Docker at /usr/bin/gnatmake
+- runMe.sh already has proper structure: LANGUAGE, SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS
+- check_toolchain gnatmake already in compile() function
+- README.md already documents gnat requirement (apt install gnat)
+- Tested: ./runMe.sh ../../Matrices/1.matrix - produces 656 iterations (correct)
+- **Learnings for future iterations:**
+  - Ada was already properly configured, so no code changes needed
+  - Some languages may already be fixed - verify before making changes
+---
