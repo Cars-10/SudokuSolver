@@ -1,8 +1,12 @@
 #!/bin/bash
 # Languages/XSLT/runMe.sh
 
+cd "$(dirname "$0")"
+
 LANGUAGE="XSLT"
 SOLVER_BINARY="./xslt_wrapper.sh"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source shared functions
 source ../common.sh
@@ -32,10 +36,7 @@ EOF
 chmod +x xslt_wrapper.sh
 
 compile() {
-    # Check for xsltproc
-    if ! command -v xsltproc &> /dev/null; then
-        report_env_error "xsltproc not found"
-    fi
+    check_toolchain xsltproc
 }
 
 # Execute benchmarks

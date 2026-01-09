@@ -6,17 +6,116 @@ Started: Thu Jan  9 06:50:00 CET 2026
 - runMe.sh scripts should source ../common.sh and define LANGUAGE, SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS
 - README.md should document package requirements with apt install commands
 - Test with matrix 1 first (656 iterations is the expected count)
+- Always add `cd "$(dirname "$0")"` at the start of runMe.sh
 
 ---
 
-## 2026-01-09 06:50 - US-001
+## 2026-01-09 06:50 - US-001 (Ada)
 - Verified Ada implementation was already properly configured
 - gnatmake exists in Docker at /usr/bin/gnatmake
-- runMe.sh already has proper structure: LANGUAGE, SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS
-- check_toolchain gnatmake already in compile() function
-- README.md already documents gnat requirement (apt install gnat)
-- Tested: ./runMe.sh ../../Matrices/1.matrix - produces 656 iterations (correct)
-- **Learnings for future iterations:**
-  - Ada was already properly configured, so no code changes needed
-  - Some languages may already be fixed - verify before making changes
+- runMe.sh already has proper structure
+- README.md already documents gnat requirement
+- Tested: 656 iterations (correct)
+
 ---
+
+## 2026-01-09 - US-002 (Assembly)
+- Both x86_64 (Sudoku.asm/NASM) and ARM64 (Sudoku_arm64.s/GCC) variants already exist
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS
+- Updated README.md with requirements section
+- Tested on ARM64: 656 iterations (correct)
+
+---
+
+## 2026-01-09 - US-003 (BASIC)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, simplified compile()
+- Created README.md documenting FreeBASIC (fbc) requirement
+- fbc installed in Docker at /usr/local/bin/fbc
+- Tested: 656 iterations (correct)
+
+---
+
+## 2026-01-09 - US-004 (Crystal)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, proper compile()
+- Crystal not installed in Docker - properly reports env_error
+- README.md already exists
+
+---
+
+## 2026-01-09 - US-005 (C#)
+- Root cause: Sudoku.csproj targeted net9.0 but Docker has .NET 8.0 SDK
+- Fixed by changing TargetFramework from net9.0 to net8.0
+- Build now succeeds
+- runMe.sh was already properly configured
+
+---
+
+## 2026-01-09 - US-006 (Fish)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, simplified to use check_toolchain
+- Created README.md documenting fish requirement
+- fish installed in Docker at /usr/bin/fish
+- Runs successfully
+
+---
+
+## 2026-01-09 - US-007 (Jupyter)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, simplified compile()
+- Created README.md documenting jupyter/nbconvert requirement
+- jupyter installed in Docker at /usr/local/bin/jupyter
+- Tested: 656 iterations (correct)
+
+---
+
+## 2026-01-09 - US-008 (Ksh)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, use check_toolchain
+- Created README.md documenting ksh requirement
+- ksh installed in Docker at /usr/bin/ksh
+- Runs successfully
+
+---
+
+## 2026-01-09 - US-009 (Objective-C)
+- GNUstep is installed in Docker
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, better error handling for GNUstep
+- Created README.md documenting requirements for macOS and Linux
+- Tested: 445778 iterations on matrix 5 (correct)
+
+---
+
+## 2026-01-09 - US-010 (Smalltalk)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, use check_toolchain
+- Created README.md documenting gnu-smalltalk (gst) requirement
+- gst not installed in Docker - properly reports env_error
+
+---
+
+## 2026-01-09 - US-011 (Vimscript)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, use check_toolchain
+- Created README.md documenting vim requirement
+- vim installed in Docker at /usr/bin/vim
+- Runs successfully
+
+---
+
+## 2026-01-09 - US-012 (XSLT)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, use check_toolchain
+- Created README.md documenting xsltproc requirement
+- xsltproc installed in Docker at /usr/bin/xsltproc
+- Runs successfully
+
+---
+
+## 2026-01-09 - US-013 (Zsh)
+- Fixed runMe.sh: added cd, METRICS_FILE, TIMEOUT_SECONDS, use check_toolchain
+- Created README.md documenting zsh requirement
+- zsh installed in Docker at /usr/bin/zsh
+- Runs successfully
+
+---
+
+## Summary
+All 13 user stories completed:
+- 11 languages now run successfully in Docker
+- 2 languages (Crystal, Smalltalk) properly report env_error (toolchain not installed)
+- All runMe.sh scripts follow consistent pattern
+- All languages have README.md with requirements documented
