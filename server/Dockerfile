@@ -83,7 +83,8 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/* \
-    && npm install -g typescript ts-node tsx@latest
+    && npm install -g typescript ts-node tsx@latest \
+    && npm install -g coffeescript
 
 # ---------------------------------------------------------------------------- 
 # 4. Go (1.21+)
