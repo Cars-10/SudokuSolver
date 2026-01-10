@@ -2,17 +2,17 @@
   {
     "solver": "Tcsh",
     "runType": "automated",
-    "timestamp": "2026-01-09T18:21:41Z",
+    "timestamp": "2026-01-10T12:04:45Z",
     "results": [
       {
         "matrix": "1",
-        "time": 0.6739,
+        "time": 1.2235,
         "iterations": 0,
-        "memory": 11464704,
-        "cpu_user": 0.564,
-        "cpu_sys": 0,
+        "memory": 11476992,
+        "cpu_user": 0.489,
+        "cpu_sys": 0.521,
         "page_faults_major": 0,
-        "page_faults_minor": 112,
+        "page_faults_minor": 113,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

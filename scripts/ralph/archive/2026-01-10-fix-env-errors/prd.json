@@ -1,0 +1,150 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/ui-refinements-v2",
+  "description": "UI Refinements v2 - Clean up language cells, improve Score Modal layout, add variant comparison, and fix single-matrix run behavior",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Remove expand chevron from language cells",
+      "description": "As a user, I want a cleaner language cell without the '>' chevron so the interface looks less cluttered.",
+      "acceptanceCriteria": [
+        "Remove <span class='expand-chevron'>...</span> from language cell in HTMLGenerator.ts",
+        "Remove any CSS for .expand-chevron class",
+        "Language cells show only: logo, name, type icon (Docker/Local/AI), and year",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Reduce table column widths by 10%",
+      "description": "As a user, I want the benchmark table columns to be thinner so the entire table fits within the viewport.",
+      "acceptanceCriteria": [
+        "Reduce padding and min-width on all table columns by approximately 10%",
+        "Language column: reduce padding/min-width",
+        "Matrix columns: reduce min-width from current value",
+        "Table fits within 1920px viewport without horizontal scroll",
+        "Content remains readable and not overly cramped",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Make Score Modal wider with two-column layout",
+      "description": "As a user, I want the Score Modal to be wider with Performance Profile chart next to Composite Score section.",
+      "acceptanceCriteria": [
+        "Increase Score Modal width to ~800px or 90vw (whichever is smaller)",
+        "Create two-column layout: scores/breakdown on left, radar chart on right",
+        "Use CSS flexbox or grid for responsive side-by-side layout",
+        "Matrix Results table remains full-width below the two columns",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Match radar chart color to score tier color",
+      "description": "As a user, I want the Performance Profile radar polygon to use the same color as the tier badge.",
+      "acceptanceCriteria": [
+        "Radar chart polygon color matches tier: S=gold(#ffd700), A=green(#00ff9d), B=blue(#7aa2f7), C=orange(#ff9e64), D=pink(#f7768e), F=red(#db4b4b)",
+        "Update drawScoreRadarChart() to accept tier as parameter",
+        "C baseline polygon remains neutral color (e.g., rgba(122, 162, 247, 0.3))",
+        "Legend updates to show tier-colored swatch for 'This Language'",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Create API endpoint for language variants",
+      "description": "As a developer, I need an API endpoint to retrieve all available variants for a language.",
+      "acceptanceCriteria": [
+        "Create GET /api/variants/:language endpoint in server/index.js",
+        "Returns array of variant objects: [{variant, timestamp, runType}, ...]",
+        "Sorted by timestamp descending (most recent first)",
+        "If no variants field exists, return single entry with variant: 'default'",
+        "Handle missing language gracefully with 404",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Create API endpoint for specific variant metrics",
+      "description": "As a developer, I need an API endpoint to fetch metrics for a specific variant.",
+      "acceptanceCriteria": [
+        "Create GET /api/metrics/:language/:variant endpoint in server/index.js",
+        "Returns the full metrics run object for the specified variant",
+        "If variant not found, return 404",
+        "Include all matrix results for that variant",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Add variant selector dropdown to Score Modal",
+      "description": "As a user, I want to select different benchmark variants to compare performance across runs.",
+      "acceptanceCriteria": [
+        "Add dropdown selector near score display in Score Modal",
+        "Dropdown populated with available variants from /api/variants/:language",
+        "Default selection is the most recent run",
+        "Selecting a variant updates: score, breakdown ratios, radar chart, matrix results",
+        "If only one variant exists, dropdown is hidden or disabled",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Update timestamp after single matrix run",
+      "description": "As a user, I want the 'Updated' column to reflect the most recent run time when I run a single matrix.",
+      "acceptanceCriteria": [
+        "After single matrix run completes, update the row's timestamp in the UI",
+        "'Updated' column shows 'Just now' or appropriate relative time",
+        "The data-timestamp attribute on the row is updated to current time",
+        "Server updates the outer timestamp field in metrics.json when merging",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Add per-matrix run timestamps",
+      "description": "As a developer, I need each matrix result to track its individual run timestamp.",
+      "acceptanceCriteria": [
+        "Update /api/run endpoint to add run_timestamp to each matrix result",
+        "When running single matrix, only that result's run_timestamp is updated",
+        "When running all matrices, all results get the same run_timestamp",
+        "Backward compatible: existing results without run_timestamp handled gracefully",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

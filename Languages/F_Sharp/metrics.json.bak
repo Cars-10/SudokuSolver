@@ -1,0 +1,118 @@
+[
+  {
+    "solver": "F#",
+    "runType": "automated",
+    "timestamp": "2026-01-10T10:55:32Z",
+    "results": [
+      {
+        "matrix": "N/A",
+        "time": 0,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "page_faults_major": 0,
+        "page_faults_minor": 0,
+        "context_switches_voluntary": 0,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "env_error",
+        "output": "No matrix files found"
+      }
+    ]
+  },
+  {
+    "solver": "F#",
+    "runType": "automated",
+    "timestamp": "2026-01-10T11:01:50Z",
+    "variant": "",
+    "results": [
+      {
+        "matrix": "1",
+        "run_timestamp": "2026-01-10T11:01:50Z",
+        "time": 10.4761,
+        "iterations": 0,
+        "memory": 1654784,
+        "cpu_user": 3.091,
+        "cpu_sys": 4.59,
+        "page_faults_major": 12,
+        "page_faults_minor": 744,
+        "context_switches_voluntary": 3,
+        "context_switches_involuntary": 20,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "2",
+        "run_timestamp": "2026-01-10T11:01:50Z",
+        "time": 9.6316,
+        "iterations": 0,
+        "memory": 1638400,
+        "cpu_user": 3.218,
+        "cpu_sys": 4.26,
+        "page_faults_major": 5,
+        "page_faults_minor": 748,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "3",
+        "run_timestamp": "2026-01-10T11:01:50Z",
+        "time": 8.6792,
+        "iterations": 0,
+        "memory": 1638400,
+        "cpu_user": 2.887,
+        "cpu_sys": 3.784,
+        "page_faults_major": 5,
+        "page_faults_minor": 750,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "4",
+        "run_timestamp": "2026-01-10T11:01:50Z",
+        "time": 9.4998,
+        "iterations": 0,
+        "memory": 1638400,
+        "cpu_user": 3.203,
+        "cpu_sys": 4.132,
+        "page_faults_major": 5,
+        "page_faults_minor": 748,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 12,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      },
+      {
+        "matrix": "5",
+        "run_timestamp": "2026-01-10T11:01:50Z",
+        "time": 9.11,
+        "iterations": 0,
+        "memory": 1654784,
+        "cpu_user": 2.911,
+        "cpu_sys": 4.242,
+        "page_faults_major": 5,
+        "page_faults_minor": 753,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 18,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      }
+    ]
+  }
+]

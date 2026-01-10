@@ -1,0 +1,118 @@
+[
+  {
+    "solver": "Fortran",
+    "runType": "automated",
+    "timestamp": "2026-01-10T10:55:33Z",
+    "results": [
+      {
+        "matrix": "N/A",
+        "time": 0,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "page_faults_major": 0,
+        "page_faults_minor": 0,
+        "context_switches_voluntary": 0,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "env_error",
+        "output": "No matrix files found"
+      }
+    ]
+  },
+  {
+    "solver": "Fortran",
+    "runType": "automated",
+    "timestamp": "2026-01-10T11:01:53Z",
+    "variant": "gcc-17",
+    "results": [
+      {
+        "matrix": "1",
+        "run_timestamp": "2026-01-10T11:01:53Z",
+        "time": 300.9998,
+        "iterations": 0,
+        "memory": 1720320,
+        "cpu_user": 2.754,
+        "cpu_sys": 3.313,
+        "page_faults_major": 19,
+        "page_faults_minor": 552,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 24,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "2",
+        "run_timestamp": "2026-01-10T11:01:53Z",
+        "time": 6.7621,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 2.587,
+        "cpu_sys": 2.599,
+        "page_faults_major": 3,
+        "page_faults_minor": 565,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 11,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "3",
+        "run_timestamp": "2026-01-10T11:01:53Z",
+        "time": 7.6129,
+        "iterations": 0,
+        "memory": 1720320,
+        "cpu_user": 2.9,
+        "cpu_sys": 2.952,
+        "page_faults_major": 3,
+        "page_faults_minor": 569,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 15,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "4",
+        "run_timestamp": "2026-01-10T11:01:53Z",
+        "time": 8.0999,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 2.948,
+        "cpu_sys": 3.246,
+        "page_faults_major": 3,
+        "page_faults_minor": 568,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 23,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      },
+      {
+        "matrix": "5",
+        "run_timestamp": "2026-01-10T11:01:53Z",
+        "time": 7.413,
+        "iterations": 0,
+        "memory": 1703936,
+        "cpu_user": 2.762,
+        "cpu_sys": 2.901,
+        "page_faults_major": 3,
+        "page_faults_minor": 568,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 12,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
+      }
+    ]
+  }
+]

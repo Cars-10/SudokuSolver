@@ -2,23 +2,23 @@
   {
     "solver": "Vala",
     "runType": "automated",
-    "timestamp": "2026-01-09T18:21:45Z",
+    "timestamp": "2026-01-10T12:04:53Z",
     "results": [
       {
         "matrix": "1",
-        "time": 5.5987,
+        "time": 11.6873,
         "iterations": 656,
-        "memory": 11468800,
-        "cpu_user": 0.296,
-        "cpu_sys": 4.892,
+        "memory": 11431936,
+        "cpu_user": 2.48,
+        "cpu_sys": 8.381,
         "page_faults_major": 2,
-        "page_faults_minor": 262,
+        "page_faults_minor": 259,
         "context_switches_voluntary": 4,
         "context_switches_involuntary": 0,
-        "io_inputs": 1464,
+        "io_inputs": 1592,
         "io_outputs": 8,
         "status": "success",
-        "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.002\n"
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n\nSeconds to process 0.004\n"
       },
       {
         "matrix": "2",

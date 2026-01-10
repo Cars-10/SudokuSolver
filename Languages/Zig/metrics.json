@@ -2,17 +2,17 @@
   {
     "solver": "Zig",
     "runType": "automated",
-    "timestamp": "2026-01-09T18:22:38Z",
+    "timestamp": "2026-01-10T12:05:00Z",
     "results": [
       {
         "matrix": "1",
-        "time": 0.9238,
+        "time": 4.6454,
         "iterations": 656,
-        "memory": 11468800,
-        "cpu_user": 0.453,
-        "cpu_sys": 0.329,
+        "memory": 11472896,
+        "cpu_user": 0.825,
+        "cpu_sys": 3.328,
         "page_faults_major": 3,
-        "page_faults_minor": 102,
+        "page_faults_minor": 105,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

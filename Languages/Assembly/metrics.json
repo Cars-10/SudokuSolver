@@ -2,7 +2,7 @@
   {
     "solver": "Assembly",
     "runType": "automated",
-    "timestamp": "2026-01-09T17:06:28Z",
+    "timestamp": "2026-01-10T11:53:39Z",
     "results": [
       {
         "matrix": "N/A",
@@ -22,11 +22,11 @@
       },
       {
         "matrix": "1",
-        "time": 1.434,
+        "time": 3.2604,
         "iterations": 656,
         "memory": 11489280,
-        "cpu_user": 0.499,
-        "cpu_sys": 0.549,
+        "cpu_user": 0,
+        "cpu_sys": 2.247,
         "page_faults_major": 1,
         "page_faults_minor": 133,
         "context_switches_voluntary": 3,
