@@ -1,0 +1,14 @@
+# Ralph Progress Log
+Started: Fri Jan 10 2026
+
+## Codebase Patterns
+- TypeScript files use ES2022 modules with `import * as fs from 'fs'` pattern
+- Use `fileURLToPath(import.meta.url)` for ESM __dirname equivalent
+- Run scripts with `npx tsx scripts/script.ts`
+- Each Language folder has its own metrics.json with structure: `[{solver, runType, timestamp, results: [...]}]`
+- Typecheck per folder with `npx tsc --noEmit` in folder with tsconfig.json
+- Cross-folder imports between Metrics/ and scripts/ folders don't work - inline or duplicate code instead
+- Charts use D3.js (d3.v7), NOT Chart.js - included via CDN in HTMLGenerator.ts
+
+---
+

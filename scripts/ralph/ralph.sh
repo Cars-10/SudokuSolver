@@ -10,6 +10,7 @@ PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
 LAST_BRANCH_FILE="$SCRIPT_DIR/.last-branch"
+CODING_AGENT="claude --dangerously-skip-permissions"
 
 # Archive previous run if branch changed
 if [ -f "$PRD_FILE" ] && [ -f "$LAST_BRANCH_FILE" ]; then
@@ -60,7 +61,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   echo "═══════════════════════════════════════════════════════"
   
   # Run amp with the ralph prompt
-  OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
+  OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | $CODING_AGENT 2>&1 | tee /dev/stderr) || true
   
   # Check for completion signal
   if echo "$OUTPUT" | grep -q "<promise>COMPLETE</promise>"; then

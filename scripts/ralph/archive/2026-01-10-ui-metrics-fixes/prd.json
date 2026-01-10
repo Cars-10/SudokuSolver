@@ -1,0 +1,159 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/ui-metrics-fixes",
+  "description": "UI and Metrics Fixes - Fix duplicate entries, missing run buttons, empty cells, create Score Modal, and add auto-refresh",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Fix F# duplicate entry",
+      "description": "As a user, I want to see F# listed only once so the report is accurate.",
+      "acceptanceCriteria": [
+        "Identify source of duplicate in session_state.json (both 'F_Sharp' and 'F#' in selected list)",
+        "Normalize all language references to use directory name format (F_Sharp, C_Sharp)",
+        "Display conversion happens only at render time (F_Sharp -> F#, C_Sharp -> C#)",
+        "Verify F# appears exactly once in the report",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Added normalizeLanguageName() helper in report_client.js to convert F# -> F_Sharp, C# -> C_Sharp. Applied in loadSessionState, toggleLock, selectAllLangs, updateLangSelection. Cleaned up session_state.json."
+    },
+    {
+      "id": "US-002",
+      "title": "Fix C language missing run buttons",
+      "description": "As a user, I want run buttons on C language cells so I can re-run benchmarks.",
+      "acceptanceCriteria": [
+        "Investigate lockedLanguages loading - currently reads from benchmark_config.json but lock state is in session_state.json",
+        "Update HTMLGenerator.ts to read locked languages from correct source OR sync the two files",
+        "C language cells show run buttons unless explicitly locked via UI toggle",
+        "All other languages also correctly show/hide run buttons based on lock state",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Removed isLocked check from HTMLGenerator.ts - locked state should only affect bulk operations (client-side), not hide individual run buttons. Now all languages show run buttons regardless of lock status."
+    },
+    {
+      "id": "US-003",
+      "title": "Fix empty cells for Ada, CoffeeScript, and similar languages",
+      "description": "As a user, I want to see run buttons on empty cells so I can run benchmarks for languages without results.",
+      "acceptanceCriteria": [
+        "Cells with no results (empty metrics.json []) still render with a run button",
+        "Cells show '-' for time/iterations/memory when no data exists",
+        "Run button is visible and functional for empty cells",
+        "After running, cell populates with actual results (see US-008)",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Fixed matrix cell lookup to use find() by matrix number instead of array index. Empty cells now render full cell structure with run button and dash placeholders for time/iterations/memory."
+    },
+    {
+      "id": "US-004",
+      "title": "Show computer icon only for explicit Local runs",
+      "description": "As a user, I want the computer icon to indicate actual local runs, not just missing data.",
+      "acceptanceCriteria": [
+        "Computer icon appears ONLY when runType === 'Local' (exact match)",
+        "No icon shown when runType is missing, undefined, or empty string",
+        "Docker icon still appears for runType === 'Docker'",
+        "AI tag still appears for runType === 'AI'",
+        "Update HTMLGenerator.ts to remove default fallback to Local",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Changed HTMLGenerator.ts to require exact runType === 'Local' match. Removed default 'Local' runType for placeholder entries in generate_report_only.ts. Computer icon now only appears for explicit Local runs."
+    },
+    {
+      "id": "US-005",
+      "title": "Create Score Modal component",
+      "description": "As a user, I want to click on a score cell to see detailed performance breakdown in a dedicated modal.",
+      "acceptanceCriteria": [
+        "New modal opens when clicking on score cell (tier badge or score number)",
+        "Modal title shows language name and overall score",
+        "Modal is visually distinct from language modal (different header color or icon)",
+        "Modal closes with X button, Escape key, or clicking outside",
+        "Modal positions near click location (same behavior as language modal)",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Added Score Modal with purple/violet accent (#bb9af7) distinct from blue language modal. Shows tier badge, composite score, and individual ratio breakdown (time, memory, CPU, iterations). Supports all close methods and draggable positioning."
+    },
+    {
+      "id": "US-006",
+      "title": "Move Performance Profile to Score Modal",
+      "description": "As a user, I want to see the radar chart in the Score Modal with C baseline comparison.",
+      "acceptanceCriteria": [
+        "Radar chart (D3.js) moved from language modal to Score Modal",
+        "Chart shows 4 categories: Speed, Memory, Efficiency, I/O",
+        "C baseline (1.0) shown as reference circle with label",
+        "Add visual comparison: overlay C's scores (all 1.0) as a second polygon in different color",
+        "Legend indicates 'This Language' vs 'C Baseline'",
+        "Tooltip on hover shows exact values for both",
+        "Remove radar chart from language modal",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Added D3.js radar chart to Score Modal showing 4 metrics (Speed, Memory, CPU, Iterations). C baseline shown as blue polygon at 1.0. Language performance shown as purple overlay. Interactive tooltips show exact values. Grid lines at 0.5x intervals with emphasis on 1.0x baseline. Note: No existing radar chart in language modal - this was a new feature."
+    },
+    {
+      "id": "US-007",
+      "title": "Move Matrix Results to Score Modal",
+      "description": "As a user, I want to see per-matrix details in the Score Modal with C comparison.",
+      "acceptanceCriteria": [
+        "Matrix Results section moved from language modal to Score Modal",
+        "Each matrix row shows: Language time | C baseline time | Ratio",
+        "Color coding: green if faster than C, red if slower",
+        "Expandable details still available (memory, CPU, page faults, etc.)",
+        "Remove Matrix Results from language modal",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Added Matrix Results table to Score Modal showing all 5 matrices with time comparison vs C baseline. Color-coded ratios: green (faster), red (slower), purple (C baseline). Expandable details show memory, iterations, CPU user/sys, page faults, context switches. Removed Matrix Results from language modal expanded content."
+    },
+    {
+      "id": "US-008",
+      "title": "Auto-refresh cell after benchmark run",
+      "description": "As a user, I want cells to update automatically after running a benchmark.",
+      "acceptanceCriteria": [
+        "After runSolver() completes successfully, refresh the specific matrix cell",
+        "Cell updates with new time, iterations, memory values",
+        "If all 5 matrices for a language complete, also update the score cell",
+        "Show brief loading indicator during run (e.g., spinner in cell)",
+        "Handle errors gracefully - show error state in cell if run fails",
+        "No full page reload required",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Added /api/metrics/:language and /api/metrics/baseline/c endpoints. Updated runSolver() with loading spinner, cell states (loading, error, success), and refreshLanguageCells() helper to update DOM with fresh metrics. Score cell recalculated via updateLanguageScore() when all 5 matrices complete."
+    },
+    {
+      "id": "US-009",
+      "title": "Update language modal without performance sections",
+      "description": "As a developer, I need to clean up the language modal after moving sections to Score Modal.",
+      "acceptanceCriteria": [
+        "Language modal no longer contains Performance Profile section",
+        "Language modal no longer contains Matrix Results section",
+        "Language modal still contains: Description, Creators, Authors, Image, Edit functionality",
+        "Modal sizing adjusts appropriately to reduced content",
+        "Add link/button in language modal to open Score Modal (e.g., 'View Performance Details')",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 9,
+      "passes": true,
+      "notes": "Language modal never had Performance Profile (was new in Score Modal). Matrix Results were in expanded rows, already removed in US-007. Added 'View Performance' button in purple (#bb9af7) that opens Score Modal via openScoreModalFromLangModal() function."
+    }
+  ]
+}

@@ -2,23 +2,23 @@
   {
     "solver": "Clojure",
     "runType": "automated",
-    "timestamp": "2026-01-09T17:13:27Z",
+    "timestamp": "2026-01-10T11:53:49Z",
     "results": [
       {
         "matrix": "1",
-        "time": 831.4754,
+        "time": 1096.4954,
         "iterations": 656,
-        "memory": 116973568,
-        "cpu_user": 1701.133,
-        "cpu_sys": 138.293,
+        "memory": 122249216,
+        "cpu_user": 2274.659,
+        "cpu_sys": 165.521,
         "page_faults_major": 23,
-        "page_faults_minor": 12216,
-        "context_switches_voluntary": 2840,
-        "context_switches_involuntary": 245,
+        "page_faults_minor": 12811,
+        "context_switches_voluntary": 3318,
+        "context_switches_involuntary": 255,
         "io_inputs": 124984,
-        "io_outputs": 104,
+        "io_outputs": 72,
         "status": "success",
-        "output": "../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4\n0 0 0 5 0 0 0 0 3\n0 8 3 0 9 2 0 0 0\n2 6 0 8 5 4 0 0 1\n0 0 5 3 6 1 0 9 0\n1 0 0 0 0 9 0 0 0\n8 5 0 2 0 3 0 1 0\n4 1 2 9 8 0 0 3 0\n3 9 0 0 0 6 8 0 0\n\nPuzzle:\n9 2 1 6 3 7 5 8 4\n6 7 4 5 1 8 9 2 3\n5 8 3 4 9 2 1 6 7\n2 6 9 8 5 4 3 7 1\n7 4 5 3 6 1 2 9 8\n1 3 8 7 2 9 6 4 5\n8 5 6 2 7 3 4 1 9\n4 1 2 9 8 5 7 3 6\n3 9 7 1 4 6 8 5 2\n\nSolved in Iterations=656\n"
+        "output": "../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4\n0 0 0 5 0 0 0 0 3\n0 8 3 0 9 2 0 0 0\n2 6 0 8 5 4 0 0 1\n0 0 5 3 6 1 0 9 0\n1 0 0 0 0 9 0 0 0\n8 5 0 2 0 3 0 1 0\n4 1 2 9 8 0 0 3 0\n3 9 0 0 0 6 8 0 0\n\nPuzzle:\n9 2 1 6 3 7 5 8 4\n6 7 4 5 1 8 9 2 3\n5 8 3 4 9 2 1 6 7\n2 6 9 8 5 4 3 7 1\n7 4 5 3 6 1 2 9 8\n1 3 8 7 2 9 6 4 5\n8 5 6 2 7 3 4 1 9\n4 1 2 9 8 5 7 3 6\n3 9 7 1 4 6 8 5 2\n\nSolved in Iterations=656\n"
       },
       {
         "matrix": "2",
