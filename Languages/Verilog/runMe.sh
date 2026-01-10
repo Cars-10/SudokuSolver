@@ -1,27 +1,30 @@
 #!/bin/bash
 # Languages/Verilog/runMe.sh
 
-LANGUAGE="Verilog"
-SOLVER_BINARY="./sudoku"
+cd "$(dirname "$0")"
 
-# Source shared functions
+LANGUAGE="Verilog"
+SOLVER_BINARY="./run_verilog.sh"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
+
 source ../common.sh
 
 compile() {
+    check_toolchain iverilog
+
     echo "Compiling Verilog solver..."
-    iverilog -o sudoku Sudoku.v
-    
+    iverilog -o sudoku_sim Sudoku.v
     if [ $? -ne 0 ]; then
         report_env_error "Compilation failed"
     fi
+
+    # Create wrapper to run vvp simulation
+    cat > run_verilog.sh << 'WRAPPER'
+#!/bin/bash
+vvp ./sudoku_sim +FILE="$1"
+WRAPPER
+    chmod +x run_verilog.sh
 }
 
-# Override run_matrix to handle vvp command
-print(json.dumps(data))
-" "$matrix_num" "${time_seconds:-0}" "${memory_kb:-0}" "${cpu_user:-0}" "${cpu_sys:-0}" "$status" < "$temp_output"
-
-    rm -f "$temp_output" "$temp_timing"
-}
-
-# Execute benchmarks
 main "$@"

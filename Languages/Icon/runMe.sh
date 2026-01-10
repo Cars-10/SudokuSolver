@@ -1,16 +1,26 @@
 #!/bin/bash
-# Languages/Icon/runMe.sh - Icon Sudoku solver benchmark script
+# Languages/Icon/runMe.sh
+
+cd "$(dirname "$0")"
+
+# Add Icon to PATH if available
+[ -d /app/server/icon-master/bin ] && export PATH="/app/server/icon-master/bin:$PATH"
 
 LANGUAGE="Icon"
+SOLVER_BINARY="./sudoku"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
-# Source shared functions from common.sh
 source ../common.sh
 
-# Compile first
-icont -o sudoku Sudoku.icn 2>/dev/null
+compile() {
+    check_toolchain icont
 
-# Set the binary to be executed
-SOLVER_BINARY="./sudoku"
+    echo "Compiling Icon solver..."
+    icont -o sudoku Sudoku.icn
+    if [ $? -ne 0 ]; then
+        report_env_error "Compilation failed"
+    fi
+}
 
-# Main execution
 main "$@"

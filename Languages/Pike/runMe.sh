@@ -1,11 +1,17 @@
 #!/bin/bash
-# Languages/Pike/runMe.sh - Pike Sudoku solver benchmark script
+# Languages/Pike/runMe.sh
+
+cd "$(dirname "$0")"
 
 LANGUAGE="Pike"
 SOLVER_BINARY="pike Sudoku.pike"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
-# Source shared functions from common.sh
 source ../common.sh
 
-# Main execution
+compile() {
+    check_toolchain pike
+}
+
 main "$@"

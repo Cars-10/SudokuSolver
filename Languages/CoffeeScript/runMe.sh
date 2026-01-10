@@ -1,15 +1,19 @@
 #!/bin/bash
 # CoffeeScript Sudoku Solver Benchmark Runner
-# Uses common.sh for standardized metrics collection
+
+cd "$(dirname "$0")"
 
 LANGUAGE="CoffeeScript"
 SOLVER_BINARY="coffee Sudoku.coffee"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
 # Source common functions
 source ../common.sh
 
-# CoffeeScript doesn't need compilation - coffee runs .coffee files directly
-COMPILE_CMD=""
+compile() {
+    check_toolchain coffee
+}
 
 # Run benchmarks
 main "$@"

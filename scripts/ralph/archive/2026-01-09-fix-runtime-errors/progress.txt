@@ -1,0 +1,13 @@
+# Ralph Progress Log
+Started: Fri Jan  9 2026
+
+## Codebase Patterns
+- Make solver needs matrix data converted to `matrix_data.mk` format before running
+- Wrapper scripts should use `$1` for matrix path argument
+- Always check toolchain availability with `check_toolchain` in compile()
+- Test with `../../Matrices/1.matrix` - expect 656 iterations for correct implementation
+- .NET projects use `dotnet run --project . --configuration Release -- "$1"` to pass args
+- Scala 3 compiled classes need `java -cp '.:$SCALA_LIB/*' Sudoku "$1"` (not `scala` command)
+- Platform-specific languages (AppleScript for macOS) need OS detection after sourcing common.sh but before main()
+---
+
