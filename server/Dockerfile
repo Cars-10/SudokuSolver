@@ -253,7 +253,20 @@ RUN git clone --depth 1 https://github.com/janet-lang/janet.git /tmp/janet \
     && make install \
     && rm -rf /tmp/janet
 
-# ============================================================================ 
+# ----------------------------------------------------------------------------
+# 14. FreeBASIC
+# ----------------------------------------------------------------------------
+RUN FBC_VERSION=1.10.1 \
+    && ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "arm64" ]; then FBC_ARCH="aarch64"; else FBC_ARCH="x86_64"; fi \
+    && wget -q https://downloads.sourceforge.net/fbc/FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz \
+    && tar xf FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz \
+    && cd FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH} \
+    && ./install.sh -i \
+    && cd .. \
+    && rm -rf FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH} FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz
+
+# ============================================================================
 # PUPPETEER CONFIGURATION
 # ============================================================================ 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
