@@ -2,7 +2,7 @@
   {
     "solver": "BASIC",
     "runType": "automated",
-    "timestamp": "2026-01-10T18:05:57Z",
+    "timestamp": "2026-01-10T18:29:42Z",
     "results": [
       {
         "matrix": "N/A",
@@ -22,11 +22,11 @@
       },
       {
         "matrix": "1",
-        "time": 1.4111,
+        "time": 1.5537,
         "iterations": 656,
-        "memory": 11325440,
-        "cpu_user": 0.303,
-        "cpu_sys": 0.83,
+        "memory": 11284480,
+        "cpu_user": 0,
+        "cpu_sys": 1.262,
         "page_faults_major": 1,
         "page_faults_minor": 161,
         "context_switches_voluntary": 3,

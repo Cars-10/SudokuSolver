@@ -2,17 +2,17 @@
   {
     "solver": "Cobol",
     "runType": "automated",
-    "timestamp": "2026-01-10T18:06:02Z",
+    "timestamp": "2026-01-10T18:29:47Z",
     "results": [
       {
         "matrix": "1",
-        "time": 3.5948,
+        "time": 3.7277,
         "iterations": 656,
-        "memory": 11313152,
-        "cpu_user": 2.296,
-        "cpu_sys": 0.978,
+        "memory": 11292672,
+        "cpu_user": 1.355,
+        "cpu_sys": 2.054,
         "page_faults_major": 1,
-        "page_faults_minor": 330,
+        "page_faults_minor": 329,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 40,
