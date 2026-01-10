@@ -1,0 +1,8 @@
+# Ralph Progress Log
+Started: Sat Jan 10 16:34:00 CET 2026
+---
+
+## Codebase Patterns
+- None identified yet
+
+---

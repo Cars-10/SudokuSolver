@@ -487,22 +487,10 @@ app.post('/api/generate-report', (req, res) => {
 
         if (error) {
             console.error(`Report generation error: ${error}`);
-            // Try JavaScript fallback
-            console.log('Attempting JavaScript fallback generator...');
-            const fallbackCommand = 'node Metrics/generate_report_simple.js';
-            exec(fallbackCommand, { cwd: projectRoot }, (fallbackError, fallbackStdout, fallbackStderr) => {
-                if (fallbackStdout) console.log(fallbackStdout);
-                if (fallbackStderr) console.error(fallbackStderr);
-
-                if (fallbackError) {
-                    return res.status(500).json({
-                        success: false,
-                        error: 'Both TypeScript and JavaScript generators failed',
-                        details: { tsx: stderr || error.message, js: fallbackStderr || fallbackError.message }
-                    });
-                }
-                console.log('Report generated successfully using JavaScript fallback.');
-                res.json({ success: true, generator: 'javascript' });
+            return res.status(500).json({
+                success: false,
+                error: 'Report generation failed',
+                details: stderr || error.message
             });
         } else {
             console.log('Report generated successfully using TypeScript generator.');
