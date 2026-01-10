@@ -480,6 +480,23 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
     document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
     document.getElementById('modalRelated').innerText = meta.related ? "🔗 Related: " + meta.related : "";
+    document.getElementById('modalParadigm').innerText = meta.paradigm || "-";
+    document.getElementById('modalTypeSystem').innerText = meta.typeSystem || "-";
+
+    // History: Check metadata first, then languageHistories fallback
+    // The HTMLGenerator injects historyData and languageHistories/metadata
+    // But we are in client JS. We used to rely on data-history attribute.
+    // Let's use meta.history first.
+    const historyText = meta.history || ""; 
+    const historyContainer = document.getElementById('historySection');
+    const historyEl = document.getElementById('modalHistory');
+    
+    if (historyText) {
+        historyEl.innerText = historyText;
+        historyContainer.style.display = 'block';
+    } else {
+        historyContainer.style.display = 'none';
+    }
 
 
     // Description: Check Persona first
@@ -539,6 +556,9 @@ window.showLanguageDetails = async function (lang, x, y) {
     document.getElementById('editInputs-related').value = meta.related || "";
     document.getElementById('editInputs-website').value = meta.website || "";
     document.getElementById('editInputs-desc').value = meta.description || "";
+    document.getElementById('editInputs-history').value = meta.history || "";
+    document.getElementById('editInputs-paradigm').value = meta.paradigm || "";
+    document.getElementById('editInputs-typeSystem').value = meta.typeSystem || "";
 
     // Authors Population
     const authorList = document.getElementById('authorList');
@@ -639,6 +659,9 @@ window.saveLanguageDetails = async function (event) {
         related: document.getElementById('editInputs-related').value,
         website: document.getElementById('editInputs-website').value,
         description: document.getElementById('editInputs-desc').value,
+        history: document.getElementById('editInputs-history').value,
+        paradigm: document.getElementById('editInputs-paradigm').value,
+        typeSystem: document.getElementById('editInputs-typeSystem').value,
         authors: currentMetadata.authors || []
     };
 
