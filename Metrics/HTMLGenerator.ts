@@ -371,6 +371,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
                         <p id="modalRelated" class="view-only" style="margin: 5px 0 0 0; color: #787c99; font-size: 0.9em; font-style: italic;"></p>
 
+                        <!-- Technical Specs Row -->
+                        <div id="modalSpecs" class="view-only" style="margin-top: 10px; display: flex; gap: 20px; font-size: 0.85em; color: #565f89; border-top: 1px solid #24283b; padding-top: 10px;">
+                            <div><span style="color: #7aa2f7;">Paradigm:</span> <span id="modalParadigm">-</span></div>
+                            <div><span style="color: #7aa2f7;">Type System:</span> <span id="modalTypeSystem">-</span></div>
+                        </div>
+                        <div class="edit-only" style="margin-top: 10px; display: flex; gap: 10px;">
+                            <input type="text" id="editInputs-paradigm" class="modal-edit-input" placeholder="Paradigm (e.g. Imperative)" style="flex: 1;">
+                            <input type="text" id="editInputs-typeSystem" class="modal-edit-input" placeholder="Type System (e.g. Static, Strong)" style="flex: 1;">
+                        </div>
+
                         <div class="view-only" style="margin-top: 15px; display: flex; gap: 10px;">
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
                              <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
@@ -390,6 +400,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Description</h3>
                 <textarea id="editInputs-desc" class="modal-edit-textarea edit-only" placeholder="Description"></textarea>
                 <div id="modalDesc" class="view-only" style="line-height: 1.6; color: #c0caf5;"></div>
+
+                <div id="historySection" class="view-only" style="margin-top: 20px;">
+                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Historical Context</h3>
+                    <div id="modalHistory" style="line-height: 1.6; color: #9aa5ce; font-style: italic; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 3px solid #7aa2f7;"></div>
+                </div>
+                <div class="edit-only" style="margin-top: 20px;">
+                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">History</h3>
+                    <textarea id="editInputs-history" class="modal-edit-textarea" placeholder="Historical context..."></textarea>
+                </div>
                 
                 <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px; margin-top: 20px;">
                     Creators & Authors
