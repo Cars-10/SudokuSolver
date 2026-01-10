@@ -351,89 +351,12 @@ document.querySelectorAll('tbody td').forEach(cell => {
     });
 });
 
-// Add click handler to expand chevrons
+// Add click handler to language cells for modal
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.expand-chevron').forEach(chevron => {
-        chevron.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const row = chevron.closest('tr[data-lang]');
-            if (!row) return;
-
-            const expandedRow = row.nextElementSibling;
-            row.classList.toggle('expanded');
-
-            if (expandedRow && expandedRow.classList.contains('expanded-content')) {
-                if (row.classList.contains('expanded')) {
-                    expandedRow.classList.add('visible');
-                    // Force reflow
-                    void expandedRow.offsetWidth;
-                    expandedRow.classList.add('open');
-
-                    // Populate Content dynamically if empty or placeholders
-                    const lang = row.getAttribute('data-lang');
-                    // Find meta in metricsData global
-                    const meta = typeof metricsData !== 'undefined' ? metricsData.find(m => m.solver === lang) : null;
-
-                    if (meta) {
-                        const contentDivs = expandedRow.querySelectorAll('.section-content');
-                        if (contentDivs.length >= 2) {
-                            // System
-                            // Infer OS from runType
-                            let os = "Unknown";
-                            let arch = "Unknown";
-                            let cpu = "Unknown";
-                            let ram = "Unknown";
-
-                            if (meta.runType === 'Docker') {
-                                os = "Linux (Docker)";
-                                arch = "x86_64";
-                                cpu = "Shared (Host)";
-                                ram = "Unlimited";
-                            } else if (meta.runType === 'Local' || !meta.runType) {
-                                os = "macOS (Darwin)";
-                                arch = "ARM64";
-                                cpu = "Apple M1 Max";
-                                ram = "64GB";
-                            }
-
-                            // Check if content is placeholder "-" (simple check)
-                            if (contentDivs[0].innerText.includes('OS: -')) {
-                                contentDivs[0].innerHTML = `<span style="color:#00ff9d">OS:</span> ${os} | <span style="color:#00ff9d">CPU:</span> ${cpu} | <span style="color:#00ff9d">RAM:</span> ${ram} | <span style="color:#00ff9d">Arch:</span> ${arch}`;
-                            }
-
-                            // Compilation
-                            // We have compiler info in data-compiler
-                            const compiler = row.getAttribute('data-compiler') || '-';
-                            if (contentDivs[1].innerText.includes('Compiler: -') || contentDivs[1].innerText.includes('Flags: -')) {
-                                contentDivs[1].innerHTML = `<span style="color:#00b8ff">Compiler:</span> ${compiler} | <span style="color:#00b8ff">Flags:</span> Default (Optimized) | <span style="color:#00b8ff">Level:</span> O3/Release`;
-                            }
-                        }
-                    }
-                } else {
-                    expandedRow.classList.remove('open');
-                    // Wait for transition to end before hiding
-                    const handleTransitionEnd = () => {
-                        if (!row.classList.contains('expanded')) {
-                            expandedRow.classList.remove('visible');
-                        }
-                        expandedRow.removeEventListener('transitionend', handleTransitionEnd);
-                    };
-                    expandedRow.addEventListener('transitionend', handleTransitionEnd);
-                    // Fallback
-                    setTimeout(handleTransitionEnd, 350);
-                }
-            }
-        });
-        chevron.style.cursor = 'pointer';
-    });
-
-    // Add click handler to language cells for modal
     document.querySelectorAll('.lang-col').forEach(cell => {
         cell.addEventListener('click', (e) => {
-            // If click was on chevron or button, don't handle
-            if (e.target.classList.contains('expand-chevron') || e.target.closest('button')) {
+            // If click was on button, don't handle
+            if (e.target.closest('button')) {
                 return;
             }
 
