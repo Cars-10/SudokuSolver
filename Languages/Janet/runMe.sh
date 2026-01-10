@@ -1,11 +1,17 @@
 #!/bin/bash
-# Languages/Janet/runMe.sh - Janet Sudoku solver benchmark script
+# Languages/Janet/runMe.sh
+
+cd "$(dirname "$0")"
 
 LANGUAGE="Janet"
 SOLVER_BINARY="janet Sudoku.janet"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
 
-# Source shared functions from common.sh
 source ../common.sh
 
-# Main execution
+compile() {
+    check_toolchain janet
+}
+
 main "$@"

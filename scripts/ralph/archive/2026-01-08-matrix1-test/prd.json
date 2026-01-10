@@ -1,0 +1,118 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/fix-runtime-errors",
+  "description": "Fix Runtime Error Languages - Fix runMe.sh configuration issues for Make, F#, Scala, CoffeeScript, Tcsh, and Dc so they produce correct benchmark results",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Fix Make runMe.sh",
+      "description": "As a developer, I want the Make implementation to run correctly so it produces 656 iterations for Matrix 1.",
+      "acceptanceCriteria": [
+        "Create Languages/Make/run_make.sh wrapper script",
+        "Wrapper accepts matrix path as $1 and calls: make -f Makefile solve MATRIX=\"$1\"",
+        "Make wrapper executable: chmod +x run_make.sh",
+        "Update runMe.sh to set SOLVER_BINARY=\"./run_make.sh\"",
+        "Add METRICS_FILE and TIMEOUT_SECONDS variables to runMe.sh",
+        "Test locally: docker exec -w /app/Languages/Make sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix",
+        "Verify output contains 'Solved in Iterations=656'"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Fix F_Sharp runMe.sh",
+      "description": "As a developer, I want the F# implementation to run correctly so it produces 656 iterations for Matrix 1.",
+      "acceptanceCriteria": [
+        "Create Languages/F_Sharp/run_fsharp.sh wrapper script",
+        "Wrapper accepts matrix path as $1 and calls: dotnet run --project . -- \"$1\"",
+        "Make wrapper executable: chmod +x run_fsharp.sh",
+        "Update runMe.sh to set SOLVER_BINARY=\"./run_fsharp.sh\"",
+        "Test locally: docker exec -w /app/Languages/F_Sharp sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix",
+        "Verify output contains 'Solved in Iterations=656'"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Fix Scala runMe.sh",
+      "description": "As a developer, I want the Scala implementation to run correctly so it produces 656 iterations for Matrix 1.",
+      "acceptanceCriteria": [
+        "Create Languages/Scala/run_scala.sh wrapper script",
+        "Wrapper accepts matrix path as $1 and runs compiled Sudoku class: java -cp . Sudoku \"$1\"",
+        "Make wrapper executable: chmod +x run_scala.sh",
+        "Update runMe.sh to set SOLVER_BINARY=\"./run_scala.sh\"",
+        "Test locally: docker exec -w /app/Languages/Scala sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix",
+        "Verify output contains 'Solved in Iterations=656'"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Fix CoffeeScript runMe.sh",
+      "description": "As a developer, I want CoffeeScript to run correctly assuming coffee is installed.",
+      "acceptanceCriteria": [
+        "Read Languages/CoffeeScript/runMe.sh to understand current setup",
+        "Update runMe.sh to set SOLVER_BINARY=\"coffee Sudoku.coffee\"",
+        "Add check_toolchain coffee in compile() function",
+        "Add METRICS_FILE and TIMEOUT_SECONDS variables if missing",
+        "If coffee not installed, script should report env_error gracefully",
+        "Test: docker exec sudokusolver-app-1 which coffee (verify if installed)"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Fix Tcsh runMe.sh",
+      "description": "As a developer, I want Tcsh to run correctly assuming tcsh is installed.",
+      "acceptanceCriteria": [
+        "Read Languages/Tcsh/runMe.sh to understand current setup",
+        "Update runMe.sh to set SOLVER_BINARY=\"tcsh Sudoku.tcsh\"",
+        "Add check_toolchain tcsh in compile() function",
+        "Add METRICS_FILE and TIMEOUT_SECONDS variables if missing",
+        "If tcsh not installed, script should report env_error gracefully",
+        "Test: docker exec sudokusolver-app-1 which tcsh (verify if installed)"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Document Dc performance issue",
+      "description": "As a developer, I want Dc documented as having performance limitations.",
+      "acceptanceCriteria": [
+        "Read Languages/Dc/runMe.sh to understand current setup",
+        "Update TIMEOUT_SECONDS to 600 (10 minutes) to give Dc more time",
+        "Add comment in runMe.sh explaining Dc is extremely slow due to stack-based calculation",
+        "Create or update Languages/Dc/README.md noting performance limitations",
+        "Test with extended timeout: docker exec -w /app/Languages/Dc sudokusolver-app-1 timeout 600 ./runMe.sh ../../Matrices/1.matrix"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Document AppleScript as local-only",
+      "description": "As a developer, I want AppleScript documented as requiring macOS.",
+      "acceptanceCriteria": [
+        "Read Languages/AppleScript/runMe.sh to understand current setup",
+        "Update runMe.sh to check for Darwin OS at the start",
+        "If not Darwin, output 'AppleScript requires macOS (Darwin)' and call report_env_error",
+        "Create or update Languages/AppleScript/README.md explaining macOS requirement",
+        "Add note that AppleScript cannot run in Docker Linux environment"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

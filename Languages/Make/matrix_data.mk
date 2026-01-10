@@ -1,4 +1,4 @@
-# Matrix Data
+# Auto-generated from /app/Matrices/5.matrix
 cell_0_0 := 8
 cell_0_1 := 0
 cell_0_2 := 0
@@ -71,12 +71,3 @@ cell_7_5 := 0
 cell_7_6 := 0
 cell_7_7 := 1
 cell_7_8 := 0
-cell_8_0 := 0
-cell_8_1 := 9
-cell_8_2 := 0
-cell_8_3 := 0
-cell_8_4 := 0
-cell_8_5 := 0
-cell_8_6 := 4
-cell_8_7 := 0
-cell_8_8 := 0

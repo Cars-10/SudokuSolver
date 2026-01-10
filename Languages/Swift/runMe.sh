@@ -12,9 +12,9 @@ compile() {
     if command -v swiftc &> /dev/null; then
         echo "Compiling Swift solver with swiftc..."
         swiftc -O -o Sudoku Sudoku.swift
-    elif [ -x "/usr/bin/swiftc" ]; then
-         echo "Compiling Swift solver with /usr/bin/swiftc..."
-        /usr/bin/swiftc -O -o Sudoku Sudoku.swift
+    elif [ -x "/root/.local/share/swiftly/bin/swiftc" ]; then
+         echo "Compiling Swift solver with /root/.local/share/swiftly/bin/swiftc..."
+        /root/.local/share/swiftly/bin/swiftc -O -o Sudoku Sudoku.swift
     else
         report_env_error "Swift compiler (swiftc) not found"
     fi

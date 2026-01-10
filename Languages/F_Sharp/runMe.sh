@@ -1,24 +1,15 @@
 #!/bin/bash
 # Languages/F_Sharp/runMe.sh - F# Sudoku solver benchmark script
-# Uses modular common.sh pattern
 
 cd "$(dirname "$0")"
 
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
 LANGUAGE="F#"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300  # 5 minutes
+TIMEOUT_SECONDS=300
 
-# Source shared functions from common.sh
 source ../common.sh
 
-# ============================================================================
-# COMPILATION
-# ============================================================================
 compile() {
-    # Check dotnet availability
     check_toolchain dotnet
 
     echo "Building F# project..." >&2
@@ -29,11 +20,20 @@ compile() {
     echo "F# build successful" >&2
 }
 
-# ============================================================================
-# CUSTOM MATRIX EXECUTION (override common.sh for dotnet execution)
-# ============================================================================
+# Find the compiled DLL after build
+find_binary() {
+    local binary=$(find bin/Release -name "Sudoku.dll" -type f 2>/dev/null | sort -r | head -n 1)
+    if [ -n "$binary" ]; then
+        SOLVER_BINARY="dotnet $binary"
+        return
+    fi
+    report_env_error "Could not find compiled Sudoku.dll"
+}
 
-# ============================================================================
-# MAIN ENTRY POINT
-# ============================================================================
+main() {
+    compile
+    find_binary
+    run_benchmarks "$@"
+}
+
 main "$@"

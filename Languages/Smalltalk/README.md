@@ -2,9 +2,17 @@
 
 ## Requirements
 
+**Via apt:**
 ```bash
 apt install gnu-smalltalk
 ```
+
+**Via Linuxbrew:**
+```bash
+brew install gnu-smalltalk
+```
+
+The runMe.sh automatically adds `/home/linuxbrew/.linuxbrew/bin` to PATH if available.
 
 ## Notes
 

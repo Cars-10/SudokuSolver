@@ -3,10 +3,9 @@
 ## Requirements
 
 ```bash
-apt install freebasic
+# Download from https://www.freebasic.net/
+# Or via package manager where available
 ```
-
-Or download from https://www.freebasic.net/
 
 ## Notes
 

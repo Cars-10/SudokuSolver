@@ -1,15 +1,10 @@
 #!/bin/bash
-# Languages/Scala/runMe.sh - Scala Sudoku solver benchmark script
-# Uses modular common.sh pattern
+# Languages/Scala/runMe.sh
 
 cd "$(dirname "$0")"
 
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
-LANGUAGE="Scala"
-METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300  # 5 minutes
+# Add sdkman Scala to PATH if available
+[ -d /root/.sdkman/candidates/scala/current/bin ] && export PATH="/root/.sdkman/candidates/scala/current/bin:$PATH"
 
 # Setup Java environment (macOS Homebrew)
 if [ -d "/opt/homebrew/opt/openjdk" ]; then
@@ -17,14 +12,14 @@ if [ -d "/opt/homebrew/opt/openjdk" ]; then
     export PATH="$JAVA_HOME/bin:$PATH"
 fi
 
-# Source shared functions from common.sh
+LANGUAGE="Scala"
+SOLVER_BINARY="./run_scala.sh"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
+
 source ../common.sh
 
-# ============================================================================
-# COMPILATION
-# ============================================================================
 compile() {
-    # Check Scala availability
     check_toolchain scalac
 
     echo "Compiling Scala..." >&2
@@ -33,13 +28,21 @@ compile() {
         report_env_error "Scala compilation failed"
     fi
     echo "Scala compilation successful" >&2
+
+    # Create wrapper to run with java (Scala 3 doesn't support 'scala ClassName')
+    cat > run_scala.sh << 'WRAPPER'
+#!/bin/bash
+# Find Scala library path
+if [ -d /root/.sdkman/candidates/scala/current/lib ]; then
+    SCALA_LIB="/root/.sdkman/candidates/scala/current/lib"
+elif [ -d /opt/homebrew/opt/scala/libexec/lib ]; then
+    SCALA_LIB="/opt/homebrew/opt/scala/libexec/lib"
+else
+    SCALA_LIB="$(dirname $(which scalac))/../lib"
+fi
+java -cp ".:$SCALA_LIB/*" Sudoku "$@"
+WRAPPER
+    chmod +x run_scala.sh
 }
 
-# ============================================================================
-# CUSTOM MATRIX EXECUTION (override common.sh for Scala runner)
-# ============================================================================
-
-# ============================================================================
-# MAIN ENTRY POINT
-# ============================================================================
 main "$@"
