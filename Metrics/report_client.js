@@ -1758,6 +1758,22 @@ initializeStatus();
             if (data.success) {
                 outputDiv.innerText = "--- STDOUT ---\n" + data.stdout + "\n\n--- STDERR ---\n" + data.stderr;
 
+                // Update the timestamp in the UI immediately (US-008)
+                if (data.timestamp) {
+                    const langRow = document.querySelector(`tr[data-lang="${lang}"]`);
+                    if (langRow) {
+                        // Update the data-timestamp attribute
+                        langRow.setAttribute('data-timestamp', data.timestamp);
+
+                        // Find and update the Updated column
+                        const updatedCell = langRow.querySelector('.updated-col');
+                        if (updatedCell) {
+                            updatedCell.textContent = 'Just now';
+                            updatedCell.title = new Date(data.timestamp).toLocaleString();
+                        }
+                    }
+                }
+
                 // Trigger Report Generation
                 outputDiv.innerText += "\n\nGenerating updated report...";
                 try {
@@ -3463,4 +3479,490 @@ function enableModalDragging() {
 // Call initially and on load
 enableModalDragging();
 window.addEventListener('load', enableModalDragging);
+
+// ============================================================
+// Score Modal Functions
+// ============================================================
+
+// Tier color mapping
+const tierColors = {
+    'S': '#ffd700', // Gold
+    'A': '#00ff9d', // Neon Green
+    'B': '#7aa2f7', // Blue
+    'C': '#ff9e64', // Orange
+    'D': '#f7768e', // Pink/Red
+    'F': '#db4b4b'  // Dark Red
+};
+
+// Close Score Modal
+window.closeScoreModal = function(event) {
+    if (event) event.stopPropagation();
+    const modal = document.getElementById('scoreModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
+};
+
+// Open Score Modal for a language
+window.openScoreModal = function(lang) {
+    const modal = document.getElementById('scoreModal');
+    if (!modal) return;
+
+    // Find the row data
+    const row = document.querySelector(`tr[data-lang="${lang}"]`);
+    if (!row) return;
+
+    // Track current language for variant selection (US-007)
+    currentScoreModalLang = lang;
+
+    // Populate variant selector asynchronously
+    populateVariantSelector(lang);
+
+    // Get language data from metricsData
+    const langMetrics = metricsData.find(m => m.solver === lang);
+    const cMetrics = metricsData.find(m => m.solver === 'C');
+
+    // Get score and tier from row
+    const score = parseFloat(row.getAttribute('data-score')) || 0;
+    const tier = row.getAttribute('data-tier') || 'F';
+    const tierColor = tierColors[tier] || tierColors['F'];
+
+    // Get breakdown data
+    const breakdown = row.getAttribute('data-score-breakdown') || '';
+    const breakdownParts = breakdown.split(' | ').map(p => {
+        const match = p.match(/(\w+):\s*([\d.]+)x/);
+        return match ? { label: match[1], value: parseFloat(match[2]) } : null;
+    }).filter(Boolean);
+
+    // Populate header
+    const img = document.getElementById('scoreModalImg');
+    const title = document.getElementById('scoreModalTitle');
+    const subtitle = document.getElementById('scoreModalSubtitle');
+    const tierBadge = document.getElementById('scoreModalTierBadge');
+
+    if (langMetrics && langMetrics.logo) {
+        img.src = langMetrics.logo;
+        img.style.display = 'block';
+    } else {
+        img.style.display = 'none';
+    }
+
+    title.textContent = lang;
+    subtitle.textContent = 'Performance Score Analysis';
+
+    tierBadge.textContent = tier;
+    tierBadge.className = 'tier-badge tier-' + tier.toLowerCase();
+    tierBadge.style.background = tierColor;
+    tierBadge.style.color = tier === 'S' ? '#000' : '#fff';
+
+    // Populate composite score
+    const scoreValue = document.getElementById('scoreModalValue');
+    scoreValue.textContent = score.toFixed(2) + 'x';
+    scoreValue.style.color = score <= 1 ? '#00ff9d' : (score <= 2 ? '#ff9e64' : '#f7768e');
+
+    // Populate breakdown ratios
+    const timeRatio = breakdownParts.find(p => p.label === 'Time');
+    const memRatio = breakdownParts.find(p => p.label === 'Mem');
+    const cpuRatio = breakdownParts.find(p => p.label === 'CPU');
+    const iterRatio = breakdownParts.find(p => p.label === 'Iter');
+
+    document.getElementById('scoreTimeRatio').textContent = timeRatio ? timeRatio.value.toFixed(2) + 'x' : '-';
+    document.getElementById('scoreMemRatio').textContent = memRatio ? memRatio.value.toFixed(2) + 'x' : '-';
+    document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
+    document.getElementById('scoreIterRatio').textContent = iterRatio ? iterRatio.value.toFixed(2) + 'x' : '-';
+
+    // Draw radar chart with tier color
+    drawScoreRadarChart(lang, tier, tierColor, breakdownParts);
+
+    // Update legend with tier color
+    const legendSwatch = document.getElementById('legendLangSwatch');
+    const legendName = document.getElementById('legendLangName');
+    if (legendSwatch) legendSwatch.style.background = tierColor;
+    if (legendName) legendName.textContent = lang;
+
+    // Populate matrix results table
+    populateMatrixResults(lang, langMetrics, cMetrics);
+
+    // Show modal
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+};
+
+// Draw radar chart in Score Modal
+function drawScoreRadarChart(lang, tier, tierColor, breakdownParts) {
+    const canvas = document.getElementById('scoreRadarChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = Math.min(centerX, centerY) - 40;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Labels for the 4 axes
+    const labels = ['Speed', 'Memory', 'CPU', 'Iterations'];
+    const values = [
+        breakdownParts.find(p => p.label === 'Time')?.value || 1,
+        breakdownParts.find(p => p.label === 'Mem')?.value || 1,
+        breakdownParts.find(p => p.label === 'CPU')?.value || 1,
+        breakdownParts.find(p => p.label === 'Iter')?.value || 1
+    ];
+
+    const numAxes = labels.length;
+    const angleSlice = (Math.PI * 2) / numAxes;
+
+    // Calculate max scale (at least 3, or round up to nearest integer)
+    const maxValue = Math.max(3, Math.ceil(Math.max(...values)));
+
+    // Draw grid circles
+    ctx.strokeStyle = '#414868';
+    ctx.lineWidth = 1;
+    for (let i = 1; i <= 3; i++) {
+        const r = (radius / maxValue) * i;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+
+    // Draw 1.0 baseline circle (C baseline)
+    ctx.strokeStyle = 'rgba(122, 162, 247, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    const baselineR = radius / maxValue;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, baselineR, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw axes
+    ctx.strokeStyle = '#414868';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+
+    // Draw labels
+    ctx.fillStyle = '#c0caf5';
+    ctx.font = '12px JetBrains Mono, monospace';
+    ctx.textAlign = 'center';
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const x = centerX + (radius + 25) * Math.cos(angle);
+        const y = centerY + (radius + 25) * Math.sin(angle);
+        ctx.fillText(labels[i], x, y + 4);
+    }
+
+    // Draw C baseline polygon (all at 1.0)
+    ctx.fillStyle = 'rgba(122, 162, 247, 0.2)';
+    ctx.strokeStyle = 'rgba(122, 162, 247, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const r = baselineR;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw language polygon with tier color
+    const tierColorRgba = hexToRgba(tierColor, 0.3);
+    ctx.fillStyle = tierColorRgba;
+    ctx.strokeStyle = tierColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const val = Math.min(values[i], maxValue); // Cap at maxValue
+        const r = (radius / maxValue) * val;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw data points
+    ctx.fillStyle = tierColor;
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const val = Math.min(values[i], maxValue);
+        const r = (radius / maxValue) * val;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Helper: hex to rgba
+function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// Populate matrix results table
+function populateMatrixResults(lang, langMetrics, cMetrics) {
+    const tbody = document.getElementById('scoreMatrixBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    const cResults = cMetrics?.results || [];
+    const langResults = langMetrics?.results || [];
+
+    // Get time unit
+    const row = document.querySelector(`tr[data-lang="${lang}"]`);
+    const isMs = row?.getAttribute('data-time-unit') === 'ms';
+
+    for (let i = 1; i <= 5; i++) {
+        const langResult = langResults.find(r => normalizeMatrix(r.matrix) === String(i));
+        const cResult = cResults.find(r => normalizeMatrix(r.matrix) === String(i));
+
+        const tr = document.createElement('tr');
+
+        // Matrix number
+        const tdMatrix = document.createElement('td');
+        tdMatrix.textContent = i;
+        tdMatrix.style.fontWeight = 'bold';
+        tdMatrix.style.color = '#7aa2f7';
+        tr.appendChild(tdMatrix);
+
+        // Language time
+        const tdTime = document.createElement('td');
+        if (langResult && langResult.time) {
+            const timeVal = parseFloat(langResult.time);
+            tdTime.textContent = isMs ? timeVal.toFixed(2) + ' ms' : timeVal.toFixed(4) + ' s';
+        } else {
+            tdTime.textContent = '-';
+            tdTime.style.color = '#565f89';
+        }
+        tr.appendChild(tdTime);
+
+        // C time
+        const tdCTime = document.createElement('td');
+        if (cResult && cResult.time) {
+            const cTimeVal = parseFloat(cResult.time);
+            tdCTime.textContent = isMs ? cTimeVal.toFixed(2) + ' ms' : cTimeVal.toFixed(4) + ' s';
+        } else {
+            tdCTime.textContent = '-';
+            tdCTime.style.color = '#565f89';
+        }
+        tr.appendChild(tdCTime);
+
+        // Ratio
+        const tdRatio = document.createElement('td');
+        if (langResult && cResult && langResult.time && cResult.time) {
+            const ratio = langResult.time / cResult.time;
+            tdRatio.textContent = ratio.toFixed(2) + 'x';
+            if (ratio < 1) {
+                tdRatio.style.color = '#9ece6a'; // Faster - green
+            } else if (ratio > 1.5) {
+                tdRatio.style.color = '#f7768e'; // Much slower - red
+            } else {
+                tdRatio.style.color = '#ff9e64'; // Similar - orange
+            }
+        } else {
+            tdRatio.textContent = '-';
+            tdRatio.style.color = '#565f89';
+        }
+        tr.appendChild(tdRatio);
+
+        // Iterations
+        const tdIters = document.createElement('td');
+        if (langResult && langResult.iterations) {
+            tdIters.textContent = parseInt(langResult.iterations).toLocaleString();
+        } else {
+            tdIters.textContent = '-';
+            tdIters.style.color = '#565f89';
+        }
+        tr.appendChild(tdIters);
+
+        // Memory
+        const tdMem = document.createElement('td');
+        if (langResult && langResult.memory) {
+            const memMb = langResult.memory / 1024 / 1024;
+            tdMem.textContent = memMb.toFixed(1) + ' MB';
+        } else {
+            tdMem.textContent = '-';
+            tdMem.style.color = '#565f89';
+        }
+        tr.appendChild(tdMem);
+
+        tbody.appendChild(tr);
+    }
+}
+
+// Track current language for variant selection
+let currentScoreModalLang = null;
+
+// Populate variant selector (US-007)
+async function populateVariantSelector(lang) {
+    const selector = document.getElementById('scoreVariantSelector');
+    if (!selector) return;
+
+    try {
+        const res = await fetch(`/api/variants/${encodeURIComponent(lang)}`);
+        if (!res.ok) {
+            selector.style.display = 'none';
+            return;
+        }
+
+        const variants = await res.json();
+
+        // Hide selector if only one variant
+        if (!variants || variants.length <= 1) {
+            selector.style.display = 'none';
+            return;
+        }
+
+        // Populate options
+        selector.innerHTML = '';
+        variants.forEach((v, idx) => {
+            const option = document.createElement('option');
+            option.value = v.variant;
+            const dateStr = v.timestamp ? new Date(v.timestamp).toLocaleDateString() : '';
+            option.textContent = `${v.variant}${dateStr ? ' (' + dateStr + ')' : ''}`;
+            if (idx === 0) option.selected = true;
+            selector.appendChild(option);
+        });
+
+        selector.style.display = 'block';
+    } catch (e) {
+        console.error('Error fetching variants:', e);
+        selector.style.display = 'none';
+    }
+}
+
+// Handle variant selection (US-007)
+window.onVariantSelect = async function(variant) {
+    if (!currentScoreModalLang || !variant) return;
+
+    try {
+        const res = await fetch(`/api/metrics/${encodeURIComponent(currentScoreModalLang)}/${encodeURIComponent(variant)}`);
+        if (!res.ok) {
+            console.error('Failed to fetch variant metrics');
+            return;
+        }
+
+        const variantMetrics = await res.json();
+
+        // Get C baseline
+        const cRes = await fetch('/api/metrics/baseline/c');
+        const cMetrics = cRes.ok ? await cRes.json() : null;
+
+        // Recalculate scores from the variant metrics
+        const results = variantMetrics.results || [];
+        const cResults = cMetrics?.results || [];
+
+        // Calculate average ratios
+        let timeRatios = [], memRatios = [], cpuRatios = [], iterRatios = [];
+
+        results.forEach(r => {
+            const matrixNum = String(r.matrix).replace('.matrix', '');
+            const cResult = cResults.find(cr => String(cr.matrix).replace('.matrix', '') === matrixNum);
+
+            if (cResult) {
+                if (r.time && cResult.time) timeRatios.push(r.time / cResult.time);
+                if (r.memory && cResult.memory) memRatios.push(r.memory / cResult.memory);
+                if (r.cpu_user !== undefined && cResult.cpu_user !== undefined) {
+                    const langCpu = (r.cpu_user || 0) + (r.cpu_sys || 0);
+                    const cCpu = (cResult.cpu_user || 0) + (cResult.cpu_sys || 0);
+                    if (cCpu > 0) cpuRatios.push(langCpu / cCpu);
+                }
+                if (r.iterations && cResult.iterations) iterRatios.push(r.iterations / cResult.iterations);
+            }
+        });
+
+        const avgTime = timeRatios.length > 0 ? timeRatios.reduce((a, b) => a + b, 0) / timeRatios.length : 1;
+        const avgMem = memRatios.length > 0 ? memRatios.reduce((a, b) => a + b, 0) / memRatios.length : 1;
+        const avgCpu = cpuRatios.length > 0 ? cpuRatios.reduce((a, b) => a + b, 0) / cpuRatios.length : 1;
+        const avgIter = iterRatios.length > 0 ? iterRatios.reduce((a, b) => a + b, 0) / iterRatios.length : 1;
+
+        // Composite score (same formula as main report)
+        const score = avgTime * 0.6 + avgMem * 0.4;
+
+        // Determine tier
+        let tier = 'F';
+        if (score <= 1.0) tier = 'S';
+        else if (score <= 1.5) tier = 'A';
+        else if (score <= 3.0) tier = 'B';
+        else if (score <= 10.0) tier = 'C';
+        else if (score <= 50.0) tier = 'D';
+
+        const tierColor = tierColors[tier] || tierColors['F'];
+
+        // Update UI
+        const tierBadge = document.getElementById('scoreModalTierBadge');
+        tierBadge.textContent = tier;
+        tierBadge.className = 'tier-badge tier-' + tier.toLowerCase();
+        tierBadge.style.background = tierColor;
+        tierBadge.style.color = tier === 'S' ? '#000' : '#fff';
+
+        const scoreValue = document.getElementById('scoreModalValue');
+        scoreValue.textContent = score.toFixed(2) + 'x';
+        scoreValue.style.color = score <= 1 ? '#00ff9d' : (score <= 2 ? '#ff9e64' : '#f7768e');
+
+        document.getElementById('scoreTimeRatio').textContent = avgTime.toFixed(2) + 'x';
+        document.getElementById('scoreMemRatio').textContent = avgMem.toFixed(2) + 'x';
+        document.getElementById('scoreCpuRatio').textContent = avgCpu.toFixed(2) + 'x';
+        document.getElementById('scoreIterRatio').textContent = avgIter.toFixed(2) + 'x';
+
+        // Redraw radar chart
+        const breakdownParts = [
+            { label: 'Time', value: avgTime },
+            { label: 'Mem', value: avgMem },
+            { label: 'CPU', value: avgCpu },
+            { label: 'Iter', value: avgIter }
+        ];
+        drawScoreRadarChart(currentScoreModalLang, tier, tierColor, breakdownParts);
+
+        // Update legend
+        const legendSwatch = document.getElementById('legendLangSwatch');
+        if (legendSwatch) legendSwatch.style.background = tierColor;
+
+        // Repopulate matrix results
+        populateMatrixResults(currentScoreModalLang, variantMetrics, cMetrics);
+
+    } catch (e) {
+        console.error('Error loading variant:', e);
+    }
+};
+
+// Add click handler for score cells
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.score-col').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const row = cell.closest('tr');
+            const lang = row?.getAttribute('data-lang');
+            if (lang) {
+                window.openScoreModal(lang);
+            }
+        });
+        cell.style.cursor = 'pointer';
+    });
+});
 

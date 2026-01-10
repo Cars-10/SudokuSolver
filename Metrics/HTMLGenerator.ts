@@ -1011,6 +1011,90 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- Score Modal -->
+    <div id="scoreModal" class="modal" style="display: none;" onclick="closeScoreModal(event)">
+        <div class="modal-content score-modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeScoreModal(event)">&times;</span>
+
+            <!-- Header -->
+            <div class="score-modal-header">
+                <div class="score-modal-title">
+                    <img id="scoreModalImg" class="score-modal-logo" src="" alt="Language Logo">
+                    <div>
+                        <h2 id="scoreModalTitle" style="margin: 0; color: #7aa2f7;"></h2>
+                        <p id="scoreModalSubtitle" style="margin: 5px 0 0 0; color: #565f89; font-size: 0.9em;"></p>
+                        <!-- Variant Selector (US-007) -->
+                        <select id="scoreVariantSelector" onchange="onVariantSelect(this.value)" style="margin-top: 8px; padding: 4px 8px; background: #24283b; color: #c0caf5; border: 1px solid #414868; border-radius: 4px; font-size: 0.85em; display: none;">
+                        </select>
+                    </div>
+                </div>
+                <div id="scoreModalTierBadge" class="tier-badge" style="font-size: 1.2em; width: 40px; height: 40px;"></div>
+            </div>
+
+            <!-- Two-column layout -->
+            <div class="score-modal-body">
+                <!-- Left column: Score breakdown -->
+                <div class="score-modal-left">
+                    <h3 style="color: #7aa2f7; margin: 0 0 15px 0; font-size: 1em; border-bottom: 1px solid #414868; padding-bottom: 8px;">Composite Score</h3>
+                    <div id="scoreModalValue" class="score-modal-value"></div>
+                    <div class="score-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Time Ratio</span>
+                            <span id="scoreTimeRatio" class="breakdown-value"></span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Memory Ratio</span>
+                            <span id="scoreMemRatio" class="breakdown-value"></span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">CPU Ratio</span>
+                            <span id="scoreCpuRatio" class="breakdown-value"></span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Iterations</span>
+                            <span id="scoreIterRatio" class="breakdown-value"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column: Radar chart -->
+                <div class="score-modal-right">
+                    <h3 style="color: #7aa2f7; margin: 0 0 15px 0; font-size: 1em; border-bottom: 1px solid #414868; padding-bottom: 8px;">Performance Profile</h3>
+                    <canvas id="scoreRadarChart" width="280" height="280"></canvas>
+                    <div class="radar-legend">
+                        <div class="legend-item">
+                            <span class="legend-swatch" id="legendLangSwatch" style="background: #00ff9d;"></span>
+                            <span id="legendLangName">This Language</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-swatch" style="background: rgba(122, 162, 247, 0.5);"></span>
+                            <span>C Baseline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matrix Results Table -->
+            <div class="score-modal-matrix">
+                <h3 style="color: #7aa2f7; margin: 0 0 15px 0; font-size: 1em; border-bottom: 1px solid #414868; padding-bottom: 8px;">Matrix Results</h3>
+                <table id="scoreMatrixTable" class="score-matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Matrix</th>
+                            <th>Time</th>
+                            <th>C Time</th>
+                            <th>Ratio</th>
+                            <th>Iterations</th>
+                            <th>Memory</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoreMatrixBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- Slide-out Side Panel -->
     <div id="slidePanel" style="position: fixed; top: 0; right: -600px; width: 600px; height: 100%; background: #1a1b26; border-left: 1px solid #414868; box-shadow: -5px 0 15px rgba(0,0,0,0.5); z-index: 3000; transition: right 0.3s ease-in-out; display: flex; flex-direction: column;">
         <div style="padding: 15px; background: #16161e; border-bottom: 1px solid #414868; display: flex; justify-content: space-between; align-items: center;">

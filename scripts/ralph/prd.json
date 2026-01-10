@@ -1,214 +1,150 @@
 {
   "project": "SudokuSolver",
-  "branchName": "ralph/fix-env-errors",
-  "description": "Fix Environment Errors - Fix runMe.sh scripts and document package requirements for 16 languages with environment errors preventing them from running in Docker",
+  "branchName": "ralph/ui-refinements-v2",
+  "description": "UI Refinements v2 - Clean up language cells, improve Score Modal layout, add variant comparison, and fix single-matrix run behavior",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Fix Ada runMe.sh and document",
-      "description": "As a developer, I want Ada to run correctly when gnat is installed.",
+      "title": "Remove expand chevron from language cells",
+      "description": "As a user, I want a cleaner language cell without the '>' chevron so the interface looks less cluttered.",
       "acceptanceCriteria": [
-        "Check if gnatmake exists in Docker: docker exec sudokusolver-app-1 which gnatmake",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain gnatmake in compile() function",
-        "Create/update README.md documenting gnat requirement (apt install gnat)",
-        "If gnatmake not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
+        "Remove <span class='expand-chevron'>...</span> from language cell in HTMLGenerator.ts",
+        "Remove any CSS for .expand-chevron class",
+        "Language cells show only: logo, name, type icon (Docker/Local/AI), and year",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 1,
       "passes": true,
-      "notes": "Already properly configured - verified working with 656 iterations"
+      "notes": "Completed by Ralph iteration 1"
     },
     {
       "id": "US-002",
-      "title": "Analyze Assembly architecture requirements",
-      "description": "As a developer, I want to understand the current Assembly implementation before creating architecture variants.",
+      "title": "Reduce table column widths by 10%",
+      "description": "As a user, I want the benchmark table columns to be thinner so the entire table fits within the viewport.",
       "acceptanceCriteria": [
-        "Read Languages/Assembly/Sudoku.s to understand current implementation",
-        "Read Languages/Assembly/runMe.sh to understand build process",
-        "Identify which architecture the current code targets (x86_64 or ARM64)",
-        "Document findings in Languages/Assembly/README.md",
-        "Note: Creating architecture variants is out of scope - just document current state"
+        "Reduce padding and min-width on all table columns by approximately 10%",
+        "Language column: reduce padding/min-width",
+        "Matrix columns: reduce min-width from current value",
+        "Table fits within 1920px viewport without horizontal scroll",
+        "Content remains readable and not overly cramped",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 2,
       "passes": true,
-      "notes": "Both x86_64 (NASM) and ARM64 (GCC) variants exist. Fixed runMe.sh with METRICS_FILE/TIMEOUT_SECONDS. Verified 656 iterations on ARM64."
+      "notes": "Completed by Ralph iteration 2"
     },
     {
       "id": "US-003",
-      "title": "Fix BASIC runMe.sh and document",
-      "description": "As a developer, I want BASIC (FreeBASIC) to run correctly when fbc is installed.",
+      "title": "Make Score Modal wider with two-column layout",
+      "description": "As a user, I want the Score Modal to be wider with Performance Profile chart next to Composite Score section.",
       "acceptanceCriteria": [
-        "Check if fbc exists in Docker: docker exec sudokusolver-app-1 which fbc",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain fbc in compile() function",
-        "Create/update README.md documenting FreeBASIC requirement",
-        "If fbc not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
+        "Increase Score Modal width to ~800px or 90vw (whichever is smaller)",
+        "Create two-column layout: scores/breakdown on left, radar chart on right",
+        "Use CSS flexbox or grid for responsive side-by-side layout",
+        "Matrix Results table remains full-width below the two columns",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 3,
       "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. fbc is installed in Docker, verified 656 iterations."
+      "notes": "CSS already had two-column layout. Added full Score Modal JavaScript implementation including openScoreModal, closeScoreModal, radar chart drawing, and matrix results population."
     },
     {
       "id": "US-004",
-      "title": "Fix Crystal runMe.sh and document",
-      "description": "As a developer, I want Crystal to run correctly when crystal is installed.",
+      "title": "Match radar chart color to score tier color",
+      "description": "As a user, I want the Performance Profile radar polygon to use the same color as the tier badge.",
       "acceptanceCriteria": [
-        "Check if crystal exists in Docker: docker exec sudokusolver-app-1 which crystal",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain crystal in compile() function",
-        "Create/update README.md documenting Crystal installation (requires special apt repo setup)",
-        "If crystal not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
+        "Radar chart polygon color matches tier: S=gold(#ffd700), A=green(#00ff9d), B=blue(#7aa2f7), C=orange(#ff9e64), D=pink(#f7768e), F=red(#db4b4b)",
+        "Update drawScoreRadarChart() to accept tier as parameter",
+        "C baseline polygon remains neutral color (e.g., rgba(122, 162, 247, 0.3))",
+        "Legend updates to show tier-colored swatch for 'This Language'",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 4,
       "passes": true,
-      "notes": "Fixed runMe.sh with proper compile(). Crystal not installed in Docker - properly reports env_error."
+      "notes": "Added tierColors mapping and drawScoreRadarChart function that uses tier color for polygon fill and stroke."
     },
     {
       "id": "US-005",
-      "title": "Investigate and fix C_Sharp build failure",
-      "description": "As a developer, I want C# to build and run correctly.",
+      "title": "Create API endpoint for language variants",
+      "description": "As a developer, I need an API endpoint to retrieve all available variants for a language.",
       "acceptanceCriteria": [
-        "Run docker exec -w /app/Languages/C_Sharp sudokusolver-app-1 dotnet build to see error",
-        "Identify root cause of build failure",
-        "Fix project configuration or code as needed",
-        "Update runMe.sh if needed with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Create/update README.md with any special requirements",
-        "Test: docker exec -w /app/Languages/C_Sharp sudokusolver-app-1 ./runMe.sh ../../Matrices/1.matrix"
+        "Create GET /api/variants/:language endpoint in server/index.js",
+        "Returns array of variant objects: [{variant, timestamp, runType}, ...]",
+        "Sorted by timestamp descending (most recent first)",
+        "If no variants field exists, return single entry with variant: 'default'",
+        "Handle missing language gracefully with 404",
+        "Typecheck passes"
       ],
       "priority": 5,
       "passes": true,
-      "notes": "Root cause: .csproj targeted net9.0 but Docker has .NET 8.0. Fixed by changing to net8.0. Build now succeeds."
+      "notes": "Added GET /api/variants/:language endpoint in server/index.js"
     },
     {
       "id": "US-006",
-      "title": "Fix Fish runMe.sh and document",
-      "description": "As a developer, I want Fish shell to run correctly when fish is installed.",
+      "title": "Create API endpoint for specific variant metrics",
+      "description": "As a developer, I need an API endpoint to fetch metrics for a specific variant.",
       "acceptanceCriteria": [
-        "Check if fish exists in Docker: docker exec sudokusolver-app-1 which fish",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain fish in compile() function",
-        "Create/update README.md documenting fish requirement (apt install fish)",
-        "If fish not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
+        "Create GET /api/metrics/:language/:variant endpoint in server/index.js",
+        "Returns the full metrics run object for the specified variant",
+        "If variant not found, return 404",
+        "Include all matrix results for that variant",
+        "Typecheck passes"
       ],
       "priority": 6,
       "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. fish is installed in Docker, runs successfully."
+      "notes": "Added GET /api/metrics/:language/:variant endpoint and supporting endpoints for baseline and single language metrics."
     },
     {
       "id": "US-007",
-      "title": "Fix Jupyter runMe.sh and document",
-      "description": "As a developer, I want Jupyter to run correctly when jupyter is installed.",
+      "title": "Add variant selector dropdown to Score Modal",
+      "description": "As a user, I want to select different benchmark variants to compare performance across runs.",
       "acceptanceCriteria": [
-        "Check if jupyter exists in Docker: docker exec sudokusolver-app-1 which jupyter",
-        "Read existing runMe.sh to understand Jupyter notebook execution method",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain for jupyter or python3 as appropriate",
-        "Create/update README.md documenting jupyter requirement (pip install jupyter)",
-        "If jupyter not installed, script should report env_error gracefully"
+        "Add dropdown selector near score display in Score Modal",
+        "Dropdown populated with available variants from /api/variants/:language",
+        "Default selection is the most recent run",
+        "Selecting a variant updates: score, breakdown ratios, radar chart, matrix results",
+        "If only one variant exists, dropdown is hidden or disabled",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 7,
       "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. jupyter is installed, verified 656 iterations."
+      "notes": "Added variant selector dropdown in Score Modal header. Added populateVariantSelector() and onVariantSelect() functions to handle variant switching."
     },
     {
       "id": "US-008",
-      "title": "Fix Ksh runMe.sh and document",
-      "description": "As a developer, I want Korn shell to run correctly when ksh is installed.",
+      "title": "Update timestamp after single matrix run",
+      "description": "As a user, I want the 'Updated' column to reflect the most recent run time when I run a single matrix.",
       "acceptanceCriteria": [
-        "Check if ksh exists in Docker: docker exec sudokusolver-app-1 which ksh",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain ksh in compile() function",
-        "Create/update README.md documenting ksh requirement (apt install ksh)",
-        "If ksh not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
+        "After single matrix run completes, update the row's timestamp in the UI",
+        "'Updated' column shows 'Just now' or appropriate relative time",
+        "The data-timestamp attribute on the row is updated to current time",
+        "Server updates the outer timestamp field in metrics.json when merging",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
       ],
       "priority": 8,
       "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. ksh is installed in Docker, runs successfully."
+      "notes": "Updated /api/run to return timestamp. Updated runSolver() to update row timestamp and Updated column immediately after run."
     },
     {
       "id": "US-009",
-      "title": "Investigate and fix Objective-C build failure",
-      "description": "As a developer, I want Objective-C to build and run correctly in Linux if possible.",
+      "title": "Add per-matrix run timestamps",
+      "description": "As a developer, I need each matrix result to track its individual run timestamp.",
       "acceptanceCriteria": [
-        "Run compilation manually to see full error output",
-        "Determine if GNUstep or other libraries are needed",
-        "If fixable: install dependencies, update runMe.sh",
-        "If not fixable in Linux: document as platform-limited like AppleScript",
-        "Create/update README.md with requirements or limitations",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS"
+        "Update /api/run endpoint to add run_timestamp to each matrix result",
+        "When running single matrix, only that result's run_timestamp is updated",
+        "When running all matrices, all results get the same run_timestamp",
+        "Backward compatible: existing results without run_timestamp handled gracefully",
+        "Typecheck passes"
       ],
       "priority": 9,
       "passes": true,
-      "notes": "GNUstep is installed in Docker. Fixed runMe.sh with better error handling. Created README.md. Verified 445778 iterations on matrix 5."
-    },
-    {
-      "id": "US-010",
-      "title": "Fix Smalltalk runMe.sh and document",
-      "description": "As a developer, I want GNU Smalltalk to run correctly when gst is installed.",
-      "acceptanceCriteria": [
-        "Check if gst exists in Docker: docker exec sudokusolver-app-1 which gst",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain gst in compile() function",
-        "Create/update README.md documenting gnu-smalltalk requirement (apt install gnu-smalltalk)",
-        "If gst not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
-      ],
-      "priority": 10,
-      "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. gst not installed in Docker - properly reports env_error."
-    },
-    {
-      "id": "US-011",
-      "title": "Fix Vimscript runMe.sh and document",
-      "description": "As a developer, I want Vimscript to run correctly when vim is installed.",
-      "acceptanceCriteria": [
-        "Check if vim exists in Docker: docker exec sudokusolver-app-1 which vim",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain vim in compile() function",
-        "Create/update README.md documenting vim requirement (apt install vim)",
-        "If vim not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
-      ],
-      "priority": 11,
-      "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. vim is installed in Docker, runs successfully."
-    },
-    {
-      "id": "US-012",
-      "title": "Fix XSLT runMe.sh and document",
-      "description": "As a developer, I want XSLT to run correctly when xsltproc is installed.",
-      "acceptanceCriteria": [
-        "Check if xsltproc exists in Docker: docker exec sudokusolver-app-1 which xsltproc",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain xsltproc in compile() function",
-        "Create/update README.md documenting xsltproc requirement (apt install xsltproc)",
-        "If xsltproc not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
-      ],
-      "priority": 12,
-      "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. xsltproc is installed in Docker, runs successfully."
-    },
-    {
-      "id": "US-013",
-      "title": "Fix Zsh runMe.sh and document",
-      "description": "As a developer, I want Zsh to run correctly when zsh is installed.",
-      "acceptanceCriteria": [
-        "Check if zsh exists in Docker: docker exec sudokusolver-app-1 which zsh",
-        "Update runMe.sh with proper SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS",
-        "Add check_toolchain zsh in compile() function",
-        "Create/update README.md documenting zsh requirement (apt install zsh)",
-        "If zsh not installed, script should report env_error gracefully",
-        "Test: verify runMe.sh runs without crashing when toolchain missing"
-      ],
-      "priority": 13,
-      "passes": true,
-      "notes": "Fixed runMe.sh, created README.md. zsh is installed in Docker, runs successfully."
+      "notes": "Updated /api/run merge logic to properly handle run/results structure and add run_timestamp to each matrix result."
     }
   ]
 }
