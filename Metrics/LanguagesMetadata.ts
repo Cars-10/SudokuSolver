@@ -173,7 +173,21 @@ export const languageHistories: Record<string, string> = {
 };
 
 // --- Language Metadata (creator info, descriptions, etc.) ---
-export const languageMetadata: Record<string, any> = {
+export interface LanguageMeta {
+    creator: string;
+    date: string;
+    description: string;
+    image?: string;
+    logo?: string;
+    location?: string;
+    benefits?: string;
+    related?: string;
+    history?: string;
+    paradigm?: string;
+    typeSystem?: string;
+}
+
+export const languageMetadata: Record<string, LanguageMeta> = {
     "Ada": {
         "creator": "Jean Ichbiah",
         "date": "1980",
@@ -238,8 +252,9 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/C.png",
         "location": "Bell Labs, USA",
         "benefits": "High performance, portability, low-level access, massive legacy.",
-        "related": "B, BCPL, Algol 68, C++, C#, Java, Objective-C, Go, Rust, Zig"
-    ,
+        "related": "B, BCPL, Algol 68, C++, C#, Java, Objective-C, Go, Rust, Zig",
+        "paradigm": "Imperative, Structured",
+        "typeSystem": "Static, Weak",
         "history": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards."
     },
     "C++": {
@@ -429,8 +444,9 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/Java.png",
         "location": "Sun Microsystems, USA",
         "benefits": "Platform independence, vast ecosystem, enterprise-grade.",
-        "related": "C++, Smalltalk, Objective-C, C#, Kotlin, Scala"
-    ,
+        "related": "C++, Smalltalk, Objective-C, C#, Kotlin, Scala",
+        "paradigm": "Object-oriented, Class-based, Imperative",
+        "typeSystem": "Static, Strong",
         "history": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades."
     },
     "JavaScript": {
@@ -441,8 +457,9 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/JavaScript.png",
         "location": "Netscape, USA",
         "benefits": "Ubiquitous, versatile, huge ecosystem, async capabilities.",
-        "related": "Self, Scheme, Java, ECMAScript, TypeScript"
-    ,
+        "related": "Self, Scheme, Java, ECMAScript, TypeScript",
+        "paradigm": "Multi-paradigm, Event-driven, Functional, Imperative, Prototype-based",
+        "typeSystem": "Dynamic, Weak",
         "history": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem."
     },
     "Julia": {
@@ -568,8 +585,9 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/Python.png",
         "location": "CWI, Netherlands",
         "benefits": "Readability, versatility, massive ecosystem, beginner-friendly.",
-        "related": "ABC, C, Haskell, Lisp, Perl, Ruby, Java"
-    ,
+        "related": "ABC, C, Haskell, Lisp, Perl, Ruby, Java",
+        "paradigm": "Multi-paradigm, Functional, Imperative, Object-oriented, Structured",
+        "typeSystem": "Dynamic, Strong",
         "history": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services."
     },
     "R": {
@@ -615,8 +633,9 @@ export const languageMetadata: Record<string, any> = {
         "logo": "logos/Rust.png",
         "location": "Mozilla, USA",
         "benefits": "Memory safety, concurrency, performance, no GC.",
-        "related": "C++, ML, Haskell, Erlang, Swift, C"
-    ,
+        "related": "C++, ML, Haskell, Erlang, Swift, C",
+        "paradigm": "Multi-paradigm, Concurrent, Functional, Imperative, Structured",
+        "typeSystem": "Static, Strong, Safe",
         "history": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance."
     },
     "Scala": {
