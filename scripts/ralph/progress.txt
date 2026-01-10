@@ -2,6 +2,7 @@
 
 ## Codebase Patterns
 - Configuration: `tsconfig.json` in `Metrics/` needs "DOM" lib for Puppeteer scripts.
+- Code Organization: Shared CSS should be in `Metrics/SharedStyles.ts`.
 
 Started: Sat Jan 10 15:54:31 CET 2026
 ---
@@ -14,4 +15,15 @@ Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
 - **Learnings for future iterations:**
   - `server/index.js` contained a fallback mechanism that hid failures in the primary TypeScript generator.
   - `Metrics` project has a `package.json` and `tsconfig.json` that need to be maintained.
+---
+## [2026-01-10] - US-002 & US-004
+Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
+- Extracted CSS from `Metrics/HTMLGenerator.ts` to `Metrics/SharedStyles.ts`.
+- Updated `Metrics/HTMLGenerator.ts` to import and use `SharedStyles`.
+- Verified generation of `_report.html` and screenshot creation.
+- Typecheck passed.
+- **Learnings for future iterations:**
+  - `sed` on macOS requires a newline after the insert/change command (e.g., `sed -i '' '...c\'`).
+  - `HTMLGenerator.ts` contained a very large inline style block (~600 lines) which made tool-based replacement tricky; using `sed` with line ranges was safer.
+  - US-002 and US-004 were tightly coupled; it was better to do them together to avoid leaving the codebase in a broken state.
 ---
