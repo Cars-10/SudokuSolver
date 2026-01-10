@@ -27,3 +27,15 @@ Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
   - `HTMLGenerator.ts` contained a very large inline style block (~600 lines) which made tool-based replacement tricky; using `sed` with line ranges was safer.
   - US-002 and US-004 were tightly coupled; it was better to do them together to avoid leaving the codebase in a broken state.
 ---
+
+## [2026-01-10] - US-003
+Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
+- Updated `Metrics/HTMLGenerator.ts`'s `generateHistoryHtml` to use `SharedStyles`.
+- Refactored HTML structure to use `.history-container` and Neon-themed table styles.
+- Added status coloring matching the main report.
+- Verified generation using a test script and manual typecheck.
+- **Learnings for future iterations:**
+  - `ts-node` configuration in subdirectories can be tricky; running with `--project` is safer.
+  - Template literals with backticks in code generation scripts need careful escaping when using tool calls like `replace`.
+  - `HTMLGenerator.ts` handles both report types, which is good for sharing logic but makes the file large.
+---
