@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y \
     jq \
     dc \
     bc \
+    sed \
     vim \
     xsltproc \
     zsh \
