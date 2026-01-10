@@ -2,17 +2,17 @@
   {
     "solver": "Nim",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:28Z",
+    "timestamp": "2026-01-10T18:11:35Z",
     "results": [
       {
         "matrix": "1",
-        "time": 1.4349,
+        "time": 1.0664,
         "iterations": 656,
-        "memory": 11362304,
-        "cpu_user": 0.48,
-        "cpu_sys": 0.725,
+        "memory": 11309056,
+        "cpu_user": 0.341,
+        "cpu_sys": 0.515,
         "page_faults_major": 1,
-        "page_faults_minor": 156,
+        "page_faults_minor": 154,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

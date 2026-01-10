@@ -14,7 +14,7 @@
         "Dockerfile syntax is valid (no build errors from this change)"
       ],
       "priority": 1,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
@@ -27,7 +27,7 @@
         "Dockerfile syntax is valid (no build errors from this change)"
       ],
       "priority": 2,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
@@ -43,7 +43,7 @@
         "Dockerfile syntax is valid (no build errors from this change)"
       ],
       "priority": 3,
-      "passes": true,
+      "passes": false,
       "notes": ""
     }
   ]

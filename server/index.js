@@ -124,8 +124,8 @@ app.post('/api/run', (req, res) => {
     // server/../Languages/Lang -> server/../Matrices/1.matrix
     // We need to match how runBenchmarks.sh passes arguments
     // runBenchmarks.sh passes: ../../../Matrices/${m}.matrix
-    // The CWD when running setupAndRunMe.sh is the language directory.
-    // So `../../../Matrices` from `Languages/Lang` refers to `Matrices` at root.
+    // The CWD when running runMe.sh is the language directory.
+    // So `../../Matrices` from `Languages/Lang` refers to `Matrices` at root.
 
     const metricsFile = path.join(langDir, 'metrics.json');
     let previousMetrics = [];
@@ -142,9 +142,7 @@ app.post('/api/run', (req, res) => {
     console.log(`Running ${language} with ${matrix || 'ALL matrices'}...`);
 
     // If matrix is missing, run all (default script behavior)
-    // Try runMe.sh first (new pattern), fall back to setupAndRunMe.sh (legacy)
-    const runMeScript = fs.existsSync(path.join(langDir, 'runMe.sh')) ? './runMe.sh' : './setupAndRunMe.sh';
-    let command = runMeScript;
+    let command = './runMe.sh';
     if (matrix) {
         const matrixArg = `../../Matrices/${matrix}`;
         command += ` ${matrixArg}`;

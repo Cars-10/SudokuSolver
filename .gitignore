@@ -102,3 +102,22 @@ server/master.zip
 server/red-cli-066
 .gitignore
 server/v1.40.1.zip
+
+# FreeBASIC installation (downloaded during Docker builds)
+server/FreeBASIC-*/
+
+# Downloaded packages and archives
+*.deb
+*.tar.gz
+server/download
+
+# Compiled language artifacts
+*.beam
+Languages/Verilog/sudoku_sim
+
+# Backup files
+*.bak
+
+# Debug/test files
+**/last_timing_debug.txt
+**/test.matrix

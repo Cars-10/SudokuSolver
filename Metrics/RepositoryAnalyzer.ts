@@ -23,7 +23,7 @@ export async function readReferenceOutputs(rootDir: string): Promise<Record<stri
 }
 
 export async function findSolvers(rootDir: string): Promise<string[]> {
-    const solvers = await glob(path.join(rootDir, 'Languages', '*', 'setupAndRunMe.sh'));
+    const solvers = await glob(path.join(rootDir, 'Languages', '*', 'runMe.sh'));
 
     const allSolvers = [...solvers];
     const filteredSolvers = allSolvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));

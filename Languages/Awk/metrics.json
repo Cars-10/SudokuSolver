@@ -2,17 +2,17 @@
   {
     "solver": "Awk",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:53:40Z",
+    "timestamp": "2026-01-10T18:05:56Z",
     "results": [
       {
         "matrix": "1",
-        "time": 7.1767,
+        "time": 2.6006,
         "iterations": 656,
-        "memory": 11366400,
-        "cpu_user": 2.829,
-        "cpu_sys": 4.031,
+        "memory": 11333632,
+        "cpu_user": 1.366,
+        "cpu_sys": 1.042,
         "page_faults_major": 0,
-        "page_faults_minor": 168,
+        "page_faults_minor": 161,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,
