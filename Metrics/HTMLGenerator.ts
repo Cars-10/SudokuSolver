@@ -1388,42 +1388,44 @@ export function generateHistoryHtml(history: any[]): string {
 
     return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
         <title>Benchmark History</title>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./Metrics/index.css">
         <style>
-            body { font-family: 'JetBrains Mono', monospace; background: #0d0d12; color: #e0e0e0; padding: 20px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
-            th, td { border: 1px solid #2a2a35; padding: 4px 8px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-            th { background: #1a1a20; color: #00ff9d; cursor: pointer; user-select: none; }
-            th:hover { background: #2a2a35; color: #fff; }
-            tr:nth-child(even) { background: #16161e; }
-            h1 { color: #00ff9d; font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 2px; }
-            .status-failure, .status-error, .status-suspect { color: #ff0055; font-weight: bold; }
-            .status-optimized { color: #00b8ff; }
-            
-            /* Matrix Timing Style for Time Column */
-            .time-val { font-size: 1.1em; font-weight: bold; color: #fff; font-family: 'JetBrains Mono', monospace; }
+            ${SharedStyles}
+            /* History-specific overrides */
+            body { padding: 40px; }
+            .history-container { max-width: 1400px; margin: 0 auto; }
+            .status-success { color: #00ff9d; font-weight: bold; }
+            .status-failure, .status-error, .status-timeout { color: #ff0055; font-weight: bold; }
+            .time-val { font-family: 'JetBrains Mono', monospace; color: #fff; }
         </style>
         <script>
             function sortTable(n) {
                 var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                table = document.querySelector("table");
+                table = document.getElementById("historyTable");
                 switching = true;
                 dir = "asc";
                 while (switching) {
                     switching = false;
                     rows = table.rows;
+                    // Start loop at 1 to skip header
                     for (i = 1; i < (rows.length - 1); i++) {
                         shouldSwitch = false;
                         x = rows[i].getElementsByTagName("TD")[n];
                         y = rows[i + 1].getElementsByTagName("TD")[n];
                         var xContent = x.innerText.toLowerCase();
                         var yContent = y.innerText.toLowerCase();
-                        if (!isNaN(parseFloat(xContent)) && !isNaN(parseFloat(yContent))) {
-                             xContent = parseFloat(xContent);
-                             yContent = parseFloat(yContent);
+                        
+                        // Numeric sort for Time (3) and Iterations (4)
+                        if (n === 3 || n === 4) {
+                            xContent = parseFloat(xContent.replace(/[^0-9.]/g, '')) || 0;
+                            yContent = parseFloat(yContent.replace(/[^0-9.]/g, '')) || 0;
                         }
+                        
                         if (dir == "asc") {
                             if (xContent > yContent) { shouldSwitch = true; break; }
                         } else if (dir == "desc") {
@@ -1445,31 +1447,47 @@ export function generateHistoryHtml(history: any[]): string {
         </script>
     </head>
     <body>
-        <h1>Benchmark History</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)" style="width: 200px;">Timestamp ↕</th>
-                    <th onclick="sortTable(1)">Solver ↕</th>
-                    <th onclick="sortTable(2)">Matrix ↕</th>
-                    <th onclick="sortTable(3)">Time (s) ↕</th>
-                    <th onclick="sortTable(4)">Iterations ↕</th>
-                    <th onclick="sortTable(5)">Status ↕</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows.map(r => `
-                    <tr>
-                        <td>${new Date(r.timestamp).toLocaleString()}</td>
-                        <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
-                        <td>${r.matrix}</td>
-                        <td class="time-val">${(r.time ?? 0).toFixed(2)} ms</td>
-                        <td>${r.iterations ?? '-'}</td>
-                        <td class="status-${(r.status || 'unknown').toLowerCase()}">${r.status || '-'}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
+        <div class="history-container">
+            <h1>Benchmark History</h1>
+            
+            <div style="margin-bottom: 20px; text-align: right;">
+                <a href="benchmark_report.html" class="btn">View Latest Report</a>
+            </div>
+
+            <div class="container" style="width: 100%; padding: 0;">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)" style="cursor: pointer;">Timestamp ↕</th>
+                            <th onclick="sortTable(1)" style="cursor: pointer;">Solver ↕</th>
+                            <th onclick="sortTable(2)" style="cursor: pointer;">Matrix ↕</th>
+                            <th onclick="sortTable(3)" style="cursor: pointer;">Time ↕</th>
+                            <th onclick="sortTable(4)" style="cursor: pointer;">Iterations ↕</th>
+                            <th onclick="sortTable(5)" style="cursor: pointer;">Status ↕</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map(r => {
+                            const statusLower = (r.status || 'unknown').toLowerCase();
+                            // Heuristic for time unit: after Dec 30 2025 is ms
+                            const isMs = new Date(r.timestamp).getTime() >= new Date('2025-12-30').getTime();
+                            const timeDisplay = isMs ? `${(r.time ?? 0).toFixed(2)} ms` : `${(r.time ?? 0).toFixed(4)} s`;
+                            
+                            return `
+                            <tr>
+                                <td style="color: var(--muted); font-size: 0.9em;">${new Date(r.timestamp).toLocaleString()}</td>
+                                <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
+                                <td>${r.matrix}</td>
+                                <td class="time-val">${timeDisplay}</td>
+                                <td>${r.iterations?.toLocaleString() ?? '-'}</td>
+                                <td class="status-${statusLower}">${r.status || '-'}</td>
+                            </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </body>
     </html>
     `;
