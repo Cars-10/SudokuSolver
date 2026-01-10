@@ -1,29 +1,17 @@
 # Ralph Progress Log
-Started: Sat Jan 10 14:36:06 CET 2026
----
 
 ## Codebase Patterns
-- TypeScript typecheck has a pre-existing ScreenshotUtils.ts error (window not defined) - this is expected and can be ignored
-- The expand-chevron was the mechanism for expanding language rows; now removed, rows only show modal on click
+- Configuration: `tsconfig.json` in `Metrics/` needs "DOM" lib for Puppeteer scripts.
 
+Started: Sat Jan 10 15:54:31 CET 2026
 ---
-
-## 2026-01-10 - US-002
-- What was implemented: Reduced table column widths to fit within viewport
-- Files changed:
-  - Metrics/index.css: Reduced th/td padding from 15px to 12px, reduced compiler-col and memory-col min/max widths by ~10%
+## [2026-01-10] - US-001
+Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
+- Deleted `Metrics/generate_report_simple.js` and `Metrics/generate_report_only.js`.
+- Removed fallback logic in `server/index.js` that tried to use the simple generator.
+- Fixed `Metrics/tsconfig.json` to include "DOM" lib, resolving a pre-existing type error in `ScreenshotUtils.ts`.
+- Created `Metrics/AGENTS.md` to document the tsconfig requirement.
 - **Learnings for future iterations:**
-  - Table styling is in Metrics/index.css, not inline in HTMLGenerator.ts
-  - The CSS file is linked via `<link rel="stylesheet" href="./Metrics/index.css">` in the generated report
----
-
-## 2026-01-10 - US-001
-- What was implemented: Removed expand chevron from language cells for cleaner interface
-- Files changed:
-  - Metrics/HTMLGenerator.ts: Removed `<span class="expand-chevron">›</span>` from language cell
-  - Metrics/index.css: Removed .expand-chevron CSS styles
-  - Metrics/report_client.js: Removed expand-chevron click handler
-- **Learnings for future iterations:**
-  - The expand functionality is now gone - language cells only open the modal on click
-  - The pre-existing ScreenshotUtils.ts typecheck error is unrelated to code changes
+  - `server/index.js` contained a fallback mechanism that hid failures in the primary TypeScript generator.
+  - `Metrics` project has a `package.json` and `tsconfig.json` that need to be maintained.
 ---
