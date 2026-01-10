@@ -119,23 +119,7 @@ td:hover {
     text-decoration-color: var(--secondary);
 }
 
-/* Chevron indicator for expandable rows */
-.expand-chevron {
-    display: inline-block;
-    margin-right: 8px;
-    transition: transform 0.15s ease;
-    color: var(--secondary);
-    font-size: 1.4em;
-    font-weight: bold;
-    vertical-align: middle;
-}
-
-tr.expanded .expand-chevron {
-    transform: rotate(90deg);
-    color: var(--primary);
-}
-
-/* Run button styling - make it distinct from chevron */
+/* Run button styling */
 .run-btn {
     background: rgba(0, 255, 157, 0.15) !important;
     border: 1px solid rgba(0, 255, 157, 0.4) !important;

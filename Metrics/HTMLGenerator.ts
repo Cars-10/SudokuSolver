@@ -1700,7 +1700,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
-                <span class="expand-chevron">›</span>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
