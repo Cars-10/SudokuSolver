@@ -24,9 +24,7 @@ export async function readReferenceOutputs(rootDir: string): Promise<Record<stri
 
 export async function findSolvers(rootDir: string): Promise<string[]> {
     const solvers = await glob(path.join(rootDir, 'Languages', '*', 'runMe.sh'));
-
-    const allSolvers = [...solvers];
-    const filteredSolvers = allSolvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
+    const filteredSolvers = solvers.filter(s => !s.includes('/Racket/') && !s.includes('/Cobol/'));
 
     console.log(`Found ${filteredSolvers.length} solvers (excluding Racket and Cobol):`, filteredSolvers);
     return filteredSolvers;

@@ -2,7 +2,7 @@
   {
     "solver": "XSLT",
     "runType": "automated",
-    "timestamp": "2026-01-10T16:58:20Z",
+    "timestamp": "2026-01-10T18:16:51Z",
     "results": [
       {
         "matrix": "N/A",
@@ -16,17 +16,17 @@
       },
       {
         "matrix": "1",
-        "time": 43.8113,
+        "time": 14.9593,
         "iterations": 656,
-        "memory": 2834432,
-        "cpu_user": 14.709,
-        "cpu_sys": 11.805,
-        "page_faults_major": 29,
-        "page_faults_minor": 2319,
-        "context_switches_voluntary": 16,
-        "context_switches_involuntary": 139,
-        "io_inputs": 0,
-        "io_outputs": 0,
+        "memory": 11309056,
+        "cpu_user": 8.258,
+        "cpu_sys": 7.773,
+        "page_faults_major": 10,
+        "page_faults_minor": 1440,
+        "context_switches_voluntary": 20,
+        "context_switches_involuntary": 2,
+        "io_inputs": 16600,
+        "io_outputs": 16,
         "status": "success",
         "output": "../../Matrices/1.matrix\n\nPuzzle:\n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=656\n"
       },

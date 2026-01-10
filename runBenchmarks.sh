@@ -87,7 +87,6 @@ run_benchmark() {
     
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${GREEN}Running $lang${NC} with matrices: ${YELLOW}$matrices${NC}"
-    echo "DEBUG: matrix_args=$matrix_args"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     
     cd "$lang_dir"
@@ -161,10 +160,8 @@ case "$1" in
         ;;
     --report)
         echo -e "${BLUE}Generating benchmark report...${NC}"
-        cd ..
-        SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-(cd "$SCRIPT_DIR/Metrics" && npx ts-node generate_report_only.ts)
-        echo -e "${GREEN}✓ Report generated: benchmark_report.html${NC}"
+        (cd Metrics && npx ts-node generate_report_only.ts)
+        echo -e "${GREEN}✓ Report generated: _report.html${NC}"
         ;;
     --pending)
         echo -e "${YELLOW}Running all pending languages...${NC}"
