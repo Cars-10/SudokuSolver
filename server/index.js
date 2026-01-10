@@ -552,6 +552,17 @@ function normalizeLanguageName(lang) {
     return mapping[lang] || lang;
 }
 
+// Helper: get the latest run from a metrics array (sorted by timestamp descending)
+function getLatestRun(metrics) {
+    if (!Array.isArray(metrics) || metrics.length === 0) {
+        return metrics;
+    }
+    const sorted = [...metrics].sort((a, b) =>
+        new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime()
+    );
+    return sorted[0];
+}
+
 // Get metrics for a specific language (latest run)
 app.get('/api/metrics/:language', (req, res) => {
     try {
@@ -563,17 +574,7 @@ app.get('/api/metrics/:language', (req, res) => {
         }
 
         const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-
-        // metrics.json is an array of runs - get the latest one
-        if (Array.isArray(metrics) && metrics.length > 0) {
-            // Sort by timestamp descending and get the first
-            const sorted = [...metrics].sort((a, b) =>
-                new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime()
-            );
-            res.json(sorted[0]);
-        } else {
-            res.json(metrics);
-        }
+        res.json(getLatestRun(metrics));
     } catch (error) {
         console.error('Error reading metrics:', error);
         res.status(500).json({ error: 'Failed to read metrics' });
@@ -590,16 +591,7 @@ app.get('/api/metrics/baseline/c', (req, res) => {
         }
 
         const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-
-        // Get the latest run
-        if (Array.isArray(metrics) && metrics.length > 0) {
-            const sorted = [...metrics].sort((a, b) =>
-                new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime()
-            );
-            res.json(sorted[0]);
-        } else {
-            res.json(metrics);
-        }
+        res.json(getLatestRun(metrics));
     } catch (error) {
         console.error('Error reading C baseline:', error);
         res.status(500).json({ error: 'Failed to read C baseline' });

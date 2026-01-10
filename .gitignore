@@ -93,14 +93,14 @@ screenshots/benchmark_.png
 Languages/*/Sudoku_bin
 Languages/*/run_type
 
-# screenshots
-screenshots/
+# Audit and test files
 audit_output_*.txt
 test*
+
+# Server downloads and archives
 server/download.1
 server/master.zip
 server/red-cli-066
-.gitignore
 server/v1.40.1.zip
 
 # FreeBASIC installation (downloaded during Docker builds)
