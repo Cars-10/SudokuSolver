@@ -3,9 +3,9 @@ import * as path from 'path';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
 import type { SolverMetrics } from './types.ts';
-import { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels } from './LanguagesMetadata.ts';
+import { orderedLanguages, languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels } from './LanguagesMetadata.ts';
 import { SharedStyles } from './SharedStyles.ts';
-export { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels };
+export { orderedLanguages, languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1378,7 +1378,37 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         hour12: false
     });
 
+    // Asset Health Logic (US-004)
+    const missingLogos = orderedLanguages.filter(lang => {
+        let lookupKey = lang.toLowerCase();
+        if (lookupKey === 'c#') lookupKey = 'c_sharp';
+        if (lookupKey === 'f#') lookupKey = 'f_sharp';
+        return !logoMap.has(lookupKey);
+    });
+
     html += `
+    <!-- Asset Health Dashboard (US-004) -->
+    <div style="margin: 40px auto; width: 95%; max-width: 1600px; padding: 20px; background: #1a1b26; border: 1px solid #414868; border-radius: 8px;">
+        <h3 style="color: #7aa2f7; margin-top: 0; border-bottom: 1px solid #414868; padding-bottom: 10px;">Asset Health Dashboard</h3>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <div style="font-size: 2em; color: ${missingLogos.length > 0 ? '#ff0055' : '#00ff9d'}; font-weight: bold;">
+                ${missingLogos.length}
+            </div>
+            <div style="color: #c0caf5;">
+                Languages missing logos in <code>logos/</code>
+            </div>
+        </div>
+        ${missingLogos.length > 0 ? `
+        <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+            ${missingLogos.map(lang => `<span style="background: rgba(255, 0, 85, 0.1); color: #ff0055; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; border: 1px solid rgba(255, 0, 85, 0.2);">${lang}</span>`).join('')}
+        </div>
+        ` : `
+        <div style="margin-top: 15px; color: #00ff9d; font-size: 0.9em;">
+            ✓ All assets accounted for.
+        </div>
+        `}
+    </div>
+
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>
