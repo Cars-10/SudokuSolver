@@ -55,7 +55,7 @@ th, td {
 
 th {
     text-align: center;
-    padding: 15px;
+    padding: 12px;
     color: var(--secondary);
     font-size: 1.1em;
     text-transform: uppercase;
@@ -64,7 +64,7 @@ th {
 
 td {
     background-color: var(--surface);
-    padding: 15px;
+    padding: 12px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     border-left: 1px solid transparent;
@@ -1390,13 +1390,13 @@ body.fullscreen-active .header-counters {
 
 /* Compiler and Memory Peak Columns */
 .compiler-col {
-    min-width: 80px;
-    max-width: 100px;
+    min-width: 72px;
+    max-width: 90px;
 }
 
 .memory-col {
-    min-width: 70px;
-    max-width: 90px;
+    min-width: 63px;
+    max-width: 81px;
 }
 
 /* Tier Badges */
