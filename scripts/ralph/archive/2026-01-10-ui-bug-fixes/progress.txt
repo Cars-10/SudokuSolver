@@ -1,0 +1,12 @@
+# Ralph Progress Log
+Started: Sat Jan 10 18:10:00 CET 2026
+
+## Codebase Patterns
+- Dockerfile at server/Dockerfile
+- Language sections numbered 1-13 with comment headers
+- Architecture handling: ARCH=$(dpkg --print-architecture), then if [ "$ARCH" = "arm64" ]
+- Manual installs typically: download tarball, extract to /usr/local, create symlinks
+- npm global installs chained with && in Node.js section
+
+---
+

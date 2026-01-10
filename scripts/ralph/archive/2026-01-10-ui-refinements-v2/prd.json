@@ -1,0 +1,84 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/ui-bug-fixes",
+  "description": "UI Bug Fixes - Fix run buttons, empty cells, radar chart colors, and language name mapping for F#/C#",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Fix lock state persistence in API",
+      "description": "As a user, I want my lock/unlock changes to persist so languages stay unlocked after page refresh.",
+      "acceptanceCriteria": [
+        "POST /api/lock endpoint saves locked state to Languages/metadata.json",
+        "Verify metadata.json is updated with correct languageMetadata[lang].locked value",
+        "Test with curl: POST /api/lock with {lang: 'F_Sharp', locked: false} should persist",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Fix radar chart color to match score tier",
+      "description": "As a user, I want the Performance Profile radar chart to use the same color as my score tier badge.",
+      "acceptanceCriteria": [
+        "Find where drawScoreRadarChart is called and ensure tier parameter is passed",
+        "Tier colors: S=#ffd700 (gold), A=#00ff9d (green), B=#7aa2f7 (blue), C=#ff9e64 (orange), D=#f7768e (pink), F=#db4b4b (red)",
+        "Radar polygon fill and stroke use the tier color, not hardcoded",
+        "Typecheck passes",
+        "Verify in browser: open Score Modal, radar color should match tier badge color"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Add run buttons to empty cells for unlocked languages",
+      "description": "As a user, I want to see run buttons in empty matrix cells so I can populate benchmark data.",
+      "acceptanceCriteria": [
+        "In HTMLGenerator.ts, render run button in cells even when no benchmark data exists",
+        "Run button only appears for unlocked languages (check isLocked)",
+        "Empty cell shows just the run button (no time/data)",
+        "Clicking run button triggers runSolver with correct language and matrix",
+        "Typecheck passes",
+        "Verify in browser: unlocked language with empty cells should show run buttons"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Fix language name mapping for F# and C# in client",
+      "description": "As a user, I want F# and C# run buttons to work correctly.",
+      "acceptanceCriteria": [
+        "Client-side runSolver function maps F# to F_Sharp before API call",
+        "Client-side runSolver function maps C# to C_Sharp before API call",
+        "Run All button for F# triggers correct API call with language='F_Sharp'",
+        "Run All button for C# triggers correct API call with language='C_Sharp'",
+        "Typecheck passes",
+        "Verify: click F# run button, check network tab shows language=F_Sharp"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Ensure Run All button renders for unlocked special-char languages",
+      "description": "As a user, I want C# and F# to show Run All buttons when unlocked.",
+      "acceptanceCriteria": [
+        "HTMLGenerator checks lock status using display name (C#, F#) not directory name",
+        "When C# is unlocked, Total Time column shows Run All button",
+        "When F# is unlocked, Total Time column shows Run All button",
+        "updateRunButtonsForLockState handles special character languages correctly",
+        "Typecheck passes",
+        "Verify in browser: unlock F# via modal, Run All button should appear"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

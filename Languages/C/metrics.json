@@ -2,17 +2,17 @@
   {
     "solver": "C",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:53:49Z",
+    "timestamp": "2026-01-10T18:05:59Z",
     "results": [
       {
         "matrix": "1",
-        "time": 1.489,
+        "time": 0.8975,
         "iterations": 656,
-        "memory": 11460608,
-        "cpu_user": 0.654,
-        "cpu_sys": 0.58,
+        "memory": 11313152,
+        "cpu_user": 0.31,
+        "cpu_sys": 0.348,
         "page_faults_major": 1,
-        "page_faults_minor": 138,
+        "page_faults_minor": 137,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

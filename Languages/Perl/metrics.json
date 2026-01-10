@@ -2,17 +2,17 @@
   {
     "solver": "Perl",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:31Z",
+    "timestamp": "2026-01-10T18:11:37Z",
     "results": [
       {
         "matrix": "1",
-        "time": 9.1442,
+        "time": 4.8261,
         "iterations": 656,
-        "memory": 11481088,
-        "cpu_user": 6.203,
-        "cpu_sys": 2.602,
+        "memory": 11325440,
+        "cpu_user": 4.586,
+        "cpu_sys": 0,
         "page_faults_major": 0,
-        "page_faults_minor": 303,
+        "page_faults_minor": 295,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

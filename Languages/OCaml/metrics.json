@@ -2,17 +2,17 @@
   {
     "solver": "OCaml",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:29Z",
+    "timestamp": "2026-01-10T18:11:35Z",
     "results": [
       {
         "matrix": "1",
-        "time": 2.1068,
+        "time": 1.6672,
         "iterations": 656,
-        "memory": 11452416,
-        "cpu_user": 0.488,
-        "cpu_sys": 1.405,
+        "memory": 11288576,
+        "cpu_user": 0.349,
+        "cpu_sys": 1.117,
         "page_faults_major": 10,
-        "page_faults_minor": 229,
+        "page_faults_minor": 228,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

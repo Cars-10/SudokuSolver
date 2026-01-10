@@ -71,8 +71,8 @@ run_benchmark() {
         return 1
     fi
     
-    if [ ! -f "$lang_dir/setupAndRunMe.sh" ]; then
-        echo -e "${RED}Error: No setupAndRunMe.sh found for $lang${NC}"
+    if [ ! -f "$lang_dir/runMe.sh" ]; then
+        echo -e "${RED}Error: No runMe.sh found for $lang${NC}"
         return 1
     fi
     
@@ -91,7 +91,7 @@ run_benchmark() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     
     cd "$lang_dir"
-    ./setupAndRunMe.sh $matrix_args
+    ./runMe.sh $matrix_args
     local result=$?
     cd - > /dev/null
     

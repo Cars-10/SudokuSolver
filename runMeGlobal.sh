@@ -45,8 +45,8 @@ if [ ! -d "$LANG_DIR" ]; then
     exit 1
 fi
 
-# Check if setupAndRunMe.sh exists
-SCRIPT="$LANG_DIR/setupAndRunMe.sh"
+# Check if runMe.sh exists
+SCRIPT="$LANG_DIR/runMe.sh"
 if [ ! -f "$SCRIPT" ]; then
     echo "Error: $SCRIPT not found."
     exit 1

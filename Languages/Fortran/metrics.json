@@ -2,15 +2,15 @@
   {
     "solver": "Fortran",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:05Z",
+    "timestamp": "2026-01-10T18:11:14Z",
     "results": [
       {
         "matrix": "1",
-        "time": 4.3338,
+        "time": 3.495,
         "iterations": 656,
-        "memory": 11456512,
-        "cpu_user": 0.461,
-        "cpu_sys": 3.669,
+        "memory": 11313152,
+        "cpu_user": 0.984,
+        "cpu_sys": 2.264,
         "page_faults_major": 1,
         "page_faults_minor": 168,
         "context_switches_voluntary": 3,

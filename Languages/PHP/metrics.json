@@ -2,17 +2,17 @@
   {
     "solver": "PHP",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:31Z",
+    "timestamp": "2026-01-10T18:11:37Z",
     "results": [
       {
         "matrix": "1",
-        "time": 11.7723,
+        "time": 8.0802,
         "iterations": 656,
-        "memory": 19095552,
-        "cpu_user": 3.457,
-        "cpu_sys": 8.007,
+        "memory": 19034112,
+        "cpu_user": 3.106,
+        "cpu_sys": 4.717,
         "page_faults_major": 0,
-        "page_faults_minor": 1067,
+        "page_faults_minor": 1064,
         "context_switches_voluntary": 3,
         "context_switches_involuntary": 0,
         "io_inputs": 0,

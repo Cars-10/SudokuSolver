@@ -2,15 +2,15 @@
   {
     "solver": "C++",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:53:49Z",
+    "timestamp": "2026-01-10T18:05:59Z",
     "results": [
       {
         "matrix": "1",
-        "time": 1.4063,
+        "time": 0.8231,
         "iterations": 656,
-        "memory": 11464704,
-        "cpu_user": 0.608,
-        "cpu_sys": 0.538,
+        "memory": 11362304,
+        "cpu_user": 0.287,
+        "cpu_sys": 0.365,
         "page_faults_major": 1,
         "page_faults_minor": 140,
         "context_switches_voluntary": 3,

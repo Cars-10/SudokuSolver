@@ -2,7 +2,7 @@
   {
     "solver": "Ksh",
     "runType": "automated",
-    "timestamp": "2026-01-10T11:59:26Z",
+    "timestamp": "2026-01-10T18:11:32Z",
     "results": [
       {
         "matrix": "N/A",
@@ -16,15 +16,15 @@
       },
       {
         "matrix": "1",
-        "time": 22.6395,
+        "time": 18.8383,
         "iterations": 656,
-        "memory": 11468800,
-        "cpu_user": 20.003,
-        "cpu_sys": 2.921,
+        "memory": 11329536,
+        "cpu_user": 14.841,
+        "cpu_sys": 4.09,
         "page_faults_major": 1,
-        "page_faults_minor": 486,
-        "context_switches_voluntary": 8,
-        "context_switches_involuntary": 2,
+        "page_faults_minor": 485,
+        "context_switches_voluntary": 9,
+        "context_switches_involuntary": 0,
         "io_inputs": 2728,
         "io_outputs": 8,
         "status": "success",

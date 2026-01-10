@@ -258,13 +258,19 @@ RUN git clone --depth 1 https://github.com/janet-lang/janet.git /tmp/janet \
 # ----------------------------------------------------------------------------
 RUN FBC_VERSION=1.10.1 \
     && ARCH=$(dpkg --print-architecture) \
-    && if [ "$ARCH" = "arm64" ]; then FBC_ARCH="aarch64"; else FBC_ARCH="x86_64"; fi \
-    && wget -q https://downloads.sourceforge.net/fbc/FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz \
-    && tar xf FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz \
-    && cd FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH} \
+    && if [ "$ARCH" = "arm64" ]; then \
+         FBC_FILE="FreeBASIC-${FBC_VERSION}-ubuntu-22.04-aarch64"; \
+       else \
+         FBC_FILE="FreeBASIC-${FBC_VERSION}-linux-x86_64"; \
+       fi \
+    && curl -fSL --retry 5 --retry-delay 10 \
+         "https://downloads.sourceforge.net/project/fbc/FreeBASIC-${FBC_VERSION}/Binaries-Linux/${FBC_FILE}.tar.xz" \
+         -o ${FBC_FILE}.tar.xz \
+    && tar xf ${FBC_FILE}.tar.xz \
+    && cd ${FBC_FILE} \
     && ./install.sh -i \
     && cd .. \
-    && rm -rf FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH} FreeBASIC-${FBC_VERSION}-linux-${FBC_ARCH}.tar.xz
+    && rm -rf ${FBC_FILE} ${FBC_FILE}.tar.xz
 
 # ============================================================================
 # PUPPETEER CONFIGURATION
