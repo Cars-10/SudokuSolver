@@ -824,6 +824,195 @@
                 }
             ],
             "lastUpdated": "2025-12-21T10:00:33.766Z"
+        },
+        "Scheme": {
+            "creator": "Guy L. Steele, Gerald Jay Sussman",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
+            "date": "1975",
+            "location": "MIT, USA",
+            "benefits": "Minimalist, clean semantics, first-class procedures, educational.",
+            "related": "Lisp, Racket, CommonLisp",
+            "website": "https://www.scheme.org/",
+            "description": "A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
+            "authors": [
+                {
+                    "name": "Guy L. Steele",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg"
+                },
+                {
+                    "name": "Gerald Jay Sussman",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Gerald_Jay_Sussman.jpg"
+                }
+            ],
+            "lastUpdated": "2026-01-11T19:30:00.000Z"
+        },
+        "Dart": {
+            "creator": "Lars Bak, Kasper Lund",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Dart-logo.png",
+            "date": "2011",
+            "location": "Google, Denmark",
+            "benefits": "Cross-platform, Flutter, fast compilation, type-safe.",
+            "related": "JavaScript, TypeScript, Java",
+            "website": "https://dart.dev/",
+            "description": "Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code.",
+            "authors": [
+                {
+                    "name": "Lars Bak",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Lars_Bak.jpg"
+                },
+                {
+                    "name": "Kasper Lund",
+                    "image": ""
+                }
+            ],
+            "lastUpdated": "2026-01-11T19:30:00.000Z"
+        },
+        "Expect": {
+            "creator": "Don Libes",
+            "image": "Languages/Expect/Media/Expect_1768141903139.png",
+            "date": "1990",
+            "location": "NIST, USA",
+            "benefits": "Automates interactive applications, scripting, testing.",
+            "related": "Tcl",
+            "website": "https://core.tcl-lang.org/expect/",
+            "description": "A tool for automating interactive applications such as telnet, ftp, passwd, fsck, rlogin, tip, etc. Expect is built on top of Tcl.",
+            "authors": [
+                {
+                    "name": "Don Libes",
+                    "image": ""
+                }
+            ],
+            "lastUpdated": "2026-01-11T15:31:00.000Z"
+        },
+        "Erlang": {
+            "creator": "Joe Armstrong, Robert Virding, Mike Williams",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/0/04/Erlang_logo.svg",
+            "date": "1986",
+            "location": "Ericsson, Sweden",
+            "benefits": "Fault-tolerant, distributed, concurrent, hot-swapping.",
+            "related": "Elixir, OTP",
+            "website": "https://www.erlang.org/",
+            "description": "Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Vimscript": {
+            "creator": "Bram Moolenaar",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Vimlogo.svg",
+            "date": "1991",
+            "location": "Netherlands",
+            "benefits": "Editor scripting, text manipulation, customization.",
+            "related": "Vim, Neovim, Lua",
+            "website": "https://www.vim.org/",
+            "description": "The scripting language built into Vim for customizing and extending the editor.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Octave": {
+            "creator": "John W. Eaton",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Gnu-octave-logo.svg",
+            "date": "1988",
+            "location": "University of Wisconsin, USA",
+            "benefits": "MATLAB-compatible, numerical computing, free software.",
+            "related": "MATLAB, Julia, R",
+            "website": "https://octave.org/",
+            "description": "A high-level language primarily intended for numerical computations, largely compatible with MATLAB.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Dash": {
+            "creator": "Herbert Xu",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Bash_Logo_Colored.svg",
+            "date": "1997",
+            "location": "Debian Project",
+            "benefits": "POSIX-compliant, fast, minimal, scripting.",
+            "related": "Bash, Sh, Ash",
+            "website": "http://gondor.apana.org.au/~herbert/dash/",
+            "description": "Debian Almquist Shell - a POSIX-compliant shell that is much smaller and faster than bash.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Make": {
+            "creator": "Stuart Feldman",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Gnu-make-logo.svg",
+            "date": "1976",
+            "location": "Bell Labs, USA",
+            "benefits": "Build automation, dependency tracking, portable.",
+            "related": "CMake, Ninja, Autotools",
+            "website": "https://www.gnu.org/software/make/",
+            "description": "A build automation tool that automatically builds executable programs from source code by reading Makefiles.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Bc": {
+            "creator": "Robert Morris, Lorinda Cherry",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/a/af/GNU_Compiler_Collection_logo.svg",
+            "date": "1975",
+            "location": "Bell Labs, USA",
+            "benefits": "Arbitrary precision, calculator language, scripting.",
+            "related": "Dc, Awk",
+            "website": "https://www.gnu.org/software/bc/",
+            "description": "An arbitrary precision calculator language with syntax similar to C.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Jupyter": {
+            "creator": "Fernando Pérez, Brian Granger",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg",
+            "date": "2014",
+            "location": "UC Berkeley, USA",
+            "benefits": "Interactive computing, notebooks, data science, visualization.",
+            "related": "Python, Julia, R",
+            "website": "https://jupyter.org/",
+            "description": "An open-source web application for creating and sharing documents with live code, equations, and visualizations.",
+            "authors": [],
+            "lastUpdated": "2026-01-11T19:33:00.000Z"
+        },
+        "Perl": {
+            "creator": "Larry Wall",
+            "image": "Languages/Perl/Media/Perl_1768163630725.png",
+            "date": "1987",
+            "location": "Unisys, USA",
+            "benefits": "Text processing, regex, CPAN ecosystem, system administration.",
+            "related": "Raku, Python, Ruby",
+            "website": "https://www.perl.org/",
+            "description": "A highly capable, feature-rich programming language with powerful text processing capabilities.",
+            "authors": [
+                {
+                    "name": "Larry Wall",
+                    "image": "https://upload.wikimedia.org/wikipedia/en/5/56/Perl_language_logo.svg"
+                }
+            ],
+            "lastUpdated": "2026-01-11T20:33:51.940Z"
+        },
+        "Tcsh": {
+            "creator": "",
+            "image": "Languages/Tcsh/Media/Tcsh_1768163521224.png",
+            "date": "",
+            "location": "",
+            "benefits": "",
+            "related": "",
+            "website": "",
+            "description": "",
+            "authors": [],
+            "lastUpdated": "2026-01-11T20:32:02.976Z"
+        },
+        "Icon": {
+            "creator": "Ralph Griswold",
+            "image": "Languages/Icon/Media/Icon_1768163586058.png",
+            "date": "1977",
+            "location": "University of Arizona, USA",
+            "benefits": "String processing, goal-directed execution, generators.",
+            "related": "SNOBOL, Python, Unicon",
+            "website": "",
+            "description": "A very high-level programming language based on goal-directed execution and string scanning. It makes extensive use of generators and backtracking.",
+            "authors": [
+                {
+                    "name": "Ralph Griswold",
+                    "image": "https://www2.cs.arizona.edu/icon/logo/icon.gif"
+                }
+            ],
+            "lastUpdated": "2026-01-11T20:33:07.884Z"
         }
     }
 }

@@ -447,10 +447,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <span class="breakdown-label">CPU Ratio</span>
                             <span id="scoreCpuRatio" class="breakdown-value"></span>
                         </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Iterations</span>
-                            <span id="scoreIterRatio" class="breakdown-value"></span>
-                        </div>
                     </div>
                 </div>
 
@@ -602,7 +598,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <div id="fullscreen-header">
         <div class="header-counters">
             <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
-                <span id="solver-text">SOLVED ${metrics.length} OF ${metrics.length}</span>
+                <span id="solver-text">${metrics.length} LANGUAGES</span>
                 <div id="riddle-container" class="riddle-text"></div>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
                 <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
@@ -1040,18 +1036,33 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const efficiencyScore = totalTime > 0 ? memMbTotal / totalTime : 0;
 
         // Composite Score (vs C) - Geometric Mean
-        // Ψ = (ρ_time · ρ_mem · ρ_iter · ρ_cpu)^(1/4)
+        // Ψ = (ρ_time · ρ_mem · ρ_cpu)^(1/3)
+        // Compare only against C's results for the SAME matrices this language ran
         // Floor values at 0.001 to avoid zero/negative issues
 
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
-        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
-        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
-        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
-        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
+        // Calculate C baseline only for matrices this language ran
+        let cMatchedTime = 0;
+        let cMatchedMem = 0;
+        let cMatchedCpu = 0;
+        if (cMetrics) {
+            m.results.forEach(r => {
+                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                if (cRes) {
+                    cMatchedTime += cRes.time;
+                    cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
+                    cMatchedCpu += cRes.cpu_user + cRes.cpu_sys;
+                }
+            });
+        }
 
-        // Geometric mean: 4th root of product of all ratios
-        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
+        const timeRatio = Math.max(0.001, (cMatchedTime > 0) ? (totalTime / cMatchedTime) : 1);
+        const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
+        const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
+
+        // Geometric mean: cube root of product of 3 ratios (time, mem, cpu - NO iterations)
+        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
 
         // Tier Calculation
         let tier = 'F';
@@ -1175,7 +1186,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-compiler="${rowCompilerInfo}"
             data-score="${normalizedScore.toFixed(2)}"
             data-tier="${tier}"
-            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x | Iter: ${iterRatio.toFixed(2)}x"
+            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
@@ -1311,20 +1322,34 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
 
         // Calculate Score & Tier for Client Use
+        // Compare only against C's results for the SAME matrices this language ran
         const times = m.results.map(r => r.time);
-        const iters = m.results.map(r => r.iterations);
         const mems = m.results.map(r => r.memory || 0).filter(m => !isNaN(m));
         const totalTime = times.reduce((a, b) => a + b, 0);
-        const totalIters = iters.reduce((a, b) => a + b, 0);
         const maxMem = mems.length > 0 ? Math.max(...mems) : 0;
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
-        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
-        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
-        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
-        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
+        // Calculate C baseline only for matrices this language ran
+        let cMatchedTime = 0;
+        let cMatchedMem = 0;
+        let cMatchedCpu = 0;
+        if (cMetrics) {
+            m.results.forEach(r => {
+                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                if (cRes) {
+                    cMatchedTime += cRes.time;
+                    cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
+                    cMatchedCpu += cRes.cpu_user + cRes.cpu_sys;
+                }
+            });
+        }
 
-        const score = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
+        const timeRatio = Math.max(0.001, (cMatchedTime > 0) ? (totalTime / cMatchedTime) : 1);
+        const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
+        const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
+
+        // Geometric mean: cube root of 3 ratios (time, mem, cpu - NO iterations)
+        const score = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
 
         let tier = 'F';
         if (score < 0.95) tier = 'S';

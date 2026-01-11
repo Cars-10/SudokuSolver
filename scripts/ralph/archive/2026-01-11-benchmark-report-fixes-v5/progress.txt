@@ -1,0 +1,86 @@
+# Ralph Progress Log
+Started: Sat Jan 11 2026
+---
+
+## Codebase Patterns
+- Metrics/HTMLGenerator.ts generates the report HTML with embedded data attributes
+- Metrics/report_client.js handles client-side UI logic (sorting, modals, tooltips)
+- Score is calculated as geometric mean of time/mem/cpu/iter ratios vs C baseline
+- data-score attribute stores the numeric score, data-score-breakdown stores the breakdown text
+- Empty matrix cells now render with run buttons (same structure as populated cells)
+- Composite score now uses FAIR matching: only compares against C matrices the language ran
+- Run buttons use `runSolver('${lang}', '${i + 1}.matrix', event)` onclick handler
+- isLocked flag from benchmarkConfig.lockedLanguages controls run button visibility
+- Valid results are filtered by `status === 'success'` (not error/timeout)
+- normalizeMatrix() function is used to compare matrix names consistently
+- Relative times use span.relative-time with data-timestamp, updated via updateRelativeTimes()
+- Sorting: currentSort.metric should start empty; score 0 stays at bottom via special sort logic
+- Diagnostics data embedded as `diagnosticsData` constant with categories: env_error, timeout, error, missing
+- Modal pattern: use modal-overlay class, show with classList.add('visible'), close checks event.target
+
+---
+
+## 2026-01-11 - US-001
+- What was implemented: Added run button to empty matrix cells
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - Empty cells should use the same cell-content/cell-header structure as populated cells
+  - The isLocked flag already exists and gates run button visibility
+  - Matrix index in onclick handler uses `${i + 1}.matrix` (1-indexed)
+---
+
+## 2026-01-11 - US-002
+- What was implemented: Fair composite score calculation based on matching matrices
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - Each MetricResult has a `status` field ('success', 'timeout', 'error', 'env_error')
+  - Use `r.status === 'success'` to filter valid results
+  - normalizeMatrix() function handles matrix name comparison across different formats
+  - matchCount check determines if score should be 0 (N/A) or calculated
+  - Memory comparison uses max() across results, not sum
+---
+
+## 2026-01-11 - US-003
+- What was implemented: Dynamic relative time display that auto-updates
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - Use span.relative-time with data-timestamp attribute for dynamic content
+  - DOMContentLoaded event is good place to initialize client-side logic
+  - setInterval(fn, 60000) provides 1-minute update interval
+  - The script block before </script> around line 834 is where to add client JS functions
+---
+
+## 2026-01-11 - US-004
+- What was implemented: Fixed table sorting behavior
+- Files changed: Metrics/report_client.js
+- **Learnings for future iterations:**
+  - currentSort.metric must start empty ('') so first click sets natural direction
+  - sortRows() function in report_client.js handles all column sorting
+  - N/A values (score 0) need explicit handling to stay at bottom: check for 0 before applying direction multiplier
+  - rotate-180 class is added when currentSort.dir === -1 (descending)
+---
+
+## 2026-01-11 - US-005
+- What was implemented: Added diagnostics data generation and embedding
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - DiagnosticsData interface: { env_error, timeout, error, missing } each with count and languages array
+  - Each language entry has { language: string, matrices: string[] }
+  - Data embedded as `diagnosticsData` constant in the main script block around line 1444
+  - Missing languages detected by comparing languageMetadata keys with languagesWithResults Set
+  - Status values: 'success', 'timeout', 'error', 'env_error'
+---
+
+## 2026-01-11 - US-006
+- What was implemented: Added diagnostics button and modal UI
+- Files changed: Metrics/HTMLGenerator.ts, Metrics/report_client.js
+- **Learnings for future iterations:**
+  - Toolbar buttons added around line 1047 in HTMLGenerator.ts
+  - Modal HTML added after whyModal (around line 666) using modal-overlay class
+  - Modal functions (show/close) added in report_client.js after closeWhy()
+  - Modal visibility controlled via classList.add/remove('visible')
+  - Close handler checks if event.target is modal overlay or has modal-close class
+  - Grid layout with auto-fill columns works well for listing languages
+---
+
+## ALL STORIES COMPLETE

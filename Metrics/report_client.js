@@ -1364,11 +1364,10 @@ window.updateSolverStats = function () {
         const avgTime = (totalTime / metricsData.length).toFixed(3);
         const avgMem = (totalMemory / metricsData.length).toFixed(1);
 
-        // Simplified stats display - just numbers
-        const passRate = (validCount / metricsData.length * 100).toFixed(0);
-        screensaverText.innerText = `${metricsData.length} • ${validCount} • ${passRate}%`;
+        // Display language count in solver text
+        screensaverText.innerText = `${metricsData.length} LANGUAGES`;
     } else if (screensaverText) {
-        screensaverText.innerText = `SOLVED ${lockedCount} OF ${planned}`;
+        screensaverText.innerText = `${planned} LANGUAGES`;
     }
 };
 
@@ -3575,16 +3574,14 @@ window.openScoreModal = function(lang) {
     scoreValue.textContent = score.toFixed(2) + 'x';
     scoreValue.style.color = score <= 1 ? '#00ff9d' : (score <= 2 ? '#ff9e64' : '#f7768e');
 
-    // Populate breakdown ratios
+    // Populate breakdown ratios (3 factors: Time, Mem, CPU - NO iterations)
     const timeRatio = breakdownParts.find(p => p.label === 'Time');
     const memRatio = breakdownParts.find(p => p.label === 'Mem');
     const cpuRatio = breakdownParts.find(p => p.label === 'CPU');
-    const iterRatio = breakdownParts.find(p => p.label === 'Iter');
 
     document.getElementById('scoreTimeRatio').textContent = timeRatio ? timeRatio.value.toFixed(2) + 'x' : '-';
     document.getElementById('scoreMemRatio').textContent = memRatio ? memRatio.value.toFixed(2) + 'x' : '-';
     document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
-    document.getElementById('scoreIterRatio').textContent = iterRatio ? iterRatio.value.toFixed(2) + 'x' : '-';
 
     // Draw radar chart with tier color
     drawScoreRadarChart(lang, tier, tierColor, breakdownParts);
@@ -3618,13 +3615,12 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts) {
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
-    // Labels for the 4 axes
-    const labels = ['Speed', 'Memory', 'CPU', 'Iterations'];
+    // Labels for the 3 axes (NO iterations - iterations are validation, not performance)
+    const labels = ['Speed', 'Memory', 'CPU'];
     const values = [
         breakdownParts.find(p => p.label === 'Time')?.value || 1,
         breakdownParts.find(p => p.label === 'Mem')?.value || 1,
-        breakdownParts.find(p => p.label === 'CPU')?.value || 1,
-        breakdownParts.find(p => p.label === 'Iter')?.value || 1
+        breakdownParts.find(p => p.label === 'CPU')?.value || 1
     ];
 
     const numAxes = labels.length;
@@ -3889,8 +3885,8 @@ window.onVariantSelect = async function(variant) {
         const results = variantMetrics.results || [];
         const cResults = cMetrics?.results || [];
 
-        // Calculate average ratios
-        let timeRatios = [], memRatios = [], cpuRatios = [], iterRatios = [];
+        // Calculate average ratios (only for matrices this language ran vs C's same matrices)
+        let timeRatios = [], memRatios = [], cpuRatios = [];
 
         results.forEach(r => {
             const matrixNum = String(r.matrix).replace('.matrix', '');
@@ -3904,25 +3900,23 @@ window.onVariantSelect = async function(variant) {
                     const cCpu = (cResult.cpu_user || 0) + (cResult.cpu_sys || 0);
                     if (cCpu > 0) cpuRatios.push(langCpu / cCpu);
                 }
-                if (r.iterations && cResult.iterations) iterRatios.push(r.iterations / cResult.iterations);
             }
         });
 
         const avgTime = timeRatios.length > 0 ? timeRatios.reduce((a, b) => a + b, 0) / timeRatios.length : 1;
         const avgMem = memRatios.length > 0 ? memRatios.reduce((a, b) => a + b, 0) / memRatios.length : 1;
         const avgCpu = cpuRatios.length > 0 ? cpuRatios.reduce((a, b) => a + b, 0) / cpuRatios.length : 1;
-        const avgIter = iterRatios.length > 0 ? iterRatios.reduce((a, b) => a + b, 0) / iterRatios.length : 1;
 
-        // Composite score (same formula as main report)
-        const score = avgTime * 0.6 + avgMem * 0.4;
+        // Composite score: geometric mean of 3 ratios (time, mem, cpu - NO iterations)
+        const score = Math.pow(Math.max(0.001, avgTime) * Math.max(0.001, avgMem) * Math.max(0.001, avgCpu), 1/3);
 
-        // Determine tier
+        // Determine tier (same thresholds as main report)
         let tier = 'F';
-        if (score <= 1.0) tier = 'S';
-        else if (score <= 1.5) tier = 'A';
-        else if (score <= 3.0) tier = 'B';
-        else if (score <= 10.0) tier = 'C';
-        else if (score <= 50.0) tier = 'D';
+        if (score < 0.95) tier = 'S';
+        else if (score < 1.05) tier = 'A';
+        else if (score < 1.50) tier = 'B';
+        else if (score < 3.00) tier = 'C';
+        else if (score < 10.00) tier = 'D';
 
         const tierColor = tierColors[tier] || tierColors['F'];
 
@@ -3940,14 +3934,12 @@ window.onVariantSelect = async function(variant) {
         document.getElementById('scoreTimeRatio').textContent = avgTime.toFixed(2) + 'x';
         document.getElementById('scoreMemRatio').textContent = avgMem.toFixed(2) + 'x';
         document.getElementById('scoreCpuRatio').textContent = avgCpu.toFixed(2) + 'x';
-        document.getElementById('scoreIterRatio').textContent = avgIter.toFixed(2) + 'x';
 
-        // Redraw radar chart
+        // Redraw radar chart (3 axes: Time, Mem, CPU - NO iterations)
         const breakdownParts = [
             { label: 'Time', value: avgTime },
             { label: 'Mem', value: avgMem },
-            { label: 'CPU', value: avgCpu },
-            { label: 'Iter', value: avgIter }
+            { label: 'CPU', value: avgCpu }
         ];
         drawScoreRadarChart(currentScoreModalLang, tier, tierColor, breakdownParts);
 
