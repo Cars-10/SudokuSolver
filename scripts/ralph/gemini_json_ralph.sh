@@ -10,7 +10,7 @@ PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
 LAST_BRANCH_FILE="$SCRIPT_DIR/.last-branch"
-CODING_AGENT="gemini"
+CODING_AGENT="gemini -o json"
 
 # Archive previous run if branch changed
 if [ -f "$PRD_FILE" ] && [ -f "$LAST_BRANCH_FILE" ]; then
@@ -62,10 +62,25 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   echo "═══════════════════════════════════════════════════════"
   
   # Run gemini with the ralph prompt
-  OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | $CODING_AGENT 2>&1 | tee /dev/stderr) || true
+  # Capture JSON output from stdout. Allow stderr to pass through to console.
+  JSON_OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | $CODING_AGENT) || true
+  
+  # Extract the text response
+  # Use -r to get raw string (no quotes)
+  OUTPUT_TEXT=$(echo "$JSON_OUTPUT" | jq -r '.response // empty')
+  
+  # Fallback if jq failed or response empty (e.g. error occurred)
+  if [ -z "$OUTPUT_TEXT" ]; then
+    echo "Warning: No valid JSON response or empty response field."
+    echo "Raw Output: $JSON_OUTPUT"
+    OUTPUT_TEXT="$JSON_OUTPUT"
+  else
+    # Print the clean text response for the user to see
+    echo "$OUTPUT_TEXT"
+  fi
   
   # Check for completion signal
-  if echo "$OUTPUT" | grep -q "<promise>COMPLETE</promise>"; then
+  if echo "$OUTPUT_TEXT" | grep -q "<promise>COMPLETE</promise>"; then
     echo ""
     echo "Ralph completed all tasks!"
     echo "Completed at iteration $i of $MAX_ITERATIONS"
