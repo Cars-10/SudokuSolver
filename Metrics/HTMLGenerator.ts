@@ -938,10 +938,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="John Wick">John Wick</option>
                 <option value="Dark Knight">Dark Knight</option>
             </select>
-            <button class="btn" onclick="sortRows('lang', this)">Name</button>
-            <button class="btn active" onclick="sortRows('time', this)">Time</button>
-            <button class="btn" onclick="sortRows('mem', this)">Memory</button>
-            <button class="btn" onclick="sortRows('score', this)">Score</button>
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
                 <span>Show Mismatches</span>
             </button>
