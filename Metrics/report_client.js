@@ -48,16 +48,23 @@ function sortRows(metric, btn) {
         currentSort.dir = 1;
     }
 
-    // Update buttons
+    // Update buttons and table headers
     document.querySelectorAll('.btn, .sort-btn').forEach(b => {
         b.classList.remove('active');
         b.classList.remove('rotate-180');
+    });
+
+    // Update sortable table headers
+    document.querySelectorAll('.sortable-header').forEach(th => {
+        th.classList.remove('active');
+        th.classList.remove('desc');
     });
 
     if (btn) {
         btn.classList.add('active');
         if (currentSort.dir === -1) {
             btn.classList.add('rotate-180');
+            btn.classList.add('desc');
         }
     }
 
@@ -107,16 +114,23 @@ function sortMatrix(index, metric, btn) {
         currentSort.dir = metric === 'time' || metric === 'score' ? 1 : -1;
     }
 
-    // Update buttons
+    // Update buttons and table headers
     document.querySelectorAll('.btn, .sort-btn').forEach(b => {
         b.classList.remove('active');
         b.classList.remove('rotate-180');
+    });
+
+    // Update sortable table headers
+    document.querySelectorAll('.sortable-header').forEach(th => {
+        th.classList.remove('active');
+        th.classList.remove('desc');
     });
 
     if (btn) {
         btn.classList.add('active');
         if (currentSort.dir === -1) {
             btn.classList.add('rotate-180');
+            btn.classList.add('desc');
         }
     }
 
