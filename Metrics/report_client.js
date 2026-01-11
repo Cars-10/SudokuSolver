@@ -1056,6 +1056,50 @@ function closeWhy(event) {
     }
 }
 
+function showDiagnostics() {
+    const content = document.getElementById('diagnosticsContent');
+    if (!content) return;
+
+    let html = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+
+    const categories = [
+        { key: 'env_error', title: 'Environment Errors', color: '#f7768e' },
+        { key: 'timeout', title: 'Timeouts', color: '#ff9e64' },
+        { key: 'error', title: 'Runtime Errors', color: '#db4b4b' },
+        { key: 'missing', title: 'Missing Results', color: '#565f89' }
+    ];
+
+    categories.forEach(cat => {
+        const data = diagnosticsData[cat.key];
+        html += `
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 4px solid ${cat.color};">
+                <h3 style="color: ${cat.color}; margin-top: 0;">${cat.title} (${data.count})</h3>
+                <div style="max-height: 200px; overflow-y: auto; font-size: 0.9em;">
+                    ${data.languages.length > 0 
+                        ? data.languages.map(l => `
+                            <div style="margin-bottom: 5px;">
+                                <strong>${l.language}</strong>
+                                ${l.matrices.length > 0 ? `<span style="color: var(--muted);"> (M${l.matrices.join(', ')})</span>` : ''}
+                            </div>
+                        `).join('')
+                        : '<div style="color: var(--muted);">None</div>'
+                    }
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    content.innerHTML = html;
+    document.getElementById('diagnosticsModal').classList.add('visible');
+}
+
+function closeDiagnostics(event) {
+    if (!event || event.target.id === 'diagnosticsModal' || event.target.classList.contains('modal-close')) {
+        document.getElementById('diagnosticsModal').classList.remove('visible');
+    }
+}
+
 // Initialize
 // Note: Mismatch filter starts inactive (showing all rows)
 window.languageStatus = {};
@@ -1066,9 +1110,34 @@ window.showLogos = true; // Default to showing logos
 // ESC key handler for closing modal
 document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' || event.key === 'Esc') {
-        const modal = document.getElementById('langModal');
-        if (modal && modal.classList.contains('visible')) {
+        const langModal = document.getElementById('langModal');
+        if (langModal && langModal.classList.contains('visible')) {
             closeModal(null);
+        }
+        
+        const scoreModal = document.getElementById('scoreModal');
+        if (scoreModal && scoreModal.style.display === 'flex') {
+            closeScoreModal(null);
+        }
+
+        const methodModal = document.getElementById('methodModal');
+        if (methodModal && methodModal.classList.contains('visible')) {
+            closeMethodology({ target: methodModal });
+        }
+
+        const goalsModal = document.getElementById('goalsModal');
+        if (goalsModal && goalsModal.classList.contains('visible')) {
+            closeGoals({ target: goalsModal });
+        }
+
+        const whyModal = document.getElementById('whyModal');
+        if (whyModal && whyModal.classList.contains('visible')) {
+            closeWhy({ target: whyModal });
+        }
+
+        const diagnosticsModal = document.getElementById('diagnosticsModal');
+        if (diagnosticsModal && diagnosticsModal.classList.contains('visible')) {
+            closeDiagnostics({ target: diagnosticsModal });
         }
     }
 });
