@@ -1,0 +1,99 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/benchmark-report-fixes-v5",
+  "description": "Benchmark Report Fixes v5 - Run buttons in empty cells, fair composite scores, dynamic time display, and sorting fixes",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add Run Button to Empty Matrix Cells",
+      "description": "As a user, I want to see a run button in empty matrix cells so I can trigger a benchmark for that specific matrix.",
+      "acceptanceCriteria": [
+        "Empty matrix cells display a run button (play icon) instead of just '-'",
+        "Clicking the button triggers runSolver(lang, matrix, event) for that specific matrix",
+        "Button styling matches existing run buttons in populated cells",
+        "Run button respects the isLocked flag (don't show for locked languages)",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Calculate Composite Score Based on Matching Matrices",
+      "description": "As a user, I want composite scores calculated fairly by comparing only the matrices that both the language and C have run.",
+      "acceptanceCriteria": [
+        "For each language, identify which matrices have valid results (status success, not error/timeout)",
+        "Calculate C baseline totals using ONLY those same matrices that the language ran",
+        "Compute time/mem/cpu/iter ratios using matching matrix subsets",
+        "If no matching matrices exist, set normalizedScore to 0 (displays as N/A)",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Dynamic Last Run Time Display",
+      "description": "As a user, I want the Updated column to show a dynamic time that updates automatically.",
+      "acceptanceCriteria": [
+        "Change static 'Xm ago' text to use a span with class 'relative-time' and data-timestamp attribute",
+        "Add JavaScript function updateRelativeTimes() that recalculates all relative times",
+        "Call updateRelativeTimes() on page load and every 60 seconds via setInterval",
+        "Format: '<1m' for under 1 minute, 'Xm ago', 'Xh ago', 'Xd ago', or date for >30 days",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Verify and Fix Table Sorting Behavior",
+      "description": "As a user, I want table sorting to work correctly on first click and toggle on subsequent clicks.",
+      "acceptanceCriteria": [
+        "Verify currentSort starts with empty metric so first click sets natural direction",
+        "NAME first click sorts A-Z, TIME/MEMORY/SCORE first click sorts lowest first",
+        "Second click on same button reverses direction",
+        "N/A scores (value 0) stay at bottom regardless of sort direction",
+        "rotate-180 class correctly indicates descending sort",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Add Language Diagnostics Data to Report",
+      "description": "As a developer, I need diagnostic data embedded in the report HTML for the diagnostics UI.",
+      "acceptanceCriteria": [
+        "Generate diagnostics object with categories: env_error, timeout, error, missing",
+        "Each category lists affected languages with specific matrix failures",
+        "Embed diagnostics as JSON in a script tag with id 'diagnosticsData'",
+        "Include counts for each category",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Add Diagnostics Button and Modal UI",
+      "description": "As a user, I want to see a diagnostics modal showing which languages have issues.",
+      "acceptanceCriteria": [
+        "Add 'Diagnostics' button to the toolbar/header area",
+        "Create modal that displays diagnostics data grouped by issue type",
+        "Show count badges for each category (e.g., 'Env Errors (25)')",
+        "List specific languages and their failed matrices under each category",
+        "Modal can be closed with X button or clicking outside",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}
