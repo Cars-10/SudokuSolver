@@ -182,6 +182,44 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }).length;
     }
 
+    const diagnostics: any = {
+        env_error: { count: 0, languages: [] },
+        timeout: { count: 0, languages: [] },
+        error: { count: 0, languages: [] },
+        missing: { count: 0, languages: [] }
+    };
+
+    const languagesWithResults = new Set(metrics.map(m => m.solver.replace(/ \((AI)\)$/, '')));
+    
+    metrics.forEach(m => {
+        const lang = m.solver;
+        const envErrors = m.results.filter(r => r.status === 'env_error').map(r => r.matrix);
+        const timeouts = m.results.filter(r => r.status === 'timeout').map(r => r.matrix);
+        const errors = m.results.filter(r => r.status === 'error').map(r => r.matrix);
+
+        if (envErrors.length > 0) {
+            diagnostics.env_error.count++;
+            diagnostics.env_error.languages.push({ language: lang, matrices: envErrors });
+        }
+        if (timeouts.length > 0) {
+            diagnostics.timeout.count++;
+            diagnostics.timeout.languages.push({ language: lang, matrices: timeouts });
+        }
+        if (errors.length > 0) {
+            diagnostics.error.count++;
+            diagnostics.error.languages.push({ language: lang, matrices: errors });
+        }
+    });
+
+    if (languageMetadata) {
+        Object.keys(languageMetadata).forEach(lang => {
+            if (!languagesWithResults.has(lang)) {
+                diagnostics.missing.count++;
+                diagnostics.missing.languages.push({ language: lang, matrices: [] });
+            }
+        });
+    }
+
     const metricsJson = safeJSON(sortedMetrics);
     const historyJson = safeJSON(history);
     const personalitiesJson = safeJSON(personalities);
@@ -594,6 +632,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- Diagnostics Modal -->
+    <div id="diagnosticsModal" class="modal-overlay" onclick="closeDiagnostics(event)">
+        <div class="modal-content" style="text-align: left; width: 80%; max-width: 1000px;">
+            <span class="modal-close" onclick="closeDiagnostics(event)">&times;</span>
+            <div class="modal-title" style="text-align: center;">Language Diagnostics</div>
+            <div class="modal-desc" id="diagnosticsContent">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Fullscreen header overlay - matches main page header -->
     <div id="fullscreen-header">
         <div class="header-counters">
@@ -937,6 +986,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
                 <span>Show Mismatches</span>
             </button>
+            <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
             <div class="dropdown">
                 <button class="btn">Info ▾</button>
                 <div class="dropdown-content">
@@ -1305,6 +1355,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const timeLabels = ${safeJSON(timeLabels)};
             const memoryLabels = ${safeJSON(memoryLabels)};
             const scoreLabels = ${safeJSON(scoreLabels)};
+            const diagnosticsData = ${safeJSON(diagnostics)};
 
             // Dynamic Data
             const historyData = ${safeJSON(history)};
