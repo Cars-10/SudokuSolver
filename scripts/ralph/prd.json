@@ -1,17 +1,20 @@
 {
   "project": "SudokuSolver",
-  "branchName": "ralph/dockerfile-missing-languages",
-  "description": "Add missing language toolchains to Dockerfile: FreeBASIC, CoffeeScript, and Sed",
+  "branchName": "ralph/ui-fixes-v6",
+  "description": "UI Fixes v6 - Sorting toggle, Score modal radar chart color, and remove redundant sort buttons",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Add CoffeeScript to Dockerfile",
-      "description": "As a developer, I want CoffeeScript installed in Docker so the CoffeeScript Sudoku solver can run.",
+      "title": "Fix Column Sorting Toggle on Same Column",
+      "description": "As a user, I want to click the same column header repeatedly to toggle between ascending and descending order.",
       "acceptanceCriteria": [
-        "Add 'npm install -g coffeescript' to the Node.js section (section 3) in server/Dockerfile",
-        "Place it after 'npm install -g typescript ts-node tsx@latest'",
-        "The coffee command will be available globally in the container",
-        "Dockerfile syntax is valid (no build errors from this change)"
+        "sortRows() function toggles currentSort.dir when the same metric is clicked",
+        "sortRows() function updates currentSort.metric on each call to track current column",
+        "Add toggle logic: if (currentSort.metric === metric) { currentSort.dir *= -1; } else { set metric and initial direction }",
+        "Initial direction for time/score/mem is ascending (1), for lang is ascending (1)",
+        "The sort arrow rotates 180 degrees when direction is descending (-1)",
+        "Typecheck passes",
+        "Verify in browser: click Score header twice, observe sort direction toggles"
       ],
       "priority": 1,
       "passes": true,
@@ -19,12 +22,16 @@
     },
     {
       "id": "US-002",
-      "title": "Add Sed to system dependencies",
-      "description": "As a developer, I want Sed explicitly installed in Docker for the Sed Sudoku solver.",
+      "title": "Fix Score Modal Radar Chart Tier Color",
+      "description": "As a user, I want the radar chart in the Score modal to display using the same color as the tier badge.",
       "acceptanceCriteria": [
-        "Add 'sed' to the SYSTEM DEPENDENCIES apt-get install list in server/Dockerfile",
-        "Place it alphabetically or near other text processing tools (bc, dc)",
-        "Dockerfile syntax is valid (no build errors from this change)"
+        "Verify tierColor is correctly passed to drawScoreRadarChart() in openScoreModal()",
+        "Radar chart polygon fill uses tierColor with 0.3 alpha via hexToRgba()",
+        "Radar chart polygon stroke uses tierColor",
+        "Legend swatch (legendLangSwatch element) background is set to tierColor",
+        "Data point dots use tierColor for fill",
+        "Typecheck passes",
+        "Verify in browser: open Score modal for a Tier-A language (green), confirm chart is green"
       ],
       "priority": 2,
       "passes": true,
@@ -32,15 +39,17 @@
     },
     {
       "id": "US-003",
-      "title": "Add FreeBASIC to Dockerfile",
-      "description": "As a developer, I want FreeBASIC installed in Docker so the BASIC Sudoku solver can run.",
+      "title": "Remove Redundant Sort Buttons from Controls",
+      "description": "As a user, I want a cleaner UI without redundant sort buttons since table headers already provide sorting.",
       "acceptanceCriteria": [
-        "Create a new section for FreeBASIC in server/Dockerfile (after section 13 or in section 12)",
-        "Handle both architectures: aarch64 (ARM64) and x86_64",
-        "Download FreeBASIC from official releases (GitHub or sourceforge)",
-        "Extract to /usr/local and ensure fbc binary is in PATH",
-        "Use pattern similar to other manual installs (Julia, Dart, Zig)",
-        "Dockerfile syntax is valid (no build errors from this change)"
+        "Remove the Name sort button (<button class=\"btn\" onclick=\"sortRows('lang', this)\">Name...)",
+        "Remove the Time sort button (<button class=\"btn active\" onclick=\"sortRows('time', this)\">Time...)",
+        "Remove the Memory sort button (<button class=\"btn\" onclick=\"sortRows('mem', this)\">Memory...)",
+        "Remove the Score sort button (<button class=\"btn\" onclick=\"sortRows('score', this)\">Score...)",
+        "Keep PERSONA selector, Show Mismatches toggle, and Diagnostics button",
+        "These buttons are located in HTMLGenerator.ts around lines 1052-1055",
+        "Typecheck passes",
+        "Verify in browser: confirm buttons are removed, table header sorting still works"
       ],
       "priority": 3,
       "passes": true,
