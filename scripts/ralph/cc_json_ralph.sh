@@ -1,6 +1,6 @@
 #!/bin/bash
-# Ralph Wiggum - Long-running AI agent loop (Gemini version)
-# Usage: ./gemini_json_ralph.sh [max_iterations]
+# Ralph Wiggum - Long-running AI agent loop
+# Usage: ./ralph.sh [max_iterations]
 
 set -e
 
@@ -10,7 +10,7 @@ PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
 LAST_BRANCH_FILE="$SCRIPT_DIR/.last-branch"
-CODING_AGENT="gemini"
+CODING_AGENT="claude -p --dangerously-skip-permissions"
 
 # Archive previous run if branch changed
 if [ -f "$PRD_FILE" ] && [ -f "$LAST_BRANCH_FILE" ]; then
@@ -19,8 +19,7 @@ if [ -f "$PRD_FILE" ] && [ -f "$LAST_BRANCH_FILE" ]; then
   
   if [ -n "$CURRENT_BRANCH" ] && [ -n "$LAST_BRANCH" ] && [ "$CURRENT_BRANCH" != "$LAST_BRANCH" ]; then
     # Archive the previous run
-    # Format: YYYY-MM-DD-HHMMSS as per memory
-    DATE=$(date +%Y-%m-%d-%H%M%S)
+    DATE=$(date +%Y-%m-%d)
     # Strip "ralph/" prefix from branch name for folder
     FOLDER_NAME=$(echo "$LAST_BRANCH" | sed 's|^ralph/||')
     ARCHIVE_FOLDER="$ARCHIVE_DIR/$DATE-$FOLDER_NAME"
@@ -61,7 +60,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   echo "  Ralph Iteration $i of $MAX_ITERATIONS"
   echo "═══════════════════════════════════════════════════════"
   
-  # Run gemini with the ralph prompt
+  # Run amp with the ralph prompt
   OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | $CODING_AGENT 2>&1 | tee /dev/stderr) || true
   
   # Check for completion signal
