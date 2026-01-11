@@ -1178,7 +1178,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-memory="${maxMem}"
             data-compiler="${rowCompilerInfo}"
             data-score="${normalizedScore.toFixed(2)}"
-            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
+            data-tier="${tier}"
+            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x | Iter: ${iterRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
