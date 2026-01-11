@@ -1070,6 +1070,28 @@ select {
     display: inline-block;
 }
 
+/* Sort Arrow in Table Headers */
+.sort-arrow {
+    display: inline-block;
+    opacity: 0.3;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    font-size: 0.8em;
+    margin-left: 4px;
+}
+
+.sortable-header.active .sort-arrow {
+    opacity: 1;
+    color: var(--primary);
+}
+
+.sortable-header.active.desc .sort-arrow {
+    transform: rotate(180deg);
+}
+
+.sortable-header:hover .sort-arrow {
+    opacity: 0.7;
+}
+
 .sort-btn,
 .btn {
     transition: transform 0.3s, background 0.2s, color 0.2s;

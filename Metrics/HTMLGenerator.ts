@@ -1008,24 +1008,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <table>
             <thead>
                 <tr>
-                    <th class="lang-col-header" onclick="sortRows('lang', this)" style="cursor: pointer;" title="Sort by Name">
-                        Language
+                    <th class="lang-col-header sortable-header" onclick="sortRows('lang', this)" style="cursor: pointer;" title="Sort by Name" data-sort="lang">
+                        Language <span class="sort-arrow">▲</span>
                     </th>
-                    <th onclick="sortRows('score', this)" style="cursor: pointer;" title="Sort by Score">
-                        <span id="header-score">Score</span>
+                    <th class="sortable-header" onclick="sortRows('score', this)" style="cursor: pointer;" title="Sort by Score" data-sort="score">
+                        <span id="header-score">Score</span> <span class="sort-arrow">▲</span>
                     </th>
-                    <th onclick="sortRows('timestamp', this)" style="cursor: pointer;" title="Sort by Age">
-                        Updated
+                    <th class="sortable-header" onclick="sortRows('timestamp', this)" style="cursor: pointer;" title="Sort by Age" data-sort="timestamp">
+                        Updated <span class="sort-arrow">▲</span>
                     </th>`;
 
     for (let i = 0; i < maxMatrices; i++) {
-        html += `<th onclick="sortMatrix(${i}, 'time', this)" style="cursor: pointer;" title="Sort by Matrix ${i + 1} Time">
-            Matrix ${i + 1}
+        html += `<th class="sortable-header" onclick="sortMatrix(${i}, 'time', this)" style="cursor: pointer;" title="Sort by Matrix ${i + 1} Time" data-sort="matrix-${i}">
+            Matrix ${i + 1} <span class="sort-arrow">▲</span>
         </th>`;
     }
 
-    html += `<th onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time">
-        <span id="header-time">Total Time (ms)</span>
+    html += `<th class="sortable-header active" onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time" data-sort="time">
+        <span id="header-time">Total Time (ms)</span> <span class="sort-arrow">▲</span>
     </th>
     </tr></thead><tbody>`;
 
