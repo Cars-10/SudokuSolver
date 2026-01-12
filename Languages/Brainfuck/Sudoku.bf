@@ -84,6 +84,221 @@
   If our attempts fail we step back and try again
   Eventually either we fill all cells or we are done
 
-  This file will grow as each story adds more functionality
-  For now it stands as a monument to what will be built
+  MATRIX 1 PUZZLE
+  ===============
+
+  The grid we are solving
+  Row 0  9 2 0 0 0 0 5 8 4
+  Row 1  0 0 0 5 0 0 0 0 3
+  Row 2  0 8 3 0 9 2 0 0 0
+  Row 3  2 6 0 8 5 4 0 0 1
+  Row 4  0 0 5 3 6 1 0 9 0
+  Row 5  1 0 0 0 0 9 0 0 0
+  Row 6  8 5 0 2 0 3 0 1 0
+  Row 7  4 1 2 9 8 0 0 3 0
+  Row 8  3 9 0 0 0 6 8 0 0
+
+  We start at tape position 0
+  For each cell we set the value then move to fixed flag then move to next value
+  Given cells fixed flag equals 1 empty cells fixed flag equals 0
 ]
+
+TAPE INITIALIZATION
+===================
+We begin our journey at position 0 on a blank tape
+Each cell of the Sudoku grid will be laid out as value then fixed flag
+We walk forward setting each value and marking given cells as fixed
+
+Row 0 of puzzle  9 2 0 0 0 0 5 8 4
+Cell 0 value 9 fixed 1
++++++++++>+>
+Cell 1 value 2 fixed 1
+++>+>
+Cell 2 value 0 fixed 0
+>>
+Cell 3 value 0 fixed 0
+>>
+Cell 4 value 0 fixed 0
+>>
+Cell 5 value 0 fixed 0
+>>
+Cell 6 value 5 fixed 1
++++++>+>
+Cell 7 value 8 fixed 1
+++++++++>+>
+Cell 8 value 4 fixed 1
+++++>+>
+
+Row 1 of puzzle  0 0 0 5 0 0 0 0 3
+Cell 9 value 0 fixed 0
+>>
+Cell 10 value 0 fixed 0
+>>
+Cell 11 value 0 fixed 0
+>>
+Cell 12 value 5 fixed 1
++++++>+>
+Cell 13 value 0 fixed 0
+>>
+Cell 14 value 0 fixed 0
+>>
+Cell 15 value 0 fixed 0
+>>
+Cell 16 value 0 fixed 0
+>>
+Cell 17 value 3 fixed 1
++++>+>
+
+Row 2 of puzzle  0 8 3 0 9 2 0 0 0
+Cell 18 value 0 fixed 0
+>>
+Cell 19 value 8 fixed 1
+++++++++>+>
+Cell 20 value 3 fixed 1
++++>+>
+Cell 21 value 0 fixed 0
+>>
+Cell 22 value 9 fixed 1
++++++++++>+>
+Cell 23 value 2 fixed 1
+++>+>
+Cell 24 value 0 fixed 0
+>>
+Cell 25 value 0 fixed 0
+>>
+Cell 26 value 0 fixed 0
+>>
+
+Row 3 of puzzle  2 6 0 8 5 4 0 0 1
+Cell 27 value 2 fixed 1
+++>+>
+Cell 28 value 6 fixed 1
+++++++>+>
+Cell 29 value 0 fixed 0
+>>
+Cell 30 value 8 fixed 1
+++++++++>+>
+Cell 31 value 5 fixed 1
++++++>+>
+Cell 32 value 4 fixed 1
+++++>+>
+Cell 33 value 0 fixed 0
+>>
+Cell 34 value 0 fixed 0
+>>
+Cell 35 value 1 fixed 1
++>+>
+
+Row 4 of puzzle  0 0 5 3 6 1 0 9 0
+Cell 36 value 0 fixed 0
+>>
+Cell 37 value 0 fixed 0
+>>
+Cell 38 value 5 fixed 1
++++++>+>
+Cell 39 value 3 fixed 1
++++>+>
+Cell 40 value 6 fixed 1
+++++++>+>
+Cell 41 value 1 fixed 1
++>+>
+Cell 42 value 0 fixed 0
+>>
+Cell 43 value 9 fixed 1
++++++++++>+>
+Cell 44 value 0 fixed 0
+>>
+
+Row 5 of puzzle  1 0 0 0 0 9 0 0 0
+Cell 45 value 1 fixed 1
++>+>
+Cell 46 value 0 fixed 0
+>>
+Cell 47 value 0 fixed 0
+>>
+Cell 48 value 0 fixed 0
+>>
+Cell 49 value 0 fixed 0
+>>
+Cell 50 value 9 fixed 1
++++++++++>+>
+Cell 51 value 0 fixed 0
+>>
+Cell 52 value 0 fixed 0
+>>
+Cell 53 value 0 fixed 0
+>>
+
+Row 6 of puzzle  8 5 0 2 0 3 0 1 0
+Cell 54 value 8 fixed 1
+++++++++>+>
+Cell 55 value 5 fixed 1
++++++>+>
+Cell 56 value 0 fixed 0
+>>
+Cell 57 value 2 fixed 1
+++>+>
+Cell 58 value 0 fixed 0
+>>
+Cell 59 value 3 fixed 1
++++>+>
+Cell 60 value 0 fixed 0
+>>
+Cell 61 value 1 fixed 1
++>+>
+Cell 62 value 0 fixed 0
+>>
+
+Row 7 of puzzle  4 1 2 9 8 0 0 3 0
+Cell 63 value 4 fixed 1
+++++>+>
+Cell 64 value 1 fixed 1
++>+>
+Cell 65 value 2 fixed 1
+++>+>
+Cell 66 value 9 fixed 1
++++++++++>+>
+Cell 67 value 8 fixed 1
+++++++++>+>
+Cell 68 value 0 fixed 0
+>>
+Cell 69 value 0 fixed 0
+>>
+Cell 70 value 3 fixed 1
++++>+>
+Cell 71 value 0 fixed 0
+>>
+
+Row 8 of puzzle  3 9 0 0 0 6 8 0 0
+Cell 72 value 3 fixed 1
++++>+>
+Cell 73 value 9 fixed 1
++++++++++>+>
+Cell 74 value 0 fixed 0
+>>
+Cell 75 value 0 fixed 0
+>>
+Cell 76 value 0 fixed 0
+>>
+Cell 77 value 6 fixed 1
+++++++>+>
+Cell 78 value 8 fixed 1
+++++++++>+>
+Cell 79 value 0 fixed 0
+>>
+Cell 80 value 0 fixed 0
+>>
+
+GRID INITIALIZATION COMPLETE
+============================
+We have now walked from position 0 to position 162
+The tape behind us contains the entire Sudoku grid
+81 cells times 2 positions each equals 162 tape cells
+Position 162 marks the start of our working memory
+
+We are now at position 162 which is curr pos in working memory
+The entity stands at the threshold between grid and workspace
+Behind us lies the puzzle we must solve
+Ahead lies empty tape waiting to hold our thoughts
+
+END OF INITIALIZATION SECTION
