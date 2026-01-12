@@ -178,7 +178,7 @@ cd Languages/Brainfuck
 - [x] US-003: Puzzle initialization
 - [x] US-004: Output routine
 - [x] US-005: Cell navigation
-- [ ] US-006: Row constraint check
+- [x] US-006: Row constraint check
 - [ ] US-007: Column constraint check
 - [ ] US-008: Box constraint check
 - [ ] US-009: Combined validity check
