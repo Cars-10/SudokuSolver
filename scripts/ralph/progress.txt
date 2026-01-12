@@ -1,68 +1,49 @@
 # Ralph Progress Log
-Started: Sat Jan 11 19:55:47 CET 2026
+Started: Sat Jan 10 17:15:00 CET 2026
+---
 
 ## Codebase Patterns
-- Table header sorting: Use `sortable-header` class on `th` elements with sort arrow inside
-- Sort arrow CSS: `.sort-arrow` with `.active` and `.desc` classes for visual state
-- Row data attributes: `data-tier` attribute stores tier letter (S/A/B/C/D/F) for Score modal
-- Score breakdown format: "Time: Xx | Mem: Xx | CPU: Xx | Iter: Xx" in `data-score-breakdown` attribute
-- Dockerfile architecture detection: `ARCH=$(dpkg --print-architecture)` returns "arm64" or "amd64"
-- Dockerfile architecture naming: arm64 -> "aarch64", amd64 -> "x86_64" (for most toolchains)
-- Dockerfile syntax validation: use `docker build --check .` to validate without building
-- Node.js global packages: install via `npm install -g <package>` in Node.js section (section 3)
-- System packages: add to SYSTEM DEPENDENCIES apt-get list, preferably near related tools
-- Manual installs pattern: download, extract to /usr/local, add bin to PATH via ENV or symlink
----
+- None identified yet
 
-## 2026-01-10 - US-001
-- What was implemented: Added CoffeeScript installation to the Node.js section (section 3) of server/Dockerfile
-- Files changed: server/Dockerfile
-- **Learnings for future iterations:**
-  - CoffeeScript is installed via npm with `npm install -g coffeescript`
-  - The `coffee` command becomes globally available after installation
-  - Docker `--check` flag validates Dockerfile syntax without building
 ---
-
-## 2026-01-10 - US-002
-- What was implemented: Added sed to the SYSTEM DEPENDENCIES apt-get install list
-- Files changed: server/Dockerfile
+## Sat Jan 10 20:15:00 CET 2026 - US-001
+Thread: (Current Session)
+- Implemented LanguageMeta interface in Metrics/LanguagesMetadata.ts
+- Populated paradigm and typeSystem for C, Rust, Java, Python, JavaScript
+- Verified type safety with tsc
 - **Learnings for future iterations:**
-  - Sed is typically included in most base images but explicitly adding it ensures availability
-  - Text processing tools (bc, dc, sed) are grouped together in the SYSTEM DEPENDENCIES section
+  - Metrics/LanguagesMetadata.ts is the single source of truth for language display data.
+  - The project uses TypeScript for the Metrics subsystem, verify changes with `cd Metrics && npx tsc --noEmit`.
 ---
-
-## 2026-01-10 - US-003
-- What was implemented: Added FreeBASIC compiler installation as section 14 in server/Dockerfile
-- Files changed: server/Dockerfile
+## Sat Jan 10 20:30:00 CET 2026 - US-002
+Thread: (Current Session)
+- Added 'Historical Context' section to langModal in Metrics/HTMLGenerator.ts.
+- Added 'Technical Specs' row for Paradigm and Type System in langModal.
+- Added edit inputs for history, paradigm, and typeSystem in the modal.
+- Verified that typecheck still passes.
 - **Learnings for future iterations:**
-  - FreeBASIC uses architecture naming: "aarch64" for ARM64, "x86_64" for x86
-  - Download from: https://downloads.sourceforge.net/fbc/FreeBASIC-{VERSION}-linux-{ARCH}.tar.xz
-  - Installation: use the bundled install.sh script with -i flag to install to /usr/local
-  - The fbc binary is installed to /usr/local/bin/fbc automatically
-  - Follow existing patterns in Dockerfile (Julia, Zig) for architecture detection: `if [ "$ARCH" = "arm64" ]; then`
+  - HTMLGenerator.ts uses a massive template literal for the report HTML.
+  - The modal has two modes: `view-only` and `edit-only` classes controlled by CSS/JS.
 ---
-
-## 2026-01-11 - US-001 (UI Fixes v6)
-- What was implemented: Column sorting toggle - clicking same column header toggles between asc/desc
-- Files changed: Metrics/HTMLGenerator.ts, Metrics/index.css, Metrics/report_client.js
+## Sat Jan 10 20:45:00 CET 2026 - US-003
+Thread: (Current Session)
+- Updated `window.showLanguageDetails` in `Metrics/report_client.js` to populate:
+  - `modalParadigm` and `modalTypeSystem`
+  - `modalHistory` (with display logic to hide container if empty)
+  - Edit inputs for the new fields.
+- Updated `window.saveLanguageDetails` to include `history`, `paradigm`, and `typeSystem` in the POST payload.
+- Verified type safety (tsc passes, though report_client.js is JS, the project structure seems to treat it as part of the build).
 - **Learnings for future iterations:**
-  - sortRows() already had toggle logic; added visual sort arrows (▲) to table headers
-  - Use `sortable-header` class on th elements with `sort-arrow` span inside
-  - CSS classes `active` and `desc` control arrow visibility and rotation
+  - `report_client.js` is a large client-side script embedded by `HTMLGenerator.ts`.
+  - It handles the UI logic for the report.
+  - Changes here need to match the HTML structure defined in `HTMLGenerator.ts`.
 ---
-
-## 2026-01-11 - US-002 (UI Fixes v6)
-- What was implemented: Fixed radar chart tier color in Score modal
-- Files changed: Metrics/HTMLGenerator.ts
+## Sat Jan 10 21:00:00 CET 2026 - US-004
+Thread: (Current Session)
+- Implemented Asset Health Dashboard in `Metrics/HTMLGenerator.ts`.
+- Logic compares `orderedLanguages` with `logoMap` to identify missing assets.
+- Added a visual section at the bottom of the report showing the count and names of languages missing logos.
 - **Learnings for future iterations:**
-  - Row needed `data-tier` attribute for openScoreModal() to retrieve tier
-  - Added Iter ratio to `data-score-breakdown` for complete radar chart (4 axes: Speed, Memory, CPU, Iterations)
----
-
-## 2026-01-11 - US-003 (UI Fixes v6)
-- What was implemented: Removed redundant Name/Time/Memory/Score sort buttons from controls bar
-- Files changed: Metrics/HTMLGenerator.ts
-- **Learnings for future iterations:**
-  - Table headers now provide sorting, no need for duplicate buttons in controls
-  - Keep control bar focused on PERSONA selector, Show Mismatches, and info dropdowns
+  - `orderedLanguages` must be imported and exported in `HTMLGenerator.ts` to be used for global asset health checks.
+  - `logoMap` keys are normalized (lowercase, special chars handled) to match filesystem names.
 ---

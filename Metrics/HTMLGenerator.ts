@@ -4,9 +4,9 @@ import * as path from 'path';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
 import type { SolverMetrics } from './types.ts';
-import { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels } from './LanguagesMetadata.ts';
+import { orderedLanguages, languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels } from './LanguagesMetadata.ts';
 import { SharedStyles } from './SharedStyles.ts';
-export { languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels };
+export { orderedLanguages, languageHistories, quotes, personalities, methodologyTexts, languageMetadata, narratorIntros, mismatchLabels, iterationLabels, timeLabels, memoryLabels, scoreLabels };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -416,6 +416,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
                         <p id="modalRelated" class="view-only" style="margin: 5px 0 0 0; color: #787c99; font-size: 0.9em; font-style: italic;"></p>
 
+                        <!-- Technical Specs Row -->
+                        <div id="modalSpecs" class="view-only" style="margin-top: 10px; display: flex; gap: 20px; font-size: 0.85em; color: #565f89; border-top: 1px solid #24283b; padding-top: 10px;">
+                            <div><span style="color: #7aa2f7;">Paradigm:</span> <span id="modalParadigm">-</span></div>
+                            <div><span style="color: #7aa2f7;">Type System:</span> <span id="modalTypeSystem">-</span></div>
+                        </div>
+                        <div class="edit-only" style="margin-top: 10px; display: flex; gap: 10px;">
+                            <input type="text" id="editInputs-paradigm" class="modal-edit-input" placeholder="Paradigm (e.g. Imperative)" style="flex: 1;">
+                            <input type="text" id="editInputs-typeSystem" class="modal-edit-input" placeholder="Type System (e.g. Static, Strong)" style="flex: 1;">
+                        </div>
+
                         <div class="view-only" style="margin-top: 15px; display: flex; gap: 10px;">
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
                              <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
@@ -435,6 +445,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Description</h3>
                 <textarea id="editInputs-desc" class="modal-edit-textarea edit-only" placeholder="Description"></textarea>
                 <div id="modalDesc" class="view-only" style="line-height: 1.6; color: #c0caf5;"></div>
+
+                <div id="historySection" class="view-only" style="margin-top: 20px;">
+                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Historical Context</h3>
+                    <div id="modalHistory" style="line-height: 1.6; color: #9aa5ce; font-style: italic; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 3px solid #7aa2f7;"></div>
+                </div>
+                <div class="edit-only" style="margin-top: 20px;">
+                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">History</h3>
+                    <textarea id="editInputs-history" class="modal-edit-textarea" placeholder="Historical context..."></textarea>
+                </div>
                 
                 <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px; margin-top: 20px;">
                     Creators & Authors
@@ -1450,7 +1469,37 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         console.error('Warning: Could not read report_client.js, falling back to external script');
     }
 
+    // Asset Health Logic (US-004)
+    const missingLogos = orderedLanguages.filter(lang => {
+        let lookupKey = lang.toLowerCase();
+        if (lookupKey === 'c#') lookupKey = 'c_sharp';
+        if (lookupKey === 'f#') lookupKey = 'f_sharp';
+        return !logoMap.has(lookupKey);
+    });
+
     html += `
+    <!-- Asset Health Dashboard (US-004) -->
+    <div style="margin: 40px auto; width: 95%; max-width: 1600px; padding: 20px; background: #1a1b26; border: 1px solid #414868; border-radius: 8px;">
+        <h3 style="color: #7aa2f7; margin-top: 0; border-bottom: 1px solid #414868; padding-bottom: 10px;">Asset Health Dashboard</h3>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <div style="font-size: 2em; color: ${missingLogos.length > 0 ? '#ff0055' : '#00ff9d'}; font-weight: bold;">
+                ${missingLogos.length}
+            </div>
+            <div style="color: #c0caf5;">
+                Languages missing logos in <code>logos/</code>
+            </div>
+        </div>
+        ${missingLogos.length > 0 ? `
+        <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+            ${missingLogos.map(lang => `<span style="background: rgba(255, 0, 85, 0.1); color: #ff0055; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; border: 1px solid rgba(255, 0, 85, 0.2);">${lang}</span>`).join('')}
+        </div>
+        ` : `
+        <div style="margin-top: 15px; color: #00ff9d; font-size: 0.9em;">
+            ✓ All assets accounted for.
+        </div>
+        `}
+    </div>
+
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>

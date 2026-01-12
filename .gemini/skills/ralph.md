@@ -122,10 +122,9 @@ If a PRD has big features, split them. Each is one focused change that can be co
 
 1. Read the current `prd.json` if it exists
 2. Check if `branchName` differs from the new feature's branch name
-3. If different AND `progress.txt` has content beyond the header:
-   - Create archive folder: `archive/YYYY-MM-DD-feature-name/`
+  if different AND `progress.txt` has content beyond the header:
+   - Create archive folder: `archive/YYYY-MM-DD-HHMMSS-feature-name/`
    - Copy current `prd.json` and `progress.txt` to archive
-   - Reset `progress.txt` with fresh header
 
 ## Checklist Before Saving
 

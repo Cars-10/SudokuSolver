@@ -1,0 +1,39 @@
+# Ralph Progress Log
+Started: Sat Jan 10 18:07:41 CET 2026
+
+## Codebase Patterns
+- Dockerfile architecture detection: `ARCH=$(dpkg --print-architecture)` returns "arm64" or "amd64"
+- Dockerfile architecture naming: arm64 -> "aarch64", amd64 -> "x86_64" (for most toolchains)
+- Dockerfile syntax validation: use `docker build --check .` to validate without building
+- Node.js global packages: install via `npm install -g <package>` in Node.js section (section 3)
+- System packages: add to SYSTEM DEPENDENCIES apt-get list, preferably near related tools
+- Manual installs pattern: download, extract to /usr/local, add bin to PATH via ENV or symlink
+---
+
+## 2026-01-10 - US-001
+- What was implemented: Added CoffeeScript installation to the Node.js section (section 3) of server/Dockerfile
+- Files changed: server/Dockerfile
+- **Learnings for future iterations:**
+  - CoffeeScript is installed via npm with `npm install -g coffeescript`
+  - The `coffee` command becomes globally available after installation
+  - Docker `--check` flag validates Dockerfile syntax without building
+---
+
+## 2026-01-10 - US-002
+- What was implemented: Added sed to the SYSTEM DEPENDENCIES apt-get install list
+- Files changed: server/Dockerfile
+- **Learnings for future iterations:**
+  - Sed is typically included in most base images but explicitly adding it ensures availability
+  - Text processing tools (bc, dc, sed) are grouped together in the SYSTEM DEPENDENCIES section
+---
+
+## 2026-01-10 - US-003
+- What was implemented: Added FreeBASIC compiler installation as section 14 in server/Dockerfile
+- Files changed: server/Dockerfile
+- **Learnings for future iterations:**
+  - FreeBASIC uses architecture naming: "aarch64" for ARM64, "x86_64" for x86
+  - Download from: https://downloads.sourceforge.net/fbc/FreeBASIC-{VERSION}-linux-{ARCH}.tar.xz
+  - Installation: use the bundled install.sh script with -i flag to install to /usr/local
+  - The fbc binary is installed to /usr/local/bin/fbc automatically
+  - Follow existing patterns in Dockerfile (Julia, Zig) for architecture detection: `if [ "$ARCH" = "arm64" ]; then`
+---
