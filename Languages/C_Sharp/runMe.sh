@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
-LANGUAGE="C#"
+LANGUAGE="C_Sharp"
 METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300  # 5 minutes
 

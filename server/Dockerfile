@@ -141,15 +141,19 @@ RUN apt-get update && apt-get install -y \
     ruby-full \
     && rm -rf /var/lib/apt/lists/*
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # 10. Swift (6.0)
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 RUN ARCH=$(dpkg --print-architecture) \
+    && SWIFT_VERSION=6.0.2 \
     && if [ "$ARCH" = "arm64" ]; then \
-         SWIFT_VERSION=6.0.2 \
-         && wget -q https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404-aarch64/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04-aarch64.tar.gz \
+         wget -q https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404-aarch64/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04-aarch64.tar.gz \
          && tar xzf swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04-aarch64.tar.gz -C /usr/local --strip-components=1 \
          && rm swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04-aarch64.tar.gz; \
+       elif [ "$ARCH" = "amd64" ]; then \
+         wget -q https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04.tar.gz \
+         && tar xzf swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04.tar.gz -C /usr/local --strip-components=1 \
+         && rm swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04.tar.gz; \
        fi
 
 # ---------------------------------------------------------------------------- 
@@ -252,6 +256,16 @@ RUN git clone --depth 1 https://github.com/janet-lang/janet.git /tmp/janet \
     && make \
     && make install \
     && rm -rf /tmp/janet
+
+# ----------------------------------------------------------------------------
+# 14a. Red Language (requires 32-bit support)
+# ----------------------------------------------------------------------------
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
+    && apt-get install -y libc6:i386 libcurl4:i386 \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -L https://static.red-lang.org/dl/linux/red-latest -o /usr/local/bin/red \
+    && chmod +x /usr/local/bin/red
 
 # ----------------------------------------------------------------------------
 # 14. FreeBASIC

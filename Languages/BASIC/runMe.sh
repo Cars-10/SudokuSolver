@@ -3,6 +3,9 @@
 
 cd "$(dirname "$0")"
 
+# Add FreeBASIC to PATH if in Docker
+[ -x /usr/local/bin/fbc ] && export PATH="/usr/local/bin:$PATH"
+
 LANGUAGE="BASIC"
 SOLVER_BINARY="./Sudoku"
 METRICS_FILE="metrics.json"

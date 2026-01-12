@@ -1,6 +1,0 @@
-#!/usr/bin/expect
-# Sudoku Solver in Expect
-# Placeholder/Simplified
-
-set timeout -1
-puts "Solved in Iterations= 0"

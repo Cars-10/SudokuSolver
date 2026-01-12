@@ -76,7 +76,8 @@
     "XSLT",
     "Zig",
     "Zsh",
-    "Crystal"
+    "Crystal",
+    "wren"
   ],
   "languages": {
     "C": {
@@ -356,6 +357,9 @@
       "status": "complete"
     },
     "Crystal": {
+      "status": "complete"
+    },
+    "wren": {
       "status": "complete"
     }
   }

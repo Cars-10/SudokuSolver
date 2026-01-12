@@ -19,10 +19,10 @@ export const orderedLanguages = [
     "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "R", "Haxe",
     "JavaScript", "TypeScript", "CoffeeScript", "Lua", "Python", "Ruby", "PHP", "Perl", "Raku", "Groovy", "Wren", "Red",
     "Erlang", "Elixir", "Haskell", "OCaml", "CommonLisp", "Scheme", "Racket", "Clojure", "EmacsLisp", "Vimscript",
-    "Smalltalk", "Objective-C", "VisualBasic", "Cobol", "Prolog", "Rexx", "Tcl", "Expect",
+    "Smalltalk", "Objective-C", "VisualBasic", "Cobol", "Prolog", "Rexx", "Tcl",
     "Bash", "Zsh", "Fish", "Ksh", "Tcsh", "Dash", "PowerShell", "AppleScript", "Make", "M4",
     "Awk", "Sed", "Bc", "Dc", "Jq",
-    "SQL", "SQLite", "XSLT", "Gnuplot", "PostScript",
+    "SQLite", "XSLT", "Gnuplot", "PostScript",
     "Assembly", "Verilog", "BASIC", "Forth", "Jupyter", "Octave"
 ];
 
@@ -48,8 +48,7 @@ export const quotes: Record<string, string> = {
     "Clojure": "Lisp on the JVM. Data is code, code is data. The parentheses are eternal.",
     "Erlang": "Built for the telephone network. It handles failure like a stoic. Let it crash.",
     "Elixir": "Erlang for hipsters. Ruby syntax, telecom reliability.",
-    "SQL": "Declarative logic in a procedural world. Asking the database to dream in Sudoku grids.",
-    "XSLT": "XML transformation. A forgotten art, transforming data like alchemy.",
+        "XSLT": "XML transformation. A forgotten art, transforming data like alchemy.",
     "Sed": "Stream editor. Ancient magic. Modifying the flow of data byte by byte.",
     "Awk": "Pattern scanning and processing. The scalpel of the command line.",
     "Perl": "Write once, read never. The Swiss Army chainsaw of text processing.",
@@ -158,8 +157,7 @@ export const languageHistories: Record<string, string> = {
     "Sed": "1974. A stream editor ideal for scripted, line-oriented text transformations; sed remains a compact tool in shell-based text processing.",
     "Smalltalk": "1972. Pioneering a pure object model and live programming environment, Smalltalk influenced GUIs, IDEs and modern object-oriented language design.",
     "SNOBOL": "1962. Early string-oriented languages for pattern matching, SNOBOL introduced expressive text processing concepts before modern regex engines.",
-    "SQL": "1974. The declarative standard for relational data queries and manipulation; SQL abstracts data retrieval and is foundational to many systems.",
-    "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+        "Swift": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
     "Tcl": "1988. A simple, embeddable scripting language often paired with Tk for GUI applications; Tcl is valued for its ease of extension.",
     "TypeScript": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS.",
     "Vala": "2006. Offers modern language conveniences while compiling to C and targeting GObject, simplifying GNOME application development.",

@@ -1059,8 +1059,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="John Wick">John Wick</option>
                 <option value="Dark Knight">Dark Knight</option>
             </select>
-            <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
-                <span>Show Mismatches</span>
+            <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()" title="Toggle visibility of languages with iteration counts that don't match the C reference">
+                <span>Hide Mismatches</span>
             </button>
             <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
             ${!staticMode ? `<button class="btn" id="dockerToggleBtn" onclick="switchExecutionMode()" title="Switch between Docker and Local execution">
@@ -1074,12 +1074,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <a onclick="showWhy()">Why???</a>
                 </div>
             </div>
-            ${!staticMode ? `<div style="position: relative; display: inline-block;">
+            <div style="position: relative; display: inline-block;">
                 <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">${metrics.length} LANGUAGES ▾</button>
                 <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
                     <!-- Populated by JS -->
                 </div>
-            </div>` : ''}
+            </div>
             
             <!-- Search Removed -->
         </div>

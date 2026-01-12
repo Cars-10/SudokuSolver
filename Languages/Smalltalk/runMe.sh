@@ -3,8 +3,9 @@
 
 cd "$(dirname "$0")"
 
-# Add linuxbrew to PATH if available
+# Add gst to PATH if available (linuxbrew or macOS Homebrew)
 [ -d /home/linuxbrew/.linuxbrew/bin ] && export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+[ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:$PATH"
 
 LANGUAGE="Smalltalk"
 SOLVER_BINARY="gst Sudoku.st -a"
