@@ -307,11 +307,14 @@ app.get('/api/metadata/:lang', (req, res) => {
 
 // Get Solver Source Code
 app.get('/api/source/:lang', (req, res) => {
-    const lang = req.params.lang;
+    const lang = decodeURIComponent(req.params.lang);
     const langDir = path.join(__dirname, '..', 'Languages', lang);
 
+    console.log(`[Source API] Requested: ${lang}, Path: ${langDir}, Docker: ${isRunningInDocker}`);
+
     if (!fs.existsSync(langDir)) {
-        return res.status(404).json({ error: 'Language not found' });
+        console.error(`[Source API] Directory not found: ${langDir}`);
+        return res.status(404).json({ error: 'Language not found', path: langDir });
     }
 
     try {
@@ -320,14 +323,16 @@ app.get('/api/source/:lang', (req, res) => {
         const solverFile = files.find(f => f.startsWith('Sudoku.') && !f.endsWith('.class') && !f.endsWith('.o') && !f.endsWith('.beam'));
 
         if (!solverFile) {
-            return res.status(404).json({ error: 'Solver file not found' });
+            console.error(`[Source API] Solver file not found in: ${langDir}, files: ${files.join(', ')}`);
+            return res.status(404).json({ error: 'Solver file not found', files: files });
         }
 
         const filePath = path.join(langDir, solverFile);
         const source = fs.readFileSync(filePath, 'utf8');
+        console.log(`[Source API] Success: ${filePath} (${source.length} bytes)`);
         res.json({ filename: solverFile, source: source });
     } catch (e) {
-        console.error("Error reading source:", e);
+        console.error("[Source API] Error reading source:", e);
         res.status(500).json({ error: e.message });
     }
 });
@@ -529,9 +534,12 @@ app.post('/api/fetch-logo', async (req, res) => {
 app.post('/api/generate-report', (req, res) => {
     console.log('Generating benchmark report...');
 
-    // Use tsx for TypeScript execution (installed globally in Dockerfile)
-    // Full-featured report with all visualizations and metadata
-    const command = 'tsx Metrics/generate_report_only.ts';
+    // Use tsx for TypeScript execution
+    // In Docker: tsx is installed globally
+    // On host: use npx tsx
+    const command = isRunningInDocker
+        ? 'tsx Metrics/generate_report_only.ts'
+        : 'npx tsx Metrics/generate_report_only.ts';
 
     // CWD should be the root of the project (parent of server)
     // In Docker: /app (since server is at /app/server)

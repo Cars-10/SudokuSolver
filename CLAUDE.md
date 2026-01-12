@@ -74,6 +74,14 @@ cd Metrics && npx ts-node generate_report_only.ts
 - `Metrics/` - TypeScript report generation (`HTMLGenerator.ts`, `gather_metrics.ts`)
 - `server/` - Express server serving benchmark report and runner UI
 
+### Special Character Handling in Directory Names
+Languages with special characters in their names use underscores in directory names:
+- `C#` → `Languages/C_Sharp/` (LANGUAGE="C_Sharp" in runMe.sh)
+- `F#` → `Languages/F_Sharp/` (LANGUAGE="F_Sharp" in runMe.sh)
+- `C++` → `Languages/C++/` (this one keeps the special chars)
+
+**Important**: The `LANGUAGE` variable in `runMe.sh` must match the directory name exactly for metrics to be properly associated.
+
 ### Language Implementation Pattern
 Each language follows this structure:
 ```
@@ -117,8 +125,8 @@ All implementations must exactly match the C reference algorithm:
 |--------|-----------|
 | 1      | 656       |
 | 2      | 439,269   |
-| 3      | 5,765,323 |
-| 4      | 10,908,578|
+| 3      | 98,847    |
+| 4      | 9,085     |
 | 5      | 445,778   |
 
 If iteration counts don't match, the algorithm is incorrect.
@@ -174,3 +182,9 @@ Controls which languages/matrices to run:
 - **Docker (recommended)**: All toolchains pre-installed in `sudoku-benchmark` image
 - **Local macOS**: Requires `brew install gnu-time coreutils` for `gtime` and `gtimeout`
 - **Local**: Each language needs its compiler/interpreter in PATH
+
+### Docker Server Notes
+- The Docker container mounts `./server:/app/server` so server code changes are picked up on restart
+- **NEVER restart the Docker container unnecessarily** - if server API changes are needed, the container will pick them up automatically via the volume mount
+- If changes to `server/index.js` aren't reflected, verify the volume mount is working: `docker-compose exec app cat /app/server/index.js | head -20`
+- Local server runs on port 9002, Docker server runs on port 9001

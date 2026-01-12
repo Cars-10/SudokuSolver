@@ -1178,16 +1178,18 @@ window.viewSourceCode = async function() {
     modal.classList.add('visible');
 
     try {
-        const res = await fetch(`/api/source/${currentEditingLang}`);
+        const encodedLang = encodeURIComponent(currentEditingLang);
+        const res = await fetch(`/api/source/${encodedLang}`);
         if (res.ok) {
             const data = await res.json();
             content.textContent = data.source;
             title.textContent = `${currentEditingLang} - ${data.filename}`;
         } else {
-            content.textContent = 'Error: Could not load source code';
+            const errorData = await res.json().catch(() => ({}));
+            content.textContent = `Error: Could not load source code\nStatus: ${res.status}\n${errorData.error || ''}\n${errorData.path || ''}`;
         }
     } catch (e) {
-        content.textContent = 'Error: ' + e.message;
+        content.textContent = 'Error: ' + e.message + '\n\nMake sure the server is running on this port.';
     }
 };
 
@@ -1283,7 +1285,8 @@ function closeDiagnostics(event) {
 // Initialize
 // Note: Mismatch filter starts inactive (showing all rows)
 window.languageStatus = {};
-window.selectedLanguages = new Set(['C']); // Default C
+// Default: select ALL languages from metricsData
+window.selectedLanguages = new Set(typeof metricsData !== 'undefined' ? metricsData.map(m => m.solver) : ['C']);
 window.lockedLanguages = new Map(); // Languages unaffected by Bulk actions (stored with timestamp)
 window.showLogos = true; // Default to showing logos
 
@@ -2100,7 +2103,14 @@ initializeStatus();
             } else if (type === 'jockey') {
                 drawJockeyChart();
             } else if (type === 'race') {
-                drawMatrixRace();
+                // Auto-enter fullscreen for Matrix Race to show all languages
+                if (!document.fullscreenElement && typeof window.toggleChartFullscreen === 'function') {
+                    window.toggleChartFullscreen();
+                    // Delay draw to allow fullscreen transition to complete
+                    setTimeout(() => drawMatrixRace(), 300);
+                } else {
+                    drawMatrixRace();
+                }
             }
         } catch (e) {
             console.error("Error switching chart:", e);
@@ -2126,7 +2136,8 @@ initializeStatus();
             .attr("height", height);
 
         const raceDuration = 15000; // 15s
-        const topN = 15;
+        // Show all languages that have results
+        const topN = data.filter(d => d.results && d.results.length >= 5).length;
 
         // X scale: 0 to 5 (Matrices)
         const x = d3.scaleLinear()
@@ -2264,7 +2275,7 @@ initializeStatus();
                 s.progress = prog;
             });
 
-            // Rank and Slice
+            // Rank and Slice - fastest first (descending by progress)
             const ranked = solvers.sort((a, b) => b.progress - a.progress).slice(0, topN);
 
             // Bind Data (Key by solver name)

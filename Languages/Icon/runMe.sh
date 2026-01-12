@@ -3,8 +3,9 @@
 
 cd "$(dirname "$0")"
 
-# Add Icon to PATH if available
+# Add Icon to PATH if available (Docker or macOS Homebrew)
 [ -d /app/server/icon-master/bin ] && export PATH="/app/server/icon-master/bin:$PATH"
+[ -d /opt/homebrew/Cellar/icon/9.5.25a/bin ] && export PATH="/opt/homebrew/Cellar/icon/9.5.25a/bin:$PATH"
 
 LANGUAGE="Icon"
 SOLVER_BINARY="./sudoku"

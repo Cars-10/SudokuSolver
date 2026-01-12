@@ -1,8 +1,0 @@
-{
-  "creator": "Donald D. Chamberlin, Raymond F. Boyce",
-  "date": "1974",
-  "description": "A domain-specific language used in programming and designed for managing data held in a relational database management system.",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png",
-  "location": "IBM, USA",
-  "benefits": "Data management, standard, declarative, powerful queries."
-}

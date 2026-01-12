@@ -3,6 +3,9 @@
 
 cd "$(dirname "$0")"
 
+# Add CoffeeScript to PATH (macOS Homebrew)
+[ -d /opt/homebrew/Cellar/coffeescript/2.7.0/bin ] && export PATH="/opt/homebrew/Cellar/coffeescript/2.7.0/bin:$PATH"
+
 LANGUAGE="CoffeeScript"
 SOLVER_BINARY="coffee Sudoku.coffee"
 METRICS_FILE="metrics.json"
