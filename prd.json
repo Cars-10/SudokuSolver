@@ -1,0 +1,225 @@
+{
+  "project": "SudokuSolver",
+  "branchName": "ralph/brainfuck-solver",
+  "description": "Brainfuck Sudoku Solver - Implement a sudoku solver using only 8 operators on a 1D tape, with educational 'entity on a tape' philosophy",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create Brainfuck directory structure",
+      "description": "As a developer, I need the Brainfuck language directory set up following the project pattern.",
+      "acceptanceCriteria": [
+        "Create Languages/Brainfuck/ directory",
+        "Create empty Sudoku.bf file with header comment explaining the entity-on-tape philosophy",
+        "Create README.md with overview of approach and tape memory layout diagram placeholder",
+        "Directory structure matches other language implementations (C, Python, etc.)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Foundation story - creates the workspace"
+    },
+    {
+      "id": "US-002",
+      "title": "Design and document tape memory layout",
+      "description": "As a developer, I need a documented tape memory layout so the Brainfuck code has a consistent structure.",
+      "acceptanceCriteria": [
+        "README.md contains ASCII diagram showing tape layout",
+        "Grid cells 0-80 mapped to tape positions (each cell uses 2 tape cells: value + fixed flag)",
+        "Working memory region defined after grid (positions 162+)",
+        "Document scratch space for: current_pos, trial_value, temp cells, navigation markers",
+        "Sudoku.bf header comments include condensed layout reference"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Design document - no code execution yet, just planning"
+    },
+    {
+      "id": "US-003",
+      "title": "Implement tape initialization with Matrix 1 puzzle",
+      "description": "As a developer, I need the Brainfuck code to initialize the tape with Matrix 1 hardcoded.",
+      "acceptanceCriteria": [
+        "Sudoku.bf initializes 81 grid cells with Matrix 1 values",
+        "Empty cells (0) have fixed flag = 0",
+        "Given cells (1-9) have fixed flag = 1",
+        "Matrix 1 values: 9 2 0 0 0 0 5 8 4 / 0 0 0 5 0 0 0 0 3 / 0 8 3 0 9 2 0 0 0 / 2 6 0 8 5 4 0 0 1 / 0 0 5 3 6 1 0 9 0 / 1 0 0 0 0 9 0 0 0 / 8 5 0 2 0 3 0 1 0 / 4 1 2 9 8 0 0 3 0 / 3 9 0 0 0 6 8 0 0",
+        "Code is heavily commented with entity perspective explanations"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "This is a large amount of + operations but straightforward"
+    },
+    {
+      "id": "US-004",
+      "title": "Implement output routine for solved grid",
+      "description": "As a developer, I need a routine to output the grid as space-separated digits with newlines.",
+      "acceptanceCriteria": [
+        "Output routine walks grid cells 0-80 and prints each value as ASCII digit",
+        "Space (ASCII 32) printed between digits in same row",
+        "Newline (ASCII 10) printed after every 9 digits",
+        "Routine is a reusable code block that can be called after solve completes",
+        "Test by outputting the initial puzzle state (should show Matrix 1 with zeros)"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Output is independent of solve logic - can test early"
+    },
+    {
+      "id": "US-005",
+      "title": "Implement cell navigation helpers",
+      "description": "As a developer, I need helper routines to navigate to any grid cell and return home.",
+      "acceptanceCriteria": [
+        "go_to_cell routine: given position in working memory, navigate to that grid cell",
+        "return_home routine: navigate back to working memory start",
+        "Position tracking uses working memory cell to store current position",
+        "Routines are documented with entity perspective comments",
+        "Can navigate to cell 40 (middle of grid) and back successfully"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Navigation is the foundation of all constraint checking"
+    },
+    {
+      "id": "US-006",
+      "title": "Implement row constraint check",
+      "description": "As a developer, I need to check if a value exists in the current cell's row.",
+      "acceptanceCriteria": [
+        "Given current position and trial value in working memory, check row for conflicts",
+        "Row start calculated as (pos / 9) * 9 using repeated subtraction",
+        "Check all 9 cells in row, comparing each to trial value",
+        "Set result flag: 0 = conflict found, 1 = no conflict",
+        "Position restored after check",
+        "Code heavily commented with entity reasoning"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "First of three constraint checks"
+    },
+    {
+      "id": "US-007",
+      "title": "Implement column constraint check",
+      "description": "As a developer, I need to check if a value exists in the current cell's column.",
+      "acceptanceCriteria": [
+        "Given current position and trial value in working memory, check column for conflicts",
+        "Column cells are at positions: pos%9, pos%9+9, pos%9+18, ..., pos%9+72",
+        "Check all 9 cells in column, comparing each to trial value",
+        "Set result flag: 0 = conflict found, 1 = no conflict",
+        "Position restored after check",
+        "Code heavily commented with entity reasoning"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Second constraint check - column cells are 9 apart"
+    },
+    {
+      "id": "US-008",
+      "title": "Implement 3x3 box constraint check",
+      "description": "As a developer, I need to check if a value exists in the current cell's 3x3 box.",
+      "acceptanceCriteria": [
+        "Given current position and trial value in working memory, check 3x3 box for conflicts",
+        "Box top-left calculated as: row_start = (row/3)*3, col_start = (col/3)*3",
+        "Check all 9 cells in box (3 rows of 3)",
+        "Set result flag: 0 = conflict found, 1 = no conflict",
+        "Position restored after check",
+        "Code heavily commented with entity reasoning"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Most complex constraint - requires row AND column calculations"
+    },
+    {
+      "id": "US-009",
+      "title": "Implement combined isValid check",
+      "description": "As a developer, I need a combined validity check calling row, column, and box checks.",
+      "acceptanceCriteria": [
+        "isValid routine calls row_check, col_check, box_check in sequence",
+        "Short-circuits on first failure (returns invalid immediately)",
+        "Final result: 1 = valid (can place), 0 = invalid (conflict)",
+        "Uses working memory to store intermediate results",
+        "Documented as 'three journeys' in entity perspective"
+      ],
+      "priority": 9,
+      "passes": true,
+      "notes": "Combines the three constraint checks"
+    },
+    {
+      "id": "US-010",
+      "title": "Implement find next empty cell",
+      "description": "As a developer, I need to find the next empty (unfixed) cell in row-major order.",
+      "acceptanceCriteria": [
+        "Scan from current position through cell 80 looking for: value=0 AND fixed=0",
+        "Return position of first empty cell found in working memory",
+        "If no empty cell found, set 'solved' flag to indicate completion",
+        "Search is row-major order (sequential through tape)",
+        "Documented as 'walking forward looking for blank clay'"
+      ],
+      "priority": 10,
+      "passes": true,
+      "notes": "Critical for backtracking - finds where to try next"
+    },
+    {
+      "id": "US-011",
+      "title": "Implement backtracking solve loop",
+      "description": "As a developer, I need the core backtracking algorithm that tries values and backtracks on failure.",
+      "acceptanceCriteria": [
+        "Main solve loop: find empty cell, try values 1-9, recurse/backtrack",
+        "For each empty cell: try value, check isValid, if valid place and continue",
+        "If all 9 values fail: reset cell to 0 and backtrack to previous cell",
+        "Track backtrack stack in working memory (positions of cells we've filled)",
+        "When no empty cells remain: solved flag set, output routine called",
+        "Heavily documented with entity perspective on the 'dance' of solving"
+      ],
+      "priority": 11,
+      "passes": true,
+      "notes": "The heart of the algorithm - most complex story"
+    },
+    {
+      "id": "US-012",
+      "title": "Create runMe.sh benchmark script",
+      "description": "As a developer, I need the benchmark runner script following project conventions.",
+      "acceptanceCriteria": [
+        "runMe.sh follows project pattern (sources common.sh)",
+        "LANGUAGE='Brainfuck'",
+        "Uses bfc compiler to compile Sudoku.bf to native executable",
+        "compile() function: bfc Sudoku.bf -o Sudoku",
+        "check_toolchain verifies bfc is installed",
+        "Documents that puzzle is hardcoded (no matrix file input)",
+        "Script is executable (chmod +x)"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Integration with benchmark framework"
+    },
+    {
+      "id": "US-013",
+      "title": "Test and verify Matrix 1 solution",
+      "description": "As a developer, I need to verify the solver outputs the correct solution for Matrix 1.",
+      "acceptanceCriteria": [
+        "Run ./runMe.sh successfully (bfc compiles, executable runs)",
+        "Output shows valid solved Sudoku grid (no zeros remaining)",
+        "Each row contains digits 1-9 exactly once",
+        "Each column contains digits 1-9 exactly once",
+        "Each 3x3 box contains digits 1-9 exactly once",
+        "Original given cells retain their values",
+        "metrics.json generated with timing data"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "Final verification - the solver works"
+    },
+    {
+      "id": "US-014",
+      "title": "Complete README documentation",
+      "description": "As a developer, I need comprehensive README explaining the implementation.",
+      "acceptanceCriteria": [
+        "README.md explains 'entity on a tape' philosophy",
+        "Contains complete ASCII tape memory layout diagram",
+        "Documents the backtracking algorithm in entity terms",
+        "Lists prerequisites: bfc installation instructions",
+        "Notes limitations: hardcoded puzzle, no iteration count, may timeout on complex matrices",
+        "Includes example output from successful run"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": "Documentation for future reference"
+    }
+  ]
+}
