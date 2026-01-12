@@ -1,4 +1,5 @@
 import * as fs from 'fs/promises';
+import * as fsSync from 'fs';
 import * as path from 'path';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
@@ -1435,11 +1436,19 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         hour12: false
     });
 
+    // Read and inline report_client.js to avoid file:// loading issues
+    let clientScript = '';
+    try {
+        clientScript = fsSync.readFileSync(path.join(__dirname, 'report_client.js'), 'utf8');
+    } catch (e) {
+        console.error('Warning: Could not read report_client.js, falling back to external script');
+    }
+
     html += `
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>
-    <script src="./Metrics/report_client.js"></script>
+    ${clientScript ? `<script>\n${clientScript}\n</script>` : '<script src="./Metrics/report_client.js"></script>'}
     </body>
     </html>
     `;
