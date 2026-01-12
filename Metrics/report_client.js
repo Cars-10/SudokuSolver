@@ -72,6 +72,18 @@ function sortRows(metric, btn) {
         const aVal = a.dataRow.getAttribute('data-' + metric);
         const bVal = b.dataRow.getAttribute('data-' + metric);
 
+        // Special handling for score: N/A (value 0) stays at bottom regardless of direction
+        if (metric === 'score') {
+            const aScore = parseFloat(aVal);
+            const bScore = parseFloat(bVal);
+            // If both are 0 (N/A), keep original order
+            if (aScore === 0 && bScore === 0) return 0;
+            // N/A scores always go to bottom
+            if (aScore === 0) return 1;
+            if (bScore === 0) return -1;
+            return (aScore - bScore) * currentSort.dir;
+        }
+
         if (metric === 'lang') {
             return aVal.localeCompare(bVal) * currentSort.dir;
         } else if (metric === 'year') {
