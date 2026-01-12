@@ -182,6 +182,44 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }).length;
     }
 
+    const diagnostics: any = {
+        env_error: { count: 0, languages: [] },
+        timeout: { count: 0, languages: [] },
+        error: { count: 0, languages: [] },
+        missing: { count: 0, languages: [] }
+    };
+
+    const languagesWithResults = new Set(metrics.map(m => m.solver.replace(/ \((AI)\)$/, '')));
+    
+    metrics.forEach(m => {
+        const lang = m.solver;
+        const envErrors = m.results.filter(r => r.status === 'env_error').map(r => r.matrix);
+        const timeouts = m.results.filter(r => r.status === 'timeout').map(r => r.matrix);
+        const errors = m.results.filter(r => r.status === 'error').map(r => r.matrix);
+
+        if (envErrors.length > 0) {
+            diagnostics.env_error.count++;
+            diagnostics.env_error.languages.push({ language: lang, matrices: envErrors });
+        }
+        if (timeouts.length > 0) {
+            diagnostics.timeout.count++;
+            diagnostics.timeout.languages.push({ language: lang, matrices: timeouts });
+        }
+        if (errors.length > 0) {
+            diagnostics.error.count++;
+            diagnostics.error.languages.push({ language: lang, matrices: errors });
+        }
+    });
+
+    if (languageMetadata) {
+        Object.keys(languageMetadata).forEach(lang => {
+            if (!languagesWithResults.has(lang)) {
+                diagnostics.missing.count++;
+                diagnostics.missing.languages.push({ language: lang, matrices: [] });
+            }
+        });
+    }
+
     const metricsJson = safeJSON(sortedMetrics);
     const historyJson = safeJSON(history);
     const personalitiesJson = safeJSON(personalities);
@@ -447,10 +485,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <span class="breakdown-label">CPU Ratio</span>
                             <span id="scoreCpuRatio" class="breakdown-value"></span>
                         </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Iterations</span>
-                            <span id="scoreIterRatio" class="breakdown-value"></span>
-                        </div>
                     </div>
                 </div>
 
@@ -598,11 +632,22 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- Diagnostics Modal -->
+    <div id="diagnosticsModal" class="modal-overlay" onclick="closeDiagnostics(event)">
+        <div class="modal-content" style="text-align: left; width: 80%; max-width: 1000px;">
+            <span class="modal-close" onclick="closeDiagnostics(event)">&times;</span>
+            <div class="modal-title" style="text-align: center;">Language Diagnostics</div>
+            <div class="modal-desc" id="diagnosticsContent">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Fullscreen header overlay - matches main page header -->
     <div id="fullscreen-header">
         <div class="header-counters">
             <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
-                <span id="solver-text">SOLVED ${metrics.length} OF ${metrics.length}</span>
+                <span id="solver-text">${metrics.length} LANGUAGES</span>
                 <div id="riddle-container" class="riddle-text"></div>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
                 <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
@@ -938,13 +983,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="John Wick">John Wick</option>
                 <option value="Dark Knight">Dark Knight</option>
             </select>
-            <button class="btn" onclick="sortRows('lang', this)">Name</button>
-            <button class="btn active" onclick="sortRows('time', this)">Time</button>
-            <button class="btn" onclick="sortRows('mem', this)">Memory</button>
-            <button class="btn" onclick="sortRows('score', this)">Score</button>
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()">
                 <span>Show Mismatches</span>
             </button>
+            <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
             <div class="dropdown">
                 <button class="btn">Info ▾</button>
                 <div class="dropdown-content">
@@ -1008,24 +1050,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <table>
             <thead>
                 <tr>
-                    <th class="lang-col-header" onclick="sortRows('lang', this)" style="cursor: pointer;" title="Sort by Name">
-                        Language
+                    <th class="lang-col-header sortable-header" onclick="sortRows('lang', this)" style="cursor: pointer;" title="Sort by Name" data-sort="lang">
+                        Language <span class="sort-arrow">▲</span>
                     </th>
-                    <th onclick="sortRows('score', this)" style="cursor: pointer;" title="Sort by Score">
-                        <span id="header-score">Score</span>
+                    <th class="sortable-header" onclick="sortRows('score', this)" style="cursor: pointer;" title="Sort by Score" data-sort="score">
+                        <span id="header-score">Score</span> <span class="sort-arrow">▲</span>
                     </th>
-                    <th onclick="sortRows('timestamp', this)" style="cursor: pointer;" title="Sort by Age">
-                        Updated
+                    <th class="sortable-header" onclick="sortRows('timestamp', this)" style="cursor: pointer;" title="Sort by Age" data-sort="timestamp">
+                        Updated <span class="sort-arrow">▲</span>
                     </th>`;
 
     for (let i = 0; i < maxMatrices; i++) {
-        html += `<th onclick="sortMatrix(${i}, 'time', this)" style="cursor: pointer;" title="Sort by Matrix ${i + 1} Time">
-            Matrix ${i + 1}
+        html += `<th class="sortable-header" onclick="sortMatrix(${i}, 'time', this)" style="cursor: pointer;" title="Sort by Matrix ${i + 1} Time" data-sort="matrix-${i}">
+            Matrix ${i + 1} <span class="sort-arrow">▲</span>
         </th>`;
     }
 
-    html += `<th onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time">
-        <span id="header-time">Total Time (ms)</span>
+    html += `<th class="sortable-header active" onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time" data-sort="time">
+        <span id="header-time">Total Time (ms)</span> <span class="sort-arrow">▲</span>
     </th>
     </tr></thead><tbody>`;
 
@@ -1044,18 +1086,33 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const efficiencyScore = totalTime > 0 ? memMbTotal / totalTime : 0;
 
         // Composite Score (vs C) - Geometric Mean
-        // Ψ = (ρ_time · ρ_mem · ρ_iter · ρ_cpu)^(1/4)
+        // Ψ = (ρ_time · ρ_mem · ρ_cpu)^(1/3)
+        // Compare only against C's results for the SAME matrices this language ran
         // Floor values at 0.001 to avoid zero/negative issues
 
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
-        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
-        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
-        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
-        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
+        // Calculate C baseline only for matrices this language ran
+        let cMatchedTime = 0;
+        let cMatchedMem = 0;
+        let cMatchedCpu = 0;
+        if (cMetrics) {
+            m.results.forEach(r => {
+                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                if (cRes) {
+                    cMatchedTime += cRes.time;
+                    cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
+                    cMatchedCpu += cRes.cpu_user + cRes.cpu_sys;
+                }
+            });
+        }
 
-        // Geometric mean: 4th root of product of all ratios
-        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
+        const timeRatio = Math.max(0.001, (cMatchedTime > 0) ? (totalTime / cMatchedTime) : 1);
+        const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
+        const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
+
+        // Geometric mean: cube root of product of 3 ratios (time, mem, cpu - NO iterations)
+        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
 
         // Tier Calculation
         let tier = 'F';
@@ -1178,6 +1235,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-memory="${maxMem}"
             data-compiler="${rowCompilerInfo}"
             data-score="${normalizedScore.toFixed(2)}"
+            data-tier="${tier}"
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
@@ -1297,6 +1355,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const timeLabels = ${safeJSON(timeLabels)};
             const memoryLabels = ${safeJSON(memoryLabels)};
             const scoreLabels = ${safeJSON(scoreLabels)};
+            const diagnosticsData = ${safeJSON(diagnostics)};
 
             // Dynamic Data
             const historyData = ${safeJSON(history)};
@@ -1314,20 +1373,34 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const meta = languageMetadata[baseLang] || languageMetadata[m.solver] || {};
 
         // Calculate Score & Tier for Client Use
+        // Compare only against C's results for the SAME matrices this language ran
         const times = m.results.map(r => r.time);
-        const iters = m.results.map(r => r.iterations);
         const mems = m.results.map(r => r.memory || 0).filter(m => !isNaN(m));
         const totalTime = times.reduce((a, b) => a + b, 0);
-        const totalIters = iters.reduce((a, b) => a + b, 0);
         const maxMem = mems.length > 0 ? Math.max(...mems) : 0;
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
-        const timeRatio = Math.max(0.001, (cTotalTime > 0) ? (totalTime / cTotalTime) : 1);
-        const memRatio = Math.max(0.001, (cTotalMem > 0) ? (maxMem / cTotalMem) : 1);
-        const cpuRatio = Math.max(0.001, (cTotalCpu > 0) ? (totalCpu / cTotalCpu) : 1);
-        const iterRatio = Math.max(0.001, (cTotalIters > 0) ? (totalIters / cTotalIters) : 1);
+        // Calculate C baseline only for matrices this language ran
+        let cMatchedTime = 0;
+        let cMatchedMem = 0;
+        let cMatchedCpu = 0;
+        if (cMetrics) {
+            m.results.forEach(r => {
+                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                if (cRes) {
+                    cMatchedTime += cRes.time;
+                    cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
+                    cMatchedCpu += cRes.cpu_user + cRes.cpu_sys;
+                }
+            });
+        }
 
-        const score = Math.pow(timeRatio * memRatio * cpuRatio * iterRatio, 0.25);
+        const timeRatio = Math.max(0.001, (cMatchedTime > 0) ? (totalTime / cMatchedTime) : 1);
+        const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
+        const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
+
+        // Geometric mean: cube root of 3 ratios (time, mem, cpu - NO iterations)
+        const score = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
 
         let tier = 'F';
         if (score < 0.95) tier = 'S';

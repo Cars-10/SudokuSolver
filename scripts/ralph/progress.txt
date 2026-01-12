@@ -1,7 +1,11 @@
 # Ralph Progress Log
-Started: Sat Jan 10 18:07:41 CET 2026
+Started: Sat Jan 11 19:55:47 CET 2026
 
 ## Codebase Patterns
+- Table header sorting: Use `sortable-header` class on `th` elements with sort arrow inside
+- Sort arrow CSS: `.sort-arrow` with `.active` and `.desc` classes for visual state
+- Row data attributes: `data-tier` attribute stores tier letter (S/A/B/C/D/F) for Score modal
+- Score breakdown format: "Time: Xx | Mem: Xx | CPU: Xx | Iter: Xx" in `data-score-breakdown` attribute
 - Dockerfile architecture detection: `ARCH=$(dpkg --print-architecture)` returns "arm64" or "amd64"
 - Dockerfile architecture naming: arm64 -> "aarch64", amd64 -> "x86_64" (for most toolchains)
 - Dockerfile syntax validation: use `docker build --check .` to validate without building
@@ -36,4 +40,29 @@ Started: Sat Jan 10 18:07:41 CET 2026
   - Installation: use the bundled install.sh script with -i flag to install to /usr/local
   - The fbc binary is installed to /usr/local/bin/fbc automatically
   - Follow existing patterns in Dockerfile (Julia, Zig) for architecture detection: `if [ "$ARCH" = "arm64" ]; then`
+---
+
+## 2026-01-11 - US-001 (UI Fixes v6)
+- What was implemented: Column sorting toggle - clicking same column header toggles between asc/desc
+- Files changed: Metrics/HTMLGenerator.ts, Metrics/index.css, Metrics/report_client.js
+- **Learnings for future iterations:**
+  - sortRows() already had toggle logic; added visual sort arrows (▲) to table headers
+  - Use `sortable-header` class on th elements with `sort-arrow` span inside
+  - CSS classes `active` and `desc` control arrow visibility and rotation
+---
+
+## 2026-01-11 - US-002 (UI Fixes v6)
+- What was implemented: Fixed radar chart tier color in Score modal
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - Row needed `data-tier` attribute for openScoreModal() to retrieve tier
+  - Added Iter ratio to `data-score-breakdown` for complete radar chart (4 axes: Speed, Memory, CPU, Iterations)
+---
+
+## 2026-01-11 - US-003 (UI Fixes v6)
+- What was implemented: Removed redundant Name/Time/Memory/Score sort buttons from controls bar
+- Files changed: Metrics/HTMLGenerator.ts
+- **Learnings for future iterations:**
+  - Table headers now provide sorting, no need for duplicate buttons in controls
+  - Keep control bar focused on PERSONA selector, Show Mismatches, and info dropdowns
 ---

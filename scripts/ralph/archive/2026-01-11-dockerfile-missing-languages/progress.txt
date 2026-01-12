@@ -1,0 +1,15 @@
+# Ralph Progress Log
+Started: Sat Jan 11 2026
+---
+
+## Codebase Patterns
+- Metrics/HTMLGenerator.ts generates the report HTML with embedded data attributes
+- Metrics/report_client.js handles client-side UI logic (sorting, modals, tooltips)
+- sortRows() function handles column sorting; needs toggle logic like sortMatrix() has
+- currentSort = { metric: '', dir: 1 } tracks current sort state
+- Score modal functions: openScoreModal(), drawScoreRadarChart()
+- tierColors object maps tier letters (S/A/B/C/D/F) to hex colors
+- Sort buttons located around line 1052-1055 in HTMLGenerator.ts
+- Table headers use sort-header class with onclick="sortRows('metric', this)"
+
+---
