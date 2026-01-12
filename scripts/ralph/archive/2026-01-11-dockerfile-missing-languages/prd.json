@@ -17,7 +17,7 @@
         "Verify in browser: click Score header twice, observe sort direction toggles"
       ],
       "priority": 1,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
@@ -34,7 +34,7 @@
         "Verify in browser: open Score modal for a Tier-A language (green), confirm chart is green"
       ],
       "priority": 2,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
@@ -52,7 +52,7 @@
         "Verify in browser: confirm buttons are removed, table header sorting still works"
       ],
       "priority": 3,
-      "passes": true,
+      "passes": false,
       "notes": ""
     }
   ]
