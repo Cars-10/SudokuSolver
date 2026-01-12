@@ -194,11 +194,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     
     metrics.forEach(m => {
         const lang = m.solver;
-        const envErrors = m.results.filter(r => r.status === 'env_error').map(r => r.matrix);
-        const timeouts = m.results.filter(r => r.status === 'timeout').map(r => r.matrix);
-        const errors = m.results.filter(r => r.status === 'error').map(r => r.matrix);
+        // Filter out "N/A" matrix entries - those are toolchain checks, not actual matrix failures
+        const realResults = m.results.filter(r => r.matrix !== 'N/A');
+        const hasSuccessfulResults = realResults.some(r => r.status === 'success');
 
-        if (envErrors.length > 0) {
+        // Only report env_errors if there are no successful results (toolchain completely unavailable)
+        const envErrors = realResults.filter(r => r.status === 'env_error').map(r => r.matrix);
+        const timeouts = realResults.filter(r => r.status === 'timeout').map(r => r.matrix);
+        const errors = realResults.filter(r => r.status === 'error').map(r => r.matrix);
+
+        // Only count env_error if the language has NO successful results
+        if (envErrors.length > 0 && !hasSuccessfulResults) {
             diagnostics.env_error.count++;
             diagnostics.env_error.languages.push({ language: lang, matrices: envErrors });
         }
