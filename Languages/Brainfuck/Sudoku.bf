@@ -3419,3 +3419,365 @@ The full row check would loop this for all 9 cells in the row
 Skipping comparison when checking the curr pos cell itself
 
 END OF ROW CHECK SECTION
+
+COLUMN CONSTRAINT CHECK
+=======================
+
+The entity must now learn to check if a value exists in the current cells column
+This is the second of three constraint journeys row column and box
+Column cells are spaced 9 apart in cell index space 18 apart in tape positions
+
+THE COLUMN CHECK ALGORITHM
+=========================
+
+Given curr pos at 162 and trial val at 163
+We must visit all 9 cells in the same column and compare
+
+Step 1 Calculate which column we are in
+  column = curr pos mod 9
+  Same calculation as row check but we keep the remainder
+
+Step 2 Identify column cell positions
+  Column cells are at cell indices col col+9 col+18 col+27 col+36 col+45 col+54 col+63 col+72
+  Each step of 9 moves us down one row in the same column
+
+Step 3 Walk the column checking each cell
+  For each cell in the column compare value to trial val
+  Skip comparing against curr pos itself
+
+Step 4 Set result
+  result at 164 is 1 if no conflict 0 if conflict found
+
+MEMORY USAGE FOR COLUMN CHECK
+============================
+
+Position 162 curr pos the cell we are checking for
+Position 163 trial val the value we want to place
+Position 164 result will be set to outcome
+Position 166 temp1 working copy of column number
+Position 167 temp2 current cell index being checked
+Position 168 temp3 loop counter 9 cells to check
+Position 169 temp4 cell value fetched for comparison
+Position 170 temp5 comparison flag
+Position 171 temp6 temp for equality test
+Position 172 temp7 copy of trial val
+
+COLUMN CHECK DEMONSTRATION
+=========================
+
+Like the row check we demonstrate the key concepts
+For a full implementation this pattern would be repeated for all 9 column cells
+
+The entity stands at position 162
+We assume result is still set from row check or we reset it
+
+Reset result to 1 assuming no conflict
+>>[-]+<<
+
+At position 162
+
+First calculate column using the same mod 9 algorithm from row check
+Copy curr pos to 166
+
+Clear 166 and 167
+>>>>[-]>[-]<<<<<
+
+Copy 162 to 166 and 167
+[>>>>+>+<<<<<-]
+
+Restore 162 from 167
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Now 166 has curr pos copy
+
+Move to 166
+>>>>
+
+Calculate column = value mod 9 using the divmod algorithm
+Cell A 166 has dividend will be consumed
+Cell B 167 will have remainder column
+Cell C 168 will have quotient row not needed for column check
+
+Clear 167 and 168
+>[-]>[-]<<
+
+DIV MOD BY 9 LOOP
+While 166 nonzero count ones and reset B at 9
+[
+  Decrement A
+  -
+
+  Move to B at 167 and increment
+  >+
+
+  Now check if B equals 9
+  Copy B to temp at 169 using 170 as shuttle
+  Clear 169 170
+  >>[-]>[-]<<<
+
+  Copy 167 to 169 and 170
+  [>>+>+<<<-]
+
+  Restore 167 from 170
+  >>>[-<<<+>>>]<<<
+
+  Now 169 has copy of B
+  Move to 169
+  >>
+
+  Subtract 9
+  ---------
+
+  If 169 is now 0 then B was 9
+  Use 170 as flag set to 1 if B was 9
+  >[-]+<
+
+  If 169 nonzero B was not 9 clear the flag
+  [>-<[-]]
+
+  Now if 170 is 1 then B was 9 need to reset B and increment C
+  Move to 170
+  >
+
+  If 170 nonzero B was 9
+  [
+    Go to B at 167 clear it
+    <<<[-]
+    Go to C at 168 increment it
+    >+
+    Go back to 170 and clear it to exit
+    >>[-]
+  ]
+
+  Move back to A at 166
+  <<<<
+
+End of main divmod loop
+]
+
+After loop
+A at 166 is 0
+B at 167 has curr pos mod 9 this is column
+C at 168 has curr pos div 9 this is row
+
+For column check we need 167 the column number
+
+VERIFY COLUMN CALCULATION
+========================
+
+For demonstration verify we calculated column correctly
+Cell 0 is column 0 cell 2 is column 2 cell 9 is column 0 etc
+
+The column tells us which vertical stripe of the grid we are in
+Column 0 contains cells 0 9 18 27 36 45 54 63 72
+Column 1 contains cells 1 10 19 28 37 46 55 64 73
+And so on
+
+COLUMN TRAVERSAL SETUP
+=====================
+
+To check the column we visit cells at col col+9 col+18 etc
+We need 9 visits total
+
+Store column in a safe location for traversal
+167 has column after divmod
+
+Copy 167 to 170 as current cell index
+Clear 170 171
+>>>[-]>[-]<<<<
+
+Copy 167 to 170 and 171
+[>>>+>+<<<<-]
+
+Restore 167 from 171
+>>>>[-<<<<+>>>>]<<<<
+
+Now 170 has column and 167 preserved
+
+Move to 168 and set loop counter to 9
+>[-]+++++++++
+
+Copy trial val from 163 to 172 for comparison
+We are at 168 need to get to 163
+From 168 go left 5 to 163
+<<<<<
+
+At 163
+Clear 172 173
+>>>>>>>>>[-]>[-]<<<<<<<<<<
+
+Copy 163 to 172 and 173
+[>>>>>>>>>+>+<<<<<<<<<<-]
+
+Restore 163 from 173
+>>>>>>>>>>[-<<<<<<<<<<+>>>>>>>>>>]<<<<<<<<<<
+
+Now 172 has trial val copy
+Back at 163 go to 162
+<
+
+At 162
+
+COLUMN CHECK SINGLE CELL DEMO
+============================
+
+For demonstration we check if cell 0 value equals trial val
+This is similar to row check but illustrates column logic
+
+Cell 0 is in column 0
+Other column 0 cells are 9 18 27 36 45 54 63 72
+
+Navigate to cell 0 which is at tape position 0
+From 162 go left 162 steps
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+At cell 0 value position tape position 0
+Copy value nondestructively to working memory
+
+Clear positions 1 and 166 for value copies
+>[-]<
+Navigate to 166 and clear
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>[-]
+
+Navigate back to position 0
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+At position 0
+Move value to positions 1 and 166
+
+[->+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+]
+
+Position 0 is now 0
+Position 1 has original value
+Position 166 has original value
+
+Restore position 0 from position 1
+>[<+>-]<
+
+Position 0 restored position 1 is now 0
+Position 166 has value copy for comparison
+
+Navigate to working memory position 162
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+At position 162
+
+COLUMN CHECK VALUE COMPARISON
+============================
+
+Compare cell value in 166 to trial val copy in 172
+If equal we have a conflict set result to 0
+
+Move to 166
+>>>>
+
+Copy 166 to 169 using 170 as temp
+Clear 169 170
+>>>[-]>[-]<<<<
+[>>>+>+<<<<-]>>>>[-<<<<+>>>>]<<<<
+
+Now 169 has cell value copy
+
+Move to 172 which has trial val
+>>>>>>
+
+Copy 172 to 171 using 173 as temp
+Clear 171 173
+<[-]>>[-]<<<
+[<+>>+<<<-]>>[-<<<+>>>]<<<
+
+Now 171 has trial val copy
+
+Go to 169
+<<
+
+Subtract 171 from 169 to check equality
+Clear 170 for arithmetic
+>[-]<
+
+Standard subtraction subtract 171 from 169
+Go to 171
+>>
+[<<->>-]
+<<
+
+At 169 which now has 169 minus 171
+If this is 0 values were equal conflict
+
+Test if 169 is zero using flag pattern
+Set 170 to 1 as flag
+>[-]+<
+
+Move 169 to 171 to test
+Clear 171
+>>[-]<<
+[>>+<<-]
+
+If 171 nonzero values differed no conflict clear flag
+>>
+[<-
+>[-]]
+<
+
+At 170
+If 170 is 1 values were equal conflict found
+[
+  Clear flag
+  -
+
+  Go to result at 164
+  <<<<<<
+
+  Clear result to 0
+  [-]
+
+  Go back to 170
+  >>>>>>
+]
+
+At 170
+
+COLUMN CHECK DEMONSTRATION COMPLETE
+==================================
+
+We demonstrated the column check pattern
+1 Calculate column number using mod 9
+2 Navigate to a cell in that column
+3 Read cell value nondestructively
+4 Compare to trial value
+5 Set result flag if conflict
+
+For full column check this would be repeated for all 9 cells
+Cell indices col col+9 col+18 col+27 col+36 col+45 col+54 col+63 col+72
+Skip comparison when cell equals curr pos
+
+Return to position 162
+Go left from 170 which is 162 plus 8
+<<<<<<<<
+
+At 162
+
+OUTPUT COLUMN CHECK RESULT
+=========================
+
+For demo output the result to show column check worked
+
+Move to result at 164
+>>
+
+Print result as digit
+++++++++++++++++++++++++++++++++++++++++++++++++.------------------------------------------------
+
+Print newline
+Go to 166 build newline
+>>[-]++++++++++.[-]<<
+
+Back at 164
+
+Return to 162
+<<
+
+END OF COLUMN CHECK SECTION
