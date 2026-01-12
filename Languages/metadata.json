@@ -21,9 +21,9 @@
             "image": "Languages/Red/Media/Red_logo.png",
             "date": "2011",
             "location": "Global",
-            "benefits": "Full-stack, symbolic, cross-platform.",
+            "benefits": "Full-stack, symbolic, cross-platform (32-bit only).",
             "website": "",
-            "description": "A functional and symbolic language inspired by REBOL.",
+            "description": "A functional and symbolic language inspired by REBOL. Note: Red currently only supports 32-bit systems and cannot run natively on Apple Silicon (ARM64) Macs.",
             "authors": [
                 {
                     "name": "Nenad Rakocevic",
@@ -81,9 +81,9 @@
             "image": "Languages/VisualBasic/Media/VisualBasic_1766233459591.png",
             "date": "1991",
             "location": "Microsoft, USA",
-            "benefits": "RAD, ease of use, Windows integration, legacy support.",
+            "benefits": "RAD, ease of use, Windows integration, legacy support (Windows only).",
             "website": "",
-            "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model.",
+            "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model. Note: VB6 runtime is Windows-only and cannot run on Apple Silicon Macs.",
             "authors": [
                 {
                     "name": "Microsoft (Alan Cooper)",
