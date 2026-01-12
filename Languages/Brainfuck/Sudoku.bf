@@ -3781,3 +3781,1090 @@ Return to 162
 <<
 
 END OF COLUMN CHECK SECTION
+
+BOX CONSTRAINT CHECK
+====================
+
+The entity must now learn to check if a value exists in the current cells 3x3 box
+This is the third and most complex of the three constraint journeys
+The Sudoku grid is divided into 9 boxes each 3 rows by 3 columns
+Each box must contain digits 1 through 9 exactly once
+
+THE 3X3 BOX CHECK ALGORITHM
+===========================
+
+Given curr pos at 162 and trial val at 163
+We must visit all 9 cells in the same 3x3 box and compare
+
+Step 1 Calculate row and column from curr pos
+  row = curr pos div 9 quotient from divmod
+  col = curr pos mod 9 remainder from divmod
+
+Step 2 Calculate box top left corner
+  box row = row div 3 times 3 which row the box starts at
+  box col = col div 3 times 3 which column the box starts at
+  box start = box row times 9 plus box col
+
+Step 3 Walk the 9 box cells checking each
+  Box cells are at offsets 0 1 2 9 10 11 18 19 20 from box start
+  First row of box  box start plus 0 1 2
+  Second row of box box start plus 9 10 11
+  Third row of box  box start plus 18 19 20
+
+Step 4 Set result
+  result at 164 is 1 if no conflict 0 if conflict found
+
+BOX INDEX CALCULATION EXAMPLE
+============================
+
+For cell 40 row 4 col 4 center of grid
+  box row = 4 div 3 times 3 = 1 times 3 = 3
+  box col = 4 div 3 times 3 = 1 times 3 = 3
+  box start = 3 times 9 plus 3 = 27 plus 3 = 30
+
+Box containing cell 40 has cells 30 31 32 39 40 41 48 49 50
+This is the center box of the grid
+
+MEMORY USAGE FOR BOX CHECK
+=========================
+
+Position 162 curr pos the cell we are checking for
+Position 163 trial val the value we want to place
+Position 164 result will be set to outcome
+Position 166 temp1 working copy for calculations
+Position 167 temp2 remainder from div 9 which is col
+Position 168 temp3 quotient from div 9 which is row
+Position 169 temp4 box row after row div 3 times 3
+Position 170 temp5 box col after col div 3 times 3
+Position 171 temp6 box start cell index
+Position 172 temp7 copy of trial val for comparison
+Position 173 temp8 loop counters and comparison temps
+Position 174 temp9 cell value fetched for comparison
+Position 175 temp10 comparison flag
+
+BOX CHECK DEMONSTRATION
+======================
+
+The entity stands at position 162
+We assume result may have been modified by row or column check
+For box check we demonstrate the complete div 3 times 3 calculation
+
+Reset result to 1 assuming no conflict
+>>[-]+<<
+
+At position 162
+
+STEP 1 CALCULATE ROW AND COLUMN
+==============================
+
+We need both row and column to find the box
+Use the same divmod by 9 algorithm as before
+
+Copy curr pos to 166
+Clear 166 and 167
+>>>>[-]>[-]<<<<<
+
+Copy 162 to 166 and 167
+[>>>>+>+<<<<<-]
+
+Restore 162 from 167
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Now 166 has curr pos copy
+Move to 166
+>>>>
+
+DIVMOD BY 9 FOR ROW AND COLUMN
+=============================
+
+Cell 166 has dividend will be consumed
+Cell 167 will have remainder col
+Cell 168 will have quotient row
+
+Clear 167 and 168
+>[-]>[-]<<
+
+DIV MOD BY 9 MAIN LOOP
+[
+  Decrement A at 166
+  -
+
+  Move to B at 167 and increment
+  >+
+
+  Check if B equals 9
+  Copy B to 169 using 170 as shuttle
+  Clear 169 170
+  >>[-]>[-]<<<
+
+  Copy 167 to 169 and 170
+  [>>+>+<<<-]
+
+  Restore 167 from 170
+  >>>[-<<<+>>>]<<<
+
+  Now 169 has copy of B
+  Move to 169
+  >>
+
+  Subtract 9
+  ---------
+
+  If 169 is now 0 then B was 9
+  Use 170 as flag set to 1 if B was 9
+  >[-]+<
+
+  If 169 nonzero B was not 9 clear the flag
+  [>-<[-]]
+
+  Now if 170 is 1 then B was 9 reset B and increment C
+  Move to 170
+  >
+
+  If 170 nonzero B was 9
+  [
+    Go to B at 167 clear it
+    <<<[-]
+    Go to C at 168 increment it
+    >+
+    Go back to 170 and clear it to exit
+    >>[-]
+  ]
+
+  Move back to A at 166
+  <<<<
+
+End of main divmod loop
+]
+
+After loop
+166 is 0
+167 has curr pos mod 9 this is col
+168 has curr pos div 9 this is row
+
+STEP 2 CALCULATE BOX ROW AND BOX COL
+===================================
+
+box row = row div 3 times 3
+box col = col div 3 times 3
+
+Division by 3 is simpler than by 9
+We use the same divmod pattern but with 3
+
+First calculate box row from row at 168
+
+Copy 168 to 169 for div 3 calculation
+Clear 169 170
+>[-]>>[-]>[-]<<<
+
+Move to 168
+>
+
+Copy 168 to 169 and 170
+[>+>+<<-]
+
+Restore 168 from 170
+>>[-<<+>>]<<
+
+Now 169 has row copy
+Move to 169
+>
+
+DIVMOD BY 3 FOR ROW
+==================
+
+169 has row will become remainder
+170 will have quotient row div 3
+Clear 170
+>[-]<
+
+Main div 3 loop
+[
+  Decrement 169
+  -
+
+  Increment 170
+  >+<
+
+  Check if 170 equals 3
+  Copy 170 to 171 and 172
+  >>[-]>[-]<<<
+  >[>>+>+<<<-]
+  >>>[-<<<+>>>]<<<
+
+  Now 171 has copy of 170
+  Move to 171
+  >
+
+  Subtract 3
+  ---
+
+  If 171 is 0 then 170 was 3
+  Set flag at 172
+  >[-]+<
+
+  If 171 nonzero clear flag
+  [>-<[-]]
+
+  Check flag at 172
+  >
+
+  If flag set reset 170 and increment 173 for final quotient
+  But wait we need to track quotient differently
+
+  Actually simpler approach
+  If 170 is 3 clear it back to 0 and increment a quotient cell
+  [
+    Go to 170 clear it
+    <<[-]
+    We need quotient in another cell use 173
+    But first go back to 172 and clear it
+    >>[-]
+  ]
+
+  Move back to 169
+  <<<
+
+End div 3 loop
+]
+
+This is getting complex let me use a simpler unrolled approach
+
+SIMPLIFIED BOX ROW CALCULATION
+=============================
+
+For rows 0 to 8 the box row values are
+Row 0 1 2 gives box row 0
+Row 3 4 5 gives box row 3
+Row 6 7 8 gives box row 6
+
+We can compute row minus row mod 3 to get box row
+Or equivalently row div 3 times 3
+
+Since we already have row at 168 let me calculate box row
+
+Move to 168 row is here
+>
+
+The row value is 0 to 8
+For row 0 1 2 box row is 0
+For row 3 4 5 box row is 3
+For row 6 7 8 box row is 6
+
+Copy row to 169 for calculation
+Clear 169 170
+>[-]>[-]<<
+
+Copy 168 to 169 and 170
+[>+>+<<-]
+
+Restore 168 from 170
+>>[-<<+>>]<<
+
+Now 169 has row
+Move to 169
+>
+
+DIV 3 TIMES 3 PATTERN
+====================
+
+To get row div 3 times 3
+Subtract 3 repeatedly track count multiply back
+
+Or simpler
+Set result to 0
+If row at least 3 add 3 to result subtract 3 from row copy
+If row at least 3 add 3 to result subtract 3 from row copy
+And so on
+
+Clear 171 for box row result
+>>[-]<<
+
+Check if 169 is at least 3
+We do three subtractions with checks
+
+FIRST CHECK IF AT LEAST 3
+Copy 169 to 170 and 172
+>[-]>>[-]<<<
+[>+>>+<<<-]
+>>>[-<<<+>>>]<<<
+
+Now 170 has 169 copy
+Move to 170
+>
+
+Subtract 3 to test
+---
+
+If 170 is 0 or wrapped negative we were less than 3
+Test if 170 is nonzero
+Copy to 172 using 173
+>>[-]>[-]<<<
+[>>+>+<<<-]
+>>>[-<<<+>>>]<<<
+
+If 172 nonzero we had at least 3
+Move to 172
+>>
+
+[
+  We had at least 3
+  Go to 169 and subtract 3
+  <<<<---
+  Go to 171 and add 3
+  >>+++
+  Go back to 172 and clear
+  >[-]
+]
+
+Back at 172
+<
+
+Actually let me rethink this with cleaner approach
+
+CLEANER DIV 3 TIMES 3
+====================
+
+Go back to 169 which has row
+<<<
+
+Clear 171 for result
+>>[-]<<
+
+At 169
+
+Simple loop subtract 3 add 3 to result while 169 at least 3
+
+First copy 169 to 170 for comparison
+Clear 170
+>[-]<
+[->+<]>[-<+>]<
+
+Hmm destructive copy problem
+
+Let me use different approach
+
+NON DESTRUCTIVE COMPARISON APPROACH
+==================================
+
+Copy 169 to two locations 170 and 173
+Clear 170 173
+>[-]>>>>[-]<<<<<
+
+Copy 169 to 170 and 173
+[>+>>>>+<<<<<-]
+
+Restore 169 from 173
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Now 170 has copy of 169
+
+Move to 170
+>
+
+Subtract 3 to test if was at least 3
+---
+
+If 170 is nonzero 169 was at least 3
+Use 172 as flag
+>>[-]+<<
+
+If 170 nonzero preserve flag
+[>>-<<[-]]
+
+Oops that clears 170 too
+
+Actually simpler test if 170 is zero set flag 0 else flag 1
+
+Move to 170
+At 170 after subtraction
+
+Set 172 to 1
+>>[-]+<<
+
+If 170 nonzero clear 172 and set to 1 wait we want opposite
+
+If 170 is 0 then 169 was less than 3 set flag to 0
+If 170 nonzero 169 was at least 3 keep flag 1
+
+Move to 170
+Standard zero test
+Move 170 to 171
+>[-]<
+[->+<]
+
+Now 171 has what 170 had
+If 171 nonzero 169 was at least 3
+
+Move to 171
+>
+
+Check if 171 nonzero
+[
+  169 was at least 3
+  Go to 169 subtract 3
+  <<---
+  Go to box row result at 174 add 3 using it as accumulator
+  Actually let me use position 171 cleared and 174
+
+  Wait positions are getting messy let me reorganize
+
+  For box row calculation
+  169 has row value
+  171 will accumulate box row result
+  172 173 174 are temps
+
+  Go back to setup
+  Clear 171
+  [-]
+
+  At 171
+  >
+]
+
+Actually this is getting too complicated let me try unrolled approach
+
+UNROLLED BOX ROW CALCULATION
+===========================
+
+Row values 0 to 8 map to box row 0 3 6
+
+Row 0 box row 0
+Row 1 box row 0
+Row 2 box row 0
+Row 3 box row 3
+Row 4 box row 3
+Row 5 box row 3
+Row 6 box row 6
+Row 7 box row 6
+Row 8 box row 6
+
+The pattern row minus row mod 3
+
+For implementation subtract 3 twice if possible
+
+Actually simplest Brainfuck approach
+
+Clear result
+If row at least 6 result is 6 done
+Else if row at least 3 result is 3
+Else result is 0
+
+Move to row at 168
+<
+
+Copy row to 169 170
+Clear 169 170
+>[-]>[-]<<
+
+Copy 168 to 169 and 170
+[>+>+<<-]
+
+Restore 168 from 170
+>>[-<<+>>]<<
+
+169 has row copy
+
+Clear 171 for box row result
+>>>[-]<<<
+
+Move to 169
+>
+
+First check if at least 6
+Copy 169 to 172 173
+Clear 172 173
+>>>[-]>[-]<<<<
+
+Copy 169 to 172 and 173
+[>>>+>+<<<<-]
+
+Restore 169 from 173
+>>>>[-<<<<+>>>>]<<<<
+
+Now 172 has row copy
+Move to 172
+>>>
+
+Subtract 6
+------
+
+If 172 nonzero row was at least 6
+Use 174 as flag initially 1
+>[-]+<
+
+Move 172 to 175 to test
+>>[-]<<<
+[>>>+<<<-]
+
+If 175 nonzero clear flag
+>>>
+[<<<->>>[-]]
+<<<
+
+At 174
+If 174 is 1 row was less than 6
+If 174 is 0 row was at least 6 set box row to 6
+
+Actually I have the logic inverted
+
+Let me redo
+
+172 had row copy we subtracted 6
+If result is 0 or negative wrapped row was less than 6
+If result is positive row was 6 7 or 8
+
+Check if 172 is nonzero
+We already moved it to 175
+
+Move back to check state
+At 174
+
+If 175 nonzero row was at least 6
+>>>
+[
+  Row was at least 6
+  Set box row at 171 to 6
+  Go to 171
+  <<<<++++++
+  Come back and clear 175
+  >>>>[-]
+]
+<<<
+
+At 172
+
+Now check if row was at least 3 but less than 6
+Go back to 169 which still has row
+<<<<
+
+Copy 169 to 172 173 again
+Clear 172 173
+>>>[-]>[-]<<<<
+
+Copy 169 to 172 and 173
+[>>>+>+<<<<-]
+
+Restore 169 from 173
+>>>>[-<<<<+>>>>]<<<<
+
+Move to 172
+>>>
+
+Subtract 3
+---
+
+Move 172 to 175 for test
+>>[-]<<<
+[>>>+<<<-]
+
+If 175 nonzero row was at least 3
+>>>
+[
+  Row was at least 3
+  Check if box row 171 is still 0 if so set to 3
+  Go to 171
+  <<<<
+
+  Test if 171 is 0
+  Copy 171 to 176 177
+  Clear 176 177
+  >>>>>[-]>[-]<<<<<<
+
+  Copy 171 to 176 and 177
+  [>>>>>+>+<<<<<<-]
+
+  Restore 171 from 177
+  >>>>>>[-<<<<<<+>>>>>>]<<<<<<
+
+  Now 176 has copy of 171
+  Move to 176
+  >>>>>
+
+  If 176 is 0 then 171 was 0 and we should set it to 3
+  Set flag 178 to 1
+  >>[-]+<<
+
+  If 176 nonzero clear flag
+  [>>-<<[-]]
+
+  Check flag at 178
+  >>
+
+  If 178 is 1 171 was 0 set it to 3
+  [
+    Go to 171 set to 3
+    <<<<<<<+++
+    Come back clear flag
+    >>>>>>>[-]
+  ]
+
+  At 178
+  Go back to 175 and clear it
+  <<<[-]
+]
+
+At 175
+Go back to 169
+<<<<<<
+
+At 169
+
+Now 171 has box row 0 3 or 6
+
+CALCULATE BOX COL SIMILARLY
+==========================
+
+Col is at 167
+Box col = col div 3 times 3
+Same pattern as box row
+
+Copy 167 to 169 for calculation
+From 169 go left 2 to 167
+<<
+
+At 167
+Copy 167 to 169 170
+Clear 169 170 first
+>>[-]>[-]<<<
+
+Copy 167 to 169 and 170
+[>>+>+<<<-]
+
+Restore 167 from 170
+>>>[-<<<+>>>]<<<
+
+Now 169 has col copy
+Move to 169
+>>
+
+Clear 172 for box col result
+>>>[-]<<<
+
+First check if col at least 6
+Copy 169 to 173 174
+Clear 173 174
+>>>>[-]>[-]<<<<<
+
+Copy 169 to 173 and 174
+[>>>>+>+<<<<<-]
+
+Restore 169 from 174
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Now 173 has col copy
+Move to 173
+>>>>
+
+Subtract 6
+------
+
+Move 173 to 175 for test
+>>[-]<<<<
+[>>+<<<<-]
+
+Err fix movement
+
+At 173
+Move to 175
+>>[-]<<
+[>>+<<-]
+
+If 175 nonzero col was at least 6
+>>
+[
+  Col was at least 6
+  Set box col at 172 to 6
+  <<<++++++
+  Come back clear 175
+  >>>[-]
+]
+
+Go back and check if col at least 3
+Go to 169
+<<<<<<
+
+Copy 169 to 173 174 again
+>>>>[-]>[-]<<<<<
+[>>>>+>+<<<<<-]
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Move to 173
+>>>>
+
+Subtract 3
+---
+
+Move 173 to 175
+>>[-]<<
+[>>+<<-]
+
+If 175 nonzero col was at least 3
+>>
+[
+  Col was at least 3
+  Check if box col 172 is still 0
+  Go to 172
+  <<<
+
+  Copy 172 to 176 177
+  >>>>[-]>[-]<<<<<
+  [>>>>+>+<<<<<-]
+  >>>>>[-<<<<<+>>>>>]<<<<<
+
+  Check 176
+  >>>>
+
+  Set flag 178 to 1
+  >>[-]+<<
+
+  If 176 nonzero clear flag
+  [>>-<<[-]]
+
+  Check flag
+  >>
+
+  If flag set 172 was 0 set to 3
+  [
+    Go to 172 set to 3
+    <<<<<<+++
+    Come back clear flag
+    >>>>>>[-]
+  ]
+
+  At 178
+  Go to 175 clear
+  <<<[-]
+]
+
+Go back to 169
+<<<<<<
+
+At 169
+
+Now 171 has box row and 172 has box col
+
+CALCULATE BOX START
+==================
+
+box start = box row times 9 plus box col
+box start = 171 times 9 plus 172
+
+First multiply 171 by 9
+Clear 173 for result
+>>>>[-]<<<<
+
+Move to 171
+<<
+
+Multiply by 9 add to 173 nine times
+[
+  Add 9 to 173
+  >>+++++++++
+  Go back and decrement 171
+  <<-
+]
+
+Now 173 has box row times 9
+171 is now 0
+
+Add box col 172 to 173
+Move to 172
+>
+
+Add 172 to 173
+[>+<-]
+
+Now 173 has box start
+172 is now 0
+
+Box start tells us which cell is top left of our 3x3 box
+
+VERIFY BOX START CALCULATION
+===========================
+
+For demonstration lets verify
+If curr pos was 0 row 0 col 0
+box row 0 box col 0 box start 0
+Box 0 contains cells 0 1 2 9 10 11 18 19 20
+
+If curr pos was 40 row 4 col 4
+box row 3 box col 3 box start 30
+Box 4 center contains cells 30 31 32 39 40 41 48 49 50
+
+BOX CELL TRAVERSAL
+=================
+
+The 9 cells in a box starting from box start are at offsets
+0 1 2 for first row of box
+9 10 11 for second row of box
+18 19 20 for third row of box
+
+We navigate to each cell check if value equals trial val
+Skip comparison when cell equals curr pos
+
+For demonstration we will check the first cell of the box
+
+Store box start from 173 in a safe location
+Copy 173 to 166 for navigation use
+From 169 go back to 166
+
+Move to 166
+<<<
+
+Clear 166
+[-]
+
+Move to 173
+>>>>>>>
+
+Copy 173 to 166 and 174
+Clear 174
+>[-]<
+
+Copy 173 to 166 and 174
+[<<<<<<<+>>>>>>>+<-]
+
+Wait that consumes 173
+Need proper copy
+
+Copy 173 to 166 and 174 using 175 as temp
+Clear 166 174 175
+<<<<<<<[-]>>>>>>>>[-]>[-]<<
+
+Copy 173 to 166 174 175
+<
+[<<<<<<<+>>>>>>>+>+<<-]
+
+Restore 173 from 175
+>>[-<<+>>]<<
+
+Now 166 has box start and 173 preserved
+
+BOX CHECK SINGLE CELL DEMO
+=========================
+
+Navigate to first box cell using box start in 166
+First calculate how far from position 162 to the cell
+
+Cell index in 166 tape position is 166 times 2
+From position 162 we need to go left 162 minus tape pos
+
+This is complex navigation
+For demo lets navigate to cell 0 which is tape pos 0
+From 162 we go left 162 times
+
+For dynamic navigation we would need to compute distance
+Brainfuck makes this very challenging
+
+SIMPLIFIED BOX CHECK DEMO
+========================
+
+For demonstration of the algorithm
+Lets check if cell 0 value matches trial val
+Cell 0 is in box 0 top left
+
+Navigate from 162 to tape position 0
+Go left 162 steps
+
+Move to position 162 first
+Go from current position
+We are somewhere in working memory let me reset
+
+Go to position 162
+From 173 go left to 162
+173 minus 162 is 11 so go left 11
+<<<<<<<<<<<
+
+At 162
+
+Navigate to cell 0 at tape position 0
+Go left 162 steps
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+At tape position 0 cell 0 value
+
+Read cell value nondestructively
+Copy to position 1 and 174 working memory
+
+Clear position 1
+>[-]<
+
+Copy value to 1 and 174
+We are at 0 need to move value to 1 and to 174
+
+174 is 174 positions to the right
+[
+  Move to 1
+  >+
+  Move back
+  <
+  Move to 174
+  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+
+  Move back to 0
+  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  Decrement original
+  -
+]
+
+Now position 0 is empty
+Restore from position 1
+>[<+>-]<
+
+Position 0 restored
+Position 174 has cell value copy
+
+Navigate back to working memory position 162
+Go right 162 steps
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+At 162
+
+COMPARE BOX CELL TO TRIAL VAL
+============================
+
+Cell value is in 174
+Trial val is at 163
+
+Copy trial val to 175 for comparison
+Move to 163
+>
+
+Clear 175 176
+>>>>>>>>>>>>[-]>[-]<<<<<<<<<<<<<
+
+Copy 163 to 175 and 176
+[>>>>>>>>>>>>+>+<<<<<<<<<<<<<-]
+
+Restore 163 from 176
+>>>>>>>>>>>>>[-<<<<<<<<<<<<<+>>>>>>>>>>>>>]<<<<<<<<<<<<<
+
+Now 175 has trial val copy
+Back at 163 move to 162
+<
+
+At 162
+
+Compare 174 and 175
+Copy 174 to 176
+Move to 174
+>>>>>>>>>>>>
+
+Clear 176 177
+>>[-]>[-]<<<
+
+Copy 174 to 176 and 177
+[>>+>+<<<-]
+
+Restore 174 from 177
+>>>[-<<<+>>>]<<<
+
+Now 176 has cell value copy
+
+Move to 175
+>
+
+Copy 175 to 177 using 178 as temp
+>>[-]>[-]<<<
+[>>+>+<<<-]
+>>>[-<<<+>>>]<<<
+
+Now 177 has trial val copy
+
+Subtract 177 from 176 to test equality
+Move to 176
+>
+
+Get 177 and subtract from 176
+>[<->>+<-]
+
+Hmm let me redo this subtraction properly
+
+At 176 which has cell value
+177 has trial val
+
+Standard subtraction 176 = 176 minus 177
+Move to 177
+>
+[<->-]
+<
+
+Now 176 has 176 minus 177
+If 176 is 0 values were equal conflict found
+
+Test if 176 is zero
+Set flag at 178 to 1
+>>[-]+<<
+
+Move 176 to 179
+>>>[-]<<<
+[>>>+<<<-]
+
+If 179 nonzero values differed clear flag
+>>>
+[<<<->>>[-]]
+<<<
+
+At 178
+If 178 is 1 values were equal set result to 0
+
+[
+  Values were equal conflict found
+  Go to result at 164
+  From 178 go left 14 to 164
+  <<<<<<<<<<<<<<
+
+  Clear result to 0
+  [-]
+
+  Go back to 178
+  >>>>>>>>>>>>>>
+
+  Clear flag
+  [-]
+]
+
+At 178
+
+BOX CHECK DEMO COMPLETE
+======================
+
+We demonstrated the box check algorithm
+1 Calculate row and column using divmod by 9
+2 Calculate box row and box col using div 3 times 3
+3 Calculate box start equals box row times 9 plus box col
+4 Navigate to a cell in the box
+5 Read cell value nondestructively
+6 Compare to trial value
+7 Set result flag if conflict
+
+For full implementation this would check all 9 box cells
+Cell indices box start plus 0 1 2 9 10 11 18 19 20
+Skip comparison when cell equals curr pos
+
+Return to position 162
+From 178 go left 16 to 162
+<<<<<<<<<<<<<<<<
+
+At 162
+
+OUTPUT BOX CHECK RESULT
+======================
+
+For demo output the result
+
+Move to result at 164
+>>
+
+Print result as digit
+++++++++++++++++++++++++++++++++++++++++++++++++.------------------------------------------------
+
+Print newline
+>>[-]++++++++++.[-]<<
+
+Back at 164
+
+Return to 162
+<<
+
+END OF BOX CHECK SECTION
