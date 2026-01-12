@@ -218,7 +218,7 @@
         "Includes example output from successful run"
       ],
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "notes": "Documentation for future reference"
     }
   ]
