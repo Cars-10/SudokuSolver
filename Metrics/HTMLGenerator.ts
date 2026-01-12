@@ -1303,7 +1303,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     </div>
                 </td>`;
             } else {
-                html += `<td class="matrix-cell" data-matrix-index="${i}"><span style='color: #333'>-</span></td>`;
+                // Empty cell - show run button for unlocked languages
+                html += `<td class="matrix-cell" data-matrix-index="${i}">
+                    ${!isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : '<span style="color: #333">-</span>'}
+                </td>`;
             }
         }
 
