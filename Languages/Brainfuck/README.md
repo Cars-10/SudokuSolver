@@ -184,6 +184,6 @@ cd Languages/Brainfuck
 - [x] US-009: Combined validity check
 - [x] US-010: Find next empty cell
 - [x] US-011: Backtracking solve loop
-- [ ] US-012: runMe.sh script
+- [x] US-012: runMe.sh script
 - [ ] US-013: Test and verify
 - [ ] US-014: Complete documentation
