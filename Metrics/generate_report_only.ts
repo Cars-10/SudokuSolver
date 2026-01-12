@@ -10,8 +10,6 @@ import {
     methodologyTexts,
     mismatchLabels,
     narratorIntros,
-    HistoryManager,
-    generateHistoryHtml,
     orderedLanguages
 } from './gather_metrics.ts';
 
@@ -24,10 +22,8 @@ const htmlFile = path.join(rootDir, '_report.html');
 
 async function run() {
     try {
-        // Load History
-        const historyMgr = new HistoryManager(rootDir);
-        const history = await historyMgr.getHistory();
-        console.log(`Loaded ${history.length} historical records.`);
+        // Empty history array (history feature removed)
+        const history: any[] = [];
 
         // Load main metrics (usually just C or recent run)
         let mainMetrics: any[] = [];
@@ -213,12 +209,6 @@ async function run() {
             const screenshotHtmlContent = await generateHtml(screenshotMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
             await fs.promises.writeFile(screenshotHtmlFile, screenshotHtmlContent);
         }
-
-        // Generate History Report
-        const historyHtml = await generateHistoryHtml(history);
-        const historyHtmlFile = path.join(rootDir, 'benchmark_history.html');
-        await fs.promises.writeFile(historyHtmlFile, historyHtml);
-        console.log(`Successfully generated ${historyHtmlFile}`);
 
         // Write timestamp file for smart refresh
         const timestampFile = path.join(rootDir, 'timestamp.js');

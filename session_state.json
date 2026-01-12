@@ -1,7 +1,6 @@
 {
   "locked": [],
   "selected": [
-    "C",
     "Awk",
     "C++",
     "Go",
@@ -83,7 +82,11 @@
     "Bc",
     "BASIC",
     "Assembly",
-    "AppleScript"
+    "AppleScript",
+    "Brainfuck",
+    "PowerShell",
+    "Sed",
+    "C"
   ],
-  "currentPersona": "Star Wars"
+  "currentPersona": "Apocalypse Now"
 }
