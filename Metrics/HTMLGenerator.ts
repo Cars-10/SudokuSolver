@@ -1076,7 +1076,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     html += `<th class="sortable-header" onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time" data-sort="time">
         <span id="header-time">Total Time (ms)</span> <span class="sort-arrow">▲</span>
     </th>
-    </tr></thead><tbody>`;
+    </tr></thead><tbody id="mainTableBody">`;
 
     for (const m of sortedMetrics) {
         const lang = m.solver;
