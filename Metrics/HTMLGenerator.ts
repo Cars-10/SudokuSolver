@@ -78,7 +78,8 @@ const compilerMapping: Record<string, string> = {
     'Prolog': 'swipl',
 };
 
-export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}): Promise<string> {
+export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}, options: { staticMode?: boolean } = {}): Promise<string> {
+    const staticMode = options.staticMode || false;
     // Merge overrides
     const finalLanguageMetadata = { ...languageMetadata, ...(metadataOverrides.languageMetadata || {}) };
     const finalPersonalities = { ...personalities, ...(metadataOverrides.personalities || {}) };
@@ -103,14 +104,60 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // I should check if narratorIntros is imported.
 
     console.log(`generateHtml received ${metrics.length} metrics.`);
-    // Pre-load local logos
-    const localLogos = await glob('logos/*.{png,svg}');
+    const rootDir = path.resolve(__dirname, '..');
+    const languagesDir = path.join(rootDir, 'Languages');
     const logoMap = new Map<string, string>();
+
+    // Priority 1: Look for <lang>_logo.* in Languages/<lang>/Media/ (canonical location)
+    const canonicalLogos = await glob(`${languagesDir}/*/Media/*_logo.{png,svg,jpg}`);
+    for (const p of canonicalLogos) {
+        const parts = p.split(path.sep);
+        const mediaIdx = parts.indexOf('Media');
+        if (mediaIdx > 0) {
+            const langDir = parts[mediaIdx - 1];
+            const langName = langDir.toLowerCase();
+            const filename = path.basename(p);
+            logoMap.set(langName, `Languages/${langDir}/Media/${filename}`);
+        }
+    }
+    console.log(`Loaded ${logoMap.size} canonical logos from Languages/*/Media/*_logo.*`);
+
+    // Priority 2: Fall back to logos/ directory for languages not yet found
+    const logosDir = path.join(rootDir, 'logos');
+    const localLogos = await glob(`${logosDir}/*.{png,svg,jpg}`);
+    let legacyCount = 0;
     for (const p of localLogos) {
         const filename = path.basename(p);
         const name = path.basename(p, path.extname(p)).toLowerCase();
-        logoMap.set(name, `logos/${filename}`);
+        if (!logoMap.has(name)) {
+            logoMap.set(name, `logos/${filename}`);
+            legacyCount++;
+        }
     }
+    if (legacyCount > 0) {
+        console.log(`Added ${legacyCount} logos from legacy logos/ directory`);
+    }
+
+    // Priority 3: Fall back to any image in Languages/*/Media/ for remaining languages
+    const mediaLogos = await glob(`${languagesDir}/*/Media/*.{png,svg,jpg}`);
+    let fallbackCount = 0;
+    for (const p of mediaLogos) {
+        const parts = p.split(path.sep);
+        const mediaIdx = parts.indexOf('Media');
+        if (mediaIdx > 0) {
+            const langDir = parts[mediaIdx - 1];
+            const langName = langDir.toLowerCase();
+            if (!logoMap.has(langName)) {
+                const filename = path.basename(p);
+                logoMap.set(langName, `Languages/${langDir}/Media/${filename}`);
+                fallbackCount++;
+            }
+        }
+    }
+    if (fallbackCount > 0) {
+        console.log(`Added ${fallbackCount} logos from Media/ fallback`);
+    }
+    console.log(`Total logos available: ${logoMap.size}`);
 
     // Read Tailoring Config
     let tailoringConfig = {};
@@ -399,18 +446,22 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <input type="text" id="editInputs-title" class="modal-edit-input edit-only" placeholder="Language Name" style="font-size: 1.5em; font-weight: bold;">
+                        <input type="text" id="editInputs-title" class="modal-edit-input edit-only" placeholder="Language Name" style="font-size: 1.2em; font-weight: bold;">
                         <h2 id="modalTitle" class="view-only" style="margin: 0 0 5px 0; color: #7aa2f7;"></h2>
-
-                        <input type="text" id="editInputs-creator" class="modal-edit-input edit-only" placeholder="Creator">
-                        <input type="text" id="editInputs-image" class="modal-edit-input edit-only" placeholder="Image URL (e.g., https://...)">
-                        <input type="text" id="editInputs-date" class="modal-edit-input edit-only" placeholder="Date">
                         <p id="modalSubtitle" class="view-only" style="margin: 0; color: #565f89; font-size: 0.9em;"></p>
 
-                        <input type="text" id="editInputs-location" class="modal-edit-input edit-only" placeholder="Location" style="margin-top: 10px;">
-                        <input type="text" id="editInputs-benefits" class="modal-edit-input edit-only" placeholder="Benefits">
-                        <input type="text" id="editInputs-related" class="modal-edit-input edit-only" placeholder="Related Languages">
-                        <input type="text" id="editInputs-website" class="modal-edit-input edit-only" placeholder="Website URL">
+                        <!-- Edit inputs in two columns -->
+                        <div class="edit-only" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+                            <input type="text" id="editInputs-creator" class="modal-edit-input" placeholder="Creator">
+                            <input type="text" id="editInputs-date" class="modal-edit-input" placeholder="Date">
+                            <input type="text" id="editInputs-location" class="modal-edit-input" placeholder="Location">
+                            <input type="text" id="editInputs-website" class="modal-edit-input" placeholder="Website URL">
+                            <input type="text" id="editInputs-benefits" class="modal-edit-input" placeholder="Benefits">
+                            <input type="text" id="editInputs-related" class="modal-edit-input" placeholder="Related Languages">
+                            <input type="text" id="editInputs-paradigm" class="modal-edit-input" placeholder="Paradigm">
+                            <input type="text" id="editInputs-typeSystem" class="modal-edit-input" placeholder="Type System">
+                            <input type="text" id="editInputs-image" class="modal-edit-input" placeholder="Image URL" style="grid-column: 1 / -1;">
+                        </div>
 
                         <p id="modalLocation" class="view-only" style="margin: 10px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
                         <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
@@ -421,23 +472,20 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <div><span style="color: #7aa2f7;">Paradigm:</span> <span id="modalParadigm">-</span></div>
                             <div><span style="color: #7aa2f7;">Type System:</span> <span id="modalTypeSystem">-</span></div>
                         </div>
-                        <div class="edit-only" style="margin-top: 10px; display: flex; gap: 10px;">
-                            <input type="text" id="editInputs-paradigm" class="modal-edit-input" placeholder="Paradigm (e.g. Imperative)" style="flex: 1;">
-                            <input type="text" id="editInputs-typeSystem" class="modal-edit-input" placeholder="Type System (e.g. Static, Strong)" style="flex: 1;">
-                        </div>
 
-                        <div class="view-only" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <div class="view-only" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
                              <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
                              <a class="btn" id="btn-wikipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Wikipedia</a>
+                             ${!staticMode ? `<button class="btn" onclick="viewSourceCode()" style="background: #565f89;">View Source</button>` : ''}
                         </div>
                     </div>
                 </div>
 
                 <!-- Bottom Row: Buttons -->
                 <div class="modal-header-buttons">
-                     <button class="btn" onclick="toggleEditMode(event)" id="editBtn" style="min-width: 80px;">Edit</button>
-                     <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>
+                     ${!staticMode ? `<button class="btn" onclick="toggleEditMode(event)" id="editBtn" style="min-width: 80px;">Edit</button>
+                     <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>` : ''}
                 </div>
             </div>
             
@@ -471,6 +519,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             </div>
         </div>
     </div>
+
+    <!-- Source Code Modal -->
+    ${!staticMode ? `<div id="sourceModal" class="modal" style="display: none;" onclick="closeSourceModal(event)">
+        <div class="modal-content" id="sourceModalContent" onclick="event.stopPropagation()" style="max-width: 800px; max-height: 90vh;">
+            <span class="modal-close" onclick="closeSourceModal(event)">&times;</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 id="sourceModalTitle" style="margin: 0; color: #7aa2f7;"></h3>
+                <button class="btn" onclick="copySourceCode()" style="font-size: 0.8em;">Copy</button>
+            </div>
+            <pre id="sourceCodeContent" style="background: #16161e; padding: 15px; border-radius: 8px; overflow: auto; max-height: 70vh; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; line-height: 1.4; color: #c0caf5; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #414868;"></pre>
+        </div>
+    </div>` : ''}
 
     <!-- Score Modal -->
     <div id="scoreModal" class="modal" style="display: none;" onclick="closeScoreModal(event)">
@@ -1013,6 +1073,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <span>Show Mismatches</span>
             </button>
             <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
+            ${!staticMode ? `<button class="btn" id="dockerToggleBtn" onclick="switchExecutionMode()" title="Switch between Docker and Local execution">
+                <span id="dockerIcon"></span> <span id="dockerLabel"></span>
+            </button>` : ''}
             <div class="dropdown">
                 <button class="btn">Info ▾</button>
                 <div class="dropdown-content">
@@ -1021,12 +1084,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <a onclick="showWhy()">Why???</a>
                 </div>
             </div>
-            <div style="position: relative; display: inline-block;">
+            ${!staticMode ? `<div style="position: relative; display: inline-block;">
                 <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">Languages ▾</button>
                 <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
                     <!-- Populated by JS -->
                 </div>
-            </div>
+            </div>` : ''}
             
             <!-- Search Removed -->
         </div>
@@ -1281,15 +1344,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     </div>
                 </div>
             </td>
-            <td>
+            <td class="updated-cell">
                 <div style="text-align: center; color: var(--secondary); font-size: 0.9em;">
-                    ${(() => {
-                const dateDiff = Date.now() - new Date(m.timestamp).getTime();
-                if (dateDiff > 86400000) return Math.floor(dateDiff / 86400000) + "d ago";
-                if (dateDiff > 3600000) return Math.floor(dateDiff / 3600000) + "h ago";
-                if (dateDiff > 60000) return Math.floor(dateDiff / 60000) + "m ago";
-                return "Just now";
-            })()}
+                    <span class="relative-time" data-ts="${new Date(m.timestamp).getTime()}"></span>
                 </div>
             </td>`;
 
@@ -1309,7 +1366,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
-                             ${!isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : ''}
+                             ${!staticMode && !isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : ''}
                              <div class="time" title="Wall Clock Time">${displayTime}</div>
                         </div>
                         <div class="meta">
@@ -1331,14 +1388,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             } else {
                 // Empty cell - show run button for unlocked languages
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
-                    ${!isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : '<span style="color: #333">-</span>'}
+                    ${!staticMode && !isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : '<span style="color: #333">-</span>'}
                 </td>`;
             }
         }
 
         const totalDisplayTime = isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`;
 
-        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!staticMode && !isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
 
         // Add expanded content row
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total

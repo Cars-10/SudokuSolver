@@ -1,9 +1,78 @@
 let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)
 
+// Docker mode - auto-detect based on port (9001 = Docker, 9002 = Local)
+const useDockerMode = window.location.port === '9001';
+const isDockerPort = window.location.port === '9001';
+const isLocalPort = window.location.port === '9002';
+console.log(`Execution mode: ${useDockerMode ? 'Docker (port 9001)' : 'Local (port 9002)'}`);
+
+// Switch execution mode by navigating to different port
+window.switchExecutionMode = function() {
+    const currentPort = window.location.port;
+    const newPort = currentPort === '9001' ? '9002' : '9001';
+    const newUrl = window.location.protocol + '//' + window.location.hostname + ':' + newPort + window.location.pathname;
+    window.location.href = newUrl;
+};
+
+// Initialize Docker/Local button based on current port
+document.addEventListener('DOMContentLoaded', function() {
+    const icon = document.getElementById('dockerIcon');
+    const label = document.getElementById('dockerLabel');
+    const btn = document.getElementById('dockerToggleBtn');
+
+    if (icon && label && btn) {
+        if (isDockerPort) {
+            icon.textContent = '🐳';
+            label.textContent = 'Docker';
+            btn.style.background = 'rgba(0, 150, 255, 0.3)';
+            btn.style.borderColor = '#0096ff';
+            btn.title = 'Currently on Docker (port 9001). Click to switch to Local.';
+        } else if (isLocalPort) {
+            icon.textContent = '💻';
+            label.textContent = 'Local';
+            btn.style.background = 'rgba(0, 255, 157, 0.3)';
+            btn.style.borderColor = '#00ff9d';
+            btn.title = 'Currently on Local (port 9002). Click to switch to Docker.';
+        } else {
+            // Not on standard ports - show neutral state
+            icon.textContent = '❓';
+            label.textContent = 'File';
+            btn.title = 'Open via server (localhost:9001 or :9002) to enable execution';
+            btn.style.opacity = '0.5';
+        }
+    }
+});
+
 // Helper to normalize matrix identifiers (handles both "1" and "1.matrix" formats)
 function normalizeMatrix(m) {
     return String(m).replace('.matrix', '');
 }
+
+// Calculate and update relative times (e.g., "3d ago", "2h ago")
+function updateRelativeTimes() {
+    const now = Date.now();
+    document.querySelectorAll('.relative-time[data-ts]').forEach(el => {
+        const ts = parseInt(el.dataset.ts, 10);
+        if (isNaN(ts)) return;
+
+        const dateDiff = now - ts;
+        let text;
+        if (dateDiff > 86400000) {
+            text = Math.floor(dateDiff / 86400000) + "d ago";
+        } else if (dateDiff > 3600000) {
+            text = Math.floor(dateDiff / 3600000) + "h ago";
+        } else if (dateDiff > 60000) {
+            text = Math.floor(dateDiff / 60000) + "m ago";
+        } else {
+            text = "Just now";
+        }
+        el.textContent = text;
+    });
+}
+
+// Update relative times on load and periodically
+document.addEventListener('DOMContentLoaded', updateRelativeTimes);
+setInterval(updateRelativeTimes, 60000); // Update every minute
 
 // Search Logic
 function filterLanguages() {
@@ -432,43 +501,31 @@ window.showLanguageDetails = async function (lang, x, y) {
     // Reset scroll
     modalContent.scrollTop = 0;
 
-    // Positioning logic
-    if (x !== undefined && y !== undefined) {
-        modal.classList.remove('centered');
+    // Positioning logic - always position at top of viewport, horizontally centered
+    modal.classList.remove('centered');
 
-        // Initial visibility hidden to measure
-        modalContent.style.visibility = 'hidden';
-        modalContent.style.display = 'flex';
+    // Initial visibility hidden to measure
+    modalContent.style.visibility = 'hidden';
+    modalContent.style.display = 'flex';
 
-        // Use requestAnimationFrame to ensure it's rendered for measurement
-        requestAnimationFrame(() => {
-            const width = modalContent.offsetWidth;
-            const height = modalContent.offsetHeight;
+    // Use requestAnimationFrame to ensure it's rendered for measurement
+    requestAnimationFrame(() => {
+        const width = modalContent.offsetWidth;
+        const padding = 20;
 
-            // Center modal on click but keep in viewport
-            let left = x - (width / 2);
-            let top = y - (height / 2);
+        // Center horizontally
+        let left = (window.innerWidth - width) / 2;
+        left = Math.max(padding, Math.min(left, window.innerWidth - width - padding));
 
-            // Viewport padding
-            const padding = 20;
+        // Position at top of viewport with padding
+        const top = padding;
 
-            left = Math.max(padding, Math.min(left, window.innerWidth - width - padding));
-            top = Math.max(padding, Math.min(top, window.innerHeight - height - padding));
-
-            modalContent.style.left = left + 'px';
-            modalContent.style.top = top + 'px';
-            modalContent.style.transform = 'none';
-            modalContent.style.visibility = 'visible';
-            modalContent.style.margin = '0';
-        });
-    } else {
-        // Default center positioning via CSS
-        modal.classList.add('centered');
-        modalContent.style.left = '';
-        modalContent.style.top = '';
-        modalContent.style.transform = '';
+        modalContent.style.left = left + 'px';
+        modalContent.style.top = top + 'px';
+        modalContent.style.transform = 'none';
         modalContent.style.visibility = 'visible';
-    }
+        modalContent.style.margin = '0';
+    });
     // We fallback to static if fetch fails.
     let meta = { ...(languageMetadata[lang] || {}) };
 
@@ -790,10 +847,13 @@ window.openGoogleImageSearch = function () {
     }
 };
 
-window.uploadBlob = async function (blob) {
+window.uploadBlob = async function (blob, isLogo = false) {
     const formData = new FormData();
     formData.append('file', blob);
     formData.append('lang', currentEditingLang);
+    if (isLogo) {
+        formData.append('isLogo', 'true');  // Flag to save as <lang>_logo.<ext>
+    }
 
     try {
         const res = await fetch('/api/upload-media', {
@@ -831,7 +891,7 @@ window.handleLogoChange = async function (event) {
                 const imgEl = document.getElementById('modalImg');
                 imgEl.style.opacity = '0.5';
 
-                const relativePath = await uploadBlob(blob);
+                const relativePath = await uploadBlob(blob, true);  // true = isLogo
 
                 if (relativePath) {
                     imgEl.src = relativePath;
@@ -892,11 +952,22 @@ window.handleAuthorImageChange = async function (index, event) {
 
 // Paste Listener for Modal
 document.addEventListener('paste', async (e) => {
+    console.log('Paste event detected');
+
     // Only if modal is open and editing
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
-    if (!modal || !modal.classList.contains('visible')) return;
-    if (!modalContent || !modalContent.classList.contains('editing')) return;
+
+    if (!modal || !modal.classList.contains('visible')) {
+        console.log('Paste ignored: modal not visible');
+        return;
+    }
+    if (!modalContent || !modalContent.classList.contains('editing')) {
+        console.log('Paste ignored: not in edit mode. Classes:', modalContent?.classList?.toString());
+        return;
+    }
+
+    console.log('Paste accepted: modal visible and in edit mode');
 
     // Check for active element (Author Input)
     const activeEl = document.activeElement;
@@ -905,11 +976,37 @@ document.addEventListener('paste', async (e) => {
         targetAuthorIdx = parseInt(activeEl.id.replace('author-input-', ''));
     }
 
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    const clipboardData = e.clipboardData || e.originalEvent?.clipboardData;
+    if (!clipboardData) {
+        console.log('Paste failed: no clipboard data available');
+        return;
+    }
+
+    const items = clipboardData.items;
+    console.log('Clipboard items:', items?.length || 0);
+
+    // First pass: check if there's an image file to handle
+    let hasImageFile = false;
+    for (let index in items) {
+        console.log(`Item ${index}: kind=${items[index].kind}, type=${items[index].type}`);
+        if (items[index].kind === 'file' && items[index].type.startsWith('image/')) {
+            hasImageFile = true;
+        }
+    }
+
+    console.log('Has image file:', hasImageFile);
+
+    // Prevent default if we're going to handle an image
+    if (hasImageFile) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     for (let index in items) {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
+            console.log('Processing file blob:', blob?.type, blob?.size);
 
             if (targetAuthorIdx >= 0) {
                 // Upload for Author
@@ -918,7 +1015,8 @@ document.addEventListener('paste', async (e) => {
                 const relativePath = await uploadBlob(blob);
                 if (relativePath) {
                     updateAuthor(targetAuthorIdx, 'image', relativePath);
-                    if (imgEl) imgEl.src = relativePath;
+                    // Add cache-buster to force image reload
+                    if (imgEl) imgEl.src = relativePath + '?t=' + Date.now();
                     activeEl.value = relativePath;
                 }
                 if (imgEl) imgEl.style.opacity = '1';
@@ -926,9 +1024,10 @@ document.addEventListener('paste', async (e) => {
                 // Upload for Main Logo
                 const imgEl = document.getElementById('modalImg');
                 imgEl.style.opacity = '0.5';
-                const relativePath = await uploadBlob(blob);
+                const relativePath = await uploadBlob(blob, true);  // true = isLogo
                 if (relativePath) {
-                    imgEl.src = relativePath;
+                    // Add cache-buster to force image reload
+                    imgEl.src = relativePath + '?t=' + Date.now();
                     document.getElementById('editInputs-image').value = relativePath;
                     if (currentMetadata) currentMetadata.image = relativePath;
                 }
@@ -1016,7 +1115,7 @@ window.uploadLogo = async function (input) {
     if (input.files && input.files[0]) {
         const imgEl = document.getElementById('modalImg');
         imgEl.style.opacity = '0.5';
-        const relativePath = await uploadBlob(input.files[0]);
+        const relativePath = await uploadBlob(input.files[0], true);  // true = isLogo
         if (relativePath) {
             imgEl.src = relativePath;
             document.getElementById('editInputs-image').value = relativePath;
@@ -1065,6 +1164,47 @@ function closeModal(event) {
         console.log('Not closing modal - clicked on:', event.target.id || event.target.className);
     }
 }
+
+// Source Code Modal Functions
+window.viewSourceCode = async function() {
+    if (!currentEditingLang) return;
+
+    const modal = document.getElementById('sourceModal');
+    const title = document.getElementById('sourceModalTitle');
+    const content = document.getElementById('sourceCodeContent');
+
+    title.textContent = `${currentEditingLang} Solver Source`;
+    content.textContent = 'Loading...';
+    modal.classList.add('visible');
+
+    try {
+        const res = await fetch(`/api/source/${currentEditingLang}`);
+        if (res.ok) {
+            const data = await res.json();
+            content.textContent = data.source;
+            title.textContent = `${currentEditingLang} - ${data.filename}`;
+        } else {
+            content.textContent = 'Error: Could not load source code';
+        }
+    } catch (e) {
+        content.textContent = 'Error: ' + e.message;
+    }
+};
+
+window.closeSourceModal = function(event) {
+    if (!event || event.target.id === 'sourceModal' || event.target.classList.contains('modal-close')) {
+        document.getElementById('sourceModal').classList.remove('visible');
+    }
+};
+
+window.copySourceCode = function() {
+    const content = document.getElementById('sourceCodeContent').textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        alert('Source code copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+};
 
 function showMethodology() {
     document.getElementById('methodModal').classList.add('visible');
@@ -1718,7 +1858,7 @@ window.verifyLanguage = async function (lang) {
         const res = await fetch('/api/run', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ language: lang, matrix: '1.matrix' })
+            body: JSON.stringify({ language: lang, matrix: '1.matrix', useDocker: useDockerMode })
         });
 
         if (!res.ok) throw new Error("Server error");
@@ -1867,7 +2007,7 @@ initializeStatus();
             const res = await fetch('/api/run', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ language: lang, matrix: matrix })
+                body: JSON.stringify({ language: lang, matrix: matrix, useDocker: useDockerMode })
             });
 
             if (!res.ok) {

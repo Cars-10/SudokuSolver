@@ -18,7 +18,7 @@
         },
         "Red": {
             "creator": "Nenad Rakocevic",
-            "image": "Languages/Red/Media/Red_1766232983592.png",
+            "image": "Languages/Red/Media/Red_logo.png",
             "date": "2011",
             "location": "Global",
             "benefits": "Full-stack, symbolic, cross-platform.",
@@ -27,10 +27,14 @@
             "authors": [
                 {
                     "name": "Nenad Rakocevic",
-                    "image": "Languages/Red/Media/Red_1766232933716.png"
+                    "image": "Languages/Red/Media/Red_1768222143579.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:16:25.427Z"
+            "lastUpdated": "2026-01-12T12:49:06.347Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Assembly": {
             "creator": "Kathleen Booth",
@@ -50,7 +54,7 @@
         },
         "BASIC": {
             "creator": "John G. Kemeny, Thomas E. Kurtz",
-            "image": "Languages/BASIC/Media/BASIC_1766233201144.png",
+            "image": "Languages/BASIC/Media/BASIC_logo.png",
             "date": "1964",
             "location": "Dartmouth College, USA",
             "benefits": "Easy to learn, interactive, historical significance.",
@@ -66,7 +70,11 @@
                     "image": "Languages/BASIC/Media/BASIC_1766233291157.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:21:33.971Z"
+            "lastUpdated": "2026-01-12T12:53:03.426Z",
+            "related": "",
+            "history": "BASIC – Concise Summary\n\nFull name: Beginner's All-purpose Symbolic Instruction Code\nCreated: 1964\nCreators: John Kemeny & Thomas Kurtz (Dartmouth College)\nPurpose: Make programming easy and accessible for complete beginners and non-science students\nGolden era: Mid-1970s to late 1980s (home computer boom)\nMost iconic platforms: Commodore 64, Apple II, ZX Spectrum, Atari, TRS-80, early IBM PCs\nKey characteristics:\nVery simple, English-like commands\nLine numbers\nInterpreted\nImmediate feedback (type & RUN)\n\nBiggest impact: Introduced more people to programming than any other language until Python\nToday: Mostly nostalgia/retro + educational value\nStill actively used in modern forms (QB64, FreeBASIC, PureBasic, etc.)\n\nIn one sentence:\nBASIC was the first language designed specifically to let ordinary people start programming easily – and it succeeded spectacularly.",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "VisualBasic": {
             "creator": "Microsoft (Alan Cooper)",
@@ -179,7 +187,7 @@
         },
         "Verilog": {
             "creator": "Phil Moorby",
-            "image": "Languages/Verilog/Media/Verilog_1766234478715.png",
+            "image": "Languages/Verilog/Media/Verilog_logo.png",
             "date": "1984",
             "location": "Gateway Design Automation, USA",
             "benefits": "Hardware modeling, simulation, synthesis, industry standard.",
@@ -191,11 +199,15 @@
                     "image": "Languages/Verilog/Media/Verilog_1766234506301.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:41:47.286Z"
+            "lastUpdated": "2026-01-12T12:42:02.069Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Smalltalk": {
             "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
-            "image": "Languages/Smalltalk/Media/Smalltalk_1766234558182.png",
+            "image": "Languages/Smalltalk/Media/Smalltalk_logo.png",
             "date": "1972",
             "location": "Xerox PARC, USA",
             "benefits": "Pure OOP, live environment, influence on modern GUIs.",
@@ -204,7 +216,7 @@
             "authors": [
                 {
                     "name": "Alan Kay",
-                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234593243.png"
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1768222196687.png"
                 },
                 {
                     "name": "Dan Ingalls",
@@ -215,7 +227,11 @@
                     "image": "Languages/Smalltalk/Media/Smalltalk_1766234692083.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:44:53.977Z"
+            "lastUpdated": "2026-01-12T12:51:05.031Z",
+            "related": "",
+            "history": "Smalltalk is a purely object-oriented, dynamically typed, and reflective programming language. Developed in the 1970s at Xerox PARC by a team led by Alan Kay, it was designed to create a \"human-computer symbiosis\" through an environment that is highly interactive and user-friendly. \nCore Principles and Syntax\nPure Object Orientation: Unlike hybrid languages, everything in Smalltalk is an object, including numbers, classes, and even the execution stack.\nMessage Passing: Objects communicate exclusively by sending and receiving messages. Smalltalk’s philosophy emphasizes that the \"big idea\" is the communication between objects rather than the objects themselves.\nMinimalist Syntax: The entire language syntax is famously small enough to fit on a postcard, featuring only about six reserved keywords (e.g., nil, true, false, self, super). \nKey Technical Features\nLive Coding & Debugging: Developers can modify code while the program is running without needing to restart it. The integrated debugger allows for \"rewinding\" code execution to fix errors in-place.\nImage-Based Development: Instead of traditional files, Smalltalk environments typically use an \"image\"—a snapshot of the entire system state, including all objects and classes—allowing developers to resume exactly where they left off.\nReflection: Smalltalk programs can inspect and modify their own structure and behavior at runtime, enabling powerful metaprogramming capabilities.\nAutomatic Memory Management: It was a pioneer in implementing garbage collection, which remains a standard feature in modern versions. \nHistorical Impact and Dialects\nSmalltalk pioneered many technologies that are now standard in computing, including the Graphical User Interface (GUI), mouse-driven interaction, and the Model-View-Controller (MVC) pattern. It heavily influenced languages such as Java, Python, Ruby, and Objective-C. \nCommon Dialects in 2026:\nPharo: A modern, open-source, highly active implementation focused on professional software development.\nSqueak: An open-source implementation often used for education and research.\nVisualWorks & VAST: Leading commercial versions used for enterprise-grade applications, particularly in the banking and finance sectors.\nGNU Smalltalk: A command-line version that follows the ANSI standard closely",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "C": {
             "creator": "Dennis Ritchie (Test)",
@@ -561,19 +577,23 @@
         },
         "Rexx": {
             "creator": "Mike Cowlishaw",
-            "image": "Languages/Rexx/Media/Rexx_1766237957485.png",
+            "image": "Languages/Rexx/Media/Rexx_logo.png",
             "date": "1979",
             "location": "IBM, UK",
             "benefits": "Scripting, mainframe automation, ease of use.",
             "website": "",
-            "description": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+            "description": "Purpose: Make scripting easy, readable, reliable and powerful – especially for command execution, text processing, macros and automation\nParadigm: Procedural, structured, interpreted (with some compilers available)\nKey characteristics:\nExtremely readable & English-like syntax\nExcellent string manipulation & arbitrary-precision arithmetic\nNo mandatory variable declaration\nDesigned to feel \"natural\" to both beginners and experts\n\nGolden era: 1980s–1990s (especially on IBM mainframes: VM/CMS, TSO, OS/2)\nMain platforms today: IBM z/OS, z/VM, IBM i (still built-in), Windows, Linux, macOS via open-source interpreters\nPopular implementations (2026):\nRegina (classic Rexx)\nooRexx (Object-oriented Rexx) – latest stable ~5.1.0 (2025), beta 5.2.x available\nNetRexx (Rexx → Java bytecode)\n\nCurrent status (January 2026): Niche but very much alive\nStrong in mainframe environments\nActive open-source community (Rexx Language Association)\n37th Rexx Symposium planned for May 2026 in Barcelona\nStill used for automation, legacy support, glue scripting\n\n\nOne-sentence verdict:\nREXX is the elegant, human-readable \"grandfather of modern scripting languages\" that remains surprisingly capable and actively maintained — especially on mainframes — more than 45 years after its creation. 🦖",
             "authors": [
                 {
                     "name": "Mike Cowlishaw",
-                    "image": "Languages/Rexx/Media/Rexx_1766237986052.png"
+                    "image": "Languages/Rexx/Media/Rexx_1768223436164.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:39:47.054Z"
+            "lastUpdated": "2026-01-12T13:11:33.175Z",
+            "related": "",
+            "history": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Prolog": {
             "creator": "Alain Colmerauer",
@@ -620,19 +640,23 @@
         },
         "Raku": {
             "creator": "Larry Wall",
-            "image": "Languages/Raku/Media/Raku_1766238511927.png",
+            "image": "Languages/Raku/Media/Raku_logo.png",
             "date": "2015",
             "location": "Global",
             "benefits": "Expressiveness, grammars, concurrency.",
             "website": "",
-            "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.",
+            "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.Raku is the beautifully expressive, feature-rich evolution of the Perl spirit — a Swiss Army chainsaw reimagined for the 21st century with unmatched parsing power and flexibility, still thriving in a dedicated community in 2026. 🦋",
             "authors": [
                 {
                     "name": "Larry Wall",
                     "image": "Languages/Raku/Media/Raku_1766238533801.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:48:54.435Z"
+            "lastUpdated": "2026-01-12T13:20:34.324Z",
+            "related": "",
+            "history": "Creator: Larry Wall + large community effort\nOriginal name: Perl 6 (2000–2019)\nRenamed: October 2019 → to reflect it as a distinct sibling language to Perl 5 (not a direct successor)\nPurpose: Modern, expressive, highly flexible language that \"works the way you think\" — fixing Perl's pain points while keeping TIMTOWTDI (\"There's More Than One Way To Do It\") spirit\nParadigm: Multi-paradigm powerhouse\n→ Procedural, Object-Oriented, Functional, Declarative, Metaprogramming + more\nKey characteristics:\nGradual / optional typing\nExtremely powerful grammars & regexes (best-in-class parsing)\nJunctions (any/all logic values)\nLazy evaluation & infinite lists\nUnicode everywhere (identifiers, operators)\nInvariant sigils, rich sigil system\nHyphenated-names (kebab-case) allowed\n\nMain implementation (2026): Rakudo compiler + MoarVM backend (also JVM & JS backends)\nCurrent status (January 2026):\nStable language level 6.d (Diwali, 2020), with 6.e.PREVIEW features rolling out\nActively developed (~1650 commits in 2025), growing module ecosystem (508 updates in 2025), passionate niche community, monthly Rakudo releases\nAdoption: Niche / enthusiastic — strong in text processing, DSLs, scripting, parsing; under-the-radar but loved by its users",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Fish": {
             "creator": "Axel Liljencrantz",
@@ -725,7 +749,7 @@
         },
         "Haxe": {
             "creator": "Nicolas Cannasse",
-            "image": "Languages/Haxe/Media/Haxe_1766240482489.png",
+            "image": "Languages/Haxe/Media/Haxe_logo.png",
             "date": "2005",
             "location": "France",
             "benefits": "Cross-platform, strong typing, single codebase.",
@@ -734,10 +758,14 @@
             "authors": [
                 {
                     "name": "Nicolas Cannasse",
-                    "image": "Languages/Haxe/Media/Haxe_1766240504489.png"
+                    "image": "Languages/Haxe/Media/Haxe_1768223330279.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T14:21:45.812Z"
+            "lastUpdated": "2026-01-12T13:09:41.038Z",
+            "related": "",
+            "history": "Purpose: True write once, compile anywhere – single codebase targeting many platforms natively\nParadigm: Multi-paradigm (strongly object-oriented + functional + generic)\nTyping: Strictly & statically typed (with excellent type inference + optional dynamic)\nSyntax style: Modern, ECMAScript / ActionScript / Java-like, very familiar to JS / TS / Java / C# devs\nKey strength: Extremely powerful cross-compiler → produces source code or bytecode for many targets\nMain targets (2026): JavaScript, C++, C#, Java/JVM, Python, PHP, Lua, HashLink (own fast VM), NekoVM + interpreted mode\nUsed for: Games (Dead Cells, Papers, Please), web, mobile, desktop, backend, tools\nPopular frameworks: OpenFL, Heaps.io, Kha, HaxeFlixel, Armory3D\nCurrent status (Jan 2026): Very active – latest stable: 4.3.7 (May 2025), Haxe 5.0 preview already out\n\nOne-sentence verdict:\nHaxe is the most mature and performant \"compile-to-many-languages\" language that lets you write modern, type-safe code once and target almost every major platform natively — still somewhat under the radar but loved by its users. 🚀",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "F_Sharp": {
             "creator": "Don Syme",

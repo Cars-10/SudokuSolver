@@ -3,10 +3,20 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
+const os = require('os');
 const historyDb = require('./database');
 
 const app = express();
-const port = process.env.PORT || 9001;
+
+// Detect if running inside Docker
+const isRunningInDocker = fs.existsSync('/.dockerenv') ||
+    (fs.existsSync('/proc/1/cgroup') && fs.readFileSync('/proc/1/cgroup', 'utf8').includes('docker'));
+const hostPlatform = os.platform(); // 'darwin' for macOS, 'linux' for Linux/Docker
+
+// Use different default ports: 9001 for Docker, 9002 for local host
+const port = process.env.PORT || (isRunningInDocker ? 9001 : 9002);
+
+console.log(`Server environment: ${isRunningInDocker ? 'Docker container' : 'Host'} (${hostPlatform})`);
 
 app.use(cors());
 app.use(express.json());
@@ -110,7 +120,7 @@ app.get('/api/languages', (req, res) => {
 
 // Run benchmark
 app.post('/api/run', (req, res) => {
-    const { language, matrix } = req.body;
+    const { language, matrix, useDocker } = req.body;
 
     if (!language) {
         return res.status(400).json({ error: 'Language is required' });
@@ -139,16 +149,47 @@ app.post('/api/run', (req, res) => {
         }
     }
 
-    console.log(`Running ${language} with ${matrix || 'ALL matrices'}...`);
+    const executionMode = useDocker ? 'Docker' : 'Local';
+    console.log(`Running ${language} with ${matrix || 'ALL matrices'} (${executionMode})...`);
 
-    // If matrix is missing, run all (default script behavior)
-    let command = './runMe.sh';
+    // Build the base command
+    let runMeCommand = './runMe.sh';
     if (matrix) {
         const matrixArg = `../../Matrices/${matrix}`;
-        command += ` ${matrixArg}`;
+        runMeCommand += ` ${matrixArg}`;
     }
 
-    exec(command, { cwd: langDir }, (error, stdout, stderr) => {
+    // Determine execution strategy based on server location and requested mode
+    let command, execOptions;
+
+    // Common exec options: 10 minute timeout, 50MB buffer for large outputs
+    const commonExecOptions = {
+        timeout: 600000,  // 10 minutes
+        maxBuffer: 50 * 1024 * 1024  // 50MB
+    };
+
+    if (isRunningInDocker) {
+        // Server is inside Docker - always run directly (we're already in the container)
+        if (!useDocker) {
+            console.warn(`Note: Local mode requested but server is in Docker. Running in container.`);
+        }
+        command = runMeCommand;
+        execOptions = { ...commonExecOptions, cwd: langDir };
+    } else {
+        // Server is on host machine
+        if (useDocker) {
+            // Docker mode: run via docker-compose exec
+            const dockerLangDir = `/app/Languages/${language}`;
+            command = `docker-compose exec -T app bash -c "cd ${dockerLangDir} && ${runMeCommand}"`;
+            execOptions = { ...commonExecOptions, cwd: path.join(__dirname, '..') }; // Project root
+        } else {
+            // Local mode: run directly on host
+            command = runMeCommand;
+            execOptions = { ...commonExecOptions, cwd: langDir };
+        }
+    }
+
+    exec(command, execOptions, (error, stdout, stderr) => {
         if (error) {
             console.error(`Exec error: ${error}`);
         }
@@ -285,6 +326,33 @@ app.get('/api/metadata/:lang', (req, res) => {
     }
 });
 
+// Get Solver Source Code
+app.get('/api/source/:lang', (req, res) => {
+    const lang = req.params.lang;
+    const langDir = path.join(__dirname, '..', 'Languages', lang);
+
+    if (!fs.existsSync(langDir)) {
+        return res.status(404).json({ error: 'Language not found' });
+    }
+
+    try {
+        // Find the solver file (Sudoku.* pattern)
+        const files = fs.readdirSync(langDir);
+        const solverFile = files.find(f => f.startsWith('Sudoku.') && !f.endsWith('.class') && !f.endsWith('.o') && !f.endsWith('.beam'));
+
+        if (!solverFile) {
+            return res.status(404).json({ error: 'Solver file not found' });
+        }
+
+        const filePath = path.join(langDir, solverFile);
+        const source = fs.readFileSync(filePath, 'utf8');
+        res.json({ filename: solverFile, source: source });
+    } catch (e) {
+        console.error("Error reading source:", e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // Save Metadata
 app.post('/api/save-metadata', (req, res) => {
     const { lang, metadata } = req.body;
@@ -343,7 +411,7 @@ const upload = multer({ dest: path.join(__dirname, 'uploads/') });
 
 // Upload Media
 app.post('/api/upload-media', upload.single('file'), (req, res) => {
-    const { lang } = req.body;
+    const { lang, isLogo } = req.body;
     if (!req.file || !lang) {
         return res.status(400).json({ error: 'File and Language required' });
     }
@@ -355,8 +423,20 @@ app.post('/api/upload-media', upload.single('file'), (req, res) => {
         }
 
         const ext = path.extname(req.file.originalname) || '.png';
-        const filename = `${lang}_${Date.now()}${ext}`;
+        // If isLogo flag is set, use canonical logo name (overwrites existing)
+        const filename = isLogo === 'true' ? `${lang}_logo${ext}` : `${lang}_${Date.now()}${ext}`;
         const targetPath = path.join(langDir, filename);
+
+        // If logo, remove existing logo files with different extensions first
+        if (isLogo === 'true') {
+            const existingLogos = ['.png', '.jpg', '.svg'].map(e => path.join(langDir, `${lang}_logo${e}`));
+            existingLogos.forEach(p => {
+                if (fs.existsSync(p) && p !== targetPath) {
+                    fs.unlinkSync(p);
+                    console.log(`Removed old logo: ${p}`);
+                }
+            });
+        }
 
         // Move file (copy then unlink because simple rename might fail across partitions/devices in some envs)
         try {
@@ -371,6 +451,7 @@ app.post('/api/upload-media', upload.single('file'), (req, res) => {
             }
         }
 
+        console.log(`Uploaded ${isLogo === 'true' ? 'logo' : 'media'}: ${targetPath}`);
         res.json({ success: true, filename: filename });
     } catch (e) {
         console.error("Error uploading media:", e);
