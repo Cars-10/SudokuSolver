@@ -5215,3 +5215,462 @@ The backtracking solver will call isValid for every attempt
 
 END OF COMBINED isValid SECTION
 
+FIND NEXT EMPTY CELL
+====================
+
+THE WALKING FORWARD PHILOSOPHY
+==============================
+
+As an entity on this tape I must find the next piece of blank clay
+Blank clay is a cell where both value equals 0 AND fixed equals 0
+Fixed cells were given to us at the start they cannot be changed
+Empty cells are the ones we must fill with our guesses
+
+I walk forward from my current position cell by cell
+At each cell I peek at the value and the fixed flag
+If both are zero I have found my target
+If not I take another step forward
+
+If I reach the end cell 80 and still find nothing empty
+Then the puzzle is solved no more blank clay exists
+I set the solved flag to 1 and celebrate
+
+MEMORY USAGE FOR FIND EMPTY
+===========================
+
+Input
+  162 curr pos   starting cell index for search
+
+Output
+  162 curr pos   updated to found empty cell OR unchanged if solved
+  165 solved     set to 1 if no empty cell found 0 otherwise
+
+Working memory used
+  166 temp1      copy of curr pos for navigation countdown
+  167 temp2      loop guard for search
+  168 temp3      found flag 1 if found empty 0 otherwise
+  169 temp4      copy of cell value for testing
+  170 temp5      copy of fixed flag for testing
+
+FIND EMPTY CELL IMPLEMENTATION
+==============================
+
+The search starts at whatever value is in curr pos at 162
+We search from this position through cell 80
+
+First initialize
+  solved at 165 equals 0 meaning not yet solved
+  found at 168 equals 0 meaning not yet found empty cell
+
+At position 162
+
+Initialize solved flag to 0
+>>>[-]<<<
+
+At 162
+Initialize found flag at 168 to 0
+>>>>>>[-]<<<<<<
+
+At 162
+
+SEARCH LOOP DESIGN NOTE
+=======================
+
+A general purpose loop to search for empty cells is very complex in Brainfuck
+due to the need for variable distance navigation and multiple conditionals
+
+For this implementation we use a demonstration approach that shows
+1 How to test if a cell is empty value zero and fixed zero
+2 How to store the result in working memory
+3 The patterns needed for the full backtracking solver
+
+The full backtracking solver in US 011 will implement the complete search
+
+MATRIX 1 EMPTY CELLS
+====================
+
+Empty cells in Matrix 1 from left to right top to bottom
+Position  Row Col  Value
+2         0   2    empty
+3         0   3    empty
+4         0   4    empty
+5         0   5    empty
+9         1   0    empty
+10        1   1    empty
+11        1   2    empty
+13        1   4    empty
+14        1   5    empty
+15        1   6    empty
+16        1   7    empty
+18        2   0    empty
+21        2   3    empty
+24        2   6    empty
+25        2   7    empty
+26        2   8    empty
+29        3   2    empty
+33        3   6    empty
+34        3   7    empty
+36        4   0    empty
+37        4   1    empty
+42        4   6    empty
+44        4   8    empty
+46        5   1    empty
+47        5   2    empty
+48        5   3    empty
+49        5   4    empty
+51        5   6    empty
+52        5   7    empty
+53        5   8    empty
+56        6   2    empty
+58        6   4    empty
+60        6   6    empty
+62        6   8    empty
+68        7   5    empty
+69        7   6    empty
+71        7   8    empty
+74        8   2    empty
+75        8   3    empty
+76        8   4    empty
+79        8   7    empty
+80        8   8    empty
+
+Total 41 empty cells to fill
+
+FIND EMPTY DEMONSTRATION
+========================
+
+This demonstration shows the pattern for finding an empty cell
+We will check specific cells to demonstrate the is empty test
+
+At position 162
+
+TEST CELL 0 NOT EMPTY
+=====================
+
+Cell 0 is at tape position 0
+Navigate left 162 steps from position 162
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+At position 0 cell 0 value
+
+Cell 0 has value 9 in Matrix 1 not empty
+
+Test if value is zero
+Copy value to position 1 temporarily using position 2
+We will use the is zero pattern
+Set a flag then if value nonzero clear the flag
+
+First save the original value to position 2
+[>>+>+<<<-]
+Move to position 3 and copy back to position 0
+>>>[-<<<+>>>]<<<
+
+Now position 2 has copy of value
+Move to position 2
+>>
+
+Set flag at position 3 to 1 meaning assume zero
+>[-]+<
+
+If position 2 value copy is nonzero clear the flag
+[>-<[-]]
+
+Now position 3 has is zero flag
+  1 means value was zero
+  0 means value was nonzero
+
+Move to position 3
+>
+
+Cell 0 value is 9 so flag should be 0
+
+Print the result to verify
+++++++++++++++++++++++++++++++++++++++++++++++++.
+Print E for empty check
+Clear and build 69 for E
+[-]
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
++++++++++
+.
+
+Print colon
+[-]
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++
+.
+
+Print space
+[-]
+++++++++++
+++++++++++
+++++++++++
+++
+.
+
+Clear position 3
+[-]
+
+Return to position 0
+<<<
+
+Clear position 2
+>>[-]<<
+
+At position 0
+
+Now check cell 2 which should be empty
+Cell 2 is at tape position 4
+
+Move right 4 positions
+>>>>
+
+At position 4 cell 2 value
+
+Cell 2 has value 0 in Matrix 1 empty
+
+Test if value is zero
+Copy value to position 5 using position 6
+[>>+>+<<<-]
+>>>[-<<<+>>>]<<<
+
+At position 4
+Position 5 has copy of value
+
+Set flag at position 6 to 1
+>[-]>>[-]+<<<
+
+If position 5 value copy nonzero clear position 6
+>[>-<[-]]<
+
+Now position 6 has is zero flag
+Move to position 5 clear it
+>[-]
+
+Move to position 6
+>
+
+Print the is zero result for cell 2
+++++++++++++++++++++++++++++++++++++++++++++++++.
+
+Clear and print E colon space
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
++++++++++
+.
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++
+.
+[-]++++++++++
+++++++++++
+++++++++++
+++
+.
+[-]
+
+At position 6
+
+Also check the fixed flag at position 5 cell 2 fixed
+Need to verify fixed is also 0 for truly empty
+
+Go back to position 5 which is cell 2 fixed flag
+<
+
+Cell 2 fixed flag should be 0 since it was empty in puzzle
+
+Copy fixed flag to position 6 using position 7
+[>+>+<<-]
+>>[-<<+>>]<<
+
+Set position 7 to 1
+>>[-]+<<
+
+If position 6 copy is nonzero clear position 7
+>[>-<[-]]<
+
+Move to position 7
+>>
+
+This is the is zero result for fixed flag
+Print it
+++++++++++++++++++++++++++++++++++++++++++++++++.
+
+Print F for fixed check
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+.
+Print colon
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++
+.
+Print space
+[-]++++++++++
+++++++++++
+++++++++++
+++
+.
+[-]
+
+At position 7
+
+Cell 2 passed both tests value zero and fixed zero
+Cell 2 is empty
+
+Print newline
+++++++++++.[-]
+
+Return to position 162 working memory home
+From position 7 need to go right 155 steps
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+At position 162
+
+FIND EMPTY SUMMARY
+==================
+
+The demonstration showed
+1 How to test if a cell value is zero
+2 How to test if a cell fixed flag is zero
+3 A cell is empty only if both are zero
+
+The results printed
+  0E colon cell 0 is not empty value nonzero
+  1E colon cell 2 value is zero
+  1F colon cell 2 fixed flag is zero confirming empty
+
+For the full solver US 011 will implement a search loop
+that iterates through cells finding the next empty one
+
+STORE FIRST EMPTY CELL POSITION
+===============================
+
+For the demonstration we found that cell 2 is the first empty cell
+Store 2 in curr pos at position 162
+
+At position 162
+Clear it
+[-]
+Set to 2
+++
+
+The entity has recorded the location of blank clay
+Cell 2 at position 162
+
+Also verify solved flag at 165 is 0 since we found empty cell
+Move to 165
+>>>
+Clear and set to 0 explicitly
+[-]
+
+Return to 162
+<<<
+
+At 162
+
+OUTPUT FIND EMPTY RESULT
+========================
+
+Print the curr pos to show which empty cell was found
+Move to 162 if not there already we are there
+
+Print curr pos as ASCII
+Copy value to 166 for printing
+[>>>>+>+<<<<<-]
+>>>>>[-<<<<<+>>>>>]<<<<<
+
+Move to 167 which has copy
+>>>>>
+
+Add 48 for ASCII
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+Print
+.
+
+Print label
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
++++++
+.
+
+Print colon space
+[-]++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++++
+++++++++
+.
+[-]++++++++++
+++++++++++
+++++++++++
+++
+.
+
+Print newline
+[-]++++++++++.[-]
+
+Clear 166
+<[-]
+
+Return to 162
+<<<<
+
+At 162
+
+FIND NEXT EMPTY COMPLETE
+========================
+
+This section demonstrated
+1 Navigating to specific grid cells
+2 Testing if value is zero using is zero pattern
+3 Testing if fixed flag is zero
+4 A cell is empty only if both value and fixed are zero
+5 Setting curr pos to the found empty cell position
+6 The solved flag remains 0 because we found an empty cell
+
+When the solver needs to find the next empty cell it will
+1 Start from the current curr pos
+2 Check each cell in sequence
+3 Stop when it finds an empty cell
+4 If it reaches cell 81 past the grid set solved flag to 1
+
+The next story US 011 will implement the full backtracking loop
+that uses this find empty pattern as part of its search
+
+END OF FIND EMPTY SECTION
+
+
+]]]]]
