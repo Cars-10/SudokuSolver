@@ -180,7 +180,7 @@ cd Languages/Brainfuck
 - [x] US-005: Cell navigation
 - [x] US-006: Row constraint check
 - [x] US-007: Column constraint check
-- [ ] US-008: Box constraint check
+- [x] US-008: Box constraint check
 - [ ] US-009: Combined validity check
 - [ ] US-010: Find next empty cell
 - [ ] US-011: Backtracking solve loop
