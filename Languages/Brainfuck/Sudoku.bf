@@ -21,26 +21,59 @@
   4 Backtrack when you hit a dead end
   5 Celebrate when no empty cells remain
 
-  TAPE MEMORY LAYOUT
-  ==================
+  TAPE MEMORY LAYOUT QUICK REFERENCE
+  ==================================
 
-  Positions 0 to 161 The Sudoku Grid
-    Each of the 81 cells uses 2 tape positions
-    Even positions 0 2 4 etc cell value 0 to 9
-    Odd positions 1 3 5 etc fixed flag 0=editable 1=given
+  GRID REGION positions 0 to 161
+  Each Sudoku cell uses 2 tape positions
+    Cell N value at position N times 2
+    Cell N fixed flag at position N times 2 plus 1
 
-    Cell N maps to tape position N times 2
-    Cell 0 row 0 col 0 is at tape 0 and 1
-    Cell 40 row 4 col 4 center is at tape 80 and 81
-    Cell 80 row 8 col 8 is at tape 160 and 161
+  Layout
+    Cell  0 row0 col0 at tape   0   1
+    Cell  8 row0 col8 at tape  16  17
+    Cell  9 row1 col0 at tape  18  19
+    Cell 40 row4 col4 at tape  80  81  center
+    Cell 80 row8 col8 at tape 160 161
 
-  Positions 162 onwards Working Memory
-    This is where we store temporary values during computation
-    Current position being examined
-    Trial value being tested
-    Scratch space for arithmetic
-    Navigation markers
-    Backtrack stack
+  WORKING MEMORY positions 162 onwards
+
+  Core State 162 to 165
+    162 curr pos   current cell index 0 to 80
+    163 trial val  value being tested 1 to 9
+    164 result     validity flag 0=invalid 1=valid
+    165 solved     completion flag 0=no 1=yes
+
+  Scratch Space 166 to 175
+    166 to 175 temp1 through temp10 for intermediate calculations
+
+  Navigation 176 to 180
+    176 nav pos    saved position during navigation
+    177 nav cnt    step counter for movement
+    178 row num    current row 0 to 8
+    179 col num    current column 0 to 8
+    180 box idx    current box index 0 to 8
+
+  Arithmetic 181 to 185
+    181 div q      division quotient
+    182 div r      division remainder
+    183 mul a      multiplication operand A
+    184 mul b      multiplication operand B
+    185 mul r      multiplication result
+
+  Backtrack Stack 186 onwards
+    186 stack sp   stack pointer
+    187 onwards    stack entries storing filled cell positions
+
+  KEY FORMULAS
+  ============
+    tape pos for cell value = cell index times 2
+    tape pos for fixed flag = cell index times 2 plus 1
+    row = cell index divided by 9
+    col = cell index modulo 9
+    row start = row times 9
+    box row = row divided by 3 times 3
+    box col = col divided by 3 times 3
 
   THE JOURNEY BEGINS
   ==================
