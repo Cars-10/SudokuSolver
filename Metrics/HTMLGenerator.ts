@@ -1066,7 +1066,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </th>`;
     }
 
-    html += `<th class="sortable-header active" onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time" data-sort="time">
+    html += `<th class="sortable-header" onclick="sortRows('time', this)" style="cursor: pointer;" title="Sort by Total Time" data-sort="time">
         <span id="header-time">Total Time (ms)</span> <span class="sort-arrow">▲</span>
     </th>
     </tr></thead><tbody>`;
