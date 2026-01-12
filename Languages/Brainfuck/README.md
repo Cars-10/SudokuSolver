@@ -53,18 +53,92 @@ Formula: `tape_position = cell_number * 2`
 
 ### Working Memory Region (Positions 162+)
 
+The working memory is organized into logical groups for different purposes:
+
 ```
-[162] current_position    - Which cell (0-80) we're examining
-[163] trial_value         - Value (1-9) we're currently trying
-[164] result_flag         - Result of validity check (0=invalid, 1=valid)
-[165] solved_flag         - Whether puzzle is complete (0=no, 1=yes)
-[166] temp1               - Scratch space
-[167] temp2               - Scratch space
-[168] temp3               - Scratch space
-[169+] backtrack_stack    - Stack of positions for backtracking
+CORE STATE (162-165):
++----------+----------+----------+----------+
+| curr_pos | trial_v  | result   | solved   |
++----------+----------+----------+----------+
+   [162]      [163]      [164]      [165]
+
+SCRATCH SPACE (166-175):
++----------+----------+----------+----------+----------+
+|  temp1   |  temp2   |  temp3   |  temp4   |  temp5   |
++----------+----------+----------+----------+----------+
+   [166]      [167]      [168]      [169]      [170]
+
++----------+----------+----------+----------+----------+
+|  temp6   |  temp7   |  temp8   |  temp9   |  temp10  |
++----------+----------+----------+----------+----------+
+   [171]      [172]      [173]      [174]      [175]
+
+NAVIGATION (176-180):
++----------+----------+----------+----------+----------+
+| nav_pos  | nav_cnt  | row_num  | col_num  | box_idx  |
++----------+----------+----------+----------+----------+
+   [176]      [177]      [178]      [179]      [180]
+
+ARITHMETIC (181-185):
++----------+----------+----------+----------+----------+
+|  div_q   |  div_r   |  mul_a   |  mul_b   |  mul_r   |
++----------+----------+----------+----------+----------+
+   [181]      [182]      [183]      [184]      [185]
+
+BACKTRACK STACK (186+):
++----------+----------+----------+----------+
+| stack_sp | stack[0] | stack[1] | stack[2] | ...
++----------+----------+----------+----------+
+   [186]      [187]      [188]      [189]
 ```
 
-*Note: Layout may evolve as implementation progresses.*
+#### Detailed Working Memory Map
+
+| Position | Name       | Description                                          |
+|----------|------------|------------------------------------------------------|
+| 162      | curr_pos   | Current cell index (0-80) being examined             |
+| 163      | trial_val  | Value (1-9) currently being tested                   |
+| 164      | result     | Validity check result: 0=invalid, 1=valid            |
+| 165      | solved     | Puzzle complete flag: 0=no, 1=yes                    |
+| 166-175  | temp1-10   | General scratch space for intermediate calculations  |
+| 176      | nav_pos    | Saved position during navigation                     |
+| 177      | nav_cnt    | Counter for navigation steps                         |
+| 178      | row_num    | Current row number (0-8) for constraint checking     |
+| 179      | col_num    | Current column number (0-8) for constraint checking  |
+| 180      | box_idx    | Current box index (0-8) for constraint checking      |
+| 181      | div_q      | Division quotient result                             |
+| 182      | div_r      | Division remainder result                            |
+| 183      | mul_a      | Multiplication operand A                             |
+| 184      | mul_b      | Multiplication operand B                             |
+| 185      | mul_r      | Multiplication result                                |
+| 186      | stack_sp   | Stack pointer (index into backtrack stack)           |
+| 187+     | stack[]    | Backtrack stack - stores positions of placed values  |
+
+#### Common Operations Using Working Memory
+
+**Finding Row/Column from Position:**
+```
+row = curr_pos / 9  (stored in row_num via div_q)
+col = curr_pos % 9  (stored in col_num via div_r)
+```
+
+**Finding Row Start:**
+```
+row_start = row * 9  (multiply row_num by 9)
+```
+
+**Finding Box Top-Left:**
+```
+box_row = (row / 3) * 3
+box_col = (col / 3) * 3
+box_start = box_row * 9 + box_col
+```
+
+**Navigation Formula:**
+```
+tape_pos = cell_index * 2  (for value)
+tape_pos = cell_index * 2 + 1  (for fixed flag)
+```
 
 ## Prerequisites
 
@@ -99,8 +173,8 @@ cd Languages/Brainfuck
 
 ## Implementation Status
 
-- [ ] US-001: Directory structure (in progress)
-- [ ] US-002: Tape memory layout design
+- [x] US-001: Directory structure
+- [x] US-002: Tape memory layout design
 - [ ] US-003: Puzzle initialization
 - [ ] US-004: Output routine
 - [ ] US-005: Cell navigation
