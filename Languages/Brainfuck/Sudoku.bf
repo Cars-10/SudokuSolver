@@ -609,3 +609,102 @@ The entity now stands at position 162 the start of working memory
 Ready for the next phase of our journey
 
 END OF OUTPUT SECTION
+
+CELL NAVIGATION HELPERS
+=======================
+
+The entity needs to travel between working memory and grid cells
+These routines allow us to walk to any cell and find our way back
+
+Working memory position 162 is curr pos which holds our target cell index
+Position 176 is nav pos which saves our current tape position
+Position 177 is nav cnt which counts steps during navigation
+
+The fundamental insight is that cell N lives at tape position N times 2
+From position 162 we must go left to reach the grid and right to return
+
+NAVIGATION FORMULAS
+===================
+
+To reach cell N from position 162
+  tape position of cell N = N times 2
+  steps left from 162 = 162 minus tape position = 162 minus 2N
+
+To return home from tape position P
+  steps right = 162 minus P
+
+Example for cell 40 center of grid
+  tape position = 40 times 2 = 80
+  steps left from 162 = 162 minus 80 = 82 steps
+
+NAVIGATION TEST CELL 40
+=======================
+
+We will demonstrate navigation by traveling to cell 40 and back
+Cell 40 is row 4 column 4 the center of the grid
+Its value in Matrix 1 is 6
+
+Currently at position 162 after output routine
+First set curr pos to 40 as our target
+Clear current value then add 40
+
+[-]++++++++++++++++++++++++++++++++++++++++
+
+Position 162 now holds 40 our target cell index
+
+GO TO CELL 40
+=============
+
+From position 162 navigate to cell 40 at tape position 80
+Steps needed = 162 minus 80 = 82 left moves
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+The entity has arrived at position 80 which is cell 40 value position
+Cell 40 is row 4 column 4 the very heart of the puzzle
+
+VERIFY ARRIVAL
+==============
+
+Print cell 40 value to confirm we navigated correctly
+Add 48 for ASCII digit then print then subtract 48 to restore
+
+++++++++++++++++++++++++++++++++++++++++++++++++.------------------------------------------------
+
+You should see digit 6 which confirms cell 40 value
+The entity successfully found its way to the center cell
+
+RETURN HOME
+===========
+
+Navigate back to position 162 working memory
+From position 80 we need 82 right moves
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+The entity has returned to position 162
+Working memory is home base for all operations
+
+Print a newline to separate this test output
+Go to temp cell position 166 build 10 print clear return
+
+>>>>[-]++++++++++.[-]<<<<
+
+Back at position 162 after navigation test
+
+NAVIGATION TEST SUMMARY
+=======================
+
+Successfully demonstrated
+  go to cell navigates from position 162 to any grid cell
+  return home navigates back from grid to position 162
+  Position tracking via curr pos at 162
+
+For cell N the formulas are
+  tape position = N times 2
+  steps from 162 = 162 minus tape position
+
+The entity can now explore the grid and return home
+This is the foundation for constraint checking
+
+END OF NAVIGATION HELPERS
