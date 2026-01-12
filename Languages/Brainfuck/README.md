@@ -181,7 +181,7 @@ cd Languages/Brainfuck
 - [x] US-006: Row constraint check
 - [x] US-007: Column constraint check
 - [x] US-008: Box constraint check
-- [ ] US-009: Combined validity check
+- [x] US-009: Combined validity check
 - [ ] US-010: Find next empty cell
 - [ ] US-011: Backtracking solve loop
 - [ ] US-012: runMe.sh script
