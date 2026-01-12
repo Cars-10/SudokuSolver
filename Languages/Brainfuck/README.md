@@ -176,7 +176,7 @@ cd Languages/Brainfuck
 - [x] US-001: Directory structure
 - [x] US-002: Tape memory layout design
 - [x] US-003: Puzzle initialization
-- [ ] US-004: Output routine
+- [x] US-004: Output routine
 - [ ] US-005: Cell navigation
 - [ ] US-006: Row constraint check
 - [ ] US-007: Column constraint check
