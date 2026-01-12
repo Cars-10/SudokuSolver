@@ -39,7 +39,6 @@
     "EmacsLisp",
     "Dc",
     "Erlang",
-    "Expect",
     "F#",
     "Fish",
     "Forth",
@@ -65,14 +64,11 @@
     "Vala",
     "Verilog",
     "Vimscript",
-    "VisualBasic",
     "Wren",
     "XSLT",
     "Zig",
     "Zsh",
     "Smalltalk",
-    "SQL",
-    "Red",
     "PostScript",
     "Jupyter",
     "Icon",
@@ -88,5 +84,5 @@
     "Sed",
     "C"
   ],
-  "currentPersona": "Apocalypse Now"
+  "currentPersona": "Professor"
 }
