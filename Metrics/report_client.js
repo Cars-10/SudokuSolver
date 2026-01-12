@@ -9,7 +9,7 @@ function normalizeMatrix(m) {
 function filterLanguages() {
     const input = document.getElementById('search-input');
     const filter = input.value.toUpperCase();
-    const tbody = document.querySelector('tbody');
+    const tbody = document.getElementById('mainTableBody');
     const rows = tbody.getElementsByTagName('tr');
 
     for (let i = 0; i < rows.length; i++) {
@@ -27,9 +27,15 @@ function filterLanguages() {
 
 // Sorting Logic
 function sortRows(metric, btn) {
-    const tbody = document.querySelector('tbody');
+    console.log('sortRows called with metric:', metric, 'btn:', btn);
+    const tbody = document.getElementById('mainTableBody');
+    if (!tbody) {
+        console.error('mainTableBody not found!');
+        return;
+    }
     // Only get main data rows, not expanded-content rows
     const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
+    console.log('Found', rows.length, 'rows to sort');
 
     // Capture row pairs BEFORE sorting (each data row with its expanded-content)
     const rowPairs = rows.map(row => {
@@ -103,7 +109,7 @@ function sortRows(metric, btn) {
 }
 
 function sortMatrix(index, metric, btn) {
-    const tbody = document.querySelector('tbody');
+    const tbody = document.getElementById('mainTableBody');
     // Only get main data rows, not expanded-content rows
     const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
 
