@@ -64,8 +64,7 @@ function sortRows(metric, btn) {
     if (btn) {
         btn.classList.add('active');
         if (currentSort.dir === -1) {
-            btn.classList.add('rotate-180');
-            btn.classList.add('desc');
+            btn.classList.add('desc');  // CSS rotates the .sort-arrow inside via .desc class
         }
     }
 
@@ -130,8 +129,7 @@ function sortMatrix(index, metric, btn) {
     if (btn) {
         btn.classList.add('active');
         if (currentSort.dir === -1) {
-            btn.classList.add('rotate-180');
-            btn.classList.add('desc');
+            btn.classList.add('desc');  // CSS rotates the .sort-arrow inside via .desc class
         }
     }
 
