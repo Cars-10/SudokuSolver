@@ -323,18 +323,18 @@ footer {
 .modal-content {
     background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
     margin: auto;
-    padding: 30px;
+    padding: 16px;
     border: 2px solid var(--secondary);
     width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    border-radius: 12px;
+    max-width: 600px;
+    max-height: 85vh;
+    border-radius: 10px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 184, 255, 0.2);
     position: relative;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    animation: modal-appear 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes modal-appear {
@@ -350,19 +350,19 @@ footer {
 
 .modal-header {
     background: #16161e;
-    padding: 20px;
+    padding: 12px;
     border-bottom: 1px solid #414868;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 12px;
     display: flex;
-    gap: 30px;
+    gap: 16px;
 }
 
 .auth-image-container {
@@ -894,10 +894,10 @@ select {
 
 .modal-img-container {
     flex-shrink: 0;
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     background: #24283b;
-    border-radius: 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -910,7 +910,7 @@ select {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 10px;
+    padding: 6px;
 }
 
 /* Edit Mode Styles */
@@ -927,14 +927,15 @@ select {
 
 .modal-edit-textarea {
     width: 100%;
-    min-height: 100px;
+    min-height: 60px;
     background: #24283b;
     border: 1px solid #565f89;
     color: #c0caf5;
-    padding: 8px;
+    padding: 6px;
     border-radius: 4px;
     font-family: inherit;
     resize: vertical;
+    font-size: 0.9em;
 }
 
 .edit-controls {
@@ -959,24 +960,24 @@ select {
 .author-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
 .author-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     background: #24283b;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 8px;
+    border-radius: 6px;
     border: 1px solid #414868;
 }
 
 .author-img {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
 }

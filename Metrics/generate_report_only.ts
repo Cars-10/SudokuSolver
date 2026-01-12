@@ -94,6 +94,10 @@ async function run() {
 
                 for (const m of metricsList) {
                     if (!knownSolvers.has(m.solver)) {
+                        // Filter out N/A matrix entries - those are toolchain checks, not actual runs
+                        if (m.results && Array.isArray(m.results)) {
+                            m.results = m.results.filter((r: any) => r.matrix !== 'N/A');
+                        }
                         aggregatedMetrics.push(m);
                         knownSolvers.add(m.solver);
                     }
