@@ -75,7 +75,8 @@
     "Vimscript",
     "XSLT",
     "Zig",
-    "Zsh"
+    "Zsh",
+    "Crystal"
   ],
   "languages": {
     "C": {
@@ -352,6 +353,9 @@
       "status": "complete"
     },
     "Zsh": {
+      "status": "complete"
+    },
+    "Crystal": {
       "status": "complete"
     }
   }

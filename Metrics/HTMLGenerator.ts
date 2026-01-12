@@ -314,12 +314,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         
 
     window.handleZoomExtend = function() {
-        const sysView = document.getElementById('system-architecture-view');
-        if (sysView && sysView.style.display !== 'none') {
-            if (window.systemZoomExtends) window.systemZoomExtends();
-        } else {
-            if (window.undoZoom) window.undoZoom();
-        }
+        if (window.undoZoom) window.undoZoom();
     };
 
     window.toggleChartLabels = function(value) {
@@ -477,7 +472,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
                              <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
                              <a class="btn" id="btn-wikipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Wikipedia</a>
-                             ${!staticMode ? `<button class="btn" onclick="viewSourceCode()" style="background: #565f89;">View Source</button>` : ''}
+                             ${!staticMode ? `<a class="btn" href="#" onclick="viewSourceCode(); return false;" style="text-decoration: none; display: inline-block; background: #ff9e64; color: #1a1b26;">View Source</a>` : ''}
                         </div>
                     </div>
                 </div>
@@ -523,10 +518,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <!-- Source Code Modal -->
     ${!staticMode ? `<div id="sourceModal" class="modal" style="display: none;" onclick="closeSourceModal(event)">
         <div class="modal-content" id="sourceModalContent" onclick="event.stopPropagation()" style="max-width: 800px; max-height: 90vh;">
-            <span class="modal-close" onclick="closeSourceModal(event)">&times;</span>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h3 id="sourceModalTitle" style="margin: 0; color: #7aa2f7;"></h3>
-                <button class="btn" onclick="copySourceCode()" style="font-size: 0.8em;">Copy</button>
+                <h3 id="sourceModalTitle" style="margin: 0; color: #7aa2f7; flex: 1;"></h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn" onclick="copySourceCode()" style="font-size: 0.8em;">Copy</button>
+                    <span class="modal-close" onclick="closeSourceModal(event)" style="position: static; font-size: 1.5em;">&times;</span>
+                </div>
             </div>
             <pre id="sourceCodeContent" style="background: #16161e; padding: 15px; border-radius: 8px; overflow: auto; max-height: 70vh; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; line-height: 1.4; color: #c0caf5; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #414868;"></pre>
         </div>
@@ -737,6 +734,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <div id="riddle-container" class="riddle-text"></div>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
                 <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
+                <div id="diagnostics-status" class="diagnostics-status" style="margin-top: 8px; font-size: 0.7em; color: #565f89; font-family: 'JetBrains Mono', monospace; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <span style="color: ${diagnostics.env_error.count > 0 ? '#ff9e64' : '#565f89'};">ENV: ${diagnostics.env_error.count}</span>
+                    <span style="color: ${diagnostics.timeout.count > 0 ? '#f7768e' : '#565f89'};">TIMEOUT: ${diagnostics.timeout.count}</span>
+                    <span style="color: ${diagnostics.error.count > 0 ? '#ff0055' : '#565f89'};">ERROR: ${diagnostics.error.count}</span>
+                    <span style="color: ${diagnostics.missing.count > 0 ? '#bb9af7' : '#565f89'};">MISSING: ${diagnostics.missing.count}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -1008,8 +1011,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <option value="line">Metrics</option>
                 <option value="jockey">Horse Race</option>
                 <option value="race">Matrix Race</option>
-                <option value="history">History</option>
-                <option value="architecture">Architecture</option>
             </select>
         </div>
                 <div id="d3-chart-container" style="width: 100%; height: 100%; position: relative;">
@@ -1026,18 +1027,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <div class="controls">
 
             
-            <!-- System View Controls (Hidden by default) -->
-            <div id="system-controls" style="display:none; position:absolute; top: 20px; right: 120px; z-index: 100;">
-                 <button class="btn" onclick="systemZoomExtends()" style="background: var(--surface); color: var(--primary); border: 1px solid var(--primary); margin-right: 10px;">Zoom Extends</button>
-                 <button class="btn" onclick="exitSystemMode()" style="background: rgba(255,0,85,0.2); color: #ff0055; border: 1px solid #ff0055;">Exit System View</button>
-            </div>
-
             <div id="d3-chart"></div>
-
-            <!-- New System Architecture Component (Hidden by default) -->
-            <div id="system-architecture-view" style="display:none; width: 100%; height: 100%; background: #000; position: absolute; top:0; left:0; z-index: 90;">
-                 <iframe id="system-iframe" src="system_overview.html" style="width:100%; height:100%; border:none;"></iframe>
-            </div>
             <select id="personality-selector" class="btn" onchange="changePersonality()">
                 <option value="" disabled selected>PERSONA</option>
                 <option value="Standard">Standard</option>
@@ -1085,7 +1075,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 </div>
             </div>
             ${!staticMode ? `<div style="position: relative; display: inline-block;">
-                <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">Languages ▾</button>
+                <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">${metrics.length} LANGUAGES ▾</button>
                 <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
                     <!-- Populated by JS -->
                 </div>
@@ -1444,7 +1434,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const diagnosticsData = ${safeJSON(diagnostics)};
 
             // Dynamic Data
-            const historyData = ${safeJSON(history)};
             const referenceOutputs = ${safeJSON(referenceOutputs)};
             const tailoring = ${safeJSON(tailoringConfig)};
             const metricsData = ${safeJSON(metrics.map(m => {
@@ -1526,37 +1515,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         console.error('Warning: Could not read report_client.js, falling back to external script');
     }
 
-    // Asset Health Logic (US-004)
-    const missingLogos = orderedLanguages.filter(lang => {
-        let lookupKey = lang.toLowerCase();
-        if (lookupKey === 'c#') lookupKey = 'c_sharp';
-        if (lookupKey === 'f#') lookupKey = 'f_sharp';
-        return !logoMap.has(lookupKey);
-    });
-
     html += `
-    <!-- Asset Health Dashboard (US-004) -->
-    <div style="margin: 40px auto; width: 95%; max-width: 1600px; padding: 20px; background: #1a1b26; border: 1px solid #414868; border-radius: 8px;">
-        <h3 style="color: #7aa2f7; margin-top: 0; border-bottom: 1px solid #414868; padding-bottom: 10px;">Asset Health Dashboard</h3>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <div style="font-size: 2em; color: ${missingLogos.length > 0 ? '#ff0055' : '#00ff9d'}; font-weight: bold;">
-                ${missingLogos.length}
-            </div>
-            <div style="color: #c0caf5;">
-                Languages missing logos in <code>logos/</code>
-            </div>
-        </div>
-        ${missingLogos.length > 0 ? `
-        <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
-            ${missingLogos.map(lang => `<span style="background: rgba(255, 0, 85, 0.1); color: #ff0055; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; border: 1px solid rgba(255, 0, 85, 0.2);">${lang}</span>`).join('')}
-        </div>
-        ` : `
-        <div style="margin-top: 15px; color: #00ff9d; font-size: 0.9em;">
-            ✓ All assets accounted for.
-        </div>
-        `}
-    </div>
-
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>

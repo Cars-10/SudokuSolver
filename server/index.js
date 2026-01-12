@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const os = require('os');
-const historyDb = require('./database');
 
 const app = express();
 
@@ -276,26 +275,6 @@ app.post('/api/run', (req, res) => {
                     console.error("Error writing metrics:", e);
                 }
             }
-        }
-
-        // Get final results for history
-        let historyResults = [];
-        if (Array.isArray(finalMetrics) && finalMetrics.length > 0) {
-            const latestRun = finalMetrics[finalMetrics.length - 1];
-            historyResults = latestRun.results || [];
-        }
-
-        // Capture History (SQLite)
-        try {
-            historyDb.insertBenchmarkRun({
-                solver: language,
-                runType: 'Local',
-                timestamp: runTimestamp,
-                results: historyResults
-            });
-            console.log(`Recorded history for ${language} in SQLite`);
-        } catch (hErr) {
-            console.error("Error writing history to SQLite:", hErr);
         }
 
         res.json({
@@ -749,78 +728,6 @@ app.get('/api/metrics/:language/:variant', (req, res) => {
         res.status(500).json({ error: 'Failed to read variant metrics' });
     }
 });
-
-// ============================================================
-// History API Endpoints (SQLite)
-// ============================================================
-
-// Get all benchmark history
-app.get('/api/history', (req, res) => {
-    try {
-        const limit = parseInt(req.query.limit) || 500;
-        const solver = req.query.solver;
-        const since = req.query.since;
-
-        const history = historyDb.getHistory({ limit, solver, since });
-        res.json(history);
-    } catch (error) {
-        console.error('Error fetching history:', error);
-        res.status(500).json({ error: 'Failed to fetch history' });
-    }
-});
-
-// Get history for a specific solver
-app.get('/api/history/:solver', (req, res) => {
-    try {
-        const solver = req.params.solver;
-        const limit = parseInt(req.query.limit) || 100;
-
-        const history = historyDb.getHistoryBySolver(solver, limit);
-        res.json(history);
-    } catch (error) {
-        console.error('Error fetching solver history:', error);
-        res.status(500).json({ error: 'Failed to fetch solver history' });
-    }
-});
-
-// Get statistics for a solver
-app.get('/api/history/:solver/stats', (req, res) => {
-    try {
-        const solver = req.params.solver;
-        const stats = historyDb.getSolverStats(solver);
-        res.json(stats);
-    } catch (error) {
-        console.error('Error fetching solver stats:', error);
-        res.status(500).json({ error: 'Failed to fetch solver stats' });
-    }
-});
-
-// Get recent activity
-app.get('/api/history/recent/:hours', (req, res) => {
-    try {
-        const hours = parseInt(req.params.hours) || 24;
-        const activity = historyDb.getRecentActivity(hours);
-        res.json(activity);
-    } catch (error) {
-        console.error('Error fetching recent activity:', error);
-        res.status(500).json({ error: 'Failed to fetch recent activity' });
-    }
-});
-
-// Migrate from JSON to SQLite (one-time use)
-app.post('/api/history/migrate', (req, res) => {
-    try {
-        const jsonPath = path.join(__dirname, '../benchmark_history.json');
-        const result = historyDb.migrateFromJson(jsonPath);
-        res.json(result);
-    } catch (error) {
-        console.error('Error during migration:', error);
-        res.status(500).json({ error: 'Migration failed', details: error.message });
-    }
-});
-
-// Initialize database on startup
-historyDb.initDatabase();
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

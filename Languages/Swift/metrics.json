@@ -1,21 +1,26 @@
-[{
-  "solver": "Swift",
-  "runType": "automated",
-  "timestamp": "2026-01-10T18:16:46Z",
-  "results": [{
-    "matrix": "N/A",
-    "time": 0,
-    "iterations": 0,
-    "memory": 0,
-    "cpu_user": 0,
-    "cpu_sys": 0,
-    "page_faults_major": 0,
-    "page_faults_minor": 0,
-    "context_switches_voluntary": 0,
-    "context_switches_involuntary": 0,
-    "io_inputs": 0,
-    "io_outputs": 0,
-    "status": "env_error",
-    "output": "Swift compiler (swiftc) not found"
-  }]
-}]
+[
+  {
+    "solver": "Swift",
+    "runType": "Local",
+    "timestamp": "2026-01-12T14:51:53.415Z",
+    "results": [
+      {
+        "matrix": "N/A",
+        "time": 0,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "page_faults_major": 0,
+        "page_faults_minor": 0,
+        "context_switches_voluntary": 0,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "env_error",
+        "output": "Swift compiler (swiftc) not found",
+        "run_timestamp": "2026-01-12T14:51:53.415Z"
+      }
+    ]
+  }
+]

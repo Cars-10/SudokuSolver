@@ -94,7 +94,7 @@
         },
         "Ksh": {
             "creator": "David Korn",
-            "image": "Languages/Ksh/Media/Ksh_1766233593296.png",
+            "image": "Languages/Ksh/Media/Ksh_logo.png",
             "date": "1983",
             "location": "Bell Labs, USA",
             "benefits": "Scripting, interactive use, backward compatibility.",
@@ -106,7 +106,11 @@
                     "image": "Languages/Ksh/Media/Ksh_1766233640986.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:27:24.222Z"
+            "lastUpdated": "2026-01-12T14:33:47.601Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "SQL": {
             "creator": "Donald D. Chamberlin, Raymond F. Boyce",
@@ -303,7 +307,7 @@
         },
         "Dc": {
             "creator": "Robert Morris, Lorinda Cherry",
-            "image": "Languages/Dc/Media/Dc_1766235574610.png",
+            "image": "Languages/Dc/Media/Dc_logo.png",
             "date": "1970",
             "location": "Bell Labs, USA",
             "benefits": "RPN, arbitrary precision, stack-based.",
@@ -319,7 +323,11 @@
                     "image": "Languages/Dc/Media/Dc_1766235225430.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:00:21.312Z"
+            "lastUpdated": "2026-01-12T13:32:54.536Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Vala": {
             "creator": "Jürg Billeter, Rafał Pietrak",
@@ -391,7 +399,7 @@
         },
         "Sed": {
             "creator": "Lee E. McMahon",
-            "image": "Languages/Sed/Media/Sed_1766236857136.png",
+            "image": "Languages/Sed/Media/Sed_logo.png",
             "date": "1974",
             "location": "Bell Labs, USA",
             "benefits": "Stream editing, text transformation, automation.",
@@ -403,7 +411,11 @@
                     "image": "Languages/Sed/Media/Sed_1766236805475.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:21:01.322Z"
+            "lastUpdated": "2026-01-12T14:38:25.932Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Cobol": {
             "creator": "CODASYL Committee (Grace Hopper)",
@@ -423,7 +435,7 @@
         },
         "SQLite": {
             "creator": "D. Richard Hipp",
-            "image": "Languages/SQLite/Media/SQLite_1766236915533.png",
+            "image": "Languages/SQLite/Media/SQLite_logo.png",
             "date": "2000",
             "location": "USA",
             "benefits": "Serverless, zero-configuration, transactional SQL.",
@@ -435,7 +447,11 @@
                     "image": "Languages/SQLite/Media/SQLite_1766236938044.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:22:19.598Z"
+            "lastUpdated": "2026-01-12T14:20:08.591Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Crystal": {
             "creator": "Ary Borenszweig",
@@ -503,7 +519,7 @@
         },
         "CommonLisp": {
             "creator": "Committee (Guy L. Steele Jr. et al.)",
-            "image": "Languages/CommonLisp/Media/CommonLisp_1766237370462.png",
+            "image": "Languages/CommonLisp/Media/CommonLisp_logo.png",
             "date": "1984",
             "location": "USA",
             "benefits": "Macros, dynamic typing, interactive development, flexibility.",
@@ -512,10 +528,14 @@
             "authors": [
                 {
                     "name": "Committee (Guy L. Steele Jr. et al.)",
-                    "image": "Languages/CommonLisp/Media/CommonLisp_1766237386488.png"
+                    "image": "Languages/CommonLisp/Media/CommonLisp_1768228878936.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:29:48.681Z"
+            "lastUpdated": "2026-01-12T14:41:37.672Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Pike": {
             "creator": "",
@@ -530,7 +550,7 @@
         },
         "M4": {
             "creator": "Brian Kernighan, Dennis Ritchie",
-            "image": "Languages/M4/Media/M4_1766237497660.png",
+            "image": "Languages/M4/Media/M4_logo.png",
             "date": "1977",
             "location": "Bell Labs, USA",
             "benefits": "Macro expansion, text processing, configuration.",
@@ -543,10 +563,14 @@
                 },
                 {
                     "name": "Dennis Ritchie",
-                    "image": "Languages/M4/Media/M4_1766237517525.png"
+                    "image": "Languages/M4/Media/M4_1768224833978.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:32:00.153Z"
+            "lastUpdated": "2026-01-12T14:34:41.171Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Fennel": {
             "creator": "",
@@ -561,7 +585,7 @@
         },
         "Elixir": {
             "creator": "José Valim",
-            "image": "Languages/Elixir/Media/Elixir_1766237829313.png",
+            "image": "Languages/Elixir/Media/Elixir_logo.png",
             "date": "2011",
             "location": "Plataformatec, Brazil",
             "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
@@ -573,7 +597,11 @@
                     "image": "https://github.com/josevalim.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T14:21:54.799Z"
+            "lastUpdated": "2026-01-12T14:15:38.699Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Rexx": {
             "creator": "Mike Cowlishaw",
@@ -597,7 +625,7 @@
         },
         "Prolog": {
             "creator": "Alain Colmerauer",
-            "image": "Languages/Prolog/Media/Prolog_1766238007428.png",
+            "image": "Languages/Prolog/Media/Prolog_logo.png",
             "date": "1972",
             "location": "University of Aix-Marseille, France",
             "benefits": "Logic programming, AI, pattern matching, declarative.",
@@ -606,10 +634,14 @@
             "authors": [
                 {
                     "name": "Alain Colmerauer",
-                    "image": "Languages/Prolog/Media/Prolog_1766238037920.png"
+                    "image": "Languages/Prolog/Media/Prolog_1768228162946.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:40:41.174Z"
+            "lastUpdated": "2026-01-12T14:29:25.226Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Janet": {
             "creator": "",
@@ -676,7 +708,7 @@
         },
         "PostScript": {
             "creator": "John Warnock, Charles Geschke",
-            "image": "Languages/PostScript/Media/PostScript_1766238625179.png",
+            "image": "Languages/PostScript/Media/PostScript_logo.png",
             "date": "1982",
             "location": "Adobe, USA",
             "benefits": "Printing, vector graphics, stack-based, device independence.",
@@ -689,14 +721,18 @@
                 },
                 {
                     "name": "Charles Geschke",
-                    "image": "Languages/PostScript/Media/PostScript_1766238664221.png"
+                    "image": "Languages/PostScript/Media/PostScript_1768228358685.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:51:07.099Z"
+            "lastUpdated": "2026-01-12T14:32:42.771Z",
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Gnuplot": {
             "creator": "Thomas Williams, Colin Kelley",
-            "image": "Languages/Gnuplot/Media/Gnuplot_1766238704342.png",
+            "image": "Languages/Gnuplot/Media/Gnuplot_logo.png",
             "date": "1986",
             "location": "USA",
             "benefits": "Plotting, data visualization, scripting.",
@@ -709,11 +745,15 @@
                 },
                 {
                     "name": "Colin Kelley",
-                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238793629.png"
+                    "image": "Languages/Gnuplot/Media/Gnuplot_1768228755136.png"
                 }
             ],
-            "lastUpdated": "2026-01-10T16:58:01.370Z",
-            "locked": false
+            "lastUpdated": "2026-01-12T14:39:17.592Z",
+            "locked": false,
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Jq": {
             "creator": "Stephen Dolan",
@@ -855,7 +895,7 @@
         },
         "Scheme": {
             "creator": "Guy L. Steele, Gerald Jay Sussman",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Lambda_lc.svg",
+            "image": "Languages/Scheme/Media/Scheme_logo.png",
             "date": "1975",
             "location": "MIT, USA",
             "benefits": "Minimalist, clean semantics, first-class procedures, educational.",
@@ -865,14 +905,17 @@
             "authors": [
                 {
                     "name": "Guy L. Steele",
-                    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Guy_Steele.jpg"
+                    "image": "Languages/Scheme/Media/Scheme_1768228054526.png"
                 },
                 {
                     "name": "Gerald Jay Sussman",
-                    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Gerald_Jay_Sussman.jpg"
+                    "image": "Languages/Scheme/Media/Scheme_1768228073740.png"
                 }
             ],
-            "lastUpdated": "2026-01-11T19:30:00.000Z"
+            "lastUpdated": "2026-01-12T14:27:57.544Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Dart": {
             "creator": "Lars Bak, Kasper Lund",
@@ -914,15 +957,31 @@
         },
         "Erlang": {
             "creator": "Joe Armstrong, Robert Virding, Mike Williams",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/0/04/Erlang_logo.svg",
+            "image": "Languages/Erlang/Media/Erlang_logo.png",
             "date": "1986",
             "location": "Ericsson, Sweden",
             "benefits": "Fault-tolerant, distributed, concurrent, hot-swapping.",
             "related": "Elixir, OTP",
             "website": "https://www.erlang.org/",
             "description": "Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery.",
-            "authors": [],
-            "lastUpdated": "2026-01-11T19:33:00.000Z"
+            "authors": [
+                {
+                    "name": "Joe Armstrong",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/0/04/Erlang_logo.svg"
+                },
+                {
+                    "name": "Robert Virding",
+                    "image": ""
+                },
+                {
+                    "name": "Mike Williams",
+                    "image": ""
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:16:16.056Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Vimscript": {
             "creator": "Bram Moolenaar",
@@ -1041,6 +1100,133 @@
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:07.884Z"
+        },
+        "Brainfuck": {
+            "creator": "",
+            "image": "Languages/Brainfuck/Media/Brainfuck_logo.png",
+            "date": "",
+            "location": "",
+            "benefits": "",
+            "related": "",
+            "website": "",
+            "description": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "authors": [],
+            "lastUpdated": "2026-01-12T14:13:22.712Z"
+        },
+        "Scala": {
+            "creator": "Martin Odersky",
+            "image": "Languages/Scala/Media/Scala_logo.png",
+            "date": "2004",
+            "location": "EPFL, Switzerland",
+            "benefits": "Functional + OOP, JVM, type safety, concurrency (Akka).",
+            "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin",
+            "website": "",
+            "description": "A strong statically typed general-purpose programming language which supports both object-oriented programming and functional programming. Scala fuses object-oriented and functional programming on the JVM.",
+            "history": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+            "paradigm": "",
+            "typeSystem": "",
+            "authors": [
+                {
+                    "name": "Martin Odersky",
+                    "image": "https://github.com/odersky.png"
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:20:43.505Z"
+        },
+        "Rust": {
+            "creator": "Graydon Hoare",
+            "image": "Languages/Rust/Media/Rust_logo.png",
+            "date": "2010",
+            "location": "Mozilla, USA",
+            "benefits": "Memory safety, concurrency, performance, no GC.",
+            "related": "C++, ML, Haskell, Erlang, Swift, C",
+            "website": "",
+            "description": "A multi-paradigm, general-purpose programming language designed for safety and performance. It targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors.",
+            "history": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+            "paradigm": "Multi-paradigm, Concurrent, Functional, Imperative, Structured",
+            "typeSystem": "Static, Strong, Safe",
+            "authors": [
+                {
+                    "name": "Graydon Hoare",
+                    "image": "Languages/Rust/Media/Rust_1768228248801.png"
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:30:51.765Z"
+        },
+        "Groovy": {
+            "creator": "James Strachan",
+            "image": "Languages/Groovy/Media/Groovy_logo.png",
+            "date": "2003",
+            "location": "USA",
+            "benefits": "Java compatibility, scripting, dynamic features, DSLs.",
+            "related": "Java, Python, Ruby, Smalltalk",
+            "website": "",
+            "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.",
+            "history": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+            "paradigm": "",
+            "typeSystem": "",
+            "authors": [
+                {
+                    "name": "James Strachan",
+                    "image": "https://github.com/jstrachan.png"
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:34:15.001Z"
+        },
+        "Julia": {
+            "creator": "Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman",
+            "image": "Languages/Julia/Media/Julia_logo.png",
+            "date": "2012",
+            "location": "MIT, USA",
+            "benefits": "Speed of C, ease of Python, great for scientific computing.",
+            "related": "MATLAB, Python, R, Lisp, Fortran",
+            "website": "",
+            "description": "A high-level, high-performance dynamic programming language for technical computing. It combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+            "history": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+            "paradigm": "",
+            "typeSystem": "",
+            "authors": [
+                {
+                    "name": "Jeff Bezanson",
+                    "image": "https://github.com/JeffBezanson.png"
+                },
+                {
+                    "name": "Stefan Karpinski",
+                    "image": ""
+                },
+                {
+                    "name": "Viral B. Shah",
+                    "image": ""
+                },
+                {
+                    "name": "Alan Edelman",
+                    "image": ""
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:40:12.216Z"
+        },
+        "Swift": {
+            "creator": "Chris Lattner et al.",
+            "image": "Languages/Swift/Media/Swift_logo.png",
+            "date": "2014",
+            "location": "Apple Inc., USA",
+            "benefits": "Safety, performance, modern syntax, Apple ecosystem.",
+            "related": "Objective-C, Rust, C#, Python, Ruby",
+            "website": "",
+            "description": "A general-purpose, multi-paradigm, compiled programming language developed by Apple. Swift has largely superseded Objective-C for Apple platform development, focusing on safety, performance and developer ergonomics.",
+            "history": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+            "paradigm": "",
+            "typeSystem": "",
+            "authors": [
+                {
+                    "name": "Chris Lattner et al.",
+                    "image": "https://github.com/lattner.png"
+                }
+            ],
+            "lastUpdated": "2026-01-12T14:52:22.598Z"
         }
     }
 }

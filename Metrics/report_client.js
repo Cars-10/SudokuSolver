@@ -2101,17 +2101,6 @@ initializeStatus();
                 drawJockeyChart();
             } else if (type === 'race') {
                 drawMatrixRace();
-            } else if (type === 'history') {
-                // Render Native History Table
-                renderNativeHistory(container);
-            } else if (type === 'architecture') {
-                // Embed Architecture Overview
-                container.append("iframe")
-                    .attr("src", "system_overview.html")
-                    .style("width", "100%")
-                    .style("height", "100%")
-                    .style("border", "none")
-                    .style("background", "transparent");
             }
         } catch (e) {
             console.error("Error switching chart:", e);
@@ -2124,77 +2113,6 @@ initializeStatus();
             }
         }
     };
-
-    function renderNativeHistory(container) {
-        const historyRows = historyData.flatMap(h =>
-            h.results.map(r => ({
-                timestamp: h.timestamp,
-                solver: h.solver,
-                matrix: r.matrix,
-                time: r.time,
-                iterations: r.iterations,
-                status: r.status,
-                logo: h.logo
-            }))
-        );
-
-        // Sort by timestamp desc
-        historyRows.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-
-        const wrapper = container.append("div")
-            .style("height", "100%")
-            .style("overflow-y", "auto")
-            .style("padding", "10px")
-            .attr("class", "history-native-wrapper");
-
-        const table = wrapper.append("table")
-            .style("width", "100%")
-            .style("border-collapse", "collapse")
-            .attr("class", "history-table");
-
-        const thead = table.append("thead");
-        const headerRow = thead.append("tr");
-        ["Time", "Solver", "Matrix", "Duration", "Entropy", "Status"].forEach(h => {
-            headerRow.append("th")
-                .text(h)
-                .style("text-align", "left")
-                .style("padding", "8px")
-                .style("border-bottom", "1px solid var(--primary)")
-                .style("color", "var(--primary)")
-                .style("position", "sticky")
-                .style("top", "0")
-                .style("background", "var(--surface)");
-        });
-
-        const tbody = table.append("tbody");
-        historyRows.forEach(r => {
-            const row = tbody.append("tr")
-                .style("border-bottom", "1px solid var(--border)");
-
-            row.append("td").text(new Date(r.timestamp).toLocaleString())
-                .style("padding", "8px")
-                .style("font-size", "0.85em")
-                .style("color", "var(--muted)");
-
-            const solverCell = row.append("td").style("padding", "8px").style("display", "flex").style("align-items", "center").style("gap", "8px");
-            if (r.logo) {
-                solverCell.append("img").attr("src", r.logo).style("width", "20px").style("height", "20px").style("object-fit", "contain");
-            }
-            solverCell.append("span").text(r.solver).style("font-weight", "bold").style("color", "var(--secondary)");
-
-            row.append("td").text(r.matrix).style("padding", "8px");
-            row.append("td").text((r.time ?? 0).toFixed(4) + "s").style("padding", "8px").style("font-family", "monospace").style("color", "#fff");
-            row.append("td").text(r.iterations ?? "-").style("padding", "8px").style("font-family", "monospace");
-
-            const statusColor = r.status === 'pass' || r.status === 'success' ? 'var(--primary)' : '#ff0055';
-            row.append("td").text(r.status || "-")
-                .style("padding", "8px")
-                .style("text-transform", "uppercase")
-                .style("font-size", "0.8em")
-                .style("font-weight", "bold")
-                .style("color", statusColor);
-        });
-    }
 
     function drawMatrixRace() {
         const container = document.getElementById('d3-chart-container');
@@ -3281,8 +3199,8 @@ let startScreensaverGlobal;
             // Activate new (find button by text content or index - imperfect but works for now)
             // Better: add data-mode to buttons. For now, rely on text or order.
             // Actually, let's just use the index mapping if we can, or just loop labels.
-            const labels = ['3D Cube', 'Scatter', 'Bar', 'Radar', 'System Architecture'];
-            const idx = labels.indexOf(mode === 'system' ? 'System Architecture' : (mode.charAt(0).toUpperCase() + mode.slice(1)));
+            const labels = ['3D Cube', 'Scatter', 'Bar', 'Radar'];
+            const idx = labels.indexOf(mode.charAt(0).toUpperCase() + mode.slice(1));
             if (idx >= 0) {
                 const buttons = document.querySelectorAll('.chart-options button');
                 if (buttons[idx]) buttons[idx].classList.add('active');
@@ -3292,11 +3210,8 @@ let startScreensaverGlobal;
 
             // Hide all views first
             document.getElementById('d3-chart').style.display = 'none';
-            document.getElementById('system-architecture-view').style.display = 'none';
-            document.getElementById('system-controls').style.display = 'none';
             // Show chart controls by default
             document.querySelector('.controls').style.display = 'flex';
-            document.getElementById('chart-container').classList.remove('system-mode-active');
             // Restore table if it was hidden
             document.getElementById('benchmark-table').style.display = '';
 
@@ -3307,60 +3222,14 @@ let startScreensaverGlobal;
             if (header) header.style.display = '';
             if (options) options.style.display = '';
 
-            if (mode === 'system') {
-                // Enforce Fullscreen
-                if (!document.fullscreenElement) {
-                    window.toggleChartFullscreen();
-                }
+            // Standard D3 Modes
+            document.getElementById('d3-chart').style.display = 'block';
 
-                // Hide standard chart elements/controls
-                document.querySelector('.controls').style.display = 'none'; // Hide 3D controls
-                if (header) header.style.display = 'none';
-                if (options) options.style.display = 'none';
-
-                // Show System View
-                document.getElementById('system-architecture-view').style.display = 'block';
-                document.getElementById('system-controls').style.display = 'block';
-
-                // Hide Table
-                document.getElementById('benchmark-table').style.display = 'none';
-
-            } else {
-                // Standard D3 Modes
-                document.getElementById('d3-chart').style.display = 'block';
-
-                // Draw standard charts
-                if (mode === '3d') init3DChart();
-                else if (mode === 'scatter') drawScatterPlot();
-                else if (mode === 'bar') drawBarChart();
-                else if (mode === 'radar') drawRadarChart();
-            }
-        };
-
-        window.systemZoomExtends = function () {
-            const iframe = document.getElementById('system-iframe');
-            if (iframe && iframe.contentWindow && iframe.contentWindow.svgPanZoom) {
-                // We need to access the svgPanZoom instance. 
-                // In system_overview.html we didn't expose it globally, just init'd it.
-                // We should fix system_overview.html to expose `window.zoomInstance` or similar.
-                // Assuming we fix that:
-                if (iframe.contentWindow.zoomInstance) {
-                    iframe.contentWindow.zoomInstance.fit();
-                    iframe.contentWindow.zoomInstance.center();
-                } else {
-                    // Fallback: reload iframe to reset
-                    iframe.contentWindow.location.reload();
-                }
-            }
-        };
-
-        window.exitSystemMode = function () {
-            // Exit fullscreen
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-            // Revert to 3D mode
-            setChartMode('3d');
+            // Draw standard charts
+            if (mode === '3d') init3DChart();
+            else if (mode === 'scatter') drawScatterPlot();
+            else if (mode === 'bar') drawBarChart();
+            else if (mode === 'radar') drawRadarChart();
         };
         function startScreensaver(mode) {
             console.log("startScreensaver called with mode:", mode);
