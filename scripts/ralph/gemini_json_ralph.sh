@@ -84,6 +84,26 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     echo ""
     echo "Ralph completed all tasks!"
     echo "Completed at iteration $i of $MAX_ITERATIONS"
+
+    # Auto-merge into main if on a ralph/* branch
+    if [ -n "$CURRENT_BRANCH" ] && [[ "$CURRENT_BRANCH" == ralph/* ]]; then
+      echo ""
+      echo "═══════════════════════════════════════════════════════"
+      echo "  Auto-merging $CURRENT_BRANCH into main"
+      echo "═══════════════════════════════════════════════════════"
+
+      cd "$(git rev-parse --show-toplevel)"
+      git checkout main
+      if git merge "$CURRENT_BRANCH" --no-edit; then
+        echo "Merge successful!"
+        git push origin main && echo "Pushed to origin/main"
+      else
+        echo "Merge failed - manual resolution required"
+        git merge --abort 2>/dev/null || true
+        git checkout "$CURRENT_BRANCH"
+      fi
+    fi
+
     exit 0
   fi
   
