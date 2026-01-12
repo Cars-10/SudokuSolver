@@ -121,3 +121,5 @@ Languages/Verilog/sudoku_sim
 # Debug/test files
 **/last_timing_debug.txt
 **/test.matrix
+stderr.txt
+.gitignore
