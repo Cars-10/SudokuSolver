@@ -185,7 +185,7 @@
         "Script is executable (chmod +x)"
       ],
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "notes": "Integration with benchmark framework"
     },
     {
@@ -202,7 +202,7 @@
         "metrics.json generated with timing data"
       ],
       "priority": 13,
-      "passes": false,
+      "passes": true,
       "notes": "Final verification - the solver works"
     },
     {
