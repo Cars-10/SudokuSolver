@@ -1,4 +1,4 @@
-let currentSort = { metric: 'time', dir: 1 }; // 1 = Asc, -1 = Desc
+let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)
 
 // Helper to normalize matrix identifiers (handles both "1" and "1.matrix" formats)
 function normalizeMatrix(m) {
@@ -40,11 +40,12 @@ function sortRows(metric, btn) {
         };
     });
 
-    // Toggle direction
+    // Toggle direction or set natural direction for new column
     if (currentSort.metric === metric) {
         currentSort.dir *= -1;
     } else {
         currentSort.metric = metric;
+        // Natural direction: ascending for names, ascending (lowest first) for numeric values
         currentSort.dir = 1;
     }
 
