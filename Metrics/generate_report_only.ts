@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import { glob } from 'glob';
 import {
     generateHtml,
-    captureScreenshot,
     personalities,
     languageMetadata,
     methodologyTexts,
@@ -197,49 +196,11 @@ async function run() {
         const htmlContent = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
         await fs.promises.writeFile(htmlFile, htmlContent);
 
-        // Generate screenshot-specific report with only selected languages (those with results)
-        const selectedLangs = benchmarkConfig.lockedLanguages || [];
-        const screenshotMetrics = finalMetrics.filter(m =>
-            selectedLangs.includes(m.solver) && m.results && m.results.length > 0
-        );
-
-        const screenshotHtmlFile = path.join(rootDir, '_report_screenshot.html');
-        if (screenshotMetrics.length > 0) {
-            console.log(`Generating screenshot report with ${screenshotMetrics.length} languages: ${screenshotMetrics.map(m => m.solver).join(', ')}`);
-            const screenshotHtmlContent = await generateHtml(screenshotMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
-            await fs.promises.writeFile(screenshotHtmlFile, screenshotHtmlContent);
-        }
-
         // Write timestamp file for smart refresh
         const timestampFile = path.join(rootDir, 'timestamp.js');
         await fs.promises.writeFile(timestampFile, `window.latestTimestamp = ${Date.now()};`);
 
         console.log(`Successfully generated ${htmlFile}`);
-
-        const now = new Date();
-        const formatter = new Intl.DateTimeFormat('en-SE', { // en-SE uses ISO 8601 format
-            timeZone: 'CET',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
-        });
-        const parts = formatter.formatToParts(now);
-        const getPart = (type: string) => parts.find(p => p.type === type)?.value;
-        const timestamp = `${getPart('year')}-${getPart('month')}-${getPart('day')}_${getPart('hour')}-${getPart('minute')}-${getPart('second')}_CET`;
-
-        const screenshotsDir = path.join(rootDir, 'screenshots');
-        if (!fs.existsSync(screenshotsDir)) {
-            await fs.promises.mkdir(screenshotsDir, { recursive: true });
-        }
-        const screenshotPath = path.join(screenshotsDir, `benchmark_report_${timestamp}.png`);
-        // Use the screenshot-specific HTML if it was generated, otherwise fall back to main report
-        const fileToCapture = fs.existsSync(screenshotHtmlFile) ? screenshotHtmlFile : htmlFile;
-        await captureScreenshot(fileToCapture, screenshotPath);
-        console.log(`Screenshot captured for ${fileToCapture} at ${screenshotPath}`);
     } catch (e) {
         console.error("Error:", e);
     }
