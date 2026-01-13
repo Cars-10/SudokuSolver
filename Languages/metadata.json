@@ -9,7 +9,8 @@
             "description": "A statically typed, structured, imperative, and object-oriented high-level language, designed for safety-critical and real-time systems.",
             "authors": [
                 {
-                    "name": "Jean Ichbiah"
+                    "name": "Jean Ichbiah",
+                    "image": "Languages/Ada/Media/Ada_1766231197722.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:13:57.114Z"
@@ -23,7 +24,8 @@
             "description": "A functional and symbolic language inspired by REBOL. Note: Red currently only supports 32-bit systems and cannot run natively on Apple Silicon (ARM64) Macs.",
             "authors": [
                 {
-                    "name": "Nenad Rakocevic"
+                    "name": "Nenad Rakocevic",
+                    "image": "Languages/Red/Media/Red_1766232948029.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:49:06.347Z",
@@ -41,7 +43,8 @@
             "description": "Low-level symbolic representation of machine code. As close to the metal as you can get.",
             "authors": [
                 {
-                    "name": "Kathleen Booth"
+                    "name": "Kathleen Booth",
+                    "image": "Languages/Assembly/Media/Assembly_1766233131381.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:19:02.893Z"
@@ -55,10 +58,12 @@
             "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
             "authors": [
                 {
-                    "name": "John G. Kemeny"
+                    "name": "John G. Kemeny",
+                    "image": "Languages/BASIC/Media/BASIC_1766233247366.png"
                 },
                 {
-                    "name": "Thomas E. Kurtz"
+                    "name": "Thomas E. Kurtz",
+                    "image": "Languages/BASIC/Media/BASIC_1766233291157.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:53:03.426Z",
@@ -76,7 +81,8 @@
             "description": "A third-generation event-driven programming language from Microsoft for its Component Object Model (COM) programming model. Note: VB6 runtime is Windows-only and cannot run on Apple Silicon Macs.",
             "authors": [
                 {
-                    "name": "Microsoft (Alan Cooper)"
+                    "name": "Microsoft (Alan Cooper)",
+                    "image": "Languages/VisualBasic/Media/VisualBasic_1766233459591.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:25:10.894Z"
@@ -90,7 +96,8 @@
             "description": "A Unix shell which was developed by David Korn at Bell Labs in the early 1980s.",
             "authors": [
                 {
-                    "name": "David Korn"
+                    "name": "David Korn",
+                    "image": "Languages/Ksh/Media/Ksh_1766233640986.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:33:47.601Z",
@@ -122,7 +129,8 @@
             "description": "Tool Command Language. A dynamic programming language.",
             "authors": [
                 {
-                    "name": "John Ousterhout"
+                    "name": "John Ousterhout",
+                    "image": "Languages/Tcl/Media/Tcl_1766234168095.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:05:59.708Z",
@@ -137,13 +145,16 @@
             "description": "A domain-specific language designed for text processing and typically used as a data extraction and reporting tool.",
             "authors": [
                 {
-                    "name": "Alfred Aho"
+                    "name": "Alfred Aho",
+                    "image": "Languages/Awk/Media/Awk_1766234340958.png"
                 },
                 {
-                    "name": "Peter Weinberger"
+                    "name": "Peter Weinberger",
+                    "image": "Languages/Awk/Media/Awk_1766234371636.png"
                 },
                 {
-                    "name": "Brian Kernighan"
+                    "name": "Brian Kernighan",
+                    "image": "Languages/Awk/Media/Awk_1766234413850.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:40:51.762Z"
@@ -157,7 +168,8 @@
             "description": "A hardware description language (HDL) used to model electronic systems.",
             "authors": [
                 {
-                    "name": "Phil Moorby"
+                    "name": "Phil Moorby",
+                    "image": "Languages/Verilog/Media/Verilog_1766234478715.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:42:02.069Z",
@@ -175,13 +187,16 @@
             "description": "An object-oriented, dynamically typed reflective programming language.",
             "authors": [
                 {
-                    "name": "Alan Kay"
+                    "name": "Alan Kay",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234558182.png"
                 },
                 {
-                    "name": "Dan Ingalls"
+                    "name": "Dan Ingalls",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234610616.png"
                 },
                 {
-                    "name": "Adele Goldberg"
+                    "name": "Adele Goldberg",
+                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234692083.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:51:05.031Z",
@@ -199,7 +214,8 @@
             "description": "Updated by test script at 2025-12-24T17:04:21.736Z",
             "authors": [
                 {
-                    "name": "Dennis Ritchie"
+                    "name": "Dennis Ritchie",
+                    "image": "Languages/C/Media/C_1766234736784.png"
                 }
             ],
             "lastUpdated": "2025-12-24T17:04:21.809Z"
@@ -213,7 +229,8 @@
             "description": "A statically typed, compiled language designed for maintainability and speed.",
             "authors": [
                 {
-                    "name": "Alexander Medvednikov"
+                    "name": "Alexander Medvednikov",
+                    "image": "Languages/V/Media/V_1766234939239.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:49:54.877Z"
@@ -227,10 +244,12 @@
             "description": "A general-purpose, object-oriented programming language that adds Smalltalk-style messaging to C.",
             "authors": [
                 {
-                    "name": "Brad Cox"
+                    "name": "Brad Cox",
+                    "image": "Languages/Objective-C/Media/Objective-C_1766235044391.png"
                 },
                 {
-                    "name": "Tom Love"
+                    "name": "Tom Love",
+                    "image": "Languages/Objective-C/Media/Objective-C_1766235102093.png"
                 }
             ],
             "lastUpdated": "2026-01-12T15:47:40.185Z",
@@ -248,7 +267,8 @@
             "description": "A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.",
             "authors": [
                 {
-                    "name": "Andrew Kelley"
+                    "name": "Andrew Kelley",
+                    "image": "Languages/Zig/Media/Zig_1766235184332.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:53:05.078Z"
@@ -262,10 +282,12 @@
             "description": "A reverse-Polish notation (RPN) calculator that operates on arbitrary-precision integers.",
             "authors": [
                 {
-                    "name": "Robert Morris"
+                    "name": "Robert Morris",
+                    "image": "Languages/Dc/Media/Dc_1766235225430.png"
                 },
                 {
-                    "name": "Lorinda Cherry"
+                    "name": "Lorinda Cherry",
+                    "image": "Languages/Dc/Media/Dc_1766235283381.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:32:54.536Z",
@@ -283,10 +305,12 @@
             "description": "A programming language that aims to bring modern language features to C developers without the overhead of a runtime environment.",
             "authors": [
                 {
-                    "name": "Jürg Billeter"
+                    "name": "Jürg Billeter",
+                    "image": "Languages/Vala/Media/Vala_1766235799985.png"
                 },
                 {
-                    "name": "Raffaele Sandrini"
+                    "name": "Raffaele Sandrini",
+                    "image": "Languages/Vala/Media/Vala_1766236115955.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:08:38.118Z"
@@ -314,7 +338,8 @@
             "description": "A programming language that compiles to JavaScript. It adds syntactic sugar inspired by Ruby, Python and Haskell.",
             "authors": [
                 {
-                    "name": "Jeremy Ashkenas"
+                    "name": "Jeremy Ashkenas",
+                    "image": "Languages/CoffeeScript/Media/CoffeeScript_1766236365726.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:15:10.129Z"
@@ -328,7 +353,8 @@
             "description": "An imperative and procedural programming language, designed as a small, efficient language intended to encourage good programming practices.",
             "authors": [
                 {
-                    "name": "Niklaus Wirth"
+                    "name": "Niklaus Wirth",
+                    "image": "Languages/Pascal/Media/Pascal_1766236576239.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:16:18.464Z"
@@ -342,7 +368,8 @@
             "description": "A stream editor for filtering and transforming text.",
             "authors": [
                 {
-                    "name": "Lee E. McMahon"
+                    "name": "Lee E. McMahon",
+                    "image": "Languages/Sed/Media/Sed_1766236805475.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:38:25.932Z",
@@ -374,7 +401,8 @@
             "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
             "authors": [
                 {
-                    "name": "D. Richard Hipp"
+                    "name": "D. Richard Hipp",
+                    "image": "Languages/SQLite/Media/SQLite_1766236915533.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:20:08.591Z",
@@ -392,7 +420,8 @@
             "description": "A general-purpose, object-oriented programming language, designed and implemented by Ary Borenszweig, Juan Wajnerman, Brian Cardiff and more than 300 contributors.",
             "authors": [
                 {
-                    "name": "Ary Borenszweig"
+                    "name": "Ary Borenszweig",
+                    "image": "Languages/Crystal/Media/Crystal_1766236978770.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:23:00.810Z"
@@ -406,7 +435,8 @@
             "description": "A scripting language created by Apple Inc. that facilitates automated control over scriptable Mac applications.",
             "authors": [
                 {
-                    "name": "Apple Inc."
+                    "name": "Apple Inc.",
+                    "image": "Languages/AppleScript/Media/AppleScript_1766237045007.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:24:06.600Z"
@@ -420,7 +450,8 @@
             "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
             "authors": [
                 {
-                    "name": "Charles H. Moore"
+                    "name": "Charles H. Moore",
+                    "image": "Languages/Forth/Media/Forth_1766237118262.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:25:19.824Z"
@@ -434,7 +465,8 @@
             "description": "General-purpose, compiled imperative programming language that is especially suited to numeric computation and scientific computing.",
             "authors": [
                 {
-                    "name": "John Backus"
+                    "name": "John Backus",
+                    "image": "Languages/Fortran/Media/Fortran_1766237167392.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:26:31.134Z"
@@ -448,7 +480,8 @@
             "description": "A dialect of the Lisp programming language, published in ANSI Standard X3.226-1994.",
             "authors": [
                 {
-                    "name": "Committee (Guy L. Steele Jr. et al.)"
+                    "name": "Committee (Guy L. Steele Jr. et al.)",
+                    "image": "Languages/CommonLisp/Media/CommonLisp_1768228878936.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:41:37.672Z",
@@ -466,7 +499,8 @@
             "description": "A dynamic programming language with a syntax similar to C/C++. Pike features automatic memory management, powerful built-in data types (mappings, multisets, arrays), and excellent support for network protocols. It was originally developed for the Roxen web server.",
             "authors": [
                 {
-                    "name": "Fredrik Hübinette"
+                    "name": "Fredrik Hübinette",
+                    "image": "Languages/Pike/Media/Pike_1768312688925.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -481,10 +515,12 @@
             "description": "A general-purpose macro processor.",
             "authors": [
                 {
-                    "name": "Brian Kernighan"
+                    "name": "Brian Kernighan",
+                    "image": "Languages/M4/Media/M4_1766237497660.png"
                 },
                 {
-                    "name": "Dennis Ritchie"
+                    "name": "Dennis Ritchie",
+                    "image": "Languages/M4/Media/M4_1768224805456.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:34:41.171Z",
@@ -502,7 +538,8 @@
             "description": "A Lisp dialect that compiles to Lua with zero runtime overhead. Fennel brings powerful macros, pattern matching, and a clean s-expression syntax while leveraging Lua's speed and embeddability. Perfect for game development (LÖVE2D), embedded systems, and anywhere Lua runs.",
             "authors": [
                 {
-                    "name": "Phil Hagelberg"
+                    "name": "Phil Hagelberg",
+                    "image": "Languages/Fennel/Media/Fennel_1768312471842.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -517,7 +554,8 @@
             "description": "A dynamic, functional language designed for building scalable and maintainable applications.",
             "authors": [
                 {
-                    "name": "José Valim"
+                    "name": "José Valim",
+                    "image": "Languages/Elixir/Media/Elixir_1768312299724.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:15:38.699Z",
@@ -535,7 +573,8 @@
             "description": "Purpose: Make scripting easy, readable, reliable and powerful – especially for command execution, text processing, macros and automation\nParadigm: Procedural, structured, interpreted (with some compilers available)\nKey characteristics:\nExtremely readable & English-like syntax\nExcellent string manipulation & arbitrary-precision arithmetic\nNo mandatory variable declaration\nDesigned to feel \"natural\" to both beginners and experts\n\nGolden era: 1980s–1990s (especially on IBM mainframes: VM/CMS, TSO, OS/2)\nMain platforms today: IBM z/OS, z/VM, IBM i (still built-in), Windows, Linux, macOS via open-source interpreters\nPopular implementations (2026):\nRegina (classic Rexx)\nooRexx (Object-oriented Rexx) – latest stable ~5.1.0 (2025), beta 5.2.x available\nNetRexx (Rexx → Java bytecode)\n\nCurrent status (January 2026): Niche but very much alive\nStrong in mainframe environments\nActive open-source community (Rexx Language Association)\n37th Rexx Symposium planned for May 2026 in Barcelona\nStill used for automation, legacy support, glue scripting\n\n\nOne-sentence verdict:\nREXX is the elegant, human-readable \"grandfather of modern scripting languages\" that remains surprisingly capable and actively maintained — especially on mainframes — more than 45 years after its creation. 🦖",
             "authors": [
                 {
-                    "name": "Mike Cowlishaw"
+                    "name": "Mike Cowlishaw",
+                    "image": "Languages/Rexx/Media/Rexx_1766237957485.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:11:33.175Z",
@@ -553,7 +592,8 @@
             "description": "A logic programming language associated with artificial intelligence and computational linguistics.",
             "authors": [
                 {
-                    "name": "Alain Colmerauer"
+                    "name": "Alain Colmerauer",
+                    "image": "Languages/Prolog/Media/Prolog_1766238007428.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:29:25.226Z",
@@ -571,7 +611,8 @@
             "description": "A functional and imperative programming language designed for embedding. The entire language—core library, interpreter, compiler, assembler, and PEG parser—fits in under 1MB. Janet combines Lisp-like syntax with practical features like destructuring, tail-call optimization, and native C interop.",
             "authors": [
                 {
-                    "name": "Calvin Rose"
+                    "name": "Calvin Rose",
+                    "image": "Languages/Janet/Media/Janet_1768312472899.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -586,7 +627,8 @@
             "description": "A small, fast, class-based concurrent scripting language.",
             "authors": [
                 {
-                    "name": "Bob Nystrom"
+                    "name": "Bob Nystrom",
+                    "image": "Languages/Wren/Media/Wren_1766238481340.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:48:02.833Z"
@@ -600,7 +642,8 @@
             "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.Raku is the beautifully expressive, feature-rich evolution of the Perl spirit — a Swiss Army chainsaw reimagined for the 21st century with unmatched parsing power and flexibility, still thriving in a dedicated community in 2026. 🦋",
             "authors": [
                 {
-                    "name": "Larry Wall"
+                    "name": "Larry Wall",
+                    "image": "Languages/Raku/Media/Raku_1766238533801.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:20:34.324Z",
@@ -618,7 +661,8 @@
             "description": "A smart and user-friendly command line shell for macOS, Linux, and the rest of the family.",
             "authors": [
                 {
-                    "name": "Axel Liljencrantz"
+                    "name": "Axel Liljencrantz",
+                    "image": "Languages/Fish/Media/Fish_1766238248667.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:50:01.163Z"
@@ -632,10 +676,12 @@
             "description": "A page description language in the electronic publishing and desktop publishing business.",
             "authors": [
                 {
-                    "name": "John Warnock"
+                    "name": "John Warnock",
+                    "image": "Languages/PostScript/Media/PostScript_1766238625179.png"
                 },
                 {
-                    "name": "Charles Geschke"
+                    "name": "Charles Geschke",
+                    "image": "Languages/PostScript/Media/PostScript_1766238646639.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:32:42.771Z",
@@ -653,10 +699,12 @@
             "description": "A command-line program that can generate two- and three-dimensional plots of functions, data, and data fits.",
             "authors": [
                 {
-                    "name": "Thomas Williams"
+                    "name": "Thomas Williams",
+                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238704342.png"
                 },
                 {
-                    "name": "Colin Kelley"
+                    "name": "Colin Kelley",
+                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238759425.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:39:17.592Z",
@@ -675,7 +723,8 @@
             "description": "A lightweight and flexible command-line JSON processor.",
             "authors": [
                 {
-                    "name": "Stephen Dolan"
+                    "name": "Stephen Dolan",
+                    "image": "Languages/Jq/Media/Jq_1768312474056.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:59:12.446Z"
@@ -703,7 +752,8 @@
             "description": "A high-level cross-platform language that compiles to many other languages.",
             "authors": [
                 {
-                    "name": "Nicolas Cannasse"
+                    "name": "Nicolas Cannasse",
+                    "image": "Languages/Haxe/Media/Haxe_1766240482489.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:09:41.038Z",
@@ -722,7 +772,8 @@
             "description": "A functional-first programming language that encompasses functional, imperative, and object-oriented programming methods. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop.",
             "authors": [
                 {
-                    "name": "Don Syme"
+                    "name": "Don Syme",
+                    "image": "Languages/F_Sharp/Media/F_Sharp_1768312300302.png"
                 }
             ],
             "lastUpdated": "2026-01-10T16:34:51.585Z",
@@ -738,7 +789,8 @@
             "description": "A dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming. It brings Lisp's code-as-data and immutable data structures to the JVM.",
             "authors": [
                 {
-                    "name": "Rich Hickey"
+                    "name": "Rich Hickey",
+                    "image": "Languages/Clojure/Media/Clojure_1766250041395.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:18.114Z"
@@ -753,7 +805,8 @@
             "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS. It unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks.",
             "authors": [
                 {
-                    "name": "Brian Fox"
+                    "name": "Brian Fox",
+                    "image": "Languages/Bash/Media/Bash_1766250114289.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:55.962Z"
@@ -768,7 +821,8 @@
             "description": "A modern, object-oriented, and type-safe programming language derived from C and C++. Designed to support enterprise, desktop and web applications on the .NET platform. It emphasizes tooling, libraries and developer productivity.",
             "authors": [
                 {
-                    "name": "Anders Hejlsberg"
+                    "name": "Anders Hejlsberg",
+                    "image": "Languages/C_Sharp/Media/C_Sharp_1766250136978.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:02:17.986Z"
@@ -783,7 +837,8 @@
             "description": "Multi-paradigm language combining procedural and object-oriented programming. It extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems.",
             "authors": [
                 {
-                    "name": "Bjarne Stroustrup"
+                    "name": "Bjarne Stroustrup",
+                    "image": "Languages/C++/Media/C++_1766311229769.png"
                 }
             ],
             "lastUpdated": "2025-12-21T10:00:33.766Z"
@@ -798,10 +853,12 @@
             "description": "A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education.",
             "authors": [
                 {
-                    "name": "Guy L. Steele"
+                    "name": "Guy L. Steele",
+                    "image": "Languages/Scheme/Media/Scheme_1768228054526.png"
                 },
                 {
-                    "name": "Gerald Jay Sussman"
+                    "name": "Gerald Jay Sussman",
+                    "image": "Languages/Scheme/Media/Scheme_1768228073740.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:27:57.544Z",
@@ -819,10 +876,12 @@
             "description": "Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code.",
             "authors": [
                 {
-                    "name": "Lars Bak"
+                    "name": "Lars Bak",
+                    "image": "Languages/Dart/Media/Dart_1768312698828.png"
                 },
                 {
-                    "name": "Kasper Lund"
+                    "name": "Kasper Lund",
+                    "image": "Languages/Dart/Media/Dart_1768312699861.png"
                 }
             ],
             "lastUpdated": "2026-01-11T19:30:00.000Z"
@@ -837,7 +896,8 @@
             "description": "Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery.",
             "authors": [
                 {
-                    "name": "Joe Armstrong"
+                    "name": "Joe Armstrong",
+                    "image": "Languages/Erlang/Media/Erlang_1768312701157.png"
                 },
                 {
                     "name": "Robert Virding"
@@ -893,7 +953,8 @@
             "description": "The Debian Almquist Shell—a POSIX-compliant shell that is significantly smaller and faster than bash. Dash is optimized for executing shell scripts quickly and is the default /bin/sh on Debian and Ubuntu systems, where it handles system scripts during boot.",
             "authors": [
                 {
-                    "name": "Herbert Xu"
+                    "name": "Herbert Xu",
+                    "image": "Languages/Dash/Media/Dash_1768312719391.png"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
@@ -944,7 +1005,8 @@
             "description": "An open-source web application for creating and sharing documents with live code, equations, and visualizations.",
             "authors": [
                 {
-                    "name": "Fernando Pérez"
+                    "name": "Fernando Pérez",
+                    "image": "Languages/Jupyter/Media/Jupyter_1768312475928.png"
                 },
                 {
                     "name": "Brian Granger"
@@ -965,7 +1027,8 @@
             "description": "A highly capable, feature-rich programming language with powerful text processing capabilities.",
             "authors": [
                 {
-                    "name": "Larry Wall"
+                    "name": "Larry Wall",
+                    "image": "Languages/Perl/Media/Perl_1768312476946.jpg"
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:51.940Z"
@@ -979,7 +1042,8 @@
             "description": "An enhanced version of the Berkeley C shell (csh) featuring programmable command-line completion, command-line editing, history mechanism, and a more user-friendly interactive experience. Tcsh was the default shell on FreeBSD and early macOS versions.",
             "authors": [
                 {
-                    "name": "Ken Greer"
+                    "name": "Ken Greer",
+                    "image": "Languages/Tcsh/Media/Tcsh_1768163521224.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -1009,7 +1073,8 @@
             "description": "An esoteric programming language consisting of only eight single-character commands: > < + - . , [ ]. Despite this extreme minimalism, Brainfuck is Turing complete. It operates on a tape of memory cells, with a pointer that can move left or right, increment or decrement cells, and loop based on cell values.",
             "authors": [
                 {
-                    "name": "Urban Müller"
+                    "name": "Urban Müller",
+                    "image": "Languages/Brainfuck/Media/Brainfuck_1768312478048.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -1046,7 +1111,8 @@
             "typeSystem": "Static, Strong, Safe",
             "authors": [
                 {
-                    "name": "Graydon Hoare"
+                    "name": "Graydon Hoare",
+                    "image": "Languages/Rust/Media/Rust_1768228248801.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:30:51.765Z"
@@ -1064,7 +1130,8 @@
             "typeSystem": "",
             "authors": [
                 {
-                    "name": "James Strachan"
+                    "name": "James Strachan",
+                    "image": "Languages/Groovy/Media/Groovy_1768312723195.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:34:15.001Z"
@@ -1082,13 +1149,16 @@
             "typeSystem": "",
             "authors": [
                 {
-                    "name": "Jeff Bezanson"
+                    "name": "Jeff Bezanson",
+                    "image": "Languages/Julia/Media/Julia_1768312301515.png"
                 },
                 {
-                    "name": "Stefan Karpinski"
+                    "name": "Stefan Karpinski",
+                    "image": "Languages/Julia/Media/Julia_1768312302133.png"
                 },
                 {
-                    "name": "Viral B. Shah"
+                    "name": "Viral B. Shah",
+                    "image": "Languages/Julia/Media/Julia_1768312302826.png"
                 },
                 {
                     "name": "Alan Edelman"
