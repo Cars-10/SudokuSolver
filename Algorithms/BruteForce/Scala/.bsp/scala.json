@@ -1,0 +1,27 @@
+{
+  "name": "scala",
+  "argv": [
+    "/opt/homebrew/Cellar/scala/3.7.4/libexec/libexec/scala-cli.jar",
+    "--cli-default-scala-version",
+    "3.7.4",
+    "--repository",
+    "file:///opt/homebrew/Cellar/scala/3.7.4/libexec/maven2",
+    "--prog-name",
+    "scala",
+    "--skip-cli-updates",
+    "bsp",
+    "--json-options",
+    "/Users/vibe/ClaudeCode/SudokuSolver/Languages/Scala/.scala-build/ide-options-v2.json",
+    "--json-launcher-options",
+    "/Users/vibe/ClaudeCode/SudokuSolver/Languages/Scala/.scala-build/ide-launcher-options.json",
+    "--envs-file",
+    "/Users/vibe/ClaudeCode/SudokuSolver/Languages/Scala/.scala-build/ide-envs.json",
+    "/Users/vibe/ClaudeCode/SudokuSolver/Languages/Scala"
+  ],
+  "version": "1.9.1",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
