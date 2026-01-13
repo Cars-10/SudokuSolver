@@ -5,40 +5,40 @@
 See: .planning/PROJECT.md (updated 2026-01-13)
 
 **Core value:** "If it runs, we should see how it runs." — rigorous, visible benchmarking.
-**Current focus:** v1.2 Interactive Reporting - Enhanced UI and visualization
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 6 of 6 (Core Performance Charts)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-01-13 - Completed 06-02-PLAN.md
+Phase: All phases complete
+Plan: N/A
+Status: Milestone v1.2 shipped
+Last activity: 2026-01-13 - v1.2 milestone complete
 
-Progress: ████░░░░░░ 40%
+Progress: All planned work complete ✓
 
-## Performance Metrics (v1.1)
+## Performance Metrics (v1.2)
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: ~8 min
-- Total execution time: 1.05 hours
-- Milestone duration: 1.5 hours (start to ship)
+- Total plans completed: 4
+- Average duration: ~23 min
+- Total execution time: 1.5 hours (1 min + 28 min + 15 min + 48 min)
+- Milestone duration: Same-day delivery
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 | 1 | 15m | 15m |
-| 2 | 3 | 24m | 8m |
-| 3 | 2 | 16m | 8m |
+| 4 | 1 | 1m | 1m |
+| 5 | 1 | 28m | 28m |
+| 6 | 2 | 63m | 31.5m |
 
 **Milestone Stats:**
-- Phases: 3 (with 1 decimal insertion)
-- Plans: 6
-- Timeline: Same-day delivery (1.5 hours)
-- Code: 1,302 LOC C, 818 files modified
+- Phases: 3 (4-6)
+- Plans: 4
+- Timeline: Same-day delivery
+- Code: 127 files modified, 24,653 insertions
 
-*Velocity metrics archived in MILESTONES.md*
+*Previous milestone metrics (v1.1) archived in MILESTONES.md*
 
 ## Accumulated Context
 
@@ -46,19 +46,9 @@ Progress: ████░░░░░░ 40%
 
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
-Most recent milestone decisions (v1.2):
-- Algorithm-specific C Baselines - Each algorithm type compares against its own C standard (not BruteForce)
-- Client-side Filtering - Algorithm selector uses JavaScript for instant switching without page reload
-- Visual Algorithm Badges - All algorithms tagged (BF=green, DLX=blue, CP=purple) in All Algorithms view
-- Chart Transition Timing - 200ms fade balances responsiveness with smoothness (Phase 6)
-- Iteration Chart Language Limit - Top 10 languages prevents overcrowding while showing key performers (Phase 6)
-- Algorithm-Aware Rankings - Languages compare to their own algorithm's C baseline for fair comparison (Phase 6)
-
-Previous milestone decisions (v1.1):
-- Unified Directory Structure - All algorithms under `Algorithms/[Type]/` pattern
-- DLX Memory Strategy - Pre-allocated node pool for performance
-- CP Candidate Tracking - Bitset representation with macro helpers
-- Iteration Counting Consistency - Each algorithm counts comparable operations
+Recent milestones:
+- v1.2 (2026-01-13): Interactive Reporting - 6-chart D3.js suite with algorithm filtering
+- v1.1 (2026-01-13): Algorithmic Expansion - DLX and CP algorithm implementations
 
 ### Deferred Issues
 
@@ -74,10 +64,12 @@ None.
 
 ### Roadmap Evolution
 
-- Milestone v1.2 created: Interactive Reporting, 3 phases (Phase 4-6)
+- v1.2 milestone complete and archived
+- All currently planned phases complete
+- Next: Define v1.3 or v2.0 milestone
 
 ## Session Continuity
 
-Last session: 2026-01-13T19:40:00Z
-Stopped at: Completed 06-02-PLAN.md (Phase 6 complete, Milestone v1.2 complete)
+Last session: 2026-01-13T21:00:00Z
+Stopped at: v1.2 milestone complete and archived
 Resume file: None

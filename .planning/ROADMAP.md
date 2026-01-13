@@ -11,7 +11,7 @@ None
 ## Milestones
 
 - ✅ **v1.1 Algorithmic Expansion** - [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) (Phases 1-3, shipped 2026-01-13)
-- 🚧 **v1.2 Interactive Reporting** - Phases 4-6 (in progress)
+- ✅ **v1.2 Interactive Reporting** - [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) (Phases 4-6, shipped 2026-01-13)
 
 ## All Phases
 
@@ -33,40 +33,16 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 </details>
 
-### 🚧 v1.2 Interactive Reporting (In Progress)
+<details>
+<summary>✅ v1.2 Interactive Reporting (Phases 4-6) — SHIPPED 2026-01-13</summary>
 
-**Milestone Goal:** Enhanced reporting UI with algorithm selection, interactive charts, and infrastructure fixes for directory restructuring.
+- [x] Phase 4: Infrastructure Fixes (1/1 plan) — completed 2026-01-13
+- [x] Phase 5: Algorithm Selector UI (1/1 plan) — completed 2026-01-13
+- [x] Phase 6: Core Performance Charts (2/2 plans) — completed 2026-01-13
 
-#### Phase 4: Infrastructure Fixes
+[Full details in milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 
-**Goal**: Update all BruteForce runMe.sh scripts for new directory structure and fix modal paths
-**Depends on**: Phase 3 (v1.1 complete)
-**Research**: Unlikely (internal patterns, path updates)
-**Plans**: 1/1 complete
-
-Plans:
-- [x] 04-01: Update BruteForce runMe.sh header comments (completed 2026-01-13)
-
-#### Phase 5: Algorithm Selector UI
-
-**Goal**: Build interactive UI controls for algorithm filtering and selection
-**Depends on**: Phase 4
-**Research**: Unlikely (UI patterns, existing report framework)
-**Plans**: 1/1 complete
-
-Plans:
-- [x] 05-01: Algorithm selector dropdown with filtering (completed 2026-01-13)
-
-#### Phase 6: Core Performance Charts
-
-**Goal**: Implement essential performance comparison visualizations (algorithm comparison, language performance, iteration counts)
-**Depends on**: Phase 5
-**Research**: Unlikely (charting libraries already used in project)
-**Plans**: 2/2 complete
-
-Plans:
-- [x] 06-01: Algorithm & Language Comparison Charts (completed 2026-01-13)
-- [x] 06-02: Iteration Analysis & Integration (completed 2026-01-13)
+</details>
 
 ## Progress
 
@@ -81,3 +57,5 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 4. Infrastructure Fixes | v1.2 | 1/1 | Complete | 2026-01-13 |
 | 5. Algorithm Selector UI | v1.2 | 1/1 | Complete | 2026-01-13 |
 | 6. Core Performance Charts | v1.2 | 2/2 | Complete | 2026-01-13 |
+
+**All planned phases complete. Ready for next milestone.**
