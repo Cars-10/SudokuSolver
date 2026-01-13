@@ -14,9 +14,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:13:57.114Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1980. Designed for safety-critical systems.",
+            "paradigm": "Multi-paradigm, structured, object-oriented",
+            "typeSystem": "Static, Strong, Safe"
         },
         "Red": {
             "creator": "Nenad Rakocevic",
@@ -51,9 +51,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:19:02.893Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1947. The closest you can get to the metal.",
+            "paradigm": "Imperative, unstructured",
+            "typeSystem": "Untyped"
         },
         "BASIC": {
             "creator": "John G. Kemeny, Thomas E. Kurtz",
@@ -74,9 +74,9 @@
             ],
             "lastUpdated": "2026-01-13T14:30:12.077Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "1964. Brought programming to the masses.",
+            "paradigm": "Procedural, imperative",
+            "typeSystem": "Static (mostly), Weak",
             "image": "Languages/BASIC/Media/BASIC_logo.png"
         },
         "VisualBasic": {
@@ -112,9 +112,9 @@
             ],
             "lastUpdated": "2026-01-12T14:33:47.601Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1983. The foundation of modern shells.",
+            "paradigm": "Scripting, command line",
+            "typeSystem": "Dynamic"
         },
         "Zsh": {
             "creator": "Paul Falstad",
@@ -174,9 +174,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:40:51.762Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1977. The original data extraction tool.",
+            "paradigm": "Scripting, procedural, data-driven",
+            "typeSystem": "Dynamic, Weak"
         },
         "Verilog": {
             "creator": "Phil Moorby",
@@ -238,9 +238,9 @@
                 }
             ],
             "lastUpdated": "2025-12-24T17:04:21.809Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1972. The foundation of modern computing.",
+            "paradigm": "Imperative, procedural, structured",
+            "typeSystem": "Static, Weak, Unsafe"
         },
         "V": {
             "creator": "Alexander Medvednikov",
@@ -320,9 +320,9 @@
             ],
             "lastUpdated": "2026-01-12T13:32:54.536Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1970. The oldest Unix utility still in use.",
+            "paradigm": "Stack-based, reverse polish notation",
+            "typeSystem": "Dynamic, Numeric"
         },
         "Vala": {
             "creator": "Jürg Billeter, Rafał Pietrak",
@@ -377,9 +377,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:15:10.129Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2009. It's just JavaScript.",
+            "paradigm": "Multi-paradigm, scripting",
+            "typeSystem": "Dynamic, Weak"
         },
         "Pascal": {
             "creator": "Niklaus Wirth",
@@ -431,9 +431,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:21:24.713Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1959. Powering global finance for decades.",
+            "paradigm": "Imperative, procedural, object-oriented",
+            "typeSystem": "Static, Weak"
         },
         "SQLite": {
             "creator": "D. Richard Hipp",
@@ -469,9 +469,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:23:00.810Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2014. Fast as C, slick as Ruby.",
+            "paradigm": "Object-oriented, functional, imperative",
+            "typeSystem": "Static, Strong, Inferred"
         },
         "AppleScript": {
             "creator": "Apple Inc.",
@@ -487,9 +487,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:24:06.600Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1993. Automates Mac applications naturally.",
+            "paradigm": "Scripting, object-oriented, natural language",
+            "typeSystem": "Dynamic"
         },
         "Forth": {
             "creator": "Charles H. Moore",
@@ -505,9 +505,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:25:19.824Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1970. Concatenative, stack-based efficiency.",
+            "paradigm": "Concatenative, stack-oriented",
+            "typeSystem": "Untyped"
         },
         "Fortran": {
             "creator": "John Backus",
@@ -523,9 +523,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:26:31.134Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1957. The first high-level language.",
+            "paradigm": "Imperative, procedural, structured",
+            "typeSystem": "Static, Strong"
         },
         "CommonLisp": {
             "creator": "Committee (Guy L. Steele Jr. et al.)",
@@ -542,9 +542,9 @@
             ],
             "lastUpdated": "2026-01-12T14:41:37.672Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1984. The industrial-strength Lisp standard.",
+            "paradigm": "Multi-paradigm, functional, procedural",
+            "typeSystem": "Dynamic, Strong"
         },
         "Pike": {
             "creator": "Fredrik Hübinette",
@@ -583,9 +583,9 @@
             ],
             "lastUpdated": "2026-01-12T14:34:41.171Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1977. The universal macro processor.",
+            "paradigm": "Macro, text-replacement",
+            "typeSystem": "Untyped"
         },
         "Fennel": {
             "creator": "Phil Hagelberg",
@@ -601,9 +601,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2016. Lisp that compiles to Lua.",
+            "paradigm": "Functional, Lisp-dialect",
+            "typeSystem": "Dynamic"
         },
         "Elixir": {
             "creator": "José Valim",
@@ -620,9 +620,9 @@
             ],
             "lastUpdated": "2026-01-12T14:15:38.699Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2011. Scalable, fault-tolerant apps on Erlang VM.",
+            "paradigm": "Functional, concurrent, distributed",
+            "typeSystem": "Dynamic, Strong"
         },
         "Rexx": {
             "creator": "Mike Cowlishaw",
@@ -676,9 +676,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2017. Modern, embeddable Lisp.",
+            "paradigm": "Functional, imperative",
+            "typeSystem": "Dynamic, Strong"
         },
         "Wren": {
             "creator": "Bob Nystrom",
@@ -731,9 +731,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:50:01.163Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2005. The user-friendly command line shell.",
+            "paradigm": "Scripting, command line",
+            "typeSystem": "Dynamic"
         },
         "PostScript": {
             "creator": "John Warnock, Charles Geschke",
@@ -778,9 +778,9 @@
             "lastUpdated": "2026-01-12T14:39:17.592Z",
             "locked": false,
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1986. Portable command-line graphing utility.",
+            "paradigm": "Scripting, declarative",
+            "typeSystem": "Dynamic"
         },
         "Jq": {
             "creator": "Stephen Dolan",
@@ -796,9 +796,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:59:12.446Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2012. Sed for JSON data.",
+            "paradigm": "Functional, filter-based",
+            "typeSystem": "Dynamic"
         },
         "OCaml": {
             "creator": "Xavier Leroy et al.",
@@ -832,9 +832,9 @@
             ],
             "lastUpdated": "2026-01-12T13:09:41.038Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2005. One language, all platforms.",
+            "paradigm": "Multi-paradigm, object-oriented",
+            "typeSystem": "Static, Strong"
         },
         "F_Sharp": {
             "creator": "Don Syme",
@@ -852,9 +852,9 @@
             ],
             "lastUpdated": "2026-01-10T16:34:51.585Z",
             "locked": false,
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2005. Functional-first programming on .NET.",
+            "paradigm": "Functional, imperative, object-oriented",
+            "typeSystem": "Static, Strong, Inferred"
         },
         "Clojure": {
             "creator": "Rich Hickey",
@@ -871,9 +871,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:18.114Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2007. Lisp on the JVM.",
+            "paradigm": "Functional, dynamic, concurrent",
+            "typeSystem": "Dynamic, Strong"
         },
         "Bash": {
             "creator": "Brian Fox",
@@ -906,9 +906,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T17:02:17.986Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2000. Microsoft's modern enterprise flagship.",
+            "paradigm": "Multi-paradigm, object-oriented, structured",
+            "typeSystem": "Static, Strong, Safe"
         },
         "C++": {
             "creator": "Bjarne Stroustrup",
@@ -925,9 +925,9 @@
                 }
             ],
             "lastUpdated": "2025-12-21T10:00:33.766Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1985. C with Classes, evolved.",
+            "paradigm": "Multi-paradigm, procedural, object-oriented",
+            "typeSystem": "Static, Strong, Unsafe"
         },
         "Scheme": {
             "creator": "Guy L. Steele, Gerald Jay Sussman",
@@ -971,9 +971,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2011. Client-optimized for fast apps (Flutter).",
+            "paradigm": "Object-oriented, class-based, structured",
+            "typeSystem": "Static, Strong, Sound"
         },
         "Erlang": {
             "creator": "Joe Armstrong, Robert Virding, Mike Williams",
@@ -996,9 +996,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T14:16:16.056Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1986. Built for telecom systems that never fail.",
+            "paradigm": "Functional, concurrent, distributed",
+            "typeSystem": "Dynamic, Strong"
         },
         "Vimscript": {
             "creator": "Bram Moolenaar",
@@ -1051,9 +1051,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1997. A faster, smaller POSIX shell.",
+            "paradigm": "Scripting, command line",
+            "typeSystem": "Dynamic, Stringly-typed"
         },
         "Make": {
             "creator": "Stuart Feldman",
@@ -1069,9 +1069,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1976. Dependency-tracking build tool.",
+            "paradigm": "Declarative, automation",
+            "typeSystem": "String-based"
         },
         "Bc": {
             "creator": "Robert Morris, Lorinda Cherry",
@@ -1090,9 +1090,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1975. Arbitrary-precision calculator language.",
+            "paradigm": "Procedural, scripting",
+            "typeSystem": "Dynamic, Numeric"
         },
         "Jupyter": {
             "creator": "Fernando Pérez, Brian Granger",
@@ -1112,9 +1112,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T15:49:21.933Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2014. Interactive computing notebooks.",
+            "paradigm": "Interactive, literate programming",
+            "typeSystem": "Dynamic"
         },
         "Perl": {
             "creator": "Larry Wall",
@@ -1167,9 +1167,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:07.884Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1977. Goal-directed execution strings.",
+            "paradigm": "Imperative, goal-directed",
+            "typeSystem": "Dynamic"
         },
         "Brainfuck": {
             "creator": "Urban Müller",
@@ -1185,9 +1185,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1993. Minimalist esoteric language.",
+            "paradigm": "Esoteric, imperative",
+            "typeSystem": "Untyped"
         },
         "Scala": {
             "creator": "Martin Odersky",
@@ -1234,9 +1234,9 @@
             "related": "Java, Python, Ruby, Smalltalk",
             "website": "",
             "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.\n\n2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "2003. Dynamic power for the JVM.",
+            "paradigm": "Object-oriented, scripting",
+            "typeSystem": "Dynamic (optional static)",
             "authors": [
                 {
                     "name": "James Strachan",
@@ -1253,9 +1253,9 @@
             "related": "MATLAB, Python, R, Lisp, Fortran",
             "website": "",
             "description": "A high-level, high-performance dynamic programming language for technical computing. It combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.\n\n2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "2012. Looks like Python, runs like C.",
+            "paradigm": "Multi-paradigm, functional, imperative",
+            "typeSystem": "Dynamic, Parametric",
             "authors": [
                 {
                     "name": "Jeff Bezanson",
@@ -1294,58 +1294,58 @@
             "lastUpdated": "2026-01-12T14:52:22.598Z"
         },
         "BASH": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1989. The default shell for Linux and macOS.",
+            "paradigm": "Scripting, command line interface",
+            "typeSystem": "Dynamic, Stringly-typed",
+            "description": "The Bourne Again SHell. The default shell for most Linux distributions and macOS. It unified scripting and interactive use on Unix-like systems."
         },
         "D": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2001. A better C++ that never quite took off.",
+            "paradigm": "Multi-paradigm, object-oriented, imperative",
+            "typeSystem": "Static, Strong",
+            "description": "A general-purpose programming language with static typing, systems-level access, and C-like syntax."
         },
         "EmacsLisp": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1985. The programmable text editor.",
+            "paradigm": "Functional, procedural, reflective",
+            "typeSystem": "Dynamic, Strong",
+            "description": "A dialect of the Lisp programming language used as a scripting language by Emacs."
         },
         "Go": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2009. Google's answer to complexity.",
+            "paradigm": "Multi-paradigm, procedural, concurrent",
+            "typeSystem": "Static, Strong, Structural",
+            "description": "A statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency."
         },
         "Haskell": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1990. Purely functional research language.",
+            "paradigm": "Purely functional, lazy",
+            "typeSystem": "Static, Strong, Inferred",
+            "description": "A statically typed, purely functional programming language with type inference and lazy evaluation."
         },
         "Java": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1995. Write once, run anywhere.",
+            "paradigm": "Multi-paradigm, object-oriented, structured",
+            "typeSystem": "Static, Strong, Safe",
+            "description": "A high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible."
         },
         "JavaScript": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1995. The language of the web.",
+            "paradigm": "Multi-paradigm, event-driven, functional",
+            "typeSystem": "Dynamic, Weak",
+            "description": "A lightweight, interpreted, or just-in-time compiled programming language with first-class functions."
         },
         "Kotlin": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2011. Concise, safe JVM language.",
+            "paradigm": "Multi-paradigm, object-oriented, functional",
+            "typeSystem": "Static, Strong, Inferred",
+            "description": "A cross-platform, statically typed, general-purpose programming language with type inference. Kotlin is designed to interoperate fully with Java."
         },
         "Lua": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1993. Fast, lightweight, embeddable scripting.",
+            "paradigm": "Multi-paradigm, scripting, procedural",
+            "typeSystem": "Dynamic, Weak",
+            "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications."
         },
         "Nim": {
             "history": "",
