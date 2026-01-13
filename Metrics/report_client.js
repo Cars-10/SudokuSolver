@@ -2104,26 +2104,37 @@ initializeStatus();
             }
 
             const container = d3.select("#d3-chart-container");
-            container.selectAll("*").remove();
 
-            if (type === 'line') {
-                drawLineChart();
-            } else if (type === 'jockey') {
-                drawJockeyChart();
-            } else if (type === 'race') {
-                // Auto-enter fullscreen for Matrix Race to show all languages
-                if (!document.fullscreenElement && typeof window.toggleChartFullscreen === 'function') {
-                    window.toggleChartFullscreen();
-                    // Delay draw to allow fullscreen transition to complete
-                    setTimeout(() => drawMatrixRace(), 300);
-                } else {
-                    drawMatrixRace();
-                }
-            } else if (type === 'algorithm') {
-                drawAlgorithmComparisonChart();
-            } else if (type === 'language') {
-                drawLanguagePerformanceChart();
-            }
+            // Fade out existing chart
+            container.transition()
+                .duration(200)
+                .style("opacity", 0)
+                .on("end", function() {
+                    container.selectAll("*").remove();
+                    container.style("opacity", 1);
+
+                    // Draw new chart based on type
+                    if (type === 'line') {
+                        drawLineChart();
+                    } else if (type === 'jockey') {
+                        drawJockeyChart();
+                    } else if (type === 'race') {
+                        // Auto-enter fullscreen for Matrix Race to show all languages
+                        if (!document.fullscreenElement && typeof window.toggleChartFullscreen === 'function') {
+                            window.toggleChartFullscreen();
+                            // Delay draw to allow fullscreen transition to complete
+                            setTimeout(() => drawMatrixRace(), 300);
+                        } else {
+                            drawMatrixRace();
+                        }
+                    } else if (type === 'algorithm') {
+                        drawAlgorithmComparisonChart();
+                    } else if (type === 'language') {
+                        drawLanguagePerformanceChart();
+                    } else if (type === 'iterations') {
+                        drawIterationCountChart();
+                    }
+                });
         } catch (e) {
             console.error("Error switching chart:", e);
             const container = document.getElementById('d3-chart-container');
