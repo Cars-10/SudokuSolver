@@ -43,9 +43,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 3: Algorithm - Constraint Propagation
 **Goal**: Establish `Algorithms/CP` structure and implement the reference C solver using Constraint Propagation.
 **Depends on**: Phase 2
-**Research**: Likely (CP implementation details)
-**Research topics**: Constraint propagation techniques suitable for Sudoku, potential optimizations.
-**Plans**: TBD
+**Research**: Completed during planning
+**Research topics**: Constraint propagation techniques (singleton elimination + hidden singles), MRV heuristic
+**Status**: COMPLETE (2026-01-13)
+**Completed**: 2026-01-13
+**Plans**:
+  - [x] 1. Scaffolding (Create dir structure, build script, headers, data structures)
+  - [x] 2. Implementation (Core propagation, backtracking search, I/O integration)
 
 ## Progress
 
@@ -56,4 +60,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Metadata Enrichment | 1/1 | Done | 2026-01-13 |
 | 2. Algorithm - Dancing Links | 3/3 | Done | 2026-01-13 |
-| 3. Algorithm - Constraint Propagation | 0/TBD | Not started | - |
+| 3. Algorithm - Constraint Propagation | 2/2 | Done | 2026-01-13 |
