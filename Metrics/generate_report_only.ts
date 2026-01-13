@@ -204,16 +204,20 @@ async function run() {
 
 
         // Merge with Ordered Master List
-        const metricsMap = new Map(allMetrics.map(m => [m.solver, m]));
+        // Use solver::algorithmType as key to preserve multiple algorithm variants per language
+        const metricsMap = new Map(allMetrics.map(m => [`${m.solver}::${m.algorithmType || 'BruteForce'}`, m]));
         const finalMetrics: any[] = [];
 
+        // For each language in ordered list, add BruteForce variant first
         for (const lang of orderedLanguages) {
-            if (metricsMap.has(lang)) {
-                finalMetrics.push(metricsMap.get(lang));
+            const bruteForceKey = `${lang}::BruteForce`;
+            if (metricsMap.has(bruteForceKey)) {
+                finalMetrics.push(metricsMap.get(bruteForceKey));
             } else {
-                // Create Placeholder for Missing Language
+                // Create Placeholder for Missing Language (BruteForce only)
                 finalMetrics.push({
                     solver: lang,
+                    algorithmType: 'BruteForce',
                     runType: 'Local',
                     timestamp: Date.now(),
                     results: [] // No results -> HTMLGenerator will render as Init/Empty
@@ -221,9 +225,13 @@ async function run() {
             }
         }
 
-        // Add any discovered languages NOT in the master list at the end
+        // Add any discovered languages NOT in the master list, or non-BruteForce variants
         for (const m of allMetrics) {
-            if (!orderedLanguages.includes(m.solver)) {
+            const isInOrderedList = orderedLanguages.includes(m.solver);
+            const isBruteForce = (m.algorithmType || 'BruteForce') === 'BruteForce';
+
+            // Add if: not in ordered list, OR it's an algorithm variant (DLX/CP)
+            if (!isInOrderedList || !isBruteForce) {
                 finalMetrics.push(m);
             }
         }
