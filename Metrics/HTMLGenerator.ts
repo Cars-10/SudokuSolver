@@ -1070,6 +1070,20 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <div id="personality-intro" class="personality-intro" style="text-align: center; margin: 0 auto 20px auto; max-width: 800px; padding: 15px; background: rgba(0, 255, 157, 0.05); border: 1px solid rgba(0, 255, 157, 0.1); border-radius: 8px; box-shadow: 0 0 15px rgba(0, 255, 157, 0.05); color: var(--text); line-height: 1.6;">
             Welcome to the Polyglot Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
+
+        <!-- Algorithm Selector -->
+        <div class="algorithm-selector-container" style="margin: 20px auto; text-align: center;">
+            <label for="algorithmSelector" style="color: #a9b1d6; margin-right: 10px; font-weight: bold;">Algorithm:</label>
+            <select id="algorithmSelector" onchange="filterByAlgorithm(this.value)"
+                    style="padding: 8px 15px; background: #1a1b26; color: #c0caf5; border: 1px solid #414868; border-radius: 6px; font-size: 0.95em; cursor: pointer;">
+                <option value="all">All Algorithms</option>
+                <option value="BruteForce" selected>Brute Force (Baseline)</option>
+                <option value="DLX">Dancing Links (Algorithm X)</option>
+                <option value="CP">Constraint Propagation</option>
+            </select>
+            <span id="algorithmCount" style="margin-left: 15px; color: #565f89; font-size: 0.9em;"></span>
+        </div>
+
         <div class="controls">
 
             
@@ -1351,6 +1365,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
         html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
             data-lang="${lang}"
+            data-algorithm-type="${m.algorithmType || 'BruteForce'}"
             data-timestamp="${new Date(m.timestamp).getTime()}"
             data-year="${year}"
             data-time="${totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6)}"
@@ -1567,6 +1582,36 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         Report generated: ${generatedAt} CET
     </footer>
     ${clientScript ? `<script>\n${clientScript}\n</script>` : '<script src="./Metrics/report_client.js"></script>'}
+
+    <script>
+    // Algorithm filtering function
+    window.filterByAlgorithm = function(algorithmType) {
+        const rows = document.querySelectorAll('#mainTableBody tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const rowAlgo = row.getAttribute('data-algorithm-type');
+            if (algorithmType === 'all' || rowAlgo === algorithmType) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Update count display
+        const countSpan = document.getElementById('algorithmCount');
+        if (countSpan) {
+            countSpan.textContent = '(' + visibleCount + ' languages)';
+        }
+    };
+
+    // Initialize on load - default to BruteForce
+    document.addEventListener('DOMContentLoaded', function() {
+        filterByAlgorithm('BruteForce');
+    });
+    </script>
+
     </body>
     </html>
     `;
