@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "Zig",
+    "runType": "automated",
+    "timestamp": "2026-01-13T23:20:41Z",
+    "results": [
+    {
+      "matrix": "1",
+      "time": 467.9546,
+      "iterations": 67,
+      "memory": 1507328,
+      "cpu_user": 3.3050,
+      "cpu_sys": 5.7890,
+      "page_faults_major": 1,
+      "page_faults_minor": 540,
+      "context_switches_voluntary": 1,
+      "context_switches_involuntary": 31,
+      "io_inputs": 0,
+      "io_outputs": 0,
+      "status": "success",
+      "output": "9 2 1 6 3 7 5 8 4\n6 7 4 5 1 8 9 2 3\n5 8 3 4 9 2 1 6 7\n2 6 9 8 5 4 3 7 1\n7 4 5 3 6 1 2 9 8\n1 3 8 7 2 9 6 4 5\n8 5 6 2 7 3 4 1 9\n4 1 2 9 8 5 7 3 6\n3 9 7 1 4 6 8 5 2\nSolved in Iterations=67\n"
+    }
+    ]
+  }
+]
