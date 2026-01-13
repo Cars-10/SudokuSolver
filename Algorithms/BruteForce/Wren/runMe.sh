@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Wren/runMe.sh
+# Algorithms/BruteForce/Wren/runMe.sh
 
 cd "$(dirname "$0")"
 

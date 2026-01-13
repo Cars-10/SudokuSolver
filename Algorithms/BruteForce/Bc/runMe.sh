@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Bc/runMe.sh
+# Algorithms/BruteForce/Bc/runMe.sh
 
 LANGUAGE="Bc"
 

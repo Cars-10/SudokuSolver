@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/M4/runMe.sh
+# Algorithms/BruteForce/M4/runMe.sh
 
 LANGUAGE="M4"
 

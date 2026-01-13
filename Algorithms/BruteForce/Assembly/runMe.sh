@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Assembly/runMe.sh - Assembly Sudoku solver benchmark script
+# Algorithms/BruteForce/Assembly/runMe.sh - Assembly Sudoku solver benchmark script
 
 cd "$(dirname "$0")"
 

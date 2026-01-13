@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Janet/runMe.sh
+# Algorithms/BruteForce/Janet/runMe.sh
 
 cd "$(dirname "$0")"
 

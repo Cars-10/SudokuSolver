@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Haxe/runMe.sh
+# Algorithms/BruteForce/Haxe/runMe.sh
 # Haxe Sudoku Solver Runner
 #
 # Haxe is a multi-target compiler that can produce JavaScript, C++, Java, C#, Python, PHP, Lua, etc.

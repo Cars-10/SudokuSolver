@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Sed/runMe.sh
+# Algorithms/BruteForce/Sed/runMe.sh
 
 LANGUAGE="Sed"
 

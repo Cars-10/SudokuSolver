@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/EmacsLisp/runMe.sh
+# Algorithms/BruteForce/EmacsLisp/runMe.sh
 
 cd "$(dirname "$0")"
 

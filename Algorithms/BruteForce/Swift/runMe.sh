@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Swift/runMe.sh
+# Algorithms/BruteForce/Swift/runMe.sh
 
 LANGUAGE="Swift"
 SOLVER_BINARY="./Sudoku"

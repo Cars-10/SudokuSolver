@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/OCaml/runMe.sh - Benchmark OCaml Sudoku solver
+# Algorithms/BruteForce/OCaml/runMe.sh - Benchmark OCaml Sudoku solver
 # Created: 2025-12-18
 
 # Configure language-specific settings

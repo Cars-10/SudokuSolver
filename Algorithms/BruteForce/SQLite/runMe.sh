@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/SQLite/runMe.sh
+# Algorithms/BruteForce/SQLite/runMe.sh
 
 LANGUAGE="SQLite"
 SOLVER_BINARY="node Sudoku.js"

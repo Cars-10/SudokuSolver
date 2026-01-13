@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Java/runMe.sh - Java Sudoku solver benchmark script
+# Algorithms/BruteForce/Java/runMe.sh - Java Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

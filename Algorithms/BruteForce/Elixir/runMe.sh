@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Elixir/runMe.sh - Elixir Sudoku solver benchmark script
+# Algorithms/BruteForce/Elixir/runMe.sh - Elixir Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

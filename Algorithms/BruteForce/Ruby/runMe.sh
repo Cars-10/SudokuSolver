@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Ruby/runMe.sh - Ruby Sudoku solver benchmark script
+# Algorithms/BruteForce/Ruby/runMe.sh - Ruby Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

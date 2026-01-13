@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Brainfuck/runMe.sh - Brainfuck Sudoku solver benchmark script
+# Algorithms/BruteForce/Brainfuck/runMe.sh - Brainfuck Sudoku solver benchmark script
 # Uses modular common.sh pattern
 #
 # SPECIAL NOTE: The Brainfuck solver has the puzzle hardcoded into the source.

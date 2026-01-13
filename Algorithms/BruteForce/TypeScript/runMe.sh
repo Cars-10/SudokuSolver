@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/TypeScript/runMe.sh - TypeScript Sudoku solver benchmark script
+# Algorithms/BruteForce/TypeScript/runMe.sh - TypeScript Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Forth/runMe.sh
+# Algorithms/BruteForce/Forth/runMe.sh
 
 LANGUAGE="Forth"
 SOLVER_BINARY="gforth Sudoku.fs"

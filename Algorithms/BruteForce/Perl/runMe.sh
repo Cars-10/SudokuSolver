@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Perl/runMe.sh - Perl Sudoku solver benchmark script
+# Algorithms/BruteForce/Perl/runMe.sh - Perl Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

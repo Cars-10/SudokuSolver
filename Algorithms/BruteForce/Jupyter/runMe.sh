@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Jupyter/runMe.sh
+# Algorithms/BruteForce/Jupyter/runMe.sh
 
 cd "$(dirname "$0")"
 

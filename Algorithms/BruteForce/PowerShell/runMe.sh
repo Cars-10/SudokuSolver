@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/PowerShell/runMe.sh
+# Algorithms/BruteForce/PowerShell/runMe.sh
 
 cd "$(dirname "$0")"
 

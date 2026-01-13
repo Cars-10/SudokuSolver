@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Haskell/runMe.sh - Benchmark Haskell Sudoku solver
+# Algorithms/BruteForce/Haskell/runMe.sh - Benchmark Haskell Sudoku solver
 # Created: 2025-12-18
 
 # Configure language-specific settings

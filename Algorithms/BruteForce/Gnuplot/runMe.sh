@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Gnuplot/runMe.sh
+# Algorithms/BruteForce/Gnuplot/runMe.sh
 
 LANGUAGE="Gnuplot"
 
