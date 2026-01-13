@@ -2,8 +2,6 @@
 
 A comprehensive cross-language performance benchmarking project featuring **85+ programming language implementations** of an identical Sudoku solver algorithm. This project provides objective, reproducible performance comparisons across the vast landscape of programming languages.
 
-![Benchmark Report](screenshots/latest_report.png)
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -87,7 +85,6 @@ Each benchmark run captures:
 - **Performance Visualization**: Charts comparing execution time across languages
 - **Compiler Variants**: Test different optimization levels (O0, O2, O3, Ofast)
 - **Historical Tracking**: Compare performance across multiple benchmark runs
-- **Screenshot Capture**: Automated report screenshots with timestamps
 - **Language Metadata**: Custom descriptions, logos, personality quotes, and notes
 
 ### 🔧 Developer Experience
@@ -216,7 +213,6 @@ SudokuSolver/
 │   ├── server_control.sh # Docker management
 │   └── ralph/            # Automated development tools
 │
-├── screenshots/           # Benchmark report snapshots
 ├── benchmark_config.json  # Language configuration
 ├── session_state.json     # UI state persistence
 ├── docker-compose.yml     # Docker configuration
@@ -562,14 +558,12 @@ VARIANT=Ofast ./runMe.sh   # Fastest (may break standards)
 **Server:**
 - Node.js 18+
 - Express, CORS, Multer
-- Puppeteer (screenshots)
 - Sharp (image processing)
 
 **Metrics:**
 - TypeScript 5+
 - ts-node
 - glob (file matching)
-- Puppeteer
 
 **System Tools (macOS):**
 ```bash
