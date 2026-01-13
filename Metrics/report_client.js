@@ -2119,6 +2119,10 @@ initializeStatus();
                 } else {
                     drawMatrixRace();
                 }
+            } else if (type === 'algorithm') {
+                drawAlgorithmComparisonChart();
+            } else if (type === 'language') {
+                drawLanguagePerformanceChart();
             }
         } catch (e) {
             console.error("Error switching chart:", e);
