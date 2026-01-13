@@ -1177,6 +1177,14 @@ window.viewSourceCode = async function() {
     content.textContent = 'Loading...';
     modal.classList.add('visible');
 
+    // 1. Check embedded data first (works for offline/static)
+    if (typeof sourceCodeData !== 'undefined' && sourceCodeData[currentEditingLang]) {
+        const data = sourceCodeData[currentEditingLang];
+        content.textContent = data.source;
+        title.textContent = `${currentEditingLang} - ${data.filename}`;
+        return;
+    }
+
     try {
         const encodedLang = encodeURIComponent(currentEditingLang);
         const res = await fetch(`/api/source/${encodedLang}`);
@@ -1189,7 +1197,7 @@ window.viewSourceCode = async function() {
             content.textContent = `Error: Could not load source code\nStatus: ${res.status}\n${errorData.error || ''}\n${errorData.path || ''}`;
         }
     } catch (e) {
-        content.textContent = 'Error: ' + e.message + '\n\nMake sure the server is running on this port.';
+        content.textContent = 'Error: ' + e.message + '\n\nMake sure the server is running on this port, or use the offline report with embedded source.';
     }
 };
 

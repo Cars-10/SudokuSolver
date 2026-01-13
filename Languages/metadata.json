@@ -55,7 +55,7 @@
             "location": "Dartmouth College, USA",
             "benefits": "Easy to learn, interactive, historical significance.",
             "website": "",
-            "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.",
+            "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.\nBASIC – Concise Summary\n\nFull name: Beginner's All-purpose Symbolic Instruction Code\nCreated: 1964\nCreators: John Kemeny & Thomas Kurtz (Dartmouth College)\nPurpose: Make programming easy and accessible for complete beginners and non-science students\nGolden era: Mid-1970s to late 1980s (home computer boom)\nMost iconic platforms: Commodore 64, Apple II, ZX Spectrum, Atari, TRS-80, early IBM PCs\nKey characteristics:\nVery simple, English-like commands\nLine numbers\nInterpreted\nImmediate feedback (type & RUN)\n\nBiggest impact: Introduced more people to programming than any other language until Python\nToday: Mostly nostalgia/retro + educational value\nStill actively used in modern forms (QB64, FreeBASIC, PureBasic, etc.)\n",
             "authors": [
                 {
                     "name": "John G. Kemeny",
@@ -66,11 +66,12 @@
                     "image": "Languages/BASIC/Media/BASIC_1766233291157.png"
                 }
             ],
-            "lastUpdated": "2026-01-12T12:53:03.426Z",
+            "lastUpdated": "2026-01-13T14:30:12.077Z",
             "related": "",
-            "history": "BASIC – Concise Summary\n\nFull name: Beginner's All-purpose Symbolic Instruction Code\nCreated: 1964\nCreators: John Kemeny & Thomas Kurtz (Dartmouth College)\nPurpose: Make programming easy and accessible for complete beginners and non-science students\nGolden era: Mid-1970s to late 1980s (home computer boom)\nMost iconic platforms: Commodore 64, Apple II, ZX Spectrum, Atari, TRS-80, early IBM PCs\nKey characteristics:\nVery simple, English-like commands\nLine numbers\nInterpreted\nImmediate feedback (type & RUN)\n\nBiggest impact: Introduced more people to programming than any other language until Python\nToday: Mostly nostalgia/retro + educational value\nStill actively used in modern forms (QB64, FreeBASIC, PureBasic, etc.)\n\nIn one sentence:\nBASIC was the first language designed specifically to let ordinary people start programming easily – and it succeeded spectacularly.",
+            "history": "BASIC was the first language designed specifically to let ordinary people start programming easily  and it succeeded spectacularly.",
             "paradigm": "",
-            "typeSystem": ""
+            "typeSystem": "",
+            "image": "Languages/BASIC/Media/BASIC_logo.png"
         },
         "VisualBasic": {
             "creator": "Microsoft (Alan Cooper)",
@@ -402,14 +403,15 @@
             "authors": [
                 {
                     "name": "D. Richard Hipp",
-                    "image": "Languages/SQLite/Media/SQLite_1766236915533.png"
+                    "image": "Languages/SQLite/Media/SQLite_1768314675300.png"
                 }
             ],
-            "lastUpdated": "2026-01-12T14:20:08.591Z",
+            "lastUpdated": "2026-01-13T14:31:19.811Z",
             "related": "",
-            "history": "",
+            "history": "SQLite's history began in 2000 with D. Richard Hipp creating a serverless, disk-based SQL engine for Navy damage control, evolving from a Tcl extension to a robust, widely-used database powering browsers, phones, and apps, with key versions (1.0 in 2000, 2.0 in 2001, 3.0 in 2004) adding major features like B-trees, transactions, and internationalization, funded partly by AOL, and now offers extensive history tracking via triggers and command-line hist",
             "paradigm": "",
-            "typeSystem": ""
+            "typeSystem": "",
+            "image": "Languages/SQLite/Media/SQLite_logo.png"
         },
         "Crystal": {
             "creator": "Ary Borenszweig",

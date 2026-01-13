@@ -284,6 +284,52 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // Calculate total planned metrics based on languages * matrices
     const totalPlanned = languageMetadata ? Object.keys(languageMetadata).length * (Math.min(matrixFiles.length, 6)) : 0;
 
+    // Gather Source Code for Offline Viewing
+    const sourceCodeData: Record<string, { filename: string, source: string }> = {};
+    const languagesToFetch = new Set(metrics.map(m => m.solver));
+
+    for (const lang of languagesToFetch) {
+        // Handle " (AI)" suffix or other variants if they map to the same directory
+        const baseLang = lang.replace(/ \((AI)\)$/, '');
+        
+        // Handle C# and F# directory mapping if needed (though usually they match or are handled by standard naming)
+        // The server does: const langDir = path.join(__dirname, '..', 'Languages', lang);
+        // We will try direct lookup.
+        
+        const langDir = path.join(languagesDir, baseLang);
+        try {
+            // Check if directory exists
+            try {
+                await fs.access(langDir);
+            } catch {
+                continue; // Skip if dir doesn't exist
+            }
+
+            const files = await fs.readdir(langDir);
+            // Find Sudoku.* but exclude binaries
+            const solverFile = files.find(f => 
+                f.startsWith('Sudoku.') && 
+                !f.endsWith('.class') && 
+                !f.endsWith('.o') && 
+                !f.endsWith('.beam') && 
+                !f.endsWith('.exe') && 
+                !f.endsWith('.dll') &&
+                !f.endsWith('.jar')
+            );
+
+            if (solverFile) {
+                const source = await fs.readFile(path.join(langDir, solverFile), 'utf-8');
+                sourceCodeData[lang] = { filename: solverFile, source };
+                // Map baseLang too if it differs (e.g. for variants)
+                if (baseLang !== lang && !sourceCodeData[baseLang]) {
+                    sourceCodeData[baseLang] = { filename: solverFile, source };
+                }
+            }
+        } catch (e) {
+            console.warn(`Could not load source for ${lang}:`, e);
+        }
+    }
+
     let html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -1432,6 +1478,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const memoryLabels = ${safeJSON(memoryLabels)};
             const scoreLabels = ${safeJSON(scoreLabels)};
             const diagnosticsData = ${safeJSON(diagnostics)};
+            const sourceCodeData = ${safeJSON(sourceCodeData)};
 
             // Dynamic Data
             const referenceOutputs = ${safeJSON(referenceOutputs)};
