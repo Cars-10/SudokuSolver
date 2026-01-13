@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-13)
 
 ## Current Position
 
-Phase: 5 of 6 (Algorithm Selector UI)
-Plan: 1 of 1 in current phase
+Phase: 6 of 6 (Core Performance Charts)
+Plan: 2 of 2 in current phase
 Status: Phase complete
-Last activity: 2026-01-13 - Completed 05-01-PLAN.md
+Last activity: 2026-01-13 - Completed 06-02-PLAN.md
 
-Progress: ██░░░░░░░░ 20%
+Progress: ████░░░░░░ 40%
 
 ## Performance Metrics (v1.1)
 
@@ -49,7 +49,10 @@ All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 Most recent milestone decisions (v1.2):
 - Algorithm-specific C Baselines - Each algorithm type compares against its own C standard (not BruteForce)
 - Client-side Filtering - Algorithm selector uses JavaScript for instant switching without page reload
-- Visual Algorithm Badges - DLX=blue, CP=purple badges for identification in All Algorithms view
+- Visual Algorithm Badges - All algorithms tagged (BF=green, DLX=blue, CP=purple) in All Algorithms view
+- Chart Transition Timing - 200ms fade balances responsiveness with smoothness (Phase 6)
+- Iteration Chart Language Limit - Top 10 languages prevents overcrowding while showing key performers (Phase 6)
+- Algorithm-Aware Rankings - Languages compare to their own algorithm's C baseline for fair comparison (Phase 6)
 
 Previous milestone decisions (v1.1):
 - Unified Directory Structure - All algorithms under `Algorithms/[Type]/` pattern
@@ -75,6 +78,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-13T18:58:13Z
-Stopped at: Completed 05-01-PLAN.md (Phase 5 complete)
+Last session: 2026-01-13T19:40:00Z
+Stopped at: Completed 06-02-PLAN.md (Phase 6 complete, Milestone v1.2 complete)
 Resume file: None
