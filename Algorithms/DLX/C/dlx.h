@@ -23,6 +23,9 @@ struct DlxColumn {
     char name[16];      // For debugging/identification
 };
 
+// Global iteration counter
+extern int dlx_iterations;
+
 // Core functions
 void dlx_cover_column(DlxColumn* c);
 void dlx_uncover_column(DlxColumn* c);
