@@ -2087,6 +2087,7 @@ initializeStatus();
     window.switchChart = function (type) {
         try {
             currentChart = type;
+            window.currentChart = type; // Expose globally for fullscreen handler
 
             // Stop race if running
             if (raceTicker) {
@@ -3662,6 +3663,18 @@ initializeStatus();
     }
 })();
 // End of D3 closure
+
+// Fullscreen change handler - resize charts when exiting fullscreen
+document.addEventListener('fullscreenchange', function() {
+    if (!document.fullscreenElement && window.currentChart && typeof window.switchChart === 'function') {
+        // User exited fullscreen - redraw the current chart to fit normal container
+        console.log('Exited fullscreen, resizing chart:', window.currentChart);
+        setTimeout(() => {
+            window.switchChart(window.currentChart);
+        }, 100); // Small delay to allow DOM to settle
+    }
+});
+
 // Beginning of Matrix Screensaver closure
 // Inject Matrix Data
 // Matrix Data injected globally
