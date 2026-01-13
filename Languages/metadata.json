@@ -33,9 +33,9 @@
             ],
             "lastUpdated": "2026-01-12T12:49:06.347Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2011. Full-stack Rebol evolution.",
+            "paradigm": "Multi-paradigm, symbolic, functional",
+            "typeSystem": "Dynamic, Strong"
         },
         "Assembly": {
             "creator": "Kathleen Booth",
@@ -93,9 +93,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:25:10.894Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1991. Rapid Application Development pioneer.",
+            "paradigm": "Object-oriented, event-driven",
+            "typeSystem": "Static, Strong"
         },
         "Ksh": {
             "creator": "David Korn",
@@ -129,9 +129,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:35:38.173Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1990. Interactive shell with superpowers.",
+            "paradigm": "Scripting, command line",
+            "typeSystem": "Dynamic"
         },
         "Tcl": {
             "creator": "John Ousterhout",
@@ -148,9 +148,9 @@
             ],
             "lastUpdated": "2025-12-20T17:05:59.708Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1988. Tool Command Language.",
+            "paradigm": "Scripting, procedural, event-driven",
+            "typeSystem": "Dynamic, String-based"
         },
         "Awk": {
             "creator": "Aho, Weinberger, Kernighan",
@@ -193,9 +193,9 @@
             ],
             "lastUpdated": "2026-01-12T12:42:02.069Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1984. Hardware description standard.",
+            "paradigm": "Dataflow, hardware description",
+            "typeSystem": "Static"
         },
         "Smalltalk": {
             "creator": "Alan Kay, Dan Ingalls, Adele Goldberg",
@@ -220,9 +220,9 @@
             ],
             "lastUpdated": "2026-01-12T12:51:05.031Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1972. Everything is an object.",
+            "paradigm": "Object-oriented, reflective",
+            "typeSystem": "Dynamic, Strong"
         },
         "C": {
             "creator": "Dennis Ritchie (Test)",
@@ -256,9 +256,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:49:54.877Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2019. Simple, fast, safe, compiled.",
+            "paradigm": "Procedural, structured",
+            "typeSystem": "Static, Strong"
         },
         "Objective-C": {
             "creator": "Brad Cox, Tom Love",
@@ -279,9 +279,9 @@
             ],
             "lastUpdated": "2026-01-12T15:47:40.185Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1984. Smalltalk on top of C.",
+            "paradigm": "Object-oriented, reflective",
+            "typeSystem": "Static, Dynamic dispatch"
         },
         "Zig": {
             "creator": "Andrew Kelley",
@@ -297,9 +297,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T12:53:05.078Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2016. Robust, optimal systems programming.",
+            "paradigm": "Imperative, procedural, systems",
+            "typeSystem": "Static, Strong"
         },
         "Dc": {
             "creator": "Robert Morris, Lorinda Cherry",
@@ -342,9 +342,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:08:38.118Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2006. Modern features for GObject.",
+            "paradigm": "Object-oriented, structured",
+            "typeSystem": "Static, Strong"
         },
         "XSLT": {
             "creator": "W3C",
@@ -359,9 +359,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:12:23.985Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1998. XML transformations.",
+            "paradigm": "Declarative, functional",
+            "typeSystem": "Dynamic"
         },
         "CoffeeScript": {
             "creator": "Jeremy Ashkenas",
@@ -395,9 +395,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:16:18.464Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1970. Structured programming for education.",
+            "paradigm": "Imperative, structured",
+            "typeSystem": "Static, Strong"
         },
         "Sed": {
             "creator": "Lee E. McMahon",
@@ -414,9 +414,9 @@
             ],
             "lastUpdated": "2026-01-12T14:38:25.932Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1974. Stream Editor for text transformation.",
+            "paradigm": "Scripting, stream-editing",
+            "typeSystem": "Untyped"
         },
         "Cobol": {
             "creator": "CODASYL Committee (Grace Hopper)",
@@ -450,9 +450,9 @@
             ],
             "lastUpdated": "2026-01-13T14:31:19.811Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "2000. The world's most used database engine.",
+            "paradigm": "Relational, SQL",
+            "typeSystem": "Dynamic, Weak",
             "image": "Languages/SQLite/Media/SQLite_logo.png"
         },
         "Crystal": {
@@ -560,9 +560,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1994. C-like syntax, dynamic power.",
+            "paradigm": "Multi-paradigm, object-oriented",
+            "typeSystem": "Dynamic, Strong"
         },
         "M4": {
             "creator": "Brian Kernighan, Dennis Ritchie",
@@ -639,9 +639,9 @@
             ],
             "lastUpdated": "2026-01-12T13:11:33.175Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1979. Mainframe scripting made easy.",
+            "paradigm": "Procedural, structured",
+            "typeSystem": "Dynamic, Weak"
         },
         "Prolog": {
             "creator": "Alain Colmerauer",
@@ -658,9 +658,9 @@
             ],
             "lastUpdated": "2026-01-12T14:29:25.226Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1972. Logic programming pioneer.",
+            "paradigm": "Logic, declarative",
+            "typeSystem": "Dynamic"
         },
         "Janet": {
             "creator": "Calvin Rose",
@@ -694,9 +694,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T13:48:02.833Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2013. Small, fast, concurrent class-based.",
+            "paradigm": "Object-oriented, scripting",
+            "typeSystem": "Dynamic, Strong"
         },
         "Raku": {
             "creator": "Larry Wall",
@@ -713,9 +713,9 @@
             ],
             "lastUpdated": "2026-01-12T13:20:34.324Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "2015. The 100-year language (formerly Perl 6).",
+            "paradigm": "Multi-paradigm, functional, object-oriented",
+            "typeSystem": "Gradual, Strong"
         },
         "Fish": {
             "creator": "Axel Liljencrantz",
@@ -754,9 +754,9 @@
             ],
             "lastUpdated": "2026-01-12T14:32:42.771Z",
             "related": "",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1982. The language of laser printers.",
+            "paradigm": "Concatenative, stack-oriented",
+            "typeSystem": "Dynamic, Strong"
         },
         "Gnuplot": {
             "creator": "Thomas Williams, Colin Kelley",
@@ -813,9 +813,9 @@
                 }
             ],
             "lastUpdated": "2025-12-20T14:21:00.236Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1996. Industrial strength functional programming.",
+            "paradigm": "Multi-paradigm, functional, object-oriented",
+            "typeSystem": "Static, Strong, Inferred"
         },
         "Haxe": {
             "creator": "Nicolas Cannasse",
@@ -948,9 +948,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T14:27:57.544Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1975. Minimalist Lisp dialect.",
+            "paradigm": "Multi-paradigm, functional",
+            "typeSystem": "Dynamic, Strong"
         },
         "Dart": {
             "creator": "Lars Bak, Kasper Lund",
@@ -1014,9 +1014,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1991. The language of Vim.",
+            "paradigm": "Scripting, imperative",
+            "typeSystem": "Dynamic, Weak"
         },
         "Octave": {
             "creator": "John W. Eaton",
@@ -1032,9 +1032,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1988. Free alternative to MATLAB.",
+            "paradigm": "Numerical, scripting",
+            "typeSystem": "Dynamic"
         },
         "Dash": {
             "creator": "Herbert Xu",
@@ -1131,9 +1131,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:51.940Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1987. The Swiss Army chainsaw of scripting.",
+            "paradigm": "Multi-paradigm, scripting, procedural",
+            "typeSystem": "Dynamic, Weak"
         },
         "Tcsh": {
             "creator": "Ken Greer",
@@ -1149,9 +1149,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": ""
+            "history": "1981. C shell with command completion.",
+            "paradigm": "Scripting, command line",
+            "typeSystem": "Dynamic"
         },
         "Icon": {
             "creator": "Ralph Griswold",
@@ -1197,9 +1197,9 @@
             "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin",
             "website": "",
             "description": "A strong statically typed general-purpose programming language which supports both object-oriented programming and functional programming. Scala fuses object-oriented and functional programming on the JVM.\n\n2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "2004. Scalable language for the JVM.",
+            "paradigm": "Multi-paradigm, object-oriented, functional",
+            "typeSystem": "Static, Strong, Inferred",
             "authors": [
                 {
                     "name": "Martin Odersky"
@@ -1215,9 +1215,9 @@
             "related": "C++, ML, Haskell, Erlang, Swift, C",
             "website": "",
             "description": "A multi-paradigm, general-purpose programming language designed for safety and performance. It targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors.\n\n2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
-            "history": "",
-            "paradigm": "Multi-paradigm, Concurrent, Functional, Imperative, Structured",
-            "typeSystem": "Static, Strong, Safe",
+            "history": "2010. Performance without garbage collection.",
+            "paradigm": "Multi-paradigm, systems, functional",
+            "typeSystem": "Static, Strong, Safe, Affine",
             "authors": [
                 {
                     "name": "Graydon Hoare",
@@ -1283,9 +1283,9 @@
             "related": "Objective-C, Rust, C#, Python, Ruby",
             "website": "",
             "description": "A general-purpose, multi-paradigm, compiled programming language developed by Apple. Swift has largely superseded Objective-C for Apple platform development, focusing on safety, performance and developer ergonomics.\n\n2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
+            "history": "2014. Modern, safe, fast Apple development.",
+            "paradigm": "Multi-paradigm, protocol-oriented",
+            "typeSystem": "Static, Strong, Inferred",
             "authors": [
                 {
                     "name": "Chris Lattner et al."
@@ -1348,52 +1348,52 @@
             "description": "A lightweight, high-level, multi-paradigm programming language designed primarily for embedded use in applications."
         },
         "Nim": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2008. Efficient, expressive, elegant.",
+            "paradigm": "Multi-paradigm, procedural, object-oriented",
+            "typeSystem": "Static, Strong, Inferred",
+            "description": "A statically typed, compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula."
         },
         "PHP": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1995. Powering 80% of the web.",
+            "paradigm": "Imperative, functional, object-oriented",
+            "typeSystem": "Dynamic, Weak (optional static)",
+            "description": "A popular general-purpose scripting language that is especially suited to web development."
         },
         "PowerShell": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2006. Object-oriented shell for Windows.",
+            "paradigm": "Imperative, object-oriented, pipeline",
+            "typeSystem": "Dynamic, Strong, .NET",
+            "description": "A cross-platform task automation and configuration management framework, consisting of a command-line shell and scripting language."
         },
         "Python": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1991. Simple, readable, popular.",
+            "paradigm": "Multi-paradigm, object-oriented, functional",
+            "typeSystem": "Dynamic, Strong",
+            "description": "A high-level, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation."
         },
         "R": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1993. Statistical computing and graphics.",
+            "paradigm": "Multi-paradigm, functional, object-oriented",
+            "typeSystem": "Dynamic, Strong",
+            "description": "A programming language for statistical computing and graphics supported by the R Core Team and the R Foundation for Statistical Computing."
         },
         "Racket": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1995. A programmable programming language.",
+            "paradigm": "Multi-paradigm, functional, meta",
+            "typeSystem": "Dynamic, Strong",
+            "description": "A general-purpose, multi-paradigm programming language based on the Scheme dialect of Lisp."
         },
         "Ruby": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "1995. Optimized for developer happiness.",
+            "paradigm": "Multi-paradigm, object-oriented, functional",
+            "typeSystem": "Dynamic, Strong",
+            "description": "A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write."
         },
         "TypeScript": {
-            "history": "",
-            "paradigm": "",
-            "typeSystem": "",
-            "description": ""
+            "history": "2012. JavaScript with syntax for types.",
+            "paradigm": "Multi-paradigm, object-oriented, functional",
+            "typeSystem": "Static (gradual), Structural",
+            "description": "A free and open source high-level programming language developed by Microsoft that adds static typing with optional type annotations to JavaScript."
         }
     }
 }
