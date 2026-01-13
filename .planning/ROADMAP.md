@@ -52,10 +52,10 @@ Plans:
 **Goal**: Build interactive UI controls for algorithm filtering and selection
 **Depends on**: Phase 4
 **Research**: Unlikely (UI patterns, existing report framework)
-**Plans**: TBD
+**Plans**: 1/1 complete
 
 Plans:
-- [ ] 05-01: TBD (run /gsd:plan-phase 5 to break down)
+- [x] 05-01: Algorithm selector dropdown with filtering (completed 2026-01-13)
 
 #### Phase 6: Core Performance Charts
 
@@ -78,5 +78,5 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 2. Algorithm - Dancing Links | v1.1 | 3/3 | Complete | 2026-01-13 |
 | 3. Algorithm - Constraint Propagation | v1.1 | 2/2 | Complete | 2026-01-13 |
 | 4. Infrastructure Fixes | v1.2 | 1/1 | Complete | 2026-01-13 |
-| 5. Algorithm Selector UI | v1.2 | 0/? | Not started | - |
+| 5. Algorithm Selector UI | v1.2 | 1/1 | Complete | 2026-01-13 |
 | 6. Core Performance Charts | v1.2 | 0/? | Not started | - |

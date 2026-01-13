@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-13)
 
 ## Current Position
 
-Phase: 4 of 6 (Infrastructure Fixes)
+Phase: 5 of 6 (Algorithm Selector UI)
 Plan: 1 of 1 in current phase
 Status: Phase complete
-Last activity: 2026-01-13 - Completed 04-01-PLAN.md
+Last activity: 2026-01-13 - Completed 05-01-PLAN.md
 
-Progress: █░░░░░░░░░ 16%
+Progress: ██░░░░░░░░ 20%
 
 ## Performance Metrics (v1.1)
 
@@ -46,7 +46,12 @@ Progress: █░░░░░░░░░ 16%
 
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
-Most recent milestone decisions (v1.1):
+Most recent milestone decisions (v1.2):
+- Algorithm-specific C Baselines - Each algorithm type compares against its own C standard (not BruteForce)
+- Client-side Filtering - Algorithm selector uses JavaScript for instant switching without page reload
+- Visual Algorithm Badges - DLX=blue, CP=purple badges for identification in All Algorithms view
+
+Previous milestone decisions (v1.1):
 - Unified Directory Structure - All algorithms under `Algorithms/[Type]/` pattern
 - DLX Memory Strategy - Pre-allocated node pool for performance
 - CP Candidate Tracking - Bitset representation with macro helpers
@@ -70,6 +75,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-13T18:24:07Z
-Stopped at: Completed 04-01-PLAN.md (Phase 4 complete)
+Last session: 2026-01-13T18:58:13Z
+Stopped at: Completed 05-01-PLAN.md (Phase 5 complete)
 Resume file: None
