@@ -11,6 +11,7 @@ export interface MetricResult {
 
 export interface SolverMetrics {
     solver: string;
+    algorithmType?: 'BruteForce' | 'DLX' | 'CP'; // Algorithm type from directory structure
     runType?: string; // 'Local' | 'Docker' | 'AI'
     timestamp: string;
     results: MetricResult[];

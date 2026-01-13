@@ -33,13 +33,23 @@ async function run() {
             console.warn("Could not read main metrics.json", e);
         }
 
-        // Aggregate All Metrics from Languages
-        const metricsPattern = path.join(rootDir, 'Languages', '*', 'metrics.json');
-        const metricFiles = await glob(metricsPattern);
-        console.log(`Found ${metricFiles.length} additional metric files.`);
+        // Aggregate All Metrics from Languages (legacy) and Algorithms (new structure)
+        const metricsPatterns = [
+            path.join(rootDir, 'Languages', '*', 'metrics.json'),
+            path.join(rootDir, 'Algorithms', 'BruteForce', '*', 'metrics.json'),
+            path.join(rootDir, 'Algorithms', 'DLX', '*', 'metrics.json'),
+            path.join(rootDir, 'Algorithms', 'CP', '*', 'metrics.json')
+        ];
+
+        let metricFiles: string[] = [];
+        for (const pattern of metricsPatterns) {
+            const files = await glob(pattern);
+            metricFiles.push(...files);
+        }
+        console.log(`Found ${metricFiles.length} metric files across all algorithm types.`);
 
         let aggregatedMetrics: any[] = [];
-        const knownSolvers = new Set();
+        const knownSolverAlgoPairs = new Set(); // Track language+algorithm combinations
 
         // 1. Load Metrics (Higher Priority)
         for (const file of metricFiles) {
@@ -53,15 +63,39 @@ async function run() {
                     // New format: [{solver: "C++", results: [...], ...}]
                     // Old format: [{matrix: "1", time: 0.01, ...}, ...]
                     if (parsedMetrics.length > 0 && parsedMetrics[0].results) {
-                        // Already wrapped format - use directly
-                        metricsList = parsedMetrics;
+                        // Already wrapped format - use directly, but add algorithmType
+                        const pathParts = file.split(path.sep);
+                        const algoIndex = pathParts.lastIndexOf('Algorithms');
+                        let algorithmType: 'BruteForce' | 'DLX' | 'CP' | undefined = undefined;
+
+                        if (algoIndex !== -1 && pathParts[algoIndex + 1]) {
+                            algorithmType = pathParts[algoIndex + 1] as 'BruteForce' | 'DLX' | 'CP';
+                        } else {
+                            algorithmType = 'BruteForce'; // Legacy defaults to BruteForce
+                        }
+
+                        metricsList = parsedMetrics.map((m: any) => ({
+                            ...m,
+                            algorithmType: algorithmType
+                        }));
                     } else {
                         // Flat array of results - need to wrap
                         const pathParts = file.split(path.sep);
+
+                        // Try new Algorithms structure first, then fallback to legacy Languages
+                        const algoIndex = pathParts.lastIndexOf('Algorithms');
                         const langIndex = pathParts.lastIndexOf('Languages');
                         let solverName = "Unknown";
-                        if (langIndex !== -1 && pathParts[langIndex + 1]) {
+                        let algorithmType: 'BruteForce' | 'DLX' | 'CP' | undefined = undefined;
+
+                        if (algoIndex !== -1 && pathParts[algoIndex + 1] && pathParts[algoIndex + 2]) {
+                            // New structure: Algorithms/BruteForce/C/metrics.json
+                            algorithmType = pathParts[algoIndex + 1] as 'BruteForce' | 'DLX' | 'CP';
+                            solverName = pathParts[algoIndex + 2];
+                        } else if (langIndex !== -1 && pathParts[langIndex + 1]) {
+                            // Legacy structure: Languages/C/metrics.json
                             solverName = pathParts[langIndex + 1];
+                            algorithmType = 'BruteForce'; // Legacy defaults to BruteForce
                         }
 
                         const stats = await fs.promises.stat(file);
@@ -78,6 +112,7 @@ async function run() {
 
                         metricsList.push({
                             solver: solverName,
+                            algorithmType: algorithmType,
                             timestamp: stats.mtimeMs, // Use file modification time
                             runType: runType,
                             results: parsedMetrics
@@ -88,13 +123,14 @@ async function run() {
                 }
 
                 for (const m of metricsList) {
-                    if (!knownSolvers.has(m.solver)) {
+                    const pairKey = `${m.solver}::${m.algorithmType || 'BruteForce'}`;
+                    if (!knownSolverAlgoPairs.has(pairKey)) {
                         // Filter out N/A matrix entries - those are toolchain checks, not actual runs
                         if (m.results && Array.isArray(m.results)) {
                             m.results = m.results.filter((r: any) => r.matrix !== 'N/A');
                         }
                         aggregatedMetrics.push(m);
-                        knownSolvers.add(m.solver);
+                        knownSolverAlgoPairs.add(pairKey);
                     }
                 }
             } catch (e) {
@@ -106,10 +142,11 @@ async function run() {
         if (mainMetrics.length > 0) {
             console.log(`Backfilling with root metrics (${mainMetrics.length} found)...`);
             for (const m of mainMetrics) {
-                if (!knownSolvers.has(m.solver)) {
+                const pairKey = `${m.solver}::${m.algorithmType || 'BruteForce'}`;
+                if (!knownSolverAlgoPairs.has(pairKey)) {
                     console.log(`Restoring legacy metric for: ${m.solver}`);
                     aggregatedMetrics.push(m);
-                    knownSolvers.add(m.solver);
+                    knownSolverAlgoPairs.add(pairKey);
                 } else {
                     // console.log(`Skipping stale root metric for: ${m.solver}`);
                 }
