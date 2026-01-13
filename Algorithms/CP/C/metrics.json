@@ -2,7 +2,7 @@
   {
     "solver": "C",
     "runType": "automated",
-    "timestamp": "2026-01-13T17:55:35Z",
+    "timestamp": "2026-01-13T18:23:48Z",
     "results": [
       {
         "matrix": "N/A",
@@ -22,15 +22,15 @@
       },
       {
         "matrix": "1",
-        "time": 453.4461,
+        "time": 325.2083,
         "iterations": 67,
         "memory": 1507328,
-        "cpu_user": 2.766,
-        "cpu_sys": 4.346,
-        "page_faults_major": 6,
-        "page_faults_minor": 518,
-        "context_switches_voluntary": 3,
-        "context_switches_involuntary": 21,
+        "cpu_user": 2.458,
+        "cpu_sys": 4.013,
+        "page_faults_major": 2,
+        "page_faults_minor": 521,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
