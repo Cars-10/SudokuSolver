@@ -1,0 +1,20 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+LANGUAGE="Erlang"
+ALGORITHM="CP"
+SOLVER_BINARY="./cp.erl"
+METRICS_FILE="metrics.json"
+TIMEOUT_SECONDS=300
+
+source ../../common.sh
+
+compile() {
+    check_toolchain escript
+
+    # Make script executable
+    chmod +x cp.erl
+    return 0
+}
+
+main "$@"
