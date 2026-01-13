@@ -15,6 +15,7 @@ struct DlxNode {
     DlxNode *left;
     DlxNode *right;
     DlxColumn *column;  // Pointer to the column header
+    int row_id;         // ID of the row this node belongs to
 };
 
 struct DlxColumn {
