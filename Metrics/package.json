@@ -4,14 +4,12 @@
     "description": "Metrics aggregator for Sudoku Benchmark",
     "main": "gather_metrics.ts",
     "scripts": {
-        "start": "ts-node gather_metrics.ts",
-        "sync-db": "ts-node sync_db.ts"
+        "start": "ts-node gather_metrics.ts"
     },
     "type": "module",
     "dependencies": {
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
-        "better-sqlite3": "^11.0.0",
         "cors": "^2.8.5",
         "express": "^5.2.1",
         "fs-extra": "^11.1.1",

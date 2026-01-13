@@ -2,7 +2,7 @@
 # Ralph Wiggum - Long-running AI agent loop
 # Usage: ./ralph.sh [max_iterations]
 
-set -e
+set -eu
 
 MAX_ITERATIONS=${1:-10}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
