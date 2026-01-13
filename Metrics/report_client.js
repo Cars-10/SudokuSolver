@@ -3042,12 +3042,19 @@ initializeStatus();
                 const times = lang.results.map(r => r.time);
                 const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
                 const algoType = lang.algorithmType || 'BruteForce';
+
+                // Determine display name with algorithm suffix
+                let displayName = lang.solver;
+                if (selectedAlgo === 'all') {
+                    // Add suffix for all algorithm types in "All Algorithms" mode
+                    const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
+                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                    displayName = lang.solver + algoSuffix;
+                }
+
                 return {
                     solver: lang.solver,
-                    // In "All Algorithms" mode, use composite key to differentiate variants
-                    displayName: selectedAlgo === 'all' && algoType !== 'BruteForce'
-                        ? `${lang.solver} (${algoType})`
-                        : lang.solver,
+                    displayName: displayName,
                     avgTime: avgTime,
                     matrixCount: lang.results.length,
                     algorithmType: algoType
@@ -3235,35 +3242,34 @@ initializeStatus();
 
                     // Color the algorithm type suffix in the label
                     const algoColors = {
+                        'BF': '#00ff9d',
                         'DLX': '#7aa2f7',
                         'CP': '#bb9af7'
                     };
 
-                    if (algoColors[algoType]) {
-                        // Change color of the "(DLX)" or "(CP)" suffix
-                        const textEl = d3.select(this);
-                        const fullText = textEl.text();
-                        const match = fullText.match(/^(.+?)(\s*\((DLX|CP)\))$/);
+                    // Change color of the "(BF)", "(DLX)", or "(CP)" suffix
+                    const textEl = d3.select(this);
+                    const fullText = textEl.text();
+                    const match = fullText.match(/^(.+?)(\s*\((BF|DLX|CP)\))$/);
 
-                        if (match) {
-                            const baseName = match[1];
-                            const suffix = match[2];
-                            const algoName = match[3];
+                    if (match) {
+                        const baseName = match[1];
+                        const suffix = match[2];
+                        const algoName = match[3];
 
-                            // Clear existing text
-                            textEl.text('');
+                        // Clear existing text
+                        textEl.text('');
 
-                            // Add base name in default color
-                            textEl.append('tspan')
-                                .style('fill', '#00ff9d')
-                                .text(baseName + ' ');
+                        // Add base name in default color
+                        textEl.append('tspan')
+                            .style('fill', '#00ff9d')
+                            .text(baseName + ' ');
 
-                            // Add algorithm suffix in algorithm color
-                            textEl.append('tspan')
-                                .style('fill', algoColors[algoName])
-                                .style('font-weight', 'bold')
-                                .text(`(${algoName})`);
-                        }
+                        // Add algorithm suffix in algorithm color
+                        textEl.append('tspan')
+                            .style('fill', algoColors[algoName])
+                            .style('font-weight', 'bold')
+                            .text(`(${algoName})`);
                     }
                 });
             }
