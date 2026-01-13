@@ -1071,19 +1071,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             Welcome to the Polyglot Sudoku Benchmark. Click on any language name for creator details. Use the controls to sort data and analyze performance metrics across different languages.
         </div>
 
-        <!-- Algorithm Selector -->
-        <div class="algorithm-selector-container" style="margin: 20px auto; text-align: center;">
-            <label for="algorithmSelector" style="color: #a9b1d6; margin-right: 10px; font-weight: bold;">Algorithm:</label>
-            <select id="algorithmSelector" onchange="filterByAlgorithm(this.value)"
-                    style="padding: 8px 15px; background: #1a1b26; color: #c0caf5; border: 1px solid #414868; border-radius: 6px; font-size: 0.95em; cursor: pointer;">
-                <option value="all">All Algorithms</option>
-                <option value="BruteForce" selected>Brute Force (Baseline)</option>
-                <option value="DLX">Dancing Links (Algorithm X)</option>
-                <option value="CP">Constraint Propagation</option>
-            </select>
-            <span id="algorithmCount" style="margin-left: 15px; color: #565f89; font-size: 0.9em;"></span>
-        </div>
-
         <div class="controls">
 
             
@@ -1140,7 +1127,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <!-- Populated by JS -->
                 </div>
             </div>
-            
+            <select id="algorithmSelector" class="btn active" onchange="filterByAlgorithm(this.value)" style="cursor: pointer;">
+                <option value="all">All Algorithms</option>
+                <option value="BruteForce" selected>Brute Force</option>
+                <option value="DLX">Dancing Links</option>
+                <option value="CP">Constraint Propagation</option>
+            </select>
+
             <!-- Search Removed -->
         </div>
     </div>
@@ -1587,23 +1580,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // Algorithm filtering function
     window.filterByAlgorithm = function(algorithmType) {
         const rows = document.querySelectorAll('#mainTableBody tr');
-        let visibleCount = 0;
 
         rows.forEach(row => {
             const rowAlgo = row.getAttribute('data-algorithm-type');
             if (algorithmType === 'all' || rowAlgo === algorithmType) {
                 row.style.display = '';
-                visibleCount++;
             } else {
                 row.style.display = 'none';
             }
         });
-
-        // Update count display
-        const countSpan = document.getElementById('algorithmCount');
-        if (countSpan) {
-            countSpan.textContent = '(' + visibleCount + ' languages)';
-        }
     };
 
     // Initialize on load - default to BruteForce
