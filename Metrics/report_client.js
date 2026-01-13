@@ -2754,6 +2754,244 @@ initializeStatus();
                 .style("fill", "#5c5c66");
         } // End of drawJockeyChart
 
+        function drawAlgorithmComparisonChart() {
+            const container = d3.select("#d3-chart-container");
+            const width = document.getElementById('d3-chart-container').clientWidth;
+            const height = document.getElementById('d3-chart-container').clientHeight;
+            const margin = { top: 80, right: 60, bottom: 100, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            // Filter data by algorithm type
+            const algorithmTypes = ['BruteForce', 'DLX', 'CP'];
+            const algorithmData = {};
+
+            algorithmTypes.forEach(algo => {
+                const filtered = metricsData.filter(d => {
+                    const algoType = d.algorithmType || 'BruteForce';
+                    return algoType === algo && d.results && d.results.length > 0;
+                });
+
+                if (filtered.length > 0) {
+                    // Calculate averages across all results
+                    let totalTime = 0;
+                    let totalIterations = 0;
+                    let resultCount = 0;
+
+                    filtered.forEach(lang => {
+                        lang.results.forEach(r => {
+                            totalTime += r.time;
+                            totalIterations += r.iterations || 0;
+                            resultCount++;
+                        });
+                    });
+
+                    algorithmData[algo] = {
+                        avgTime: totalTime / resultCount,
+                        avgIterations: totalIterations / resultCount,
+                        languageCount: filtered.length
+                    };
+                }
+            });
+
+            // Only show algorithms with data
+            const availableAlgos = Object.keys(algorithmData);
+            if (availableAlgos.length === 0) {
+                container.html("<div style='color:#ff4444; padding:40px; text-align:center; font-family:monospace;'><h3>No algorithm data available</h3></div>");
+                return;
+            }
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Title
+            g.append("text")
+                .attr("x", chartWidth / 2)
+                .attr("y", -40)
+                .attr("text-anchor", "middle")
+                .style("font-size", "24px")
+                .style("font-weight", "bold")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .text("Algorithm Comparison");
+
+            // X scale - algorithm types
+            const x0 = d3.scaleBand()
+                .domain(availableAlgos)
+                .range([0, chartWidth])
+                .padding(0.2);
+
+            // X1 scale for grouped bars (3 metrics per algorithm)
+            const x1 = d3.scaleBand()
+                .domain(['time', 'iterations', 'efficiency'])
+                .range([0, x0.bandwidth()])
+                .padding(0.05);
+
+            // Y scale - log scale to handle wide range
+            const allValues = availableAlgos.flatMap(algo => [
+                algorithmData[algo].avgTime,
+                algorithmData[algo].avgIterations / 1000, // Scale down iterations
+                algorithmData[algo].avgTime * 10 // Efficiency proxy
+            ]);
+
+            const yMin = Math.max(0.001, d3.min(allValues) * 0.5);
+            const yMax = d3.max(allValues) * 1.5;
+
+            const y = d3.scaleLog()
+                .domain([yMin, yMax])
+                .range([chartHeight, 0])
+                .nice();
+
+            // Colors for the three metrics
+            const colors = {
+                time: '#00ff9d',
+                iterations: '#00d4ff',
+                efficiency: '#ff9d00'
+            };
+
+            // Draw bars for each algorithm
+            const algoGroups = g.selectAll(".algo-group")
+                .data(availableAlgos)
+                .enter().append("g")
+                .attr("class", "algo-group")
+                .attr("transform", d => `translate(${x0(d)},0)`);
+
+            // Time bars
+            algoGroups.append("rect")
+                .attr("x", x1('time'))
+                .attr("y", d => y(algorithmData[d].avgTime))
+                .attr("width", x1.bandwidth())
+                .attr("height", d => chartHeight - y(algorithmData[d].avgTime))
+                .attr("fill", colors.time)
+                .attr("opacity", 0.8)
+                .on("mouseover", function(event, d) {
+                    d3.select(this).attr("opacity", 1);
+                    g.append("text")
+                        .attr("class", "tooltip-text")
+                        .attr("x", x0(d) + x1('time') + x1.bandwidth() / 2)
+                        .attr("y", y(algorithmData[d].avgTime) - 10)
+                        .attr("text-anchor", "middle")
+                        .style("fill", "#00ff9d")
+                        .style("font-family", "monospace")
+                        .style("font-size", "12px")
+                        .text(`${algorithmData[d].avgTime.toFixed(3)}s`);
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("opacity", 0.8);
+                    g.selectAll(".tooltip-text").remove();
+                });
+
+            // Iterations bars (scaled down by 1000 for visibility)
+            algoGroups.append("rect")
+                .attr("x", x1('iterations'))
+                .attr("y", d => y(algorithmData[d].avgIterations / 1000))
+                .attr("width", x1.bandwidth())
+                .attr("height", d => chartHeight - y(algorithmData[d].avgIterations / 1000))
+                .attr("fill", colors.iterations)
+                .attr("opacity", 0.8)
+                .on("mouseover", function(event, d) {
+                    d3.select(this).attr("opacity", 1);
+                    g.append("text")
+                        .attr("class", "tooltip-text")
+                        .attr("x", x0(d) + x1('iterations') + x1.bandwidth() / 2)
+                        .attr("y", y(algorithmData[d].avgIterations / 1000) - 10)
+                        .attr("text-anchor", "middle")
+                        .style("fill", "#00d4ff")
+                        .style("font-family", "monospace")
+                        .style("font-size", "12px")
+                        .text(`${Math.round(algorithmData[d].avgIterations)} iter`);
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("opacity", 0.8);
+                    g.selectAll(".tooltip-text").remove();
+                });
+
+            // Efficiency bars (time * 10 as proxy)
+            algoGroups.append("rect")
+                .attr("x", x1('efficiency'))
+                .attr("y", d => y(algorithmData[d].avgTime * 10))
+                .attr("width", x1.bandwidth())
+                .attr("height", d => chartHeight - y(algorithmData[d].avgTime * 10))
+                .attr("fill", colors.efficiency)
+                .attr("opacity", 0.8)
+                .on("mouseover", function(event, d) {
+                    d3.select(this).attr("opacity", 1);
+                    g.append("text")
+                        .attr("class", "tooltip-text")
+                        .attr("x", x0(d) + x1('efficiency') + x1.bandwidth() / 2)
+                        .attr("y", y(algorithmData[d].avgTime * 10) - 10)
+                        .attr("text-anchor", "middle")
+                        .style("fill", "#ff9d00")
+                        .style("font-family", "monospace")
+                        .style("font-size", "12px")
+                        .text(`${algorithmData[d].languageCount} langs`);
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("opacity", 0.8);
+                    g.selectAll(".tooltip-text").remove();
+                });
+
+            // X axis
+            g.append("g")
+                .attr("transform", `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x0))
+                .selectAll("text")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .style("font-size", "14px");
+
+            // Y axis
+            g.append("g")
+                .call(d3.axisLeft(y).ticks(5, ".2f"))
+                .selectAll("text")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace");
+
+            // Y axis label
+            g.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -60)
+                .attr("x", -chartHeight / 2)
+                .attr("text-anchor", "middle")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "12px")
+                .text("Log Scale");
+
+            // Legend
+            const legend = g.append("g")
+                .attr("transform", `translate(${chartWidth - 200}, -30)`);
+
+            const legendItems = [
+                { label: 'Avg Time (s)', color: colors.time },
+                { label: 'Avg Iterations (÷1000)', color: colors.iterations },
+                { label: 'Languages Count', color: colors.efficiency }
+            ];
+
+            legendItems.forEach((item, i) => {
+                const legendRow = legend.append("g")
+                    .attr("transform", `translate(0, ${i * 20})`);
+
+                legendRow.append("rect")
+                    .attr("width", 12)
+                    .attr("height", 12)
+                    .attr("fill", item.color)
+                    .attr("opacity", 0.8);
+
+                legendRow.append("text")
+                    .attr("x", 18)
+                    .attr("y", 10)
+                    .style("fill", "#fff")
+                    .style("font-family", "monospace")
+                    .style("font-size", "11px")
+                    .text(item.label);
+            });
+        } // End of drawAlgorithmComparisonChart
+
         // Initial Draw
         if (typeof d3 !== 'undefined') {
             drawLineChart();
