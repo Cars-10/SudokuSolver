@@ -35,6 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Research topics**: DLX algorithm specifics, data structure memory management in C.
 **Plans**:
   - [x] 1. Scaffolding (Create dir structure, build script, headers)
+  - [x] 2.1. Refactor (INSERTED - Unify directory structure to Algorithms/)
   - [ ] 2. Implementation (Core search algo, Sudoku mapping)
 
 ### Phase 3: Algorithm - Constraint Propagation
@@ -52,5 +53,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Metadata Enrichment | 1/1 | Done | 2026-01-13 |
-| 2. Algorithm - Dancing Links | 1/2 | In Progress | - |
+| 2. Algorithm - Dancing Links | 2/3 | In Progress | - |
 | 3. Algorithm - Constraint Propagation | 0/TBD | Not started | - |
