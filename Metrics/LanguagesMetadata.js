@@ -696,7 +696,7 @@ export const languageMetadata = {
         "creator": "Fredrik Hübinette, Per Hedbor",
         "date": "1994",
         "description": "A general-purpose, high-level, cross-platform, dynamic programming language with a C-like syntax. It features garbage collection, advanced data types, and first-class anonymous functions.",
-        "image": "Languages/Pike/Media/Pike_1766237418806.png",
+        "image": "Algorithms/BruteForce/Pike/Media/Pike_1766237418806.png",
         "location": "Linköping, Sweden",
         "benefits": "C-like syntax, dynamic typing, concurrency.",
         "related": "LPC, C, C++, Python"
@@ -705,7 +705,7 @@ export const languageMetadata = {
         "creator": "Calvin Rose (Project Lead)",
         "date": "2016",
         "description": "A programming language that brings Lisp syntax and macros to the Lua architecture. It compiles to Lua and runs with zero overhead, offering full Lua compatibility.",
-        "image": "Languages/Fennel/Media/Fennel_1766237539834.png",
+        "image": "Algorithms/BruteForce/Fennel/Media/Fennel_1766237539834.png",
         "location": "Global",
         "benefits": "Lisp syntax, Lua speed, zero overhead, embeddable.",
         "related": "Lua, Lisp, Clojure"
@@ -714,7 +714,7 @@ export const languageMetadata = {
         "creator": "Calvin Rose",
         "date": "2017",
         "description": "A functional and imperative programming language designed for system scripting, expressive automation, and embedding. It features a built-in PEG engine and Lisp-like macros.",
-        "image": "Languages/Janet/Media/Janet_1766238064569.png",
+        "image": "Algorithms/BruteForce/Janet/Media/Janet_1766238064569.png",
         "location": "USA",
         "benefits": "Embeddable, PEG parsing, structural editing.",
         "related": "Lua, Clojure, Lisp, C"

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const languagesDir = path.join(__dirname, '../Languages');
-const metadataPath = path.join(languagesDir, 'metadata.json');
+const languagesDir = path.join(__dirname, '../Algorithms/BruteForce');
+const metadataPath = path.join(__dirname, '../Algorithms/metadata.json');
 
 // Read metadata
 const metadataRaw = fs.readFileSync(metadataPath, 'utf8');

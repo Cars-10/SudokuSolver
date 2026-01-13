@@ -136,7 +136,7 @@ open http://localhost:9001
 
 # Run a benchmark via command line
 docker-compose exec app bash
-cd /app/Languages/C && ./runMe.sh
+cd /app/Algorithms/BruteForce/C && ./runMe.sh
 ```
 
 #### Option 2: Local Execution
@@ -146,7 +146,7 @@ cd /app/Languages/C && ./runMe.sh
 brew install gnu-time coreutils
 
 # Run a single language
-cd Languages/C
+cd Algorithms/BruteForce/C
 ./runMe.sh                                    # Run all matrices
 ./runMe.sh ../../Matrices/1.matrix            # Run specific matrix
 
@@ -179,7 +179,11 @@ docker-compose up -d
 
 ```
 SudokuSolver/
-├── Languages/              # Language implementations
+├── Algorithms/            # Algorithm implementations
+│   ├── BruteForce/        # Brute-force language implementations
+│   ├── DLX/               # Dancing Links implementations
+│   ├── common.sh          # Shared benchmark functions
+│   └── metadata.json      # Language metadata
 │   ├── C/
 │   │   ├── Sudoku.c       # Solver implementation
 │   │   ├── runMe.sh       # Benchmark script
@@ -232,7 +236,7 @@ SudokuSolver/
 Every language follows this structure:
 
 ```bash
-Languages/{Language}/
+Algorithms/BruteForce/{Language}/
 ├── Sudoku.{ext}      # Solver (e.g., Sudoku.py, Sudoku.java)
 ├── runMe.sh          # Benchmark runner
 ├── metrics.json      # Results (generated)
@@ -271,7 +275,7 @@ main "$@"
 #### Single Language
 
 ```bash
-cd Languages/Python
+cd Algorithms/BruteForce/Python
 ./runMe.sh                           # All matrices
 ./runMe.sh ../../Matrices/1.matrix   # Specific matrix
 VARIANT=O3 ./runMe.sh                # With compiler variant
@@ -291,10 +295,10 @@ VARIANT=O3 ./runMe.sh                # With compiler variant
 ```bash
 # Interactive shell
 docker-compose exec app bash
-cd /app/Languages/Go && ./runMe.sh
+cd /app/Algorithms/BruteForce/Go && ./runMe.sh
 
 # Single command
-docker-compose exec app bash -c "cd /app/Languages/Rust && ./runMe.sh"
+docker-compose exec app bash -c "cd /app/Algorithms/BruteForce/Rust && ./runMe.sh"
 ```
 
 ### Generating Reports
@@ -337,7 +341,7 @@ docker-compose up -d
 ```bash
 # Validate iteration counts
 cd Metrics
-node validate_run.js Languages/C/metrics.json
+node validate_run.js Algorithms/BruteForce/C/metrics.json
 
 # Validate output format
 node validate_run.js --format Languages/C/metrics.json
@@ -351,8 +355,8 @@ node validate_run.js --all Languages/C/metrics.json
 ### 1. Create Language Directory
 
 ```bash
-mkdir Languages/NewLanguage
-cd Languages/NewLanguage
+mkdir Algorithms/BruteForce/NewLanguage
+cd Algorithms/BruteForce/NewLanguage
 ```
 
 ### 2. Implement Solver
@@ -581,9 +585,9 @@ timeout
 
 Languages with special characters use underscores in directory names:
 
-- `C#` → `Languages/C_Sharp/` (LANGUAGE="C_Sharp")
-- `F#` → `Languages/F_Sharp/` (LANGUAGE="F_Sharp")
-- `C++` → `Languages/C++/` (keeps special chars)
+- `C#` → `Algorithms/BruteForce/C_Sharp/` (LANGUAGE="C_Sharp")
+- `F#` → `Algorithms/BruteForce/F_Sharp/` (LANGUAGE="F_Sharp")
+- `C++` → `Algorithms/BruteForce/C++/` (keeps special chars)
 
 The `LANGUAGE` variable in `runMe.sh` must match the directory name exactly.
 

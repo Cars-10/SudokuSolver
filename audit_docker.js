@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 const util = require('util');
 const execPromise = util.promisify(exec);
 
-const languagesDir = path.join(__dirname, 'Languages');
+const languagesDir = path.join(__dirname, 'Algorithms/BruteForce');
 const languages = fs.readdirSync(languagesDir).filter(f => {
     return fs.statSync(path.join(languagesDir, f)).isDirectory() && !f.startsWith('.');
 });
@@ -21,9 +21,9 @@ async function audit() {
         const chunk = languages.slice(i, i + concurrency);
         await Promise.all(chunk.map(async (lang) => {
             const projectRoot = process.cwd();
-            const dockerWorkDir = `/app/Languages/${lang}`;
+            const dockerWorkDir = `/app/Algorithms/BruteForce/${lang}`;
             // Use 1.matrix as a quick smoke test
-            const cmd = `docker run --rm -v "${projectRoot}:/app" -w "${dockerWorkDir}" sudoku-benchmark:latest ./runMe.sh ../../Matrices/1.matrix`;
+            const cmd = `docker run --rm -v "${projectRoot}:/app" -w "${dockerWorkDir}" sudoku-benchmark:latest ./runMe.sh ../../../Matrices/1.matrix`;
             
             try {
                 // Set a timeout of 20s
