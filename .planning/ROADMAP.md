@@ -17,7 +17,7 @@ None
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Metadata Enrichment** - Enrich metadata.json with descriptions, categories, and history.
-- [ ] **Phase 2: Algorithm - Dancing Links** - Implement DLX framework and reference solver.
+- [x] **Phase 2: Algorithm - Dancing Links** - Implement DLX framework and reference solver.
 - [ ] **Phase 3: Algorithm - Constraint Propagation** - Implement CP framework and reference solver.
 
 ## Phase Details
@@ -33,10 +33,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Phase 1 (conceptually independent, but good to have metadata sorted)
 **Research**: Likely (DLX implementation details in C)
 **Research topics**: DLX algorithm specifics, data structure memory management in C.
+**Status**: COMPLETE (2026-01-13)
 **Plans**:
   - [x] 1. Scaffolding (Create dir structure, build script, headers)
   - [x] 2.1. Refactor (INSERTED - Unify directory structure to Algorithms/)
-  - [ ] 2. Implementation (Core search algo, Sudoku mapping)
+  - [x] 2. Implementation (Core search algo, Sudoku mapping)
 
 ### Phase 3: Algorithm - Constraint Propagation
 **Goal**: Establish `Algorithms/CP` structure and implement the reference C solver using Constraint Propagation.
@@ -53,5 +54,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Metadata Enrichment | 1/1 | Done | 2026-01-13 |
-| 2. Algorithm - Dancing Links | 2/3 | In Progress | - |
+| 2. Algorithm - Dancing Links | 3/3 | Done | 2026-01-13 |
 | 3. Algorithm - Constraint Propagation | 0/TBD | Not started | - |
