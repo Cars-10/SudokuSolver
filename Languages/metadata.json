@@ -13,7 +13,10 @@
                     "image": "Languages/Ada/Media/Ada_1766231197722.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:13:57.114Z"
+            "lastUpdated": "2025-12-20T12:13:57.114Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Red": {
             "creator": "Nenad Rakocevic",
@@ -47,7 +50,10 @@
                     "image": "Languages/Assembly/Media/Assembly_1766233131381.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:19:02.893Z"
+            "lastUpdated": "2025-12-20T12:19:02.893Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "BASIC": {
             "creator": "John G. Kemeny, Thomas E. Kurtz",
@@ -55,7 +61,7 @@
             "location": "Dartmouth College, USA",
             "benefits": "Easy to learn, interactive, historical significance.",
             "website": "",
-            "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.\nBASIC – Concise Summary\n\nFull name: Beginner's All-purpose Symbolic Instruction Code\nCreated: 1964\nCreators: John Kemeny & Thomas Kurtz (Dartmouth College)\nPurpose: Make programming easy and accessible for complete beginners and non-science students\nGolden era: Mid-1970s to late 1980s (home computer boom)\nMost iconic platforms: Commodore 64, Apple II, ZX Spectrum, Atari, TRS-80, early IBM PCs\nKey characteristics:\nVery simple, English-like commands\nLine numbers\nInterpreted\nImmediate feedback (type & RUN)\n\nBiggest impact: Introduced more people to programming than any other language until Python\nToday: Mostly nostalgia/retro + educational value\nStill actively used in modern forms (QB64, FreeBASIC, PureBasic, etc.)\n",
+            "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use.\nBASIC – Concise Summary\n\nFull name: Beginner's All-purpose Symbolic Instruction Code\nCreated: 1964\nCreators: John Kemeny & Thomas Kurtz (Dartmouth College)\nPurpose: Make programming easy and accessible for complete beginners and non-science students\nGolden era: Mid-1970s to late 1980s (home computer boom)\nMost iconic platforms: Commodore 64, Apple II, ZX Spectrum, Atari, TRS-80, early IBM PCs\nKey characteristics:\nVery simple, English-like commands\nLine numbers\nInterpreted\nImmediate feedback (type & RUN)\n\nBiggest impact: Introduced more people to programming than any other language until Python\nToday: Mostly nostalgia/retro + educational value\nStill actively used in modern forms (QB64, FreeBASIC, PureBasic, etc.)\n\n\nBASIC was the first language designed specifically to let ordinary people start programming easily  and it succeeded spectacularly.",
             "authors": [
                 {
                     "name": "John G. Kemeny",
@@ -68,7 +74,7 @@
             ],
             "lastUpdated": "2026-01-13T14:30:12.077Z",
             "related": "",
-            "history": "BASIC was the first language designed specifically to let ordinary people start programming easily  and it succeeded spectacularly.",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "image": "Languages/BASIC/Media/BASIC_logo.png"
@@ -86,7 +92,10 @@
                     "image": "Languages/VisualBasic/Media/VisualBasic_1766233459591.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:25:10.894Z"
+            "lastUpdated": "2025-12-20T12:25:10.894Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Ksh": {
             "creator": "David Korn",
@@ -119,7 +128,10 @@
                     "name": "Paul Falstad"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:35:38.173Z"
+            "lastUpdated": "2025-12-20T12:35:38.173Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Tcl": {
             "creator": "John Ousterhout",
@@ -135,7 +147,10 @@
                 }
             ],
             "lastUpdated": "2025-12-20T17:05:59.708Z",
-            "related": ""
+            "related": "",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Awk": {
             "creator": "Aho, Weinberger, Kernighan",
@@ -158,7 +173,10 @@
                     "image": "Languages/Awk/Media/Awk_1766234413850.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:40:51.762Z"
+            "lastUpdated": "2025-12-20T12:40:51.762Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Verilog": {
             "creator": "Phil Moorby",
@@ -185,7 +203,7 @@
             "location": "Xerox PARC, USA",
             "benefits": "Pure OOP, live environment, influence on modern GUIs.",
             "website": "",
-            "description": "An object-oriented, dynamically typed reflective programming language.",
+            "description": "An object-oriented, dynamically typed reflective programming language.\n\nSmalltalk is a purely object-oriented, dynamically typed, and reflective programming language. Developed in the 1970s at Xerox PARC by a team led by Alan Kay, it was designed to create a \"human-computer symbiosis\" through an environment that is highly interactive and user-friendly. \nCore Principles and Syntax\nPure Object Orientation: Unlike hybrid languages, everything in Smalltalk is an object, including numbers, classes, and even the execution stack.\nMessage Passing: Objects communicate exclusively by sending and receiving messages. Smalltalk’s philosophy emphasizes that the \"big idea\" is the communication between objects rather than the objects themselves.\nMinimalist Syntax: The entire language syntax is famously small enough to fit on a postcard, featuring only about six reserved keywords (e.g., nil, true, false, self, super). \nKey Technical Features\nLive Coding & Debugging: Developers can modify code while the program is running without needing to restart it. The integrated debugger allows for \"rewinding\" code execution to fix errors in-place.\nImage-Based Development: Instead of traditional files, Smalltalk environments typically use an \"image\"—a snapshot of the entire system state, including all objects and classes—allowing developers to resume exactly where they left off.\nReflection: Smalltalk programs can inspect and modify their own structure and behavior at runtime, enabling powerful metaprogramming capabilities.\nAutomatic Memory Management: It was a pioneer in implementing garbage collection, which remains a standard feature in modern versions. \nHistorical Impact and Dialects\nSmalltalk pioneered many technologies that are now standard in computing, including the Graphical User Interface (GUI), mouse-driven interaction, and the Model-View-Controller (MVC) pattern. It heavily influenced languages such as Java, Python, Ruby, and Objective-C. \nCommon Dialects in 2026:\nPharo: A modern, open-source, highly active implementation focused on professional software development.\nSqueak: An open-source implementation often used for education and research.\nVisualWorks & VAST: Leading commercial versions used for enterprise-grade applications, particularly in the banking and finance sectors.\nGNU Smalltalk: A command-line version that follows the ANSI standard closely",
             "authors": [
                 {
                     "name": "Alan Kay",
@@ -202,7 +220,7 @@
             ],
             "lastUpdated": "2026-01-12T12:51:05.031Z",
             "related": "",
-            "history": "Smalltalk is a purely object-oriented, dynamically typed, and reflective programming language. Developed in the 1970s at Xerox PARC by a team led by Alan Kay, it was designed to create a \"human-computer symbiosis\" through an environment that is highly interactive and user-friendly. \nCore Principles and Syntax\nPure Object Orientation: Unlike hybrid languages, everything in Smalltalk is an object, including numbers, classes, and even the execution stack.\nMessage Passing: Objects communicate exclusively by sending and receiving messages. Smalltalk’s philosophy emphasizes that the \"big idea\" is the communication between objects rather than the objects themselves.\nMinimalist Syntax: The entire language syntax is famously small enough to fit on a postcard, featuring only about six reserved keywords (e.g., nil, true, false, self, super). \nKey Technical Features\nLive Coding & Debugging: Developers can modify code while the program is running without needing to restart it. The integrated debugger allows for \"rewinding\" code execution to fix errors in-place.\nImage-Based Development: Instead of traditional files, Smalltalk environments typically use an \"image\"—a snapshot of the entire system state, including all objects and classes—allowing developers to resume exactly where they left off.\nReflection: Smalltalk programs can inspect and modify their own structure and behavior at runtime, enabling powerful metaprogramming capabilities.\nAutomatic Memory Management: It was a pioneer in implementing garbage collection, which remains a standard feature in modern versions. \nHistorical Impact and Dialects\nSmalltalk pioneered many technologies that are now standard in computing, including the Graphical User Interface (GUI), mouse-driven interaction, and the Model-View-Controller (MVC) pattern. It heavily influenced languages such as Java, Python, Ruby, and Objective-C. \nCommon Dialects in 2026:\nPharo: A modern, open-source, highly active implementation focused on professional software development.\nSqueak: An open-source implementation often used for education and research.\nVisualWorks & VAST: Leading commercial versions used for enterprise-grade applications, particularly in the banking and finance sectors.\nGNU Smalltalk: A command-line version that follows the ANSI standard closely",
+            "history": "",
             "paradigm": "",
             "typeSystem": ""
         },
@@ -219,7 +237,10 @@
                     "image": "Languages/C/Media/C_1766234736784.png"
                 }
             ],
-            "lastUpdated": "2025-12-24T17:04:21.809Z"
+            "lastUpdated": "2025-12-24T17:04:21.809Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "V": {
             "creator": "Alexander Medvednikov",
@@ -234,7 +255,10 @@
                     "image": "Languages/V/Media/V_1766234939239.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:49:54.877Z"
+            "lastUpdated": "2025-12-20T12:49:54.877Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Objective-C": {
             "creator": "Brad Cox, Tom Love",
@@ -272,7 +296,10 @@
                     "image": "Languages/Zig/Media/Zig_1766235184332.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T12:53:05.078Z"
+            "lastUpdated": "2025-12-20T12:53:05.078Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Dc": {
             "creator": "Robert Morris, Lorinda Cherry",
@@ -314,7 +341,10 @@
                     "image": "Languages/Vala/Media/Vala_1766236115955.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:08:38.118Z"
+            "lastUpdated": "2025-12-20T13:08:38.118Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "XSLT": {
             "creator": "W3C",
@@ -328,7 +358,10 @@
                     "name": "W3C"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:12:23.985Z"
+            "lastUpdated": "2025-12-20T13:12:23.985Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "CoffeeScript": {
             "creator": "Jeremy Ashkenas",
@@ -343,7 +376,10 @@
                     "image": "Languages/CoffeeScript/Media/CoffeeScript_1766236365726.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:15:10.129Z"
+            "lastUpdated": "2025-12-20T13:15:10.129Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Pascal": {
             "creator": "Niklaus Wirth",
@@ -358,7 +394,10 @@
                     "image": "Languages/Pascal/Media/Pascal_1766236576239.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:16:18.464Z"
+            "lastUpdated": "2025-12-20T13:16:18.464Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Sed": {
             "creator": "Lee E. McMahon",
@@ -391,7 +430,10 @@
                     "name": "CODASYL Committee (Grace Hopper)"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:21:24.713Z"
+            "lastUpdated": "2025-12-20T13:21:24.713Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "SQLite": {
             "creator": "D. Richard Hipp",
@@ -399,7 +441,7 @@
             "location": "USA",
             "benefits": "Serverless, zero-configuration, transactional SQL.",
             "website": "",
-            "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.",
+            "description": "A C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.\n\nSQLite's history began in 2000 with D. Richard Hipp creating a serverless, disk-based SQL engine for Navy damage control, evolving from a Tcl extension to a robust, widely-used database powering browsers, phones, and apps, with key versions (1.0 in 2000, 2.0 in 2001, 3.0 in 2004) adding major features like B-trees, transactions, and internationalization, funded partly by AOL, and now offers extensive history tracking via triggers and command-line hist",
             "authors": [
                 {
                     "name": "D. Richard Hipp",
@@ -408,7 +450,7 @@
             ],
             "lastUpdated": "2026-01-13T14:31:19.811Z",
             "related": "",
-            "history": "SQLite's history began in 2000 with D. Richard Hipp creating a serverless, disk-based SQL engine for Navy damage control, evolving from a Tcl extension to a robust, widely-used database powering browsers, phones, and apps, with key versions (1.0 in 2000, 2.0 in 2001, 3.0 in 2004) adding major features like B-trees, transactions, and internationalization, funded partly by AOL, and now offers extensive history tracking via triggers and command-line hist",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "image": "Languages/SQLite/Media/SQLite_logo.png"
@@ -426,7 +468,10 @@
                     "image": "Languages/Crystal/Media/Crystal_1766236978770.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:23:00.810Z"
+            "lastUpdated": "2025-12-20T13:23:00.810Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "AppleScript": {
             "creator": "Apple Inc.",
@@ -441,7 +486,10 @@
                     "image": "Languages/AppleScript/Media/AppleScript_1766237045007.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:24:06.600Z"
+            "lastUpdated": "2025-12-20T13:24:06.600Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Forth": {
             "creator": "Charles H. Moore",
@@ -456,7 +504,10 @@
                     "image": "Languages/Forth/Media/Forth_1766237118262.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:25:19.824Z"
+            "lastUpdated": "2025-12-20T13:25:19.824Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Fortran": {
             "creator": "John Backus",
@@ -471,7 +522,10 @@
                     "image": "Languages/Fortran/Media/Fortran_1766237167392.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:26:31.134Z"
+            "lastUpdated": "2025-12-20T13:26:31.134Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "CommonLisp": {
             "creator": "Committee (Guy L. Steele Jr. et al.)",
@@ -498,7 +552,7 @@
             "location": "Linköping University, Sweden",
             "benefits": "C-like syntax, dynamic typing, automatic memory management.",
             "website": "https://pike.lysator.liu.se/",
-            "description": "A dynamic programming language with a syntax similar to C/C++. Pike features automatic memory management, powerful built-in data types (mappings, multisets, arrays), and excellent support for network protocols. It was originally developed for the Roxen web server.",
+            "description": "A dynamic programming language with a syntax similar to C/C++. Pike features automatic memory management, powerful built-in data types (mappings, multisets, arrays), and excellent support for network protocols. It was originally developed for the Roxen web server.\n\nPike evolved from LPC (Lars Pensjö C), a language created in 1989 for MUD game development. Fredrik Hübinette developed Pike at Linköping University in Sweden, initially called 'µLPC' before being renamed. The Roxen Internet Software company used Pike extensively for their web server, driving its network programming capabilities. Pike influenced the development of other languages and remains actively maintained.",
             "authors": [
                 {
                     "name": "Fredrik Hübinette",
@@ -506,7 +560,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "Pike evolved from LPC (Lars Pensjö C), a language created in 1989 for MUD game development. Fredrik Hübinette developed Pike at Linköping University in Sweden, initially called 'µLPC' before being renamed. The Roxen Internet Software company used Pike extensively for their web server, driving its network programming capabilities. Pike influenced the development of other languages and remains actively maintained."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "M4": {
             "creator": "Brian Kernighan, Dennis Ritchie",
@@ -537,7 +593,7 @@
             "location": "USA",
             "benefits": "Lisp syntax, compiles to Lua, zero overhead, embeddable.",
             "website": "https://fennel-lang.org/",
-            "description": "A Lisp dialect that compiles to Lua with zero runtime overhead. Fennel brings powerful macros, pattern matching, and a clean s-expression syntax while leveraging Lua's speed and embeddability. Perfect for game development (LÖVE2D), embedded systems, and anywhere Lua runs.",
+            "description": "A Lisp dialect that compiles to Lua with zero runtime overhead. Fennel brings powerful macros, pattern matching, and a clean s-expression syntax while leveraging Lua's speed and embeddability. Perfect for game development (LÖVE2D), embedded systems, and anywhere Lua runs.\n\nCreated by Phil Hagelberg (technomancy) in 2016, Fennel was designed to bring the power of Lisp to the Lua ecosystem. Hagelberg, known for creating Leiningen (Clojure's build tool), wanted a Lisp that could run anywhere Lua runs. Fennel gained popularity in the game development community, particularly with LÖVE2D developers. It compiles entirely at build time, producing clean Lua code with no runtime dependencies.",
             "authors": [
                 {
                     "name": "Phil Hagelberg",
@@ -545,7 +601,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "Created by Phil Hagelberg (technomancy) in 2016, Fennel was designed to bring the power of Lisp to the Lua ecosystem. Hagelberg, known for creating Leiningen (Clojure's build tool), wanted a Lisp that could run anywhere Lua runs. Fennel gained popularity in the game development community, particularly with LÖVE2D developers. It compiles entirely at build time, producing clean Lua code with no runtime dependencies."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Elixir": {
             "creator": "José Valim",
@@ -572,7 +630,7 @@
             "location": "IBM, UK",
             "benefits": "Scripting, mainframe automation, ease of use.",
             "website": "",
-            "description": "Purpose: Make scripting easy, readable, reliable and powerful – especially for command execution, text processing, macros and automation\nParadigm: Procedural, structured, interpreted (with some compilers available)\nKey characteristics:\nExtremely readable & English-like syntax\nExcellent string manipulation & arbitrary-precision arithmetic\nNo mandatory variable declaration\nDesigned to feel \"natural\" to both beginners and experts\n\nGolden era: 1980s–1990s (especially on IBM mainframes: VM/CMS, TSO, OS/2)\nMain platforms today: IBM z/OS, z/VM, IBM i (still built-in), Windows, Linux, macOS via open-source interpreters\nPopular implementations (2026):\nRegina (classic Rexx)\nooRexx (Object-oriented Rexx) – latest stable ~5.1.0 (2025), beta 5.2.x available\nNetRexx (Rexx → Java bytecode)\n\nCurrent status (January 2026): Niche but very much alive\nStrong in mainframe environments\nActive open-source community (Rexx Language Association)\n37th Rexx Symposium planned for May 2026 in Barcelona\nStill used for automation, legacy support, glue scripting\n\n\nOne-sentence verdict:\nREXX is the elegant, human-readable \"grandfather of modern scripting languages\" that remains surprisingly capable and actively maintained — especially on mainframes — more than 45 years after its creation. 🦖",
+            "description": "Purpose: Make scripting easy, readable, reliable and powerful – especially for command execution, text processing, macros and automation\nParadigm: Procedural, structured, interpreted (with some compilers available)\nKey characteristics:\nExtremely readable & English-like syntax\nExcellent string manipulation & arbitrary-precision arithmetic\nNo mandatory variable declaration\nDesigned to feel \"natural\" to both beginners and experts\n\nGolden era: 1980s–1990s (especially on IBM mainframes: VM/CMS, TSO, OS/2)\nMain platforms today: IBM z/OS, z/VM, IBM i (still built-in), Windows, Linux, macOS via open-source interpreters\nPopular implementations (2026):\nRegina (classic Rexx)\nooRexx (Object-oriented Rexx) – latest stable ~5.1.0 (2025), beta 5.2.x available\nNetRexx (Rexx → Java bytecode)\n\nCurrent status (January 2026): Niche but very much alive\nStrong in mainframe environments\nActive open-source community (Rexx Language Association)\n37th Rexx Symposium planned for May 2026 in Barcelona\nStill used for automation, legacy support, glue scripting\n\n\nOne-sentence verdict:\nREXX is the elegant, human-readable \"grandfather of modern scripting languages\" that remains surprisingly capable and actively maintained — especially on mainframes — more than 45 years after its creation. 🦖\n\nRestructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
             "authors": [
                 {
                     "name": "Mike Cowlishaw",
@@ -581,7 +639,7 @@
             ],
             "lastUpdated": "2026-01-12T13:11:33.175Z",
             "related": "",
-            "history": "Restructured Extended Executor. A structured, high-level programming language designed for ease of learning and reading.",
+            "history": "",
             "paradigm": "",
             "typeSystem": ""
         },
@@ -610,7 +668,7 @@
             "location": "USA",
             "benefits": "Embeddable, small footprint, PEG parsing, functional.",
             "website": "https://janet-lang.org/",
-            "description": "A functional and imperative programming language designed for embedding. The entire language—core library, interpreter, compiler, assembler, and PEG parser—fits in under 1MB. Janet combines Lisp-like syntax with practical features like destructuring, tail-call optimization, and native C interop.",
+            "description": "A functional and imperative programming language designed for embedding. The entire language—core library, interpreter, compiler, assembler, and PEG parser—fits in under 1MB. Janet combines Lisp-like syntax with practical features like destructuring, tail-call optimization, and native C interop.\n\nCalvin Rose created Janet in 2017, inspired by Clojure, Lua, and Scheme. Originally named 'dst' (dynamic scripting tool), it was renamed to Janet. The language prioritizes embeddability and small footprint while providing a rich standard library. Janet has found use in game development, scripting, and as an extension language for larger applications.",
             "authors": [
                 {
                     "name": "Calvin Rose",
@@ -618,7 +676,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "Calvin Rose created Janet in 2017, inspired by Clojure, Lua, and Scheme. Originally named 'dst' (dynamic scripting tool), it was renamed to Janet. The language prioritizes embeddability and small footprint while providing a rich standard library. Janet has found use in game development, scripting, and as an extension language for larger applications."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Wren": {
             "creator": "Bob Nystrom",
@@ -633,7 +693,10 @@
                     "image": "Languages/Wren/Media/Wren_1766238481340.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:48:02.833Z"
+            "lastUpdated": "2025-12-20T13:48:02.833Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Raku": {
             "creator": "Larry Wall",
@@ -641,7 +704,7 @@
             "location": "Global",
             "benefits": "Expressiveness, grammars, concurrency.",
             "website": "",
-            "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.Raku is the beautifully expressive, feature-rich evolution of the Perl spirit — a Swiss Army chainsaw reimagined for the 21st century with unmatched parsing power and flexibility, still thriving in a dedicated community in 2026. 🦋",
+            "description": "A member of the Perl family. Expressive, multi-paradigm, and versatile.Raku is the beautifully expressive, feature-rich evolution of the Perl spirit — a Swiss Army chainsaw reimagined for the 21st century with unmatched parsing power and flexibility, still thriving in a dedicated community in 2026. 🦋\n\nCreator: Larry Wall + large community effort\nOriginal name: Perl 6 (2000–2019)\nRenamed: October 2019 → to reflect it as a distinct sibling language to Perl 5 (not a direct successor)\nPurpose: Modern, expressive, highly flexible language that \"works the way you think\" — fixing Perl's pain points while keeping TIMTOWTDI (\"There's More Than One Way To Do It\") spirit\nParadigm: Multi-paradigm powerhouse\n→ Procedural, Object-Oriented, Functional, Declarative, Metaprogramming + more\nKey characteristics:\nGradual / optional typing\nExtremely powerful grammars & regexes (best-in-class parsing)\nJunctions (any/all logic values)\nLazy evaluation & infinite lists\nUnicode everywhere (identifiers, operators)\nInvariant sigils, rich sigil system\nHyphenated-names (kebab-case) allowed\n\nMain implementation (2026): Rakudo compiler + MoarVM backend (also JVM & JS backends)\nCurrent status (January 2026):\nStable language level 6.d (Diwali, 2020), with 6.e.PREVIEW features rolling out\nActively developed (~1650 commits in 2025), growing module ecosystem (508 updates in 2025), passionate niche community, monthly Rakudo releases\nAdoption: Niche / enthusiastic — strong in text processing, DSLs, scripting, parsing; under-the-radar but loved by its users",
             "authors": [
                 {
                     "name": "Larry Wall",
@@ -650,7 +713,7 @@
             ],
             "lastUpdated": "2026-01-12T13:20:34.324Z",
             "related": "",
-            "history": "Creator: Larry Wall + large community effort\nOriginal name: Perl 6 (2000–2019)\nRenamed: October 2019 → to reflect it as a distinct sibling language to Perl 5 (not a direct successor)\nPurpose: Modern, expressive, highly flexible language that \"works the way you think\" — fixing Perl's pain points while keeping TIMTOWTDI (\"There's More Than One Way To Do It\") spirit\nParadigm: Multi-paradigm powerhouse\n→ Procedural, Object-Oriented, Functional, Declarative, Metaprogramming + more\nKey characteristics:\nGradual / optional typing\nExtremely powerful grammars & regexes (best-in-class parsing)\nJunctions (any/all logic values)\nLazy evaluation & infinite lists\nUnicode everywhere (identifiers, operators)\nInvariant sigils, rich sigil system\nHyphenated-names (kebab-case) allowed\n\nMain implementation (2026): Rakudo compiler + MoarVM backend (also JVM & JS backends)\nCurrent status (January 2026):\nStable language level 6.d (Diwali, 2020), with 6.e.PREVIEW features rolling out\nActively developed (~1650 commits in 2025), growing module ecosystem (508 updates in 2025), passionate niche community, monthly Rakudo releases\nAdoption: Niche / enthusiastic — strong in text processing, DSLs, scripting, parsing; under-the-radar but loved by its users",
+            "history": "",
             "paradigm": "",
             "typeSystem": ""
         },
@@ -667,7 +730,10 @@
                     "image": "Languages/Fish/Media/Fish_1766238248667.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:50:01.163Z"
+            "lastUpdated": "2025-12-20T13:50:01.163Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "PostScript": {
             "creator": "John Warnock, Charles Geschke",
@@ -729,7 +795,10 @@
                     "image": "Languages/Jq/Media/Jq_1768312474056.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T13:59:12.446Z"
+            "lastUpdated": "2025-12-20T13:59:12.446Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "OCaml": {
             "creator": "Xavier Leroy et al.",
@@ -743,7 +812,10 @@
                     "name": "Xavier Leroy et al."
                 }
             ],
-            "lastUpdated": "2025-12-20T14:21:00.236Z"
+            "lastUpdated": "2025-12-20T14:21:00.236Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Haxe": {
             "creator": "Nicolas Cannasse",
@@ -751,7 +823,7 @@
             "location": "France",
             "benefits": "Cross-platform, strong typing, single codebase.",
             "website": "",
-            "description": "A high-level cross-platform language that compiles to many other languages.",
+            "description": "A high-level cross-platform language that compiles to many other languages.\n\nPurpose: True write once, compile anywhere – single codebase targeting many platforms natively\nParadigm: Multi-paradigm (strongly object-oriented + functional + generic)\nTyping: Strictly & statically typed (with excellent type inference + optional dynamic)\nSyntax style: Modern, ECMAScript / ActionScript / Java-like, very familiar to JS / TS / Java / C# devs\nKey strength: Extremely powerful cross-compiler → produces source code or bytecode for many targets\nMain targets (2026): JavaScript, C++, C#, Java/JVM, Python, PHP, Lua, HashLink (own fast VM), NekoVM + interpreted mode\nUsed for: Games (Dead Cells, Papers, Please), web, mobile, desktop, backend, tools\nPopular frameworks: OpenFL, Heaps.io, Kha, HaxeFlixel, Armory3D\nCurrent status (Jan 2026): Very active – latest stable: 4.3.7 (May 2025), Haxe 5.0 preview already out\n\nOne-sentence verdict:\nHaxe is the most mature and performant \"compile-to-many-languages\" language that lets you write modern, type-safe code once and target almost every major platform natively — still somewhat under the radar but loved by its users. 🚀",
             "authors": [
                 {
                     "name": "Nicolas Cannasse",
@@ -760,7 +832,7 @@
             ],
             "lastUpdated": "2026-01-12T13:09:41.038Z",
             "related": "",
-            "history": "Purpose: True write once, compile anywhere – single codebase targeting many platforms natively\nParadigm: Multi-paradigm (strongly object-oriented + functional + generic)\nTyping: Strictly & statically typed (with excellent type inference + optional dynamic)\nSyntax style: Modern, ECMAScript / ActionScript / Java-like, very familiar to JS / TS / Java / C# devs\nKey strength: Extremely powerful cross-compiler → produces source code or bytecode for many targets\nMain targets (2026): JavaScript, C++, C#, Java/JVM, Python, PHP, Lua, HashLink (own fast VM), NekoVM + interpreted mode\nUsed for: Games (Dead Cells, Papers, Please), web, mobile, desktop, backend, tools\nPopular frameworks: OpenFL, Heaps.io, Kha, HaxeFlixel, Armory3D\nCurrent status (Jan 2026): Very active – latest stable: 4.3.7 (May 2025), Haxe 5.0 preview already out\n\nOne-sentence verdict:\nHaxe is the most mature and performant \"compile-to-many-languages\" language that lets you write modern, type-safe code once and target almost every major platform natively — still somewhat under the radar but loved by its users. 🚀",
+            "history": "",
             "paradigm": "",
             "typeSystem": ""
         },
@@ -779,7 +851,10 @@
                 }
             ],
             "lastUpdated": "2026-01-10T16:34:51.585Z",
-            "locked": false
+            "locked": false,
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Clojure": {
             "creator": "Rich Hickey",
@@ -795,7 +870,10 @@
                     "image": "Languages/Clojure/Media/Clojure_1766250041395.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T17:01:18.114Z"
+            "lastUpdated": "2025-12-20T17:01:18.114Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Bash": {
             "creator": "Brian Fox",
@@ -827,7 +905,10 @@
                     "image": "Languages/C_Sharp/Media/C_Sharp_1766250136978.png"
                 }
             ],
-            "lastUpdated": "2025-12-20T17:02:17.986Z"
+            "lastUpdated": "2025-12-20T17:02:17.986Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "C++": {
             "creator": "Bjarne Stroustrup",
@@ -843,7 +924,10 @@
                     "image": "Languages/C++/Media/C++_1766311229769.png"
                 }
             ],
-            "lastUpdated": "2025-12-21T10:00:33.766Z"
+            "lastUpdated": "2025-12-21T10:00:33.766Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Scheme": {
             "creator": "Guy L. Steele, Gerald Jay Sussman",
@@ -886,7 +970,10 @@
                     "image": "Languages/Dart/Media/Dart_1768312699861.png"
                 }
             ],
-            "lastUpdated": "2026-01-11T19:30:00.000Z"
+            "lastUpdated": "2026-01-11T19:30:00.000Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Erlang": {
             "creator": "Joe Armstrong, Robert Virding, Mike Williams",
@@ -920,14 +1007,16 @@
             "benefits": "Editor scripting, text manipulation, customization.",
             "related": "Vim, Neovim, Lua",
             "website": "https://www.vim.org/",
-            "description": "The scripting language built into Vim for customizing and extending the editor. Vimscript supports variables, functions, lists, dictionaries, and autocommands. It powers Vim's plugin ecosystem, enabling everything from syntax highlighting to complex IDE-like features.",
+            "description": "The scripting language built into Vim for customizing and extending the editor. Vimscript supports variables, functions, lists, dictionaries, and autocommands. It powers Vim's plugin ecosystem, enabling everything from syntax highlighting to complex IDE-like features.\n\nBram Moolenaar created Vimscript alongside Vim in 1991 as an evolution of vi's ex commands. Over decades, it evolved from simple mappings to a full scripting language. Vim 7 (2006) added lists, dictionaries, and other modern features. While Neovim has adopted Lua as an alternative, Vimscript remains the primary language for Vim configuration and many plugins. Vim 9 introduced Vim9 script with improved performance.",
             "authors": [
                 {
                     "name": "Bram Moolenaar"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "Bram Moolenaar created Vimscript alongside Vim in 1991 as an evolution of vi's ex commands. Over decades, it evolved from simple mappings to a full scripting language. Vim 7 (2006) added lists, dictionaries, and other modern features. While Neovim has adopted Lua as an alternative, Vimscript remains the primary language for Vim configuration and many plugins. Vim 9 introduced Vim9 script with improved performance."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Octave": {
             "creator": "John W. Eaton",
@@ -936,14 +1025,16 @@
             "benefits": "MATLAB-compatible, numerical computing, free software.",
             "related": "MATLAB, Julia, R",
             "website": "https://octave.org/",
-            "description": "A high-level language for numerical computations, providing a command-line interface for solving linear and nonlinear problems, and for performing other numerical experiments. Octave is largely compatible with MATLAB, making it a popular free alternative for scientific computing and engineering.",
+            "description": "A high-level language for numerical computations, providing a command-line interface for solving linear and nonlinear problems, and for performing other numerical experiments. Octave is largely compatible with MATLAB, making it a popular free alternative for scientific computing and engineering.\n\nJohn W. Eaton began developing GNU Octave in 1988 as a companion to a chemical reactor design textbook. The first alpha release came in 1993, with version 1.0 in 1994. Named after Octave Levenspiel, a chemical engineering professor, Octave grew into a full numerical computing environment. It became part of the GNU Project and is widely used in academia and industry as a free MATLAB alternative.",
             "authors": [
                 {
                     "name": "John W. Eaton"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "John W. Eaton began developing GNU Octave in 1988 as a companion to a chemical reactor design textbook. The first alpha release came in 1993, with version 1.0 in 1994. Named after Octave Levenspiel, a chemical engineering professor, Octave grew into a full numerical computing environment. It became part of the GNU Project and is widely used in academia and industry as a free MATLAB alternative."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Dash": {
             "creator": "Herbert Xu",
@@ -952,7 +1043,7 @@
             "benefits": "POSIX-compliant, fast, minimal, scripting.",
             "related": "Bash, Sh, Ash",
             "website": "http://gondor.apana.org.au/~herbert/dash/",
-            "description": "The Debian Almquist Shell—a POSIX-compliant shell that is significantly smaller and faster than bash. Dash is optimized for executing shell scripts quickly and is the default /bin/sh on Debian and Ubuntu systems, where it handles system scripts during boot.",
+            "description": "The Debian Almquist Shell—a POSIX-compliant shell that is significantly smaller and faster than bash. Dash is optimized for executing shell scripts quickly and is the default /bin/sh on Debian and Ubuntu systems, where it handles system scripts during boot.\n\nHerbert Xu ported the NetBSD Almquist shell (ash) to Linux in 1997, creating Dash. The Almquist shell itself was created by Kenneth Almquist as a lightweight Bourne shell replacement. Debian adopted Dash as /bin/sh in 2006 to speed up boot times and script execution. Ubuntu followed in 2006. Dash focuses purely on POSIX compliance and speed, deliberately omitting bash-isms to encourage portable scripts.",
             "authors": [
                 {
                     "name": "Herbert Xu",
@@ -960,7 +1051,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "Herbert Xu ported the NetBSD Almquist shell (ash) to Linux in 1997, creating Dash. The Almquist shell itself was created by Kenneth Almquist as a lightweight Bourne shell replacement. Debian adopted Dash as /bin/sh in 2006 to speed up boot times and script execution. Ubuntu followed in 2006. Dash focuses purely on POSIX compliance and speed, deliberately omitting bash-isms to encourage portable scripts."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Make": {
             "creator": "Stuart Feldman",
@@ -969,14 +1062,16 @@
             "benefits": "Build automation, dependency tracking, portable.",
             "related": "CMake, Ninja, Autotools",
             "website": "https://www.gnu.org/software/make/",
-            "description": "A build automation tool that automatically builds executable programs and libraries from source code by reading files called Makefiles. Make uses dependency graphs to determine which parts of a program need to be recompiled, dramatically reducing build times for large projects.",
+            "description": "A build automation tool that automatically builds executable programs and libraries from source code by reading files called Makefiles. Make uses dependency graphs to determine which parts of a program need to be recompiled, dramatically reducing build times for large projects.\n\nStuart Feldman created Make at Bell Labs in 1976, winning the ACM Software System Award for it in 2003. The original Make was part of Unix Version 7. GNU Make, written by Richard Stallman and Roland McGrath, added powerful extensions. Make's declarative approach to build dependencies influenced countless build systems. Despite modern alternatives like CMake, Ninja, and language-specific tools, Make remains ubiquitous in Unix development.",
             "authors": [
                 {
                     "name": "Stuart Feldman"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "Stuart Feldman created Make at Bell Labs in 1976, winning the ACM Software System Award for it in 2003. The original Make was part of Unix Version 7. GNU Make, written by Richard Stallman and Roland McGrath, added powerful extensions. Make's declarative approach to build dependencies influenced countless build systems. Despite modern alternatives like CMake, Ninja, and language-specific tools, Make remains ubiquitous in Unix development."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Bc": {
             "creator": "Robert Morris, Lorinda Cherry",
@@ -985,7 +1080,7 @@
             "benefits": "Arbitrary precision, calculator language, scripting.",
             "related": "Dc, Awk",
             "website": "https://www.gnu.org/software/bc/",
-            "description": "An arbitrary-precision calculator language with syntax similar to C. Bc (basic calculator) supports variables, functions, and control flow, making it useful for both interactive calculations and scripting. It's a standard Unix utility found on virtually all Unix-like systems.",
+            "description": "An arbitrary-precision calculator language with syntax similar to C. Bc (basic calculator) supports variables, functions, and control flow, making it useful for both interactive calculations and scripting. It's a standard Unix utility found on virtually all Unix-like systems.\n\nRobert Morris and Lorinda Cherry created bc at Bell Labs in 1975 as a front-end to dc (desk calculator). While dc uses reverse Polish notation, bc provides a more familiar infix syntax. Bc was included in Version 6 Unix. POSIX standardized bc, and GNU bc added extensions like the 'read' function. Bc remains the go-to tool for shell scripts needing floating-point or arbitrary-precision math, as most shells only support integer arithmetic.",
             "authors": [
                 {
                     "name": "Robert Morris"
@@ -995,7 +1090,9 @@
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
-            "history": "Robert Morris and Lorinda Cherry created bc at Bell Labs in 1975 as a front-end to dc (desk calculator). While dc uses reverse Polish notation, bc provides a more familiar infix syntax. Bc was included in Version 6 Unix. POSIX standardized bc, and GNU bc added extensions like the 'read' function. Bc remains the go-to tool for shell scripts needing floating-point or arbitrary-precision math, as most shells only support integer arithmetic."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Jupyter": {
             "creator": "Fernando Pérez, Brian Granger",
@@ -1033,7 +1130,10 @@
                     "image": "Languages/Perl/Media/Perl_1768312476946.jpg"
                 }
             ],
-            "lastUpdated": "2026-01-11T20:33:51.940Z"
+            "lastUpdated": "2026-01-11T20:33:51.940Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Tcsh": {
             "creator": "Ken Greer",
@@ -1041,7 +1141,7 @@
             "location": "Carnegie Mellon University, USA",
             "benefits": "C-shell compatible, command-line editing, job control.",
             "website": "https://www.tcsh.org/",
-            "description": "An enhanced version of the Berkeley C shell (csh) featuring programmable command-line completion, command-line editing, history mechanism, and a more user-friendly interactive experience. Tcsh was the default shell on FreeBSD and early macOS versions.",
+            "description": "An enhanced version of the Berkeley C shell (csh) featuring programmable command-line completion, command-line editing, history mechanism, and a more user-friendly interactive experience. Tcsh was the default shell on FreeBSD and early macOS versions.\n\nKen Greer developed tcsh at Carnegie Mellon University in 1981, adding command completion to Bill Joy's original C shell. The name comes from the 'T' in TENEX, an operating system known for its command completion. Paul Placeway later added command-line editing. Tcsh became popular on BSD systems and was the default shell on Mac OS X until Panther (10.3). While largely superseded by bash and zsh for interactive use, tcsh remains available on most Unix systems.",
             "authors": [
                 {
                     "name": "Ken Greer",
@@ -1049,7 +1149,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "Ken Greer developed tcsh at Carnegie Mellon University in 1981, adding command completion to Bill Joy's original C shell. The name comes from the 'T' in TENEX, an operating system known for its command completion. Paul Placeway later added command-line editing. Tcsh became popular on BSD systems and was the default shell on Mac OS X until Panther (10.3). While largely superseded by bash and zsh for interactive use, tcsh remains available on most Unix systems."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Icon": {
             "creator": "Ralph Griswold",
@@ -1064,7 +1166,10 @@
                     "name": "Ralph Griswold"
                 }
             ],
-            "lastUpdated": "2026-01-11T20:33:07.884Z"
+            "lastUpdated": "2026-01-11T20:33:07.884Z",
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Brainfuck": {
             "creator": "Urban Müller",
@@ -1072,7 +1177,7 @@
             "location": "Switzerland",
             "benefits": "Turing complete, minimalist, esoteric, educational.",
             "website": "",
-            "description": "An esoteric programming language consisting of only eight single-character commands: > < + - . , [ ]. Despite this extreme minimalism, Brainfuck is Turing complete. It operates on a tape of memory cells, with a pointer that can move left or right, increment or decrement cells, and loop based on cell values.",
+            "description": "An esoteric programming language consisting of only eight single-character commands: > < + - . , [ ]. Despite this extreme minimalism, Brainfuck is Turing complete. It operates on a tape of memory cells, with a pointer that can move left or right, increment or decrement cells, and loop based on cell values.\n\nUrban Müller created Brainfuck in 1993 with the goal of designing a language with the smallest possible compiler. The original compiler was only 296 bytes. The language was inspired by FALSE, another minimalist language. Brainfuck sparked interest in esoteric programming languages and inspired numerous derivatives like Ook!, Whitespace, and Malbolge. It's often used to teach concepts of Turing machines and low-level computation.",
             "authors": [
                 {
                     "name": "Urban Müller",
@@ -1080,7 +1185,9 @@
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
-            "history": "Urban Müller created Brainfuck in 1993 with the goal of designing a language with the smallest possible compiler. The original compiler was only 296 bytes. The language was inspired by FALSE, another minimalist language. Brainfuck sparked interest in esoteric programming languages and inspired numerous derivatives like Ook!, Whitespace, and Malbolge. It's often used to teach concepts of Turing machines and low-level computation."
+            "history": "",
+            "paradigm": "",
+            "typeSystem": ""
         },
         "Scala": {
             "creator": "Martin Odersky",
@@ -1089,8 +1196,8 @@
             "benefits": "Functional + OOP, JVM, type safety, concurrency (Akka).",
             "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin",
             "website": "",
-            "description": "A strong statically typed general-purpose programming language which supports both object-oriented programming and functional programming. Scala fuses object-oriented and functional programming on the JVM.",
-            "history": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+            "description": "A strong statically typed general-purpose programming language which supports both object-oriented programming and functional programming. Scala fuses object-oriented and functional programming on the JVM.\n\n2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines.",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "authors": [
@@ -1107,8 +1214,8 @@
             "benefits": "Memory safety, concurrency, performance, no GC.",
             "related": "C++, ML, Haskell, Erlang, Swift, C",
             "website": "",
-            "description": "A multi-paradigm, general-purpose programming language designed for safety and performance. It targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors.",
-            "history": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+            "description": "A multi-paradigm, general-purpose programming language designed for safety and performance. It targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors.\n\n2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance.",
+            "history": "",
             "paradigm": "Multi-paradigm, Concurrent, Functional, Imperative, Structured",
             "typeSystem": "Static, Strong, Safe",
             "authors": [
@@ -1126,8 +1233,8 @@
             "benefits": "Java compatibility, scripting, dynamic features, DSLs.",
             "related": "Java, Python, Ruby, Smalltalk",
             "website": "",
-            "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.",
-            "history": "2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+            "description": "A Java-syntax-compatible object-oriented programming language for the Java platform. It is a dynamic language with features similar to Python, Ruby, and Smalltalk, used for build scripts, DSLs and rapid prototyping.\n\n2003. A dynamic JVM language that blends scripting ergonomics with Java interoperability; Groovy is used for build scripts, DSLs and rapid prototyping.",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "authors": [
@@ -1145,8 +1252,8 @@
             "benefits": "Speed of C, ease of Python, great for scientific computing.",
             "related": "MATLAB, Python, R, Lisp, Fortran",
             "website": "",
-            "description": "A high-level, high-performance dynamic programming language for technical computing. It combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
-            "history": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+            "description": "A high-level, high-performance dynamic programming language for technical computing. It combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.\n\n2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages.",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "authors": [
@@ -1175,8 +1282,8 @@
             "benefits": "Safety, performance, modern syntax, Apple ecosystem.",
             "related": "Objective-C, Rust, C#, Python, Ruby",
             "website": "",
-            "description": "A general-purpose, multi-paradigm, compiled programming language developed by Apple. Swift has largely superseded Objective-C for Apple platform development, focusing on safety, performance and developer ergonomics.",
-            "history": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+            "description": "A general-purpose, multi-paradigm, compiled programming language developed by Apple. Swift has largely superseded Objective-C for Apple platform development, focusing on safety, performance and developer ergonomics.\n\n2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development.",
+            "history": "",
             "paradigm": "",
             "typeSystem": "",
             "authors": [
@@ -1185,6 +1292,108 @@
                 }
             ],
             "lastUpdated": "2026-01-12T14:52:22.598Z"
+        },
+        "BASH": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "D": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "EmacsLisp": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Go": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Haskell": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Java": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "JavaScript": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Kotlin": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Lua": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Nim": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "PHP": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "PowerShell": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Python": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "R": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Racket": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "Ruby": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
+        },
+        "TypeScript": {
+            "history": "",
+            "paradigm": "",
+            "typeSystem": "",
+            "description": ""
         }
     }
 }
