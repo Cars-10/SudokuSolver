@@ -11,7 +11,7 @@ SOLVER_BINARY="escript sudoku.erl"  # Multi-word command
 COMPILE_CMD=""  # No compilation needed (escript)
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Erlang escript
 check_toolchain "escript"

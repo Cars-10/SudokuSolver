@@ -11,7 +11,7 @@ SOLVER_BINARY="tclsh Sudoku.tcl"  # Multi-word command
 COMPILE_CMD=""  # No compilation needed
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for tclsh
 check_toolchain "tclsh"

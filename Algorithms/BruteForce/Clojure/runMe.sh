@@ -8,7 +8,7 @@ SOLVER_BINARY="clojure -M Sudoku.clj"
 COMPILE_CMD=""  # No compilation needed for Clojure
 
 # Source common benchmark functions
-source ../common.sh
+source ../../common.sh
 
 # Check if Clojure is available
 check_toolchain clojure

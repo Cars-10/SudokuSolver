@@ -6,7 +6,7 @@ LANGUAGE="Dart"
 SOLVER_BINARY="dart Sudoku.dart"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Dart
 check_toolchain "dart"

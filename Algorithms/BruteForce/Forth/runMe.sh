@@ -5,7 +5,7 @@ LANGUAGE="Forth"
 SOLVER_BINARY="gforth Sudoku.fs"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     # Check if gforth is available

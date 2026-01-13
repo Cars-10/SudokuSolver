@@ -4,7 +4,7 @@
 LANGUAGE="M4"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # m4 wrapper
 cat << 'EOF' > m4_wrapper.sh

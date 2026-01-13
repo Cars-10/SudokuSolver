@@ -5,7 +5,7 @@ LANGUAGE="Dash"
 SOLVER_BINARY="dash Sudoku.dash"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     # Check if dash is available

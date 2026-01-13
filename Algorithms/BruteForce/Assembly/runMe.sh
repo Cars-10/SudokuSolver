@@ -8,7 +8,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions from common.sh
-source ../common.sh
+source ../../common.sh
 
 # Detect architecture
 ARCH=$(uname -m)

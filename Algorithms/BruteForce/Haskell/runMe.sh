@@ -9,7 +9,7 @@ SOLVER_BINARY="./Sudoku"
 METRICS_FILE="metrics.json"
 
 # Source common benchmark library
-source ../common.sh
+source ../../common.sh
 
 # Check if GHC is available
 check_toolchain "ghc"

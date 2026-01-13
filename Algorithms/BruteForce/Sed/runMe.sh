@@ -4,7 +4,7 @@
 LANGUAGE="Sed"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # Wrapper script to handle input cleaning and output formatting
 cat << 'EOF' > sed_wrapper.sh

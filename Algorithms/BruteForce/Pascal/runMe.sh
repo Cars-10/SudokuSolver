@@ -11,7 +11,7 @@ SOLVER_BINARY="./sudoku"
 COMPILE_CMD="fpc -O2 sudoku.pas"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Free Pascal compiler
 check_toolchain "fpc"

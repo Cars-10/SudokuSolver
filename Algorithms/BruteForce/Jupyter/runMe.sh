@@ -8,7 +8,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # jupyter wrapper
 cat << 'EOF' > jupyter_wrapper.sh

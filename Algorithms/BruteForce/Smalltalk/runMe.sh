@@ -13,7 +13,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     check_toolchain gst

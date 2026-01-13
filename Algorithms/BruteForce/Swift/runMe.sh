@@ -5,7 +5,7 @@ LANGUAGE="Swift"
 SOLVER_BINARY="./Sudoku"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     # Check if swiftc is available

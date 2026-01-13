@@ -3,7 +3,7 @@
 # Uses common.sh for standardized metrics collection
 
 LANGUAGE="V"
-source ../common.sh
+source ../../common.sh
 
 # Check V compiler
 check_toolchain v

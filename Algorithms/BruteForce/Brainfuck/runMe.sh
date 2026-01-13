@@ -17,7 +17,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300  # 5 minutes
 
 # Source shared functions from common.sh
-source ../common.sh
+source ../../common.sh
 
 # ============================================================================
 # COMPILATION

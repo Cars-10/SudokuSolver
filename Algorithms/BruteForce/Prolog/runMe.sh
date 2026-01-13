@@ -11,7 +11,7 @@ SOLVER_BINARY="swipl -q -s sudoku.pl --"  # Multi-word command
 COMPILE_CMD=""  # No compilation needed
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for SWI-Prolog
 check_toolchain "swipl"

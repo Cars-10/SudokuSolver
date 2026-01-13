@@ -11,7 +11,7 @@ SOLVER_BINARY="guile sudoku.scm"  # Multi-word command
 COMPILE_CMD=""  # No compilation needed
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Guile
 check_toolchain "guile"

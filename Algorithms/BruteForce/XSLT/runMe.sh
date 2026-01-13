@@ -9,7 +9,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # Create dummy XML if not exists
 echo "<dummy/>" > dummy.xml

@@ -8,7 +8,7 @@ COMPILE_CMD="zig build-exe Sudoku.zig -O ReleaseFast"
 SOLVER_BINARY="./Sudoku"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Zig compiler
 check_toolchain "zig"

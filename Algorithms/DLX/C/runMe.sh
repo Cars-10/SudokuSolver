@@ -12,8 +12,8 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions from common.sh
-# Path is relative to this script: Algorithms/DLX/C/ -> ../../../Languages/common.sh
-source ../../../Languages/common.sh
+# Path is relative to this script: Algorithms/DLX/C/ -> ../../common.sh
+source ../../common.sh
 
 # ============================================================================
 # COMPILATION
