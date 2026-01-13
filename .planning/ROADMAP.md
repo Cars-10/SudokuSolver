@@ -16,7 +16,7 @@ None
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Metadata Enrichment** - Enrich metadata.json with descriptions, categories, and history.
+- [x] **Phase 1: Metadata Enrichment** - Enrich metadata.json with descriptions, categories, and history.
 - [ ] **Phase 2: Algorithm - Dancing Links** - Implement DLX framework and reference solver.
 - [ ] **Phase 3: Algorithm - Constraint Propagation** - Implement CP framework and reference solver.
 
@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Goal**: Update `metadata.json` to include descriptions, categorization, and history tracking for all 15+ languages.
 **Depends on**: Nothing (first phase)
 **Research**: Unlikely (JSON schema update and data entry)
-**Plans**: TBD
+**Plans**: 1 (Complete)
 
 ### Phase 2: Algorithm - Dancing Links
 **Goal**: Establish `Algorithms/DLX` structure and implement the reference C solver using Algorithm X.
@@ -49,6 +49,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Metadata Enrichment | 0/TBD | Not started | - |
+| 1. Metadata Enrichment | 1/1 | Done | 2026-01-13 |
 | 2. Algorithm - Dancing Links | 0/TBD | Not started | - |
 | 3. Algorithm - Constraint Propagation | 0/TBD | Not started | - |
