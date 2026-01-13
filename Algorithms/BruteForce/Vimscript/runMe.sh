@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Vimscript/runMe.sh
+# Algorithms/BruteForce/Vimscript/runMe.sh
 
 cd "$(dirname "$0")"
 

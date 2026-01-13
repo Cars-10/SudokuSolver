@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Dash/runMe.sh
+# Algorithms/BruteForce/Dash/runMe.sh
 
 LANGUAGE="Dash"
 SOLVER_BINARY="dash Sudoku.dash"

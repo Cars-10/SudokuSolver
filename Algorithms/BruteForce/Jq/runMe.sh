@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Jq/runMe.sh
+# Algorithms/BruteForce/Jq/runMe.sh
 
 LANGUAGE="Jq"
 

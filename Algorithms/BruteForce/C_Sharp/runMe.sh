@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/C_Sharp/runMe.sh - C# Sudoku solver benchmark script
+# Algorithms/BruteForce/C_Sharp/runMe.sh - C# Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

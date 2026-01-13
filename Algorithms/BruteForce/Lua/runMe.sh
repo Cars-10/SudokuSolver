@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Lua/runMe.sh - Lua Sudoku solver benchmark script
+# Algorithms/BruteForce/Lua/runMe.sh - Lua Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

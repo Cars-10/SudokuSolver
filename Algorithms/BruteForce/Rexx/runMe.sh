@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Rexx/runMe.sh
+# Algorithms/BruteForce/Rexx/runMe.sh
 # Rexx (Regina) Sudoku Solver Runner
 #
 # Rexx is an IBM scripting language from 1979, known for human-readable syntax.

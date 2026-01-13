@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Octave/runMe.sh - Octave Sudoku solver benchmark script
+# Algorithms/BruteForce/Octave/runMe.sh - Octave Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Tcsh/runMe.sh - Tcsh Sudoku solver benchmark script
+# Algorithms/BruteForce/Tcsh/runMe.sh - Tcsh Sudoku solver benchmark script
 
 cd "$(dirname "$0")"
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Rust/runMe.sh - Rust Sudoku solver benchmark script
+# Algorithms/BruteForce/Rust/runMe.sh - Rust Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

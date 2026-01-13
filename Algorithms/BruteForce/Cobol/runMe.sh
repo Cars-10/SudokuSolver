@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Cobol/runMe.sh
+# Algorithms/BruteForce/Cobol/runMe.sh
 
 LANGUAGE="Cobol"
 SOLVER_BINARY="./Sudoku"

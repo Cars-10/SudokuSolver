@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Kotlin/runMe.sh - Kotlin Sudoku solver benchmark script
+# Algorithms/BruteForce/Kotlin/runMe.sh - Kotlin Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

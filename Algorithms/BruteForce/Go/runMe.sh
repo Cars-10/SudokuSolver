@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Go/runMe.sh - Go Sudoku solver benchmark script
+# Algorithms/BruteForce/Go/runMe.sh - Go Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

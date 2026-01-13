@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Dc/runMe.sh
+# Algorithms/BruteForce/Dc/runMe.sh
 
 LANGUAGE="Dc"
 

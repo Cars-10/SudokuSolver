@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Fennel/runMe.sh - Fennel Sudoku solver benchmark script
+# Algorithms/BruteForce/Fennel/runMe.sh - Fennel Sudoku solver benchmark script
 
 LANGUAGE="Fennel"
 SOLVER_BINARY="fennel Sudoku.fnl"

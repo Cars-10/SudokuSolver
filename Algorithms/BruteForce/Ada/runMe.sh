@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Ada/runMe.sh - Ada Sudoku solver benchmark script
+# Algorithms/BruteForce/Ada/runMe.sh - Ada Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

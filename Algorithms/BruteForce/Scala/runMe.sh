@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Scala/runMe.sh
+# Algorithms/BruteForce/Scala/runMe.sh
 
 cd "$(dirname "$0")"
 

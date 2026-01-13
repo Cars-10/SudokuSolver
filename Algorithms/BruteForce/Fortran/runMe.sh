@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Fortran/runMe.sh - Fortran Sudoku solver benchmark script
+# Algorithms/BruteForce/Fortran/runMe.sh - Fortran Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

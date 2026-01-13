@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Red/runMe.sh
+# Algorithms/BruteForce/Red/runMe.sh
 
 cd "$(dirname "$0")"
 

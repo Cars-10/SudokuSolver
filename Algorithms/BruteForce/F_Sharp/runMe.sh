@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/F_Sharp/runMe.sh - F# Sudoku solver benchmark script
+# Algorithms/BruteForce/F_Sharp/runMe.sh - F# Sudoku solver benchmark script
 
 cd "$(dirname "$0")"
 

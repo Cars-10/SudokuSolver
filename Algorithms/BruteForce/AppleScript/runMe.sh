@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/AppleScript/runMe.sh
+# Algorithms/BruteForce/AppleScript/runMe.sh
 
 LANGUAGE="AppleScript"
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/PostScript/runMe.sh
+# Algorithms/BruteForce/PostScript/runMe.sh
 
 LANGUAGE="PostScript"
 

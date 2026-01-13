@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Smalltalk/runMe.sh
+# Algorithms/BruteForce/Smalltalk/runMe.sh
 
 cd "$(dirname "$0")"
 

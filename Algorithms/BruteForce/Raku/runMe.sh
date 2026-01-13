@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Raku/runMe.sh - Raku Sudoku solver benchmark script
+# Algorithms/BruteForce/Raku/runMe.sh - Raku Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

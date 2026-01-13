@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Fish/runMe.sh
+# Algorithms/BruteForce/Fish/runMe.sh
 
 cd "$(dirname "$0")"
 

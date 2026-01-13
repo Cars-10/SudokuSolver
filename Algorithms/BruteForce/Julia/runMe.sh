@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Julia/runMe.sh - Julia Sudoku solver benchmark script
+# Algorithms/BruteForce/Julia/runMe.sh - Julia Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

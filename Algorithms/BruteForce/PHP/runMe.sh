@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/PHP/runMe.sh - PHP Sudoku solver benchmark script
+# Algorithms/BruteForce/PHP/runMe.sh - PHP Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

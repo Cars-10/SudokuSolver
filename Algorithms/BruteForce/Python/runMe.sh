@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Python/runMe.sh - Python Sudoku solver benchmark script
+# Algorithms/BruteForce/Python/runMe.sh - Python Sudoku solver benchmark script
 # Uses modular common.sh pattern
 
 cd "$(dirname "$0")"

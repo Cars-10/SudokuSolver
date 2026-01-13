@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Verilog/runMe.sh
+# Algorithms/BruteForce/Verilog/runMe.sh
 
 cd "$(dirname "$0")"
 

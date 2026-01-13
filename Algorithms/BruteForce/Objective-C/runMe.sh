@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/Objective-C/runMe.sh
+# Algorithms/BruteForce/Objective-C/runMe.sh
 
 cd "$(dirname "$0")"
 
