@@ -42,10 +42,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Goal**: Update all BruteForce runMe.sh scripts for new directory structure and fix modal paths
 **Depends on**: Phase 3 (v1.1 complete)
 **Research**: Unlikely (internal patterns, path updates)
-**Plans**: TBD
+**Plans**: 1/1 complete
 
 Plans:
-- [ ] 04-01: TBD (run /gsd:plan-phase 4 to break down)
+- [x] 04-01: Update BruteForce runMe.sh header comments (completed 2026-01-13)
 
 #### Phase 5: Algorithm Selector UI
 
@@ -77,6 +77,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 1. Metadata Enrichment | v1.1 | 1/1 | Complete | 2026-01-13 |
 | 2. Algorithm - Dancing Links | v1.1 | 3/3 | Complete | 2026-01-13 |
 | 3. Algorithm - Constraint Propagation | v1.1 | 2/2 | Complete | 2026-01-13 |
-| 4. Infrastructure Fixes | v1.2 | 0/? | Not started | - |
+| 4. Infrastructure Fixes | v1.2 | 1/1 | Complete | 2026-01-13 |
 | 5. Algorithm Selector UI | v1.2 | 0/? | Not started | - |
 | 6. Core Performance Charts | v1.2 | 0/? | Not started | - |
