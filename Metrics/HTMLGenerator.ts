@@ -1610,8 +1610,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     ${clientScript ? `<script>\n${clientScript}\n</script>` : '<script src="./Metrics/report_client.js"></script>'}
 
     <script>
+    // Track current algorithm filter state
+    window.currentAlgorithm = 'BruteForce';
+
     // Algorithm filtering function
     window.filterByAlgorithm = function(algorithmType) {
+        window.currentAlgorithm = algorithmType;
+
         const rows = document.querySelectorAll('#mainTableBody tr');
 
         rows.forEach(row => {
@@ -1640,6 +1645,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         dropdownLinks.forEach(link => {
             link.classList.remove('active');
         });
+
+        // Refresh chart if language performance chart is active
+        if (typeof window.currentChart !== 'undefined' && window.currentChart === 'language') {
+            window.switchChart('language');
+        }
     };
 
     // Initialize on load - default to BruteForce

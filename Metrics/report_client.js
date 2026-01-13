@@ -2992,6 +2992,226 @@ initializeStatus();
             });
         } // End of drawAlgorithmComparisonChart
 
+        function drawLanguagePerformanceChart() {
+            const container = d3.select("#d3-chart-container");
+            const width = document.getElementById('d3-chart-container').clientWidth;
+            const height = document.getElementById('d3-chart-container').clientHeight;
+            const margin = { top: 80, right: 120, bottom: 60, left: 180 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            // Get current algorithm filter (default to BruteForce if not set)
+            const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+            const algoLabel = {
+                'BruteForce': 'Brute Force',
+                'DLX': 'Dancing Links',
+                'CP': 'Constraint Propagation',
+                'all': 'All Algorithms'
+            }[selectedAlgo] || 'BruteForce';
+
+            // Filter data by algorithm type
+            const filtered = metricsData.filter(d => {
+                const algoType = d.algorithmType || 'BruteForce';
+                if (selectedAlgo === 'all') return true;
+                return algoType === selectedAlgo;
+            });
+
+            if (filtered.length === 0) {
+                container.html("<div style='color:#ff4444; padding:40px; text-align:center; font-family:monospace;'><h3>No data for selected algorithm</h3></div>");
+                return;
+            }
+
+            // Calculate average time for each language
+            const langStats = filtered.map(lang => {
+                const times = lang.results.map(r => r.time);
+                const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+                return {
+                    solver: lang.solver,
+                    avgTime: avgTime,
+                    matrixCount: lang.results.length,
+                    algorithmType: lang.algorithmType || 'BruteForce'
+                };
+            });
+
+            // Sort by performance (fastest first) and take top 15
+            langStats.sort((a, b) => a.avgTime - b.avgTime);
+            const topLanguages = langStats.slice(0, 15);
+
+            // Get C baseline for current algorithm
+            const cEntry = filtered.find(d => d.solver === 'C');
+            const cBaseline = cEntry ? cEntry.results.reduce((a, b) => a + b.time, 0) / cEntry.results.length : null;
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Title
+            g.append("text")
+                .attr("x", chartWidth / 2)
+                .attr("y", -40)
+                .attr("text-anchor", "middle")
+                .style("font-size", "24px")
+                .style("font-weight", "bold")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .text(`Top Languages - ${algoLabel}`);
+
+            // X scale - log scale for time
+            const xMin = Math.max(0.001, d3.min(topLanguages, d => d.avgTime) * 0.5);
+            const xMax = d3.max(topLanguages, d => d.avgTime) * 1.2;
+
+            const x = d3.scaleLog()
+                .domain([xMin, xMax])
+                .range([0, chartWidth])
+                .nice();
+
+            // Y scale - languages
+            const y = d3.scaleBand()
+                .domain(topLanguages.map(d => d.solver))
+                .range([0, chartHeight])
+                .padding(0.2);
+
+            // Color scale - gradient from green (fast) to red (slow)
+            const colorScale = d3.scaleSequential()
+                .domain([0, topLanguages.length - 1])
+                .interpolator(t => d3.interpolateRgb("#00ff9d", "#ff4444")(t));
+
+            // Draw C baseline reference line
+            if (cBaseline) {
+                g.append("line")
+                    .attr("x1", x(cBaseline))
+                    .attr("x2", x(cBaseline))
+                    .attr("y1", 0)
+                    .attr("y2", chartHeight)
+                    .attr("stroke", "#00ff9d")
+                    .attr("stroke-width", 2)
+                    .attr("stroke-dasharray", "4,4")
+                    .attr("opacity", 0.6);
+
+                g.append("text")
+                    .attr("x", x(cBaseline))
+                    .attr("y", -10)
+                    .attr("text-anchor", "middle")
+                    .style("fill", "#00ff9d")
+                    .style("font-family", "monospace")
+                    .style("font-size", "11px")
+                    .text(`C Baseline: ${cBaseline.toFixed(3)}s`);
+            }
+
+            // Draw bars
+            const bars = g.selectAll(".lang-bar")
+                .data(topLanguages)
+                .enter().append("g")
+                .attr("class", "lang-bar");
+
+            bars.append("rect")
+                .attr("x", 0)
+                .attr("y", d => y(d.solver))
+                .attr("width", d => x(d.avgTime))
+                .attr("height", y.bandwidth())
+                .attr("fill", (d, i) => colorScale(i))
+                .attr("opacity", 0.8)
+                .on("mouseover", function(event, d) {
+                    d3.select(this).attr("opacity", 1);
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("opacity", 0.8);
+                });
+
+            // Add delta % labels on bars
+            bars.append("text")
+                .attr("x", d => x(d.avgTime) + 5)
+                .attr("y", d => y(d.solver) + y.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .style("fill", "#fff")
+                .style("font-family", "monospace")
+                .style("font-size", "11px")
+                .text(d => {
+                    if (cBaseline && d.avgTime > 0) {
+                        const delta = ((d.avgTime / cBaseline - 1) * 100).toFixed(0);
+                        return delta >= 0 ? `+${delta}%` : `${delta}%`;
+                    }
+                    return `${d.avgTime.toFixed(3)}s`;
+                });
+
+            // Y axis - language names
+            g.append("g")
+                .call(d3.axisLeft(y))
+                .selectAll("text")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .style("font-size", "13px")
+                .style("font-weight", "bold");
+
+            // X axis
+            g.append("g")
+                .attr("transform", `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x).ticks(5, ".3f"))
+                .selectAll("text")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace");
+
+            // X axis label
+            g.append("text")
+                .attr("x", chartWidth / 2)
+                .attr("y", chartHeight + 45)
+                .attr("text-anchor", "middle")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "12px")
+                .text("Average Time (seconds, log scale)");
+
+            // Legend
+            const legend = g.append("g")
+                .attr("transform", `translate(${chartWidth + 10}, 20)`);
+
+            legend.append("text")
+                .attr("x", 0)
+                .attr("y", 0)
+                .style("fill", "#fff")
+                .style("font-family", "monospace")
+                .style("font-size", "11px")
+                .style("font-weight", "bold")
+                .text("Performance");
+
+            // Color gradient legend
+            const gradientLegend = legend.append("g")
+                .attr("transform", "translate(0, 15)");
+
+            const gradientHeight = 100;
+            const gradientStops = 10;
+
+            for (let i = 0; i < gradientStops; i++) {
+                gradientLegend.append("rect")
+                    .attr("x", 0)
+                    .attr("y", i * (gradientHeight / gradientStops))
+                    .attr("width", 15)
+                    .attr("height", gradientHeight / gradientStops)
+                    .attr("fill", colorScale(i * (topLanguages.length - 1) / (gradientStops - 1)));
+            }
+
+            gradientLegend.append("text")
+                .attr("x", 20)
+                .attr("y", 0)
+                .attr("dy", "0.7em")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .style("font-size", "10px")
+                .text("Fast");
+
+            gradientLegend.append("text")
+                .attr("x", 20)
+                .attr("y", gradientHeight)
+                .attr("dy", "-0.3em")
+                .style("fill", "#ff4444")
+                .style("font-family", "monospace")
+                .style("font-size", "10px")
+                .text("Slow");
+        } // End of drawLanguagePerformanceChart
+
         // Initial Draw
         if (typeof d3 !== 'undefined') {
             drawLineChart();
