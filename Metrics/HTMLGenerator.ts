@@ -196,39 +196,52 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         return timeA - timeB;
     });
 
-    // Find C baseline
-    const cMetrics = metrics.find(m => m.solver === 'C');
+    // Find C baselines for each algorithm type
+    const cMetricsByAlgorithm = new Map<string, SolverMetrics>();
+    metrics.forEach(m => {
+        if (m.solver === 'C' && m.algorithmType) {
+            cMetricsByAlgorithm.set(m.algorithmType, m);
+        }
+    });
+
+    // Fallback: if no algorithmType is set, use BruteForce as default C baseline
+    const cMetrics = cMetricsByAlgorithm.get('BruteForce') || metrics.find(m => m.solver === 'C');
     const cTimes = cMetrics ? cMetrics.results.map(r => r.time) : [];
     const cTotalIters = cMetrics ? cMetrics.results.reduce((a, b) => a + b.iterations, 0) : 0;
 
 
-    // C Baselines for Composite Score
+    // C Baselines for Composite Score (BruteForce baseline)
     const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
     const cTotalMem = cMetrics ? Math.max(...cMetrics.results.map(r => r.memory)) : 1; // Max RSS
     const cTotalCpu = cMetrics ? cMetrics.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0) : 1;
 
     // Calculate mismatch count
-    // Calculate mismatch count (Per-matrix logic, verified against C)
+    // Calculate mismatch count (Per-matrix logic, verified against algorithm-specific C baseline)
     let mismatchCount = 0;
-    if (cMetrics) {
-        // Create map for C
+
+    mismatchCount = metrics.filter(m => {
+        if (m.solver === 'C') return false;
+
+        // Get the C baseline for this algorithm type
+        const algoType = m.algorithmType || 'BruteForce';
+        const cBaselineForAlgo = cMetricsByAlgorithm.get(algoType) || cMetrics;
+
+        if (!cBaselineForAlgo) return false;
+
+        // Create map for C baseline
         const cMap = new Map<string, number>();
-        cMetrics.results.forEach(r => cMap.set(normalizeMatrix(r.matrix), r.iterations));
+        cBaselineForAlgo.results.forEach(r => cMap.set(normalizeMatrix(r.matrix), r.iterations));
 
-        mismatchCount = metrics.filter(m => {
-            if (m.solver === 'C') return false;
-
-            // Check each result for this solver
-            for (const r of m.results) {
-                const expected = cMap.get(normalizeMatrix(r.matrix));
-                // Only count as mismatch if we have a baseline and they differ
-                if (expected !== undefined && r.iterations !== expected) {
-                    return true;
-                }
+        // Check each result for this solver
+        for (const r of m.results) {
+            const expected = cMap.get(normalizeMatrix(r.matrix));
+            // Only count as mismatch if we have a baseline and they differ
+            if (expected !== undefined && r.iterations !== expected) {
+                return true;
             }
-            return false;
-        }).length;
-    }
+        }
+        return false;
+    }).length;
 
     const diagnostics: any = {
         env_error: { count: 0, languages: [] },
@@ -1228,12 +1241,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
         // Calculate C baseline only for matrices this language ran
+        // Use algorithm-specific C baseline for comparison
+        const algorithmType = m.algorithmType || 'BruteForce';
+        const cBaselineForAlgo = cMetricsByAlgorithm.get(algorithmType) || cMetrics;
+
         let cMatchedTime = 0;
         let cMatchedMem = 0;
         let cMatchedCpu = 0;
-        if (cMetrics) {
+        if (cBaselineForAlgo) {
             m.results.forEach(r => {
-                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                const cRes = cBaselineForAlgo.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
                 if (cRes) {
                     cMatchedTime += cRes.time;
                     cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
@@ -1514,12 +1531,16 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const totalCpu = m.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0);
 
         // Calculate C baseline only for matrices this language ran
+        // Use algorithm-specific C baseline for comparison
+        const algorithmType = m.algorithmType || 'BruteForce';
+        const cBaselineForAlgo = cMetricsByAlgorithm.get(algorithmType) || cMetrics;
+
         let cMatchedTime = 0;
         let cMatchedMem = 0;
         let cMatchedCpu = 0;
-        if (cMetrics) {
+        if (cBaselineForAlgo) {
             m.results.forEach(r => {
-                const cRes = cMetrics.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
+                const cRes = cBaselineForAlgo.results.find(cr => normalizeMatrix(cr.matrix) === normalizeMatrix(r.matrix));
                 if (cRes) {
                     cMatchedTime += cRes.time;
                     cMatchedMem = Math.max(cMatchedMem, cRes.memory || 0);
