@@ -1,5 +1,5 @@
 #!/bin/bash
-# Algorithms/DLX/C/runMe.sh - C DLX Sudoku solver build script
+# Algorithms/DLX/C/runMe.sh - C DLX Sudoku solver build and benchmark script
 
 cd "$(dirname "$0")"
 
@@ -40,5 +40,5 @@ compile() {
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
-# For now, just compile as per plan
-compile
+# Call main function from common.sh, which handles compilation and benchmarking
+main "$@"
