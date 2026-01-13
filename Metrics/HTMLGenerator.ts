@@ -1127,12 +1127,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <!-- Populated by JS -->
                 </div>
             </div>
-            <select id="algorithmSelector" class="btn active" onchange="filterByAlgorithm(this.value)" style="cursor: pointer;">
-                <option value="all">All Algorithms</option>
-                <option value="BruteForce" selected>Brute Force</option>
-                <option value="DLX">Dancing Links</option>
-                <option value="CP">Constraint Propagation</option>
-            </select>
+            <div class="dropdown">
+                <button class="btn" id="algorithmSelectorBtn">ALGORITHM ▾</button>
+                <div class="dropdown-content">
+                    <a onclick="filterByAlgorithm('all')">All Algorithms</a>
+                    <a onclick="filterByAlgorithm('BruteForce')" class="active">Brute Force</a>
+                    <a onclick="filterByAlgorithm('DLX')">Dancing Links</a>
+                    <a onclick="filterByAlgorithm('CP')">Constraint Propagation</a>
+                </div>
+            </div>
 
             <!-- Search Removed -->
         </div>
@@ -1588,6 +1591,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             } else {
                 row.style.display = 'none';
             }
+        });
+
+        // Update button label
+        const btn = document.getElementById('algorithmSelectorBtn');
+        const labels = {
+            'all': 'ALL ALGORITHMS',
+            'BruteForce': 'BRUTE FORCE',
+            'DLX': 'DANCING LINKS',
+            'CP': 'CONSTRAINT PROPAGATION'
+        };
+        if (btn) {
+            btn.textContent = (labels[algorithmType] || 'ALGORITHM') + ' ▾';
+        }
+
+        // Update active state in dropdown
+        const dropdownLinks = document.querySelectorAll('#algorithmSelectorBtn + .dropdown-content a');
+        dropdownLinks.forEach(link => {
+            link.classList.remove('active');
         });
     };
 
