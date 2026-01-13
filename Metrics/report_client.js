@@ -3053,7 +3053,19 @@ initializeStatus();
             langStats.sort((a, b) => a.avgTime - b.avgTime);
             const topLanguages = langStats.slice(0, 15);
 
-            // Get C baseline for current algorithm
+            // Get C baselines for each algorithm type
+            const cBaselinesByAlgo = {};
+            ['BruteForce', 'DLX', 'CP'].forEach(algo => {
+                const cEntry = metricsData.find(d => {
+                    const algoType = d.algorithmType || 'BruteForce';
+                    return d.solver === 'C' && algoType === algo;
+                });
+                if (cEntry) {
+                    cBaselinesByAlgo[algo] = cEntry.results.reduce((a, b) => a + b.time, 0) / cEntry.results.length;
+                }
+            });
+
+            // For single algorithm mode, use the specific C baseline (backward compat)
             const cEntry = filtered.find(d => d.solver === 'C');
             const cBaseline = cEntry ? cEntry.results.reduce((a, b) => a + b.time, 0) / cEntry.results.length : null;
 
@@ -3095,8 +3107,42 @@ initializeStatus();
                 .domain([0, topLanguages.length - 1])
                 .interpolator(t => d3.interpolateRgb("#00ff9d", "#ff4444")(t));
 
-            // Draw C baseline reference line
-            if (cBaseline) {
+            // Draw C baseline reference line(s)
+            if (selectedAlgo === 'all') {
+                // In "All Algorithms" mode, show multiple C baselines
+                const baselineColors = {
+                    'BruteForce': '#00ff9d',
+                    'DLX': '#7aa2f7',
+                    'CP': '#bb9af7'
+                };
+                const baselineLabels = {
+                    'BruteForce': 'BF/C',
+                    'DLX': 'DLX/C',
+                    'CP': 'CP/C'
+                };
+
+                Object.entries(cBaselinesByAlgo).forEach(([algo, baseline]) => {
+                    g.append("line")
+                        .attr("x1", x(baseline))
+                        .attr("x2", x(baseline))
+                        .attr("y1", 0)
+                        .attr("y2", chartHeight)
+                        .attr("stroke", baselineColors[algo])
+                        .attr("stroke-width", 2)
+                        .attr("stroke-dasharray", "4,4")
+                        .attr("opacity", 0.4);
+
+                    g.append("text")
+                        .attr("x", x(baseline))
+                        .attr("y", -10)
+                        .attr("text-anchor", "middle")
+                        .style("fill", baselineColors[algo])
+                        .style("font-family", "monospace")
+                        .style("font-size", "10px")
+                        .text(`${baselineLabels[algo]}: ${baseline.toFixed(3)}s`);
+                });
+            } else if (cBaseline) {
+                // Single algorithm mode - show one C baseline
                 g.append("line")
                     .attr("x1", x(cBaseline))
                     .attr("x2", x(cBaseline))
@@ -3146,8 +3192,17 @@ initializeStatus();
                 .style("font-family", "monospace")
                 .style("font-size", "11px")
                 .text(d => {
-                    if (cBaseline && d.avgTime > 0) {
-                        const delta = ((d.avgTime / cBaseline - 1) * 100).toFixed(0);
+                    // In "All Algorithms" mode, use algorithm-specific C baseline
+                    let baseline;
+                    if (selectedAlgo === 'all') {
+                        const langAlgo = d.algorithmType || 'BruteForce';
+                        baseline = cBaselinesByAlgo[langAlgo];
+                    } else {
+                        baseline = cBaseline;
+                    }
+
+                    if (baseline && d.avgTime > 0) {
+                        const delta = ((d.avgTime / baseline - 1) * 100).toFixed(0);
                         return delta >= 0 ? `+${delta}%` : `${delta}%`;
                     }
                     return `${d.avgTime.toFixed(3)}s`;
