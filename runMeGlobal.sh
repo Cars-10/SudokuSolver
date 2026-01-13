@@ -1,16 +1,18 @@
 #!/bin/bash
 # runMeGlobal.sh
-# Usage: ./runMeGlobal.sh [Language] [MatrixSpec]
+# Usage: ./runMeGlobal.sh [Language] [MatrixSpec] [Algorithm]
 # Example: ./runMeGlobal.sh C "1,1-3"
 # Example: ./runMeGlobal.sh Python "all"
+# Example: ./runMeGlobal.sh C "1" DLX
 
 cd "$(dirname "$0")"
 
 LANGUAGE=$1
 MATRIX_SPEC=$2
+ALGORITHM=${3:-BruteForce} # Default to BruteForce if not provided
 
 if [ -z "$LANGUAGE" ] || [ -z "$MATRIX_SPEC" ]; then
-    echo "Usage: $0 [Language] [MatrixSpec]"
+    echo "Usage: $0 [Language] [MatrixSpec] [Algorithm (optional, default: BruteForce)]"
     exit 1
 fi
 
@@ -39,7 +41,7 @@ else
 fi
 
 # Check if language directory exists
-LANG_DIR="Languages/$LANGUAGE"
+LANG_DIR="Algorithms/$ALGORITHM/$LANGUAGE"
 if [ ! -d "$LANG_DIR" ]; then
     echo "Error: Language directory '$LANG_DIR' not found."
     exit 1
