@@ -3041,11 +3041,16 @@ initializeStatus();
             const langStats = filtered.map(lang => {
                 const times = lang.results.map(r => r.time);
                 const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+                const algoType = lang.algorithmType || 'BruteForce';
                 return {
                     solver: lang.solver,
+                    // In "All Algorithms" mode, use composite key to differentiate variants
+                    displayName: selectedAlgo === 'all' && algoType !== 'BruteForce'
+                        ? `${lang.solver} (${algoType})`
+                        : lang.solver,
                     avgTime: avgTime,
                     matrixCount: lang.results.length,
-                    algorithmType: lang.algorithmType || 'BruteForce'
+                    algorithmType: algoType
                 };
             });
 
@@ -3098,7 +3103,7 @@ initializeStatus();
 
             // Y scale - languages
             const y = d3.scaleBand()
-                .domain(topLanguages.map(d => d.solver))
+                .domain(topLanguages.map(d => d.displayName))
                 .range([0, chartHeight])
                 .padding(0.2);
 
@@ -3171,7 +3176,7 @@ initializeStatus();
 
             bars.append("rect")
                 .attr("x", 0)
-                .attr("y", d => y(d.solver))
+                .attr("y", d => y(d.displayName))
                 .attr("width", d => x(d.avgTime))
                 .attr("height", y.bandwidth())
                 .attr("fill", (d, i) => colorScale(i))
@@ -3186,7 +3191,7 @@ initializeStatus();
             // Add delta % labels on bars
             bars.append("text")
                 .attr("x", d => x(d.avgTime) + 5)
-                .attr("y", d => y(d.solver) + y.bandwidth() / 2)
+                .attr("y", d => y(d.displayName) + y.bandwidth() / 2)
                 .attr("dy", "0.35em")
                 .style("fill", "#fff")
                 .style("font-family", "monospace")
@@ -3218,60 +3223,48 @@ initializeStatus();
                 .style("font-size", "13px")
                 .style("font-weight", "bold");
 
-            // Add algorithm badges when in "All Algorithms" mode
+            // Add algorithm type coloring to Y-axis labels when in "All Algorithms" mode
             if (selectedAlgo === 'all') {
-                const langMap = new Map(topLanguages.map(d => [d.solver, d]));
+                const langMap = new Map(topLanguages.map(d => [d.displayName, d]));
 
-                yAxis.selectAll("text").each(function(langName) {
-                    const langData = langMap.get(langName);
+                yAxis.selectAll("text").each(function(displayName) {
+                    const langData = langMap.get(displayName);
                     if (!langData) return;
 
                     const algoType = langData.algorithmType || 'BruteForce';
-                    if (algoType === 'BruteForce') return; // No badge for default algorithm
 
-                    const textElement = d3.select(this);
-                    const textBBox = this.getBBox();
-                    // Position badge to the left of the axis tick mark (at x=0)
-                    // Badge should appear between language name and tick: [Name] [Badge]—
-                    const badgeX = textBBox.x + textBBox.width - 18; // Badge left of axis line
-                    const badgeY = textBBox.y + textBBox.height / 2;
-
-                    // Badge configuration
-                    const badges = {
-                        'DLX': { text: 'DLX', color: '#7aa2f7', bg: 'rgba(122, 162, 247, 0.2)' },
-                        'CP': { text: 'CP', color: '#bb9af7', bg: 'rgba(187, 154, 247, 0.2)' }
+                    // Color the algorithm type suffix in the label
+                    const algoColors = {
+                        'DLX': '#7aa2f7',
+                        'CP': '#bb9af7'
                     };
 
-                    const badge = badges[algoType];
-                    if (!badge) return;
+                    if (algoColors[algoType]) {
+                        // Change color of the "(DLX)" or "(CP)" suffix
+                        const textEl = d3.select(this);
+                        const fullText = textEl.text();
+                        const match = fullText.match(/^(.+?)(\s*\((DLX|CP)\))$/);
 
-                    // Create badge group
-                    const parent = d3.select(this.parentNode);
-                    const badgeGroup = parent.append("g")
-                        .attr("transform", `translate(${badgeX}, ${badgeY})`);
+                        if (match) {
+                            const baseName = match[1];
+                            const suffix = match[2];
+                            const algoName = match[3];
 
-                    // Badge background rectangle
-                    const badgeText = badgeGroup.append("text")
-                        .attr("x", 0)
-                        .attr("y", 0)
-                        .attr("dy", "0.32em")
-                        .style("font-family", "monospace")
-                        .style("font-size", "9px")
-                        .style("font-weight", "bold")
-                        .style("fill", badge.color)
-                        .text(badge.text);
+                            // Clear existing text
+                            textEl.text('');
 
-                    const textBBoxBadge = badgeText.node().getBBox();
+                            // Add base name in default color
+                            textEl.append('tspan')
+                                .style('fill', '#00ff9d')
+                                .text(baseName + ' ');
 
-                    badgeGroup.insert("rect", "text")
-                        .attr("x", textBBoxBadge.x - 3)
-                        .attr("y", textBBoxBadge.y - 1)
-                        .attr("width", textBBoxBadge.width + 6)
-                        .attr("height", textBBoxBadge.height + 2)
-                        .attr("rx", 3)
-                        .style("fill", badge.bg)
-                        .style("stroke", badge.color)
-                        .style("stroke-width", 1);
+                            // Add algorithm suffix in algorithm color
+                            textEl.append('tspan')
+                                .style('fill', algoColors[algoName])
+                                .style('font-weight', 'bold')
+                                .text(`(${algoName})`);
+                        }
+                    }
                 });
             }
 
