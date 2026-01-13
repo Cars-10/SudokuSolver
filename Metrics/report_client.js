@@ -3216,6 +3216,370 @@ initializeStatus();
                 .text("Slow");
         } // End of drawLanguagePerformanceChart
 
+        function drawIterationCountChart() {
+            const container = d3.select("#d3-chart-container");
+            const width = document.getElementById('d3-chart-container').clientWidth;
+            const height = document.getElementById('d3-chart-container').clientHeight;
+            const margin = { top: 80, right: 150, bottom: 80, left: 100 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            // Get current algorithm filter (default to BruteForce if not set)
+            const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+            const algoLabel = {
+                'BruteForce': 'Brute Force',
+                'DLX': 'Dancing Links',
+                'CP': 'Constraint Propagation',
+                'all': 'All Algorithms'
+            }[selectedAlgo] || 'BruteForce';
+
+            // Filter data by algorithm type
+            const filtered = metricsData.filter(d => {
+                const algoType = d.algorithmType || 'BruteForce';
+                if (selectedAlgo === 'all') return selectedAlgo === 'all';
+                return algoType === selectedAlgo;
+            });
+
+            if (filtered.length === 0) {
+                container.html("<div style='color:#ff4444; padding:40px; text-align:center; font-family:monospace;'><h3>No data for selected algorithm</h3></div>");
+                return;
+            }
+
+            // Extract iteration data across matrices for each language
+            const languageData = filtered.map(lang => {
+                // Create a map of matrix -> iterations
+                const matrixIterations = {};
+                lang.results.forEach(r => {
+                    if (r.iterations) {
+                        matrixIterations[r.matrix] = r.iterations;
+                    }
+                });
+
+                // Only include languages with at least 4 matrices of data
+                const matrixCount = Object.keys(matrixIterations).length;
+
+                return {
+                    solver: lang.solver,
+                    matrixIterations: matrixIterations,
+                    matrixCount: matrixCount,
+                    totalIterations: Object.values(matrixIterations).reduce((a, b) => a + b, 0),
+                    algorithmType: lang.algorithmType || 'BruteForce'
+                };
+            }).filter(d => d.matrixCount >= 4); // Filter to languages with at least 4 matrices
+
+            if (languageData.length === 0) {
+                container.html("<div style='color:#ff4444; padding:40px; text-align:center; font-family:monospace;'><h3>No sufficient data for iteration chart</h3></div>");
+                return;
+            }
+
+            // Sort by total iterations and take top 10
+            languageData.sort((a, b) => a.totalIterations - b.totalIterations);
+            const topLanguages = languageData.slice(0, 10);
+
+            // Find C baseline
+            const cLang = topLanguages.find(d => d.solver === 'C');
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Title
+            g.append("text")
+                .attr("x", chartWidth / 2)
+                .attr("y", -40)
+                .attr("text-anchor", "middle")
+                .style("font-size", "24px")
+                .style("font-weight", "bold")
+                .style("fill", "#00ff9d")
+                .style("font-family", "monospace")
+                .text(`Iteration Counts - ${algoLabel} Across Matrices`);
+
+            // Get all matrices present in the data
+            const allMatrices = Array.from(new Set(
+                topLanguages.flatMap(lang => Object.keys(lang.matrixIterations).map(Number))
+            )).sort((a, b) => a - b);
+
+            // X scale - matrix numbers
+            const x = d3.scaleLinear()
+                .domain([d3.min(allMatrices), d3.max(allMatrices)])
+                .range([0, chartWidth]);
+
+            // Y scale - iteration count (log scale for wide range)
+            const allIterations = topLanguages.flatMap(lang => Object.values(lang.matrixIterations));
+            const yMin = Math.max(1, d3.min(allIterations) * 0.5);
+            const yMax = d3.max(allIterations) * 1.5;
+
+            const y = d3.scaleLog()
+                .domain([yMin, yMax])
+                .range([chartHeight, 0])
+                .nice();
+
+            // Color scale for languages
+            const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+            // Line generator
+            const line = d3.line()
+                .x(d => x(d.matrix))
+                .y(d => y(d.iterations))
+                .defined(d => d.iterations !== null && d.iterations !== undefined);
+
+            // Draw C baseline first (so it's most prominent)
+            if (cLang) {
+                const cData = allMatrices.map(m => ({
+                    matrix: m,
+                    iterations: cLang.matrixIterations[m] || null
+                })).filter(d => d.iterations !== null);
+
+                g.append("path")
+                    .datum(cData)
+                    .attr("class", "line-c")
+                    .attr("fill", "none")
+                    .attr("stroke", "#00ff9d")
+                    .attr("stroke-width", 3)
+                    .attr("d", line);
+
+                // Add circles for C baseline
+                g.selectAll(".dot-c")
+                    .data(cData)
+                    .enter().append("circle")
+                    .attr("class", "dot-c")
+                    .attr("cx", d => x(d.matrix))
+                    .attr("cy", d => y(d.iterations))
+                    .attr("r", 4)
+                    .attr("fill", "#00ff9d")
+                    .attr("stroke", "#000")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(event, d) {
+                        d3.select(this).attr("r", 6);
+
+                        // Show tooltip
+                        const tooltip = g.append("g")
+                            .attr("class", "tooltip")
+                            .attr("transform", `translate(${x(d.matrix)},${y(d.iterations) - 20})`);
+
+                        const text = tooltip.append("text")
+                            .attr("text-anchor", "middle")
+                            .style("font-family", "monospace")
+                            .style("font-size", "12px")
+                            .style("fill", "#00ff9d")
+                            .text(`C: Matrix ${d.matrix}, ${d.iterations.toLocaleString()} iter`);
+
+                        const bbox = text.node().getBBox();
+                        tooltip.insert("rect", "text")
+                            .attr("x", bbox.x - 5)
+                            .attr("y", bbox.y - 2)
+                            .attr("width", bbox.width + 10)
+                            .attr("height", bbox.height + 4)
+                            .attr("fill", "#1a1a1a")
+                            .attr("stroke", "#00ff9d")
+                            .attr("stroke-width", 1)
+                            .attr("rx", 3);
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this).attr("r", 4);
+                        g.selectAll(".tooltip").remove();
+                    });
+            }
+
+            // Draw lines for other languages
+            const otherLanguages = topLanguages.filter(lang => lang.solver !== 'C');
+
+            otherLanguages.forEach((lang, idx) => {
+                const langData = allMatrices.map(m => ({
+                    matrix: m,
+                    iterations: lang.matrixIterations[m] || null,
+                    solver: lang.solver
+                })).filter(d => d.iterations !== null);
+
+                const color = colorScale(idx);
+
+                g.append("path")
+                    .datum(langData)
+                    .attr("class", `line-${idx}`)
+                    .attr("fill", "none")
+                    .attr("stroke", color)
+                    .attr("stroke-width", 1.5)
+                    .attr("opacity", 0.8)
+                    .attr("d", line)
+                    .on("mouseover", function() {
+                        d3.select(this)
+                            .attr("stroke-width", 2.5)
+                            .attr("opacity", 1);
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this)
+                            .attr("stroke-width", 1.5)
+                            .attr("opacity", 0.8);
+                    });
+
+                // Add circles
+                g.selectAll(`.dot-${idx}`)
+                    .data(langData)
+                    .enter().append("circle")
+                    .attr("class", `dot-${idx}`)
+                    .attr("cx", d => x(d.matrix))
+                    .attr("cy", d => y(d.iterations))
+                    .attr("r", 3)
+                    .attr("fill", color)
+                    .attr("stroke", "#000")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function(event, d) {
+                        d3.select(this).attr("r", 5);
+
+                        // Highlight line
+                        g.select(`.line-${idx}`)
+                            .attr("stroke-width", 2.5)
+                            .attr("opacity", 1);
+
+                        // Show tooltip
+                        const tooltip = g.append("g")
+                            .attr("class", "tooltip")
+                            .attr("transform", `translate(${x(d.matrix)},${y(d.iterations) - 20})`);
+
+                        const text = tooltip.append("text")
+                            .attr("text-anchor", "middle")
+                            .style("font-family", "monospace")
+                            .style("font-size", "12px")
+                            .style("fill", color)
+                            .text(`${d.solver}: Matrix ${d.matrix}, ${d.iterations.toLocaleString()} iter`);
+
+                        const bbox = text.node().getBBox();
+                        tooltip.insert("rect", "text")
+                            .attr("x", bbox.x - 5)
+                            .attr("y", bbox.y - 2)
+                            .attr("width", bbox.width + 10)
+                            .attr("height", bbox.height + 4)
+                            .attr("fill", "#1a1a1a")
+                            .attr("stroke", color)
+                            .attr("stroke-width", 1)
+                            .attr("rx", 3);
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this).attr("r", 3);
+                        g.select(`.line-${idx}`)
+                            .attr("stroke-width", 1.5)
+                            .attr("opacity", 0.8);
+                        g.selectAll(".tooltip").remove();
+                    });
+            });
+
+            // X axis
+            g.append("g")
+                .attr("transform", `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x).ticks(allMatrices.length).tickFormat(d => `Matrix ${d}`))
+                .selectAll("text")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "11px")
+                .attr("transform", "rotate(-15)")
+                .attr("text-anchor", "end");
+
+            // Y axis
+            g.append("g")
+                .call(d3.axisLeft(y).ticks(8, ".0f"))
+                .selectAll("text")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "11px");
+
+            // Y axis label
+            g.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -chartHeight / 2)
+                .attr("y", -60)
+                .attr("text-anchor", "middle")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "12px")
+                .text("Iteration Count (log scale)");
+
+            // X axis label
+            g.append("text")
+                .attr("x", chartWidth / 2)
+                .attr("y", chartHeight + 60)
+                .attr("text-anchor", "middle")
+                .style("fill", "#5c5c66")
+                .style("font-family", "monospace")
+                .style("font-size", "12px")
+                .text("Matrix Difficulty");
+
+            // Legend
+            const legend = g.append("g")
+                .attr("transform", `translate(${chartWidth + 20}, 0)`);
+
+            legend.append("text")
+                .attr("x", 0)
+                .attr("y", 0)
+                .style("fill", "#fff")
+                .style("font-family", "monospace")
+                .style("font-size", "12px")
+                .style("font-weight", "bold")
+                .text("Languages");
+
+            // C baseline in legend
+            if (cLang) {
+                const cLegend = legend.append("g")
+                    .attr("transform", `translate(0, 20)`);
+
+                cLegend.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", 20)
+                    .attr("y1", 0)
+                    .attr("y2", 0)
+                    .attr("stroke", "#00ff9d")
+                    .attr("stroke-width", 3);
+
+                cLegend.append("text")
+                    .attr("x", 25)
+                    .attr("y", 0)
+                    .attr("dy", "0.35em")
+                    .style("fill", "#00ff9d")
+                    .style("font-family", "monospace")
+                    .style("font-size", "11px")
+                    .text("C (baseline)");
+            }
+
+            // Other languages in legend
+            otherLanguages.forEach((lang, idx) => {
+                const yPos = 20 + (cLang ? 20 : 0) + (idx * 18);
+                const legendItem = legend.append("g")
+                    .attr("transform", `translate(0, ${yPos})`)
+                    .style("cursor", "pointer")
+                    .on("click", function() {
+                        // Toggle line visibility
+                        const line = g.select(`.line-${idx}`);
+                        const currentOpacity = line.attr("opacity");
+                        const newOpacity = currentOpacity === "0" ? "0.8" : "0";
+                        line.attr("opacity", newOpacity);
+
+                        g.selectAll(`.dot-${idx}`).attr("opacity", newOpacity === "0" ? 0 : 1);
+
+                        // Update legend text opacity
+                        d3.select(this).style("opacity", newOpacity === "0" ? 0.3 : 1);
+                    });
+
+                legendItem.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", 20)
+                    .attr("y1", 0)
+                    .attr("y2", 0)
+                    .attr("stroke", colorScale(idx))
+                    .attr("stroke-width", 2);
+
+                legendItem.append("text")
+                    .attr("x", 25)
+                    .attr("y", 0)
+                    .attr("dy", "0.35em")
+                    .style("fill", "#fff")
+                    .style("font-family", "monospace")
+                    .style("font-size", "10px")
+                    .text(lang.solver);
+            });
+        } // End of drawIterationCountChart
+
         // Initial Draw
         if (typeof d3 !== 'undefined') {
             drawLineChart();
