@@ -3231,7 +3231,9 @@ initializeStatus();
 
                     const textElement = d3.select(this);
                     const textBBox = this.getBBox();
-                    const badgeX = textBBox.x + textBBox.width + 5;
+                    // Position badge to the left of the axis tick mark (at x=0)
+                    // Badge should appear between language name and tick: [Name] [Badge]—
+                    const badgeX = textBBox.x + textBBox.width - 18; // Badge left of axis line
                     const badgeY = textBBox.y + textBBox.height / 2;
 
                     // Badge configuration
