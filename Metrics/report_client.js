@@ -3153,13 +3153,69 @@ initializeStatus();
                 });
 
             // Y axis - language names
-            g.append("g")
-                .call(d3.axisLeft(y))
-                .selectAll("text")
+            const yAxis = g.append("g")
+                .call(d3.axisLeft(y));
+
+            yAxis.selectAll("text")
                 .style("fill", "#00ff9d")
                 .style("font-family", "monospace")
                 .style("font-size", "13px")
                 .style("font-weight", "bold");
+
+            // Add algorithm badges when in "All Algorithms" mode
+            if (selectedAlgo === 'all') {
+                const langMap = new Map(topLanguages.map(d => [d.solver, d]));
+
+                yAxis.selectAll("text").each(function(langName) {
+                    const langData = langMap.get(langName);
+                    if (!langData) return;
+
+                    const algoType = langData.algorithmType || 'BruteForce';
+                    if (algoType === 'BruteForce') return; // No badge for default algorithm
+
+                    const textElement = d3.select(this);
+                    const textBBox = this.getBBox();
+                    const badgeX = textBBox.x + textBBox.width + 5;
+                    const badgeY = textBBox.y + textBBox.height / 2;
+
+                    // Badge configuration
+                    const badges = {
+                        'DLX': { text: 'DLX', color: '#7aa2f7', bg: 'rgba(122, 162, 247, 0.2)' },
+                        'CP': { text: 'CP', color: '#bb9af7', bg: 'rgba(187, 154, 247, 0.2)' }
+                    };
+
+                    const badge = badges[algoType];
+                    if (!badge) return;
+
+                    // Create badge group
+                    const parent = d3.select(this.parentNode);
+                    const badgeGroup = parent.append("g")
+                        .attr("transform", `translate(${badgeX}, ${badgeY})`);
+
+                    // Badge background rectangle
+                    const badgeText = badgeGroup.append("text")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("dy", "0.32em")
+                        .style("font-family", "monospace")
+                        .style("font-size", "9px")
+                        .style("font-weight", "bold")
+                        .style("fill", badge.color)
+                        .text(badge.text);
+
+                    const textBBoxBadge = badgeText.node().getBBox();
+
+                    badgeGroup.insert("rect", "text")
+                        .attr("x", textBBoxBadge.x - 3)
+                        .attr("y", textBBoxBadge.y - 1)
+                        .attr("width", textBBoxBadge.width + 6)
+                        .attr("height", textBBoxBadge.height + 2)
+                        .attr("rx", 3)
+                        .style("fill", badge.bg)
+                        .style("stroke", badge.color)
+                        .style("stroke-width", 1);
+                });
+            }
 
             // X axis
             g.append("g")
