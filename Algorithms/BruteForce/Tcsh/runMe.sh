@@ -12,7 +12,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions from common.sh
-source ../common.sh
+source ../../common.sh
 
 # ============================================================================
 # COMPILATION (not needed for Tcsh - interpreted language)

@@ -4,7 +4,7 @@
 LANGUAGE="Gnuplot"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # gnuplot wrapper
 cat << 'EOF' > gp_wrapper.sh

@@ -8,7 +8,7 @@ SOLVER_BINARY="sbcl --script Sudoku.lisp --"
 COMPILE_CMD=""  # No compilation needed for SBCL script
 
 # Source common benchmark functions
-source ../common.sh
+source ../../common.sh
 
 # Check if SBCL is available
 check_toolchain sbcl

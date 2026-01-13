@@ -19,7 +19,7 @@ fi
 # Regina runs scripts with full path
 SOLVER_BINARY="regina $(pwd)/Sudoku.rexx"
 
-source ../common.sh
+source ../../common.sh
 
 # Main execution
 main "$@"

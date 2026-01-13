@@ -7,7 +7,7 @@ COMPILE_CMD="nim c -d:release -o:Sudoku Sudoku.nim"
 SOLVER_BINARY="./Sudoku"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Nim compiler
 check_toolchain "nim"

@@ -5,7 +5,7 @@ LANGUAGE="SQLite"
 SOLVER_BINARY="node Sudoku.js"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     # Check if node is available

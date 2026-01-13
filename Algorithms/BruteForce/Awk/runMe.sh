@@ -19,7 +19,7 @@ SOLVER_BINARY="$AWK_CMD -f Sudoku.awk"  # Multi-word command
 COMPILE_CMD=""  # No compilation needed
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for awk tool
 check_toolchain "$AWK_CMD"

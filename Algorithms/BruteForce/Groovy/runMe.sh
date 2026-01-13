@@ -6,7 +6,7 @@ LANGUAGE="Groovy"
 SOLVER_BINARY="groovy Sudoku.groovy"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for Groovy
 check_toolchain "groovy"

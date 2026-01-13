@@ -7,7 +7,7 @@ COMPILE_CMD="ldc2 -O -release -of=Sudoku Sudoku.d"
 SOLVER_BINARY="./Sudoku"
 
 # Source common functions
-source ../common.sh
+source ../../common.sh
 
 # Check for D compiler
 if ! command -v ldc2 &> /dev/null; then

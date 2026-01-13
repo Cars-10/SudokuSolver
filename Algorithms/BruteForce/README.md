@@ -40,7 +40,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300  # 5 minutes
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 ```
 
 ### Step 2: Define Compilation (if needed)
@@ -123,7 +123,7 @@ METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # Compilation
 compile() {
@@ -261,7 +261,7 @@ Expected: Iteration count matches C reference (656 for Matrix 1), output format 
 
 ### "common.sh: No such file or directory"
 
-Make sure `source ../common.sh` uses correct relative path from language directory.
+Make sure `source ../../common.sh` uses correct relative path from language directory.
 
 ### "TIME_CMD: command not found"
 

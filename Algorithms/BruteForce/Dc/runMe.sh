@@ -4,7 +4,7 @@
 LANGUAGE="Dc"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # dc wrapper
 cat << 'EOF' > dc_wrapper.sh

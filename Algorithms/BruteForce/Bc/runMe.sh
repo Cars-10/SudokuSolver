@@ -4,7 +4,7 @@
 LANGUAGE="Bc"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # bc wrapper to handle matrix input
 cat << 'EOF' > bc_wrapper.sh

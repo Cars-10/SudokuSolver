@@ -4,7 +4,7 @@
 LANGUAGE="PostScript"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 # Create a wrapper script to handle Ghostscript's argument order
 cat << 'EOF' > ps_wrapper.sh

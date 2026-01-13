@@ -5,7 +5,7 @@ LANGUAGE="AppleScript"
 
 # Source shared functions
 # We need to make sure common.sh works locally or provide local alternatives
-source ../common.sh
+source ../../common.sh
 
 # Detect OS
 OS="$(uname)"

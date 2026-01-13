@@ -4,7 +4,7 @@
 LANGUAGE="Jq"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 cat << 'EOF' > jq_wrapper.sh
 #!/bin/bash

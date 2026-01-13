@@ -20,7 +20,7 @@ fi
 # SOLVER_BINARY needs to be a single command that the shell will execute
 SOLVER_BINARY="haxe --cwd $(pwd) --run Sudoku"
 
-source ../common.sh
+source ../../common.sh
 
 # Main execution
 main "$@"

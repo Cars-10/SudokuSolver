@@ -19,7 +19,7 @@ if [ -d "/opt/homebrew/opt/openjdk" ]; then
 fi
 
 # Source shared functions from common.sh
-source ../common.sh
+source ../../common.sh
 
 # ============================================================================
 # COMPILATION

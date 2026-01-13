@@ -5,7 +5,7 @@ LANGUAGE="Fennel"
 SOLVER_BINARY="fennel Sudoku.fnl"
 
 # Source shared functions from common.sh
-source ../common.sh
+source ../../common.sh
 
 # Main execution
 main "$@"

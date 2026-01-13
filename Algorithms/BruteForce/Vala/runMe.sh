@@ -3,7 +3,7 @@
 # Uses common.sh for standardized metrics collection
 
 LANGUAGE="Vala"
-source ../common.sh
+source ../../common.sh
 
 # Check Vala compiler
 check_toolchain valac

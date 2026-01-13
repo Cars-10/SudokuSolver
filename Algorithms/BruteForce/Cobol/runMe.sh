@@ -5,7 +5,7 @@ LANGUAGE="Cobol"
 SOLVER_BINARY="./Sudoku"
 
 # Source shared functions
-source ../common.sh
+source ../../common.sh
 
 compile() {
     # Prefer /usr/bin/cobc as specified
