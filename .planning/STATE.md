@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-13)
 ## Current Position
 
 Phase: 2 of 3 (Algorithm - Dancing Links)
-Plan: 1 of 2 in current phase
+Plan: 3 of 3 in current phase
 Status: In Progress
-Last activity: 2026-01-13 — Completed Phase 2 Scaffolding
+Last activity: 2026-01-13 — Completed phase-2.1-refactor-structure
 
-Progress: [██████░░░░] 50%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
+- Total plans completed: 3
 - Average duration: ~10 min
-- Total execution time: 0.4 hours
+- Total execution time: 0.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 1 | 15m | 15m |
-| 2 | 1 | 10m | 10m |
+| 2 | 2 | 14m | 7m |
 
 **Recent Trend:**
-- Last 5 plans: [Phase 1 Metadata, Phase 2 Scaffolding]
-- Trend: Consistent delivery.
+- Last 5 plans: [Phase 1 Metadata, Phase 2 Scaffolding, Phase 2.1 Refactor]
+- Trend: Accelerating - Phase 2.1 took only 4 min due to prior work completed.
 
 *Updated after each plan completion*
 
@@ -47,6 +47,7 @@ Recent decisions affecting current work:
 - [Init]: Metadata constraints - Keep descriptions < 50 chars.
 - [Phase 1]: Metadata Schema - Standardized on `paradigm`, `typeSystem`, and concise `history`. Long history moved to `description`.
 - [Phase 2]: DLX Structure - `Algorithms/DLX/C` established for C implementation of Algorithm X.
+- [Phase 2.1]: Unified Directory Structure - All brute-force solvers in `Algorithms/BruteForce/`, common.sh at `Algorithms/` level, runMeGlobal supports algorithm parameter.
 
 ### Deferred Issues
 
@@ -69,5 +70,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-13
-Stopped at: Completed Phase 2 Plan 1
+Stopped at: Completed phase-2.1-refactor-structure
 Resume file: None
