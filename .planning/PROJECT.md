@@ -14,14 +14,17 @@ Multi-algorithm Sudoku benchmark suite with advanced solving techniques (Brute-F
 - ✓ **Algorithm Expansion (CP):** Constraint Propagation in `Algorithms/CP/` directory structure. — v1.1
 - ✓ **Metadata Enrichment:** Concise descriptions and categorization for all ~80 languages. — v1.1
 - ✓ **Unified Architecture:** Multi-algorithm structure with `Algorithms/[Type]/[Language]/` pattern. — v1.1
+- ✓ **Enhanced Reporting:** Interactive algorithm selector with filtering and multi-algorithm visualization. — v1.2
+- ✓ **Performance Visualizations:** 6-chart D3.js suite with algorithm comparison, language rankings, and iteration analysis. — v1.2
+- ✓ **Algorithm-Specific Baselines:** Fair comparisons using algorithm-appropriate C references. — v1.2
 
 ### Active
 
 - [ ] **Multi-language DLX:** Port Dancing Links to additional languages (Python, JavaScript, etc.)
 - [ ] **Multi-language CP:** Port Constraint Propagation to additional languages
-- [ ] **Enhanced Reporting:** Visualize multi-algorithm performance comparisons in HTML report
 - [ ] **Algorithm Expansion (SAT):** Boolean satisfiability-based solver using SAT solver library
 - [ ] **Comprehensive Benchmarking:** Run all algorithms across all matrices (1-6) for complete dataset
+- [ ] **Advanced Visualizations:** Memory analysis charts, efficiency deep-dives, comparative timeline views
 
 ### Out of Scope
 
@@ -39,28 +42,38 @@ Multi-algorithm Sudoku benchmark suite with advanced solving techniques (Brute-F
 | DLX Memory Strategy | Pre-allocated node pool vs dynamic allocation per-node. | Pre-allocated pool (729*4 nodes) for performance and simplified memory management | ✓ Good
 | CP Candidate Tracking | Bitset representation for efficient candidate operations. | uint16_t for CandidateSet (9 bits for digits 1-9) with macro helpers | ✓ Good
 | Iteration Counting Consistency | Each algorithm needs comparable metric for benchmarking. | DLX: count dlx_search() calls; CP: count assign() calls; BF: count placement attempts | ✓ Good
+| Client-side Filtering (v1.2) | JavaScript filtering vs regenerating HTML for algorithm switching. | Client-side for instant response without page reload | ✓ Good
+| Algorithm-Specific Baselines (v1.2) | Single C baseline vs per-algorithm baselines. | Per-algorithm: BF→C BF, DLX→C DLX, CP→C CP for fair comparison | ✓ Good
+| Chart Transition Timing (v1.2) | Balance between responsiveness and smoothness. | 200ms fade - faster feels jarring, slower feels sluggish | ✓ Good
 
 ## Context
 
-**Current State (v1.1):**
+**Current State (v1.2):**
 - Codebase: 1,302 LOC C code across three algorithm implementations
-- Tech stack: C (algorithms), Bash (harness), TypeScript (reporting), Node.js (server)
+- Tech stack: C (algorithms), Bash (harness), TypeScript (reporting), D3.js (charts), Node.js (server)
 - Architecture: `Algorithms/[BruteForce|DLX|CP]/[Language]/` structure
 - Algorithms: 3 distinct approaches implemented in C
   - BruteForce: 656 iterations on Matrix 1 (baseline)
   - DLX: 43 iterations on Matrix 1 (15x faster)
   - CP: 67 iterations on Matrix 1 (9.8x faster)
+- Reporting: 6-chart interactive D3.js suite with algorithm filtering
 
 **Performance Characteristics:**
 - DLX excels on hard puzzles (exact cover approach minimizes search space)
 - CP excels on easy puzzles (most solved by propagation alone)
 - BruteForce provides stable baseline for comparison
 
+**Visualization Suite:**
+- Algorithm Comparison (grouped bar, log scale)
+- Top Languages (horizontal bar with C baseline)
+- Iterations Chart (top 10 performers)
+- Memory, Execution Time, Language Details (existing charts)
+
 **Known Issues:**
-None blocking. All three algorithms functional and integrated.
+None blocking. All algorithms functional, UI production-ready.
 
 **Technical Debt:**
-None significant. Clean implementation following established patterns.
+None significant. Clean implementation with comprehensive testing.
 
 ---
-*Last updated: 2026-01-13 after v1.1 milestone*
+*Last updated: 2026-01-13 after v1.2 milestone*

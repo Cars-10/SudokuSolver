@@ -1,5 +1,33 @@
 # Project Milestones: Sudoku Solver Enhancements
 
+## v1.2 Interactive Reporting (Shipped: 2026-01-13)
+
+**Delivered:** Enhanced HTML reporting UI with interactive algorithm selection, comprehensive D3.js visualizations, and multi-algorithm support for exploring performance across BruteForce, DLX, and CP solving approaches.
+
+**Phases completed:** 4-6 (4 plans total)
+
+**Key accomplishments:**
+
+- Infrastructure Fixes: Updated all 63 BruteForce runMe.sh scripts to reflect Algorithms/BruteForce/ directory structure established in v1.1
+- Algorithm Selector UI: Dropdown filtering enabling instant algorithm switching (BruteForce/DLX/CP/All) with client-side JavaScript for instant response
+- Multi-Algorithm Metrics: Extended loading to scan all three algorithm directories, creating unified 84-entry dataset
+- Algorithm-Specific Baselines: Each algorithm type compares against its own C reference (BF→C BF, DLX→C DLX, CP→C CP) for fair performance rankings
+- Visual Algorithm Badges: Color-coded tags (BF=green, DLX=blue, CP=purple) for identification in multi-algorithm views
+- 6-Chart D3.js Suite: Algorithm Comparison (grouped bar, log scale), Top Languages (horizontal with C baseline), Iterations Chart (top 10), plus existing Memory/Time/Details charts
+- Production Polish: Resolved 6 critical bugs during integration testing (baseline selection, chart resizing, badge positioning, label clarity)
+
+**Stats:**
+
+- 127 files modified (24,653 insertions, 580 deletions)
+- 3 phases, 4 plans, 13 core tasks + 6 bug fixes
+- Same-day delivery
+
+**Git range:** `docs(05-01): create phase plan` → `docs(06): complete Core Performance Charts phase`
+
+**What's next:** Multi-language ports of DLX/CP algorithms, advanced visualizations (memory analysis, efficiency deep-dives), or SAT solver implementation.
+
+---
+
 ## v1.1 Algorithmic Expansion (Shipped: 2026-01-13)
 
 **Delivered:** Expanded Sudoku benchmark with two advanced algorithms (DLX and CP) and enriched language metadata while maintaining core brute-force integrity.
