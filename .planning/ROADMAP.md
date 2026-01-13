@@ -219,7 +219,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 10. Scripting Languages - Part 2 | v1.3 | 0/5 | Planned | - |
 | 11. Functional Languages - Part 1 | v1.3 | 5/5 | Complete | 2026-01-13 |
 | 12. Functional Languages - Part 2 | v1.3 | 5/5 | Complete | 2026-01-14 |
-| 13. Systems Languages | v1.3 | 0/? | Not started | - |
+| 13. Systems Languages | v1.3 | 1/3 | In progress | - |
 | 14. Compiled Languages | v1.3 | 0/? | Not started | - |
 | 15. Shell and Esoteric Languages | v1.3 | 0/? | Not started | - |
 | 16. Specialized Languages - Part 1 | v1.3 | 0/? | Not started | - |
