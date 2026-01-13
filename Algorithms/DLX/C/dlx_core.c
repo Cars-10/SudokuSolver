@@ -99,7 +99,7 @@ int dlx_search(DlxColumn* root, int k, int* solution) {
     DlxNode *row_node = ((DlxNode*)col)->down;
     while (row_node != (DlxNode*)col) {
         // Add row to partial solution
-        solution[k] = (int)(row_node - (DlxNode*)0);  // Store node pointer as ID
+        solution[k] = row_node->row_id;  // Store row ID
 
         // Cover all other columns in this row
         DlxNode *right_node = row_node->right;

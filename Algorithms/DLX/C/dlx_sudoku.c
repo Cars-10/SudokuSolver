@@ -62,6 +62,7 @@ void init_dlx_matrix() {
     root->node.up = (DlxNode*)root;
     root->node.down = (DlxNode*)root;
     root->node.column = root;
+    root->node.row_id = -1;  // Root has no row
     root->size = 0;
 
     // Allocate 324 column headers
@@ -75,6 +76,7 @@ void init_dlx_matrix() {
         columns[i]->node.up = (DlxNode*)columns[i];
         columns[i]->node.down = (DlxNode*)columns[i];
         columns[i]->node.column = columns[i];
+        columns[i]->node.row_id = -1;  // Column headers have no row
 
         // Link into header list
         columns[i]->node.left = root->node.left;
@@ -90,7 +92,7 @@ void init_dlx_matrix() {
 }
 
 // Add a node to the DLX matrix
-DlxNode* add_node(DlxColumn* col) {
+DlxNode* add_node(DlxColumn* col, int row_id) {
     if (node_count >= max_nodes) {
         fprintf(stderr, "ERROR: Exceeded maximum node count\n");
         exit(1);
@@ -98,6 +100,7 @@ DlxNode* add_node(DlxColumn* col) {
 
     DlxNode *node = &nodes[node_count++];
     node->column = col;
+    node->row_id = row_id;
 
     // Insert at end of column's circular list
     node->down = (DlxNode*)col;
@@ -117,10 +120,10 @@ void build_dlx_row(int r, int c, int n, int row_id) {
     row_info[row_id].num = n;
 
     // Create nodes for the 4 constraints
-    DlxNode *n1 = add_node(columns[get_position_col(r, c)]);
-    DlxNode *n2 = add_node(columns[get_row_col(r, n)]);
-    DlxNode *n3 = add_node(columns[get_col_col(c, n)]);
-    DlxNode *n4 = add_node(columns[get_box_col(r, c, n)]);
+    DlxNode *n1 = add_node(columns[get_position_col(r, c)], row_id);
+    DlxNode *n2 = add_node(columns[get_row_col(r, n)], row_id);
+    DlxNode *n3 = add_node(columns[get_col_col(c, n)], row_id);
+    DlxNode *n4 = add_node(columns[get_box_col(r, c, n)], row_id);
 
     // Link nodes horizontally in circular list
     n1->right = n2;
@@ -158,34 +161,14 @@ void build_dlx_matrix_from_puzzle() {
 
 // Extract solution from DLX and populate solution_grid
 void extract_solution(int *solution, int solution_len) {
-    // Initialize solution grid
-    memset(solution_grid, 0, sizeof(solution_grid));
+    // Initialize solution grid - start with the original puzzle (includes clues)
+    memcpy(solution_grid, puzzle, sizeof(solution_grid));
 
-    // Each solution entry is a node pointer (stored as int)
-    // We need to find which row it belongs to
+    // Each solution entry is a row_id
     for (int i = 0; i < solution_len; i++) {
-        // Find the row for this node
-        DlxNode *node = (DlxNode*)(long)solution[i];
-
-        // Search row_starts to find matching row
-        for (int row_id = 0; row_id < 729; row_id++) {
-            if (row_starts[row_id] == NULL) continue;
-
-            // Check if any node in this row matches
-            DlxNode *curr = row_starts[row_id];
-            int found = 0;
-            do {
-                if (curr == node) {
-                    found = 1;
-                    break;
-                }
-                curr = curr->right;
-            } while (curr != row_starts[row_id]);
-
-            if (found) {
-                solution_grid[row_info[row_id].row][row_info[row_id].col] = row_info[row_id].num;
-                break;
-            }
+        int row_id = solution[i];
+        if (row_id >= 0 && row_id < 729) {
+            solution_grid[row_info[row_id].row][row_info[row_id].col] = row_info[row_id].num;
         }
     }
 }
