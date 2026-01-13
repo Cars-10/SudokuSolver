@@ -298,15 +298,64 @@ int propagate(CPGrid *grid) {
 // ============================================================================
 
 int find_mrv_cell(CPGrid *grid, int *row, int *col) {
-    // TODO: Implement in Plan 2
-    // Find cell with minimum remaining values (MRV heuristic)
-    // Return 0 if grid is complete (no empty cells)
-    return 0;
+    int min_candidates = 10;  // More than 9, so any cell will be smaller
+    int found = 0;
+
+    for (int r = 0; r < 9; r++) {
+        for (int c = 0; c < 9; c++) {
+            if (grid->values[r][c] == 0) {
+                int num_candidates = count_candidates(grid->candidates[r][c]);
+                if (num_candidates < min_candidates) {
+                    min_candidates = num_candidates;
+                    *row = r;
+                    *col = c;
+                    found = 1;
+                }
+            }
+        }
+    }
+
+    return found;  // 0 if no empty cells (grid complete), 1 if cell found
 }
 
 int cp_search(CPGrid *grid, int *solution) {
-    // TODO: Implement in Plan 2
-    // Recursive backtracking with constraint propagation
-    // Return 1 if solved, 0 if unsolvable
+    // Base case: check if grid is complete
+    int mrv_row, mrv_col;
+    if (!find_mrv_cell(grid, &mrv_row, &mrv_col)) {
+        // No empty cells - grid is complete, extract solution
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                solution[r * 9 + c] = grid->values[r][c];
+            }
+        }
+        return 1;  // Solved
+    }
+
+    // Recursive case: try each candidate for the MRV cell
+    CandidateSet candidates = grid->candidates[mrv_row][mrv_col];
+
+    for (int digit = 1; digit <= 9; digit++) {
+        if (HAS_CANDIDATE(candidates, digit)) {
+            // Save grid state for backtracking
+            CPGrid grid_copy;
+            memcpy(&grid_copy, grid, sizeof(CPGrid));
+
+            // Try assigning this digit
+            if (assign(grid, mrv_row, mrv_col, digit)) {
+                // Assignment succeeded, propagate constraints
+                if (propagate(grid)) {
+                    // Propagation succeeded, recurse
+                    if (cp_search(grid, solution)) {
+                        return 1;  // Found solution
+                    }
+                }
+            }
+
+            // Failed - restore grid state and try next candidate
+            memcpy(grid, &grid_copy, sizeof(CPGrid));
+        }
+    }
+
+    // All candidates exhausted - dead end
     return 0;
 }
