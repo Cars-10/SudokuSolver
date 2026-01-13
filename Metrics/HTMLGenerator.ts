@@ -1321,6 +1321,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const displayNameRaw = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
         let displayName = displayNameRaw;
 
+        // Add algorithm badge for non-BruteForce algorithms
+        const algoType = m.algorithmType || 'BruteForce';
+        let algoBadge = '';
+        if (algoType === 'DLX') {
+            algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(122, 162, 247, 0.2); border: 1px solid #7aa2f7; border-radius: 3px; font-size: 0.75em; color: #7aa2f7; font-weight: bold;" title="Dancing Links (Algorithm X)">DLX</span>';
+        } else if (algoType === 'CP') {
+            algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(187, 154, 247, 0.2); border: 1px solid #bb9af7; border-radius: 3px; font-size: 0.75em; color: #bb9af7; font-weight: bold;" title="Constraint Propagation">CP</span>';
+        }
+
         let typeIcon = '';
         if (runType === 'Docker') {
             typeIcon = '<span title="Docker Container" style="margin-left:5px; font-size: 0.8em;">🐳</span>';
@@ -1395,7 +1404,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
-                        ${displayName}${typeIcon}
+                        ${displayName}${algoBadge}${typeIcon}
                     </div>
                     <div class='lang-year'>${year}</div>
                 </div>
