@@ -863,7 +863,7 @@ window.uploadBlob = async function (blob, isLogo = false) {
 
         if (res.ok) {
             const data = await res.json();
-            const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
+            const relativePath = `Algorithms/BruteForce/${currentEditingLang}/Media/${data.filename}`;
             return relativePath;
         } else {
             const txt = await res.text();
@@ -1047,7 +1047,7 @@ document.addEventListener('paste', async (e) => {
 
                             if (res.ok) {
                                 const data = await res.json();
-                                const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
+                                const relativePath = `Algorithms/BruteForce/${currentEditingLang}/Media/${data.filename}`;
 
                                 if (targetAuthorIdx >= 0) {
                                     // Update Author
@@ -1087,7 +1087,7 @@ window.checkAndDownloadAuthorImage = async function (idx, value) {
 
                 if (res.ok) {
                     const data = await res.json();
-                    const relativePath = `Languages/${currentEditingLang}/Media/${data.filename}`;
+                    const relativePath = `Algorithms/BruteForce/${currentEditingLang}/Media/${data.filename}`;
 
                     // Update field and data
                     updateAuthor(idx, 'image', relativePath);

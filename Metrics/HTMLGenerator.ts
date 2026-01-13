@@ -105,10 +105,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     console.log(`generateHtml received ${metrics.length} metrics.`);
     const rootDir = path.resolve(__dirname, '..');
-    const languagesDir = path.join(rootDir, 'Languages');
+    const languagesDir = path.join(rootDir, 'Algorithms/BruteForce');
     const logoMap = new Map<string, string>();
 
-    // Priority 1: Look for <lang>_logo.* in Languages/<lang>/Media/ (canonical location)
+    // Priority 1: Look for <lang>_logo.* in Algorithms/BruteForce/<lang>/Media/ (canonical location)
     const canonicalLogos = await glob(`${languagesDir}/*/Media/*_logo.{png,svg,jpg}`);
     for (const p of canonicalLogos) {
         const parts = p.split(path.sep);
@@ -117,10 +117,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const langDir = parts[mediaIdx - 1];
             const langName = langDir.toLowerCase();
             const filename = path.basename(p);
-            logoMap.set(langName, `Languages/${langDir}/Media/${filename}`);
+            logoMap.set(langName, `Algorithms/BruteForce/${langDir}/Media/${filename}`);
         }
     }
-    console.log(`Loaded ${logoMap.size} canonical logos from Languages/*/Media/*_logo.*`);
+    console.log(`Loaded ${logoMap.size} canonical logos from Algorithms/BruteForce/*/Media/*_logo.*`);
 
     // Priority 2: Fall back to logos/ directory for languages not yet found
     const logosDir = path.join(rootDir, 'logos');
@@ -138,7 +138,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         console.log(`Added ${legacyCount} logos from legacy logos/ directory`);
     }
 
-    // Priority 3: Fall back to any image in Languages/*/Media/ for remaining languages
+    // Priority 3: Fall back to any image in Algorithms/BruteForce/*/Media/ for remaining languages
     const mediaLogos = await glob(`${languagesDir}/*/Media/*.{png,svg,jpg}`);
     let fallbackCount = 0;
     for (const p of mediaLogos) {
@@ -149,7 +149,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             const langName = langDir.toLowerCase();
             if (!logoMap.has(langName)) {
                 const filename = path.basename(p);
-                logoMap.set(langName, `Languages/${langDir}/Media/${filename}`);
+                logoMap.set(langName, `Algorithms/BruteForce/${langDir}/Media/${filename}`);
                 fallbackCount++;
             }
         }

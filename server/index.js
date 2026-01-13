@@ -76,7 +76,7 @@ app.use('/Metrics', express.static(path.join(__dirname, '../Metrics')));
 // Serve logos directory
 app.use('/logos', express.static(path.join(__dirname, '../logos')));
 
-const LANGUAGES_DIR = path.join(__dirname, '../Languages');
+const LANGUAGES_DIR = path.join(__dirname, '../Algorithms/BruteForce');
 const MATRICES_DIR = path.join(__dirname, '../Matrices');
 
 // Get list of matrices
@@ -154,7 +154,7 @@ app.post('/api/run', (req, res) => {
     // Build the base command
     let runMeCommand = './runMe.sh';
     if (matrix) {
-        const matrixArg = `../../Matrices/${matrix}`;
+        const matrixArg = `../../../Matrices/${matrix}`;
         runMeCommand += ` ${matrixArg}`;
     }
 
@@ -178,7 +178,7 @@ app.post('/api/run', (req, res) => {
         // Server is on host machine
         if (useDocker) {
             // Docker mode: run via docker-compose exec
-            const dockerLangDir = `/app/Languages/${language}`;
+            const dockerLangDir = `/app/Algorithms/BruteForce/${language}`;
             command = `docker-compose exec -T app bash -c "cd ${dockerLangDir} && ${runMeCommand}"`;
             execOptions = { ...commonExecOptions, cwd: path.join(__dirname, '..') }; // Project root
         } else {
@@ -287,7 +287,7 @@ app.post('/api/run', (req, res) => {
     });
 });
 
-const METADATA_FILE = path.join(__dirname, '../Languages/metadata.json');
+const METADATA_FILE = path.join(__dirname, '../Algorithms/metadata.json');
 
 // 2.5 Get Metadata for specific language
 app.get('/api/metadata/:lang', (req, res) => {
@@ -308,7 +308,7 @@ app.get('/api/metadata/:lang', (req, res) => {
 // Get Solver Source Code
 app.get('/api/source/:lang', (req, res) => {
     const lang = decodeURIComponent(req.params.lang);
-    const langDir = path.join(__dirname, '..', 'Languages', lang);
+    const langDir = path.join(__dirname, '..', 'Algorithms', 'BruteForce', lang);
 
     console.log(`[Source API] Requested: ${lang}, Path: ${langDir}, Docker: ${isRunningInDocker}`);
 

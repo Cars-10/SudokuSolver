@@ -29,7 +29,7 @@ Multi-language Sudoku solver benchmark suite with 88+ language implementations. 
 
 ### Run a Single Language Directly
 ```bash
-cd Languages/C
+cd Algorithms/BruteForce/C
 ./runMe.sh                                    # Run all matrices
 ./runMe.sh ../../Matrices/1.matrix            # Run specific matrix
 VARIANT=Ofast ./runMe.sh                      # Run with compiler variant
@@ -50,7 +50,7 @@ docker-compose up -d
 
 # Run benchmarks inside container
 docker-compose exec app bash
-cd /app/Languages/C && ./runMe.sh
+cd /app/Algorithms/BruteForce/C && ./runMe.sh
 ```
 
 The container mounts the project directories, so benchmark results persist to host.
@@ -68,24 +68,25 @@ cd Metrics && npx ts-node generate_report_only.ts
 ## Architecture
 
 ### Directory Structure
-- `Languages/` - 88+ language implementations, each with `Sudoku.*` solver and `runMe.sh`
-- `Languages/common.sh` - Shared benchmark functions sourced by all `runMe.sh` scripts
+- `Algorithms/BruteForce/` - 88+ brute-force language implementations, each with `Sudoku.*` solver and `runMe.sh`
+- `Algorithms/common.sh` - Shared benchmark functions sourced by all `runMe.sh` scripts
+- `Algorithms/DLX/` - Dancing Links algorithm implementations
 - `Matrices/` - Test puzzles (1-6.matrix), 1.matrix is simplest (656 iterations)
 - `Metrics/` - TypeScript report generation (`HTMLGenerator.ts`, `gather_metrics.ts`)
 - `server/` - Express server serving benchmark report and runner UI
 
 ### Special Character Handling in Directory Names
 Languages with special characters in their names use underscores in directory names:
-- `C#` → `Languages/C_Sharp/` (LANGUAGE="C_Sharp" in runMe.sh)
-- `F#` → `Languages/F_Sharp/` (LANGUAGE="F_Sharp" in runMe.sh)
-- `C++` → `Languages/C++/` (this one keeps the special chars)
+- `C#` → `Algorithms/BruteForce/C_Sharp/` (LANGUAGE="C_Sharp" in runMe.sh)
+- `F#` → `Algorithms/BruteForce/F_Sharp/` (LANGUAGE="F_Sharp" in runMe.sh)
+- `C++` → `Algorithms/BruteForce/C++/` (this one keeps the special chars)
 
 **Important**: The `LANGUAGE` variable in `runMe.sh` must match the directory name exactly for metrics to be properly associated.
 
 ### Language Implementation Pattern
 Each language follows this structure:
 ```
-Languages/{Language}/
+Algorithms/BruteForce/{Language}/
 ├── Sudoku.{ext}      # Solver implementation
 ├── runMe.sh          # Benchmark runner (sources common.sh)
 ├── metrics.json      # Generated benchmark results
@@ -94,13 +95,13 @@ Languages/{Language}/
 
 The `runMe.sh` pattern:
 1. Set `LANGUAGE`, `SOLVER_BINARY`, `METRICS_FILE`, `TIMEOUT_SECONDS`
-2. Source `../common.sh`
+2. Source `../../common.sh`
 3. Define `compile()` function if needed
 4. Call `main "$@"`
 
 ### Metrics Pipeline
 1. `runMe.sh` executes solver, captures timing/memory via Python subprocess wrapper in `common.sh`
-2. Results written to `Languages/{Language}/metrics.json`
+2. Results written to `Algorithms/BruteForce/{Language}/metrics.json` (or `Algorithms/DLX/{Language}/metrics.json` for DLX implementations)
 3. `generate_report_only.ts` aggregates all `metrics.json` files
 4. `HTMLGenerator.ts` produces `_report.html` with interactive visualizations
 
@@ -149,8 +150,8 @@ Seconds to process X.XXX
 
 ## Adding a New Language
 
-1. Create `Languages/{Language}/Sudoku.{ext}` following the algorithm spec
-2. Create `Languages/{Language}/runMe.sh`:
+1. Create `Algorithms/BruteForce/{Language}/Sudoku.{ext}` following the algorithm spec
+2. Create `Algorithms/BruteForce/{Language}/runMe.sh`:
 ```bash
 #!/bin/bash
 cd "$(dirname "$0")"
@@ -158,7 +159,7 @@ LANGUAGE="NewLang"
 SOLVER_BINARY="./Sudoku"  # or "python3 Sudoku.py" for interpreted
 METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS=300
-source ../common.sh
+source ../../common.sh
 
 compile() {
     check_toolchain compiler_name

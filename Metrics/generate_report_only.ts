@@ -118,7 +118,7 @@ async function run() {
 
         // Check for metadata overrides
         let metadataOverrides = {};
-        const metadataPath = path.join(__dirname, '../Languages/metadata.json');
+        const metadataPath = path.join(__dirname, '../Algorithms/metadata.json');
         // fs.existsSync is synchronous, but this is fine for a startup config read
         if (fs.existsSync(metadataPath)) {
             console.log("Loading metadata overrides from " + metadataPath);

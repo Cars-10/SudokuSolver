@@ -16,10 +16,10 @@ export async function runSolver(scriptPath: string, matrixPattern: string): Prom
         langName = path.basename(solverDir);
         parentDir = path.basename(path.dirname(solverDir));
     } else {
-        // Assume it's a directory (Languages/Lang)
+        // Assume it's a directory (Algorithms/[Algorithm]/Lang)
         solverDir = scriptPath;
         langName = path.basename(solverDir);
-        parentDir = path.basename(path.dirname(solverDir)); // Should be 'Languages'
+        parentDir = path.basename(path.dirname(solverDir)); // Should be 'BruteForce', 'DLX', etc.
     }
 
     let solverName = langName;

@@ -12,7 +12,7 @@
 
 ## Directory Structure
 
-*   **`Languages/`**: Contains the source code for each language implementation (e.g., `Languages/C/`, `Languages/Python/`).
+*   **`Algorithms/BruteForce/`**: Contains the source code for each language implementation (e.g., `Algorithms/BruteForce/C/`, `Algorithms/BruteForce/Python/`).
     *   **`common.sh`**: Shared shell functions for metrics, timing, and execution.
     *   **`README.md`**: Detailed implementation guide and patterns.
 *   **`Matrices/`**: Input puzzle files (e.g., `1.matrix` to `6.matrix`) and reference outputs.
@@ -54,7 +54,7 @@ The benchmarking process generates:
     *   **Validation:** Iteration counts must match the C reference *exactly*.
 3.  **Output Format:** Output must match the C implementation byte-for-byte (headers, spacing, "Solved in Iterations=...").
 4.  **Scripting:**
-    *   Use `Languages/common.sh` for shared logic.
+    *   Use `Algorithms/BruteForce/common.sh` for shared logic.
     *   Create `setupAndRunMe.sh` (or `runMe.sh`) in the language directory.
     *   Handle compilation (if needed) and execution.
 
@@ -66,8 +66,8 @@ The benchmarking process generates:
 
 *   **`MANIFESTO.md`**: The philosophical guide. Read this to understand the "Why".
 *   **`.planning/PROJECT.md`**: Current project status, roadmap, and known issues.
-*   **`Languages/C/runMe.sh`**: The reference implementation for scripting.
-*   **`Languages/C/Sudoku.c`**: The reference implementation for the algorithm.
+*   **`Algorithms/BruteForce/C/runMe.sh`**: The reference implementation for scripting.
+*   **`Algorithms/BruteForce/C/Sudoku.c`**: The reference implementation for the algorithm.
 
 ## Known Issues (as of Dec 2025)
 *   Content Server UI (modals, editing) is partially broken.
