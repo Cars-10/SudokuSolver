@@ -2633,7 +2633,7 @@ initializeStatus();
                         .style("fill", color(solver.solver))
                         .style("font-size", "12px")
                         .style("font-weight", "bold")
-                        .text(solver.solver);
+                        .text(solver.displayName);
                 }
             });
         }
@@ -4726,7 +4726,7 @@ window.openScoreModal = function(lang) {
 };
 
 // Draw radar chart in Score Modal
-function drawScoreRadarChart(lang, tier, tierColor, breakdownParts) {
+function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmType = 'BruteForce') {
     const canvas = document.getElementById('scoreRadarChart');
     if (!canvas) return;
 
@@ -5066,7 +5066,8 @@ window.onVariantSelect = async function(variant) {
             { label: 'Mem', value: avgMem },
             { label: 'CPU', value: avgCpu }
         ];
-        drawScoreRadarChart(currentScoreModalLang, tier, tierColor, breakdownParts);
+        const langAlgoType = variantMetrics?.algorithmType || 'BruteForce';
+        drawScoreRadarChart(currentScoreModalLang, tier, tierColor, breakdownParts, langAlgoType);
 
         // Update legend
         const legendSwatch = document.getElementById('legendLangSwatch');
