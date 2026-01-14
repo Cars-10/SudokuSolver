@@ -2442,6 +2442,33 @@ initializeStatus();
             const height = container.clientHeight;
             const margin = { top: 20, right: 120, bottom: 50, left: 60 };
 
+            // Algorithm filtering
+            const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+            const algoLabel = {
+                'BruteForce': 'Brute Force',
+                'DLX': 'Dancing Links',
+                'CP': 'Constraint Propagation',
+                'all': 'All Algorithms'
+            }[selectedAlgo] || 'BruteForce';
+
+            const filteredData = data.filter(d => {
+                const algoType = d.algorithmType || 'BruteForce';
+                if (selectedAlgo === 'all') return true;
+                return algoType === selectedAlgo;
+            });
+
+            // For "All Algorithms" mode, add algorithm suffix to solver names
+            const displayData = filteredData.map(solver => {
+                let displayName = solver.solver;
+                if (selectedAlgo === 'all') {
+                    const algoType = solver.algorithmType || 'BruteForce';
+                    const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
+                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                    displayName = solver.solver + algoSuffix;
+                }
+                return { ...solver, displayName };
+            });
+
             const svg = d3.select("#d3-chart-container")
                 .append("svg")
                 .attr("width", width)
@@ -2537,7 +2564,7 @@ initializeStatus();
                 .y(d => y(Math.max(d.time, minTime)));
 
             // Draw Lines
-            data.forEach(solver => {
+            displayData.forEach(solver => {
                 const solverData = solver.results.filter(r => matrixNumbers.includes(normalizeMatrix(r.matrix)));
                 const safeSolverClass = "dot-" + solver.solver.replace(/[^a-zA-Z0-9]/g, '_');
 
@@ -2575,7 +2602,7 @@ initializeStatus();
                 // Text Label (Hidden by default via CSS)
                 pointGroup.append("text")
                     .attr("class", "chart-node-label")
-                    .text(solver.solver)
+                    .text(solver.displayName)
                     .attr("text-anchor", "middle")
                     .attr("y", 20) // Position below image
                     .style("pointer-events", "none");
@@ -2603,7 +2630,7 @@ initializeStatus();
                     tooltip.style.display = 'block';
                     tooltip.style.left = (event.clientX + 15) + 'px';
                     tooltip.style.top = (event.clientY + 15) + 'px';
-                    tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.solver + "</strong>" +
+                    tooltip.innerHTML = "<strong style='color:" + color(solver.solver) + "'>" + solver.displayName + "</strong>" +
                         (solver.runType === 'Docker' ? " 🐳" : "") +
                         "<br>Matrix: " + d.matrix + "<br>Time: " + d.time.toFixed(6) + "s<br>Iters: " + d.iterations;
                 })
