@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 20 of 21 (Algorithm-Aware UI Components)
-Plan: 20-02 Complete
-Status: In progress (2/3 plans complete)
-Last activity: 2026-01-14 - Added algorithm awareness to scoring modal for accurate performance analysis
+Plan: 20-01 Complete
+Status: In progress (1/3 plans complete)
+Last activity: 2026-01-14 - Added algorithm filtering to line chart and jockey chart for consistent multi-algorithm UI experience
 
-Progress: ███████░░░ 67%
+Progress: ███░░░░░░░ 33%
 
 ## Performance Metrics (v1.3)
 
@@ -58,6 +58,7 @@ Progress: ███████░░░ 67%
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
 **Recent (v1.4):**
+- Algorithm-aware chart filtering: Line chart and jockey chart now filter by window.currentAlgorithm, matching existing pattern from language performance and iteration count charts. In "All Algorithms" mode, solver names get algorithm suffixes (BF/DLX/CP) for clear identification
 - Algorithm-aware scoring modal: Modal filters metrics by current algorithm, compares against algorithm-specific C baseline (DLX→C/DLX, CP→C/CP), and displays algorithm name in subtitle
 - Language metadata structure: Extended LanguageMeta interface with authors array (name, image, website) for structured creator information
 - Backward compatibility: Preserved existing creator field for UI fallback, split multi-creator strings into individual author objects
