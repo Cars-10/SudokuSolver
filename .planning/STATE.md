@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 19 of 21 (Language Metadata and Display Fixes)
-Plan: 19-02 Complete
+Plan: 19-01 Complete
 Status: In progress (1/3 plans complete)
-Last activity: 2026-01-14 - Fixed language count and removed computer icon badge
+Last activity: 2026-01-14 - Extended LanguageMeta interface and populated author data for 39+ languages
 
 Progress: ███░░░░░░░ 33%
 
@@ -58,6 +58,9 @@ Progress: ███░░░░░░░ 33%
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
 **Recent (v1.4):**
+- Language metadata structure: Extended LanguageMeta interface with authors array (name, image, website) for structured creator information
+- Backward compatibility: Preserved existing creator field for UI fallback, split multi-creator strings into individual author objects
+- Prioritization: Populated 39+ major languages (C, Python, Rust, Go, Java, etc.) with structured author metadata and official websites
 - Language count display: Use actual metricsData.length, fallback to "LOADING..." instead of undefined variable
 - Badge cleanup: Remove computer icon (💻) for standard runs, keep Docker (🐳) and AI badges for differentiation
 
