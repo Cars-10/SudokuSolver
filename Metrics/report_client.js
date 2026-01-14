@@ -5002,9 +5002,11 @@ window.onVariantSelect = async function(variant) {
 
         const variantMetrics = await res.json();
 
-        // Get C baseline
-        const cRes = await fetch('/api/metrics/baseline/c');
-        const cMetrics = cRes.ok ? await cRes.json() : null;
+        // Update C baseline to match variant's algorithm
+        const variantAlgoType = variantMetrics?.algorithmType || 'BruteForce';
+        const cMetrics = metricsData.find(m => {
+            return m.solver === 'C' && (m.algorithmType || 'BruteForce') === variantAlgoType;
+        });
 
         // Recalculate scores from the variant metrics
         const results = variantMetrics.results || [];
