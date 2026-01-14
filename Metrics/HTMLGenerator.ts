@@ -1338,8 +1338,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             typeIcon = '<span title="Docker Container" style="margin-left:5px; font-size: 0.8em;">🐳</span>';
         } else if (runType === 'AI') {
             typeIcon = '<span class="ai-tag" title="AI Generated">(AI)</span>';
-        } else {
-            typeIcon = '<span title="Local Run" style="margin-left:5px; font-size: 0.8em;">💻</span>';
         }
 
         const historyText = (meta.history || languageHistories[baseLang] || languageHistories[lang] || "Unknown.").replace(/'/g, "&apos;");
