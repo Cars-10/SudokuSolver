@@ -86,10 +86,11 @@ Plans:
 **Goal**: Extend algorithm awareness to scoring modal and chart filtering for consistent multi-algorithm experience
 **Depends on**: Phase 19
 **Research**: Unlikely (existing patterns established)
-**Plans**: TBD
+**Plans**: 2/2 complete
 
 Plans:
-- [ ] 20-01: TBD
+- [x] 20-01: Chart Filtering - Added algorithm awareness to line chart and jockey chart
+- [x] 20-02: Scoring Modal - Added algorithm-specific filtering and baselines to scoring modal
 
 #### Phase 21: Performance and Polish
 
@@ -104,7 +105,7 @@ Plans:
 ## Current Work
 
 **Active Milestone:** v1.4 Report UI Refinements (Phases 19-21)
-**Next Phase:** Phase 20 - Algorithm-Aware UI Components
+**Next Phase:** Phase 21 - Performance and Polish
 
 ## Progress
 
@@ -132,5 +133,5 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 17. Specialized Languages - Part 2 | v1.3 | 4/4 | Complete | 2026-01-14 |
 | 18. Validation and Integration | v1.3 | 5/5 | Complete | 2026-01-14 |
 | 19. Language Metadata and Display Fixes | v1.4 | 2/2 | Complete | 2026-01-14 |
-| 20. Algorithm-Aware UI Components | v1.4 | 0/? | Not started | - |
+| 20. Algorithm-Aware UI Components | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 21. Performance and Polish | v1.4 | 0/? | Not started | - |
