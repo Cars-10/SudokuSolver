@@ -1,0 +1,18 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+# Setup Java environment (macOS Homebrew)
+if [ -d "/opt/homebrew/opt/openjdk" ]; then
+    export JAVA_HOME="/opt/homebrew/opt/openjdk"
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
+# Find Scala library path
+if [ -d /root/.sdkman/candidates/scala/current/lib ]; then
+    SCALA_LIB="/root/.sdkman/candidates/scala/current/lib"
+elif [ -d /opt/homebrew/opt/scala/libexec/lib ]; then
+    SCALA_LIB="/opt/homebrew/opt/scala/libexec/lib"
+else
+    SCALA_LIB="$(dirname $(which scalac))/../lib"
+fi
+java -cp ".:$SCALA_LIB/*" CP "$@"
