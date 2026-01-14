@@ -2,23 +2,23 @@
   {
     "solver": "Racket",
     "runType": "automated",
-    "timestamp": "2026-01-13T23:01:54Z",
+    "timestamp": "2026-01-14T09:47:30Z",
     "results": [
       {
         "matrix": "1",
-        "time": 592.4715,
-        "iterations": 84,
-        "memory": 149028864,
-        "cpu_user": 412.017,
-        "cpu_sys": 87.177,
-        "page_faults_major": 7,
-        "page_faults_minor": 11519,
-        "context_switches_voluntary": 480,
-        "context_switches_involuntary": 713,
+        "time": 383.806,
+        "iterations": 59,
+        "memory": 148963328,
+        "cpu_user": 237.975,
+        "cpu_sys": 49.504,
+        "page_faults_major": 47,
+        "page_faults_minor": 11448,
+        "context_switches_voluntary": 505,
+        "context_switches_involuntary": 673,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
-        "output": "../../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 9 2 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 7 1 \n7 4 5 3 6 1 2 9 8 \n1 3 8 7 2 9 6 4 5 \n8 5 6 2 7 3 4 1 9 \n4 1 2 9 8 5 7 3 6 \n3 9 7 1 4 6 8 5 2 \n\nSolved in Iterations=84\n"
+        "output": "../../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 1 6 3 7 5 8 4 \n6 7 4 5 1 8 2 9 3 \n5 8 3 4 9 2 1 6 7 \n2 6 9 8 5 4 3 5 1 \n7 4 5 3 6 1 8 9 2 \n1 3 8 7 2 9 9 4 6 \n8 5 7 2 4 3 6 1 5 \n4 1 2 9 8 5 7 3 9 \n3 9 6 1 7 6 8 2 4 \n\nSolved in Iterations=59\n"
       }
     ]
   }

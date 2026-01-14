@@ -1152,6 +1152,85 @@ I'll verify after: [verification]
 See ./.claude/get-shit-done/references/checkpoints.md for complete checkpoint guidance.
 </step>
 
+<step name="checkpoint_return_for_orchestrator">
+**When spawned by an orchestrator (execute-phase or execute-plan command):**
+
+If you were spawned via Task tool and hit a checkpoint, you cannot directly interact with the user. Instead, RETURN to the orchestrator with structured checkpoint state so it can present to the user and spawn a fresh continuation agent.
+
+**Return format for checkpoints:**
+
+Use the structured format from:
+@./.claude/get-shit-done/templates/checkpoint-return.md
+
+**Required in your return:**
+
+1. **Completed Tasks table** - Tasks done so far with commit hashes and files created
+2. **Current Task** - Which task you're on and what's blocking it
+3. **Checkpoint Details** - User-facing content (verification steps, decision options, or action instructions)
+4. **Awaiting** - What you need from the user
+
+**Example return:**
+
+```
+## CHECKPOINT REACHED
+
+**Type:** human-action
+**Plan:** 01-01
+**Progress:** 1/3 tasks complete
+
+### Completed Tasks
+
+| Task | Name | Commit | Files |
+|------|------|--------|-------|
+| 1 | Initialize Next.js 15 project | d6fe73f | package.json, tsconfig.json, app/ |
+
+### Current Task
+
+**Task 2:** Initialize Convex backend
+**Status:** blocked
+**Blocked by:** Convex CLI authentication required
+
+### Checkpoint Details
+
+**Automation attempted:**
+Ran `npx convex dev` to initialize Convex backend
+
+**Error encountered:**
+"Error: Not authenticated. Run `npx convex login` first."
+
+**What you need to do:**
+1. Run: `npx convex login`
+2. Complete browser authentication
+3. Run: `npx convex dev`
+4. Create project when prompted
+
+**I'll verify after:**
+`cat .env.local | grep CONVEX` returns the Convex URL
+
+### Awaiting
+
+Type "done" when Convex is authenticated and project created.
+```
+
+**After you return:**
+
+The orchestrator will:
+1. Parse your structured return
+2. Present checkpoint details to the user
+3. Collect user's response
+4. Spawn a FRESH continuation agent with your completed tasks state
+
+You will NOT be resumed. A new agent continues from where you stopped, using your Completed Tasks table to know what's done.
+
+**How to know if you were spawned:**
+
+If you're reading this workflow because an orchestrator spawned you (vs running directly from /gsd:execute-plan), the orchestrator's prompt will include checkpoint return instructions. Follow those instructions when you hit a checkpoint.
+
+**If running in main context (not spawned):**
+
+Use the standard checkpoint_protocol - display checkpoint and wait for direct user response.
+</step>
+
 <step name="verification_failure_gate">
 If any task verification fails:
 

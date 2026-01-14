@@ -128,7 +128,15 @@
         #t
         (begin
           (set! changed #f)
-          ;; Check rows for hidden singles
+          ;; Strategy 1: Naked singles (cells with only one candidate)
+          (for ([row (in-range 9)])
+            (for ([col (in-range 9)])
+              (when (= (get-val g row col) 0)
+                (let ([rem (count-cands (get-cand g row col))])
+                  (when (= rem 1)
+                    (when (assign! g row col (first-cand (get-cand g row col)))
+                      (set! changed #t)))))))
+          ;; Strategy 2: Check rows for hidden singles
           (for ([row (in-range 9)])
             (for ([d (in-range 1 10)])
               (let ([cnt 0]
@@ -288,13 +296,7 @@
         (init-grid! g puz)
         (print-grid g)
 
-        ;; Assign initial clues
-        (for ([r (in-range 9)])
-          (for ([c (in-range 9)])
-            (when (> (get-val g r c) 0)
-              (assign! g r c (get-val g r c)))))
-
-        ;; Propagate and solve
+        ;; Solve (propagate will find initial clues as hidden singles and assign them)
         (if (propagate! g)
             (let ([sol (cp-search! g)])
               (if sol
