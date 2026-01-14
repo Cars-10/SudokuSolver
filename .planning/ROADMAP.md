@@ -13,6 +13,7 @@ None
 - ✅ **v1.1 Algorithmic Expansion** - [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) (Phases 1-3, shipped 2026-01-13)
 - ✅ **v1.2 Interactive Reporting** - [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) (Phases 4-6, shipped 2026-01-13)
 - ✅ **v1.3 Algorithm Expansion: Complete Language Coverage** - [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md) (Phases 7-18, shipped 2026-01-14)
+- 🚧 **v1.4 Report UI Refinements** - Phases 19-21 (in progress)
 
 ## All Phases
 
@@ -65,23 +66,49 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 </details>
 
-### 📋 Next Milestone (To Be Defined)
+### 🚧 v1.4 Report UI Refinements (In Progress)
 
-Ready to plan the next milestone. Options:
-- **v1.4 Bug Fixes:** Fix 16 implementations with known issues (7 DLX, 9 CP)
-- **v1.4 Feature Expansion:** SAT solver algorithm, comprehensive benchmarking, advanced visualizations
-- **v2.0 Major Redesign:** Significant architectural changes or new directions
+**Milestone Goal:** Fix reporting UI issues and restore missing functionality from algorithm expansion work.
 
-Use `/gsd:discuss-milestone` to define the next milestone scope.
+#### Phase 19: Language Metadata and Display Fixes
+
+**Goal**: Restore missing language metadata and author pictures, fix language count display, remove computer icon badge
+**Depends on**: Previous milestone complete
+**Research**: Unlikely (internal UI patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 19-01: TBD (run /gsd:plan-phase 19 to break down)
+
+#### Phase 20: Algorithm-Aware UI Components
+
+**Goal**: Extend algorithm awareness to scoring modal and chart filtering for consistent multi-algorithm experience
+**Depends on**: Phase 19
+**Research**: Unlikely (existing patterns established)
+**Plans**: TBD
+
+Plans:
+- [ ] 20-01: TBD
+
+#### Phase 21: Performance and Polish
+
+**Goal**: Debug Matrix Rain performance issue (intermittent blur/slowness) and perform integration testing
+**Depends on**: Phase 20
+**Research**: Unlikely (existing code debugging)
+**Plans**: TBD
+
+Plans:
+- [ ] 21-01: TBD
 
 ## Current Work
 
-No active phases. Ready to plan next milestone.
+**Active Milestone:** v1.4 Report UI Refinements (Phases 19-21)
+**Next Phase:** Phase 19 - Language Metadata and Display Fixes
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18
+Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -103,3 +130,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 16. Specialized Languages - Part 1 | v1.3 | 2/2 | Complete | 2026-01-14 |
 | 17. Specialized Languages - Part 2 | v1.3 | 4/4 | Complete | 2026-01-14 |
 | 18. Validation and Integration | v1.3 | 5/5 | Complete | 2026-01-14 |
+| 19. Language Metadata and Display Fixes | v1.4 | 0/? | Not started | - |
+| 20. Algorithm-Aware UI Components | v1.4 | 0/? | Not started | - |
+| 21. Performance and Polish | v1.4 | 0/? | Not started | - |
