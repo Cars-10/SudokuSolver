@@ -1,0 +1,41 @@
+[
+  {
+    "solver": "PowerShell",
+    "runType": "automated",
+    "timestamp": "2026-01-14T00:14:49Z",
+    "results": [
+      {
+        "matrix": "N/A",
+        "time": 0,
+        "iterations": 0,
+        "memory": 0,
+        "cpu_user": 0,
+        "cpu_sys": 0,
+        "page_faults_major": 0,
+        "page_faults_minor": 0,
+        "context_switches_voluntary": 0,
+        "context_switches_involuntary": 0,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "env_error",
+        "output": "No matrix files found"
+      },
+      {
+        "matrix": "1",
+        "time": 968.7826,
+        "iterations": 1,
+        "memory": 189693952,
+        "cpu_user": 812.756,
+        "cpu_sys": 262.519,
+        "page_faults_major": 5144,
+        "page_faults_minor": 11335,
+        "context_switches_voluntary": 369,
+        "context_switches_involuntary": 5538,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nPuzzle:\n\n\n\n\n\n\n\n\n\n\nSolved in Iterations=1\n\nSeconds to process 0.318\n"
+      }
+    ]
+  }
+]
