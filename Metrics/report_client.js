@@ -3953,11 +3953,16 @@ let startScreensaverGlobal;
             frame++;
             if (frame % 2 !== 0) return;
 
+            const perfStart = performance.now();
+
             // Black background with opacity for trail effect
             // Lower opacity = longer trails
+            const perfClearStart = performance.now();
             ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
             ctx.fillRect(0, 0, width, height);
+            const perfClearEnd = performance.now();
 
+            const perfRainStart = performance.now();
             ctx.fillStyle = '#0F0'; // Green text
             ctx.font = '14px monospace';
 
@@ -4032,6 +4037,7 @@ let startScreensaverGlobal;
 
                 drops[i]++;
             }
+            const perfRainEnd = performance.now();
 
             // Check if rain has reached halfway
             let rainHalfway = false;
@@ -4044,6 +4050,7 @@ let startScreensaverGlobal;
             }
 
             // Draw Puzzle Overlay (after slide-in completes)
+            const perfPuzzleStart = performance.now();
             if (puzzleLines.length > 0 && slideInComplete && currentMode === 'red' && window.puzzleVisible) {
                 // 1. Calculate Font Size
                 // Goal: Row fits 2/3 of screen width
@@ -4220,6 +4227,23 @@ let startScreensaverGlobal;
             } else {
                 // If not ready or no lines, ensure we are ready for next
                 if (puzzleLines.length === 0) prepareNextPuzzle();
+            }
+            const perfPuzzleEnd = performance.now();
+
+            const perfEnd = performance.now();
+
+            // Log performance metrics every 60 frames (once per second at 30fps effective)
+            if (frame % 120 === 0) {
+                const totalTime = perfEnd - perfStart;
+                const clearTime = perfClearEnd - perfClearStart;
+                const rainTime = perfRainEnd - perfRainStart;
+                const puzzleTime = perfPuzzleEnd - perfPuzzleStart;
+                console.log(`[Matrix Rain Performance]
+  Total frame time: ${totalTime.toFixed(2)}ms
+  - Clear canvas: ${clearTime.toFixed(2)}ms (${(clearTime/totalTime*100).toFixed(1)}%)
+  - Rain drops: ${rainTime.toFixed(2)}ms (${(rainTime/totalTime*100).toFixed(1)}%)
+  - Puzzle overlay: ${puzzleTime.toFixed(2)}ms (${(puzzleTime/totalTime*100).toFixed(1)}%)
+  Target: 16.67ms for 60fps, 33.33ms for 30fps effective`);
             }
         }
 
