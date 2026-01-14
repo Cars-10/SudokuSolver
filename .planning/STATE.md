@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 19 of 21 (Language Metadata and Display Fixes)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-01-14 - Milestone v1.4 created
+Plan: 19-02 Complete
+Status: In progress (1/3 plans complete)
+Last activity: 2026-01-14 - Fixed language count and removed computer icon badge
 
-Progress: ░░░░░░░░░░ 0%
+Progress: ███░░░░░░░ 33%
 
 ## Performance Metrics (v1.3)
 
@@ -56,6 +56,10 @@ Progress: ░░░░░░░░░░ 0%
 ### Decisions
 
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
+
+**Recent (v1.4):**
+- Language count display: Use actual metricsData.length, fallback to "LOADING..." instead of undefined variable
+- Badge cleanup: Remove computer icon (💻) for standard runs, keep Docker (🐳) and AI badges for differentiation
 
 **Recent (v1.3):**
 - Parallel execution model: achieves 11min wall clock for 5-language phases
