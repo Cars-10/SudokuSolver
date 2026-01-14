@@ -1,0 +1,275 @@
+V "GNAT Lib v13"
+M P W=b
+A -O3
+P SS ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_FIXED_POINT
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_LOCAL_ALLOCATORS
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_ALLOCATORS_AFTER_ELABORATION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLICIT_LOOPS
+
+U dlx%b			dlx.adb			d7bde792 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.real_time%s	a-reatim.adb		a-reatim.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.fixed%s	a-strfix.adb		a-strfix.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+D ada.ads		20240521074738 76789da1 ada%s
+D a-charac.ads		20240521074737 2d3ec45b ada.characters%s
+D a-chlat1.ads		20240521074737 e0d72e76 ada.characters.latin_1%s
+D a-comlin.ads		20240521074737 4aa66568 ada.command_line%s
+D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
+D a-flteio.ads		20240521074738 e18a47a0 ada.float_text_io%s
+D a-inteio.ads		20240521074738 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
+D a-reatim.ads		20240521074737 b89a10c3 ada.real_time%s
+D a-stream.ads		20240521074738 119b8fb3 ada.streams%s
+D a-string.ads		20240521074738 90ac6797 ada.strings%s
+D a-strfix.ads		20240521074738 d8832344 ada.strings.fixed%s
+D a-strmap.ads		20240521074738 ed8acfdb ada.strings.maps%s
+D a-strsea.ads		20240521074738 2d394feb ada.strings.search%s
+D a-sttebu.ads		20240521074738 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240521074738 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240521074738 9eaa38c6 ada.tags%s
+D a-textio.ads		20240521074738 5c2c6153 ada.text_io%s
+D a-tiflio.ads		20240521074738 9fe024a2 ada.text_io.float_io%s
+D a-tiinio.ads		20240521074738 e58fa6fb ada.text_io.integer_io%s
+D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
+D dlx.adb		20260113234103 264379bd dlx%b
+D interfac.ads		20240521074738 15f799c2 interfaces%s
+D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
+D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
+D system.ads		20240521074738 a4968d35 system%s
+D s-atacco.ads		20240521074738 903317eb system.address_to_access_conversions%s
+D s-c_time.ads		20240904144414 535885c5 system.c_time%s
+D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
+D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240521074738 dc5161d4 system.file_control_block%s
+D s-linux.ads		20240904144414 96312dab system.linux%s
+D s-multip.ads		20240521074738 38ac9f73 system.multiprocessors%s
+D s-oscons.ads		20240904144414 2ba045d0 system.os_constants%s
+D s-osinte.ads		20240904144414 a8f58951 system.os_interface%s
+D s-parame.ads		20240904144414 1f39ba92 system.parameters%s
+D s-putima.ads		20240521074738 17291fe4 system.put_images%s
+D s-secsta.ads		20240521074738 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240521074738 df77073e system.soft_links%s
+D s-stache.ads		20240521074738 0b81c1fe system.stack_checking%s
+D s-stausa.ads		20240521074738 5be75682 system.stack_usage%s
+D s-stalib.ads		20240521074738 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240521074738 ab5468e4 system.storage_elements%s
+D s-stoele.adb		20240521074738 8f5a9db6 system.storage_elements%b
+D s-tasinf.ads		20240521074737 528dde74 system.task_info%s
+D s-taspri.ads		20240521074737 4ec891e7 system.task_primitives%s
+D s-taprop.ads		20240521074737 6eefbe12 system.task_primitives.operations%s
+D s-taskin.ads		20240521074737 0ec7ab0b system.tasking%s
+D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
+D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
+G a e
+G c Z b b [dlx standard 9 11 none]
+X 1 ada.ads
+16K9*Ada 20e8 22|1r6 1r23 2r6 2r31 3r6 4r6 4r28 5r6 5r29 6r6 6r23 7r6 7r25
+. 443r4
+X 4 a-comlin.ads
+36K13*Command_Line 144e21 22|4w10 4r32
+39V13*Argument_Count{natural} 22|411s18
+52V13*Argument{string} 22|412s16 413s27
+X 6 a-flteio.ads
+20K13*Float_Text_IO[19|46] 22|3w10 443r8
+X 7 a-inteio.ads
+18K13*Integer_Text_IO[20|46] 22|2w10 2r35
+X 9 a-reatim.ads
+39K13*Real_Time 186e18 22|7w10 7r29
+50O9*Time<duration> 22|403r27
+55O9*Time_Span<duration> 22|404r14
+62V13*Clock{50O9} 22|409s18 439s16
+72V14*"-"{55O9} 22|440s24
+111V13*To_Duration{duration} 22|441s21
+X 11 a-string.ads
+16K13*Strings 35e16 22|5r10 5r33 6w10 6r27
+X 12 a-strfix.ads
+49K21*Fixed 1433e22 22|5w18 5r41
+253V13*Index{natural} 22|412s10
+X 18 a-textio.ads
+58K13*Text_IO 787e16 22|1w10 1r27
+66P9*File_Type 22|363r14
+68n23*In_File{68E9} 22|372r18
+88I12*Field{integer}
+114U14*Open 22|372s7
+130U14*Close 22|391s7
+282U14*New_Line 22|357s10 399s10 430s13 431s13 444s4
+341V13*End_Of_File{boolean} 22|373s17
+519U14*Put 22|355s13 397s13 428s13 442s4
+526U14*Get_Line 22|374s10
+566U14*Put_Line 22|350s7 351s7 371s7 427s13 433s13 434s13
+X 19 a-tiflio.ads
+85U14*Put 22|443s22[6|20]
+86f7 Item{float} 22|443r26[6|20]
+87i7 Fore{18|88I12} 22|443r43[6|20]
+88i7 Aft{18|88I12} 22|443r54[6|20]
+89i7 Exp{18|88I12} 22|443r64[6|20]
+X 20 a-tiinio.ads
+83U14*Put 22|354s13[7|18] 396s13[7|18] 429s13[7|18]
+84i7 Item{integer} 22|354r17[7|18] 396r17[7|18] 429r17[7|18]
+85i7 Width{18|88I12} 22|354r37[7|18] 396r39[7|18] 429r41[7|18]
+X 22 dlx.adb
+9U11*Dlx 9b11 445l5 445t8
+11R9 DlxNode 12r34 17c9 24e14 206r24 219r33 239r19
+12P9 DlxNode_Access(11R9) 18r17 19r17 20r17 21r17 27r14 54r46 82r18 83r20
+. 105r18 106r19 130r17 146r18 147r20 148r19 202r19 236r71 237r14 255r24 301r14
+. 302r14
+14R9 DlxColumn 15r36 26c9 29e14 205r19 218r28
+15P9 DlxColumn_Access(14R9) 22r17 51r11 52r46 81r33 104r35 127r34 128r14
+. 145r13 236r28
+18p7 Up{12P9} 94m29 94r46 95r24 109r28 114m28 115r23 118r31 209m17 221m26
+. 245m12 245r27 246r16 247m16
+19p7 Down{12P9} 90r28 94r24 95m27 95r46 99r31 114r23 115m26 168r28 191r31
+. 210m17 222m26 244m12 246m19
+20p7 Left{12P9} 86m22 86r39 87r16 111r32 116r36 122m22 123r16 185r32 188r36
+. 207m17 227m26 230m20 272m10 273m10 274m10 275m10
+21p7 Right{12P9} 86r16 87m21 87r39 92r33 97r38 122r16 123m21 132r28 138r29
+. 153r20 173r33 176r38 208m17 228m26 229m20 267m10 268m10 269m10 270m10 320r41
+22p7 Column{15P9} 96r24 96r50 113r23 113r48 134r21 135r33 136r29 175r37 187r38
+. 211m17 223m26 240m12 319r46
+23i7 Row_Id{integer} 170r34 212m17 224m26 241m12
+27p7 Node{12P9} 86r11 86r34 87r11 87r34 90r23 91r29 109r23 110r29 122r11
+. 122r34 123r11 123r34 132r23 133r29 153r15 153r33 168r23 169r29 206m12 207r12
+. 207r30 208r12 208r31 209r12 209r28 210r12 210r30 211r12 212r12 216r25 219m21
+. 221r21 221r43 222r21 222r45 223r21 224r21 227r21 228r21 228r40 229r40 230r15
+. 230r39 231r34 244r24 245r22 246r11 247r11
+28i7 Size{integer} 96m31 96r57 113m30 113r55 134r28 135r40 160r33 213m12
+. 220m21 248m11 248r23
+32R9 RowInfo 36e14 53r48
+33i7 Row{integer} 257m28 312r46 341r51
+34i7 Col{integer} 258m28 313r46 341r77
+35i7 Num{integer} 259m28 314r46 341r106
+39i4 Max_Columns{integer} 52r26 217r21
+40i4 Max_Rows{integer} 53r31 54r29 310r38 340r41
+41i4 Max_Nodes{integer}
+44A9 Grid_Type(integer)<integer><integer> 48r13 49r20 348r34
+45A9 Solution_Array(integer)<integer> 144r51 333r42 406r15
+48a4 Puzzle{44A9} 286r16 287r36 306r16 308r34 335r24 381m19 396r25 414r23
+49a4 Solution_Grid{44A9} 335m7 341m16 426r26
+51p4 Root{15P9} 132r18 133r24 153r10 153r28 205m7 206r7 207r7 207r25 208r7
+. 208r26 209r7 209r23 210r7 210r25 211r7 211r27 212r7 213r7 216r20 228r35
+. 230r10
+52a4 Columns(15P9) 218m10 219m10 219r10 220m10 220r10 221m10 221r10 221r32
+. 222m10 222r10 222r34 223m10 223r10 223r36 224m10 224r10 227m10 227r10 228m10
+. 228r10 229r29 230r28 231r23 261r22 262r22 263r22 264r22
+53a4 Row_Metadata(32R9) 257m7 258m7 259m7 312r25 313r25 314r25 341r30 341r56
+. 341r85
+54a4 Row_Starts(12P9) 277m7 311r25 316r33
+56i4 Dlx_Iterations{integer} 150m7 150r25 420m10 429r25
+59V13 Get_Position_Col{integer} 59b13 59>30 59>33 62l8 62t24 261s30
+59i30 R{integer} 61r14
+59i33 C{integer} 61r22
+64V13 Get_Row_Col{integer} 64b13 64>25 64>28 67l8 67t19 262s30
+64i25 R{integer} 66r19
+64i28 N{integer} 66r28
+69V13 Get_Col_Col{integer} 69b13 69>25 69>28 72l8 72t19 263s30
+69i25 C{integer} 71r20
+69i28 N{integer} 71r29
+74V13 Get_Box_Col{integer} 74b13 74>25 74>28 74>31 78l8 78t19 264s30
+74i25 R{integer} 75r25
+74i28 C{integer} 75r39
+74i31 N{integer} 77r31
+75i7 Box{integer} 77r20
+81U14 Cover_Column 81b14 81>27 101l8 101t20 165s7 175s13 319s28
+81p27 Col{15P9} 86r7 86r30 87r7 87r30 90r19 91r25
+82p7 Row_Node{12P9} 90m7 91r13 92r24 93r30 99m10 99r22
+83p7 Right_Node{12P9} 92m10 93r16 94r13 94r35 95r13 95r35 96r13 96r39 97m13
+. 97r27
+104U14 Uncover_Column 104b14 104>29 124l8 124t22 187s13 195s7
+104p29 Col{15P9} 109r19 110r25 122r7 122r30 123r7 123r30
+105p7 Row_Node{12P9} 109m7 110r13 111r23 112r29 118m10 118r22
+106p7 Left_Node{12P9} 111m10 112r16 113r13 113r38 114r13 114r34 115r13 115r34
+. 116m13 116r26
+127V13 Choose_Column{15P9} 127b13 141l8 141t21 158s14
+128p7 Best{15P9} 136m13 140r14
+129i7 Min_Size{integer} 134r35 135m13
+130p7 Current{12P9} 132m7 133r13 134r13 135r25 136r21 138m10 138r21
+144V13 Search{boolean} 144b13 144>20 144=33 180s13 198l8 198t14 422s20
+144i20 K{integer} 170r19 180r20
+144a33 Solution{45A9} 170m10 180m27 180r27
+145p7 Col{15P9} 158m7 160r10 160r29 165r20 168r19 169r25 195r22
+146p7 Row_Node{12P9} 168m7 169r13 170r25 173r24 174r30 185r23 186r29 191m10
+. 191r22
+147p7 Right_Node{12P9} 173m10 174r16 175r26 176m13 176r27
+148p7 Left_Node{12P9} 185m10 186r16 187r28 188m13 188r26
+201U14 Init_Matrix 201b14 233l8 233t19 416s10
+202p7 Last_Node{12P9} 216m7 227r34 229r10 231m10
+217i11 I{integer} 218r18 219r18 220r18 221r18 221r40 222r18 222r42 223r18
+. 223r44 224r18 227r18 228r18 229r37 230r36 231r31
+236V13 Add_Node{12P9} 236b13 236>22 236>46 251l8 251t16 261s13 262s13 263s13
+. 264s13
+236p22 Col{15P9} 240r22 244r20 245r18 246r7 247r7 248r7 248r19
+236i46 Row_Id{integer} 241r22
+237p7 Node{12P9} 239m7 240r7 241r7 244r7 245r7 246r27 247r22 250r14
+254U14 Build_Dlx_Row 254b14 254>28 254>31 254>34 254>37 278l8 278t21 287s16
+. 291s19
+254i28 R{integer} 257r35 261r47 262r42 264r42
+254i31 C{integer} 258r35 261r50 263r42 264r45
+254i34 N{integer} 259r35 262r45 263r45 264r48
+254i37 Row_Id{integer} 257r20 258r20 259r20 261r55 262r50 263r50 264r53 277r18
+255p7 N1{12P9} 261m7 267r7 270r19 272r7 273r18 277r29
+255p11 N2{12P9} 262m7 267r19 268r7 273r7 274r18
+255p15 N3{12P9} 263m7 268r19 269r7 274r7 275r18
+255p19 N4{12P9} 264m7 269r19 270r7 272r18 275r7
+281U14 Build_Matrix 281b14 297l8 297t20 417s10
+282i7 Row_Id{integer} 287r50 288m16 288r26 291r42 292m19 292r29
+284i11 R{integer} 286r23 287r30 287r43 291r33
+285i14 C{integer} 286r26 287r33 287r46 291r36
+290i20 N{integer} 291r39
+300U14 Cover_Clues 300b14 330l8 330t19 418s10
+301p7 Node{12P9} 316m25 317r33 321r45
+302p7 Curr{12P9} 317m25 319r41 320m28 320r36 321r38
+304i11 R{integer} 306r23 308r41 312r52
+305i14 C{integer} 306r26 308r44 313r52
+308i19 N{integer} 314r52
+310i23 Row_Id{integer} 311r36 312r38 313r38 314r38 316r44
+333U14 Extract_Solution 333b14 333>31 345l8 345t24 425s13
+333a31 Solution{45A9} 338r33
+336i11 I{integer} 338r42
+338i13 Row_Id{integer} 340r16 340r32 341r43 341r69 341r98
+348U14 Print_Puzzle 348b14 348>27 359l8 359t20 414s10 426s13
+348a27 Grid{44A9} 354r25
+352i11 R{integer} 354r30
+353i14 C{integer} 354r33
+362U14 Read_Matrix_File 362b14 362>31 401l8 401t24 413s10
+362a31 Filename{string} 371r16 372r27
+363p7 File{18|66P9} 372m12 372r12 373r29 374r19 391m13 391r13
+364a7 Line{string} 374m25 375r31 379r19 380r40
+365i7 Last{natural} 374m31 375r13 378r38
+366i7 Row{integer} 373r39 381r26 387m16 387r23
+367i7 Col{integer} 376m13 378r19 381r31 382m19 382r26 386r16
+368i7 Val{integer} 380m19 381r39
+369i7 Idx{integer} 377m13 378r31 379r24 380r45 384m16 384r23
+394i11 R{integer} 396r32
+395i14 C{integer} 396r35
+403o4 Start_Time{9|50O9} 409m4 440r26
+403o16 End_Time{9|50O9} 439m4 440r15
+404o4 Elapsed{9|55O9} 440m4 441r33
+405f4 Seconds{float} 441m4 443r34
+406a4 Solution{45A9} 421m10 422m30 422r30 425r30
+407b4 Result{boolean} 422m10 424r13
+411i8 I{integer} 412r25 413r36
+X 41 s-stausa.ads
+207U14*Initialize 208i<c,__gnat_stack_usage_initialize>22
+272U14*Output_Results 276i<c,__gnat_stack_usage_output_results>22
+

@@ -1,0 +1,294 @@
+V "GNAT Lib v13"
+M P W=b
+A -O3
+P SS ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_FIXED_POINT
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_LONG_LONG_INTEGERS
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+
+U cp%b			cp.adb			1b2595ca NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.real_time%s	a-reatim.adb		a-reatim.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.fixed%s	a-strfix.adb		a-strfix.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+Z system.img_lli%s	s-imglli.ads		s-imglli.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+D ada.ads		20240521074738 76789da1 ada%s
+D a-assert.ads		20240521074737 ba465f5c ada.assertions%s
+D a-charac.ads		20240521074737 2d3ec45b ada.characters%s
+D a-chlat1.ads		20240521074737 e0d72e76 ada.characters.latin_1%s
+D a-comlin.ads		20240521074737 4aa66568 ada.command_line%s
+D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
+D a-flteio.ads		20240521074738 e18a47a0 ada.float_text_io%s
+D a-inteio.ads		20240521074738 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
+D a-numeri.ads		20240521074738 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20240521074738 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20240521074738 711e0174 ada.numerics.big_numbers.big_integers_ghost%s
+D a-reatim.ads		20240521074737 b89a10c3 ada.real_time%s
+D a-stream.ads		20240521074738 119b8fb3 ada.streams%s
+D a-string.ads		20240521074738 90ac6797 ada.strings%s
+D a-strfix.ads		20240521074738 d8832344 ada.strings.fixed%s
+D a-strmap.ads		20240521074738 ed8acfdb ada.strings.maps%s
+D a-strsea.ads		20240521074738 2d394feb ada.strings.search%s
+D a-sttebu.ads		20240521074738 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240521074738 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240521074738 9eaa38c6 ada.tags%s
+D a-textio.ads		20240521074738 5c2c6153 ada.text_io%s
+D a-tiflio.ads		20240521074738 9fe024a2 ada.text_io.float_io%s
+D a-tiinio.ads		20240521074738 e58fa6fb ada.text_io.integer_io%s
+D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
+D cp.adb		20260113234315 ff2c9227 cp%b
+D interfac.ads		20240521074738 15f799c2 interfaces%s
+D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
+D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
+D system.ads		20240521074738 a4968d35 system%s
+D s-atacco.ads		20240521074738 903317eb system.address_to_access_conversions%s
+D s-assert.ads		20240521074738 9c4520c7 system.assertions%s
+D s-c_time.ads		20240904144414 535885c5 system.c_time%s
+D s-casuti.ads		20240521074738 cf13d755 system.case_util%s
+D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
+D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240521074738 dc5161d4 system.file_control_block%s
+D s-imagei.ads		20240521074738 c707dfd0 system.image_i%s
+D s-imglli.ads		20240521074738 0dc8acc3 system.img_lli%s
+D s-linux.ads		20240904144414 96312dab system.linux%s
+D s-multip.ads		20240521074738 38ac9f73 system.multiprocessors%s
+D s-oscons.ads		20240904144414 2ba045d0 system.os_constants%s
+D s-osinte.ads		20240904144414 a8f58951 system.os_interface%s
+D s-parame.ads		20240904144414 1f39ba92 system.parameters%s
+D s-putima.ads		20240521074738 17291fe4 system.put_images%s
+D s-secsta.ads		20240521074738 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240521074738 df77073e system.soft_links%s
+D s-stache.ads		20240521074738 0b81c1fe system.stack_checking%s
+D s-stausa.ads		20240521074738 5be75682 system.stack_usage%s
+D s-stalib.ads		20240521074738 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240521074738 ab5468e4 system.storage_elements%s
+D s-stoele.adb		20240521074738 8f5a9db6 system.storage_elements%b
+D s-tasinf.ads		20240521074737 528dde74 system.task_info%s
+D s-taspri.ads		20240521074737 4ec891e7 system.task_primitives%s
+D s-taprop.ads		20240521074737 6eefbe12 system.task_primitives.operations%s
+D s-taskin.ads		20240521074737 0ec7ab0b system.tasking%s
+D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
+D s-vallli.ads		20240521074738 b4c16804 system.val_lli%s
+D s-valllu.ads		20240521074738 ca6e26ce system.val_llu%s
+D s-valuti.ads		20240521074738 fcd603d8 system.val_util%s
+D s-valuei.ads		20240521074738 11081e09 system.value_i%s
+D s-vaispe.ads		20240521074738 44130d39 system.value_i_spec%s
+D s-valueu.ads		20240521074738 18770347 system.value_u%s
+D s-vauspe.ads		20240521074738 a67b2f28 system.value_u_spec%s
+D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
+D s-widllu.ads		20240521074738 a6620b19 system.wid_llu%s
+D s-widthu.ads		20240521074738 b32f15e2 system.width_u%s
+G a e
+G c Z b b [cp standard 10 11 none]
+X 1 ada.ads
+16K9*Ada 20e8 26|1r6 1r23 2r6 2r31 3r6 4r6 4r28 5r6 5r29 6r6 6r23 7r6 7r25
+. 480r4
+X 5 a-comlin.ads
+36K13*Command_Line 144e21 26|4w10 4r32
+39V13*Argument_Count{natural} 26|452s18
+52V13*Argument{string} 26|453s16 454s27
+X 7 a-flteio.ads
+20K13*Float_Text_IO[23|46] 26|3w10 480r8
+X 8 a-inteio.ads
+18K13*Integer_Text_IO[24|46] 26|2w10 2r35
+X 13 a-reatim.ads
+39K13*Real_Time 186e18 26|7w10 7r29
+50O9*Time<duration> 26|443r27
+55O9*Time_Span<duration> 26|444r14
+62V13*Clock{50O9} 26|450s18 476s16
+72V14*"-"{55O9} 26|477s24
+111V13*To_Duration{duration} 26|478s21
+X 15 a-string.ads
+16K13*Strings 35e16 26|5r10 5r33 6w10 6r27
+X 16 a-strfix.ads
+49K21*Fixed 1433e22 26|5w18 5r41
+253V13*Index{natural} 26|453s10
+X 22 a-textio.ads
+58K13*Text_IO 787e16 26|1w10 1r27
+66P9*File_Type 26|403r14
+68n23*In_File{68E9} 26|412r18
+88I12*Field{integer}
+114U14*Open 26|412s7
+130U14*Close 26|431s7
+282U14*New_Line 26|397s10 439s10 467s13 468s13 481s4
+341V13*End_Of_File{boolean} 26|413s17
+519U14*Put 26|395s13 437s13 465s13 466s13 479s4
+526U14*Get_Line 26|414s10
+566U14*Put_Line 26|390s7 391s7 411s7 464s13 470s13 471s13
+X 23 a-tiflio.ads
+85U14*Put 26|480s22[7|20]
+86f7 Item{float} 26|480r26[7|20]
+87i7 Fore{22|88I12} 26|480r43[7|20]
+88i7 Aft{22|88I12} 26|480r54[7|20]
+89i7 Exp{22|88I12} 26|480r64[7|20]
+X 24 a-tiinio.ads
+83U14*Put 26|394s13[8|18] 436s13[8|18]
+84i7 Item{integer} 26|394r17[8|18] 436r17[8|18]
+85i7 Width{22|88I12} 26|394r37[8|18] 436r39[8|18]
+X 26 cp.adb
+10U11*Cp 10b11 482l5 482t7
+12M12 CandidateSet{27|72M9} 14r54 26r33 31r44 36r36 38r14 49r39 354r20
+13A9 Grid_Values(integer)<integer><integer> 17r16 22r13 352r60 388r34 447r15
+14A9 Grid_Candidates(12M12)<integer><integer> 18r20
+16R9 CPGrid 19e14 60r38 122r34 125r37 155r34 177r37 330r34 352r37 355r19
+. 446r11
+17a7 Values{13A9} 65m21 71m24 144r33 162m12 193r24 215r27 232r30 250r27 267r30
+. 289r30 309r33 337r21 359r27
+18a7 Candidates{14A9} 66m21 72m24 130r33 135m29 138r42 145r49 163m12 194r59
+. 199r56 219r41 254r41 293r44 338r56 364r26
+22a4 Puzzle{13A9} 64r16 69r38 421m19 436r25 455r23
+23i4 Cp_Iterations{long_long_integer} 159m7 159r24 459m10 466r41
+26V13 Has_Candidate{boolean} 26b13 26>27 26>47 29l8 29t21 52s13 130s14 219s22
+. 254s22 293s25 366s13
+26m27 Set{12M12} 28r15
+26i47 Digit{integer} 28r37
+31U14 Remove_Candidate 31b14 31=31 31>58 34l8 34t24 135s7
+31m31 Set{12M12} 33m7 33r14
+31i58 Digit{integer} 33r40
+36V13 Count_Candidates{integer} 36b13 36>30 47l8 47t24 138s20 194s37 338s34
+36m30 Set{12M12} 38r30
+37i7 Count{integer} 42m13 42r22 46r14
+38m7 Temp{12M12} 40r13 41r14 44m10 44r30
+49V13 Get_First_Candidate{integer} 49b13 49>33 57l8 57t27 145s24 199s31
+49m33 Set{12M12} 52r27
+51i11 Digit{integer} 52r32 53r20
+60U14 Init_Grid 60b14 60=24 77l8 77t17 457s10
+60r24 Grid{16R9} 65m16 66m16 71m19 72m19
+62i11 Row{integer} 64r23 65r28 66r32 69r45 71r31 72r35
+63i14 Col{integer} 64r28 65r33 66r37 69r50 71r36 72r40
+69i19 Digit{integer} 71r44 72r62
+80R9 Peer_Cell 83e14 84r42
+81i7 Row{integer} 94m24 103m24 113m27 168r42
+82i7 Col{integer} 95m24 104m24 114m27 168r56
+84A9 Peer_Array(80R9)<integer> 86r56 156r15
+86U14 Get_Peers 86b14 86>24 86>29 86<44 119l8 119t17 166s7
+86i24 Row{integer} 88r29 94r31 102r18 112r21
+86i29 Col{integer} 89r29 93r18 104r31 112r34
+86a44 Peers{84A9} 94m13 95m13 103m13 104m13 113m16 114m16
+87i7 Idx{integer} 94r19 95r19 96m13 96r20 103r19 104r19 105m13 105r20 113r22
+. 114r22 115m16 115r23
+88i7 Box_Row{integer} 110r16 110r27
+89i7 Box_Col{integer} 111r19 111r30
+92i11 C{integer} 93r13 95r31
+101i11 R{integer} 102r13 103r31
+110i11 R{integer} 112r16 113r34
+111i14 C{integer} 112r29 114r34
+122V13 Assign{boolean} 122=20 122>42 122>47 122>52 146s17 155b13 174l8 174t14
+. 200s29 225s26 260s26 301s26 371s16
+122r20 Grid{16R9} 155b20 162m7 163m7 168m27 168r27
+122i42 Row{integer} 155b42 162r19 163r23 166r17
+122i47 Col{integer} 155b47 162r24 163r28 166r22
+122i52 Digit{integer} 155b52 162r32 163r50 168r61
+125V13 Eliminate{boolean} 125b13 125=23 125>45 125>50 125>55 152l8 152t17
+. 168s17
+125r23 Grid{16R9} 130r28 135m24 135r24 138r37 144r28 145r44 146m24 146r24
+125i45 Row{integer} 130r44 135r40 138r53 144r40 145r60 146r30
+125i50 Col{integer} 130r49 135r45 138r58 144r45 145r65 146r35
+125i55 Digit{integer} 130r55 135r51
+126i7 Remaining{integer} 138m7 139r10 144r10
+127i7 Last_Digit{integer} 145m10 146r40
+156a7 Peers{84A9} 166m27 168r33 168r47
+167i11 I{integer} 168r39 168r53
+177V13 Propagate{boolean} 177b13 177=23 327l8 327t17 372s19
+177r23 Grid{16R9} 193r19 194r54 199r51 200m36 200r36 215r22 219r36 225m33
+. 225r33 232r25 250r22 254r36 260m33 260r33 267r25 289r25 293r39 301m33 301r33
+. 309r28
+178b7 Changed{boolean} 187r13 188m10 203m22 228m19 263m19 304m19
+179i7 Num_Candidates{integer} 194m19 195r22 198r22
+180i7 Digit{integer} 199m22 200r52
+181i7 Count{integer} 212m16 216m22 220m22 220r31 224r19 229r22 247m16 251m22
+. 255m22 255r31 259r19 264r22 284m16 290m25 294m25 294r34 300r19 305r22
+182i7 Last_Col{integer} 213m16 221m22 225r44
+182i17 Last_Row{integer} 248m16 256m22 260r39
+183i7 Last_R{integer} 285m16 295m25 301r39
+183i15 Last_C{integer} 286m16 296m25 301r47
+184i7 Box_Row{integer} 281m13 287r25 287r36 307r28 307r39
+184i16 Box_Col{integer} 282m13 288r28 288r39 308r31 308r42
+185b7 Found{boolean} 230m19 233m25 237r26 265m19 268m25 272r26 306m19 310m28
+. 316r26
+191i14 Row{integer} 193r31 194r70 199r67 200r42
+192i17 Col{integer} 193r36 194r75 199r72 200r47
+210i14 Row{integer} 215r34 219r52 225r39 232r37
+211i17 Digit{integer} 215r46 219r63 225r54 232r49
+214i20 Col{integer} 215r39 219r57 221r34
+231i23 Col{integer} 232r42
+245i14 Col{integer} 250r39 254r57 260r49 267r42
+246i17 Digit{integer} 250r46 254r63 260r54 267r49
+249i20 Row{integer} 250r34 254r52 256r34
+266i23 Row{integer} 267r37
+280i14 Box{integer} 281r25 282r25
+283i17 Digit{integer} 289r45 293r62 301r55 309r48
+287i20 R{integer} 289r37 293r55 295r35
+288i23 C{integer} 289r40 293r58 296r35
+307i23 R{integer} 309r40
+308i26 C{integer} 309r43
+315L21 Found_Box_Digit 311r33
+320L18 Next_Box_Digit 291r30
+330V13 Find_Mrv_Cell{boolean} 330b13 330>27 330<42 330<51 349l8 349t21 358s14
+330r27 Grid{16R9} 337r16 338r51
+330i42 Mrv_Row{integer} 341m19
+330i51 Mrv_Col{integer} 342m19
+331i7 Min_Candidates{integer} 339r36 340m19
+332i7 Num_Candidates{integer} 338m16 339r19 340r37
+333b7 Found{boolean} 343m19 348r14
+335i11 R{integer} 337r28 338r67 341r30
+336i14 C{integer} 337r31 338r70 342r30
+352V13 Cp_Search{boolean} 352b13 352=23 352<45 373s22 385l8 385t17 460s20
+352r23 Grid{16R9} 358r28 359r22 364r21 368r26 371m23 371r23 372m29 372r29
+. 373m32 373r32 380m13
+352a45 Solution{13A9} 359m10 373m38 373r38
+353i7 Mrv_Row{integer} 358m34 358r34 364r37 371r29
+353i16 Mrv_Col{integer} 358m43 358r43 364r46 371r38
+354m7 Candidates{12M12} 364m7 366r27
+355r7 Grid_Copy{16R9} 368m13 380r21
+365i11 Digit{integer} 366r39 371r47
+388U14 Print_Puzzle 388b14 388>27 399l8 399t20 455s10 463s13
+388a27 Grid{13A9} 394r25
+392i11 R{integer} 394r30
+393i14 C{integer} 394r33
+402U14 Read_Matrix_File 402b14 402>31 441l8 441t24 454s10
+402a31 Filename{string} 411r16 412r27
+403p7 File{22|66P9} 412m12 412r12 413r29 414r19 431m13 431r13
+404a7 Line{string} 414m25 415r31 419r19 420r40
+405i7 Last{natural} 414m31 415r13 418r38
+406i7 Row{integer} 413r39 421r26 427m16 427r23
+407i7 Col{integer} 416m13 418r19 421r31 422m19 422r26 426r16
+408i7 Val{integer} 420m19 421r39
+409i7 Idx{integer} 417m13 418r31 419r24 420r45 424m16 424r23
+434i11 R{integer} 436r32
+435i14 C{integer} 436r35
+443o4 Start_Time{13|50O9} 450m4 477r26
+443o16 End_Time{13|50O9} 476m4 477r15
+444o4 Elapsed{13|55O9} 477m4 478r33
+445f4 Seconds{float} 478m4 480r34
+446r4 Grid{16R9} 457m20 457r20 460m30 460r30
+447a4 Solution{13A9} 460m36 460r36 463r26
+448b4 Result{boolean} 460m10 462r13
+452i8 I{integer} 453r25 454r36
+X 27 interfac.ads
+38K9*Interfaces 26|8w6 8r22 12r28 27|232e15
+72M9*Unsigned_16 26|12r39
+115V13*Shift_Left{72M9} 26|28s23 33s26 72s48 163s36
+120V13*Shift_Right{72M9} 26|44s18
+X 49 s-stausa.ads
+207U14*Initialize 208i<c,__gnat_stack_usage_initialize>22
+272U14*Output_Results 276i<c,__gnat_stack_usage_output_results>22
+
