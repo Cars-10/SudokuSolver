@@ -4632,8 +4632,29 @@ window.openScoreModal = function(lang) {
     populateVariantSelector(lang);
 
     // Get language data from metricsData
-    const langMetrics = metricsData.find(m => m.solver === lang);
-    const cMetrics = metricsData.find(m => m.solver === 'C');
+    // Get current algorithm filter
+    const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+
+    // Find metrics for this language with matching algorithm type
+    const langMetrics = metricsData.find(m => {
+        const matchesName = m.solver === lang;
+        const algoType = m.algorithmType || 'BruteForce';
+
+        // In "all" mode, find the algorithm type from the clicked row
+        if (selectedAlgo === 'all') {
+            const clickedRow = document.querySelector(`tr[data-lang="${lang}"]`);
+            const rowAlgo = clickedRow?.getAttribute('data-algorithm-type') || 'BruteForce';
+            return matchesName && algoType === rowAlgo;
+        }
+
+        return matchesName && algoType === selectedAlgo;
+    });
+
+    // Find C baseline matching the same algorithm type
+    const langAlgoType = langMetrics?.algorithmType || 'BruteForce';
+    const cMetrics = metricsData.find(m => {
+        return m.solver === 'C' && (m.algorithmType || 'BruteForce') === langAlgoType;
+    });
 
     // Get score and tier from row
     const score = parseFloat(row.getAttribute('data-score')) || 0;
@@ -4661,7 +4682,12 @@ window.openScoreModal = function(lang) {
     }
 
     title.textContent = lang;
-    subtitle.textContent = 'Performance Score Analysis';
+    const algoLabel = {
+        'BruteForce': 'Brute Force',
+        'DLX': 'Dancing Links',
+        'CP': 'Constraint Propagation'
+    }[langAlgoType] || 'Brute Force';
+    subtitle.textContent = `Performance Score Analysis - ${algoLabel}`;
 
     tierBadge.textContent = tier;
     tierBadge.className = 'tier-badge tier-' + tier.toLowerCase();
@@ -4683,7 +4709,7 @@ window.openScoreModal = function(lang) {
     document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
 
     // Draw radar chart with tier color
-    drawScoreRadarChart(lang, tier, tierColor, breakdownParts);
+    drawScoreRadarChart(lang, tier, tierColor, breakdownParts, langAlgoType);
 
     // Update legend with tier color
     const legendSwatch = document.getElementById('legendLangSwatch');
