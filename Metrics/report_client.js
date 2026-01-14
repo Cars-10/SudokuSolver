@@ -3963,14 +3963,17 @@ let startScreensaverGlobal;
             const perfClearEnd = performance.now();
 
             const perfRainStart = performance.now();
-            ctx.fillStyle = '#0F0'; // Green text
+
+            // Set default shadow once for normal rain
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
+            ctx.fillStyle = '#0F0';
             ctx.font = '14px monospace';
 
-            // Draw Matrix Rain
+            // Draw Matrix Rain - batch by type to minimize state changes
             for (let i = 0; i < drops.length; i++) {
                 const x = i * 14;
                 const y = drops[i] * 14;
-                // Easter Egg Logic
                 let char = '';
                 let isSpecial = false;
 
@@ -3981,54 +3984,42 @@ let startScreensaverGlobal;
                     cars10State[i]++; // Move to next char for next frame
                     isSpecial = true;
                 } else {
-                    // Random chance to start secret
-                    // Only if at top of screen to make it clean? Or anytime?
-                    // Let's settle for random trigger anytime, but visually it looks best if distinct.
-                    // Or maybe trigger when it resets?
-                    // Let's stick to standard random char
                     char = chars.charAt(Math.floor(Math.random() * chars.length));
                 }
 
-                // Draw
+                // Draw special characters separately to batch state changes
                 if (isSpecial) {
-                    // Crystal Effect: White with Cyan/Magenta subtle glow
+                    // Save current state and apply crystal effect
                     ctx.fillStyle = '#FFFFFF';
                     ctx.font = 'bold 14px monospace';
 
                     // Flash on entry (first 20 frames)
                     if (cars10State[i] < 20) {
                         ctx.shadowColor = '#FFFFFF';
-                        ctx.shadowBlur = 15; // Bright flash
-                        // Occasional flicker
+                        ctx.shadowBlur = 15;
                         if (Math.random() > 0.5) ctx.fillStyle = '#E0FFFF';
                     } else {
-                        // Stable Crystal Glow
-                        ctx.shadowColor = 'rgba(200, 255, 255, 0.8)'; // Ice blue glow
+                        ctx.shadowColor = 'rgba(200, 255, 255, 0.8)';
                         ctx.shadowBlur = 8;
                     }
-                } else {
-                    ctx.fillStyle = '#0F0';
-                    ctx.font = '14px monospace';
-                    // Glow Effect
+
+                    ctx.fillText(char, x, y);
+
+                    // Restore default for next iteration
                     ctx.shadowBlur = 8;
                     ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
-                }
-
-                ctx.fillText(char, x, y);
-
-                // Reset
-                ctx.shadowBlur = 0;
-
-                // Reset shadows
-                if (isSpecial) {
-                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#0F0';
+                    ctx.font = '14px monospace';
+                } else {
+                    // Use pre-set default style (no state changes needed)
+                    ctx.fillText(char, x, y);
                 }
 
                 // Reset drop to top randomly after it has crossed the screen
                 if (y > height && Math.random() > 0.975) {
                     drops[i] = 0;
                     // Chance to become special when spawning new drop
-                    if (Math.random() > 0.98) { // 2% chance per drop cycle
+                    if (Math.random() > 0.98) {
                         cars10State[i] = 0;
                     } else {
                         cars10State[i] = -1;
@@ -4037,6 +4028,10 @@ let startScreensaverGlobal;
 
                 drops[i]++;
             }
+
+            // Reset shadow once after all rain drawing
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
             const perfRainEnd = performance.now();
 
             // Check if rain has reached halfway
@@ -4052,169 +4047,126 @@ let startScreensaverGlobal;
             // Draw Puzzle Overlay (after slide-in completes)
             const perfPuzzleStart = performance.now();
             if (puzzleLines.length > 0 && slideInComplete && currentMode === 'red' && window.puzzleVisible) {
-                // 1. Calculate Font Size
-                // Goal: Row fits 2/3 of screen width
+                // 1. Calculate Font Size - cache these calculations
                 const targetWidth = width * 0.66;
-                const charCount = 17; // 9 digits + 8 spaces
-                let fontSize = Math.floor(targetWidth / charCount * 1.6); // Multiplier to adjust
+                const charCount = 17;
+                let fontSize = Math.floor(targetWidth / charCount * 1.6);
 
-                // "Font size should also increase by 30%" - ONLY for Red Mode (Full Screen)
-                // For Blue Mode (Chart), we scale it down a bit relative to that
                 if (currentMode === 'red') {
-                    fontSize = Math.floor(fontSize * 0.675); // Half the previous size
+                    fontSize = Math.floor(fontSize * 0.675);
                 } else {
-                    // Blue mode: maybe keep it standard or slightly smaller
                     fontSize = Math.floor(fontSize * 0.8);
                 }
 
+                // Cache frequently used values
+                const lineHeight = fontSize * 3.0;
+                const startX = width * 0.5;
+                const spacing = fontSize * 1.2;
+                const totalBlockWidth = 9 * spacing;
+                const halfHeight = height / 2;
+                const maxDist = halfHeight;
+
+                // Set base styles once
                 ctx.font = 'bold ' + fontSize + 'px "JetBrains Mono", monospace';
                 ctx.textAlign = 'center';
+                ctx.globalCompositeOperation = 'source-over';
 
-                // Base color for fallback
-                const color = '#FF0055'; // Bright neon red
+                const color = '#FF0055';
+                const pColor = puzzleColors[puzzleColorIndex] || color;
 
-                // Reduced glow for "fading trails" look
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = color;
-                ctx.fillStyle = color;
-
-                const lineHeight = fontSize * 3.0; // Double spacing (simulates blank row)
-                const startX = width / 2;
-
-                // 3. Dancing Highlight Logic
-                if (Date.now() - lastDanceTime > 200) {
+                // Dancing Highlight Logic
+                const now = Date.now();
+                if (now - lastDanceTime > 200) {
                     dancingRow = Math.floor(Math.random() * 9);
                     dancingCol = Math.floor(Math.random() * 9);
-                    lastDanceTime = Date.now();
+                    lastDanceTime = now;
                 }
 
-                // 4. Easter Egg Logic: /cars10
-                if (Date.now() - lastCars10Time > 1000) { // Every 1 second
+                // Easter Egg Logic: /cars10
+                if (now - lastCars10Time > 1000) {
                     const visibleRows = [];
                     for (let i = 0; i < puzzleLines.length; i++) {
                         const lineY = puzzleY + (i * lineHeight);
-                        // Check if fully visible on screen
                         if (lineY > lineHeight && lineY < height - lineHeight) {
                             visibleRows.push(i);
                         }
                     }
 
                     if (visibleRows.length > 0) {
-                        // Pick a random row that isn't already special
                         const candidates = visibleRows.filter(r => !specialRows.has(r));
                         if (candidates.length > 0) {
                             const randomRow = candidates[Math.floor(Math.random() * candidates.length)];
                             specialRows.add(randomRow);
                         }
                     }
-                    lastCars10Time = Date.now();
+                    lastCars10Time = now;
                 }
 
-                // Define columns to draw based on mode
-                let xPositions = [];
-                if (currentMode === 'red') {
-                    // Single centered column for fullscreen
-                    xPositions = [width * 0.5];
-                } else {
-                    // Single centered column for chart mode
-                    xPositions = [width * 0.5];
-                }
-
-                // 3. Iterate over each column position
-                for (const startX of xPositions) {
-                    // Determine visible rows for this column
-                    const visibleRows = [];
-                    for (let i = 0; i < puzzleLines.length; i++) {
-                        const lineY = puzzleY + (i * lineHeight);
-
-                        // Only consider visible rows
-                        if (lineY > -lineHeight * 0.2 && lineY < height + lineHeight * 0.2) {
-                            visibleRows.push(i);
-                        }
-                    }
-
-                    // No background clearing - completely transparent
-                    // Numbers will appear directly over Matrix rain
-
-                    // Draw each line of the puzzle
-                    for (let i = 0; i < puzzleLines.length; i++) {
-                        const lineY = puzzleY + (i * lineHeight);
-
-                        // Only draw if visible
-                        if (lineY > -lineHeight && lineY < height + lineHeight) {
-                            const line = puzzleLines[i];
-
-
-
-                            const parts = line.trim().split(/\s+/);
-
-                            if (parts.length === 9) {
-                                const spacing = fontSize * 1.2;
-                                // Calculate total width of the puzzle block
-                                const totalBlockWidth = (9 * fontSize * 1.2); // 9 chars * spacing
-
-                                // Clear the entire puzzle area for this column to prevent streaks
-                                // We do this ONCE per column loop, not per character, but here we are inside the loop.
-                                // Actually, let's do it per character but simpler:
-                                // Initialize starting X position for this row to center it
-                                let currentX = startX - (totalBlockWidth / 2) + (spacing / 2);
-
-                                for (let j = 0; j < parts.length; j++) {
-                                    const isDancing = (i % 9 === dancingRow) && (j === dancingCol);
-
-                                    // Calculate distance from center for scale effect
-                                    const distFromCenter = Math.abs(lineY - height / 2);
-                                    const maxDist = height / 2;
-                                    const centerFactor = 1 - (distFromCenter / maxDist); // 1 at center, 0 at edges
-
-                                    // Scale animation: grow at center (applies to all numbers)
-                                    const scaleBoost = 1 + (centerFactor * 0.3); // 1.0 to 1.3x at center
-
-                                    ctx.save();
-                                    // Tall Numbers: Scale Y by 2, plus center boost
-                                    ctx.translate(currentX, lineY);
-                                    ctx.scale(scaleBoost, 2 * scaleBoost);
-
-                                    // Draw a semi-transparent background box to hide streaks but keep it "semi transparent"
-                                    ctx.globalCompositeOperation = 'source-over';
-                                    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black
-                                    // Clear from way above to way below
-                                    ctx.fillRect(-fontSize * 0.6, -fontSize * 2, fontSize * 1.2, fontSize * 6);
-
-                                    // Draw number
-                                    ctx.globalCompositeOperation = 'source-over';
-                                    ctx.shadowBlur = 0;
-                                    ctx.shadowColor = 'transparent';
-                                    const pColor = puzzleColors[puzzleColorIndex] || '#FF0055';
-                                    ctx.strokeStyle = isDancing ? '#00b8ff' : pColor; // Blue if dancing, Dynamic otherwise
-                                    ctx.lineWidth = isDancing ? 4 : 2;
-
-                                    if (isDancing) {
-                                        ctx.scale(1.5, 1.5); // Extra scale for dancing
-                                        ctx.shadowBlur = 10;
-                                        ctx.shadowColor = '#00b8ff';
-                                    }
-                                    ctx.strokeText(parts[j], 0, 0);
-
-                                    ctx.restore();
-                                    currentX += spacing;
-                                }
-                            } else {
-                                // Header or other text
-                                ctx.save();
-                                ctx.translate(startX, lineY);
-                                ctx.scale(1, 2);
-                                ctx.strokeStyle = color;
-                                ctx.lineWidth = 2;
-                                ctx.strokeText(line, 0, 0);
-                                ctx.restore();
-                            }
-                        }
-                    }
-                }
-
-                // Reset shadow
+                // Disable shadows for puzzle drawing (we'll enable selectively)
                 ctx.shadowBlur = 0;
+                ctx.shadowColor = 'transparent';
+
+                // Draw each line of the puzzle
+                for (let i = 0; i < puzzleLines.length; i++) {
+                    const lineY = puzzleY + (i * lineHeight);
+
+                    // Only draw if visible
+                    if (lineY > -lineHeight && lineY < height + lineHeight) {
+                        const line = puzzleLines[i];
+                        const parts = line.trim().split(/\s+/);
+
+                        if (parts.length === 9) {
+                            // Puzzle row - cache calculations
+                            let currentX = startX - (totalBlockWidth / 2) + (spacing / 2);
+                            const distFromCenter = Math.abs(lineY - halfHeight);
+                            const centerFactor = 1 - (distFromCenter / maxDist);
+                            const scaleBoost = 1 + (centerFactor * 0.3);
+
+                            // Pre-calculate background rect dimensions
+                            const bgX = -fontSize * 0.6;
+                            const bgY = -fontSize * 2;
+                            const bgW = fontSize * 1.2;
+                            const bgH = fontSize * 6;
+
+                            for (let j = 0; j < parts.length; j++) {
+                                const isDancing = (i % 9 === dancingRow) && (j === dancingCol);
+
+                                ctx.save();
+                                ctx.translate(currentX, lineY);
+                                ctx.scale(scaleBoost, 2 * scaleBoost);
+
+                                // Background box
+                                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                                ctx.fillRect(bgX, bgY, bgW, bgH);
+
+                                // Number styling
+                                if (isDancing) {
+                                    ctx.scale(1.5, 1.5);
+                                    ctx.strokeStyle = '#00b8ff';
+                                    ctx.lineWidth = 4;
+                                    ctx.shadowBlur = 10;
+                                    ctx.shadowColor = '#00b8ff';
+                                } else {
+                                    ctx.strokeStyle = pColor;
+                                    ctx.lineWidth = 2;
+                                }
+
+                                ctx.strokeText(parts[j], 0, 0);
+                                ctx.restore();
+                                currentX += spacing;
+                            }
+                        } else {
+                            // Header or other text
+                            ctx.save();
+                            ctx.translate(startX, lineY);
+                            ctx.scale(1, 2);
+                            ctx.strokeStyle = color;
+                            ctx.lineWidth = 2;
+                            ctx.strokeText(line, 0, 0);
+                            ctx.restore();
+                        }
+                    }
+                }
 
                 puzzleY -= 5; // Scroll UP (Ascent)
 
