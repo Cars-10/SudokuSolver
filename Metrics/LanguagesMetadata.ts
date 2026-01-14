@@ -182,6 +182,13 @@ export interface LanguageMeta {
     history?: string;
     paradigm?: string;
     typeSystem?: string;
+
+    // Structured author information (array of author objects)
+    authors?: Array<{ name: string; image?: string; website?: string }>;
+    // Primary language logo/image
+    image?: string;
+    // Official language website
+    website?: string;
 }
 
 export const languageMetadata: Record<string, LanguageMeta> = {
