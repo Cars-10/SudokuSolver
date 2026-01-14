@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "PowerShell",
+    "runType": "automated",
+    "timestamp": "2026-01-14T09:51:12Z",
+    "results": [
+    {
+      "matrix": "1",
+      "time": 761.4917,
+      "iterations": 0,
+      "memory": 155746304,
+      "cpu_user": 500.5560,
+      "cpu_sys": 183.2460,
+      "page_faults_major": 5139,
+      "page_faults_minor": 9279,
+      "context_switches_voluntary": 787,
+      "context_switches_involuntary": 4791,
+      "io_inputs": 0,
+      "io_outputs": 0,
+      "status": "error",
+      "output": "../../../Matrices/1.matrix\n9 2 0 0 0 0 5 8 4\n0 0 0 5 0 0 0 0 3\n0 8 3 0 9 2 0 0 0\n2 6 0 8 5 4 0 0 1\n0 0 5 3 6 1 0 9 0\n1 0 0 0 0 9 0 0 0\n8 5 0 2 0 3 0 1 0\n4 1 2 9 8 0 0 3 0\n3 9 0 0 0 6 8 0 0\n\nPuzzle:\n9 2 0 0 0 0 5 8 4\n0 0 0 5 0 0 0 0 3\n0 8 3 0 9 2 0 0 0\n2 6 0 8 5 4 0 0 1\n0 0 5 3 6 1 0 9 0\n1 0 0 0 0 9 0 0 0\n8 5 0 2 0 3 0 1 0\n4 1 2 9 8 0 0 3 0\n3 9 0 0 0 6 8 0 0\nDEBUG Assign: Contradiction - cell (5,5) already has 7, trying to assign 9\n\nContradiction at clue #24: cell (5,5) = 9\n"
+    }
+    ]
+  }
+]
