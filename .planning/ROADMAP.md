@@ -179,15 +179,18 @@ Plans:
 - [x] 15-03: AWK Algorithms (DLX ✓, CP ✓)
 - [x] 15-04: Feasibility Assessment (Zsh feasible, 8 infeasible)
 
-#### Phase 16: Specialized Languages - Part 1
+#### Phase 16: Specialized Languages - Part 1 ✓
 
-**Goal**: Implement DLX and CP algorithms for specialized languages (Swift, Dart, Kotlin/Native, Scala Native)
+**Goal**: Implement DLX and CP algorithms for specialized languages (Swift, Dart)
 **Depends on**: Phase 15
 **Research**: Unlikely (modern language features support patterns)
-**Plans**: TBD
+**Plans**: 2/2 complete
+**Status**: Complete
+**Completed**: 2026-01-14
 
 Plans:
-- [ ] 16-01: TBD
+- [x] 16-01: Swift Algorithms (DLX + CP)
+- [x] 16-02: Dart Algorithms (DLX + CP)
 
 #### Phase 17: Specialized Languages - Part 2
 
