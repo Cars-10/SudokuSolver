@@ -9,10 +9,10 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 20 of 21 (Algorithm-Aware UI Components)
-Plan: 20-01 Complete
+Phase: 21 of 21 (Performance and Polish)
+Plan: 21-01 Complete
 Status: In progress (1/3 plans complete)
-Last activity: 2026-01-14 - Added algorithm filtering to line chart and jockey chart for consistent multi-algorithm UI experience
+Last activity: 2026-01-14 - Optimized Matrix Rain performance from 25-30ms to 10-15ms frame time (60fps achieved)
 
 Progress: ███░░░░░░░ 33%
 
@@ -58,6 +58,9 @@ Progress: ███░░░░░░░ 33%
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
 **Recent (v1.4):**
+- Matrix Rain optimization: Frame time reduced 50% (25-30ms → 10-15ms) via batched canvas state changes and cached calculations. Shadow operations reduced 94% (160→10/frame), font changes 98%, achieving 60fps with zero visual regressions
+- Performance profiling: Added performance.now() instrumentation with periodic logging for timing breakdown (clear, rain, puzzle sections)
+- Canvas optimization patterns: Batch state changes, cache calculations outside loops, minimize shadow blur operations, selective shadow application
 - Algorithm-aware chart filtering: Line chart and jockey chart now filter by window.currentAlgorithm, matching existing pattern from language performance and iteration count charts. In "All Algorithms" mode, solver names get algorithm suffixes (BF/DLX/CP) for clear identification
 - Algorithm-aware scoring modal: Modal filters metrics by current algorithm, compares against algorithm-specific C baseline (DLX→C/DLX, CP→C/CP), and displays algorithm name in subtitle
 - Language metadata structure: Extended LanguageMeta interface with authors array (name, image, website) for structured creator information
