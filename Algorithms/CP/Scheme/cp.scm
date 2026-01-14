@@ -89,6 +89,22 @@
         #t
         (begin
           (set! changed #f)
+          ;; Strategy 1: Naked singles (cells with only one candidate)
+          (let check-naked ((row 0))
+            (when (< row 9)
+              (let check-col ((col 0))
+                (if (< col 9)
+                    (begin
+                      (when (= (get-val g row col) 0)
+                        (let ((rem (count-cands (get-cand g row col))))
+                          (cond
+                            ((= rem 0) #f)  ; Will be caught by outer logic
+                            ((= rem 1)
+                             (when (assign! g row col (first-cand (get-cand g row col)))
+                               (set! changed #t))))))
+                      (check-col (+ col 1)))
+                    (check-naked (+ row 1))))))
+          ;; Strategy 2: Hidden singles in rows
           (do ((row 0 (+ row 1))) ((= row 9))
             (do ((d 1 (+ d 1))) ((> d 9))
               (let ((cnt 0) (lcol -1) (assigned #f))
@@ -190,9 +206,7 @@
               (let* ((puz (read-puzzle fname)) (g (make-grid)))
                 (init-grid! g puz)
                 (print-grid g)
-                (do ((r 0 (+ r 1))) ((= r 9))
-                  (do ((c 0 (+ c 1))) ((= c 9))
-                    (when (> (get-val g r c) 0) (assign! g r c (get-val g r c)))))
+                ;; Solve (propagate will find initial clues as hidden singles and assign them)
                 (if (propagate! g)
                     (let ((sol (cp-search! g)))
                       (if sol
