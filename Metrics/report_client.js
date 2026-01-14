@@ -1627,7 +1627,7 @@ window.updateSolverStats = function () {
         // Display language count in solver text
         screensaverText.innerText = `${metricsData.length} LANGUAGES`;
     } else if (screensaverText) {
-        screensaverText.innerText = `${planned} LANGUAGES`;
+        screensaverText.innerText = `LOADING...`;
     }
 };
 
