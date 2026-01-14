@@ -199,7 +199,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "CII Honeywell Bull, France",
         "benefits": "Strong typing, explicit concurrency, and high reliability.",
-        "related": "Pascal, Modula-2, VHDL, PL/SQL"
+        "related": "Pascal, Modula-2, VHDL, PL/SQL",
+        "authors": [
+            { "name": "Jean Ichbiah" }
+        ],
+        "website": "https://www.adaic.org/"
     },
     "Assembly": {
         "creator": "Kathleen Booth",
@@ -208,8 +212,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Birkbeck College, London",
         "benefits": "Direct hardware control, maximum performance, zero overhead.",
-        "related": "Machine Code, C, Forth"
-    ,
+        "related": "Machine Code, C, Forth",
+        "authors": [
+            { "name": "Kathleen Booth" }
+        ],
         "history": "1949. Born from the earliest machines, assembly languages provide a symbolic layer over raw machine code. Programmers using assembly have fine-grained control over registers, memory layout and instruction scheduling — essential for firmware and tight performance hotspots."
     },
     "Awk": {
@@ -219,9 +225,12 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Bell Labs, USA",
         "benefits": "Excellent for text processing, one-liners, and data extraction.",
-
-        "related": "C, SNOBOL, Shell, Perl, Lua"
-    ,
+        "related": "C, SNOBOL, Shell, Perl, Lua",
+        "authors": [
+            { "name": "Alfred Aho" },
+            { "name": "Peter Weinberger" },
+            { "name": "Brian Kernighan" }
+        ],
         "history": "1977. Created by Aho, Weinberger and Kernighan at Bell Labs as a concise domain language for text processing. Awk remains ideal for quick data extraction and on-the-fly reporting in shell pipelines."
     },
     "Bash": {
@@ -231,8 +240,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Free Software Foundation, USA",
         "benefits": "Ubiquitous, powerful scripting, direct system interaction.",
-        "related": "Bourne Shell, C Shell, KornShell, Zsh"
-    ,
+        "related": "Bourne Shell, C Shell, KornShell, Zsh",
+        "authors": [
+            { "name": "Brian Fox" }
+        ],
+        "website": "https://www.gnu.org/software/bash/",
         "history": "1989. Brian Fox's Bourne Again SHell unified scripting and interactive use on Unix-like systems. Beyond interactive shells, Bash scripts glue together tools, automate builds and manage system tasks."
     },
     "Basic": {
@@ -242,8 +254,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance.",
-        "related": "Fortran, JOSS, Visual Basic, COMAL"
-    ,
+        "related": "Fortran, JOSS, Visual Basic, COMAL",
+        "authors": [
+            { "name": "John G. Kemeny" },
+            { "name": "Thomas E. Kurtz" }
+        ],
         "history": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers."
     },
     "C": {
@@ -256,6 +271,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         "related": "B, BCPL, Algol 68, C++, C#, Java, Objective-C, Go, Rust, Zig",
         "paradigm": "Imperative, Structured",
         "typeSystem": "Static, Weak",
+        "authors": [
+            { "name": "Dennis Ritchie" }
+        ],
+        "website": "https://www.iso.org/standard/74528.html",
         "history": "1972. Dennis Ritchie's C balanced low-level access with structured programming and portability, shaping decades of systems software. Its influence is evident in modern compilers, runtimes and standards."
     },
     "C++": {
@@ -265,8 +284,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Bell Labs, USA",
         "benefits": "Performance, object-oriented, rich ecosystem, hardware control.",
-        "related": "C, Simula, Ada, Rust, D, Java, C#"
-    ,
+        "related": "C, Simula, Ada, Rust, D, Java, C#",
+        "authors": [
+            { "name": "Bjarne Stroustrup" }
+        ],
+        "website": "https://isocpp.org/",
         "history": "1985. Bjarne Stroustrup extended C with abstractions like classes and templates to enable both low-level control and high-level design. C++ powers performance-critical applications, from game engines to embedded systems."
     },
     "C_Sharp": {
@@ -276,8 +298,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Microsoft, USA",
         "benefits": "Strong typing, rich .NET ecosystem, modern features, tooling.",
-        "related": "C++, Java, Delphi, Modula-3, F#, Visual Basic .NET"
-    ,
+        "related": "C++, Java, Delphi, Modula-3, F#, Visual Basic .NET",
+        "authors": [
+            { "name": "Anders Hejlsberg" }
+        ],
+        "website": "https://docs.microsoft.com/en-us/dotnet/csharp/",
         "history": "2000. Designed by Anders Hejlsberg, C# blends modern language features with the .NET runtime to support enterprise, desktop and web applications. It emphasizes tooling, libraries and developer productivity."
     },
     "Clojure": {
@@ -287,8 +312,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "USA",
         "benefits": "Immutability, functional programming, JVM interoperability, simplicity.",
-        "related": "Lisp, Java, Haskell, Scheme, Racket"
-    ,
+        "related": "Lisp, Java, Haskell, Scheme, Racket",
+        "authors": [
+            { "name": "Rich Hickey" }
+        ],
+        "website": "https://clojure.org/",
         "history": "2007. Rich Hickey's Clojure brings Lisp's code-as-data and immutable data structures to the JVM, focusing on simplicity, concurrency and functional programming. It's used for building robust, composable systems."
     },
     "Cobol": {
@@ -298,8 +326,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "USA",
         "benefits": "Business data processing, stability, massive legacy codebases.",
-        "related": "FLOW-MATIC, COMTRAN, PL/I"
-    ,
+        "related": "FLOW-MATIC, COMTRAN, PL/I",
+        "authors": [
+            { "name": "Grace Hopper" }
+        ],
         "history": "1959. Created for business data processing, COBOL's verbose, English-like syntax made it accessible to non-academic programmers and it still runs critical financial systems today."
     },
     "CoffeeScript": {
@@ -309,8 +339,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "USA",
         "benefits": "Concise syntax, readability, compiles to clean JavaScript.",
-        "related": "JavaScript, Ruby, Python, Haskell, TypeScript"
-    ,
+        "related": "JavaScript, Ruby, Python, Haskell, TypeScript",
+        "authors": [
+            { "name": "Jeremy Ashkenas" }
+        ],
+        "website": "https://coffeescript.org/",
         "history": "2009. A syntactic layer over JavaScript that introduced concise idioms and inspired later JS syntax improvements. CoffeeScript smoothed the migration to more expressive JavaScript patterns."
     },
     "CommonLisp": {
@@ -331,8 +364,13 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Argentina",
         "benefits": "Ruby-like syntax, C-like performance, static typing.",
-        "related": "Ruby, C, Go, Rust, C#"
-    ,
+        "related": "Ruby, C, Go, Rust, C#",
+        "authors": [
+            { "name": "Ary Borenszweig" },
+            { "name": "Juan Wajnerman" },
+            { "name": "Brian Cardiff" }
+        ],
+        "website": "https://crystal-lang.org/",
         "history": "2014. Crystal aims to deliver Ruby-like syntax with static typing and native performance, targeting developers who want expressive code without sacrificing speed."
     },
     "D": {
@@ -342,8 +380,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Digital Mars, USA",
         "benefits": "System programming, performance, safety, metaprogramming.",
-        "related": "C, C++, Java, C#, Python, Ruby"
-    ,
+        "related": "C, C++, Java, C#, Python, Ruby",
+        "authors": [
+            { "name": "Walter Bright" }
+        ],
+        "website": "https://dlang.org/",
         "history": "2001. Walter Bright's D modernizes systems programming by adding safety and productivity features while keeping C-like performance. It targets high-performance, maintainable code."
     },
     "Dart": {
@@ -353,8 +394,12 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Google, Denmark/USA",
         "benefits": "UI optimized, fast compilation, cross-platform (Flutter).",
-        "related": "Java, C#, JavaScript, TypeScript, Smalltalk"
-    ,
+        "related": "Java, C#, JavaScript, TypeScript, Smalltalk",
+        "authors": [
+            { "name": "Lars Bak" },
+            { "name": "Kasper Lund" }
+        ],
+        "website": "https://dart.dev/",
         "history": "2011. Created for structured client-side development, Dart powers Flutter for cross-platform UIs and compiles to efficient native or JS code. Its toolchain focuses on developer productivity."
     },
     "Elixir": {
@@ -364,8 +409,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Plataformatec, Brazil",
         "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
-        "related": "Erlang, Ruby, Clojure, LFE"
-    ,
+        "related": "Erlang, Ruby, Clojure, LFE",
+        "authors": [
+            { "name": "José Valim" }
+        ],
+        "website": "https://elixir-lang.org/",
         "history": "2011. Built on the Erlang VM by José Valim, Elixir blends fault-tolerant concurrency with elegant syntax and tooling, favored for scalable distributed services."
     },
     "Erlang": {
@@ -375,8 +423,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Ericsson, Sweden",
         "benefits": "Massive concurrency, fault tolerance, hot code swapping.",
-        "related": "Prolog, Smalltalk, Elixir, LFE, Rust"
-    ,
+        "related": "Prolog, Smalltalk, Elixir, LFE, Rust",
+        "authors": [
+            { "name": "Joe Armstrong" }
+        ],
+        "website": "https://www.erlang.org/",
         "history": "1986. Designed for telecoms, Erlang emphasizes lightweight processes, message-passing concurrency and robust fault-recovery. It's a foundation for resilient distributed systems."
     },
     "F_Sharp": {
@@ -386,8 +437,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Microsoft Research, UK",
         "benefits": "Functional-first, .NET integration, type inference, concise.",
-        "related": "OCaml, C#, Haskell, Scala, Python"
-    ,
+        "related": "OCaml, C#, Haskell, Scala, Python",
+        "authors": [
+            { "name": "Don Syme" }
+        ],
+        "website": "https://fsharp.org/",
         "history": "2005. F# brings functional-first programming to .NET with strong typing, succinct syntax and excellent interop, used in finance, analytics and domain modelling."
     },
     "Fortran": {
@@ -397,8 +451,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "IBM, USA",
         "benefits": "Numerical computation, scientific computing, performance.",
-        "related": "ALGOL, BASIC, PL/I, C, Julia, MATLAB"
-    ,
+        "related": "ALGOL, BASIC, PL/I, C, Julia, MATLAB",
+        "authors": [
+            { "name": "John Backus" }
+        ],
         "history": "1957. One of the first high-level languages, Fortran was built for numerical computation and scientific programming; optimized compilers and legacy code keep it relevant in HPC."
     },
     "Go": {
@@ -408,8 +464,13 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Google, USA",
         "benefits": "Simplicity, concurrency, fast compilation, static typing.",
-        "related": "C, Pascal, Oberon, Limbo, CSP, Python"
-    ,
+        "related": "C, Pascal, Oberon, Limbo, CSP, Python",
+        "authors": [
+            { "name": "Robert Griesemer" },
+            { "name": "Rob Pike" },
+            { "name": "Ken Thompson" }
+        ],
+        "website": "https://go.dev/",
         "history": "2009. Designed at Google for simplicity, fast compilation and pragmatic concurrency, Go is a popular choice for cloud services, networking and developer tools."
     },
     "Groovy": {
@@ -430,8 +491,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Global",
         "benefits": "Pure functional, type safety, lazy evaluation, concurrency.",
-        "related": "Miranda, ML, Clean, Agda, Purescript, Elm, Rust"
-    ,
+        "related": "Miranda, ML, Clean, Agda, Purescript, Elm, Rust",
+        "authors": [
+            { "name": "Simon Peyton Jones" }
+        ],
+        "website": "https://www.haskell.org/",
         "history": "1990. A purely functional language stressing strong static types and lazy evaluation; Haskell is prized for expressiveness and correctness in research and some production systems."
     },
     "Java": {
@@ -444,6 +508,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         "related": "C++, Smalltalk, Objective-C, C#, Kotlin, Scala",
         "paradigm": "Object-oriented, Class-based, Imperative",
         "typeSystem": "Static, Strong",
+        "authors": [
+            { "name": "James Gosling" }
+        ],
+        "website": "https://www.oracle.com/java/",
         "history": "1995. Java's portable bytecode and extensive libraries made it the backbone of enterprise applications and large-scale distributed systems for decades."
     },
     "JavaScript": {
@@ -456,6 +524,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         "related": "Self, Scheme, Java, ECMAScript, TypeScript",
         "paradigm": "Multi-paradigm, Event-driven, Functional, Imperative, Prototype-based",
         "typeSystem": "Dynamic, Weak",
+        "authors": [
+            { "name": "Brendan Eich" }
+        ],
+        "website": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
         "history": "1995. Created for the browser, JavaScript evolved into a universal platform for web and server-side code; its flexibility enabled an enormous ecosystem."
     },
     "Julia": {
@@ -465,8 +537,14 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "MIT, USA",
         "benefits": "Speed of C, ease of Python, great for scientific computing.",
-        "related": "MATLAB, Python, R, Lisp, Fortran"
-    ,
+        "related": "MATLAB, Python, R, Lisp, Fortran",
+        "authors": [
+            { "name": "Jeff Bezanson" },
+            { "name": "Stefan Karpinski" },
+            { "name": "Viral B. Shah" },
+            { "name": "Alan Edelman" }
+        ],
+        "website": "https://julialang.org/",
         "history": "2012. Built for numerical and scientific computing, Julia combines easy syntax with high-performance JIT-compiled code, reducing the need for separate prototyping and production languages."
     },
     "Kotlin": {
@@ -476,8 +554,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "JetBrains, Czech Republic",
         "benefits": "Concise, null-safe, great Java interop, Android official.",
-        "related": "Java, Scala, C#, Groovy, Swift"
-    ,
+        "related": "Java, Scala, C#, Groovy, Swift",
+        "authors": [
+            { "name": "JetBrains Team" }
+        ],
+        "website": "https://kotlinlang.org/",
         "history": "2011. JetBrains developed Kotlin to modernize JVM development with concise syntax, null-safety and great Java interop, now a primary language for Android."
     },
     "Lua": {
@@ -487,8 +568,13 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "PUC-Rio, Brazil",
         "benefits": "Lightweight, fast, embeddable, simple syntax.",
-        "related": "Scheme, SNOBOL, C, Python, JavaScript"
-    ,
+        "related": "Scheme, SNOBOL, C, Python, JavaScript",
+        "authors": [
+            { "name": "Roberto Ierusalimschy" },
+            { "name": "Luiz Henrique de Figueiredo" },
+            { "name": "Waldemar Celes" }
+        ],
+        "website": "https://www.lua.org/",
         "history": "1993. Lightweight, embeddable and fast, Lua is ubiquitous in game scripting and embedded contexts thanks to a tiny runtime and simple C API."
     },
     "Nim": {
@@ -498,8 +584,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Germany",
         "benefits": "Python-like syntax, C-like performance, metaprogramming.",
-        "related": "Python, Ada, Modula-3, Lisp, C"
-    ,
+        "related": "Python, Ada, Modula-3, Lisp, C",
+        "authors": [
+            { "name": "Andreas Rumpf" }
+        ],
+        "website": "https://nim-lang.org/",
         "history": "2008. Nim offers Python-like syntax, powerful metaprogramming and C-level performance, aiming for expressive yet efficient system-level code."
     },
     "OCaml": {
@@ -531,8 +620,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "ETH Zurich, Switzerland",
         "benefits": "Structured programming, teaching, strong typing.",
-        "related": "ALGOL, Modula-2, Oberon, Ada, Delphi"
-    ,
+        "related": "ALGOL, Modula-2, Oberon, Ada, Delphi",
+        "authors": [
+            { "name": "Niklaus Wirth" }
+        ],
         "history": "1970. Niklaus Wirth designed Pascal to teach structured programming and data structuring; it influenced many later languages and educational curricula."
     },
     "Perl": {
@@ -542,8 +633,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Unisys, USA",
         "benefits": "Text processing, regex, CPAN, practical.",
-        "related": "AWK, Sed, C, Shell, Raku, Python, Ruby"
-    ,
+        "related": "AWK, Sed, C, Shell, Raku, Python, Ruby",
+        "authors": [
+            { "name": "Larry Wall" }
+        ],
+        "website": "https://www.perl.org/",
         "history": "1987. Larry Wall's practical text-processing language excels at regex-driven scripting and rapid data munging; Perl was the web glue for many early projects."
     },
     "PHP": {
@@ -553,8 +647,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Denmark/Canada",
         "benefits": "Web development, vast ecosystem (WordPress, Laravel).",
-        "related": "Perl, C, Java, JavaScript, Python"
-    ,
+        "related": "Perl, C, Java, JavaScript, Python",
+        "authors": [
+            { "name": "Rasmus Lerdorf" }
+        ],
+        "website": "https://www.php.net/",
         "history": "1995. Initially built for web pages, PHP scaled into server-side frameworks and CMS platforms, powering a significant fraction of the web."
     },
     "Prolog": {
@@ -564,8 +661,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "University of Aix-Marseille and University of Edinburgh",
         "benefits": "Logic programming, AI, pattern matching, declarative.",
-        "related": "Lisp, SQL, Datalog, Mercury, Erlang"
-    ,
+        "related": "Lisp, SQL, Datalog, Mercury, Erlang",
+        "authors": [
+            { "name": "Alain Colmerauer" },
+            { "name": "Robert Kowalski" }
+        ],
         "history": "1972. A logic-programming paradigm where code expresses facts and rules; Prolog is well suited for symbolic reasoning, constraint solving and AI research."
     },
     "Python": {
@@ -578,6 +678,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         "related": "ABC, C, Haskell, Lisp, Perl, Ruby, Java",
         "paradigm": "Multi-paradigm, Functional, Imperative, Object-oriented, Structured",
         "typeSystem": "Dynamic, Strong",
+        "authors": [
+            { "name": "Guido van Rossum" }
+        ],
+        "website": "https://www.python.org/",
         "history": "1991. Guido van Rossum designed Python for readability and productivity; with an enormous ecosystem it excels in scripting, data science, automation and web services."
     },
     "R": {
@@ -587,8 +691,12 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "University of Auckland, New Zealand",
         "benefits": "Statistical analysis, data visualization, CRAN packages.",
-        "related": "S, Scheme, Lisp, Python (Pandas), Julia"
-    ,
+        "related": "S, Scheme, Lisp, Python (Pandas), Julia",
+        "authors": [
+            { "name": "Ross Ihaka" },
+            { "name": "Robert Gentleman" }
+        ],
+        "website": "https://www.r-project.org/",
         "history": "1993. A language and environment for statistical computing and visualization, R offers domain-specific tools for data analysis and reproducible research."
     },
     "Racket": {
@@ -609,8 +717,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Japan",
         "benefits": "Developer happiness, metaprogramming, Rails ecosystem.",
-        "related": "Perl, Smalltalk, Eiffel, Ada, Lisp, Python"
-    ,
+        "related": "Perl, Smalltalk, Eiffel, Ada, Lisp, Python",
+        "authors": [
+            { "name": "Yukihiro Matsumoto" }
+        ],
+        "website": "https://www.ruby-lang.org/",
         "history": "1995. Designed for programmer happiness, Ruby's elegant syntax and metaprogramming made it the language behind rapid web development frameworks like Rails."
     },
     "Rust": {
@@ -623,6 +734,10 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         "related": "C++, ML, Haskell, Erlang, Swift, C",
         "paradigm": "Multi-paradigm, Concurrent, Functional, Imperative, Structured",
         "typeSystem": "Static, Strong, Safe",
+        "authors": [
+            { "name": "Graydon Hoare" }
+        ],
+        "website": "https://www.rust-lang.org/",
         "history": "2010. Rust targets safe, concurrent systems programming with compile-time guarantees that prevent many classes of runtime errors while delivering native performance."
     },
     "Scala": {
@@ -632,8 +747,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "EPFL, Switzerland",
         "benefits": "Functional + OOP, JVM, type safety, concurrency (Akka).",
-        "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin"
-    ,
+        "related": "Java, ML, Haskell, Smalltalk, Erlang, Kotlin",
+        "authors": [
+            { "name": "Martin Odersky" }
+        ],
+        "website": "https://www.scala-lang.org/",
         "history": "2004. Scala fuses object-oriented and functional programming on the JVM, enabling concise, type-safe code for large systems and data pipelines."
     },
     "Scheme": {
@@ -643,8 +761,12 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "MIT AI Lab, USA",
         "benefits": "Minimalist, powerful macros, education, standards (R5RS, R7RS).",
-        "related": "Lisp, Common Lisp, Racket, Clojure, JavaScript"
-    ,
+        "related": "Lisp, Common Lisp, Racket, Clojure, JavaScript",
+        "authors": [
+            { "name": "Guy L. Steele Jr." },
+            { "name": "Gerald Jay Sussman" }
+        ],
+        "website": "https://www.scheme.org/",
         "history": "1975. A minimalist Lisp dialect focusing on clean semantics and first-class procedures; Scheme is central in programming language education."
     },
     "Swift": {
@@ -654,8 +776,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Apple Inc., USA",
         "benefits": "Safety, performance, modern syntax, Apple ecosystem.",
-        "related": "Objective-C, Rust, C#, Python, Ruby"
-    ,
+        "related": "Objective-C, Rust, C#, Python, Ruby",
+        "authors": [
+            { "name": "Chris Lattner" }
+        ],
+        "website": "https://www.swift.org/",
         "history": "2014. Apple's modern language focusing on safety, performance and developer ergonomics; Swift has largely superseded Objective-C for Apple platform development."
     },
     "Tcl": {
@@ -676,8 +801,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Microsoft, USA",
         "benefits": "Type safety, IDE support, scales to large codebases.",
-        "related": "JavaScript, C#, Java, CoffeeScript"
-    ,
+        "related": "JavaScript, C#, Java, CoffeeScript",
+        "authors": [
+            { "name": "Anders Hejlsberg" }
+        ],
+        "website": "https://www.typescriptlang.org/",
         "history": "2012. Adds optional static typing and tooling to JavaScript to improve maintainability and catch errors early while compiling to standard JS."
     },
     "Vala": {
@@ -709,8 +837,11 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "USA",
         "benefits": "No hidden control flow, manual memory management, comptime.",
-        "related": "C, C++, Rust, Go, Jai"
-    ,
+        "related": "C, C++, Rust, Go, Jai",
+        "authors": [
+            { "name": "Andrew Kelley" }
+        ],
+        "website": "https://ziglang.org/",
         "history": "2016. A modern systems language focused on simplicity, explicit control and predictable performance, positioning itself as a pragmatic C alternative."
     },
     "BASH": {
