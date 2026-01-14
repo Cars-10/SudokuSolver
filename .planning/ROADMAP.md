@@ -192,15 +192,21 @@ Plans:
 - [x] 16-01: Swift Algorithms (DLX + CP)
 - [x] 16-02: Dart Algorithms (DLX + CP)
 
-#### Phase 17: Specialized Languages - Part 2
+#### Phase 17: Specialized Languages - Part 2 ✅
 
-**Goal**: Implement DLX and CP algorithms for additional specialized languages (V, Odin, Carbon, Mojo)
+**Goal**: Implement DLX and CP algorithms for additional specialized languages (V, Vala, Wren, Haxe)
 **Depends on**: Phase 16
 **Research**: Unlikely (established patterns)
-**Plans**: TBD
+**Plans**: 4/4 complete
+**Status**: Complete
+**Completed**: 2026-01-14
+**Execution**: Parallel (4 agents)
 
 Plans:
-- [ ] 17-01: TBD
+- [x] 17-01: V Algorithms (DLX + CP)
+- [x] 17-02: Vala Algorithms (DLX + CP)
+- [x] 17-03: Wren Algorithms (DLX + CP)
+- [x] 17-04: Haxe Algorithms (DLX + CP)
 
 #### Phase 18: Validation and Integration
 
@@ -234,6 +240,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 13. Systems Languages | v1.3 | 6/6 | Complete | 2026-01-14 |
 | 14. Compiled Languages | v1.3 | 3/3 | Complete | 2026-01-14 |
 | 15. Shell and Esoteric Languages | v1.3 | 4/4 | Complete | 2026-01-14 |
-| 16. Specialized Languages - Part 1 | v1.3 | 0/? | Not started | - |
-| 17. Specialized Languages - Part 2 | v1.3 | 0/? | Not started | - |
+| 16. Specialized Languages - Part 1 | v1.3 | 2/2 | Complete | 2026-01-14 |
+| 17. Specialized Languages - Part 2 | v1.3 | 4/4 | Complete | 2026-01-14 |
 | 18. Validation and Integration | v1.3 | 0/? | Not started | - |
