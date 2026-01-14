@@ -2671,6 +2671,21 @@ initializeStatus();
             const height = container.clientHeight;
             const margin = { top: 20, right: 60, bottom: 20, left: 150 };
 
+            // Algorithm filtering
+            const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+            const algoLabel = {
+                'BruteForce': 'Brute Force',
+                'DLX': 'Dancing Links',
+                'CP': 'Constraint Propagation',
+                'all': 'All Algorithms'
+            }[selectedAlgo] || 'BruteForce';
+
+            const filteredData = data.filter(d => {
+                const algoType = d.algorithmType || 'BruteForce';
+                if (selectedAlgo === 'all') return true;
+                return algoType === selectedAlgo;
+            });
+
             const svg = d3.select("#d3-chart-container")
                 .append("svg")
                 .attr("width", width)
@@ -2703,9 +2718,19 @@ initializeStatus();
             d3.select("#d3-chart-container svg").call(zoom);
 
             // Calculate Total Time for sorting
-            const sortedData = [...data].map(s => {
+            const sortedData = [...filteredData].map(s => {
                 const totalTime = s.results.reduce((acc, r) => acc + r.time, 0);
-                return { ...s, totalTime: totalTime > 0 ? totalTime : 0.000001 }; // Prevent 0 for log scale
+
+                // Add displayName for "All Algorithms" mode
+                let displayName = s.solver;
+                if (selectedAlgo === 'all') {
+                    const algoType = s.algorithmType || 'BruteForce';
+                    const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
+                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                    displayName = s.solver + algoSuffix;
+                }
+
+                return { ...s, displayName, totalTime: totalTime > 0 ? totalTime : 0.000001 }; // Prevent 0 for log scale
             }).sort((a, b) => a.totalTime - b.totalTime); // Fastest first
 
             const minTotal = d3.min(sortedData, d => d.totalTime);
@@ -2713,7 +2738,7 @@ initializeStatus();
 
             // Y Axis (Solvers)
             const y = d3.scaleBand()
-                .domain(sortedData.map(d => d.solver))
+                .domain(sortedData.map(d => d.displayName))
                 .range([0, chartHeight])
                 .padding(0.2);
 
@@ -2728,8 +2753,8 @@ initializeStatus();
                 .enter().append("line")
                 .attr("x1", 0)
                 .attr("x2", chartWidth)
-                .attr("y1", d => y(d.solver) + y.bandwidth() / 2)
-                .attr("y2", d => y(d.solver) + y.bandwidth() / 2)
+                .attr("y1", d => y(d.displayName) + y.bandwidth() / 2)
+                .attr("y2", d => y(d.displayName) + y.bandwidth() / 2)
                 .attr("stroke", "#2a2a35")
                 .attr("stroke-width", 1)
                 .attr("stroke-dasharray", "4");
@@ -2738,7 +2763,7 @@ initializeStatus();
             svg.selectAll(".bar")
                 .data(sortedData)
                 .enter().append("rect")
-                .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 2)
+                .attr("y", d => y(d.displayName) + y.bandwidth() / 2 - 2)
                 .attr("height", 4)
                 .attr("x", 0)
                 .attr("width", d => x(d.totalTime))
@@ -2752,7 +2777,7 @@ initializeStatus();
                     .enter().append("image")
                     .attr("xlink:href", d => d.logo)
                     .attr("x", d => x(d.totalTime) - 20) // Center image on end of bar
-                    .attr("y", d => y(d.solver) + y.bandwidth() / 2 - 10)
+                    .attr("y", d => y(d.displayName) + y.bandwidth() / 2 - 10)
                     .attr("width", 20)
                     .attr("height", 20)
                     .attr("preserveAspectRatio", "xMidYMid meet")
@@ -2764,16 +2789,16 @@ initializeStatus();
                         return null;
                     })
                     .on("mouseover", function (event, d) {
-                        d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.solver) + y.bandwidth() / 2 - 16);
+                        d3.select(this).attr("width", 32).attr("height", 32).attr("x", x(d.totalTime) - 16).attr("y", y(d.displayName) + y.bandwidth() / 2 - 16);
                         const tooltip = document.getElementById('tooltip');
                         tooltip.style.display = 'block';
                         tooltip.style.left = (event.clientX + 15) + 'px';
                         tooltip.style.top = (event.clientY + 15) + 'px';
                         const timeStr = d.totalTime < 0.0001 && d.totalTime > 0 ? d.totalTime.toExponential(4) + "s" : d.totalTime.toFixed(4) + "s";
-                        tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.solver + "</strong><br>Total Time: " + timeStr;
+                        tooltip.innerHTML = "<strong style='color:" + color(d.solver) + "'>" + d.displayName + "</strong><br>Total Time: " + timeStr;
                     })
                     .on("mouseout", function (event, d) {
-                        d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.solver) + y.bandwidth() / 2 - 12);
+                        d3.select(this).attr("width", 24).attr("height", 24).attr("x", x(d.totalTime) - 12).attr("y", y(d.displayName) + y.bandwidth() / 2 - 12);
                         document.getElementById('tooltip').style.display = 'none';
                     });
             }
