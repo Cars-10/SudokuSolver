@@ -472,9 +472,13 @@ defmodule DLX do
     node = set_down(node, col_id)
     update_node(nodes, node_id, node)
 
+    # Update the up node's down pointer
     up = get_node(nodes, col_up_id)
     update_node(nodes, col_up_id, set_down(up, node_id))
 
+    # Re-fetch col since col_up_id may be col_id itself (when column is empty)
+    # and we just updated it
+    col = get_node(nodes, col_id)
     col = set_up(col, node_id)
     col = set_size(col, node_size(col) + 1)
     update_node(nodes, col_id, col)
