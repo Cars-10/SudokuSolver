@@ -52,8 +52,8 @@ function Get-Peers {
     }
 
     # Same 3x3 box (excluding cells already added in same row/col)
-    $boxRow = [int]($row / 3) * 3
-    $boxCol = [int]($col / 3) * 3
+    $boxRow = [Math]::Floor($row / 3) * 3
+    $boxCol = [Math]::Floor($col / 3) * 3
     for ($r = $boxRow; $r -lt ($boxRow + 3); $r++) {
         for ($c = $boxCol; $c -lt ($boxCol + 3); $c++) {
             # Exclude the cell itself, and cells already counted in row/col
@@ -114,22 +114,8 @@ function Assign {
         [int]$digit
     )
 
-    # Increment iteration counter
+    # Increment iteration counter (this is our benchmark metric)
     $script:iterations++
-
-    # Check if cell is already assigned
-    if ($grid_values.Value[$row,$col] -ne 0) {
-        # Cell already assigned - check if it matches
-        if ($grid_values.Value[$row,$col] -eq $digit) {
-            return $true  # Already has correct value
-        } else {
-            # Contradiction - trying to assign different value
-            if ($script:iterations -le 100) {
-                Write-Host "DEBUG Assign: Contradiction - cell ($row,$col) already has $($grid_values.Value[$row,$col]), trying to assign $digit"
-            }
-            return $false
-        }
-    }
 
     # Set value
     $grid_values.Value[$row,$col] = $digit
@@ -153,6 +139,29 @@ function Propagate {
         [ref]$grid_candidates
     )
 
+    # First pass: eliminate clue values from their peers
+    # This is necessary because init sets clues directly without propagation
+    for ($r = 0; $r -lt 9; $r++) {
+        for ($c = 0; $c -lt 9; $c++) {
+            if ($grid_values.Value[$r,$c] -ne 0) {
+                $digit = $grid_values.Value[$r,$c]
+                $peers = Get-Peers $r $c
+                foreach ($peer in $peers) {
+                    $pr = $peer.r
+                    $pc = $peer.c
+                    # Only eliminate from unassigned cells
+                    if ($grid_values.Value[$pr,$pc] -eq 0) {
+                        $grid_candidates.Value[$pr,$pc] = Remove-Bit $grid_candidates.Value[$pr,$pc] $digit
+                        # Check for contradiction
+                        if ((Count-Bits $grid_candidates.Value[$pr,$pc]) -eq 0) {
+                            return $false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     $changed = $true
     while ($changed) {
         $changed = $false
@@ -163,13 +172,11 @@ function Propagate {
                 if ($grid_values.Value[$r,$c] -eq 0) {
                     $num_candidates = Count-Bits $grid_candidates.Value[$r,$c]
                     if ($num_candidates -eq 0) {
-                        Write-Host "DEBUG Propagate: Cell ($r,$c) has no candidates (singleton check)"
                         return $false
                     }
                     if ($num_candidates -eq 1) {
                         $digit = Get-FirstBit $grid_candidates.Value[$r,$c]
                         if (-not (Assign -grid_values $grid_values -grid_candidates $grid_candidates -row $r -col $c -digit $digit)) {
-                            Write-Host "DEBUG Propagate: Failed to assign $digit to ($r,$c) (singleton)"
                             return $false
                         }
                         $changed = $true
@@ -198,12 +205,10 @@ function Propagate {
 
                 if (-not $already_assigned) {
                     if ($count -eq 0) {
-                        Write-Host "DEBUG Propagate: Row $r missing digit $d (hidden singles)"
                         return $false
                     }
                     if ($count -eq 1) {
                         if (-not (Assign -grid_values $grid_values -grid_candidates $grid_candidates -row $r -col $last_c -digit $d)) {
-                            Write-Host "DEBUG Propagate: Failed to assign $d to ($r,$last_c) (row hidden single)"
                             return $false
                         }
                         $changed = $true
@@ -246,7 +251,7 @@ function Propagate {
 
         # Hidden singles - boxes
         for ($box = 0; $box -lt 9; $box++) {
-            $boxRow = [int]($box / 3) * 3
+            $boxRow = [Math]::Floor($box / 3) * 3
             $boxCol = ($box % 3) * 3
 
             for ($d = 1; $d -le 9; $d++) {
@@ -441,26 +446,27 @@ for ($r = 0; $r -lt 9; $r++) {
     }
 }
 
-# Assign clues using the Assign function
-$script:iterations = 0
-$clue_count = 0
+# Initialize clues directly WITHOUT calling Assign (following C reference pattern)
+# This sets values and candidates without triggering constraint propagation
 for ($r = 0; $r -lt 9; $r++) {
     for ($c = 0; $c -lt 9; $c++) {
         if ($puzzle[$r,$c] -ne 0) {
             $digit = $puzzle[$r,$c]
-            $clue_count++
-            if (-not (Assign -grid_values ([ref]$grid_values) -grid_candidates ([ref]$grid_candidates) -row $r -col $c -digit $digit)) {
-                Write-Host ""
-                Write-Host "Contradiction at clue #${clue_count}: cell ($r,$c) = $digit"
-                exit 1
-            }
+            $grid_values[$r,$c] = $digit
+            $grid_candidates[$r,$c] = [uint16](1 -shl $digit)
         }
     }
 }
-Write-Host "DEBUG: Assigned $clue_count clues, iterations=$($script:iterations)"
 
-# Note: Propagation already done during clue assignment via Assign function
-# No need for additional propagate call here
+# Reset iteration counter before propagation (C reference starts at 0)
+$script:iterations = 0
+
+# Initial propagation - this handles constraint elimination properly
+if (-not (Propagate -grid_values ([ref]$grid_values) -grid_candidates ([ref]$grid_candidates))) {
+    Write-Host ""
+    Write-Host "No solution found (contradiction during initial propagation)"
+    exit 0
+}
 
 # Solve
 $solved = Search-CP -grid_values ([ref]$grid_values) -grid_candidates ([ref]$grid_candidates)
