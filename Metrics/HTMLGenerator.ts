@@ -1291,19 +1291,31 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const isSuspect = m.results.length < expectedMatrixCount;
 
         // Iteration Mismatch Logic
-        // Iteration Mismatch Logic
         // Calculate expected iterations based on the matrices this solver successfully ran
+        // Use algorithm-specific C baseline for comparison
+        const algoType = m.algorithmType || 'BruteForce';
+        const cBaselineForMismatch = cMetricsByAlgorithm.get(algoType) || cMetrics;
+
         let expectedIters = 0;
-        if (cMetrics) {
+        const mismatchDetails: Array<{matrix: string, actual: number, expected: number}> = [];
+
+        if (cBaselineForMismatch) {
             m.results.forEach(r => {
-                const cRes = cMetrics.results.find(cm => normalizeMatrix(cm.matrix) === normalizeMatrix(r.matrix));
-                if (cRes) expectedIters += Number(cRes.iterations);
+                const cRes = cBaselineForMismatch.results.find(cm => normalizeMatrix(cm.matrix) === normalizeMatrix(r.matrix));
+                if (cRes) {
+                    const expected = Number(cRes.iterations);
+                    const actual = Number(r.iterations);
+                    expectedIters += expected;
+                    if (actual !== expected) {
+                        mismatchDetails.push({ matrix: normalizeMatrix(r.matrix), actual, expected });
+                    }
+                }
             });
         }
 
         // Baseline is C (Local)
         const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
-        const isMismatch = !isBaseline && expectedIters > 0 && totalIters !== expectedIters;
+        const isMismatch = !isBaseline && mismatchDetails.length > 0;
 
         let rowClass = "";
         if (isSuspect) rowClass += " suspect";
@@ -1325,7 +1337,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         let displayName = displayNameRaw;
 
         // Add algorithm badge for non-BruteForce algorithms
-        const algoType = m.algorithmType || 'BruteForce';
         let algoBadge = '';
         if (algoType === 'DLX') {
             algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(122, 162, 247, 0.2); border: 1px solid #7aa2f7; border-radius: 3px; font-size: 0.75em; color: #7aa2f7; font-weight: bold;" title="Dancing Links (Algorithm X)">DLX</span>';
@@ -1400,6 +1411,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-score="${normalizedScore.toFixed(2)}"
             data-tier="${tier}"
             data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
+            data-mismatch-details='${JSON.stringify(mismatchDetails).replace(/'/g, "&apos;")}'
+            data-expected-iters="${expectedIters}"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
             <td class='lang-col'>
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
@@ -1468,8 +1481,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
 
         const totalDisplayTime = isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`;
+        const mismatchStyle = isMismatch ? 'cursor: pointer; background: rgba(255,0,85,0.1);' : '';
+        const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
+        const mismatchTitle = isMismatch ? `title="Click to see mismatch details"` : '';
 
-        html += `<td class='total-time'><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!staticMode && !isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event)" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:#5c5c66;'>${totalIters.toLocaleString()} iters</div></div></td></tr>`;
+        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!staticMode && !isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event); event.stopPropagation();" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
 
         // Add expanded content row
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
@@ -1614,9 +1630,82 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // Track current algorithm filter state
     window.currentAlgorithm = 'BruteForce';
 
+    // C baseline iterations per algorithm (for dynamic mismatch calculation)
+    window.cBaselines = {
+        'BruteForce': {},
+        'DLX': {},
+        'CP': {}
+    };
+
+    // Initialize C baselines from metrics data
+    (function() {
+        if (typeof metricsData !== 'undefined') {
+            metricsData.forEach(m => {
+                if (m.solver === 'C') {
+                    const algo = m.algorithmType || 'BruteForce';
+                    m.results.forEach(r => {
+                        if (r.status === 'success') {
+                            const matrix = String(r.matrix).replace('.matrix', '');
+                            window.cBaselines[algo][matrix] = r.iterations;
+                        }
+                    });
+                }
+            });
+        }
+    })();
+
+    // Calculate mismatch count for a given algorithm
+    window.calculateMismatchCount = function(algorithmType) {
+        if (typeof metricsData === 'undefined') return 0;
+
+        const baseline = algorithmType === 'all' ? null : window.cBaselines[algorithmType];
+        let count = 0;
+
+        metricsData.forEach(m => {
+            if (m.solver === 'C') return;
+            const mAlgo = m.algorithmType || 'BruteForce';
+
+            // Skip if filtering by algo and this isn't that algo
+            if (algorithmType !== 'all' && mAlgo !== algorithmType) return;
+
+            // Get the right baseline for this metric's algorithm
+            const useBaseline = algorithmType === 'all' ? window.cBaselines[mAlgo] : baseline;
+            if (!useBaseline) return;
+
+            // Check for mismatches only on matrices that have run data
+            let hasMismatch = false;
+            m.results.forEach(r => {
+                if (r.status !== 'success') return;
+                const matrix = String(r.matrix).replace('.matrix', '');
+                const expected = useBaseline[matrix];
+                if (expected !== undefined && r.iterations !== expected) {
+                    hasMismatch = true;
+                }
+            });
+            if (hasMismatch) count++;
+        });
+
+        return count;
+    };
+
+    // Update mismatch display
+    window.updateMismatchDisplay = function(algorithmType) {
+        const count = window.calculateMismatchCount(algorithmType);
+        const mismatchEl = document.querySelector('.mismatch-counter');
+        if (mismatchEl) {
+            mismatchEl.textContent = 'MISMATCHES: ' + count;
+            mismatchEl.style.color = count > 0 ? '#ff0055' : '#565f89';
+        }
+    };
+
     // Algorithm filtering function
     window.filterByAlgorithm = function(algorithmType) {
         window.currentAlgorithm = algorithmType;
+
+        // Persist selection to localStorage
+        try {
+            localStorage.setItem('sudoku-benchmark-algorithm', algorithmType);
+        } catch (e) { /* localStorage unavailable */ }
 
         const rows = document.querySelectorAll('#mainTableBody tr');
 
@@ -1645,17 +1734,50 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const dropdownLinks = document.querySelectorAll('#algorithmSelectorBtn + .dropdown-content a');
         dropdownLinks.forEach(link => {
             link.classList.remove('active');
+            // Find the link that matches this algorithm
+            const onclick = link.getAttribute('onclick') || '';
+            if (onclick.includes("'" + algorithmType + "'")) {
+                link.classList.add('active');
+            }
         });
 
-        // Refresh chart if language performance chart is active
-        if (typeof window.currentChart !== 'undefined' && window.currentChart === 'language') {
-            window.switchChart('language');
+        // Update mismatch count for selected algorithm
+        window.updateMismatchDisplay(algorithmType);
+
+        // Update language count to show unique languages (not rows)
+        const visibleRows = document.querySelectorAll('#mainTableBody tr:not([style*="display: none"])');
+        const uniqueLangs = new Set();
+        visibleRows.forEach(row => {
+            const lang = row.getAttribute('data-lang');
+            if (lang) uniqueLangs.add(lang);
+        });
+        const uniqueCount = uniqueLangs.size;
+        const langCountEl = document.getElementById('langSelectorBtn');
+        if (langCountEl) {
+            langCountEl.textContent = uniqueCount + ' LANGUAGES ▾';
+        }
+        const solverTextEl = document.getElementById('solver-text');
+        if (solverTextEl) {
+            solverTextEl.textContent = uniqueCount + ' LANGUAGES';
+        }
+
+        // Refresh current chart to reflect algorithm filter
+        if (typeof window.currentChart !== 'undefined' && typeof window.switchChart === 'function') {
+            window.switchChart(window.currentChart);
         }
     };
 
-    // Initialize on load - default to BruteForce
+    // Initialize on load - restore from localStorage or default to BruteForce
     document.addEventListener('DOMContentLoaded', function() {
-        filterByAlgorithm('BruteForce');
+        let savedAlgo = 'BruteForce';
+        try {
+            const stored = localStorage.getItem('sudoku-benchmark-algorithm');
+            if (stored && ['all', 'BruteForce', 'DLX', 'CP'].includes(stored)) {
+                savedAlgo = stored;
+            }
+        } catch (e) { /* localStorage unavailable */ }
+
+        filterByAlgorithm(savedAlgo);
     });
     </script>
 

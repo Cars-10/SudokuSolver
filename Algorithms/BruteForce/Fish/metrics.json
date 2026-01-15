@@ -5,16 +5,6 @@
     "timestamp": "2026-01-10T18:11:13Z",
     "results": [
       {
-        "matrix": "N/A",
-        "time": 0,
-        "iterations": 0,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "status": "env_error",
-        "output": "fish not found at /opt/homebrew/bin/fish or in PATH"
-      },
-      {
         "matrix": "1",
         "time": 539.9054,
         "iterations": 656,
