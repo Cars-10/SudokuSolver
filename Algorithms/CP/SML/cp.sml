@@ -117,21 +117,29 @@ fun eliminate (grid: grid) row col digit =
 and assign (grid: grid) row col digit =
     let
         val {values, candidates} = grid
-        val _ = cp_iterations := !cp_iterations + 1
-        val _ = Array2.update(values, row, col, digit)
-        val _ = Array2.update(candidates, row, col, Word.<<(0w1, Word.fromInt digit))
-
-        (* Eliminate from peers *)
-        val peers = get_peers row col
-
-        fun eliminate_from_peers [] = true
-          | eliminate_from_peers ((pr, pc)::rest) =
-            if eliminate grid pr pc digit then
-                eliminate_from_peers rest
-            else
-                false
+        val currentVal = Array2.sub(values, row, col)
     in
-        eliminate_from_peers peers
+        (* Check if already assigned (avoid double-counting) *)
+        if currentVal <> 0 then
+            currentVal = digit  (* OK if same digit, contradiction if different *)
+        else
+            let
+                val _ = cp_iterations := !cp_iterations + 1
+                val _ = Array2.update(values, row, col, digit)
+                val _ = Array2.update(candidates, row, col, Word.<<(0w1, Word.fromInt digit))
+
+                (* Eliminate from peers *)
+                val peers = get_peers row col
+
+                fun eliminate_from_peers [] = true
+                  | eliminate_from_peers ((pr, pc)::rest) =
+                    if eliminate grid pr pc digit then
+                        eliminate_from_peers rest
+                    else
+                        false
+            in
+                eliminate_from_peers peers
+            end
     end
 
 (* Propagate constraints *)
