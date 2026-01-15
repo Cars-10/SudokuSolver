@@ -82,15 +82,16 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Milestone Goal:** Fix the 16 algorithm implementations with known issues (7 DLX, 9 CP) identified in v1.3 validation.
 
-#### Phase 22: DLX Counter Fixes (Consolidated with Phase 23)
+#### Phase 22: DLX Counter Fixes (Consolidated with Phase 23) ✅
 
 **Goal**: Fix DLX implementations with counter/algorithm issues (Clojure, Elixir, PowerShell) and verify already-fixed implementations (Haskell, R)
 **Depends on**: Previous milestone complete
 **Research**: Unlikely (debugging existing code)
 **Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 22-01: Fix Clojure, Elixir, PowerShell DLX; verify Haskell, R DLX
+- [x] 22-01: Fix Clojure, Elixir, PowerShell DLX; verify Haskell, R DLX
 
 #### ~~Phase 23: DLX Functional Fixes~~ (CONSOLIDATED INTO PHASE 22)
 
@@ -192,7 +193,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 19. Language Metadata and Display Fixes | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 20. Algorithm-Aware UI Components | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 21. Performance and Polish | v1.4 | 2/2 | Complete | 2026-01-14 |
-| 22. DLX Counter Fixes (incl. Phase 23) | v1.5 | 0/1 | Planned | - |
+| 22. DLX Counter Fixes (incl. Phase 23) | v1.5 | 1/1 | Complete | 2026-01-15 |
 | ~~23. DLX Functional Fixes~~ | v1.5 | N/A | Consolidated | - |
 | 24. DLX Missing Benchmarks | v1.5 | 0/? | Not started | - |
 | 25. CP Lisp Reverts | v1.5 | 0/? | Not started | - |
