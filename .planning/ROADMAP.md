@@ -82,25 +82,21 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Milestone Goal:** Fix the 16 algorithm implementations with known issues (7 DLX, 9 CP) identified in v1.3 validation.
 
-#### Phase 22: DLX Counter Fixes
+#### Phase 22: DLX Counter Fixes (Consolidated with Phase 23)
 
-**Goal**: Fix DLX implementations where iteration counter is not working (Clojure, Elixir, Haskell)
+**Goal**: Fix DLX implementations with counter/algorithm issues (Clojure, Elixir, PowerShell) and verify already-fixed implementations (Haskell, R)
 **Depends on**: Previous milestone complete
 **Research**: Unlikely (debugging existing code)
-**Plans**: TBD
+**Plans**: 1
 
 Plans:
-- [ ] 22-01: TBD (run /gsd:plan-phase 22 to break down)
+- [ ] 22-01: Fix Clojure, Elixir, PowerShell DLX; verify Haskell, R DLX
 
-#### Phase 23: DLX Functional Fixes
+#### ~~Phase 23: DLX Functional Fixes~~ (CONSOLIDATED INTO PHASE 22)
 
-**Goal**: Fix DLX implementations with early termination or performance issues (PowerShell, R)
-**Depends on**: Phase 22
-**Research**: Unlikely (debugging existing code)
-**Plans**: TBD
-
-Plans:
-- [ ] 23-01: TBD
+**Status**: Merged into Phase 22. PowerShell and R now handled in 22-01.
+- R: Already fixed (iterations=43) - just verify
+- PowerShell: Matrix corruption bug - needs fix
 
 #### Phase 24: DLX Missing Benchmarks
 
@@ -196,8 +192,8 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 19. Language Metadata and Display Fixes | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 20. Algorithm-Aware UI Components | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 21. Performance and Polish | v1.4 | 2/2 | Complete | 2026-01-14 |
-| 22. DLX Counter Fixes | v1.5 | 0/? | Not started | - |
-| 23. DLX Functional Fixes | v1.5 | 0/? | Not started | - |
+| 22. DLX Counter Fixes (incl. Phase 23) | v1.5 | 0/1 | Planned | - |
+| ~~23. DLX Functional Fixes~~ | v1.5 | N/A | Consolidated | - |
 | 24. DLX Missing Benchmarks | v1.5 | 0/? | Not started | - |
 | 25. CP Lisp Reverts | v1.5 | 0/? | Not started | - |
 | 26. CP Iteration Fixes | v1.5 | 0/? | Not started | - |
