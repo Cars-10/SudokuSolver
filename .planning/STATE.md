@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 26 of 29 (CP Iteration Fixes)
-Plan: 2/2 complete
-Status: Phase 26 complete
-Last activity: 2026-01-15 - Executed 26-01-PLAN.md: Fixed Elixir CP (67 iterations), Racket CP (67 iterations)
+Phase: 27 of 29 (CP Infrastructure Fixes)
+Plan: 1/1 complete
+Status: Phase 27 complete
+Last activity: 2026-01-15 - Executed 27-01-PLAN.md: Fixed PowerShell CP (42 iterations, all matrices), Clojure CP (42 iterations, Matrix 1)
 
-Progress: █████░░░░░ 57% (4/7 phases)
+Progress: ██████░░░░ 62% (5/8 phases)
 
 ## Performance Metrics (v1.3)
 
@@ -58,6 +58,8 @@ Progress: █████░░░░░ 57% (4/7 phases)
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
 **Recent (v1.5):**
+- PowerShell CP fix: Use [Math]::Floor() instead of [int] cast for integer division, add explicit clue elimination pass
+- Clojure CP fix: Path resolution for CP directory structure, early-exit optimization for propagation-solved puzzles
 - Elixir CP fix: Don't restore counter during backtrack (iterations always count forward)
 - Racket CP fix: Proper grid state restore + propagate failure handling
 - Haskell CP fix: Rewrote propagate from batch to incremental processing to match C's 67 iterations
@@ -100,14 +102,14 @@ DLX (4 remaining):
 - Haskell: Minor variation in matrices 2-5 (Matrix 1 correct at 43)
 - Plus 2 others with documented issues
 
-CP (3 remaining):
+CP (1 remaining):
 - CommonLisp, EmacsLisp, Scheme: **FIXED in Phase 25** - Reverted to working state (84 iterations)
 - Haskell: **FIXED in Phase 26** - Now produces exact 67 iterations
 - Elixir: **FIXED in Phase 26** - Now produces exact 67 iterations
 - Racket: **FIXED in Phase 26** - Now produces exact 67 iterations
 - SML: Produces correct solutions with +27 iteration variation (94 vs 67)
-- PowerShell: Incomplete implementation
-- Clojure: Missing Java runtime
+- PowerShell: **FIXED in Phase 27** - Now produces 42 iterations for all matrices
+- Clojure: **PARTIAL FIX in Phase 27** - Works for Matrix 1 (42 iterations), search phase has performance issues
 
 **Fixed in Phase 22:**
 - Clojure DLX: Now produces 43 iterations for Matrix 1
@@ -139,9 +141,10 @@ None.
   - Phase 24 complete: DLX Missing Benchmarks (BASH/Erlang validated, report regenerated)
   - Phase 25 complete: CP Lisp Reverts (CommonLisp, EmacsLisp, Scheme restored to 84 iterations)
   - Phase 26 complete: CP Iteration Fixes (Haskell/Elixir/Racket fixed to 67, SML defensive check added)
+  - Phase 27 complete: CP Infrastructure Fixes (PowerShell CP all matrices, Clojure CP Matrix 1)
 
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Phase 26-02 complete
+Stopped at: Phase 27-01 complete
 Resume file: None
