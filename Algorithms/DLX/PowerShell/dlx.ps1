@@ -102,10 +102,6 @@ function Choose-Column {
         $col = $col.right
     }
 
-    if ($null -ne $best -and $script:dlx_iterations -le 3) {
-        Write-Host "DEBUG: Chose column $($best.name) with size $($best.size)"
-    }
-
     return $best
 }
 
@@ -120,7 +116,6 @@ function Search-DLX {
 
     # If matrix is empty, we found a solution
     if ($root.right -eq $root) {
-        Write-Host "DEBUG: Found solution at iteration $($script:dlx_iterations)"
         return $true
     }
 
@@ -128,7 +123,6 @@ function Search-DLX {
     $col = Choose-Column $root
 
     if ($null -eq $col) {
-        Write-Host "DEBUG: Choose-Column returned null"
         return $false
     }
 
@@ -173,10 +167,6 @@ function Search-DLX {
         $row = $row.down
     }
 
-    if ($script:dlx_iterations -le 5) {
-        Write-Host "DEBUG: Tried $row_count rows in column $($col.name), all failed"
-    }
-
     # Uncover column
     Uncover-Column $col
 
@@ -216,7 +206,7 @@ function Build-DLXMatrix {
     $row_id = 0
     for ($r = 0; $r -lt 9; $r++) {
         for ($c = 0; $c -lt 9; $c++) {
-            $box = [int]($r / 3) * 3 + [int]($c / 3)
+            $box = [int][Math]::Floor($r / 3) * 3 + [int][Math]::Floor($c / 3)
 
             # If cell has a clue, create only that row
             # Otherwise create rows for all digits 1-9
@@ -314,7 +304,6 @@ function Cover-Clues {
             }
         }
     }
-    Write-Host "DEBUG: Covered $clues_covered clues"
 }
 
 # Decode solution from row IDs
@@ -341,7 +330,7 @@ function Decode-Solution {
         }
     }
 
-    return $grid
+    return , $grid
 }
 
 # Print puzzle
@@ -414,15 +403,6 @@ $dlx = Build-DLXMatrix $puzzle
 
 # Cover pre-filled clues
 Cover-Clues $puzzle $dlx
-
-# Debug: count remaining columns
-$col_count = 0
-$col = $dlx.root.right
-while ($col -ne $dlx.root) {
-    $col_count++
-    $col = $col.right
-}
-Write-Host "DEBUG: Remaining columns after covering clues: $col_count"
 
 # Solve
 $script:dlx_iterations = 0
