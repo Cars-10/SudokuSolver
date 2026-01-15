@@ -314,13 +314,29 @@
 
     ;; Initial propagation
     (if (propagate! grid)
-      ;; Search for solution
-      (let [solution (cp-search! grid)]
-        (when solution
-          (print-grid solution)
-          (println)
-          (println (str "Solved in Iterations=" @cp-iterations))
-          (println)))
+      (do
+        ;; Count empty cells to check if already solved
+        (let [empty-count (atom 0)]
+          (dotimes [r 9]
+            (dotimes [c 9]
+              (when (= 0 (get-value grid r c))
+                (swap! empty-count inc))))
+
+          (if (= 0 @empty-count)
+            ;; Already solved during propagation
+            (do
+              (print-grid grid)
+              (println)
+              (println (str "Solved in Iterations=" @cp-iterations))
+              (println))
+
+            ;; Need to search
+            (let [solution (cp-search! grid)]
+              (when solution
+                (print-grid solution)
+                (println)
+                (println (str "Solved in Iterations=" @cp-iterations))
+                (println))))))
       (println "No solution found (initial propagation failed)"))))
 
 (defn process-matrix [filename]
