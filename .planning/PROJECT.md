@@ -24,7 +24,7 @@ Multi-algorithm Sudoku benchmark suite with advanced solving techniques (Brute-F
 
 ### Active
 
-- [ ] **Bug Fixes (16 implementations):** Fix known issues in DLX (7) and CP (9) implementations
+- [x] **Bug Fixes (v1.5):** Fixed 6 DLX and 9 CP implementations - v1.5
 - [ ] **Algorithm Expansion (SAT):** Boolean satisfiability-based solver using SAT solver library
 - [ ] **Comprehensive Benchmarking:** Run all algorithms across all matrices (1-6) for complete dataset
 - [ ] **Advanced Visualizations:** Memory analysis charts, efficiency deep-dives, comparative timeline views
@@ -78,16 +78,14 @@ Multi-algorithm Sudoku benchmark suite with advanced solving techniques (Brute-F
 - Parallel execution model achieves 11min wall clock for 5-language phases
 - Quality documentation with 53 plan summaries and comprehensive validation reports
 
-**Known Issues:**
-- 7 DLX implementations with iteration count or execution issues
-- 9 CP implementations with iteration count discrepancies or errors
-- 3 Lisp implementations broken by failed fix attempts (recommend revert)
-- Full details in `.planning/phases/18-validation-and-integration/FINAL-VALIDATION-REPORT.md`
+**Known Issues (after v1.5):**
+- DLX: 1 remaining (Elixir partial fix - slow performance)
+- CP: 1 remaining (Clojure partial fix - Matrix 1 only)
+- Full details in `.planning/phases/29-documentation-update/V1.5-VALIDATION-REPORT.md`
 
 **Technical Debt:**
-- CommonLisp, EmacsLisp, Scheme CP implementations need revert to working state
-- Some implementations require root cause analysis for iteration count variations
-- Clojure DLX non-functional, PowerShell incomplete
+- Elixir DLX performance investigation deferred
+- Clojure CP search phase investigation deferred
 
 ---
-*Last updated: 2026-01-14 after v1.3 milestone*
+*Last updated: 2026-01-15 after v1.5 milestone*
