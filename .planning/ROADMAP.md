@@ -14,7 +14,7 @@ None
 - ✅ **v1.2 Interactive Reporting** - [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) (Phases 4-6, shipped 2026-01-13)
 - ✅ **v1.3 Algorithm Expansion: Complete Language Coverage** - [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md) (Phases 7-18, shipped 2026-01-14)
 - ✅ **v1.4 Report UI Refinements** - [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md) (Phases 19-21, shipped 2026-01-15)
-- 🚧 **v1.5 Bug Fixes** - Phases 22-29 (in progress)
+- ✅ **v1.5 Bug Fixes** - Phases 22-29 (shipped 2026-01-15)
 
 ## All Phases
 
@@ -78,7 +78,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 </details>
 
-### 🚧 v1.5 Bug Fixes (In Progress)
+### ✅ v1.5 Bug Fixes (Shipped 2026-01-15)
 
 **Milestone Goal:** Fix the 16 algorithm implementations with known issues (7 DLX, 9 CP) identified in v1.3 validation.
 
@@ -156,20 +156,21 @@ Plans:
 Plans:
 - [x] 28-01: Validate DLX (6), CP (9) implementations, regenerate HTML report
 
-#### Phase 29: Documentation Update
+#### Phase 29: Documentation Update ✅
 
-**Goal**: Update validation report, close known issues in STATE.md, regenerate HTML report
+**Goal**: Update validation report, close known issues in STATE.md, mark v1.5 milestone complete
 **Depends on**: Phase 28
 **Research**: Unlikely (documentation)
-**Plans**: TBD
+**Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 29-01: TBD
+- [x] 29-01: Create V1.5-VALIDATION-REPORT.md, update STATE.md and PROJECT.md
 
 ## Current Work
 
-**Active Milestone:** v1.5 Bug Fixes (Phases 22-29)
-**Next Phase:** Phase 27 - CP Infrastructure Fixes
+**Completed Milestone:** v1.5 Bug Fixes (Phases 22-29) - Shipped 2026-01-15
+**Next:** New milestone planning or maintenance
 
 ## Progress
 
@@ -206,4 +207,4 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 26. CP Iteration Fixes | v1.5 | 2/2 | Complete | 2026-01-15 |
 | 27. CP Infrastructure Fixes | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 28. Validation Pass | v1.5 | 1/1 | ✅ Complete | 2026-01-15 |
-| 29. Documentation Update | v1.5 | 0/? | Not started | - |
+| 29. Documentation Update | v1.5 | 1/1 | ✅ Complete | 2026-01-15 |
