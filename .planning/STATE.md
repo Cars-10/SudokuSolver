@@ -134,6 +134,7 @@ None.
   - Phase 26 complete: CP Iteration Fixes (Haskell/Elixir/Racket fixed to 67, SML defensive check added)
   - Phase 27 complete: CP Infrastructure Fixes (PowerShell CP all matrices, Clojure CP Matrix 1)
   - Phase 28 complete: Validation Pass (DLX 6/6 at 43, CP 9/9 at expected counts, report regenerated)
+  - Phase 29 complete: Documentation Update (V1.5-VALIDATION-REPORT.md, STATE/PROJECT/ROADMAP updated)
 
 ## Session Continuity
 
