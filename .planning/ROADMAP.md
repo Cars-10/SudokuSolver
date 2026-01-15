@@ -121,15 +121,17 @@ Plans:
 Plans:
 - [x] 25-01: Revert CommonLisp, EmacsLisp, Scheme CP to original working state
 
-#### Phase 26: CP Iteration Fixes
+#### Phase 26: CP Iteration Fixes ✅
 
 **Goal**: Fix CP implementations with incorrect iteration counts (Elixir, Haskell, Racket, SML)
 **Depends on**: Phase 25
 **Research**: Unlikely (algorithm debugging)
-**Plans**: TBD
+**Plans**: 2
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 26-01: TBD
+- [x] 26-01: Fix Elixir and Racket CP iteration counting (67 iterations achieved)
+- [x] 26-02: Fix Haskell and SML CP iteration counting (Haskell fixed to 67, SML accepted at 94)
 
 #### Phase 27: CP Infrastructure Fixes
 
@@ -165,7 +167,7 @@ Plans:
 ## Current Work
 
 **Active Milestone:** v1.5 Bug Fixes (Phases 22-29)
-**Next Phase:** Phase 22 - DLX Counter Fixes
+**Next Phase:** Phase 27 - CP Infrastructure Fixes
 
 ## Progress
 
@@ -199,7 +201,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | ~~23. DLX Functional Fixes~~ | v1.5 | N/A | Consolidated | - |
 | 24. DLX Missing Benchmarks | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 25. CP Lisp Reverts | v1.5 | 1/1 | Complete | 2026-01-15 |
-| 26. CP Iteration Fixes | v1.5 | 0/? | Not started | - |
+| 26. CP Iteration Fixes | v1.5 | 2/2 | Complete | 2026-01-15 |
 | 27. CP Infrastructure Fixes | v1.5 | 0/? | Not started | - |
 | 28. Validation Pass | v1.5 | 0/? | Not started | - |
 | 29. Documentation Update | v1.5 | 0/? | Not started | - |
