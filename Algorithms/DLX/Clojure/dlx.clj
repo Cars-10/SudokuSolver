@@ -254,7 +254,7 @@
           (let [row-id (aget solution i)]
             (when (and (>= row-id 0) (< row-id 729))
               (let [info (aget row-info row-id)]
-                (aset solution-grid (:row info) (:col info) (:num info))))))
+                (aset solution-grid (int (:row info)) (int (:col info)) (int (:num info)))))))
         true)
 
       ;; Choose column and try all rows
@@ -360,17 +360,18 @@
             (when (< row-id 729)
               (let [node (aget row-starts row-id)
                     info (aget row-info row-id)]
-                (when (and node info
-                           (= (:row info) r)
-                           (= (:col info) c)
-                           (= (:num info) val))
-                  ;; Cover all columns in this row
+                (if (and node info
+                         (= (:row info) r)
+                         (= (:col info) c)
+                         (= (:num info) val))
+                  ;; Found the clue row - cover all columns and stop
                   (loop [curr node]
                     (cover-column! (node-column curr))
                     (let [next-node (node-right curr)]
                       (when (not (identical? next-node node))
-                        (recur next-node)))))))
-              (recur (inc row-id))))))))
+                        (recur next-node))))
+                  ;; Not found yet, continue searching
+                  (recur (inc row-id)))))))))))
 
 ;; ============================================================================
 ;; MAIN SOLVER
