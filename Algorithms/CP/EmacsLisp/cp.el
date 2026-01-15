@@ -284,16 +284,7 @@
 
           ;; Initialize
           (setq cp-iterations 0)
-          (setq cp-grid (cp-make-grid))
-          (setq cp-candidates (cp-make-candidates))
-
-          ;; Set given clues (but don't eliminate from peers - let search handle propagation)
-          (dotimes (r 9)
-            (dotimes (c 9)
-              (let ((val (aref (aref puzzle r) c)))
-                (when (not (= val 0))
-                  (cp-set-grid cp-grid r c val)
-                  (cp-set-cands cp-candidates r c (ash 1 val))))))
+          (cp-init-from-puzzle puzzle)
 
           ;; Solve
           (if (cp-search)
