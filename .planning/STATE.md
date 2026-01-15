@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 22 of 28 (DLX Counter Fixes - consolidated with Phase 23)
-Plan: 1/1 planned
-Status: Ready to execute
-Last activity: 2026-01-15 - Phase 22 planned (includes PowerShell/R from Phase 23)
+Plan: 1/1 complete
+Status: Phase 22 complete
+Last activity: 2026-01-15 - Phase 22-01 executed: Fixed Clojure, Elixir (partial), PowerShell DLX
 
-Progress: ░░░░░░░░░░ 0%
+Progress: ██░░░░░░░░ 14% (1/7 phases)
 
 ## Performance Metrics (v1.3)
 
@@ -57,6 +57,11 @@ Progress: ░░░░░░░░░░ 0%
 
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
+**Recent (v1.5):**
+- Clojure DLX fix: Changed cover-clues! from (when) to (if) pattern to break loop on match
+- Elixir DLX fix: Re-fetch col after up node update to avoid stale reference bug
+- PowerShell DLX fix: Use Math.Floor instead of [int] cast for proper integer division
+
 **Recent (v1.4):**
 - Integration testing approach: Human verification checkpoint with 30-step systematic test plan for validating complex UI interactions across all v1.4 features
 - Quality gate pattern: User approval required before milestone completion to ensure all features work correctly end-to-end
@@ -69,11 +74,11 @@ All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 - Backward compatibility: Preserved existing creator field for UI fallback, split multi-creator strings into individual author objects
 - Prioritization: Populated 39+ major languages (C, Python, Rust, Go, Java, etc.) with structured author metadata and official websites
 - Language count display: Use actual metricsData.length, fallback to "LOADING..." instead of undefined variable
-- Badge cleanup: Remove computer icon (💻) for standard runs, keep Docker (🐳) and AI badges for differentiation
+- Badge cleanup: Remove computer icon (computer) for standard runs, keep Docker and AI badges for differentiation
 
 **Recent (v1.3):**
 - Parallel execution model: achieves 11min wall clock for 5-language phases
-- Pragmatic CP validation: accept ±10-20 iteration variations if solution correct
+- Pragmatic CP validation: accept +/-10-20 iteration variations if solution correct
 - Defer failed fixes: better working code with wrong count than broken code
 - Comprehensive documentation: all 16 issues documented with root causes
 
@@ -84,14 +89,12 @@ Recent milestones:
 
 ### Deferred Issues
 
-**Known Issues (16 implementations):**
+**Known Issues (remaining after Phase 22):**
 
-DLX (7 implementations):
-- Clojure: DLX non-functional
-- Elixir: DLX has iteration count bug
-- Haskell: DLX deferred (immutability challenges)
-- PowerShell: Incomplete implementation
-- Plus 3 others with documented issues
+DLX (4 remaining):
+- Elixir: Partial fix - core bug resolved but slow and high iteration count
+- Haskell: Minor variation in matrices 2-5 (Matrix 1 correct at 43)
+- Plus 2 others with documented issues
 
 CP (9 implementations):
 - CommonLisp, EmacsLisp, Scheme: Broken by fix attempts (recommend revert)
@@ -99,7 +102,11 @@ CP (9 implementations):
 - PowerShell: Incomplete implementation
 - Clojure: Missing Java runtime
 
-**Decision:** Documented all issues with root cause analysis. Defer fixes to v1.4 or future milestone.
+**Fixed in Phase 22:**
+- Clojure DLX: Now produces 43 iterations for Matrix 1
+- PowerShell DLX: Now produces 43 iterations for Matrix 1
+
+**Decision:** Continue with remaining phases for CP fixes.
 
 Full details in `.planning/phases/18-validation-and-integration/FINAL-VALIDATION-REPORT.md`
 
@@ -121,9 +128,10 @@ None.
   - 12 phases, 53 plans, 2-day delivery
 - Milestone v1.4 created: Report UI Refinements, 3 phases (Phase 19-21)
 - Milestone v1.5 created: Bug Fixes, 8 phases (Phase 22-29)
+  - Phase 22 complete: DLX Counter Fixes (Clojure, PowerShell fixed)
 
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Milestone v1.5 initialization
+Stopped at: Phase 22-01 complete
 Resume file: None
