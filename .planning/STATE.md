@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-14)
 
 **Core value:** "If it runs, we should see how it runs." — rigorous, visible benchmarking.
-**Current focus:** v1.4 Report UI Refinements - Fix reporting UI issues and restore missing functionality
+**Current focus:** v1.5 Bug Fixes - Fix 16 algorithm implementations with known issues (7 DLX, 9 CP)
 
 ## Current Position
 
-Phase: 21 of 21 (Performance and Polish)
-Plan: 21-02 Complete
-Status: In progress (2/3 plans complete)
-Last activity: 2026-01-14 - Comprehensive integration testing validated all v1.4 UI features working correctly (user approved)
+Phase: 22 of 29 (DLX Counter Fixes)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-01-15 - Milestone v1.5 created
 
-Progress: ██████░░░░ 67%
+Progress: ░░░░░░░░░░ 0%
 
 ## Performance Metrics (v1.3)
 
@@ -120,9 +120,10 @@ None.
   - 85.6% success rate (149/174 correct)
   - 12 phases, 53 plans, 2-day delivery
 - Milestone v1.4 created: Report UI Refinements, 3 phases (Phase 19-21)
+- Milestone v1.5 created: Bug Fixes, 8 phases (Phase 22-29)
 
 ## Session Continuity
 
-Last session: 2026-01-14
-Stopped at: Milestone v1.4 initialization
+Last session: 2026-01-15
+Stopped at: Milestone v1.5 initialization
 Resume file: None

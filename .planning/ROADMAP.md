@@ -13,7 +13,8 @@ None
 - ✅ **v1.1 Algorithmic Expansion** - [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) (Phases 1-3, shipped 2026-01-13)
 - ✅ **v1.2 Interactive Reporting** - [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) (Phases 4-6, shipped 2026-01-13)
 - ✅ **v1.3 Algorithm Expansion: Complete Language Coverage** - [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md) (Phases 7-18, shipped 2026-01-14)
-- 🚧 **v1.4 Report UI Refinements** - Phases 19-21 (in progress)
+- ✅ **v1.4 Report UI Refinements** - [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md) (Phases 19-21, shipped 2026-01-15)
+- 🚧 **v1.5 Bug Fixes** - Phases 22-29 (in progress)
 
 ## All Phases
 
@@ -66,47 +67,106 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 </details>
 
-### 🚧 v1.4 Report UI Refinements (In Progress)
+<details>
+<summary>✅ v1.4 Report UI Refinements (Phases 19-21) — SHIPPED 2026-01-15</summary>
 
-**Milestone Goal:** Fix reporting UI issues and restore missing functionality from algorithm expansion work.
+- [x] Phase 19: Language Metadata and Display Fixes (2/2 plans) — completed 2026-01-14
+- [x] Phase 20: Algorithm-Aware UI Components (2/2 plans) — completed 2026-01-14
+- [x] Phase 21: Performance and Polish (2/2 plans) — completed 2026-01-14
 
-#### Phase 19: Language Metadata and Display Fixes
+[Full details in milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 
-**Goal**: Restore missing language metadata and author pictures, fix language count display, remove computer icon badge
+</details>
+
+### 🚧 v1.5 Bug Fixes (In Progress)
+
+**Milestone Goal:** Fix the 16 algorithm implementations with known issues (7 DLX, 9 CP) identified in v1.3 validation.
+
+#### Phase 22: DLX Counter Fixes
+
+**Goal**: Fix DLX implementations where iteration counter is not working (Clojure, Elixir, Haskell)
 **Depends on**: Previous milestone complete
-**Research**: Unlikely (internal UI patterns)
-**Plans**: 2/2 complete
+**Research**: Unlikely (debugging existing code)
+**Plans**: TBD
 
 Plans:
-- [x] 19-01: Language Metadata Structure - Extended LanguageMeta interface with authors arrays
-- [x] 19-02: UI Display Fixes - Fixed language count display and removed computer icon badge
+- [ ] 22-01: TBD (run /gsd:plan-phase 22 to break down)
 
-#### Phase 20: Algorithm-Aware UI Components
+#### Phase 23: DLX Functional Fixes
 
-**Goal**: Extend algorithm awareness to scoring modal and chart filtering for consistent multi-algorithm experience
-**Depends on**: Phase 19
-**Research**: Unlikely (existing patterns established)
-**Plans**: 2/2 complete
-
-Plans:
-- [x] 20-01: Chart Filtering - Added algorithm awareness to line chart and jockey chart
-- [x] 20-02: Scoring Modal - Added algorithm-specific filtering and baselines to scoring modal
-
-#### Phase 21: Performance and Polish
-
-**Goal**: Debug Matrix Rain performance issue (intermittent blur/slowness) and perform integration testing
-**Depends on**: Phase 20
-**Research**: Unlikely (existing code debugging)
-**Plans**: 2/2 complete
+**Goal**: Fix DLX implementations with early termination or performance issues (PowerShell, R)
+**Depends on**: Phase 22
+**Research**: Unlikely (debugging existing code)
+**Plans**: TBD
 
 Plans:
-- [x] 21-01: Matrix Rain Performance - Optimized to 60fps with 50% frame time reduction
-- [x] 21-02: Integration Testing - Comprehensive v1.4 UI verification (all features approved)
+- [ ] 23-01: TBD
+
+#### Phase 24: DLX Missing Benchmarks
+
+**Goal**: Run missing DLX benchmarks (BASH, Erlang) and validate results
+**Depends on**: Phase 23
+**Research**: Unlikely (benchmark execution)
+**Plans**: TBD
+
+Plans:
+- [ ] 24-01: TBD
+
+#### Phase 25: CP Lisp Reverts
+
+**Goal**: Revert broken Lisp family implementations (CommonLisp, EmacsLisp, Scheme) to working state with 84 iterations
+**Depends on**: Phase 24
+**Research**: Unlikely (git revert operations)
+**Plans**: TBD
+
+Plans:
+- [ ] 25-01: TBD
+
+#### Phase 26: CP Iteration Fixes
+
+**Goal**: Fix CP implementations with incorrect iteration counts (Elixir, Haskell, Racket, SML)
+**Depends on**: Phase 25
+**Research**: Unlikely (algorithm debugging)
+**Plans**: TBD
+
+Plans:
+- [ ] 26-01: TBD
+
+#### Phase 27: CP Infrastructure Fixes
+
+**Goal**: Fix PowerShell initialization bug and resolve Clojure Java runtime dependency
+**Depends on**: Phase 26
+**Research**: Likely (PowerShell constraint propagation patterns)
+**Research topics**: PowerShell array handling, constraint initialization patterns
+**Plans**: TBD
+
+Plans:
+- [ ] 27-01: TBD
+
+#### Phase 28: Validation Pass
+
+**Goal**: Re-run all fixed implementations, verify iteration counts match references (DLX=43, CP=67)
+**Depends on**: Phase 27
+**Research**: Unlikely (validation scripts exist)
+**Plans**: TBD
+
+Plans:
+- [ ] 28-01: TBD
+
+#### Phase 29: Documentation Update
+
+**Goal**: Update validation report, close known issues in STATE.md, regenerate HTML report
+**Depends on**: Phase 28
+**Research**: Unlikely (documentation)
+**Plans**: TBD
+
+Plans:
+- [ ] 29-01: TBD
 
 ## Current Work
 
-**Active Milestone:** v1.4 Report UI Refinements (Phases 19-21)
-**Next Phase:** Phase 21 - Performance and Polish
+**Active Milestone:** v1.5 Bug Fixes (Phases 22-29)
+**Next Phase:** Phase 22 - DLX Counter Fixes
 
 ## Progress
 
@@ -136,3 +196,11 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 19. Language Metadata and Display Fixes | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 20. Algorithm-Aware UI Components | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 21. Performance and Polish | v1.4 | 2/2 | Complete | 2026-01-14 |
+| 22. DLX Counter Fixes | v1.5 | 0/? | Not started | - |
+| 23. DLX Functional Fixes | v1.5 | 0/? | Not started | - |
+| 24. DLX Missing Benchmarks | v1.5 | 0/? | Not started | - |
+| 25. CP Lisp Reverts | v1.5 | 0/? | Not started | - |
+| 26. CP Iteration Fixes | v1.5 | 0/? | Not started | - |
+| 27. CP Infrastructure Fixes | v1.5 | 0/? | Not started | - |
+| 28. Validation Pass | v1.5 | 0/? | Not started | - |
+| 29. Documentation Update | v1.5 | 0/? | Not started | - |
