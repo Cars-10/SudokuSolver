@@ -110,15 +110,16 @@ Plans:
 Plans:
 - [x] 24-01: Validate BASH/Erlang DLX metrics, regenerate HTML report
 
-#### Phase 25: CP Lisp Reverts
+#### Phase 25: CP Lisp Reverts ✅
 
 **Goal**: Revert broken Lisp family implementations (CommonLisp, EmacsLisp, Scheme) to working state with 84 iterations
 **Depends on**: Phase 24
 **Research**: Unlikely (git revert operations)
-**Plans**: TBD
+**Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 25-01: TBD
+- [x] 25-01: Revert CommonLisp, EmacsLisp, Scheme CP to original working state
 
 #### Phase 26: CP Iteration Fixes
 
@@ -197,7 +198,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 22. DLX Counter Fixes (incl. Phase 23) | v1.5 | 1/1 | Complete | 2026-01-15 |
 | ~~23. DLX Functional Fixes~~ | v1.5 | N/A | Consolidated | - |
 | 24. DLX Missing Benchmarks | v1.5 | 1/1 | Complete | 2026-01-15 |
-| 25. CP Lisp Reverts | v1.5 | 0/? | Not started | - |
+| 25. CP Lisp Reverts | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 26. CP Iteration Fixes | v1.5 | 0/? | Not started | - |
 | 27. CP Infrastructure Fixes | v1.5 | 0/? | Not started | - |
 | 28. Validation Pass | v1.5 | 0/? | Not started | - |
