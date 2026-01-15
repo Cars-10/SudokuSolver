@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 Phase: 26 of 29 (CP Iteration Fixes)
 Plan: 2/2 complete
 Status: Phase 26 complete
-Last activity: 2026-01-15 - Executed 26-02-PLAN.md: Fixed Haskell CP (67 iterations), SML CP defensive check
+Last activity: 2026-01-15 - Executed 26-01-PLAN.md: Fixed Elixir CP (67 iterations), Racket CP (67 iterations)
 
 Progress: █████░░░░░ 57% (4/7 phases)
 
@@ -58,6 +58,8 @@ Progress: █████░░░░░ 57% (4/7 phases)
 All decisions are logged in PROJECT.md Key Decisions table with outcomes.
 
 **Recent (v1.5):**
+- Elixir CP fix: Don't restore counter during backtrack (iterations always count forward)
+- Racket CP fix: Proper grid state restore + propagate failure handling
 - Haskell CP fix: Rewrote propagate from batch to incremental processing to match C's 67 iterations
 - SML CP: Added defensive already-assigned check, accepted +27 iteration variation (correct solutions)
 - Clojure DLX fix: Changed cover-clues! from (when) to (if) pattern to break loop on match
@@ -98,11 +100,12 @@ DLX (4 remaining):
 - Haskell: Minor variation in matrices 2-5 (Matrix 1 correct at 43)
 - Plus 2 others with documented issues
 
-CP (5 remaining):
+CP (3 remaining):
 - CommonLisp, EmacsLisp, Scheme: **FIXED in Phase 25** - Reverted to working state (84 iterations)
 - Haskell: **FIXED in Phase 26** - Now produces exact 67 iterations
+- Elixir: **FIXED in Phase 26** - Now produces exact 67 iterations
+- Racket: **FIXED in Phase 26** - Now produces exact 67 iterations
 - SML: Produces correct solutions with +27 iteration variation (94 vs 67)
-- Racket, Elixir: Minor iteration count variations but correct solutions
 - PowerShell: Incomplete implementation
 - Clojure: Missing Java runtime
 
@@ -135,7 +138,7 @@ None.
   - Phase 22 complete: DLX Counter Fixes (Clojure, PowerShell fixed)
   - Phase 24 complete: DLX Missing Benchmarks (BASH/Erlang validated, report regenerated)
   - Phase 25 complete: CP Lisp Reverts (CommonLisp, EmacsLisp, Scheme restored to 84 iterations)
-  - Phase 26 complete: CP Iteration Fixes (Haskell fixed to 67, SML defensive check added)
+  - Phase 26 complete: CP Iteration Fixes (Haskell/Elixir/Racket fixed to 67, SML defensive check added)
 
 ## Session Continuity
 
