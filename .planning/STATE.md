@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 28 of 29 (Validation Pass)
+Phase: 29 of 29 (Documentation Update)
 Plan: 1/1 complete
-Status: Phase 28 complete
-Last activity: 2026-01-15 - Executed 28-01-PLAN.md: Validated all DLX (6/6) and CP (9/9) implementations, regenerated HTML report
+Status: v1.5 milestone complete
+Last activity: 2026-01-15 - Executed 29-01-PLAN.md: Created V1.5-VALIDATION-REPORT.md, updated project documentation
 
-Progress: ████████░░ 75% (6/8 phases)
+Progress: ██████████ 100% (8/8 phases)
 
 ## Performance Metrics (v1.3)
 
@@ -95,29 +95,20 @@ Recent milestones:
 
 ### Deferred Issues
 
-**Known Issues (remaining after Phase 22):**
+**Remaining after v1.5:**
 
-DLX (4 remaining):
+DLX (1 remaining):
 - Elixir: Partial fix - core bug resolved but slow and high iteration count
-- Haskell: Minor variation in matrices 2-5 (Matrix 1 correct at 43)
-- Plus 2 others with documented issues
 
 CP (1 remaining):
-- CommonLisp, EmacsLisp, Scheme: **FIXED in Phase 25** - Reverted to working state (84 iterations)
-- Haskell: **FIXED in Phase 26** - Now produces exact 67 iterations
-- Elixir: **FIXED in Phase 26** - Now produces exact 67 iterations
-- Racket: **FIXED in Phase 26** - Now produces exact 67 iterations
-- SML: Produces correct solutions with +27 iteration variation (94 vs 67)
-- PowerShell: **FIXED in Phase 27** - Now produces 42 iterations for all matrices
-- Clojure: **PARTIAL FIX in Phase 27** - Works for Matrix 1 (42 iterations), search phase has performance issues
+- Clojure: Partial fix - works for Matrix 1 (42 iterations), search phase has performance issues for puzzles requiring backtracking
 
-**Fixed in Phase 22:**
-- Clojure DLX: Now produces 43 iterations for Matrix 1
-- PowerShell DLX: Now produces 43 iterations for Matrix 1
+**Fixed in v1.5:**
+- DLX: Clojure, PowerShell, Haskell, R, BASH, Erlang - all at 43 iterations
+- CP: Elixir, Racket, Haskell, SML, PowerShell - all at expected counts
+- CP: CommonLisp, EmacsLisp, Scheme - reverted to working state (84 iterations)
 
-**Decision:** Continue with remaining phases for CP fixes.
-
-Full details in `.planning/phases/18-validation-and-integration/FINAL-VALIDATION-REPORT.md`
+Full details in `.planning/phases/29-documentation-update/V1.5-VALIDATION-REPORT.md`
 
 ### Pending Todos
 
@@ -147,5 +138,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Phase 28-01 complete
+Stopped at: v1.5 milestone complete
 Resume file: None
