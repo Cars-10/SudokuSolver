@@ -304,53 +304,53 @@ void freeDlxMatrix() {
 // ============================================================================
 
 int main(int argc, char **argv) {
-    @autoreleasepool {
-        struct timeval stop, start;
-        gettimeofday(&start, NULL);
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    struct timeval stop, start;
+    gettimeofday(&start, NULL);
 
-        // Process each .matrix file from command line
-        for (int i = 1; i < argc; i++) {
-            char *point = strrchr(argv[i], '.');
-            if (point != NULL && strcmp(point, ".matrix") == 0) {
-                if (readMatrixFile(argv[i]) != 0) {
-                    fprintf(stderr, "Error reading %s\n", argv[i]);
-                    continue;
-                }
-
-                printPuzzle(puzzle);
-
-                // Initialize DLX matrix
-                initDlxMatrix();
-
-                // Build matrix from puzzle
-                buildDlxMatrixFromPuzzle();
-
-                // Cover pre-filled clues
-                coverClues();
-
-                // Solve using DLX
-                dlxIterations = 0;
-                int solution[81];
-                int result = dlxSearch(root, 0, solution);
-
-                if (result) {
-                    extractSolution(solution, 81);
-                    printPuzzle(solutionGrid);
-                    printf("\nSolved in Iterations=%i\n\n", dlxIterations);
-                } else {
-                    printf("\nNo solution found\n");
-                }
-
-                // Cleanup
-                freeDlxMatrix();
+    // Process each .matrix file from command line
+    for (int i = 1; i < argc; i++) {
+        char *point = strrchr(argv[i], '.');
+        if (point != NULL && strcmp(point, ".matrix") == 0) {
+            if (readMatrixFile(argv[i]) != 0) {
+                fprintf(stderr, "Error reading %s\n", argv[i]);
+                continue;
             }
-        }
 
-        gettimeofday(&stop, NULL);
-        printf("Seconds to process %.3f\n",
-               (stop.tv_sec - start.tv_sec) +
-                   (stop.tv_usec - start.tv_usec) / 1000000.0);
+            printPuzzle(puzzle);
+
+            // Initialize DLX matrix
+            initDlxMatrix();
+
+            // Build matrix from puzzle
+            buildDlxMatrixFromPuzzle();
+
+            // Cover pre-filled clues
+            coverClues();
+
+            // Solve using DLX
+            dlxIterations = 0;
+            int solution[81];
+            int result = dlxSearch(root, 0, solution);
+
+            if (result) {
+                extractSolution(solution, 81);
+                printPuzzle(solutionGrid);
+                printf("\nSolved in Iterations=%i\n\n", dlxIterations);
+            } else {
+                printf("\nNo solution found\n");
+            }
+
+            // Cleanup
+            freeDlxMatrix();
+        }
     }
+
+    gettimeofday(&stop, NULL);
+    printf("Seconds to process %.3f\n",
+           (stop.tv_sec - start.tv_sec) +
+               (stop.tv_usec - start.tv_usec) / 1000000.0);
+    [pool drain];
 
     return 0;
 }

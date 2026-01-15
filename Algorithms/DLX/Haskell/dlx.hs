@@ -5,6 +5,7 @@ import System.Environment (getArgs)
 import System.IO (readFile)
 import Control.Monad.ST
 import Control.Monad (when, forM_, foldM)
+import Control.Monad.Fix (mfix)
 import Data.STRef
 import Data.Array.ST
 import Data.Array (Array, (!), listArray, bounds, elems)
@@ -21,6 +22,10 @@ data DNode s = DNode
   , rowId :: !Int
   , colId :: !Int
   }
+
+-- Compare nodes by their IDs (since STRefs can't be compared directly)
+instance Eq (DNode s) where
+  n1 == n2 = rowId n1 == rowId n2 && colId n1 == colId n2
 
 -- Parse matrix file
 parseMatrix :: String -> [[Int]]
@@ -62,7 +67,10 @@ solveFile filename = do
 solveDLX :: [[Int]] -> ST s (Maybe ([[Int]], Int))
 solveDLX puzzle = do
     -- Build DLX matrix
-    (root, rowInfos) <- buildDLXMatrix puzzle
+    (root, rowInfos, clueRows) <- buildDLXMatrix puzzle
+
+    -- Cover clue rows before search (critical for correct iteration count!)
+    coverClues clueRows
 
     -- Create iteration counter
     iterRef <- newSTRef 0
@@ -81,8 +89,24 @@ solveDLX puzzle = do
             return $ Just (solution, iters)
         else return Nothing
 
+-- Cover all clue rows before search starts
+coverClues :: [DNode s] -> ST s ()
+coverClues clueRows = mapM_ coverClueRow clueRows
+
+-- Cover all columns in a clue row
+coverClueRow :: DNode s -> ST s ()
+coverClueRow firstNode = do
+    -- Cover all columns in this row (traverse circularly)
+    let coverLoop node start = do
+            col <- readSTRef (column node)
+            cover col
+            nextNode <- readSTRef (right node)
+            when (nextNode /= start) $ coverLoop nextNode start
+    coverLoop firstNode firstNode
+
 -- Build DLX matrix for Sudoku
-buildDLXMatrix :: [[Int]] -> ST s (DNode s, [(Int, Int, Int)])
+-- Returns: (root, rowInfos, clueRows) where clueRows is list of (first node of row) for clue cells
+buildDLXMatrix :: [[Int]] -> ST s (DNode s, [(Int, Int, Int)], [DNode s])
 buildDLXMatrix puzzle = do
     -- Create root node
     root <- newDNode (-1) (-1)
@@ -94,22 +118,20 @@ buildDLXMatrix puzzle = do
     linkColumns root columns
 
     -- Build rows for each cell and possible value
-    rowInfos <- buildRows puzzle columns
+    (rowInfos, clueRows) <- buildRows puzzle columns
 
-    return (root, rowInfos)
+    return (root, rowInfos, clueRows)
 
--- Create a new DLX node
+-- Create a new DLX node using mfix for circular reference
 newDNode :: Int -> Int -> ST s (DNode s)
-newDNode rid cid = do
-    node <- unsafeInterleaveST $ do
-        l <- newSTRef node
-        r <- newSTRef node
-        u <- newSTRef node
-        d <- newSTRef node
-        c <- newSTRef node
-        s <- newSTRef 0
-        return $ DNode l r u d c s rid cid
-    return node
+newDNode rid cid = mfix $ \node -> do
+    l <- newSTRef node
+    r <- newSTRef node
+    u <- newSTRef node
+    d <- newSTRef node
+    c <- newSTRef node
+    s <- newSTRef 0
+    return $ DNode l r u d c s rid cid
 
 -- Link column headers into circular list with root
 linkColumns :: DNode s -> [DNode s] -> ST s ()
@@ -137,19 +159,26 @@ linkChain prev (curr:rest) = do
     linkChain curr rest
 
 -- Build constraint rows
-buildRows :: [[Int]] -> [DNode s] -> ST s [(Int, Int, Int)]
+-- Returns: (rowInfos, clueRows) where clueRows contains first node of each clue row
+buildRows :: [[Int]] -> [DNode s] -> ST s ([(Int, Int, Int)], [DNode s])
 buildRows puzzle columns = do
     let buildCell r c = do
             let cellVal = (puzzle !! r) !! c
             if cellVal == 0
-                then sequence [addRow r c d columns | d <- [1..9]]
-                else sequence [addRow r c cellVal columns]
+                then do
+                    results <- sequence [addRow r c d columns | d <- [1..9]]
+                    return (map fst results, [])  -- No clue rows for empty cells
+                else do
+                    (info, firstNode) <- addRow r c cellVal columns
+                    return ([info], [firstNode])  -- This is a clue row
 
-    rowInfosList <- sequence [buildCell r c | r <- [0..8], c <- [0..8]]
-    return $ concat rowInfosList
+    results <- sequence [buildCell r c | r <- [0..8], c <- [0..8]]
+    let (infoLists, clueLists) = unzip results
+    return (concat infoLists, concat clueLists)
 
 -- Add a single row to DLX matrix
-addRow :: Int -> Int -> Int -> [DNode s] -> ST s (Int, Int, Int)
+-- Returns: ((r, c, d), firstNode) where firstNode is the first node in the row
+addRow :: Int -> Int -> Int -> [DNode s] -> ST s ((Int, Int, Int), DNode s)
 addRow r c d columns = do
     -- Calculate column indices (0-indexed, matching C implementation)
     let posCol = r * 9 + c
@@ -167,7 +196,7 @@ addRow r c d columns = do
     -- Add each node to its column
     mapM_ (\(node, colIdx) -> addNodeToColumn node (columns !! colIdx)) (zip nodes [posCol, rowCol, colCol, boxCol])
 
-    return (r, c, d)
+    return ((r, c, d), head nodes)
 
 -- Link nodes in a row into circular list
 linkNodesRow :: [DNode s] -> ST s ()

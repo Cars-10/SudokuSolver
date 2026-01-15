@@ -28,7 +28,7 @@ compile() {
         if [ -z "$OBJC_FLAGS" ]; then
             report_env_error "gnustep-config failed. GNUstep may not be properly installed"
         fi
-        gcc -O2 -o cp_solver cp_core.m cp_sudoku.m $OBJC_FLAGS $OBJC_LIBS -lgnustep-base
+        gcc -std=c99 -O2 -o cp_solver cp_core.m cp_sudoku.m $OBJC_FLAGS $OBJC_LIBS -lgnustep-base
     fi
 
     if [ $? -ne 0 ]; then

@@ -77,14 +77,15 @@ void printPuzzle(int puzzle[9][9]) {
 // ============================================================================
 
 int main(int argc, char *argv[]) {
-    @autoreleasepool {
-        struct timeval stop, start;
-        gettimeofday(&start, NULL);
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    struct timeval stop, start;
+    gettimeofday(&start, NULL);
 
-        if (argc != 2) {
-            fprintf(stderr, "Usage: %s <matrix_file>\n", argv[0]);
-            return 1;
-        }
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <matrix_file>\n", argv[0]);
+        [pool drain];
+        return 1;
+    }
 
         // Read puzzle from file
         int puzzle[9][9];
@@ -129,11 +130,11 @@ int main(int argc, char *argv[]) {
             printf("\nNo solution found\n");
         }
 
-        gettimeofday(&stop, NULL);
-        printf("Seconds to process %.3f\n",
-               (stop.tv_sec - start.tv_sec) +
-               (stop.tv_usec - start.tv_usec) / 1000000.0);
-    }
+    gettimeofday(&stop, NULL);
+    printf("Seconds to process %.3f\n",
+           (stop.tv_sec - start.tv_sec) +
+           (stop.tv_usec - start.tv_usec) / 1000000.0);
+    [pool drain];
 
     return 0;
 }
