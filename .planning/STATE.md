@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 24 of 29 (DLX Missing Benchmarks)
+Phase: 25 of 29 (CP Lisp Reverts)
 Plan: 1/1 complete
-Status: Phase 24 complete
-Last activity: 2026-01-15 - Phase 24-01 executed: Validated BASH/Erlang DLX, regenerated report
+Status: Phase 25 complete
+Last activity: 2026-01-15 - Phase 25-01 executed: Reverted CommonLisp, EmacsLisp, Scheme CP to working state
 
-Progress: ███░░░░░░░ 29% (2/7 phases)
+Progress: ████░░░░░░ 43% (3/7 phases)
 
 ## Performance Metrics (v1.3)
 
@@ -96,8 +96,8 @@ DLX (4 remaining):
 - Haskell: Minor variation in matrices 2-5 (Matrix 1 correct at 43)
 - Plus 2 others with documented issues
 
-CP (9 implementations):
-- CommonLisp, EmacsLisp, Scheme: Broken by fix attempts (recommend revert)
+CP (6 remaining):
+- CommonLisp, EmacsLisp, Scheme: **FIXED in Phase 25** - Reverted to working state (84 iterations)
 - Haskell, Racket, SML, Elixir: Minor iteration count variations but correct solutions
 - PowerShell: Incomplete implementation
 - Clojure: Missing Java runtime
@@ -130,9 +130,10 @@ None.
 - Milestone v1.5 created: Bug Fixes, 8 phases (Phase 22-29)
   - Phase 22 complete: DLX Counter Fixes (Clojure, PowerShell fixed)
   - Phase 24 complete: DLX Missing Benchmarks (BASH/Erlang validated, report regenerated)
+  - Phase 25 complete: CP Lisp Reverts (CommonLisp, EmacsLisp, Scheme restored to 84 iterations)
 
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Phase 24-01 complete
+Stopped at: Phase 25-01 complete
 Resume file: None
