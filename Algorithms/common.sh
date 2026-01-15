@@ -277,14 +277,15 @@ EOF
 
 # Run benchmarks for all specified matrices
 # Usage: run_benchmarks [matrix_paths...]
-# If no paths given, runs all matrices from ../../Matrices/*.matrix
+# If no paths given, runs all matrices from ../../../Matrices/*.matrix
+# (All algorithm dirs are at Algorithms/{Algorithm}/{Language}/ depth)
 run_benchmarks() {
     local matrices="$@"
     local timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
     # If no matrices specified, use all available
     if [ -z "$matrices" ]; then
-        matrices="../../Matrices/*.matrix"
+        matrices="../../../Matrices/*.matrix"
     fi
 
     # Expand glob pattern
