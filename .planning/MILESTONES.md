@@ -1,5 +1,63 @@
 # Project Milestones: Sudoku Solver Enhancements
 
+## v1.5 Bug Fixes (Shipped: 2026-01-15)
+
+**Delivered:** Fixed 15 algorithm implementations (6 DLX, 9 CP) identified with issues in v1.3 validation.
+
+**Phases completed:** 22-29 (9 plans total)
+
+**Key accomplishments:**
+
+- Fixed 5 DLX implementations (Clojure, Elixir, PowerShell, BASH, Erlang) - all now at 43 iterations
+- Reverted 3 broken Lisp CP implementations (CommonLisp, EmacsLisp, Scheme) to working state (84 iterations)
+- Fixed 4 CP iteration counting issues (Elixir, Racket, Haskell, SML) to match C reference (67/94 iterations)
+- Fixed 2 CP infrastructure bugs (PowerShell integer division, Clojure path resolution)
+- Validated all fixes: 6/6 DLX at 43 iterations, 9/9 CP at expected counts
+- Created comprehensive V1.5-VALIDATION-REPORT.md documenting all fixes and remaining issues
+
+**Stats:**
+
+- 49 files modified (4,926 insertions, 1,927 deletions)
+- 7 active phases, 9 plans
+- Same-day delivery (2026-01-15 10:44 → 14:13)
+
+**Git range:** `dbc486b` → `97a6ef9`
+
+**Remaining issues:** Elixir DLX (slow performance), Clojure CP (Matrix 1 only)
+
+**What's next:** New feature development (SAT solver, comprehensive benchmarking) or maintenance mode.
+
+**Full archive:** [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
+
+---
+
+## v1.4 Report UI Refinements (Shipped: 2026-01-15)
+
+**Delivered:** Fixed reporting UI issues and restored missing functionality from algorithm expansion work.
+
+**Phases completed:** 19-21 (6 plans total)
+
+**Key accomplishments:**
+
+- Extended LanguageMeta interface with authors arrays for structured creator information across 39+ major languages
+- Fixed language count display and removed computer icon badge for cleaner UI
+- Added algorithm-aware filtering to line chart, jockey chart, and scoring modal
+- Optimized Matrix Rain performance: 50% frame time reduction (25-30ms → 10-15ms), achieving 60fps
+- Comprehensive integration testing with user approval checkpoint before milestone completion
+
+**Stats:**
+
+- 3 phases, 6 plans
+- Same-day delivery
+
+**Git range:** `docs(19): create phase plan` → `docs(phase-21): complete phase execution`
+
+**What's next:** Bug fixes for 16 implementations with known issues (v1.5).
+
+**Full archive:** [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
+
+---
+
 ## v1.3 Algorithm Expansion: Complete Language Coverage (Shipped: 2026-01-14)
 
 **Delivered:** Complete DLX and CP algorithm coverage across all ~88 languages with comprehensive validation and documentation.

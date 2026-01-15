@@ -2,19 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-14)
+See: .planning/PROJECT.md (updated 2026-01-15 after v1.5 milestone)
 
 **Core value:** "If it runs, we should see how it runs." — rigorous, visible benchmarking.
-**Current focus:** v1.5 Bug Fixes - Fix 16 algorithm implementations with known issues (7 DLX, 9 CP)
+**Current focus:** Awaiting next milestone planning
 
 ## Current Position
 
-Phase: 29 of 29 (Documentation Update)
-Plan: 1/1 complete
-Status: v1.5 milestone complete
-Last activity: 2026-01-15 - Executed 29-01-PLAN.md: Created V1.5-VALIDATION-REPORT.md, updated project documentation
+Phase: All 29 phases complete
+Plan: All plans complete
+Status: v1.5 Bug Fixes milestone shipped
+Last activity: 2026-01-15 - v1.5 milestone archived
 
-Progress: ██████████ 100% (8/8 phases)
+Progress: ██████████ 100% (5 milestones shipped)
 
 ## Performance Metrics (v1.3)
 
@@ -120,24 +120,23 @@ None.
 
 ### Roadmap Evolution
 
-- v1.1 milestone: Complete and archived (Phases 1-3)
-- v1.2 milestone: Complete and archived (Phases 4-6)
-- v1.3 milestone: Complete and archived (Phases 7-18)
+- v1.1 milestone: Complete and archived (Phases 1-3) - shipped 2026-01-13
+- v1.2 milestone: Complete and archived (Phases 4-6) - shipped 2026-01-13
+- v1.3 milestone: Complete and archived (Phases 7-18) - shipped 2026-01-14
   - 174 total implementations (BruteForce: 81, DLX: 47, CP: 47)
   - 85.6% success rate (149/174 correct)
   - 12 phases, 53 plans, 2-day delivery
-- Milestone v1.4 created: Report UI Refinements, 3 phases (Phase 19-21)
-- Milestone v1.5 created: Bug Fixes, 8 phases (Phase 22-29)
-  - Phase 22 complete: DLX Counter Fixes (Clojure, PowerShell fixed)
-  - Phase 24 complete: DLX Missing Benchmarks (BASH/Erlang validated, report regenerated)
-  - Phase 25 complete: CP Lisp Reverts (CommonLisp, EmacsLisp, Scheme restored to 84 iterations)
-  - Phase 26 complete: CP Iteration Fixes (Haskell/Elixir/Racket fixed to 67, SML defensive check added)
-  - Phase 27 complete: CP Infrastructure Fixes (PowerShell CP all matrices, Clojure CP Matrix 1)
-  - Phase 28 complete: Validation Pass (DLX 6/6 at 43, CP 9/9 at expected counts, report regenerated)
-  - Phase 29 complete: Documentation Update (V1.5-VALIDATION-REPORT.md, STATE/PROJECT/ROADMAP updated)
+- v1.4 milestone: Complete and archived (Phases 19-21) - shipped 2026-01-15
+  - UI refinements: language metadata, algorithm-aware charts, Matrix Rain optimization
+  - 3 phases, 6 plans
+- v1.5 milestone: Complete and archived (Phases 22-29) - shipped 2026-01-15
+  - Fixed 6 DLX implementations (all at 43 iterations)
+  - Fixed 9 CP implementations (at expected counts)
+  - 7 active phases, 9 plans, same-day delivery
 
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: v1.5 milestone complete
+Stopped at: v1.5 milestone archived
 Resume file: None
+Next steps: New milestone planning or maintenance mode

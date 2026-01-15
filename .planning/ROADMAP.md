@@ -14,7 +14,7 @@ None
 - ✅ **v1.2 Interactive Reporting** - [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) (Phases 4-6, shipped 2026-01-13)
 - ✅ **v1.3 Algorithm Expansion: Complete Language Coverage** - [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md) (Phases 7-18, shipped 2026-01-14)
 - ✅ **v1.4 Report UI Refinements** - [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md) (Phases 19-21, shipped 2026-01-15)
-- ✅ **v1.5 Bug Fixes** - Phases 22-29 (shipped 2026-01-15)
+- ✅ **v1.5 Bug Fixes** - [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md) (Phases 22-29, shipped 2026-01-15)
 
 ## All Phases
 
@@ -78,98 +78,24 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 </details>
 
-### ✅ v1.5 Bug Fixes (Shipped 2026-01-15)
+<details>
+<summary>✅ v1.5 Bug Fixes (Phases 22-29) — SHIPPED 2026-01-15</summary>
 
-**Milestone Goal:** Fix the 16 algorithm implementations with known issues (7 DLX, 9 CP) identified in v1.3 validation.
+- [x] Phase 22: DLX Counter Fixes (1/1 plan) — completed 2026-01-15
+- [x] Phase 24: DLX Missing Benchmarks (1/1 plan) — completed 2026-01-15
+- [x] Phase 25: CP Lisp Reverts (1/1 plan) — completed 2026-01-15
+- [x] Phase 26: CP Iteration Fixes (2/2 plans) — completed 2026-01-15
+- [x] Phase 27: CP Infrastructure Fixes (1/1 plan) — completed 2026-01-15
+- [x] Phase 28: Validation Pass (1/1 plan) — completed 2026-01-15
+- [x] Phase 29: Documentation Update (1/1 plan) — completed 2026-01-15
 
-#### Phase 22: DLX Counter Fixes (Consolidated with Phase 23) ✅
+[Full details in milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
-**Goal**: Fix DLX implementations with counter/algorithm issues (Clojure, Elixir, PowerShell) and verify already-fixed implementations (Haskell, R)
-**Depends on**: Previous milestone complete
-**Research**: Unlikely (debugging existing code)
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 22-01: Fix Clojure, Elixir, PowerShell DLX; verify Haskell, R DLX
-
-#### ~~Phase 23: DLX Functional Fixes~~ (CONSOLIDATED INTO PHASE 22)
-
-**Status**: Merged into Phase 22. PowerShell and R now handled in 22-01.
-- R: Already fixed (iterations=43) - just verify
-- PowerShell: Matrix corruption bug - needs fix
-
-#### Phase 24: DLX Missing Benchmarks ✅
-
-**Goal**: Run missing DLX benchmarks (BASH, Erlang) and validate results
-**Depends on**: Phase 23
-**Research**: Unlikely (benchmark execution)
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 24-01: Validate BASH/Erlang DLX metrics, regenerate HTML report
-
-#### Phase 25: CP Lisp Reverts ✅
-
-**Goal**: Revert broken Lisp family implementations (CommonLisp, EmacsLisp, Scheme) to working state with 84 iterations
-**Depends on**: Phase 24
-**Research**: Unlikely (git revert operations)
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 25-01: Revert CommonLisp, EmacsLisp, Scheme CP to original working state
-
-#### Phase 26: CP Iteration Fixes ✅
-
-**Goal**: Fix CP implementations with incorrect iteration counts (Elixir, Haskell, Racket, SML)
-**Depends on**: Phase 25
-**Research**: Unlikely (algorithm debugging)
-**Plans**: 2
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 26-01: Fix Elixir and Racket CP iteration counting (67 iterations achieved)
-- [x] 26-02: Fix Haskell and SML CP iteration counting (Haskell fixed to 67, SML accepted at 94)
-
-#### Phase 27: CP Infrastructure Fixes ✅
-
-**Goal**: Fix PowerShell initialization bug and resolve Clojure Java runtime dependency
-**Depends on**: Phase 26
-**Research**: Likely (PowerShell constraint propagation patterns)
-**Research topics**: PowerShell array handling, constraint initialization patterns
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 27-01: Fix PowerShell CP (all matrices), Clojure CP (Matrix 1 only)
-
-#### Phase 28: Validation Pass ✅
-
-**Goal**: Re-run all fixed implementations, verify iteration counts match references (DLX=43, CP=67)
-**Depends on**: Phase 27
-**Research**: Unlikely (validation scripts exist)
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 28-01: Validate DLX (6), CP (9) implementations, regenerate HTML report
-
-#### Phase 29: Documentation Update ✅
-
-**Goal**: Update validation report, close known issues in STATE.md, mark v1.5 milestone complete
-**Depends on**: Phase 28
-**Research**: Unlikely (documentation)
-**Plans**: 1
-**Completed**: 2026-01-15
-
-Plans:
-- [x] 29-01: Create V1.5-VALIDATION-REPORT.md, update STATE.md and PROJECT.md
+</details>
 
 ## Current Work
 
-**Completed Milestone:** v1.5 Bug Fixes (Phases 22-29) - Shipped 2026-01-15
+**Completed Milestones:** v1.1, v1.2, v1.3, v1.4, v1.5
 **Next:** New milestone planning or maintenance
 
 ## Progress
