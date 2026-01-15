@@ -157,133 +157,201 @@ eliminate grid candidates iterRef row col digit = do
 -- Assign a digit to a cell
 assign :: Grid s -> Candidates s -> STRef s Int -> Int -> Int -> Int -> ST s Bool
 assign grid candidates iterRef row col digit = do
-    -- Increment iteration counter
-    modifySTRef iterRef (+1)
+    -- Check if already assigned (avoid double-counting)
+    currentVal <- readArray grid (row, col)
+    if currentVal /= 0
+        then return (currentVal == digit)  -- OK if same digit, contradiction if different
+        else do
+            -- Increment iteration counter
+            modifySTRef iterRef (+1)
 
-    -- Set value
-    writeArray grid (row, col) digit
-    writeArray candidates (row, col) (shiftL 1 digit)
+            -- Set value
+            writeArray grid (row, col) digit
+            writeArray candidates (row, col) (shiftL 1 digit)
 
-    -- Eliminate digit from all peers
-    let peers = getPeers row col
-    let eliminateFromPeer (pr, pc) = eliminate grid candidates iterRef pr pc digit
+            -- Eliminate digit from all peers
+            let peers = getPeers row col
+            let eliminateFromPeer (pr, pc) = eliminate grid candidates iterRef pr pc digit
 
-    results <- mapM eliminateFromPeer peers
-    return $ and results
+            results <- mapM eliminateFromPeer peers
+            return $ and results
 
--- Propagate constraints
+-- Propagate constraints (incremental like C reference)
 propagate :: Grid s -> Candidates s -> STRef s Int -> ST s Bool
-propagate grid candidates iterRef = propagateLoop True
+propagate grid candidates iterRef = propagateLoop
   where
-    propagateLoop changed = do
-        if not changed
-            then return True
+    propagateLoop = do
+        -- Strategy 1: Singleton elimination (process all, track changes)
+        (success1, changed1) <- processSingletons
+        if not success1
+            then return False
             else do
-                -- Strategy 1: Singleton elimination
-                singletons <- findSingletons
-                success1 <- if null singletons
-                    then return True
-                    else do
-                        results <- mapM (\(r, c, d) -> assign grid candidates iterRef r c d) singletons
-                        return $ and results
-
-                if not success1
+                -- Strategy 2: Hidden singles in rows
+                (success2, changed2) <- processHiddenSinglesRows
+                if not success2
                     then return False
                     else do
-                        -- Strategy 2: Hidden singles
-                        hiddenSingles <- findHiddenSingles
-                        success2 <- if null hiddenSingles
-                            then return True
-                            else do
-                                results <- mapM (\(r, c, d) -> assign grid candidates iterRef r c d) hiddenSingles
-                                return $ and results
-
-                        if not success2
+                        -- Strategy 3: Hidden singles in columns
+                        (success3, changed3) <- processHiddenSinglesCols
+                        if not success3
                             then return False
                             else do
-                                let hasChanges = not (null singletons) || not (null hiddenSingles)
-                                if hasChanges
-                                    then propagateLoop True
-                                    else return True
+                                -- Strategy 4: Hidden singles in boxes
+                                (success4, changed4) <- processHiddenSinglesBoxes
+                                if not success4
+                                    then return False
+                                    else do
+                                        let anyChanged = changed1 || changed2 || changed3 || changed4
+                                        if anyChanged
+                                            then propagateLoop
+                                            else return True
 
-    findSingletons = do
-        singles <- forM [0..8] $ \r -> do
-            forM [0..8] $ \c -> do
+    -- Process singletons incrementally
+    processSingletons = processCells 0 0 False
+      where
+        processCells r c changed
+            | r >= 9 = return (True, changed)
+            | c >= 9 = processCells (r + 1) 0 changed
+            | otherwise = do
                 val <- readArray grid (r, c)
                 if val == 0
                     then do
                         cands <- readArray candidates (r, c)
                         let numCands = countCandidates cands
-                        if numCands == 1
-                            then case getFirstCandidate cands of
-                                Just d -> return [(r, c, d)]
-                                Nothing -> return []
-                            else return []
-                    else return []
-        return $ concat $ concat singles
+                        if numCands == 0
+                            then return (False, changed)  -- Contradiction
+                            else if numCands == 1
+                                then case getFirstCandidate cands of
+                                    Just digit -> do
+                                        success <- assign grid candidates iterRef r c digit
+                                        if success
+                                            then processCells r (c + 1) True
+                                            else return (False, changed)
+                                    Nothing -> return (False, changed)
+                                else processCells r (c + 1) changed
+                    else processCells r (c + 1) changed
 
-    findHiddenSingles = do
-        rowSingles <- findHiddenSinglesInRows
-        colSingles <- findHiddenSinglesInCols
-        boxSingles <- findHiddenSinglesInBoxes
-        return $ rowSingles ++ colSingles ++ boxSingles
+    -- Process hidden singles in rows incrementally
+    processHiddenSinglesRows = processRows 0 False
+      where
+        processRows r changed
+            | r >= 9 = return (True, changed)
+            | otherwise = do
+                (success, rowChanged) <- processDigits r 1 False
+                if success
+                    then processRows (r + 1) (changed || rowChanged)
+                    else return (False, changed)
 
-    findHiddenSinglesInRows = do
-        singles <- forM [0..8] $ \r -> do
-            forM [1..9] $ \digit -> do
+        processDigits r digit changed
+            | digit > 9 = return (True, changed)
+            | otherwise = do
                 -- Check if digit already assigned in row
                 rowVals <- mapM (\c -> readArray grid (r, c)) [0..8]
                 if digit `elem` rowVals
-                    then return []
+                    then processDigits r (digit + 1) changed
                     else do
-                        -- Find cells where digit is a candidate
-                        candCells <- forM [0..8] $ \c -> do
-                            cands <- readArray candidates (r, c)
-                            return $ if hasCandidate cands digit then [(r, c)] else []
-                        let cells = concat candCells
-                        if length cells == 1
-                            then return [(fst (head cells), snd (head cells), digit)]
-                            else return []
-        return $ concat $ concat singles
+                        -- Count cells where digit is candidate
+                        (count, lastCol) <- countInRow r digit 0 0 (-1)
+                        if count == 1
+                            then do
+                                success <- assign grid candidates iterRef r lastCol digit
+                                if success
+                                    then processDigits r (digit + 1) True
+                                    else return (False, changed)
+                            else if count == 0
+                                then return (False, changed)  -- Contradiction
+                                else processDigits r (digit + 1) changed
 
-    findHiddenSinglesInCols = do
-        singles <- forM [0..8] $ \c -> do
-            forM [1..9] $ \digit -> do
+        countInRow r digit c count lastCol
+            | c >= 9 = return (count, lastCol)
+            | otherwise = do
+                cands <- readArray candidates (r, c)
+                if hasCandidate cands digit
+                    then countInRow r digit (c + 1) (count + 1) c
+                    else countInRow r digit (c + 1) count lastCol
+
+    -- Process hidden singles in columns incrementally
+    processHiddenSinglesCols = processCols 0 False
+      where
+        processCols c changed
+            | c >= 9 = return (True, changed)
+            | otherwise = do
+                (success, colChanged) <- processDigits c 1 False
+                if success
+                    then processCols (c + 1) (changed || colChanged)
+                    else return (False, changed)
+
+        processDigits c digit changed
+            | digit > 9 = return (True, changed)
+            | otherwise = do
                 -- Check if digit already assigned in column
                 colVals <- mapM (\r -> readArray grid (r, c)) [0..8]
                 if digit `elem` colVals
-                    then return []
+                    then processDigits c (digit + 1) changed
                     else do
-                        -- Find cells where digit is a candidate
-                        candCells <- forM [0..8] $ \r -> do
-                            cands <- readArray candidates (r, c)
-                            return $ if hasCandidate cands digit then [(r, c)] else []
-                        let cells = concat candCells
-                        if length cells == 1
-                            then return [(fst (head cells), snd (head cells), digit)]
-                            else return []
-        return $ concat $ concat singles
+                        -- Count cells where digit is candidate
+                        (count, lastRow) <- countInCol c digit 0 0 (-1)
+                        if count == 1
+                            then do
+                                success <- assign grid candidates iterRef lastRow c digit
+                                if success
+                                    then processDigits c (digit + 1) True
+                                    else return (False, changed)
+                            else if count == 0
+                                then return (False, changed)  -- Contradiction
+                                else processDigits c (digit + 1) changed
 
-    findHiddenSinglesInBoxes = do
-        singles <- forM [0..8] $ \box -> do
-            let boxRow = (box `div` 3) * 3
-            let boxCol = (box `mod` 3) * 3
-            forM [1..9] $ \digit -> do
+        countInCol c digit r count lastRow
+            | r >= 9 = return (count, lastRow)
+            | otherwise = do
+                cands <- readArray candidates (r, c)
+                if hasCandidate cands digit
+                    then countInCol c digit (r + 1) (count + 1) r
+                    else countInCol c digit (r + 1) count lastRow
+
+    -- Process hidden singles in boxes incrementally
+    processHiddenSinglesBoxes = processBoxes 0 False
+      where
+        processBoxes box changed
+            | box >= 9 = return (True, changed)
+            | otherwise = do
+                let boxRow = (box `div` 3) * 3
+                let boxCol = (box `mod` 3) * 3
+                (success, boxChanged) <- processDigits boxRow boxCol 1 False
+                if success
+                    then processBoxes (box + 1) (changed || boxChanged)
+                    else return (False, changed)
+
+        processDigits boxRow boxCol digit changed
+            | digit > 9 = return (True, changed)
+            | otherwise = do
                 -- Check if digit already assigned in box
                 boxVals <- sequence [readArray grid (r, c) | r <- [boxRow..boxRow+2], c <- [boxCol..boxCol+2]]
                 if digit `elem` boxVals
-                    then return []
+                    then processDigits boxRow boxCol (digit + 1) changed
                     else do
-                        -- Find cells where digit is a candidate
-                        candCells <- sequence [do
-                            cands <- readArray candidates (r, c)
-                            return $ if hasCandidate cands digit then [(r, c)] else []
-                            | r <- [boxRow..boxRow+2], c <- [boxCol..boxCol+2]]
-                        let cells = concat candCells
-                        if length cells == 1
-                            then return [(fst (head cells), snd (head cells), digit)]
-                            else return []
-        return $ concat $ concat singles
+                        -- Count cells where digit is candidate
+                        (count, lastR, lastC) <- countInBox boxRow boxCol digit 0 0 0 (-1) (-1)
+                        if count == 1
+                            then do
+                                success <- assign grid candidates iterRef lastR lastC digit
+                                if success
+                                    then processDigits boxRow boxCol (digit + 1) True
+                                    else return (False, changed)
+                            else if count == 0
+                                then return (False, changed)  -- Contradiction
+                                else processDigits boxRow boxCol (digit + 1) changed
+
+        countInBox boxRow boxCol digit dr dc count lastR lastC
+            | dr >= 3 = return (count, lastR, lastC)
+            | dc >= 3 = countInBox boxRow boxCol digit (dr + 1) 0 count lastR lastC
+            | otherwise = do
+                let r = boxRow + dr
+                let c = boxCol + dc
+                cands <- readArray candidates (r, c)
+                if hasCandidate cands digit
+                    then countInBox boxRow boxCol digit dr (dc + 1) (count + 1) r c
+                    else countInBox boxRow boxCol digit dr (dc + 1) count lastR lastC
 
 -- Find MRV cell (cell with minimum remaining values)
 findMRVCell :: Grid s -> Candidates s -> ST s (Maybe (Int, Int))
