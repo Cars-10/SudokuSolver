@@ -124,71 +124,104 @@
 
 (define (propagate! g)
   (let outer ([changed #t])
-    (if (not changed)
-        #t
-        (begin
-          (set! changed #f)
-          ;; Strategy 1: Naked singles (cells with only one candidate)
-          (for ([row (in-range 9)])
-            (for ([col (in-range 9)])
-              (when (= (get-val g row col) 0)
-                (let ([rem (count-cands (get-cand g row col))])
-                  (when (= rem 1)
-                    (when (assign! g row col (first-cand (get-cand g row col)))
-                      (set! changed #t)))))))
-          ;; Strategy 2: Check rows for hidden singles
-          (for ([row (in-range 9)])
-            (for ([d (in-range 1 10)])
-              (let ([cnt 0]
-                    [lcol -1]
-                    [assigned #f])
-                (for ([col (in-range 9)])
-                  (when (= (get-val g row col) d)
-                    (set! assigned #t))
-                  (when (and (not assigned) (has-cand? (get-cand g row col) d))
-                    (set! cnt (+ cnt 1))
-                    (set! lcol col)))
-                (when (and (not assigned) (= cnt 1))
-                  (when (assign! g row lcol d)
-                    (set! changed #t))))))
-          ;; Check columns for hidden singles
-          (for ([col (in-range 9)])
-            (for ([d (in-range 1 10)])
-              (let ([cnt 0]
-                    [lrow -1]
-                    [assigned #f])
-                (for ([row (in-range 9)])
-                  (when (= (get-val g row col) d)
-                    (set! assigned #t))
-                  (when (and (not assigned) (has-cand? (get-cand g row col) d))
-                    (set! cnt (+ cnt 1))
-                    (set! lrow row)))
-                (when (and (not assigned) (= cnt 1))
-                  (when (assign! g lrow col d)
-                    (set! changed #t))))))
-          ;; Check boxes for hidden singles
-          (for ([box (in-range 9)])
-            (let ([br (* (quotient box 3) 3)]
-                  [bc (* (modulo box 3) 3)])
-              (for ([d (in-range 1 10)])
-                (let ([cnt 0]
-                      [lr -1]
-                      [lc -1]
-                      [assigned #f])
-                  (let/ec break
-                    (for ([r (in-range br (+ br 3))])
-                      (for ([c (in-range bc (+ bc 3))])
-                        (when (= (get-val g r c) d)
-                          (set! assigned #t)
-                          (break #t))
-                        (when (and (not assigned) (has-cand? (get-cand g r c) d))
-                          (set! cnt (+ cnt 1))
-                          (set! lr r)
-                          (set! lc c)))))
-                  (when (and (not assigned) (= cnt 1))
-                    (when (assign! g lr lc d)
-                      (set! changed #t)))))))
-          (outer changed)))))
+    (cond
+      [(not changed) #t]  ;; Fixpoint reached
+      [else
+       (set! changed #f)
+       (define failed #f)
+
+       ;; Strategy 1: Naked singles (cells with only one candidate)
+       (let/ec break-naked
+         (for ([row (in-range 9)])
+           (for ([col (in-range 9)])
+             (when (and (not failed) (= (get-val g row col) 0))
+               (let ([rem (count-cands (get-cand g row col))])
+                 (cond
+                   [(= rem 0) (set! failed #t) (break-naked)]
+                   [(= rem 1)
+                    (if (assign! g row col (first-cand (get-cand g row col)))
+                        (set! changed #t)
+                        (begin (set! failed #t) (break-naked)))]))))))
+
+       ;; Strategy 2: Check rows for hidden singles
+       (when (not failed)
+         (let/ec break-rows
+           (for ([row (in-range 9)])
+             (for ([d (in-range 1 10)])
+               (let ([cnt 0]
+                     [lcol -1]
+                     [assigned #f])
+                 (for ([col (in-range 9)])
+                   (when (= (get-val g row col) d)
+                     (set! assigned #t))
+                   (when (and (not assigned) (has-cand? (get-cand g row col) d))
+                     (set! cnt (+ cnt 1))
+                     (set! lcol col)))
+                 (cond
+                   [(and (not assigned) (= cnt 0))
+                    (set! failed #t)
+                    (break-rows)]
+                   [(and (not assigned) (= cnt 1))
+                    (if (assign! g row lcol d)
+                        (set! changed #t)
+                        (begin (set! failed #t) (break-rows)))]))))))
+
+       ;; Strategy 3: Check columns for hidden singles
+       (when (not failed)
+         (let/ec break-cols
+           (for ([col (in-range 9)])
+             (for ([d (in-range 1 10)])
+               (let ([cnt 0]
+                     [lrow -1]
+                     [assigned #f])
+                 (for ([row (in-range 9)])
+                   (when (= (get-val g row col) d)
+                     (set! assigned #t))
+                   (when (and (not assigned) (has-cand? (get-cand g row col) d))
+                     (set! cnt (+ cnt 1))
+                     (set! lrow row)))
+                 (cond
+                   [(and (not assigned) (= cnt 0))
+                    (set! failed #t)
+                    (break-cols)]
+                   [(and (not assigned) (= cnt 1))
+                    (if (assign! g lrow col d)
+                        (set! changed #t)
+                        (begin (set! failed #t) (break-cols)))]))))))
+
+       ;; Strategy 4: Check boxes for hidden singles
+       (when (not failed)
+         (let/ec break-boxes
+           (for ([box (in-range 9)])
+             (let ([br (* (quotient box 3) 3)]
+                   [bc (* (modulo box 3) 3)])
+               (for ([d (in-range 1 10)])
+                 (let ([cnt 0]
+                       [lr -1]
+                       [lc -1]
+                       [assigned #f])
+                   (let/ec break-inner
+                     (for ([r (in-range br (+ br 3))])
+                       (for ([c (in-range bc (+ bc 3))])
+                         (when (= (get-val g r c) d)
+                           (set! assigned #t)
+                           (break-inner #t))
+                         (when (and (not assigned) (has-cand? (get-cand g r c) d))
+                           (set! cnt (+ cnt 1))
+                           (set! lr r)
+                           (set! lc c)))))
+                   (cond
+                     [(and (not assigned) (= cnt 0))
+                      (set! failed #t)
+                      (break-boxes)]
+                     [(and (not assigned) (= cnt 1))
+                      (if (assign! g lr lc d)
+                          (set! changed #t)
+                          (begin (set! failed #t) (break-boxes)))])))))))
+
+       (if failed
+           #f  ;; Contradiction detected
+           (outer changed))])))
 
 ;; ============================================================================
 ;; SEARCH WITH MRV HEURISTIC
@@ -208,10 +241,17 @@
               (set! best-c c))))))
     (if (= best-r -1) #f (cons best-r best-c))))
 
+;; Helper to restore grid state from a copy
+(define (restore-grid! g src)
+  (for ([r (in-range 9)])
+    (for ([c (in-range 9)])
+      (set-val! g r c (get-val src r c))
+      (set-cand! g r c (get-cand src r c)))))
+
 (define (cp-search! g)
   (define mrv (find-mrv g))
   (if (not mrv)
-      g
+      g  ;; Return the solved grid
       (let* ([r (car mrv)]
              [c (cdr mrv)]
              [cands (get-cand g r c)])
@@ -219,16 +259,16 @@
           (cond
             [(> d 9) #f]
             [(has-cand? cands d)
-             (let ([g-copy (copy-grid g)])
+             (let ([g-copy (copy-grid g)])  ;; Save state before trying
                (if (and (assign! g r c d) (propagate! g))
                    (let ([res (cp-search! g)])
                      (if res
-                         res
+                         res  ;; Found solution
                          (begin
-                           (set! g (copy-grid g-copy))
+                           (restore-grid! g g-copy)  ;; Restore and try next
                            (try (+ d 1)))))
                    (begin
-                     (set! g (copy-grid g-copy))
+                     (restore-grid! g g-copy)  ;; Restore and try next
                      (try (+ d 1)))))]
             [else (try (+ d 1))])))))
 
