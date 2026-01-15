@@ -133,26 +133,28 @@ Plans:
 - [x] 26-01: Fix Elixir and Racket CP iteration counting (67 iterations achieved)
 - [x] 26-02: Fix Haskell and SML CP iteration counting (Haskell fixed to 67, SML accepted at 94)
 
-#### Phase 27: CP Infrastructure Fixes
+#### Phase 27: CP Infrastructure Fixes ✅
 
 **Goal**: Fix PowerShell initialization bug and resolve Clojure Java runtime dependency
 **Depends on**: Phase 26
 **Research**: Likely (PowerShell constraint propagation patterns)
 **Research topics**: PowerShell array handling, constraint initialization patterns
-**Plans**: TBD
+**Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 27-01: TBD
+- [x] 27-01: Fix PowerShell CP (all matrices), Clojure CP (Matrix 1 only)
 
-#### Phase 28: Validation Pass
+#### Phase 28: Validation Pass ✅
 
 **Goal**: Re-run all fixed implementations, verify iteration counts match references (DLX=43, CP=67)
 **Depends on**: Phase 27
 **Research**: Unlikely (validation scripts exist)
-**Plans**: TBD
+**Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 28-01: TBD
+- [x] 28-01: Validate DLX (6), CP (9) implementations, regenerate HTML report
 
 #### Phase 29: Documentation Update
 
@@ -202,6 +204,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 24. DLX Missing Benchmarks | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 25. CP Lisp Reverts | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 26. CP Iteration Fixes | v1.5 | 2/2 | Complete | 2026-01-15 |
-| 27. CP Infrastructure Fixes | v1.5 | 0/? | Not started | - |
-| 28. Validation Pass | v1.5 | 0/? | Not started | - |
+| 27. CP Infrastructure Fixes | v1.5 | 1/1 | Complete | 2026-01-15 |
+| 28. Validation Pass | v1.5 | 1/1 | Planned | - |
 | 29. Documentation Update | v1.5 | 0/? | Not started | - |
