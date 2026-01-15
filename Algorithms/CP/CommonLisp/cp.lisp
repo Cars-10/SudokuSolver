@@ -125,23 +125,12 @@
   t)
 
 (defun propagate (grid)
-  "Apply constraint propagation strategies. Returns nil on contradiction."
+  "Apply hidden singles propagation strategies. Returns nil on contradiction."
   (let ((changed t))
     (loop while changed do
           (setf changed nil)
 
-          ;; Strategy 1: Naked singles (cells with only one candidate)
-          (dotimes (row 9)
-            (dotimes (col 9)
-              (when (zerop (get-val grid row col))
-                (let ((rem (count-cands (get-cand grid row col))))
-                  (cond
-                    ((zerop rem) (return-from propagate nil))  ; Contradiction
-                    ((= rem 1)
-                     (when (assign grid row col (first-cand (get-cand grid row col)))
-                       (setf changed t))))))))
-
-          ;; Strategy 2: Hidden singles in rows
+          ;; Hidden singles in rows
           (dotimes (row 9)
             (loop for d from 1 to 9 do
                   (let ((cnt 0)
@@ -322,7 +311,13 @@
               (init-grid grid puzzle)
               (print-grid grid)
 
-              ;; Solve (propagate will find initial clues as hidden singles and assign them)
+              ;; Assign initial clues
+              (dotimes (r 9)
+                (dotimes (c 9)
+                  (when (> (get-val grid r c) 0)
+                    (assign grid r c (get-val grid r c)))))
+
+              ;; Solve
               (if (propagate grid)
                   (let ((sol (cp-search grid)))
                     (if sol
