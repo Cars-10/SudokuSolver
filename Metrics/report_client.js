@@ -1250,7 +1250,91 @@ function showDiagnostics() {
     const content = document.getElementById('diagnosticsContent');
     if (!content) return;
 
-    let html = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+    const currentAlgo = window.currentAlgorithm || 'BruteForce';
+    const cBaselines = window.cBaselines || {};
+
+    // Calculate algorithm-specific stats
+    const algoStats = { 'BruteForce': { total: 0, success: 0, mismatches: 0 }, 'DLX': { total: 0, success: 0, mismatches: 0 }, 'CP': { total: 0, success: 0, mismatches: 0 } };
+    const mismatchDetails = [];
+
+    if (typeof metricsData !== 'undefined') {
+        metricsData.forEach(m => {
+            const algo = m.algorithmType || 'BruteForce';
+            if (!algoStats[algo]) algoStats[algo] = { total: 0, success: 0, mismatches: 0 };
+            algoStats[algo].total++;
+
+            const hasSuccess = m.results.some(r => r.status === 'success');
+            if (hasSuccess) algoStats[algo].success++;
+
+            // Check for iteration mismatches
+            if (m.solver !== 'C' && cBaselines[algo]) {
+                let hasMismatch = false;
+                const mismatchMatrices = [];
+                m.results.forEach(r => {
+                    if (r.status !== 'success') return;
+                    const matrix = String(r.matrix).replace('.matrix', '');
+                    const expected = cBaselines[algo][matrix];
+                    if (expected !== undefined && r.iterations !== expected) {
+                        hasMismatch = true;
+                        mismatchMatrices.push({ matrix, actual: r.iterations, expected });
+                    }
+                });
+                if (hasMismatch) {
+                    algoStats[algo].mismatches++;
+                    mismatchDetails.push({ language: m.solver, algo, matrices: mismatchMatrices });
+                }
+            }
+        });
+    }
+
+    let html = '';
+
+    // Algorithm Summary Section
+    html += '<div style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">';
+    html += '<h3 style="margin-top: 0; color: #7aa2f7;">Algorithm Summary</h3>';
+    html += '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">';
+
+    const algoLabels = { 'BruteForce': 'Brute Force', 'DLX': 'Dancing Links', 'CP': 'Constraint Prop' };
+    const algoColors = { 'BruteForce': '#00ff9d', 'DLX': '#00b8ff', 'CP': '#bb9af7' };
+
+    ['BruteForce', 'DLX', 'CP'].forEach(algo => {
+        const stats = algoStats[algo];
+        const isActive = currentAlgo === 'all' || currentAlgo === algo;
+        html += `
+            <div style="padding: 10px; background: ${isActive ? 'rgba(122,162,247,0.1)' : 'transparent'}; border-radius: 6px; border: 1px solid ${isActive ? algoColors[algo] : '#333'};">
+                <div style="color: ${algoColors[algo]}; font-weight: bold; margin-bottom: 5px;">${algoLabels[algo]}</div>
+                <div style="font-size: 0.9em;">
+                    <div>Total: <strong>${stats.total}</strong></div>
+                    <div style="color: #00ff9d;">Success: <strong>${stats.success}</strong></div>
+                    <div style="color: ${stats.mismatches > 0 ? '#ff0055' : '#565f89'};">Mismatches: <strong>${stats.mismatches}</strong></div>
+                </div>
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // C Baseline Reference
+    html += '<div style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">';
+    html += '<h3 style="margin-top: 0; color: #ffd700;">C Baseline Iterations (Reference)</h3>';
+    html += '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; font-size: 0.85em;">';
+
+    ['BruteForce', 'DLX', 'CP'].forEach(algo => {
+        const baseline = cBaselines[algo] || {};
+        const matrices = Object.keys(baseline).sort((a, b) => Number(a) - Number(b));
+        html += `
+            <div style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+                <div style="color: ${algoColors[algo]}; font-weight: bold; margin-bottom: 5px;">${algoLabels[algo]}</div>
+                ${matrices.length > 0
+                    ? matrices.map(m => `<div>Matrix ${m}: <strong>${baseline[m].toLocaleString()}</strong></div>`).join('')
+                    : '<div style="color: #565f89;">No data</div>'
+                }
+            </div>
+        `;
+    });
+    html += '</div></div>';
+
+    // Error Categories
+    html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">';
 
     const categories = [
         { key: 'env_error', title: 'Environment Errors', color: '#f7768e' },
@@ -1264,8 +1348,8 @@ function showDiagnostics() {
         html += `
             <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 4px solid ${cat.color};">
                 <h3 style="color: ${cat.color}; margin-top: 0;">${cat.title} (${data.count})</h3>
-                <div style="max-height: 200px; overflow-y: auto; font-size: 0.9em;">
-                    ${data.languages.length > 0 
+                <div style="max-height: 150px; overflow-y: auto; font-size: 0.9em;">
+                    ${data.languages.length > 0
                         ? data.languages.map(l => `
                             <div style="margin-bottom: 5px;">
                                 <strong>${l.language}</strong>
@@ -1280,6 +1364,26 @@ function showDiagnostics() {
     });
 
     html += '</div>';
+
+    // Iteration Mismatches Section
+    if (mismatchDetails.length > 0) {
+        html += '<div style="padding: 15px; background: rgba(255,0,85,0.1); border-radius: 8px; border-left: 4px solid #ff0055;">';
+        html += '<h3 style="color: #ff0055; margin-top: 0;">Iteration Mismatches (' + mismatchDetails.length + ')</h3>';
+        html += '<div style="max-height: 200px; overflow-y: auto; font-size: 0.85em;">';
+
+        mismatchDetails.forEach(d => {
+            html += `<div style="margin-bottom: 8px; padding: 5px; background: rgba(0,0,0,0.2); border-radius: 4px;">
+                <strong style="color: ${algoColors[d.algo]};">${d.language}</strong> <span style="color: #565f89;">(${d.algo})</span>
+                <div style="margin-left: 10px; color: #e0e0e0;">`;
+            d.matrices.forEach(m => {
+                html += `Matrix ${m.matrix}: <span style="color: #ff0055;">${m.actual.toLocaleString()}</span> vs expected <span style="color: #00ff9d;">${m.expected.toLocaleString()}</span><br>`;
+            });
+            html += '</div></div>';
+        });
+
+        html += '</div></div>';
+    }
+
     content.innerHTML = html;
     document.getElementById('diagnosticsModal').classList.add('visible');
 }
@@ -1289,6 +1393,110 @@ function closeDiagnostics(event) {
         document.getElementById('diagnosticsModal').classList.remove('visible');
     }
 }
+
+// Mismatch Modal - shows why a row is marked as mismatch
+window.showMismatchModal = function(row) {
+    if (!row) return;
+
+    const lang = row.getAttribute('data-lang');
+    const algoType = row.getAttribute('data-algorithm-type') || 'BruteForce';
+    const actualIters = parseInt(row.getAttribute('data-iters')) || 0;
+    const expectedIters = parseInt(row.getAttribute('data-expected-iters')) || 0;
+
+    let mismatchDetails = [];
+    try {
+        const detailsStr = row.getAttribute('data-mismatch-details');
+        if (detailsStr) {
+            mismatchDetails = JSON.parse(detailsStr.replace(/&apos;/g, "'"));
+        }
+    } catch (e) {
+        console.error('Error parsing mismatch details:', e);
+    }
+
+    const algoLabels = { 'BruteForce': 'Brute Force', 'DLX': 'Dancing Links', 'CP': 'Constraint Propagation' };
+    const algoColors = { 'BruteForce': '#00ff9d', 'DLX': '#7aa2f7', 'CP': '#bb9af7' };
+
+    // Build modal content
+    let html = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #ff0055; margin: 0;">Iteration Mismatch Detected</h2>
+            <p style="color: #a9b1d6; margin: 5px 0;">
+                <strong style="color: #fff;">${lang}</strong>
+                <span style="margin-left: 10px; padding: 2px 8px; background: ${algoColors[algoType]}22; border: 1px solid ${algoColors[algoType]}; border-radius: 4px; color: ${algoColors[algoType]};">${algoLabels[algoType] || algoType}</span>
+            </p>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-around; text-align: center;">
+                <div>
+                    <div style="font-size: 0.8em; color: #565f89;">ACTUAL</div>
+                    <div style="font-size: 1.5em; color: #ff0055; font-weight: bold;">${actualIters.toLocaleString()}</div>
+                </div>
+                <div style="font-size: 2em; color: #565f89; align-self: center;">≠</div>
+                <div>
+                    <div style="font-size: 0.8em; color: #565f89;">EXPECTED (C ${algoLabels[algoType]})</div>
+                    <div style="font-size: 1.5em; color: #00ff9d; font-weight: bold;">${expectedIters.toLocaleString()}</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px; color: #f7768e;">
+                Difference: ${(actualIters - expectedIters).toLocaleString()} iterations (${((actualIters / expectedIters - 1) * 100).toFixed(1)}%)
+            </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+            <h3 style="margin-top: 0; color: #7aa2f7;">Per-Matrix Breakdown</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #333;">
+                        <th style="text-align: left; padding: 8px; color: #565f89;">Matrix</th>
+                        <th style="text-align: right; padding: 8px; color: #565f89;">Actual</th>
+                        <th style="text-align: right; padding: 8px; color: #565f89;">Expected</th>
+                        <th style="text-align: right; padding: 8px; color: #565f89;">Diff</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    if (mismatchDetails.length > 0) {
+        mismatchDetails.forEach(d => {
+            const diff = d.actual - d.expected;
+            const diffPercent = ((d.actual / d.expected - 1) * 100).toFixed(1);
+            html += `
+                <tr style="border-bottom: 1px solid #222;">
+                    <td style="padding: 8px; color: #fff;">Matrix ${d.matrix}</td>
+                    <td style="padding: 8px; text-align: right; color: #ff0055;">${d.actual.toLocaleString()}</td>
+                    <td style="padding: 8px; text-align: right; color: #00ff9d;">${d.expected.toLocaleString()}</td>
+                    <td style="padding: 8px; text-align: right; color: ${diff > 0 ? '#f7768e' : '#9ece6a'};">
+                        ${diff > 0 ? '+' : ''}${diff.toLocaleString()} (${diffPercent}%)
+                    </td>
+                </tr>
+            `;
+        });
+    } else {
+        html += '<tr><td colspan="4" style="padding: 8px; color: #565f89; text-align: center;">No detailed breakdown available</td></tr>';
+    }
+
+    html += `
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 15px; padding: 10px; background: rgba(247,118,142,0.1); border-left: 3px solid #f7768e; border-radius: 4px;">
+            <strong style="color: #f7768e;">What this means:</strong>
+            <p style="margin: 5px 0 0 0; color: #a9b1d6; font-size: 0.9em;">
+                This implementation's iteration count differs from the C reference for the ${algoLabels[algoType]} algorithm.
+                This may indicate a bug in the algorithm implementation, different search order, or optimization differences.
+            </p>
+        </div>
+    `;
+
+    // Use the diagnostics modal infrastructure
+    const content = document.getElementById('diagnosticsContent');
+    if (content) {
+        content.innerHTML = html;
+        document.getElementById('diagnosticsModal').classList.add('visible');
+    }
+};
 
 // Initialize
 // Note: Mismatch filter starts inactive (showing all rows)
@@ -1483,12 +1691,16 @@ window.populateLanguageSelector = function () {
     const dropdown = document.getElementById('language-selector-dropdown');
     dropdown.innerHTML = '';
 
-    // Get all languages from table rows
+    // Get languages from visible table rows only (respects algorithm filter)
+    const currentAlgo = window.currentAlgorithm || 'BruteForce';
     const rows = document.querySelectorAll('tbody tr');
     let allLanguages = [];
     rows.forEach(row => {
         const lang = row.getAttribute('data-lang');
-        if (lang && !allLanguages.includes(lang)) {
+        const rowAlgo = row.getAttribute('data-algorithm-type');
+        // Only include languages that match the current algorithm filter
+        const matchesFilter = currentAlgo === 'all' || rowAlgo === currentAlgo;
+        if (lang && matchesFilter && !allLanguages.includes(lang)) {
             allLanguages.push(lang);
         }
     });

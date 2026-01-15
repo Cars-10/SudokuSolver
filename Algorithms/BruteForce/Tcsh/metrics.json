@@ -83,23 +83,6 @@
         "io_outputs": 8,
         "status": "error",
         "output": "\n"
-      },
-      {
-        "matrix": "N/A",
-        "time": 0,
-        "iterations": 0,
-        "memory": 0,
-        "cpu_user": 0,
-        "cpu_sys": 0,
-        "page_faults_major": 0,
-        "page_faults_minor": 0,
-        "context_switches_voluntary": 0,
-        "context_switches_involuntary": 0,
-        "io_inputs": 0,
-        "io_outputs": 0,
-        "status": "env_error",
-        "output": "tcsh not found in PATH",
-        "run_timestamp": "2026-01-12T11:19:55.398Z"
       }
     ]
   }
