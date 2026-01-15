@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Never rebuild the docker image**
+
 ## Project Overview
 
 Multi-language Sudoku solver benchmark suite with 88+ language implementations. All implementations use an identical brute-force backtracking algorithm to enable fair cross-language performance comparison. The iteration count serves as the algorithm's fingerprint - if iterations match the C reference, the algorithm is correct.
