@@ -123,4 +123,21 @@ Languages/Verilog/sudoku_sim
 **/last_timing_debug.txt
 **/test.matrix
 stderr.txt
-.gitignore
+
+# Algorithm compiled binaries
+Algorithms/*/*/cp_solver
+Algorithms/*/*/dlx_solver
+Algorithms/*/*/cp
+Algorithms/*/*/dlx
+Algorithms/*/*/*_solver
+*.mod
+
+# Build output directories
+**/bin/Release/
+**/bin/Debug/
+
+# Dependency files
+*.d
+
+# Octave workspace
+octave-workspace
