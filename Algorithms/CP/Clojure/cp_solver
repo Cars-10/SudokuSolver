@@ -1,2 +1,14 @@
 #!/bin/bash
-clojure -M cp.clj "$@"
+# Save original working directory before cd
+ORIG_PWD="$(pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Convert relative paths to absolute (relative to original working directory)
+MATRIX_FILE="$1"
+if [[ ! "$MATRIX_FILE" = /* ]]; then
+    # Resolve relative to original working directory
+    MATRIX_FILE="$ORIG_PWD/$MATRIX_FILE"
+fi
+
+clojure -M cp.clj "$MATRIX_FILE"
