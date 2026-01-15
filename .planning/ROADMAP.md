@@ -99,15 +99,16 @@ Plans:
 - R: Already fixed (iterations=43) - just verify
 - PowerShell: Matrix corruption bug - needs fix
 
-#### Phase 24: DLX Missing Benchmarks
+#### Phase 24: DLX Missing Benchmarks ✅
 
 **Goal**: Run missing DLX benchmarks (BASH, Erlang) and validate results
 **Depends on**: Phase 23
 **Research**: Unlikely (benchmark execution)
-**Plans**: TBD
+**Plans**: 1
+**Completed**: 2026-01-15
 
 Plans:
-- [ ] 24-01: TBD
+- [x] 24-01: Validate BASH/Erlang DLX metrics, regenerate HTML report
 
 #### Phase 25: CP Lisp Reverts
 
@@ -195,7 +196,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 (inserted) → 3 → 4 → 5 �
 | 21. Performance and Polish | v1.4 | 2/2 | Complete | 2026-01-14 |
 | 22. DLX Counter Fixes (incl. Phase 23) | v1.5 | 1/1 | Complete | 2026-01-15 |
 | ~~23. DLX Functional Fixes~~ | v1.5 | N/A | Consolidated | - |
-| 24. DLX Missing Benchmarks | v1.5 | 0/? | Not started | - |
+| 24. DLX Missing Benchmarks | v1.5 | 1/1 | Complete | 2026-01-15 |
 | 25. CP Lisp Reverts | v1.5 | 0/? | Not started | - |
 | 26. CP Iteration Fixes | v1.5 | 0/? | Not started | - |
 | 27. CP Infrastructure Fixes | v1.5 | 0/? | Not started | - |

@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 22 of 28 (DLX Counter Fixes - consolidated with Phase 23)
+Phase: 24 of 29 (DLX Missing Benchmarks)
 Plan: 1/1 complete
-Status: Phase 22 complete
-Last activity: 2026-01-15 - Phase 22-01 executed: Fixed Clojure, Elixir (partial), PowerShell DLX
+Status: Phase 24 complete
+Last activity: 2026-01-15 - Phase 24-01 executed: Validated BASH/Erlang DLX, regenerated report
 
-Progress: ██░░░░░░░░ 14% (1/7 phases)
+Progress: ███░░░░░░░ 29% (2/7 phases)
 
 ## Performance Metrics (v1.3)
 
@@ -129,9 +129,10 @@ None.
 - Milestone v1.4 created: Report UI Refinements, 3 phases (Phase 19-21)
 - Milestone v1.5 created: Bug Fixes, 8 phases (Phase 22-29)
   - Phase 22 complete: DLX Counter Fixes (Clojure, PowerShell fixed)
+  - Phase 24 complete: DLX Missing Benchmarks (BASH/Erlang validated, report regenerated)
 
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Phase 22-01 complete
+Stopped at: Phase 24-01 complete
 Resume file: None
