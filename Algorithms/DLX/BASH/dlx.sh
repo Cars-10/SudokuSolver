@@ -63,7 +63,10 @@ init_dlx() {
     NODE_COUNT=325
 }
 
-# Add node to column
+# Global variable for returning node index (avoids subshell issues)
+LAST_NODE=0
+
+# Add node to column - sets LAST_NODE to the new node index
 add_node() {
     local col=$1 rid=$2
 
@@ -86,7 +89,7 @@ add_node() {
     UP[$col]=$n
     ((SIZE[$col]++))
 
-    echo $n
+    LAST_NODE=$n
 }
 
 # Constraint column calculations
@@ -103,11 +106,11 @@ build_row() {
     INFO_COL[$rid]=$c
     INFO_NUM[$rid]=$d
 
-    # Create 4 nodes for 4 constraints
-    local n1=$(add_node $(pos_col $r $c) $rid)
-    local n2=$(add_node $(row_col $r $d) $rid)
-    local n3=$(add_node $(col_col $c $d) $rid)
-    local n4=$(add_node $(box_col $r $c $d) $rid)
+    # Create 4 nodes for 4 constraints (using LAST_NODE to avoid subshell issues)
+    add_node $((r * 9 + c + 1)) $rid; local n1=$LAST_NODE
+    add_node $((81 + r * 9 + d)) $rid; local n2=$LAST_NODE
+    add_node $((162 + c * 9 + d)) $rid; local n3=$LAST_NODE
+    add_node $((243 + (r/3*3 + c/3) * 9 + d)) $rid; local n4=$LAST_NODE
 
     # Link horizontally
     RIGHT[$n1]=$n2
