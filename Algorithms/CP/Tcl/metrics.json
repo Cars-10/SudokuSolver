@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "Tcl",
+    "runType": "automated",
+    "timestamp": "2026-01-16T15:08:30Z",
+    "results": [
+    {
+      "matrix": "1",
+      "time": 318.4125,
+      "iterations": 0,
+      "memory": 8798208,
+      "cpu_user": 6.4480,
+      "cpu_sys": 10.7020,
+      "page_faults_major": 64,
+      "page_faults_minor": 1127,
+      "context_switches_voluntary": 25,
+      "context_switches_involuntary": 69,
+      "io_inputs": 0,
+      "io_outputs": 0,
+      "status": "error",
+      "output": "\n"
+    }
+    ]
+  }
+]
