@@ -3,8 +3,9 @@
 
 cd "$(dirname "$0")"
 
-# Add FreeBASIC to PATH if in Docker
+# Add FreeBASIC to PATH if in Docker or macOS custom location
 [ -x /usr/local/bin/fbc ] && export PATH="/usr/local/bin:$PATH"
+[ -x /Users/vibe/Downloads/FB-Mojave/local/bin/fbc ] && export PATH="/Users/vibe/Downloads/FB-Mojave/local/bin:$PATH"
 
 LANGUAGE="BASIC"
 SOLVER_BINARY="./Sudoku"
