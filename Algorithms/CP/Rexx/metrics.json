@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "Rexx",
+    "runType": "automated",
+    "timestamp": "2026-01-16T18:06:20Z",
+    "results": [
+    {
+      "matrix": "1",
+      "time": 173.7275,
+      "iterations": 0,
+      "memory": 2424832,
+      "cpu_user": 1.9270,
+      "cpu_sys": 3.4210,
+      "page_faults_major": 6,
+      "page_faults_minor": 592,
+      "context_switches_voluntary": 1,
+      "context_switches_involuntary": 23,
+      "io_inputs": 0,
+      "io_outputs": 0,
+      "status": "error",
+      "output": "\n"
+    }
+    ]
+  }
+]

@@ -16,15 +16,21 @@ Constraint propagation with MRV (Minimum Remaining Values) heuristic:
 All original 51 languages plus:
 - **Tcl** ✓ (fully tested, all matrices passing)
 
-### In Progress (3 languages - 90% complete)
-- **BASIC** (FreeBASIC) - Code complete, linker issues on macOS
-- **Rexx** - Code complete, if-else syntax needs fixing
-- **Pike** - Code complete, syntax needs adjustment
+### In Progress (4 languages - Code complete, debugging needed)
+- **BASIC** (FreeBASIC) - `cp.bas` complete, macOS linker needs `-lgcc` fix
+- **Rexx** - `cp.rexx` complete, function/procedure scope issues
+- **Pike** - `cp.pike` complete, compiles but logic bug (returns no solution)
+- **Icon** - `cp.icn` complete, compiles but needs runtime testing
 
-### Not Started (3 languages)
-- Icon
-- Forth  
-- Cobol
+All 4 have working code structure following CP algorithm pattern. Issues are:
+- BASIC: FreeBASIC linking on macOS (works in Docker)
+- Rexx: Global variable access in procedures
+- Pike: Search or propagation logic error
+- Icon: Runtime behavior needs validation
+
+### Not Started (2 languages)
+- Forth (stack-based, complex)
+- Cobol (verbose, slow performance expected)
 
 ## Reference Implementation
 

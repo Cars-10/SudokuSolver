@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "BASIC",
+    "runType": "automated",
+    "timestamp": "2026-01-16T17:18:39Z",
+    "results": [
+      {
+        "matrix": "1",
+        "time": 5.4647,
+        "iterations": 0,
+        "memory": 1507328,
+        "cpu_user": 1.345,
+        "cpu_sys": 2.416,
+        "page_faults_major": 1,
+        "page_faults_minor": 371,
+        "context_switches_voluntary": 1,
+        "context_switches_involuntary": 13,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "error",
+        "output": "\n"
+      }
+    ]
+  }
+]

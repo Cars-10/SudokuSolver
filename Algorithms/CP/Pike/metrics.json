@@ -1,0 +1,25 @@
+[
+  {
+    "solver": "Pike",
+    "runType": "automated",
+    "timestamp": "2026-01-16T18:08:01Z",
+    "results": [
+    {
+      "matrix": "1",
+      "time": 52.0549,
+      "iterations": 0,
+      "memory": 11583488,
+      "cpu_user": 28.3000,
+      "cpu_sys": 7.9650,
+      "page_faults_major": 103,
+      "page_faults_minor": 1089,
+      "context_switches_voluntary": 28,
+      "context_switches_involuntary": 81,
+      "io_inputs": 0,
+      "io_outputs": 0,
+      "status": "error",
+      "output": "\n"
+    }
+    ]
+  }
+]
