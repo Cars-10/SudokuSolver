@@ -86,6 +86,16 @@ for lang_dir in /app/Algorithms/CP/*/; do
     run_benchmark "CP" "$lang_dir"
 done
 
+# Run BF benchmarks
+echo ""
+echo "========================================="
+echo "PHASE 3: BF Algorithm"
+echo "========================================="
+
+for lang_dir in /app/Algorithms/BruteForce/*/; do
+    run_benchmark "BruteForce" "$lang_dir"
+done
+
 # Summary
 echo ""
 echo "========================================="

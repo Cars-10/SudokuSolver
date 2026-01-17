@@ -23,10 +23,6 @@ Decimal phases enable urgent work insertion without renumbering:
 6. .planning/ROADMAP.md
 7. .planning/PROJECT.md
 
-**Load domain expertise from ROADMAP:**
-- Parse ROADMAP.md's `## Domain Expertise` section for paths
-- Read each domain SKILL.md (these serve as indexes)
-- Determine phase type and load ONLY references relevant to THIS phase type from each SKILL.md's `<references_index>`
 </required_reading>
 
 <purpose>
@@ -55,7 +51,7 @@ PLAN.md IS the prompt that Claude executes. Plans are grouped into execution wav
 Read `.planning/STATE.md` and parse:
 - Current position (which phase we're planning)
 - Accumulated decisions (constraints on this phase)
-- Deferred issues (candidates for inclusion)
+- Pending todos (candidates for inclusion)
 - Blockers/concerns (things this phase may address)
 - Brief alignment status
 
@@ -100,6 +96,125 @@ If multiple phases available, ask which one to plan. If obvious (first incomplet
 **If decimal phase:** Validate integer X exists and is complete, X+1 exists in roadmap, decimal X.Y doesn't exist, Y >= 1.
 
 Read any existing PLAN.md or DISCOVERY.md in the phase directory.
+
+**Check for --gaps flag:**
+If `--gaps` present in arguments, switch to gap_closure_mode (see `<step name="gap_closure_mode">`).
+</step>
+
+<step name="gap_closure_mode">
+**Triggered by `--gaps` flag.** Plans address verification gaps OR UAT gaps.
+
+**1. Find gap sources:**
+
+```bash
+PHASE_DIR=$(ls -d .planning/phases/${PHASE_ARG}* 2>/dev/null | head -1)
+
+# Check for VERIFICATION.md (code verification gaps)
+ls "$PHASE_DIR"/*-VERIFICATION.md 2>/dev/null
+
+# Check for UAT.md with diagnosed status (user testing gaps)
+grep -l "status: diagnosed" "$PHASE_DIR"/*-UAT.md 2>/dev/null
+```
+
+**Priority:** If both exist, load both and combine gaps. UAT gaps (user-discovered) may overlap with verification gaps (code-discovered).
+
+**2. Parse gaps:**
+
+**From VERIFICATION.md** (if exists): Parse `gaps:` from YAML frontmatter.
+
+**From UAT.md** (if exists with status: diagnosed): Parse gaps from `## Gaps` section (YAML format).
+
+Each gap has:
+- `truth`: The observable behavior that failed
+- `reason`: Why it failed
+- `artifacts`: Files with issues
+- `missing`: Specific things to add/fix
+
+**3. Load existing SUMMARYs:**
+
+```bash
+ls "$PHASE_DIR"/*-SUMMARY.md
+```
+
+Understand what's already built. Gap closure plans reference existing work.
+
+**4. Find next plan number:**
+
+```bash
+# Get highest existing plan number
+ls "$PHASE_DIR"/*-PLAN.md | sort -V | tail -1
+```
+
+If plans 01, 02, 03 exist, next is 04.
+
+**5. Group gaps into plans:**
+
+Cluster related gaps by:
+- Same artifact (multiple issues in Chat.tsx → one plan)
+- Same concern (fetch + render → one "wire frontend" plan)
+- Dependency order (can't wire if artifact is stub → fix stub first)
+
+**6. Create gap closure tasks:**
+
+For each gap:
+```xml
+<task name="{fix_description}" type="auto">
+  <files>{artifact.path}</files>
+  <action>
+    {For each item in gap.missing:}
+    - {missing item}
+
+    Reference existing code: {from SUMMARYs}
+    Gap reason: {gap.reason}
+  </action>
+  <verify>{How to confirm gap is closed}</verify>
+  <done>{Observable truth now achievable}</done>
+</task>
+```
+
+**7. Write PLAN.md files:**
+
+Use standard template but note gap closure context:
+
+```yaml
+---
+phase: XX-name
+plan: NN              # Sequential after existing
+type: execute
+wave: 1               # Gap closures typically single wave
+depends_on: []        # Usually independent of each other
+files_modified: [...]
+autonomous: true
+gap_closure: true     # Flag for tracking
+---
+```
+
+**9. Present gap closure summary:**
+
+```markdown
+## Gap Closure Plans Created
+
+**Phase {X}: {Name}** — closing {N} gaps
+
+| Plan | Gaps Addressed | Files |
+|------|----------------|-------|
+| {phase}-04 | {gap truths} | {files} |
+| {phase}-05 | {gap truths} | {files} |
+
+---
+
+## ▶ Next Up
+
+**Execute gap closure plans**
+
+`/gsd:execute-phase {X}`
+
+<sub>`/clear` first → fresh context window</sub>
+
+---
+```
+
+**Skip directly to git_commit step after creating plans.**
 </step>
 
 <step name="mandatory_discovery">
@@ -186,19 +301,19 @@ Only now open and read complete SUMMARY.md files for the selected relevant phase
 - "Issues Encountered" that might affect current phase
 - "Deviations from Plan" for patterns
 
-**From STATE.md:** Decisions → constrain approach. Deferred issues → candidates. Blockers → may need to address.
+**From STATE.md:** Decisions → constrain approach. Pending todos → candidates. Blockers → may need to address.
 
-**From ISSUES.md:**
+**From pending todos:**
 
 ```bash
-cat .planning/ISSUES.md 2>/dev/null
+ls .planning/todos/pending/*.md 2>/dev/null
 ```
 
-Assess each open issue - relevant to this phase? Waiting long enough? Natural to address now? Blocking something?
+Assess each pending todo - relevant to this phase? Natural to address now?
 
 **Answer before proceeding:**
 - Q1: What decisions from previous phases constrain this phase?
-- Q2: Are there deferred issues that should become tasks?
+- Q2: Are there pending todos that should become tasks?
 - Q3: Are there concerns from "Next Phase Readiness" that apply?
 - Q4: Given all context, does the roadmap's description still make sense?
 
@@ -208,7 +323,7 @@ Assess each open issue - relevant to this phase? Waiting long enough? Natural to
 - Established patterns (from frontmatter)
 - Key files to reference (from frontmatter)
 - Applicable decisions (from frontmatter + full summary)
-- Issues being addressed (from ISSUES.md)
+- Todos being addressed (from pending todos)
 - Concerns being verified (from "Next Phase Readiness")
 </step>
 
@@ -288,6 +403,22 @@ See `./.claude/get-shit-done/references/tdd.md` for TDD plan structure.
 **Critical:** If external resource has CLI/API (Vercel, Stripe, etc.), use type="auto" to automate. Only checkpoint for verification AFTER automation.
 
 See ./.claude/get-shit-done/references/checkpoints.md for checkpoint structure.
+
+**User setup detection:** For tasks involving external services, identify human-required configuration:
+
+External service indicators:
+- New SDK: `stripe`, `@sendgrid/mail`, `twilio`, `openai`, `@supabase/supabase-js`
+- Webhook handlers: Files in `**/webhooks/**` or `**/webhook*`
+- OAuth integration: Social login, third-party auth
+- API keys: Code referencing `process.env.SERVICE_*` patterns
+
+For each external service, determine:
+1. **Env vars needed** - What secrets must be retrieved from dashboards?
+2. **Account setup** - Does user need to create an account?
+3. **Dashboard config** - What must be configured in external UI?
+4. **Local dev** - Any CLI tools for local testing?
+
+Record in `user_setup` frontmatter (see write_phase_prompt step).
 </step>
 
 <step name="build_dependency_graph">
@@ -557,8 +688,38 @@ depends_on: []              # Plan IDs this plan requires.
 files_modified: []          # Files this plan touches.
 autonomous: true            # false if plan has checkpoints requiring user interaction
 domain: [optional]
+user_setup: []              # Human-required setup (omit if empty)
 ---
 ```
+
+**User setup frontmatter (when external services involved):**
+
+```yaml
+user_setup:
+  - service: stripe
+    why: "Payment processing"
+    env_vars:
+      - name: STRIPE_SECRET_KEY
+        source: "Stripe Dashboard → Developers → API keys → Secret key"
+      - name: STRIPE_WEBHOOK_SECRET
+        source: "Stripe Dashboard → Developers → Webhooks → Signing secret"
+    account_setup:
+      - url: "https://dashboard.stripe.com/register"
+        skip_if: "Already have Stripe account"
+    dashboard_config:
+      - task: "Create webhook endpoint"
+        location: "Stripe Dashboard → Developers → Webhooks → Add endpoint"
+        details: "URL: https://[your-domain]/api/webhooks/stripe, Events: checkout.session.completed"
+    local_dev:
+      - "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
+```
+
+**Automation-first rule:** Only include setup Claude literally cannot do:
+- Account creation (requires human signup)
+- Secret retrieval (requires dashboard access)
+- Dashboard configuration (requires human in browser)
+
+Do NOT include: npm install, code changes, file creation, CLI commands Claude can run.
 
 **Wave is pre-computed:** Wave numbers are assigned during planning (see `assign_waves` step). `/gsd:execute-phase` reads `wave` directly from frontmatter and groups plans by wave number. No runtime dependency analysis needed.
 
@@ -635,13 +796,7 @@ Wave 2: {plan-03}
 
 ## Next Up
 
-[If 1 plan created:]
-**{phase}-01: [Plan Name]** - [objective summary]
-
-`/gsd:execute-plan .planning/phases/XX-name/{phase}-01-PLAN.md`
-
-[If 2+ plans created:]
-**Phase {X}: [Phase Name]** - {N} plans in {M} waves
+**Phase {X}: [Phase Name]** - {N} plan(s) in {M} wave(s)
 
 `/gsd:execute-phase {X}`
 
@@ -651,8 +806,8 @@ Wave 2: {plan-03}
 
 **Also available:**
 - Review/adjust plans before executing
-[If 2+ plans: - `/gsd:execute-plan {phase}-01-PLAN.md` - run plans one at a time]
-[If 2+ plans: - View all plans: `ls .planning/phases/XX-name/*-PLAN.md`]
+- `/gsd:execute-plan {phase}-01-PLAN.md` - run plans one at a time
+- View all plans: `ls .planning/phases/XX-name/*-PLAN.md`
 
 ---
 ```
@@ -683,7 +838,7 @@ Tasks are instructions for Claude, not Jira tickets.
 </anti_patterns>
 
 <success_criteria>
-Phase planning complete when:
+**Standard mode** — Phase planning complete when:
 - [ ] STATE.md read, project history absorbed
 - [ ] Mandatory discovery completed (Level 0-3)
 - [ ] Prior decisions, issues, concerns synthesized
@@ -691,6 +846,7 @@ Phase planning complete when:
 - [ ] Tasks grouped into plans by wave, not by sequence
 - [ ] PLAN file(s) exist with XML structure
 - [ ] Each plan: depends_on, files_modified, autonomous in frontmatter
+- [ ] Each plan: user_setup declared if external services involved
 - [ ] Each plan: Objective, context, tasks, verification, success criteria, output
 - [ ] Each plan: 2-3 tasks (~50% context)
 - [ ] Each task: Type, Files (if auto), Action, Verify, Done
@@ -698,4 +854,14 @@ Phase planning complete when:
 - [ ] Wave structure maximizes parallelism
 - [ ] PLAN file(s) committed to git
 - [ ] User knows next steps and wave structure
+
+**Gap closure mode (`--gaps`)** — Planning complete when:
+- [ ] VERIFICATION.md loaded and gaps parsed
+- [ ] Existing SUMMARYs read for context
+- [ ] Gaps clustered into focused plans
+- [ ] Plan numbers sequential after existing (04, 05...)
+- [ ] PLAN file(s) exist with gap_closure: true
+- [ ] Each plan: tasks derived from gap.missing items
+- [ ] PLAN file(s) committed to git
+- [ ] User knows to run `/gsd:execute-phase {X}` next
 </success_criteria>
