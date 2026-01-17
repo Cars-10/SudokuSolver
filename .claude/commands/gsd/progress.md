@@ -31,7 +31,13 @@ Run /gsd:new-project to start a new project.
 
 Exit.
 
-If missing STATE.md or ROADMAP.md: inform what's missing, suggest running `/gsd:new-project`.
+If missing STATE.md: suggest `/gsd:new-project`.
+
+**If ROADMAP.md missing but PROJECT.md exists:**
+
+This means a milestone was completed and archived. Go to **Route F** (between milestones).
+
+If missing both ROADMAP.md and PROJECT.md: suggest `/gsd:new-project`.
 </step>
 
 <step name="load">
@@ -55,7 +61,7 @@ If missing STATE.md or ROADMAP.md: inform what's missing, suggest running `/gsd:
 
 - From STATE.md: current phase, plan number, status
 - Calculate: total plans, completed plans, remaining plans
-- Note any blockers, concerns, or deferred issues
+- Note any blockers or concerns
 - Check for CONTEXT.md: For phases without PLAN.md files, check if `{phase}-CONTEXT.md` exists in phase directory
 - Count pending todos: `ls .planning/todos/pending/*.md 2>/dev/null | wc -l`
 - Check for active debug sessions: `ls .planning/debug/*.md 2>/dev/null | grep -v resolved | wc -l`
@@ -82,8 +88,8 @@ CONTEXT: [✓ if CONTEXT.md exists | - if not]
 - [decision 1 from STATE.md]
 - [decision 2]
 
-## Open Issues
-- [any deferred issues or blockers]
+## Blockers/Concerns
+- [any blockers or concerns from STATE.md]
 
 ## Pending Todos
 - [count] pending — /gsd:check-todos to review
@@ -108,28 +114,28 @@ List files in the current phase directory:
 ```bash
 ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
 ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-ISSUES.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-FIX.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-FIX-SUMMARY.md 2>/dev/null | wc -l
+ls -1 .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null | wc -l
 ```
 
-State: "This phase has {X} plans, {Y} summaries, {Z} issues files, {W} fix plans."
+State: "This phase has {X} plans, {Y} summaries."
 
-**Step 1.5: Check for unaddressed UAT issues**
+**Step 1.5: Check for unaddressed UAT gaps**
 
-For each *-ISSUES.md file, check if matching *-FIX.md exists.
-For each *-FIX.md file, check if matching *-FIX-SUMMARY.md exists.
+Check for UAT.md files with status "diagnosed" (has gaps needing fixes).
+
+```bash
+# Check for diagnosed UAT with gaps
+grep -l "status: diagnosed" .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null
+```
 
 Track:
-- `issues_without_fix`: ISSUES.md files without FIX.md
-- `fixes_without_summary`: FIX.md files without FIX-SUMMARY.md
+- `uat_with_gaps`: UAT.md files with status "diagnosed" (gaps need fixing)
 
 **Step 2: Route based on counts**
 
 | Condition | Meaning | Action |
 |-----------|---------|--------|
-| fixes_without_summary > 0 | Unexecuted fix plans exist | Go to **Route A** (with FIX.md) |
-| issues_without_fix > 0 | UAT issues need fix plans | Go to **Route E** |
+| uat_with_gaps > 0 | UAT gaps need fix plans | Go to **Route E** |
 | summaries < plans | Unexecuted plans exist | Go to **Route A** |
 | summaries = plans AND plans > 0 | Phase complete | Go to Step 3 |
 | plans = 0 | Phase not yet planned | Go to **Route B** |
@@ -203,18 +209,18 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 
 ---
 
-**Route E: UAT issues need fix plans**
+**Route E: UAT gaps need fix plans**
 
-ISSUES.md exists without matching FIX.md. User needs to plan fixes.
+UAT.md exists with gaps (diagnosed issues). User needs to plan fixes.
 
 ```
 ---
 
-## ⚠ UAT Issues Found
+## ⚠ UAT Gaps Found
 
-**{plan}-ISSUES.md** has {N} issues without a fix plan.
+**{phase}-UAT.md** has {N} gaps requiring fixes.
 
-`/gsd:plan-fix {plan}`
+`/gsd:plan-phase {phase} --gaps`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -298,6 +304,41 @@ All {N} phases finished!
 
 **Also available:**
 - `/gsd:verify-work` — user acceptance test before completing milestone
+
+---
+```
+
+---
+
+**Route F: Between milestones (ROADMAP.md missing, PROJECT.md exists)**
+
+A milestone was completed and archived. Ready to start the next milestone cycle.
+
+Read MILESTONES.md to find the last completed milestone version.
+
+```
+---
+
+## ✓ Milestone v{X.Y} Complete
+
+Ready to plan the next milestone.
+
+## ▶ Next Up
+
+**Discuss Next Milestone** — figure out what to build next
+
+`/gsd:discuss-milestone`
+
+<sub>`/clear` first → fresh context window</sub>
+
+---
+
+**Next milestone flow:**
+1. `/gsd:discuss-milestone` — thinking partner, creates context file
+2. `/gsd:new-milestone` — update PROJECT.md with new goals
+3. `/gsd:research-project` — (optional) research ecosystem
+4. `/gsd:define-requirements` — scope what to build
+5. `/gsd:create-roadmap` — plan how to build it
 
 ---
 ```

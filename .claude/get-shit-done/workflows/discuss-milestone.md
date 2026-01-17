@@ -56,7 +56,7 @@ The primary question is: **What do you want to build/add/fix?**
 Everything else (scope, priority, constraints) is secondary and derived from features.
 
 Check for inputs:
-- Deferred issues from STATE.md (potential features)
+- Pending todos from STATE.md (potential features)
 - Known gaps or pain points from usage
 - User's ideas for what's next
 
@@ -65,7 +65,7 @@ Check for inputs:
 Use AskUserQuestion:
 - header: "Next"
 - question: "What do you want to add, improve, or fix in this milestone?"
-- options: [Deferred issues from STATE.md if any] + ["New features", "Improvements to existing", "Bug fixes", "Let me describe"]
+- options: [Pending todos from STATE.md if any] + ["New features", "Improvements to existing", "Bug fixes", "Let me describe"]
 
 **2. Explore features:**
 
@@ -84,7 +84,7 @@ If they described a general direction:
 If they're not sure:
 - header: "Starting Points"
 - question: "What's been frustrating or missing?"
-- options: [Deferred issues from STATE.md + pain point categories + "Let me think about it"]
+- options: [Pending todos from STATE.md + pain point categories + "Let me think about it"]
 
 **3. Prioritize:**
 
@@ -162,14 +162,6 @@ cat > .planning/MILESTONE-CONTEXT.md << 'EOF'
 
 </scope>
 
-<phase_mapping>
-## Phase Mapping
-
-- Phase [N]: [Feature/goal]
-- Phase [N+1]: [Feature/goal]
-- Phase [N+2]: [Feature/goal]
-
-</phase_mapping>
 
 <constraints>
 ## Constraints
@@ -204,7 +196,6 @@ Milestone scope defined:
 - [Feature 3]: [description]
 
 **Suggested milestone:** v[X.Y] [Theme Name]
-**Estimated phases:** [N]
 
 Context saved to `.planning/MILESTONE-CONTEXT.md`
 
@@ -226,11 +217,11 @@ Context saved to `.planning/MILESTONE-CONTEXT.md`
 
 <success_criteria>
 
-- Project state loaded (STATE.md, ROADMAP.md)
+- Project state loaded (STATE.md, MILESTONES.md)
 - Previous milestone context presented
 - **Features identified** - What to build/add/fix (the substance)
 - Features explored with clarifying questions
 - Scope synthesized from features (not asked abstractly)
-- **MILESTONE-CONTEXT.md created** with features, scope, and phase mapping
+- **MILESTONE-CONTEXT.md created** with features and scope
 - Context handed off to /gsd:new-milestone
 </success_criteria>

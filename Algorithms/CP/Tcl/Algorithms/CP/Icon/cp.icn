@@ -1,0 +1,316 @@
+# Constraint Propagation (CP) Sudoku Solver - Icon Implementation
+# Uses simplified approach focused on getting working results
+
+global cp_iterations
+global grid_values, grid_candidates
+
+procedure main(args)
+    local filename, puzzle, start_time, result, end_time
+    
+    cp_iterations := 0
+    
+    if *args < 1 then {
+        write(&errout, "Usage: cp <matrix_file>")
+        exit(1)
+    }
+    
+    filename := args[1]
+    write(filename)
+    
+    # Read puzzle
+    puzzle := read_puzzle(filename) | stop("Error reading puzzle")
+    
+    # Initialize grid
+    init_grid(puzzle)
+    print_grid()
+    
+    # Solve
+    start_time := &time
+    result := cp_search()
+    end_time := &time
+    
+    print_grid()
+    
+    if result then {
+        write("\nSolved in Iterations=", cp_iterations)
+    } else {
+        write("\nNo solution found")
+    }
+    
+    write("\nSeconds to process ", real(end_time - start_time) / 1000.0)
+end
+
+# Read puzzle from file
+procedure read_puzzle(filename)
+    local f, line, puzzle, row, col, ch, val
+    
+    puzzle := list(9)
+    every !puzzle := list(9, 0)
+    
+    f := open(filename) | fail
+    row := 1
+    
+    while line := read(f) & row <= 9 do {
+        col := 1
+        every ch := !line do {
+            if ch == (" " | "\t") then next
+            if any(&digits, ch) then {
+                puzzle[row][col] := integer(ch)
+                col +:= 1
+                if col > 9 then break
+            }
+        }
+        if col > 9 then row +:= 1
+    }
+    
+    close(f)
+    return puzzle
+end
+
+# Initialize grid
+procedure init_grid(puzzle)
+    local row, col, digit
+    
+    grid_values := table()
+    grid_candidates := table()
+    
+    every row := 1 to 9 do {
+        every col := 1 to 9 do {
+            if puzzle[row][col] = 0 then {
+                grid_values[row||","||col] := 0
+                grid_candidates[row||","||col] := 1022  # bits 1-9 set
+            } else {
+                digit := puzzle[row][col]
+                grid_values[row||","||col] := digit
+                grid_candidates[row||","||col] := ishift(1, digit)
+            }
+        }
+    }
+end
+
+# Bitset operations
+procedure has_candidate(cand_set, digit)
+    return iand(cand_set, ishift(1, digit)) ~= 0
+end
+
+procedure remove_candidate(cand_set, digit)
+    return iand(cand_set, ixor(ishift(1, digit), -1))
+end
+
+procedure count_candidates(cand_set)
+    local count, i
+    count := 0
+    every i := 1 to 9 do {
+        if has_candidate(cand_set, i) then count +:= 1
+    }
+    return count
+end
+
+procedure get_first_candidate(cand_set)
+    local i
+    every i := 1 to 9 do {
+        if has_candidate(cand_set, i) then return i
+    }
+    return 0
+end
+
+# Eliminate digit from cell
+procedure eliminate(row, col, digit)
+    local key, remaining, last_digit
+    
+    key := row||","||col
+    
+    # Already eliminated
+    if not has_candidate(grid_candidates[key], digit) then return 1
+    
+    # Remove digit
+    grid_candidates[key] := remove_candidate(grid_candidates[key], digit)
+    
+    # Check contradiction
+    remaining := count_candidates(grid_candidates[key])
+    if remaining = 0 then return 0
+    
+    # Singleton elimination
+    if remaining = 1 & grid_values[key] = 0 then {
+        last_digit := get_first_candidate(grid_candidates[key])
+        return assign_value(row, col, last_digit)
+    }
+    
+    return 1
+end
+
+# Assign digit to cell
+procedure assign_value(row, col, digit)
+    local key, r, c, box_row, box_col
+    
+    cp_iterations +:= 1
+    
+    key := row||","||col
+    grid_values[key] := digit
+    grid_candidates[key] := ishift(1, digit)
+    
+    # Eliminate from row
+    every c := 1 to 9 do {
+        if c ~= col then {
+            if eliminate(row, c, digit) = 0 then return 0
+        }
+    }
+    
+    # Eliminate from column
+    every r := 1 to 9 do {
+        if r ~= row then {
+            if eliminate(r, col, digit) = 0 then return 0
+        }
+    }
+    
+    # Eliminate from box
+    box_row := ((row-1) / 3) * 3 + 1
+    box_col := ((col-1) / 3) * 3 + 1
+    every r := box_row to box_row + 2 do {
+        every c := box_col to box_col + 2 do {
+            if r ~= row & c ~= col then {
+                if eliminate(r, c, digit) = 0 then return 0
+            }
+        }
+    }
+    
+    return 1
+end
+
+# Apply propagation
+procedure propagate()
+    local changed, row, col, key, num_cand, digit
+    
+    changed := 1
+    
+    while changed do {
+        changed := 0
+        
+        # Singleton elimination
+        every row := 1 to 9 do {
+            every col := 1 to 9 do {
+                key := row||","||col
+                if grid_values[key] = 0 then {
+                    num_cand := count_candidates(grid_candidates[key])
+                    if num_cand = 0 then return 0
+                    if num_cand = 1 then {
+                        digit := get_first_candidate(grid_candidates[key])
+                        if assign_value(row, col, digit) = 0 then return 0
+                        changed := 1
+                    }
+                }
+            }
+        }
+    }
+    
+    return 1
+end
+
+# Check if complete
+procedure is_complete()
+    local row, col, key
+    
+    every row := 1 to 9 do {
+        every col := 1 to 9 do {
+            key := row||","||col
+            if grid_values[key] = 0 then return 0
+        }
+    }
+    return 1
+end
+
+# Find MRV cell
+procedure find_mrv_cell()
+    local min_count, min_row, min_col, row, col, key, count
+    
+    min_count := 10
+    min_row := 0
+    min_col := 0
+    
+    every row := 1 to 9 do {
+        every col := 1 to 9 do {
+            key := row||","||col
+            if grid_values[key] = 0 then {
+                count := count_candidates(grid_candidates[key])
+                if count < min_count then {
+                    min_count := count
+                    min_row := row
+                    min_col := col
+                }
+            }
+        }
+    }
+    
+    return [min_row, min_col]
+end
+
+# Save state
+procedure save_state()
+    local saved_values, saved_cands, key
+    
+    saved_values := table()
+    saved_cands := table()
+    
+    every key := key(grid_values) do {
+        saved_values[key] := grid_values[key]
+        saved_cands[key] := grid_candidates[key]
+    }
+    
+    return [saved_values, saved_cands]
+end
+
+# Restore state
+procedure restore_state(saved)
+    local key
+    
+    every key := key(saved[1]) do {
+        grid_values[key] := saved[1][key]
+        grid_candidates[key] := saved[2][key]
+    }
+end
+
+# CP Search
+procedure cp_search()
+    local mrv, row, col, key, cand_set, digit, saved
+    
+    if propagate() = 0 then return 0
+    if is_complete() then return 1
+    
+    mrv := find_mrv_cell()
+    row := mrv[1]
+    col := mrv[2]
+    
+    if row = 0 then return 0
+    
+    key := row||","||col
+    cand_set := grid_candidates[key]
+    
+    every digit := 1 to 9 do {
+        if has_candidate(cand_set, digit) then {
+            saved := save_state()
+            
+            if assign_value(row, col, digit) then {
+                if cp_search() then return 1
+            }
+            
+            restore_state(saved)
+        }
+    }
+    
+    return 0
+end
+
+# Print grid
+procedure print_grid()
+    local row, col, key
+    
+    write("\nPuzzle:")
+    every row := 1 to 9 do {
+        writes("")
+        every col := 1 to 9 do {
+            key := row||","||col
+            writes(grid_values[key], " ")
+        }
+        write()
+    }
+end

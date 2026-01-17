@@ -26,6 +26,20 @@ Output ONLY the reference content below. Do NOT add:
 3. `/gsd:plan-phase <number>` - Create detailed plan for first phase
 4. `/gsd:execute-plan <path>` - Execute the plan
 
+## Staying Updated
+
+GSD evolves fast. Check for updates periodically:
+
+```
+/gsd:whats-new
+```
+
+Shows what changed since your installed version. Update with:
+
+```bash
+npx get-shit-done-cc@latest
+```
+
 ## Core Workflow
 
 ```
@@ -130,15 +144,6 @@ Options (via `.planning/config.json` parallelization section):
 - `skip_checkpoints`: Skip human checkpoints in background (default: true)
 - `min_plans_for_parallel`: Minimum plans to trigger parallelization (default: 2)
 
-**`/gsd:status [--wait]`**
-Check status of background agents from parallel execution.
-
-- Shows running/completed agents from agent-history.json
-- Uses TaskOutput to poll agent status
-- With `--wait`: blocks until all agents complete
-
-Usage: `/gsd:status` or `/gsd:status --wait`
-
 ### Roadmap Management
 
 **`/gsd:add-phase <description>`**
@@ -235,19 +240,6 @@ Create context handoff when pausing work mid-phase.
 
 Usage: `/gsd:pause-work`
 
-### Issue Management
-
-**`/gsd:consider-issues`**
-Review deferred issues with codebase context.
-
-- Analyzes all open issues against current codebase state
-- Identifies resolved issues (can close)
-- Identifies urgent issues (should address now)
-- Identifies natural fits for upcoming phases
-- Offers batch actions (close, insert phase, note for planning)
-
-Usage: `/gsd:consider-issues`
-
 ### Debugging
 
 **`/gsd:debug [issue description]`**
@@ -293,6 +285,16 @@ Usage: `/gsd:check-todos api`
 **`/gsd:help`**
 Show this command reference.
 
+**`/gsd:whats-new`**
+See what's changed since your installed version.
+
+- Shows installed vs latest version comparison
+- Displays changelog entries for versions you've missed
+- Highlights breaking changes
+- Provides update instructions when behind
+
+Usage: `/gsd:whats-new`
+
 ## Files & Structure
 
 ```
@@ -300,7 +302,6 @@ Show this command reference.
 ├── PROJECT.md            # Project vision
 ├── ROADMAP.md            # Current phase breakdown
 ├── STATE.md              # Project memory & context
-├── ISSUES.md             # Deferred enhancements (created when needed)
 ├── config.json           # Workflow mode & gates
 ├── todos/                # Captured ideas and tasks
 │   ├── pending/          # Todos waiting to be worked on

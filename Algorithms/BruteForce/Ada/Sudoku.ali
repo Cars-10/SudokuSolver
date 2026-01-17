@@ -1,4 +1,4 @@
-V "GNAT Lib v13"
+V "GNAT Lib v15"
 M P W=b
 A -O2
 P SS ZX
@@ -13,7 +13,7 @@ RV NO_SECONDARY_STACK
 RV NO_DEFAULT_INITIALIZATION
 RV NO_DYNAMIC_SIZED_OBJECTS
 
-U sudoku%b		Sudoku.adb		ca4b32f9 NE OO SU
+U sudoku%b		sudoku.adb		95cf8ad5 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.command_line%s	a-comlin.adb		a-comlin.ali
 W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
@@ -25,105 +25,103 @@ Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
-D ada.ads		20240521074738 76789da1 ada%s
-D a-charac.ads		20240521074737 2d3ec45b ada.characters%s
-D a-chlat1.ads		20240521074737 e0d72e76 ada.characters.latin_1%s
-D a-comlin.ads		20240521074737 4aa66568 ada.command_line%s
-D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
-D a-flteio.ads		20240521074738 e18a47a0 ada.float_text_io%s
-D a-inteio.ads		20240521074738 f64b89a4 ada.integer_text_io%s
-D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
-D a-reatim.ads		20240521074737 b89a10c3 ada.real_time%s
-D a-stream.ads		20240521074738 119b8fb3 ada.streams%s
-D a-string.ads		20240521074738 90ac6797 ada.strings%s
-D a-strfix.ads		20240521074738 d8832344 ada.strings.fixed%s
-D a-strmap.ads		20240521074738 ed8acfdb ada.strings.maps%s
-D a-strsea.ads		20240521074738 2d394feb ada.strings.search%s
-D a-sttebu.ads		20240521074738 f1ad67a2 ada.strings.text_buffers%s
-D a-stuten.ads		20240521074738 c6ced0ae ada.strings.utf_encoding%s
-D a-tags.ads		20240521074738 9eaa38c6 ada.tags%s
-D a-textio.ads		20240521074738 5c2c6153 ada.text_io%s
-D a-tiflio.ads		20240521074738 9fe024a2 ada.text_io.float_io%s
-D a-tiinio.ads		20240521074738 e58fa6fb ada.text_io.integer_io%s
-D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
-D interfac.ads		20240521074738 15f799c2 interfaces%s
-D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
-D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
-D Sudoku.adb		20251216142125 3bb5acd6 sudoku%b
-D system.ads		20240521074738 a4968d35 system%s
-D s-atacco.ads		20240521074738 903317eb system.address_to_access_conversions%s
-D s-c_time.ads		20240904144414 535885c5 system.c_time%s
-D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
-D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
-D s-ficobl.ads		20240521074738 dc5161d4 system.file_control_block%s
-D s-linux.ads		20240904144414 96312dab system.linux%s
-D s-multip.ads		20240521074738 38ac9f73 system.multiprocessors%s
-D s-oscons.ads		20240904144414 2ba045d0 system.os_constants%s
-D s-osinte.ads		20240904144414 a8f58951 system.os_interface%s
-D s-parame.ads		20240904144414 1f39ba92 system.parameters%s
-D s-putima.ads		20240521074738 17291fe4 system.put_images%s
-D s-secsta.ads		20240521074738 578279f5 system.secondary_stack%s
-D s-soflin.ads		20240521074738 df77073e system.soft_links%s
-D s-stache.ads		20240521074738 0b81c1fe system.stack_checking%s
-D s-stausa.ads		20240521074738 5be75682 system.stack_usage%s
-D s-stalib.ads		20240521074738 1c9580f6 system.standard_library%s
-D s-stoele.ads		20240521074738 ab5468e4 system.storage_elements%s
-D s-stoele.adb		20240521074738 8f5a9db6 system.storage_elements%b
-D s-tasinf.ads		20240521074737 528dde74 system.task_info%s
-D s-taspri.ads		20240521074737 4ec891e7 system.task_primitives%s
-D s-taprop.ads		20240521074737 6eefbe12 system.task_primitives.operations%s
-D s-taskin.ads		20240521074737 0ec7ab0b system.tasking%s
-D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
-D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
-D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
+D ada.ads		20250419085653 76789da1 ada%s
+D a-charac.ads		20250419085653 2d3ec45b ada.characters%s
+D a-chlat1.ads		20250419085653 e0d72e76 ada.characters.latin_1%s
+D a-comlin.ads		20250419085653 4aa66568 ada.command_line%s
+D a-except.ads		20250419085653 e7970cd9 ada.exceptions%s
+D a-flteio.ads		20250419085653 e18a47a0 ada.float_text_io%s
+D a-inteio.ads		20250419085653 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20250419085653 40018c65 ada.io_exceptions%s
+D a-reatim.ads		20250419085653 d11673fd ada.real_time%s
+D a-stream.ads		20250419085653 17477cbd ada.streams%s
+D a-string.ads		20250419085653 90ac6797 ada.strings%s
+D a-strfix.ads		20250419085653 8648dedb ada.strings.fixed%s
+D a-strmap.ads		20250419085653 1f91ebb6 ada.strings.maps%s
+D a-strsea.ads		20250419085653 18c3c634 ada.strings.search%s
+D a-sttebu.ads		20250419085653 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20250419085653 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20250419085653 fbca0ad5 ada.tags%s
+D a-textio.ads		20250419085653 34ef47de ada.text_io%s
+D a-tiflio.ads		20250419085653 48a0360d ada.text_io.float_io%s
+D a-tiinio.ads		20250419085653 76699c8f ada.text_io.integer_io%s
+D a-unccon.ads		20250419085653 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20250419085653 9111f9c1 interfaces%s
+D i-c.ads		20250419085653 e94c966a interfaces.c%s
+D i-cstrea.ads		20250419085653 ffd01b9d interfaces.c_streams%s
+D sudoku.adb		20251216142125 3bb5acd6 sudoku%b
+D system.ads		20250419085653 70765b54 system%s
+D s-atacco.ads		20250419085653 5868e3ba system.address_to_access_conversions%s
+D s-crtl.ads		20250419085653 beb39b9e system.crtl%s
+D s-exctab.ads		20250419085653 91bef6ef system.exception_table%s
+D s-ficobl.ads		20250419085653 dc5161d4 system.file_control_block%s
+D s-multip.ads		20250419085653 38ac9f73 system.multiprocessors%s
+D s-oscons.ads		20250522142959 16132a6a system.os_constants%s
+D s-osinte.ads		20250419085653 76797b0c system.os_interface%s
+D s-oslock.ads		20250419085653 13fa6b78 system.os_locks%s
+D s-parame.ads		20250419085653 3597fc11 system.parameters%s
+D s-putima.ads		20250419085653 17291fe4 system.put_images%s
+D s-secsta.ads		20250419085653 578279f5 system.secondary_stack%s
+D s-soflin.ads		20250419085653 5d88fdea system.soft_links%s
+D s-stache.ads		20250419085653 0b81c1fe system.stack_checking%s
+D s-stausa.ads		20250419085653 5be75682 system.stack_usage%s
+D s-stalib.ads		20250419085653 1c9580f6 system.standard_library%s
+D s-stoele.ads		20250419085653 ccded4e8 system.storage_elements%s
+D s-tasinf.ads		20250419085653 801abd01 system.task_info%s
+D s-taspri.ads		20250419085653 1e109e82 system.task_primitives%s
+D s-taprop.ads		20250419085653 750673ca system.task_primitives.operations%s
+D s-taskin.ads		20250419085653 38289021 system.tasking%s
+D s-traent.ads		20250419085653 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20250419085653 fa2a7f59 system.unsigned_types%s
+D s-wchcon.ads		20250419085653 d9032363 system.wch_con%s
 G a e
 G c Z b b [sudoku standard 9 11 none]
 X 1 ada.ads
-16K9*Ada 20e8 25|1r6 1r23 2r6 2r31 3r6 4r6 4r28 5r6 5r29 6r6 6r23 7r6 7r25
+18K9*Ada 22e8 25|1r6 1r23 2r6 2r31 3r6 4r6 4r28 5r6 5r29 6r6 6r23 7r6 7r25
 . 119r4
 X 4 a-comlin.ads
-36K13*Command_Line 144e21 25|4w10 4r32
-39V13*Argument_Count{natural} 25|107s18
-52V13*Argument{string} 25|108s16 109s27
+40K13*Command_Line 148e21 25|4w10 4r32
+43V13*Argument_Count{natural} 25|107s18
+56V13*Argument{string} 25|108s16 109s27
 X 6 a-flteio.ads
 20K13*Float_Text_IO[19|46] 25|3w10 119r8
 X 7 a-inteio.ads
 18K13*Integer_Text_IO[20|46] 25|2w10 2r35
 X 9 a-reatim.ads
-39K13*Real_Time 186e18 25|7w10 7r29
-50O9*Time<duration> 25|102r27
-55O9*Time_Span<duration> 25|103r14
-62V13*Clock{50O9} 25|106s18 115s16
-72V14*"-"{55O9} 25|116s24
-111V13*To_Duration{duration} 25|117s21
+46K13*Real_Time 193e18 25|7w10 7r29
+57O9*Time<duration> 25|102r27
+62O9*Time_Span<duration> 25|103r14
+69V13*Clock{57O9} 25|106s18 115s16
+79V14*"-"{62O9} 25|116s24
+118V13*To_Duration{duration} 25|117s21
 X 11 a-string.ads
 16K13*Strings 35e16 25|5r10 5r33 6w10 6r27
 X 12 a-strfix.ads
-49K21*Fixed 1433e22 25|5w18 5r41
-253V13*Index{natural} 25|108s10
+49K21*Fixed 1390e22 25|5w18 5r41
+252V13*Index{natural} 25|108s10
 X 18 a-textio.ads
-58K13*Text_IO 787e16 25|1w10 1r27
-66P9*File_Type 25|28r14
-68n23*In_File{68E9} 25|37r18
-88I12*Field{integer}
-114U14*Open 25|37s7
-130U14*Close 25|56s7
-282U14*New_Line 25|23s10 97s7 98s7 120s4
+58K13*Text_IO 785e16 25|1w10 1r27
+67P9*File_Type 25|28r14
+69n23*In_File{69E9} 25|37r18
+89I12*Field{integer}
+115U14*Open 25|37s7
+131U14*Close 25|56s7
+284U14*New_Line 25|23s10 97s7 98s7 120s4
 341V13*End_Of_File{boolean} 25|38s17
-519U14*Put 25|21s13 95s7 118s4
-526U14*Get_Line 25|39s10
-566U14*Put_Line 25|16s7 17s7 36s7 94s7
+515U14*Put 25|21s13 95s7 118s4
+521U14*Get_Line 25|39s10
+565U14*Put_Line 25|16s7 17s7 36s7 94s7
 X 19 a-tiflio.ads
-85U14*Put 25|119s22[6|20]
-86f7 Item{float} 25|119r26[6|20]
-87i7 Fore{18|88I12} 25|119r43[6|20]
-88i7 Aft{18|88I12} 25|119r54[6|20]
-89i7 Exp{18|88I12} 25|119r64[6|20]
+88U14*Put 25|119s22[6|20]
+89f7 Item{float} 25|119r26[6|20]
+90i7 Fore{18|89I12} 25|119r43[6|20]
+91i7 Aft{18|89I12} 25|119r54[6|20]
+92i7 Exp{18|89I12} 25|119r64[6|20]
 X 20 a-tiinio.ads
-83U14*Put 25|20s13[7|18] 96s7[7|18]
-84i7 Item{integer} 25|20r17[7|18] 96r11[7|18]
-85i7 Width{18|88I12} 25|20r39[7|18] 96r26[7|18]
-X 25 Sudoku.adb
+85U14*Put 25|20s13[7|18] 96s7[7|18]
+86i7 Item{integer} 25|20r17[7|18] 96r11[7|18]
+87i7 Width{18|89I12} 25|20r39[7|18] 96r26[7|18]
+X 25 sudoku.adb
 9U11*Sudoku 9b11 121l5 121t11
 10A9 Board_Type(integer)<integer><integer> 11r13
 11a4 Puzzle{10A9} 20r25 46m19 64r13 65r13 70r16 80r16 84m22 86m22
@@ -133,7 +131,7 @@ X 25 Sudoku.adb
 19i14 I{integer} 20r35
 27U14 Read_Matrix_File 27b14 27>31 57l8 57t24 109s10
 27a31 Filename{string} 36r16 37r27
-28p7 File{18|66P9} 37m12 37r12 38r29 39r19 56m13 56r13
+28p7 File{18|67P9} 37m12 37r12 38r29 39r19 56m13 56r13
 29a7 Line{string} 39m25 40r31 44r19 45r40
 30i7 Last{natural} 39m31 40r13 43r38
 31i7 Row{integer} 38r39 46r26 52m16 52r23
@@ -153,12 +151,12 @@ X 25 Sudoku.adb
 78i11 J{integer} 80r23 83r34 84r29 86r29
 79i14 I{integer} 80r26 83r37 84r32 86r32
 81i20 Val{integer} 83r40 84r38
-102o4 Start_Time{9|50O9} 106m4 116r26
-102o16 End_Time{9|50O9} 115m4 116r15
-103o4 Elapsed{9|55O9} 116m4 117r33
+102o4 Start_Time{9|57O9} 106m4 116r26
+102o16 End_Time{9|57O9} 115m4 116r15
+103o4 Elapsed{9|62O9} 116m4 117r33
 104f4 Seconds{float} 117m4 119r34
 107i8 I{integer} 108r25 109r36
-X 41 s-stausa.ads
+X 40 s-stausa.ads
 207U14*Initialize 208i<c,__gnat_stack_usage_initialize>22
 272U14*Output_Results 276i<c,__gnat_stack_usage_output_results>22
 
