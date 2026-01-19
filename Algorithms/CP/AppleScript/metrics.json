@@ -1,0 +1,89 @@
+[
+  {
+    "solver": "AppleScript",
+    "runType": "automated",
+    "timestamp": "2026-01-18T15:29:57Z",
+    "results": [
+      {
+        "matrix": "1",
+        "time": 164.5549,
+        "iterations": 0,
+        "memory": 28426240,
+        "cpu_user": 63.282,
+        "cpu_sys": 26.341,
+        "page_faults_major": 14,
+        "page_faults_minor": 2878,
+        "context_switches_voluntary": 114,
+        "context_switches_involuntary": 445,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/1.matrix\r\rPuzzle:\r9 2 0 0 0 0 5 8 4 \r0 0 0 5 0 0 0 0 3 \r0 8 3 0 9 2 0 0 0 \r2 6 0 8 5 4 0 0 1 \r0 0 5 3 6 1 0 9 0 \r1 0 0 0 0 9 0 0 0 \r8 5 0 2 0 3 0 1 0 \r4 1 2 9 8 0 0 3 0 \r3 9 0 0 0 6 8 0 0 \r\rNo solution found\r\n"
+      },
+      {
+        "matrix": "2",
+        "time": 243.6978,
+        "iterations": 0,
+        "memory": 28409856,
+        "cpu_user": 162.045,
+        "cpu_sys": 24.922,
+        "page_faults_major": 7,
+        "page_faults_minor": 2884,
+        "context_switches_voluntary": 4,
+        "context_switches_involuntary": 439,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/2.matrix\r\rPuzzle:\r0 0 3 0 0 5 0 0 4 \r5 0 0 9 8 1 0 0 0 \r0 0 0 0 0 0 0 2 0 \r2 0 0 7 0 0 9 0 0 \r0 8 0 0 9 0 0 3 0 \r0 0 9 0 0 2 0 0 1 \r0 3 0 0 0 0 0 0 0 \r0 0 0 1 4 9 0 0 5 \r9 0 0 3 0 0 8 0 0 \r\rNo solution found\r\n"
+      },
+      {
+        "matrix": "3",
+        "time": 324.2565,
+        "iterations": 0,
+        "memory": 28475392,
+        "cpu_user": 242.934,
+        "cpu_sys": 25.931,
+        "page_faults_major": 7,
+        "page_faults_minor": 2891,
+        "context_switches_voluntary": 2,
+        "context_switches_involuntary": 428,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/3.matrix\r\rPuzzle:\r0 9 0 6 0 0 0 7 0 \r0 5 2 0 7 0 0 4 8 \r0 8 0 0 0 1 0 2 0 \r0 0 5 0 0 0 0 0 3 \r0 1 0 0 0 0 0 6 0 \r3 0 0 0 0 0 4 0 0 \r0 4 0 2 0 0 0 1 0 \r2 6 0 0 4 0 5 3 0 \r0 3 0 0 0 6 0 9 0 \r\rNo solution found\r\n"
+      },
+      {
+        "matrix": "4",
+        "time": 145.1297,
+        "iterations": 0,
+        "memory": 28442624,
+        "cpu_user": 64.863,
+        "cpu_sys": 25.051,
+        "page_faults_major": 7,
+        "page_faults_minor": 2889,
+        "context_switches_voluntary": 2,
+        "context_switches_involuntary": 432,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/4.matrix\r\rPuzzle:\r0 7 0 0 0 0 0 0 6 \r1 0 0 2 7 0 5 0 0 \r0 0 0 0 4 0 0 3 0 \r2 1 9 0 0 0 0 7 0 \r0 0 8 0 0 0 4 0 0 \r0 4 0 0 0 0 2 5 9 \r0 9 0 0 3 0 0 0 0 \r0 0 5 0 9 6 0 0 7 \r7 0 0 0 0 0 0 8 0 \r\rNo solution found\r\n"
+      },
+      {
+        "matrix": "5",
+        "time": 247.8734,
+        "iterations": 0,
+        "memory": 28393472,
+        "cpu_user": 165.492,
+        "cpu_sys": 26.395,
+        "page_faults_major": 7,
+        "page_faults_minor": 2885,
+        "context_switches_voluntary": 2,
+        "context_switches_involuntary": 432,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/5.matrix\r\rPuzzle:\r8 0 0 0 0 0 0 0 0 \r0 0 3 6 0 0 0 0 0 \r0 7 0 0 9 0 2 0 0 \r0 5 0 0 0 7 0 0 0 \r0 0 0 0 4 5 7 0 0 \r0 0 0 1 0 0 0 3 0 \r0 0 1 0 0 0 0 6 8 \r0 0 8 5 0 0 0 1 0 \r0 9 0 0 0 0 4 0 0 \r\rNo solution found\r\n"
+      }
+    ]
+  }
+]

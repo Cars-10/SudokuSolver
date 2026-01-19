@@ -2,7 +2,88 @@
   {
     "solver": "AppleScript",
     "runType": "automated",
-    "timestamp": "2026-01-15T14:11:50Z",
-    "results": []
+    "timestamp": "2026-01-17T22:09:16Z",
+    "results": [
+      {
+        "matrix": "1",
+        "time": 258.7188,
+        "iterations": 656,
+        "memory": 28557312,
+        "cpu_user": 106.915,
+        "cpu_sys": 76.186,
+        "page_faults_major": 191,
+        "page_faults_minor": 10341,
+        "context_switches_voluntary": 120,
+        "context_switches_involuntary": 1853,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\rSolved in Iterations=656\n"
+      },
+      {
+        "matrix": "2",
+        "time": 17070.3033,
+        "iterations": 439269,
+        "memory": 28557312,
+        "cpu_user": 16895.711,
+        "cpu_sys": 109.275,
+        "page_faults_major": 96,
+        "page_faults_minor": 10525,
+        "context_switches_voluntary": 4,
+        "context_switches_involuntary": 2614,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\rSolved in Iterations=439269\n"
+      },
+      {
+        "matrix": "3",
+        "time": 3766.5777,
+        "iterations": 98847,
+        "memory": 28688384,
+        "cpu_user": 3598.44,
+        "cpu_sys": 102.035,
+        "page_faults_major": 104,
+        "page_faults_minor": 10371,
+        "context_switches_voluntary": 15,
+        "context_switches_involuntary": 2204,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\rSolved in Iterations=98847\n"
+      },
+      {
+        "matrix": "4",
+        "time": 661.2255,
+        "iterations": 9085,
+        "memory": 28590080,
+        "cpu_user": 498.344,
+        "cpu_sys": 87.116,
+        "page_faults_major": 97,
+        "page_faults_minor": 10366,
+        "context_switches_voluntary": 3,
+        "context_switches_involuntary": 2189,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\rSolved in Iterations=9085\n"
+      },
+      {
+        "matrix": "5",
+        "time": 16920.96,
+        "iterations": 445778,
+        "memory": 28622848,
+        "cpu_user": 16659.752,
+        "cpu_sys": 165.284,
+        "page_faults_major": 100,
+        "page_faults_minor": 10556,
+        "context_switches_voluntary": 9,
+        "context_switches_involuntary": 4244,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\rSolved in Iterations=445778\n"
+      }
+    ]
   }
 ]
