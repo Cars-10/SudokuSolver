@@ -366,7 +366,7 @@ function find_mrv_cell(    min_candidates, found, row, col, num_candidates) {
     return found
 }
 
-function cp_search(    found, candidates, digit) {
+function cp_search(depth,    found, candidates, digit) {
     # Check if grid is complete
     found = find_mrv_cell()
     if (!found) {
@@ -380,21 +380,21 @@ function cp_search(    found, candidates, digit) {
     for (digit = 1; digit <= 9; digit++) {
         if (has_bit(candidates, digit)) {
             # Save grid state
-            save_grid()
+            save_grid(depth)
 
             # Try assigning digit
             if (assign(mrv_row, mrv_col, digit)) {
                 # Propagate constraints
                 if (propagate()) {
                     # Recurse
-                    if (cp_search()) {
+                    if (cp_search(depth + 1)) {
                         return 1
                     }
                 }
             }
 
             # Backtrack
-            restore_grid()
+            restore_grid(depth)
         }
     }
 
@@ -405,22 +405,22 @@ function cp_search(    found, candidates, digit) {
 # GRID STATE MANAGEMENT
 # ============================================================================
 
-function save_grid(    row, col) {
+function save_grid(depth,    row, col) {
     # Save grid state for backtracking
     for (row = 0; row < 9; row++) {
         for (col = 0; col < 9; col++) {
-            saved_values[row, col] = grid_values[row, col]
-            saved_candidates[row, col] = grid_candidates[row, col]
+            saved_values[depth, row, col] = grid_values[row, col]
+            saved_candidates[depth, row, col] = grid_candidates[row, col]
         }
     }
 }
 
-function restore_grid(    row, col) {
+function restore_grid(depth,    row, col) {
     # Restore grid state after backtracking
     for (row = 0; row < 9; row++) {
         for (col = 0; col < 9; col++) {
-            grid_values[row, col] = saved_values[row, col]
-            grid_candidates[row, col] = saved_candidates[row, col]
+            grid_values[row, col] = saved_values[depth, row, col]
+            grid_candidates[row, col] = saved_candidates[depth, row, col]
         }
     }
 }
@@ -504,7 +504,7 @@ function solve_sudoku(puzzle,    solved) {
     }
 
     # Search for solution
-    solved = cp_search()
+    solved = cp_search(0)
 
     if (solved) {
         # Display solution

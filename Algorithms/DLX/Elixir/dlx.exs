@@ -140,8 +140,9 @@ defmodule DLX do
 
     # Remove column header from the header list
     right = get_node(nodes, right_id)
-    left = get_node(nodes, left_id)
     update_node(nodes, right_id, set_left(right, left_id))
+
+    left = get_node(nodes, left_id)
     update_node(nodes, left_id, set_right(left, right_id))
 
     # Cover all rows in this column
@@ -166,11 +167,12 @@ defmodule DLX do
 
     # Remove node from column
     down = get_node(nodes, down_id)
-    up = get_node(nodes, up_id)
-    col = get_node(nodes, col_id)
-
     update_node(nodes, down_id, set_up(down, up_id))
+
+    up = get_node(nodes, up_id)
     update_node(nodes, up_id, set_down(up, down_id))
+
+    col = get_node(nodes, col_id)
     update_node(nodes, col_id, set_size(col, node_size(col) - 1))
 
     cover_row_nodes(nodes, node_right(node), row_id)
@@ -187,8 +189,9 @@ defmodule DLX do
     right_id = node_right(col)
     left_id = node_left(col)
     right = get_node(nodes, right_id)
-    left = get_node(nodes, left_id)
     update_node(nodes, right_id, set_left(right, col_id))
+
+    left = get_node(nodes, left_id)
     update_node(nodes, left_id, set_right(left, col_id))
   end
 
@@ -210,11 +213,12 @@ defmodule DLX do
 
     # Restore node to column
     col = get_node(nodes, col_id)
-    down = get_node(nodes, down_id)
-    up = get_node(nodes, up_id)
-
     update_node(nodes, col_id, set_size(col, node_size(col) + 1))
+
+    down = get_node(nodes, down_id)
     update_node(nodes, down_id, set_up(down, node_id))
+
+    up = get_node(nodes, up_id)
     update_node(nodes, up_id, set_down(up, node_id))
 
     uncover_row_nodes(nodes, node_left(node), row_id)
