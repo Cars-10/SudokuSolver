@@ -76,11 +76,6 @@ function Eliminate {
         [int]$digit
     )
 
-    # If cell is already assigned, don't eliminate
-    if ($grid_values.Value[$row,$col] -ne 0) {
-        return $true
-    }
-
     # Check if already eliminated
     if (-not (Has-Bit $grid_candidates.Value[$row,$col] $digit)) {
         return $true
@@ -95,8 +90,8 @@ function Eliminate {
         return $false
     }
 
-    # If only one candidate left, assign it
-    if ($remaining -eq 1) {
+    # If only one candidate left, assign it (and ensure it's not already assigned)
+    if ($remaining -eq 1 -and $grid_values.Value[$row,$col] -eq 0) {
         $last_digit = Get-FirstBit $grid_candidates.Value[$row,$col]
         return Assign -grid_values $grid_values -grid_candidates $grid_candidates -row $row -col $col -digit $last_digit
     }
@@ -138,29 +133,6 @@ function Propagate {
         [ref]$grid_values,
         [ref]$grid_candidates
     )
-
-    # First pass: eliminate clue values from their peers
-    # This is necessary because init sets clues directly without propagation
-    for ($r = 0; $r -lt 9; $r++) {
-        for ($c = 0; $c -lt 9; $c++) {
-            if ($grid_values.Value[$r,$c] -ne 0) {
-                $digit = $grid_values.Value[$r,$c]
-                $peers = Get-Peers $r $c
-                foreach ($peer in $peers) {
-                    $pr = $peer.r
-                    $pc = $peer.c
-                    # Only eliminate from unassigned cells
-                    if ($grid_values.Value[$pr,$pc] -eq 0) {
-                        $grid_candidates.Value[$pr,$pc] = Remove-Bit $grid_candidates.Value[$pr,$pc] $digit
-                        # Check for contradiction
-                        if ((Count-Bits $grid_candidates.Value[$pr,$pc]) -eq 0) {
-                            return $false
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     $changed = $true
     while ($changed) {
