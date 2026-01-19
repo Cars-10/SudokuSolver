@@ -90,6 +90,8 @@ Object subclass: CPSolver [
         changed := true.
         [changed] whileTrue: [
             changed := false.
+            
+            "Strategy 1: Singleton elimination"
             1 to: 81 do: [:idx |
                 (values at: idx) = 0 ifTrue: [
                     | numCands digit |
@@ -99,6 +101,80 @@ Object subclass: CPSolver [
                         digit := self firstCandidate: (candidates at: idx).
                         (self assign: idx digit: digit) ifFalse: [^false].
                         changed := true.
+                    ].
+                ].
+            ].
+
+            "Strategy 2: Hidden singles - Rows"
+            0 to: 8 do: [:r |
+                1 to: 9 do: [:d |
+                    | count lastIdx assigned |
+                    count := 0. lastIdx := -1. assigned := false.
+                    0 to: 8 do: [:c |
+                        | idx |
+                        idx := self idx: r col: c.
+                        (values at: idx) = d ifTrue: [assigned := true].
+                        (assigned not and: [self hasCandidate: (candidates at: idx) digit: d]) ifTrue: [
+                            count := count + 1. lastIdx := idx.
+                        ].
+                    ].
+                    assigned ifFalse: [
+                        count = 0 ifTrue: [^false].
+                        count = 1 ifTrue: [
+                            (self assign: lastIdx digit: d) ifFalse: [^false].
+                            changed := true.
+                        ].
+                    ].
+                ].
+            ].
+
+            "Strategy 2: Hidden singles - Columns"
+            0 to: 8 do: [:c |
+                1 to: 9 do: [:d |
+                    | count lastIdx assigned |
+                    count := 0. lastIdx := -1. assigned := false.
+                    0 to: 8 do: [:r |
+                        | idx |
+                        idx := self idx: r col: c.
+                        (values at: idx) = d ifTrue: [assigned := true].
+                        (assigned not and: [self hasCandidate: (candidates at: idx) digit: d]) ifTrue: [
+                            count := count + 1. lastIdx := idx.
+                        ].
+                    ].
+                    assigned ifFalse: [
+                        count = 0 ifTrue: [^false].
+                        count = 1 ifTrue: [
+                            (self assign: lastIdx digit: d) ifFalse: [^false].
+                            changed := true.
+                        ].
+                    ].
+                ].
+            ].
+
+            "Strategy 2: Hidden singles - Boxes"
+            0 to: 8 do: [:box |
+                | boxR boxC |
+                boxR := (box // 3) * 3.
+                boxC := (box \\ 3) * 3.
+                1 to: 9 do: [:d |
+                    | count lastIdx assigned |
+                    count := 0. lastIdx := -1. assigned := false.
+                    0 to: 2 do: [:br |
+                        0 to: 2 do: [:bc |
+                            | idx |
+                            idx := self idx: (boxR + br) col: (boxC + bc).
+                            (values at: idx) = d ifTrue: [assigned := true].
+                            (assigned not and: [self hasCandidate: (candidates at: idx) digit: d]) ifTrue: [
+                                count := count + 1. lastIdx := idx.
+                            ].
+                        ].
+                    ].
+                    assigned ifFalse: [
+                        count = 0 ifTrue: [^false].
+                        count = 1 ifTrue: [
+                            (self assign: lastIdx digit: d) ifFalse: [^false].
+                            changed := true.
+                        ].
                     ].
                 ].
             ].
