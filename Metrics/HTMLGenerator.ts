@@ -1126,9 +1126,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <span>Hide Mismatches</span>
             </button>
             <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
-            ${!staticMode ? `<button class="btn" id="dockerToggleBtn" onclick="switchExecutionMode()" title="Switch between Docker and Local execution">
-                <span id="dockerIcon"></span> <span id="dockerLabel"></span>
-            </button>` : ''}
             <div class="dropdown">
                 <button class="btn">Info ▾</button>
                 <div class="dropdown-content">
@@ -1453,7 +1450,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
-                             ${!staticMode && !isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : ''}
+                             
                              <div class="time" title="Wall Clock Time">${displayTime}</div>
                         </div>
                         <div class="meta">
@@ -1475,7 +1472,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             } else {
                 // Empty cell - show run button for unlocked languages
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
-                    ${!staticMode && !isLocked ? `<button class="run-btn" onclick="runSolver('${lang}', '${i + 1}.matrix', event)" title="Run Matrix ${i + 1}">⏵</button>` : '<span style="color: #333">-</span>'}
+                    <span style="color: #333">-</span>
                 </td>`;
             }
         }
@@ -1485,7 +1482,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
         const mismatchTitle = isMismatch ? `title="Click to see mismatch details"` : '';
 
-        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;">${!staticMode && !isLocked ? `<button class="run-btn" onclick="runAllSolver('${lang}', event); event.stopPropagation();" title="Run All Matrices">⏩</button>` : ''}<div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
+        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;"><div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
 
         // Add expanded content row
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
