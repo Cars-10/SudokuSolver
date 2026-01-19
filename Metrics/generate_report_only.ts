@@ -11,13 +11,14 @@ import {
     narratorIntros,
     orderedLanguages
 } from './gather_metrics.ts';
+import { calculateOverallScore } from './scoring.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const outputDir = process.env.OUTPUT_DIR || rootDir;
 const metricsFile = path.join(outputDir, process.env.METRICS_FILE || 'metrics.json');
-const htmlFile = path.join(rootDir, '_report.html');
+const htmlFile = path.join(rootDir, 'index.html');
 
 async function run() {
     try {
@@ -60,8 +61,6 @@ async function run() {
 
                 if (Array.isArray(parsedMetrics)) {
                     // Check if array already contains wrapped metrics (new common.sh format)
-                    // New format: [{solver: "C++", results: [...], ...}]
-                    // Old format: [{matrix: "1", time: 0.01, ...}, ...]
                     if (parsedMetrics.length > 0 && parsedMetrics[0].results) {
                         // Already wrapped format - use directly, but add algorithmType
                         const pathParts = file.split(path.sep);
@@ -147,8 +146,6 @@ async function run() {
                     console.log(`Restoring legacy metric for: ${m.solver}`);
                     aggregatedMetrics.push(m);
                     knownSolverAlgoPairs.add(pairKey);
-                } else {
-                    // console.log(`Skipping stale root metric for: ${m.solver}`);
                 }
             }
         }
@@ -156,11 +153,9 @@ async function run() {
         // Check for metadata overrides
         let metadataOverrides = {};
         const metadataPath = path.join(__dirname, '../Algorithms/metadata.json');
-        // fs.existsSync is synchronous, but this is fine for a startup config read
         if (fs.existsSync(metadataPath)) {
             console.log("Loading metadata overrides from " + metadataPath);
             try {
-                // fs.readFileSync is synchronous, but this is fine for a startup config read
                 metadataOverrides = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
             } catch (e) {
                 console.error("Failed to load metadata overrides: " + e);
@@ -175,7 +170,7 @@ async function run() {
         console.log(`Filtering report to standard suite: ${allowedMatrices.join(', ')}`);
 
         // Load benchmark config for expected matrices per language
-        let benchmarkConfig: { languages?: Record<string, any>, lockedLanguages?: string[] } = {};
+        let benchmarkConfig: { languages?: Record<string, any>, lockedLanguages?: string[], scoring_weights?: any } = {};
         try {
             const configPath = path.join(rootDir, 'benchmark_config.json');
             const configData = await fs.promises.readFile(configPath, 'utf-8');
@@ -200,8 +195,6 @@ async function run() {
             console.warn("Could not read session_state.json, no languages will be locked");
             benchmarkConfig.lockedLanguages = [];
         }
-
-
 
         // Merge with Ordered Master List
         // Use solver::algorithmType as key to preserve multiple algorithm variants per language
@@ -236,9 +229,69 @@ async function run() {
             }
         }
 
+        // --- SCORING CALCULATION START ---
+        // 1. Get Weights from Config
+        const weights = (benchmarkConfig as any).scoring_weights || { time: 0.8, memory: 0.2 };
+        console.log(`Applying scoring weights: Time=${weights.time}, Memory=${weights.memory}`);
+
+        // 2. Index C Baselines by Algorithm Type
+        const cBaselines = new Map<string, any>();
+        for (const m of finalMetrics) {
+            if (m.solver === 'C') {
+                const algo = m.algorithmType || 'BruteForce';
+                cBaselines.set(algo, m);
+            }
+        }
+
+        // 3. Calculate Scores
+        for (const m of finalMetrics) {
+            const algo = m.algorithmType || 'BruteForce';
+            const cMetric = cBaselines.get(algo);
+            
+            // If we have a baseline (and it's not the baseline itself, though comparing C to C gives 1.0 which is correct)
+            if (cMetric) {
+                // Pass the results array (MetricsResult[])
+                m.score = calculateOverallScore(m.results, cMetric.results, weights);
+            } else {
+                // No baseline found for this algorithm?
+                // Fallback to BruteForce baseline if available?
+                const fallbackC = cBaselines.get('BruteForce');
+                if (fallbackC) {
+                    m.score = calculateOverallScore(m.results, fallbackC.results, weights);
+                } else {
+                    m.score = 0; // Should not happen if C is present
+                }
+            }
+        }
+        // --- SCORING CALCULATION END ---
+
         console.log(`Final Report contains ${finalMetrics.length} languages.`);
 
-        const htmlContent = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
+        const result = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
+        
+        let htmlContent = "";
+        if (typeof result === 'string') {
+            htmlContent = result;
+        } else if (result && typeof result === 'object' && result.html) {
+             // Handle object return if it happens (forward compatibility)
+             htmlContent = result.html;
+             if (result.assets) {
+                const assetsDir = path.join(rootDir, 'assets');
+                if (!fs.existsSync(assetsDir)) {
+                    await fs.promises.mkdir(assetsDir, { recursive: true });
+                }
+                for (const [assetPath, content] of Object.entries(result.assets)) {
+                    const fullPath = path.join(rootDir, assetPath);
+                    const dir = path.dirname(fullPath);
+                    if (!fs.existsSync(dir)) {
+                        await fs.promises.mkdir(dir, { recursive: true });
+                    }
+                    await fs.promises.writeFile(fullPath, content as string);
+                    console.log(`Generated asset: ${assetPath}`);
+                }
+             }
+        }
+
         await fs.promises.writeFile(htmlFile, htmlContent);
 
         // Write timestamp file for smart refresh

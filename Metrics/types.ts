@@ -14,5 +14,6 @@ export interface SolverMetrics {
     algorithmType?: 'BruteForce' | 'DLX' | 'CP'; // Algorithm type from directory structure
     runType?: string; // 'Local' | 'Docker' | 'AI'
     timestamp: string;
+    score?: number; // Calculated composite score
     results: MetricResult[];
 }
