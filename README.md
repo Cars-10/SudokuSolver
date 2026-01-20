@@ -496,11 +496,12 @@ Seconds to process X.XXX
 The project uses a **Weighted Geometric Mean** to calculate a single "Composite Score" (Ψ) for each language. This method is an industry standard (used by SPEC and Geekbench) as it prevents outliers from dominating the results and rewards balanced performance.
 
 #### The Formula
-Ψ = exp(Σ wᵢ · ln(ρᵢ))
+Score = (Time_Ratio ^ 0.8) * (Memory_Ratio ^ 0.2)
 
 Where:
-- **ρᵢ**: The ratio of the language's metric to the C baseline (Valueₗₐₙg / Value꜀).
-- **wᵢ**: The weight assigned to that metric (must sum to 1.0).
+- **Time_Ratio**: The ratio of the language's execution time to the C baseline (Timeₗₐₙg / Time꜀).
+- **Memory_Ratio**: The ratio of the language's peak memory to the C baseline (Memₗₐₙg / Mem꜀).
+- **Weights**: 80% Time, 20% Memory.
 
 #### Default Weights
 By default, the system emphasizes execution time over memory usage:

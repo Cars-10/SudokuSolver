@@ -817,8 +817,8 @@ window.renderAuthorList = function () {
         const div = document.createElement('div');
         div.className = 'author-item';
         div.innerHTML = `
-            <div class="modal-img-container" style="width: 80px; height: 80px; position: relative; border-radius: 50%; overflow: hidden; margin-bottom: 5px;">
-                <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="modal-img-container" style="width: 150px; height: 150px; position: relative; border-radius: 4px; overflow: hidden; margin-bottom: 5px;">
+                <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
                 <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
                     Change
                 </div>
@@ -5116,7 +5116,7 @@ window.openScoreModal = function(lang) {
 
     document.getElementById('scoreTimeRatio').textContent = timeRatio ? timeRatio.value.toFixed(2) + 'x' : '-';
     document.getElementById('scoreMemRatio').textContent = memRatio ? memRatio.value.toFixed(2) + 'x' : '-';
-    document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
+
 
     // Admin: Populate weights
     if (typeof benchmarkConfig !== 'undefined' && benchmarkConfig.scoring_weights) {
@@ -5158,12 +5158,11 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmTyp
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
-    // Labels for the 3 axes (NO iterations - iterations are validation, not performance)
-    const labels = ['Speed', 'Memory', 'CPU'];
+    // Labels for the 2 axes (80/20 Weight)
+    const labels = ['Speed (80%)', 'Memory (20%)'];
     const values = [
         breakdownParts.find(p => p.label === 'Time')?.value || 1,
-        breakdownParts.find(p => p.label === 'Mem')?.value || 1,
-        breakdownParts.find(p => p.label === 'CPU')?.value || 1
+        breakdownParts.find(p => p.label === 'Mem')?.value || 1
     ];
 
     const numAxes = labels.length;
@@ -5478,7 +5477,7 @@ window.onVariantSelect = async function(variant) {
 
         document.getElementById('scoreTimeRatio').textContent = avgTime.toFixed(2) + 'x';
         document.getElementById('scoreMemRatio').textContent = avgMem.toFixed(2) + 'x';
-        document.getElementById('scoreCpuRatio').textContent = avgCpu.toFixed(2) + 'x';
+    
 
         // Redraw radar chart (3 axes: Time, Mem, CPU - NO iterations)
         const breakdownParts = [

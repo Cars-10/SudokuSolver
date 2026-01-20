@@ -280,51 +280,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // Calculate total planned metrics based on languages * matrices
     const totalPlanned = languageMetadata ? Object.keys(languageMetadata).length * (Math.min(matrixFiles.length, 6)) : 0;
 
-    // Gather Source Code for Offline Viewing
-    const sourceCodeData: Record<string, { filename: string, source: string }> = {};
-    const languagesToFetch = new Set(metrics.map(m => m.solver));
-
-    for (const lang of languagesToFetch) {
-        // Handle " (AI)" suffix or other variants if they map to the same directory
-        const baseLang = lang.replace(/ \((AI)\)$/, '');
-        
-        // Handle C# and F# directory mapping if needed (though usually they match or are handled by standard naming)
-        // The server does: const langDir = path.join(__dirname, '..', 'Languages', lang);
-        // We will try direct lookup.
-        
-        const langDir = path.join(languagesDir, baseLang);
-        try {
-            // Check if directory exists
-            try {
-                await fs.access(langDir);
-            } catch {
-                continue; // Skip if dir doesn't exist
-            }
-
-            const files = await fs.readdir(langDir);
-            // Find Sudoku.* but exclude binaries
-            const solverFile = files.find(f => 
-                f.startsWith('Sudoku.') && 
-                !f.endsWith('.class') && 
-                !f.endsWith('.o') && 
-                !f.endsWith('.beam') && 
-                !f.endsWith('.exe') && 
-                !f.endsWith('.dll') &&
-                !f.endsWith('.jar')
-            );
-
-            if (solverFile) {
-                const source = await fs.readFile(path.join(langDir, solverFile), 'utf-8');
-                sourceCodeData[lang] = { filename: solverFile, source };
-                // Map baseLang too if it differs (e.g. for variants)
-                if (baseLang !== lang && !sourceCodeData[baseLang]) {
-                    sourceCodeData[baseLang] = { filename: solverFile, source };
-                }
-            }
-        } catch (e) {
-            console.warn(`Could not load source for ${lang}:`, e);
-        }
-    }
+    // Source Code Data generation removed - handled dynamically by server
+    const sourceCodeData = {}; // Empty placeholder for client script
 
     let html = `
 <!DOCTYPE html>
@@ -474,9 +431,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
                 <div style="display: flex; gap: 20px;">
                     <!-- Left Sidebar: Logo + Authors -->
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 120px; flex-shrink: 0;">
-                        <div class="modal-img-container" id="modalImgContainer">
-                            <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100px; height: 100px; object-fit: contain; border-radius: 8px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 170px; flex-shrink: 0;">
+                        <div class="modal-img-container" id="modalImgContainer" style="width: 150px; height: 150px; position: relative; border-radius: 8px; overflow: hidden; flex-shrink: 0; padding: 10px; background: rgba(0,0,0,0.2);">
+                            <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">
                             <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
                                 Change
                             </div>
@@ -485,7 +442,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         </div>
                         
                         <!-- Authors Vertical Stack -->
-                        <div id="authorList" class="author-list" style="flex-direction: column; width: 100%;">
+                        <div id="authorList" class="author-list" style="flex-direction: column; width: 150px; align-items: center;">
                             <!-- Dynamic authors -->
                         </div>
                         <button class="btn edit-only" style="font-size: 0.7em; width: 100%;" onclick="addAuthorField()">+ Add Author</button>
@@ -624,10 +581,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <span class="breakdown-label">Memory Ratio</span>
                             <span id="scoreMemRatio" class="breakdown-value"></span>
                         </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">CPU Ratio</span>
-                            <span id="scoreCpuRatio" class="breakdown-value"></span>
-                        </div>
+
                     </div>
                 </div>
 
@@ -692,7 +646,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <span class="modal-close" onclick="closeMethodology(event)">&times;</span>
             <div class="modal-title" style="text-align: center;">Scoring Methodology</div>
             <div class="modal-desc">
-                <p>The <strong>Composite Score</strong> (&Psi;) uses the <strong>geometric mean</strong> of four performance ratios, an industry-standard method used by SPEC and Geekbench benchmarks.</p>
+                <p>The <strong>Composite Score</strong> (&Psi;) uses the <strong>Weighted Geometric Mean</strong> of performance ratios, prioritizing execution speed while respecting memory efficiency.</p>
 
                 <h3 style="color: var(--secondary);">The Baseline: C</h3>
                 <p style="font-family: 'JetBrains Mono', monospace;">&Psi;<sub>C</sub> = 1.0 (Reference Point)</p>
@@ -700,19 +654,17 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <h3 style="color: var(--secondary);">The Formula</h3>
                 <div style="background: rgba(0, 20, 0, 0.8); padding: 20px; border: 1px solid #00ff9d; box-shadow: 0 0 15px rgba(0, 255, 157, 0.2); border-radius: 4px; text-align: center; font-family: 'Times New Roman', serif; margin: 20px 0; color: #fff;">
                     <div style="font-size: 1.3em; letter-spacing: 1px;">
-                        &Psi; = <sup style="font-size: 0.7em;">4</sup>&radic;(&rho;<sub>time</sub> &sdot; &rho;<sub>mem</sub> &sdot; &rho;<sub>iter</sub> &sdot; &rho;<sub>cpu</sub>)
+                        &Psi; = (&rho;<sub>time</sub><sup>0.8</sup> &times; &rho;<sub>mem</sub><sup>0.2</sup>)
                     </div>
                 </div>
                 <p style="font-size: 0.9em; text-align: center; color: var(--muted); font-family: 'JetBrains Mono', monospace;">
                     where &rho;<sub>x</sub> = Value<sub>solver</sub> / Value<sub>C</sub>
                 </p>
 
-                <h3 style="color: var(--secondary);">Metrics Used</h3>
+                <h3 style="color: var(--secondary);">Metrics & Weights</h3>
                 <ul style="list-style: none; padding: 0; font-size: 0.95em;">
-                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>time</sub></strong> : Total execution time ratio</li>
-                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>mem</sub></strong> : Peak memory usage ratio</li>
-                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>iter</sub></strong> : Algorithm iterations ratio</li>
-                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>cpu</sub></strong> : CPU time (user+sys) ratio</li>
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>time</sub></strong> : Total execution time ratio (80% Weight)</li>
+                    <li style="margin-bottom: 6px;"><strong>&rho;<sub>mem</sub></strong> : Peak memory usage ratio (20% Weight)</li>
                 </ul>
 
                 <h3 style="color: var(--secondary);">Why Geometric Mean?</h3>
@@ -1264,8 +1216,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
         const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
 
-        // Geometric mean: cube root of product of 3 ratios (time, mem, cpu - NO iterations)
-        const normalizedScore = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
+        // Weighted Geometric Mean: (Time^0.8 * Mem^0.2)
+        const normalizedScore = Math.pow(timeRatio, 0.8) * Math.pow(memRatio, 0.2);
 
         // Tier Calculation
         let tier = 'F';
@@ -1409,7 +1361,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-compiler="${rowCompilerInfo}"
             data-score="${normalizedScore.toFixed(2)}"
             data-tier="${tier}"
-            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
+            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x"
             data-mismatch-details='${JSON.stringify(mismatchDetails).replace(/'/g, "&apos;")}'
             data-expected-iters="${expectedIters}"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
@@ -1580,8 +1532,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const memRatio = Math.max(0.001, (cMatchedMem > 0) ? (maxMem / cMatchedMem) : 1);
         const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
 
-        // Geometric mean: cube root of 3 ratios (time, mem, cpu - NO iterations)
-        const score = Math.pow(timeRatio * memRatio * cpuRatio, 1/3);
+        // Weighted Geometric Mean: (Time^0.8 * Mem^0.2)
+        const score = Math.pow(timeRatio, 0.8) * Math.pow(memRatio, 0.2);
 
         let tier = 'F';
         if (score < 0.95) tier = 'S';
