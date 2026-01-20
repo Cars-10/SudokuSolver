@@ -158,23 +158,44 @@ def process_language(lang):
         if infobox:
             for row in infobox.find_all('tr'):
                 text = row.get_text()
-                if "Designed by" in text or "Created by" in text or "Developer" in text:
+                # Normalize whitespace (including non-breaking spaces)
+                text = text.replace('\xa0', ' ')
+                if "Designed by" in text or "Created by" in text or "Developer" in text or "designed by" in text.lower():
                     # Look for list items or cell content
                     cell = row.find('td')
                     if cell:
                         # Remove sups
                         for sup in cell.find_all('sup'): sup.decompose()
-                        
+
                         # Check for list
                         items = cell.find_all('li')
                         if items:
                             for item in items:
                                 authors.append(clean_text(item.get_text()))
                         else:
-                            # Split by commas
+                            # Get text content and parse
                             content = clean_text(cell.get_text())
-                            split_authors = [a.strip() for a in content.split(',')]
-                            authors.extend(split_authors)
+                            # Handle multi-line entries like "Ada 83: Jean Ichbiah\nAda 95: Tucker Taft"
+                            lines = content.split('\n')
+                            for line in lines:
+                                line = line.strip()
+                                if not line:
+                                    continue
+                                # Try to extract name after colon (e.g., "Ada 95: Tucker Taft")
+                                if ':' in line:
+                                    name = line.split(':', 1)[1].strip()
+                                else:
+                                    name = line
+                                # Remove common prefixes
+                                for prefix in ['and ', 'et al.', 'committee']:
+                                    if name.lower().startswith(prefix):
+                                        name = name[len(prefix):].strip()
+                                # Split by comma or newline
+                                for a in name.replace('\n', ',').split(','):
+                                    a = a.strip()
+                                    # Skip if too short or contains common non-name patterns
+                                    if a and len(a) > 2 and not any(x in a.lower() for x in ['ada ', 'version', 'std', 'mil-']):
+                                        authors.append(a)
                     break
         
         # Filter duplicates and bad data
@@ -199,41 +220,77 @@ def process_language(lang):
         for author in authors:
             last_name = get_author_last_name(author)
             found_image_url = None
-            
-            # Find matching image in page images
-            for img_url in page.images:
-                filename = img_url.split('/')[-1]
-                if any(bl in filename.lower() for bl in BLACKLIST_IMAGES):
-                    continue
-                
-                # Check for last name match
-                if last_name.lower() in filename.lower():
-                    # Check for file extension
-                    ext = os.path.splitext(filename)[1].lower()
-                    if ext in ['.jpg', '.jpeg', '.png', '.webp']:
-                        found_image_url = img_url
-                        break
-            
+
+            # Try to find author's Wikipedia page and get their profile image
+            try:
+                # Search for author's page
+                author_page = wikipedia.page(author, auto_suggest=False)
+                author_html = author_page.html()
+                author_soup = BeautifulSoup(author_html, 'html.parser')
+
+                # Look for infobox image
+                infobox_img = author_soup.find('table', {'class': 'infobox'})
+                if infobox_img:
+                    img_tag = infobox_img.find('img')
+                    if img_tag and img_tag.get('src'):
+                        img_src = img_tag['src']
+                        # Wikipedia image URLs are protocol-relative
+                        if img_src.startswith('//'):
+                            img_src = 'https:' + img_src
+
+                        # Filter out common non-portrait images
+                        filename = img_src.split('/')[-1]
+                        if not any(bl in filename.lower() for bl in BLACKLIST_IMAGES):
+                            found_image_url = img_src
+                            print(f"  Found image for {author}: {filename}")
+            except wikipedia.exceptions.DisambiguationError as e:
+                # Try first option
+                try:
+                    author_page = wikipedia.page(e.options[0], auto_suggest=False)
+                    author_html = author_page.html()
+                    author_soup = BeautifulSoup(author_html, 'html.parser')
+                    infobox_img = author_soup.find('table', {'class': 'infobox'})
+                    if infobox_img:
+                        img_tag = infobox_img.find('img')
+                        if img_tag and img_tag.get('src'):
+                            img_src = img_tag['src']
+                            if img_src.startswith('//'):
+                                img_src = 'https:' + img_src
+                            filename = img_src.split('/')[-1]
+                            if not any(bl in filename.lower() for bl in BLACKLIST_IMAGES):
+                                found_image_url = img_src
+                                print(f"  Found image for {author} (via {e.options[0]}): {filename}")
+                except:
+                    pass
+            except wikipedia.exceptions.PageError:
+                print(f"  No Wikipedia page found for {author}")
+            except Exception as e:
+                print(f"  Error searching for {author}: {e}")
+
             image_filename = None
             if found_image_url:
-                ext = os.path.splitext(found_image_url)[1]
-                image_filename = f"{sanitize_filename(last_name)}{ext}"
+                ext = os.path.splitext(found_image_url)[1].split('?')[0]  # Remove query params
+                if not ext or ext.lower() not in ['.jpg', '.jpeg', '.png', '.webp', '.gif']:
+                    ext = '.jpg'  # Default
+                image_filename = f"{sanitize_filename(author.replace(' ', '_'))}{ext}"
                 save_path = os.path.join(media_dir, image_filename)
-                
+
                 # Download if not exists
                 if not os.path.exists(save_path):
-                    print(f"  Downloading image for {author}: {image_filename}")
+                    print(f"  Downloading image: {image_filename}")
                     if download_image(found_image_url, save_path):
                         kept_files.add(image_filename)
                     else:
                         image_filename = None # Failed
                 else:
                     kept_files.add(image_filename)
-            
+                    print(f"  Using existing image: {image_filename}")
+
             author_data = {"name": author}
             if image_filename:
-                author_data["image"] = image_filename
-            
+                # Use relative path from project root
+                author_data["image"] = f"Algorithms/BruteForce/{lang}/Media/{image_filename}"
+
             author_meta.append(author_data)
 
         # 4. Cleanup
