@@ -15,8 +15,8 @@
 - [x] **UI-04**: Add clear visual indication of active/inactive fullscreen state
 
 ### Metadata
-- [ ] **META-01**: Update methodology text to accurately reflect the weighted geometric mean formula
-- [ ] **META-02**: Ensure consistency between code logic and UI descriptions
+- [x] **META-01**: Update methodology text to accurately reflect the weighted geometric mean formula
+- [x] **META-02**: Ensure consistency between code logic and UI descriptions
 
 ## v2 Requirements (Deferred)
 - [ ] **SCORE-05**: Implement algorithmic fingerprinting scoring (based on iteration counts)
@@ -37,5 +37,5 @@
 | UI-02 | 2 | Complete |
 | UI-03 | 2 | Complete |
 | UI-04 | 2 | Complete |
-| META-01 | 3 | Pending |
-| META-02 | 3 | Pending |
+| META-01 | 3 | Complete |
+| META-02 | 3 | Complete |

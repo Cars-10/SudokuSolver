@@ -23,6 +23,6 @@ See: .planning/PROJECT.md (updated 2026-01-18)
 - [x] **UI-07**: Widen modal to 800px & Sidebar Layout (Phase 3+)
 
 ## Active Session
-- **Task**: UI Polish & Layout Refactoring
+- **Task**: Metadata Alignment (Phase 3)
 - **Status**: Complete
-- **Next Step**: Await user feedback.
+- **Next Step**: Milestone Audit.
