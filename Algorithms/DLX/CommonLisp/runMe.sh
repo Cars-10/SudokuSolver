@@ -11,7 +11,7 @@ ALGORITHM="DLX"
 SOLVER_BINARY="sbcl --script dlx.lisp --"
 COMPILE_CMD=""  # No compilation needed
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source common functions
 source ../../common.sh

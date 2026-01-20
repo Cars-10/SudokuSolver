@@ -2,23 +2,23 @@
   {
     "solver": "Pike",
     "runType": "automated",
-    "timestamp": "2026-01-17T22:09:14Z",
+    "timestamp": "2026-01-19T19:29:38Z",
     "results": [
       {
         "matrix": "1",
-        "time": 65.3167,
+        "time": 63.4655,
         "iterations": 0,
-        "memory": 11812864,
-        "cpu_user": 32.664,
-        "cpu_sys": 7.975,
-        "page_faults_major": 106,
-        "page_faults_minor": 1103,
-        "context_switches_voluntary": 32,
-        "context_switches_involuntary": 97,
+        "memory": 11747328,
+        "cpu_user": 36.693,
+        "cpu_sys": 10.955,
+        "page_faults_major": 107,
+        "page_faults_minor": 1108,
+        "context_switches_voluntary": 34,
+        "context_switches_involuntary": 122,
         "io_inputs": 0,
         "io_outputs": 0,
-        "status": "success",
-        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/1.matrix\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nPuzzle:\n9 2 0 0 0 0 5 8 4 \n0 0 0 5 0 0 0 0 3 \n0 8 3 0 9 2 0 0 0 \n2 6 0 8 5 4 0 0 1 \n0 0 5 3 6 1 0 9 0 \n1 0 0 0 0 9 0 0 0 \n8 5 0 2 0 3 0 1 0 \n4 1 2 9 8 0 0 3 0 \n3 9 0 0 0 6 8 0 0 \n\nNo solution found\n\nSeconds to process 0.000\n"
+        "status": "error",
+        "output": "\n"
       },
       {
         "matrix": "2",

@@ -564,7 +564,17 @@ window.showLanguageDetails = async function (lang, x, y) {
 
     const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
     document.getElementById('modalTitle').innerText = displayName;
-    document.getElementById('modalSubtitle').innerText = (meta.creator || "?") + " • " + (meta.date || "????");
+    
+    // Updated for Phase 3 Grid Layout: Populate Date and Creator separately
+    const dateEl = document.getElementById('modalDate');
+    const creatorEl = document.getElementById('modalCreator');
+    if (dateEl) dateEl.innerText = meta.date || "????";
+    if (creatorEl) creatorEl.innerText = meta.creator || "?";
+
+    // Legacy support: if modalSubtitle still exists (unlikely in new layout), clear it or use it
+    const subtitleEl = document.getElementById('modalSubtitle');
+    if (subtitleEl) subtitleEl.innerText = (meta.creator || "?") + " • " + (meta.date || "????");
+
     document.getElementById('modalLocation').innerText = "📍 " + (meta.location || "Unknown Location");
     document.getElementById('modalBenefits').innerText = "✨ " + (meta.benefits || "Unknown Benefits");
     document.getElementById('modalRelated').innerText = meta.related ? "🔗 Related: " + meta.related : "";
@@ -1173,12 +1183,16 @@ window.viewSourceCode = async function() {
     const title = document.getElementById('sourceModalTitle');
     const content = document.getElementById('sourceCodeContent');
 
-    title.textContent = `${currentEditingLang} Solver Source`;
+    // Determine algorithm from global filter
+    const currentAlgo = window.currentAlgorithm || 'BruteForce';
+    const algo = currentAlgo === 'all' ? 'BruteForce' : currentAlgo;
+
+    title.textContent = `${currentEditingLang} [${algo}] Source`;
     content.textContent = 'Loading...';
     modal.classList.add('visible');
 
-    // 1. Check embedded data first (works for offline/static)
-    if (typeof sourceCodeData !== 'undefined' && sourceCodeData[currentEditingLang]) {
+    // 1. Check embedded data first (works for offline/static) - currently only BruteForce
+    if (algo === 'BruteForce' && typeof sourceCodeData !== 'undefined' && sourceCodeData[currentEditingLang]) {
         const data = sourceCodeData[currentEditingLang];
         content.textContent = data.source;
         title.textContent = `${currentEditingLang} - ${data.filename}`;
@@ -1187,11 +1201,11 @@ window.viewSourceCode = async function() {
 
     try {
         const encodedLang = encodeURIComponent(currentEditingLang);
-        const res = await fetch(`/api/source/${encodedLang}`);
+        const res = await fetch(`/api/source/${encodedLang}?algorithm=${algo}`);
         if (res.ok) {
             const data = await res.json();
             content.textContent = data.source;
-            title.textContent = `${currentEditingLang} - ${data.filename}`;
+            title.textContent = `${currentEditingLang} [${algo}] - ${data.filename}`;
         } else {
             const errorData = await res.json().catch(() => ({}));
             content.textContent = `Error: Could not load source code\nStatus: ${res.status}\n${errorData.error || ''}\n${errorData.path || ''}`;
@@ -1987,30 +2001,186 @@ window.applyTableVisibility = function () {
     });
 };
 
-window.initializeStatus = function () {
+// --- UI Persistence Logic ---
+
+window.saveUIState = function() {
+    const state = {
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+        chartType: document.getElementById('chart-selector')?.value || 'line',
+        sort: currentSort,
+        showMismatches: !document.getElementById('toggleMismatchesBtn')?.classList.contains('active'), // Active means HIDDEN
+        showLogos: window.showLogos,
+        personality: document.getElementById('personality-selector')?.value || 'Standard'
+    };
+    localStorage.setItem('sudoku_ui_state', JSON.stringify(state));
+};
+
+window.restoreUIState = function() {
+    try {
+        const stored = localStorage.getItem('sudoku_ui_state');
+        if (!stored) return;
+        const state = JSON.parse(stored);
+
+        // Restore Chart
+        if (state.chartType && typeof window.switchChart === 'function') {
+            const selector = document.getElementById('chart-selector');
+            if (selector) {
+                selector.value = state.chartType;
+                window.switchChart(state.chartType);
+            }
+        }
+
+        // Restore Logo/Text Mode
+        if (state.showLogos !== undefined) {
+            window.showLogos = !state.showLogos; // Toggle flips it, so set inverse first
+            const btn = document.querySelector('.zoom-btn[title*="Switch"]'); // Find the toggle button
+            if (btn) window.toggleLogoMode(btn);
+        }
+
+        // Restore Mismatch Toggle (Active class means HIDDEN)
+        // Default is Visible (Show Mismatches). If state.showMismatches is false, we need to hide (add active).
+        // But toggleMismatches() toggles current state.
+        const btn = document.getElementById('toggleMismatchesBtn');
+        if (btn) {
+            const currentlyHidden = btn.classList.contains('active');
+            const shouldBeVisible = state.showMismatches; // True = visible
+            
+            // If we want visible but it's hidden, OR we want hidden but it's visible -> toggle
+            if (shouldBeVisible === currentlyHidden) {
+                window.toggleMismatches();
+            }
+        }
+
+        // Restore Sort
+        if (state.sort && state.sort.metric) {
+            // Re-apply sort. We need to find the button or header.
+            // Metric name matches data attribute?
+            // sortRows takes (metric, btn).
+            // We can just call sortRows(metric, null) if we modified it to handle null btn, 
+            // but sortRows expects a button for visual state.
+            // Let's find the header.
+            let selector = `.sortable-header[data-sort="${state.sort.metric}"]`;
+            // Handle matrix sort columns
+            if (state.sort.metric.startsWith('m')) {
+                // matrix sort metrics are like 'm0_time'
+                // headers have data-sort="matrix-0"
+                // This is tricky mapping.
+                // Let's rely on the fact that sortRows handles the logic.
+                // We just need to trigger it.
+                // BUT sortRows toggles direction. We need to force direction.
+                // Current implementation toggles.
+                // Let's just set currentSort and call the internal sort logic? 
+                // Too complex to refactor sortRows now.
+                // Simpler: Trigger the click on the header?
+                // But we need to ensure direction matches.
+                // Let's manually set currentSort and then call sort logic.
+                // Actually, let's just leave sort restoration for now or do it if easy.
+                // The user specifically asked for "setting pull downs" and "location".
+                // Sort is less critical but nice.
+            } else {
+                const header = document.querySelector(selector);
+                if (header) {
+                    // Set currentSort to OPPOSITE so the click sets it correctly?
+                    // Or just invoke it.
+                    // If we want Asc, and default is Asc, click once.
+                    // If we want Desc, click twice? 
+                    // Let's manually update the UI classes and call the sort logic directly if possible.
+                    // For now, let's skip complex sort restoration to avoid bugs.
+                }
+            }
+        }
+
+        // Restore Personality
+        if (state.personality) {
+            const selector = document.getElementById('personality-selector');
+            if (selector) {
+                selector.value = state.personality;
+                window.changePersonality();
+            }
+        }
+
+        // Restore Scroll (Last step)
+        if (state.scrollX !== undefined && state.scrollY !== undefined) {
+            window.scrollTo(state.scrollX, state.scrollY);
+        }
+
+    } catch (e) {
+        console.warn("Failed to restore UI state", e);
+    }
+};
+
+// Hook into events
+window.addEventListener('beforeunload', window.saveUIState);
+// Throttle scroll save? Or just save on unload. Unload is sufficient for "refresh".
+// But "location I'm looking at" implies scroll position.
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Status
     const rows = document.querySelectorAll('tbody tr');
     rows.forEach(row => {
         const lang = row.getAttribute('data-lang');
         const iters = parseInt(row.getAttribute('data-iters') || "0");
-        const statusBadge = document.getElementById('status-' + lang);
-
-        // Infer Status
-        // If we have valid iterations, assume Ready. Otherwise Init.
         let status = 'Init';
         if (iters > 0) status = 'Ready';
-
         window.languageStatus[lang] = status;
-
-        if (statusBadge) {
-            updateStatusBadgeUI(lang, status);
-        }
     });
-    // Load persisted state
-    window.loadSessionState();
-    window.applyTableVisibility(); // Apply initial visibility
-    window.updateRunButtonsForLockState(); // Apply lock state to run buttons
-    window.updateSolverStats();
+
+    // Load states
+    if (typeof window.loadSessionState === 'function') window.loadSessionState();
+    if (typeof window.applyTableVisibility === 'function') window.applyTableVisibility();
+    if (typeof window.updateRunButtonsForLockState === 'function') window.updateRunButtonsForLockState();
+    if (typeof window.updateSolverStats === 'function') window.updateSolverStats();
+
+    // Attach Score Column Click Handlers
+    document.querySelectorAll('.score-col').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const row = cell.closest('tr');
+            const lang = row?.getAttribute('data-lang');
+            if (lang) {
+                if (typeof window.openScoreModal === 'function') {
+                    window.openScoreModal(lang);
+                } else {
+                    console.error("openScoreModal function not found");
+                }
+            }
+        });
+        cell.style.cursor = 'pointer';
+    });
+
+    // Wait a tick for other initializations then restore UI prefs
+    setTimeout(window.restoreUIState, 100);
+});
+
+// Update persistence in specific actions
+const originalSwitchChart = window.switchChart;
+window.switchChart = function(type) {
+    if (originalSwitchChart) originalSwitchChart(type);
+    window.saveUIState();
 };
+
+const originalToggleMismatches = window.toggleMismatches;
+window.toggleMismatches = function() {
+    if (originalToggleMismatches) originalToggleMismatches();
+    window.saveUIState();
+};
+
+const originalToggleLogoMode = window.toggleLogoMode;
+window.toggleLogoMode = function(btn) {
+    if (originalToggleLogoMode) originalToggleLogoMode(btn);
+    window.saveUIState();
+};
+
+const originalChangePersonality = window.changePersonality;
+window.changePersonality = function() {
+    if (originalChangePersonality) originalChangePersonality();
+    window.saveUIState();
+};
+
+
 
 window.updateStatusBadgeUI = function (lang, status) {
     const badge = document.getElementById('status-' + lang);
@@ -4948,6 +5118,14 @@ window.openScoreModal = function(lang) {
     document.getElementById('scoreMemRatio').textContent = memRatio ? memRatio.value.toFixed(2) + 'x' : '-';
     document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
 
+    // Admin: Populate weights
+    if (typeof benchmarkConfig !== 'undefined' && benchmarkConfig.scoring_weights) {
+        const w = benchmarkConfig.scoring_weights;
+        if (document.getElementById('weight-time')) document.getElementById('weight-time').value = w.time || 1.0;
+        if (document.getElementById('weight-mem')) document.getElementById('weight-mem').value = w.memory || 0.0;
+        if (document.getElementById('weight-cpu')) document.getElementById('weight-cpu').value = w.cpu || 0.0;
+    }
+
     // Draw radar chart with tier color
     drawScoreRadarChart(lang, tier, tierColor, breakdownParts, langAlgoType);
 
@@ -5339,4 +5517,36 @@ document.addEventListener('DOMContentLoaded', function() {
         cell.style.cursor = 'pointer';
     });
 });
+
+window.saveWeights = async function() {
+    const time = parseFloat(document.getElementById('weight-time').value) || 0;
+    const mem = parseFloat(document.getElementById('weight-mem').value) || 0;
+    const cpu = parseFloat(document.getElementById('weight-cpu').value) || 0;
+    
+    const config = {
+        scoring_weights: {
+            time: time,
+            memory: mem,
+            cpu: cpu
+        }
+    };
+    
+    try {
+        const res = await fetch('/api/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config)
+        });
+        
+        if (res.ok) {
+             await fetch('/api/generate-report', { method: 'POST' });
+             window.location.reload();
+        } else {
+            alert('Failed to save weights');
+        }
+    } catch(e) {
+        console.error(e);
+        alert('Error saving weights');
+    }
+};
 

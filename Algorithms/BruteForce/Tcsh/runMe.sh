@@ -9,7 +9,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Tcsh"
 SOLVER_BINARY="tcsh Sudoku.tcsh"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source shared functions from common.sh
 source ../../common.sh

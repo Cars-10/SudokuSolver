@@ -7,7 +7,7 @@ LANGUAGE="EmacsLisp"
 ALGORITHM="CP"
 SOLVER_BINARY="emacs --batch --script cp.el"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

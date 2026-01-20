@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Elixir"
 SOLVER_BINARY="elixir Sudoku.exs"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300  # 5 minutes
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"  # 5 minutes
 
 # Source shared functions from common.sh
 source ../../common.sh

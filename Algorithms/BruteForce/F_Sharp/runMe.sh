@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 LANGUAGE="F_Sharp"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

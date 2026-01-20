@@ -1,4 +1,5 @@
 obj/
+Algorithms/BruteForce/F_Sharp/*
 server/icon-master/
 server/janet-1.40.1/
 C/Sudoku
@@ -141,3 +142,8 @@ Algorithms/*/*/*_solver
 
 # Octave workspace
 octave-workspace
+Algorithms/BruteForce/F_Sharp/bin/Release/net8.0/cs/FSharp.Core.resources.dll
+Algorithms/CP/F_Sharp/cp.dll
+Algorithms/CP/F_Sharp/cp.pdb
+Algorithms/DLX/F_Sharp/dlx.dll
+Algorithms/DLX/F_Sharp/dlx.pdb

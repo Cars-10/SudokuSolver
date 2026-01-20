@@ -120,27 +120,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             logoMap.set(langName, `Algorithms/BruteForce/${langDir}/Media/${filename}`);
         }
     }
-    console.log(`Loaded ${logoMap.size} canonical logos from Algorithms/BruteForce/*/Media/*_logo.*`);
-
-    // Priority 2: Fall back to logos/ directory for languages not yet found
-    const logosDir = path.join(rootDir, 'logos');
-    const localLogos = await glob(`${logosDir}/*.{png,svg,jpg}`);
-    let legacyCount = 0;
-    for (const p of localLogos) {
-        const filename = path.basename(p);
-        const name = path.basename(p, path.extname(p)).toLowerCase();
-        if (!logoMap.has(name)) {
-            logoMap.set(name, `logos/${filename}`);
-            legacyCount++;
-        }
-    }
-    if (legacyCount > 0) {
-        console.log(`Added ${legacyCount} logos from legacy logos/ directory`);
-    }
-
-    // Priority 3: Fall back to any image in Algorithms/BruteForce/*/Media/ for remaining languages
+    
+    // Priority 2: Fall back to any image in Algorithms/BruteForce/*/Media/
     const mediaLogos = await glob(`${languagesDir}/*/Media/*.{png,svg,jpg}`);
-    let fallbackCount = 0;
     for (const p of mediaLogos) {
         const parts = p.split(path.sep);
         const mediaIdx = parts.indexOf('Media');
@@ -150,12 +132,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             if (!logoMap.has(langName)) {
                 const filename = path.basename(p);
                 logoMap.set(langName, `Algorithms/BruteForce/${langDir}/Media/${filename}`);
-                fallbackCount++;
             }
         }
-    }
-    if (fallbackCount > 0) {
-        console.log(`Added ${fallbackCount} logos from Media/ fallback`);
     }
     console.log(`Total logos available: ${logoMap.size}`);
 
@@ -221,6 +199,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     mismatchCount = metrics.filter(m => {
         if (m.solver === 'C') return false;
+
+        // Constraint Propagation (CP) uses heuristics that vary by implementation.
+        // Iteration counts are NOT expected to match the C baseline.
+        // Therefore, we do not flag CP differences as mismatches.
+        if (m.algorithmType === 'CP') return false;
 
         // Get the C baseline for this algorithm type
         const algoType = m.algorithmType || 'BruteForce';
@@ -489,23 +472,48 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <!-- Close button in top-right corner -->
                 <span class="modal-close" onclick="closeModal(event)">&times;</span>
 
-                <!-- Top Row: Logo + Info -->
-                <div class="modal-header-top">
-                    <div class="modal-img-container" id="modalImgContainer" style="flex-shrink: 0;">
-                        <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100px; height: 100px; object-fit: contain; border-radius: 8px;">
-                        <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
-                            Change
+                <div style="display: flex; gap: 20px;">
+                    <!-- Left Sidebar: Logo + Authors -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 120px; flex-shrink: 0;">
+                        <div class="modal-img-container" id="modalImgContainer">
+                            <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100px; height: 100px; object-fit: contain; border-radius: 8px;">
+                            <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
+                                Change
+                            </div>
+                            <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
+                            <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
                         </div>
-                        <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
-                        <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
+                        
+                        <!-- Authors Vertical Stack -->
+                        <div id="authorList" class="author-list" style="flex-direction: column; width: 100%;">
+                            <!-- Dynamic authors -->
+                        </div>
+                        <button class="btn edit-only" style="font-size: 0.7em; width: 100%;" onclick="addAuthorField()">+ Add Author</button>
                     </div>
+
+                    <!-- Main Content: Metadata + Desc -->
                     <div style="flex: 1; min-width: 0;">
                         <input type="text" id="editInputs-title" class="modal-edit-input edit-only" placeholder="Language Name" style="font-size: 1.2em; font-weight: bold;">
-                        <h2 id="modalTitle" class="view-only" style="margin: 0 0 5px 0; color: #7aa2f7;"></h2>
-                        <p id="modalSubtitle" class="view-only" style="margin: 0; color: #565f89; font-size: 0.9em;"></p>
+                        <h2 id="modalTitle" class="view-only" style="margin: 0 0 10px 0; color: #7aa2f7;"></h2>
 
-                        <!-- Edit inputs in two columns -->
-                        <div class="edit-only" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+                        <!-- View Only: Two Column Grid -->
+                        <div class="view-only" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.9em; margin-bottom: 15px;">
+                             <!-- Left Column -->
+                             <div style="display: flex; flex-direction: column; gap: 6px;">
+                                  <div><span style="color: #565f89;">Created:</span> <span id="modalDate" style="color: #c0caf5;"></span> <span style="color: #414868;">•</span> <span id="modalCreator" style="color: #c0caf5;"></span></div>
+                                  <div><span style="color: #565f89;">Location:</span> <span id="modalLocation" style="color: #c0caf5;"></span></div>
+                                  <div style="margin-top: 4px;"><span id="modalBenefits" style="color: #bb9af7; font-style: italic;"></span></div>
+                             </div>
+                             <!-- Right Column -->
+                             <div style="display: flex; flex-direction: column; gap: 6px;">
+                                  <div><span style="color: #565f89;">Paradigm:</span> <span id="modalParadigm" style="color: #7aa2f7;"></span></div>
+                                  <div><span style="color: #565f89;">Type Sys:</span> <span id="modalTypeSystem" style="color: #7aa2f7;"></span></div>
+                                  <div><span style="color: #565f89;">Related:</span> <span id="modalRelated" style="color: #c0caf5;"></span></div>
+                             </div>
+                        </div>
+
+                        <!-- Edit inputs -->
+                        <div class="edit-only" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; margin-bottom: 15px;">
                             <input type="text" id="editInputs-creator" class="modal-edit-input" placeholder="Creator">
                             <input type="text" id="editInputs-date" class="modal-edit-input" placeholder="Date">
                             <input type="text" id="editInputs-location" class="modal-edit-input" placeholder="Location">
@@ -517,59 +525,44 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                             <input type="text" id="editInputs-image" class="modal-edit-input" placeholder="Image URL" style="grid-column: 1 / -1;">
                         </div>
 
-                        <p id="modalLocation" class="view-only" style="margin: 10px 0 0 0; color: #9aa5ce; font-size: 0.9em;"></p>
-                        <p id="modalBenefits" class="view-only" style="margin: 5px 0 0 0; color: #bb9af7; font-size: 0.9em;"></p>
-                        <p id="modalRelated" class="view-only" style="margin: 5px 0 0 0; color: #787c99; font-size: 0.9em; font-style: italic;"></p>
-
-                        <!-- Technical Specs Row -->
-                        <div id="modalSpecs" class="view-only" style="margin-top: 10px; display: flex; gap: 20px; font-size: 0.85em; color: #565f89; border-top: 1px solid #24283b; padding-top: 10px;">
-                            <div><span style="color: #7aa2f7;">Paradigm:</span> <span id="modalParadigm">-</span></div>
-                            <div><span style="color: #7aa2f7;">Type System:</span> <span id="modalTypeSystem">-</span></div>
-                        </div>
-
-                        <div class="view-only" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <!-- External Links -->
+                        <div class="view-only" style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
                              <a class="btn" id="btn-website" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Website</a>
                              <a class="btn" id="btn-grokipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Grokipedia</a>
                              <a class="btn" id="btn-wikipedia" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">Wikipedia</a>
                              ${!staticMode ? `<a class="btn" href="#" onclick="viewSourceCode(); return false;" style="text-decoration: none; display: inline-block; background: #ff9e64; color: #1a1b26;">View Source</a>` : ''}
                         </div>
-                    </div>
-                </div>
+                        
+                        <!-- Description Area -->
+                        <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Description</h3>
+                        <textarea id="editInputs-desc" class="modal-edit-textarea edit-only" placeholder="Description"></textarea>
+                        <div id="modalDesc" class="view-only" style="line-height: 1.6; color: #c0caf5;"></div>
 
-                <!-- Bottom Row: Buttons -->
-                <div class="modal-header-buttons">
-                     ${!staticMode ? `<button class="btn" onclick="toggleEditMode(event)" id="editBtn" style="min-width: 80px;">Edit</button>
-                     <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>` : ''}
+                        <div id="historySection" class="view-only" style="margin-top: 20px;">
+                            <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Historical Context</h3>
+                            <div id="modalHistory" style="line-height: 1.6; color: #9aa5ce; font-style: italic; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 3px solid #7aa2f7;"></div>
+                        </div>
+                        <div class="edit-only" style="margin-top: 20px;">
+                            <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">History</h3>
+                            <textarea id="editInputs-history" class="modal-edit-textarea" placeholder="Historical context..."></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="modal-body">
-                <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Description</h3>
-                <textarea id="editInputs-desc" class="modal-edit-textarea edit-only" placeholder="Description"></textarea>
-                <div id="modalDesc" class="view-only" style="line-height: 1.6; color: #c0caf5;"></div>
-
-                <div id="historySection" class="view-only" style="margin-top: 20px;">
-                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">Historical Context</h3>
-                    <div id="modalHistory" style="line-height: 1.6; color: #9aa5ce; font-style: italic; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border-left: 3px solid #7aa2f7;"></div>
-                </div>
-                <div class="edit-only" style="margin-top: 20px;">
-                    <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px;">History</h3>
-                    <textarea id="editInputs-history" class="modal-edit-textarea" placeholder="Historical context..."></textarea>
-                </div>
-                
-                <h3 style="color: #7aa2f7; font-size: 1.1em; border-bottom: 1px solid #414868; padding-bottom: 5px; margin-top: 20px;">
-                    Creators & Authors
-                    <button class="btn edit-only" style="font-size: 0.7em; margin-left: 10px;" onclick="addAuthorField()">+ Add</button>
-                </h3>
-                <div id="authorList" class="author-list">
-                    <!-- Dynamic authors -->
-                </div>
-                
-                <div class="edit-only" style="margin-top: 20px; padding: 10px; background: #24283b; border-radius: 8px;">
+            <div class="modal-body" style="padding-top: 0;">
+                 <!-- Body content moved up to header/flex layout. Keeping this empty or for extra tools if needed. -->
+                 <div class="edit-only" style="margin-top: 20px; padding: 10px; background: #24283b; border-radius: 8px;">
                     <h4>Tools</h4>
                     <button class="btn" onclick="openGoogleImageSearch()">Search Google Images</button>
                     <p style="font-size: 0.8em; color: #787c99; margin-top: 5px;">Tip: Paste an image (Ctrl+V) anywhere in this modal to upload it as the main logo.</p>
                 </div>
+            </div>
+            
+            <!-- Footer: Edit/Save Buttons -->
+            <div class="modal-footer" style="padding: 15px 20px; border-top: 1px solid #414868; display: flex; justify-content: flex-end;">
+                 ${!staticMode ? `<button class="btn" onclick="toggleEditMode(event)" id="editBtn" style="min-width: 80px;">Edit</button>
+                 <button class="btn edit-only" style="background: #4caf50;" onclick="saveLanguageDetails(event)">Save</button>` : ''}
             </div>
         </div>
     </div>
@@ -603,6 +596,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <!-- Variant Selector (US-007) -->
                         <select id="scoreVariantSelector" onchange="onVariantSelect(this.value)" style="margin-top: 8px; padding: 4px 8px; background: #24283b; color: #c0caf5; border: 1px solid #414868; border-radius: 4px; font-size: 0.85em; display: none;">
                         </select>
+                        <!-- Admin Controls -->
+                        <div id="scoreAdminControls" style="margin-top: 10px; display: flex; gap: 10px; align-items: center; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">
+                            <span style="font-size: 0.7em; color: #444;">WEIGHTS:</span>
+                            <input type="number" id="weight-time" step="0.1" style="width: 50px; background: #1a1b26; color: #7aa2f7; border: 1px solid #333; font-size: 0.8em;" placeholder="Time">
+                            <input type="number" id="weight-mem" step="0.1" style="width: 50px; background: #1a1b26; color: #7aa2f7; border: 1px solid #333; font-size: 0.8em;" placeholder="Mem">
+                            <input type="number" id="weight-cpu" step="0.1" style="width: 50px; background: #1a1b26; color: #7aa2f7; border: 1px solid #333; font-size: 0.8em;" placeholder="CPU">
+                            <button onclick="saveWeights()" class="btn" style="padding: 2px 8px; font-size: 0.7em; background: rgba(76, 175, 80, 0.2); color: #4caf50;">Save</button>
+                        </div>
                     </div>
                 </div>
                 <div id="scoreModalTierBadge" class="tier-badge" style="font-size: 1.2em; width: 40px; height: 40px;"></div>
@@ -1296,7 +1297,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         let expectedIters = 0;
         const mismatchDetails: Array<{matrix: string, actual: number, expected: number}> = [];
 
-        if (cBaselineForMismatch) {
+        // Skip mismatch check for CP
+        if (cBaselineForMismatch && algoType !== 'CP') {
             m.results.forEach(r => {
                 const cRes = cBaselineForMismatch.results.find(cm => normalizeMatrix(cm.matrix) === normalizeMatrix(r.matrix));
                 if (cRes) {
@@ -1411,7 +1413,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             data-mismatch-details='${JSON.stringify(mismatchDetails).replace(/'/g, "&apos;")}'
             data-expected-iters="${expectedIters}"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
-            <td class='lang-col'>
+            <td class='lang-col' onclick="window.showLanguageDetails('${lang}', event.clientX, event.clientY); event.stopPropagation();" style="cursor: pointer;">
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
@@ -1461,7 +1463,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         const rIter = Number(r.iterations);
                         const cIter = Number(cIterations);
                         const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
-                        const isMismatch = !isBaseline && cIterations !== null && rIter !== cIter;
+                        // Skip mismatch flag for CP
+                        const isMismatch = !isBaseline && cIterations !== null && rIter !== cIter && m.algorithmType !== 'CP';
 
                         return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isMismatch ? 'mismatch' : ''}">#${r.iterations}</span>`;
                     })()}
@@ -1533,6 +1536,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
             // Dynamic Data
             const referenceOutputs = ${safeJSON(referenceOutputs)};
+            const benchmarkConfig = ${safeJSON(benchmarkConfig)};
             const tailoring = ${safeJSON(tailoringConfig)};
             const metricsData = ${safeJSON(metrics.map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
@@ -1661,6 +1665,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         metricsData.forEach(m => {
             if (m.solver === 'C') return;
             const mAlgo = m.algorithmType || 'BruteForce';
+
+            // Skip CP algorithms from mismatch counting
+            if (mAlgo === 'CP') return;
 
             // Skip if filtering by algo and this isn't that algo
             if (algorithmType !== 'all' && mAlgo !== algorithmType) return;

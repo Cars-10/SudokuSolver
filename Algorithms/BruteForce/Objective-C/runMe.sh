@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Objective-C"
 SOLVER_BINARY="./sudoku"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source shared functions
 source ../../common.sh

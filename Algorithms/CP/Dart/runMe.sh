@@ -3,7 +3,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Dart"
 SOLVER_BINARY="dart run cp.dart"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 source ../../common.sh
 
 compile() {

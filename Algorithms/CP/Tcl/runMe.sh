@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Tcl"
 SOLVER_BINARY="./cp.tcl"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

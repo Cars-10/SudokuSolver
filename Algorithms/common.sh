@@ -51,34 +51,51 @@ detect_time_cmd() {
 # ============================================================================
 
 # Report environment error (missing compiler, dependencies, etc.)
-# Generates error metrics.json and exits
+# Logs error to benchmark_issues.json and exits
 report_env_error() {
     local error_msg="$1"
     local timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    local issues_file="../../../benchmark_issues.json"
 
-    cat > "$METRICS_FILE" <<EOF
-[{
-  "solver": "$LANGUAGE",
-  "runType": "automated",
-  "timestamp": "$timestamp",
-  "results": [{
-    "matrix": "N/A",
-    "time": 0,
-    "iterations": 0,
-    "memory": 0,
-    "cpu_user": 0,
-    "cpu_sys": 0,
-    "page_faults_major": 0,
-    "page_faults_minor": 0,
-    "context_switches_voluntary": 0,
-    "context_switches_involuntary": 0,
-    "io_inputs": 0,
-    "io_outputs": 0,
-    "status": "env_error",
-    "output": "$error_msg"
-  }]
-}]
-EOF
+    # Use Python to append to the issues file safely
+    python3 -c "
+import json, os
+
+issues_file = '$issues_file'
+new_entry = {
+    'solver': '$LANGUAGE',
+    'runType': 'automated',
+    'timestamp': '$timestamp',
+    'status': 'env_error',
+    'output': '''$error_msg'''
+}
+
+data = []
+if os.path.exists(issues_file):
+    try:
+        with open(issues_file, 'r') as f:
+            content = f.read().strip()
+            if content:
+                data = json.loads(content)
+    except Exception as e:
+        # If file is corrupt, start fresh but maybe log warning?
+        print(f'Warning: Could not read {issues_file}: {e}')
+        data = []
+
+# Ensure data is a list
+if not isinstance(data, list):
+    data = []
+
+# Append new entry
+data.append(new_entry)
+
+try:
+    with open(issues_file, 'w') as f:
+        json.dump(data, f, indent=2)
+except Exception as e:
+    print(f'Error writing to {issues_file}: {e}')
+    exit(1)
+"
 
     echo "ERROR: $error_msg" >&2
     exit 1
@@ -429,8 +446,27 @@ check_toolchain() {
 
 # Default main function - can be overridden or called from language script
 main() {
-    # Compile if needed
-    compile
+    # Check if we should compile
+    local should_compile=true
+    local check_binary="$SOLVER_BINARY"
+    
+    # Handle complex binary strings (e.g. "java Class") by taking first word if it's a file
+    # But usually SOLVER_BINARY="java Class" won't match -f.
+    # For compiled langs, SOLVER_BINARY="./Sudoku".
+    
+    # Strip arch prefix for check if present (specific to our BASIC fix)
+    if [[ "$check_binary" == "arch -x86_64 "* ]]; then
+        check_binary="${check_binary#arch -x86_64 }"
+    fi
+
+    if [[ "$check_binary" == ./* && -f "$check_binary" && -z "$FORCE_COMPILE" ]]; then
+        echo "Binary '$check_binary' exists. Skipping compilation. (Use FORCE_COMPILE=1 to rebuild)" >&2
+        should_compile=false
+    fi
+
+    if [ "$should_compile" = true ]; then
+        compile
+    fi
 
     # Run benchmarks
     run_benchmarks "$@"

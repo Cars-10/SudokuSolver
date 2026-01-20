@@ -1,27 +1,25 @@
-# Technology Stack
+# Stack
 
-## Core Components
+## Metrics & Reporting
+- **Runtime**: Node.js
+- **Language**: TypeScript
+- **Dependencies**:
+  - `fs-extra`: File system operations
+  - `glob`: File pattern matching
+  - `puppeteer`: Report generation (PDF/Static)
+  - `tsx`: Running TS files directly
+  - `better-sqlite3`: Historical data storage
 
-### Languages (Benchmarked)
-- **Primary:** C, Python, Rust, Go, Java, JavaScript, TypeScript
-- **Others:** 15+ Tier 1 languages, potentially 80+ total (Ada to Zsh)
-- **Constraint:** All implementations are standalone, minimal dependency
+## Content Server
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Features**: Logo processing, static file serving
 
-### Orchestration & Infrastructure
-- **Scripting:** Bash 4.x+ (`runMeGlobal.sh`, `Languages/common.sh`)
-- **Containerization:** Docker (custom `sudoku-benchmark` image)
-- **Timekeeping:** Python (high-precision timer used in `common.sh`)
+## Algorithms (Solvers)
+- **Primary Languages**: C, Rust, Go, Java, Python, C++, Awk, Bash, and 70+ others.
+- **Common Logic**: Standard recursive backtracking.
 
-### Metrics & Reporting
-- **Runtime:** Node.js (v18+)
-- **Language:** TypeScript
-- **Output:** HTML5 (Single file report), JSON (Data storage)
-
-### Data
-- **Input:** `.matrix` files (simple text grids)
-- **Storage:** JSON (`metrics.json`, `metadata.json`, `session_state.json`)
-- **Database:** SQLite (`benchmark_history.db` - *Found in file list*)
-
-## Development Tools
-- **Version Control:** Git
-- **Package Manager:** npm (for Metrics/)
+## Infrastructure
+- **Scripting**: Bash (orchestration, timing, execution)
+- **Containerization**: Docker (for consistent toolchains)
+- **Data Formats**: JSON (metrics, metadata), .matrix (puzzle inputs)

@@ -1,29 +1,13 @@
-# Codebase Structure
+# Structure
 
-## Directory Layout
-
-### `/Languages`
-The core of the repository.
-- `common.sh`: The shared "kernel" for benchmarking.
-- `metadata.json`: Registry of all supported languages.
-- `[Language]/`: Per-language implementation.
-  - `runMe.sh`: Entry point script.
-  - `Sudoku.[ext]`: Source code.
-  - `metrics.json`: Performance data.
-
-### `/Metrics`
-TypeScript/Node.js tooling for data analysis.
-- `HTMLGenerator.ts`: Compiles results into `benchmark_report.html`.
-- `server/`: Express/Node server for UI.
-
-### `/Matrices`
-Input datasets.
-- `*.matrix`: 9x9 Sudoku puzzles (0 = empty).
-
-### Root Scripts
-- `runMeGlobal.sh`: Main CLI entry point.
-- `runAllBenchmarks.sh`: Bulk execution wrapper.
-
-### Project Management
-- `.planning/`: GSD workflow files (`PROJECT.md`, `ROADMAP.md`).
-- `.gemini/`: Agent memory and tools.
+- `Algorithms/`: Core solver implementations.
+  - `BruteForce/`: Main algorithmic implementations by language.
+  - `common.sh`: Shared shell utility functions.
+- `Matrices/`: Puzzle input files and reference outputs.
+- `Metrics/`: TypeScript source for report generation and metric gathering.
+- `server/`: Node.js backend for UI support.
+- `logos/`: Branding assets for each language.
+- `scripts/`: Maintenance and utility scripts.
+- `tasks/`: Project management and PRD documents.
+- `runMeGlobal.sh`: Main entry point for benchmarks.
+- `_report.html`: The generated visual dashboard.

@@ -1,10 +1,5 @@
 {
-  "mode": "yolo",
-  "depth": "comprehensive",
-  "parallelization": "enabled",
-  "gates": {
-    "confirm_plan": false,
-    "confirm_tasks": false,
-    "require_tests": true
-  }
+  "mode": "YOLO",
+  "depth": "Quick",
+  "parallelization": true
 }

@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="BASH"
 SOLVER_BINARY="/opt/homebrew/bin/bash cp.sh"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

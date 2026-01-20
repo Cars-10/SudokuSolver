@@ -25,15 +25,6 @@ async function run() {
         // Empty history array (history feature removed)
         const history: any[] = [];
 
-        // Load main metrics (usually just C or recent run)
-        let mainMetrics: any[] = [];
-        try {
-            const data = await fs.promises.readFile(metricsFile, 'utf-8');
-            mainMetrics = JSON.parse(data);
-        } catch (e) {
-            console.warn("Could not read main metrics.json", e);
-        }
-
         // Aggregate All Metrics from Languages (legacy) and Algorithms (new structure)
         const metricsPatterns = [
             path.join(rootDir, 'Languages', '*', 'metrics.json'),
@@ -134,19 +125,6 @@ async function run() {
                 }
             } catch (e) {
                 console.warn(`Error reading ${file}:`, e);
-            }
-        }
-
-        // 2. Load Root Metrics (Lower Priority - Backfill)
-        if (mainMetrics.length > 0) {
-            console.log(`Backfilling with root metrics (${mainMetrics.length} found)...`);
-            for (const m of mainMetrics) {
-                const pairKey = `${m.solver}::${m.algorithmType || 'BruteForce'}`;
-                if (!knownSolverAlgoPairs.has(pairKey)) {
-                    console.log(`Restoring legacy metric for: ${m.solver}`);
-                    aggregatedMetrics.push(m);
-                    knownSolverAlgoPairs.add(pairKey);
-                }
             }
         }
 

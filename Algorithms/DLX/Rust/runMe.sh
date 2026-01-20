@@ -9,7 +9,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Rust"
 SOLVER_BINARY="./dlx_solver"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source shared functions from common.sh
 # Path is relative to this script: Algorithms/DLX/Rust/ -> ../../common.sh

@@ -1,0 +1,9 @@
+[
+  {
+    "solver": "TestLang",
+    "runType": "automated",
+    "timestamp": "2026-01-20T13:55:58Z",
+    "status": "env_error",
+    "output": "This is a test error from nested dir"
+  }
+]

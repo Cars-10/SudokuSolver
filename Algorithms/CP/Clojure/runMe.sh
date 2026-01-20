@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Clojure"
 SOLVER_BINARY="./cp_solver"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source common benchmark functions
 source ../../common.sh

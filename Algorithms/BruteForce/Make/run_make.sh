@@ -5,10 +5,12 @@ MATRIX_FILE="$1"
 {
     echo "# Auto-generated from $MATRIX_FILE"
     row=0
-    while IFS= read -r line; do
+    while IFS= read -r line || [ -n "$line" ]; do
         # Skip comments and empty lines
         [[ "$line" =~ ^# ]] && continue
         [[ -z "$line" ]] && continue
+
+        echo "DEBUG: Parsing Row $row: $line" >&2
 
         col=0
         for val in $line; do

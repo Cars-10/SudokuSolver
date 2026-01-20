@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 LANGUAGE="PHP"
 SOLVER_BINARY="php dlx.php"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source common benchmark functions
 source ../../common.sh

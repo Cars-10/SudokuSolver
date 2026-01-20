@@ -1,4 +1,5 @@
-# Sudoku Solver (SS) - The "Red Pill" Benchmark
+# Sudoku Solver (SS) - The Benchmark
+when creaTING ANY TEMPOARY FILES PLACE THEM UNDER the temp/ folder
 
 ## Project Overview
 
@@ -17,7 +18,7 @@
     *   **`README.md`**: Detailed implementation guide and patterns.
 *   **`Matrices/`**: Input puzzle files (e.g., `1.matrix` to `6.matrix`) and reference outputs.
 *   **`Metrics/`**: Tools for report generation and data analysis.
-    *   **`HTMLGenerator.ts`**: Generates the single-file `benchmark_report.html`.
+    *   **`HTMLGenerator.ts`**: Generates the single-file `index.html`.
     *   **`server/`**: A Node.js Content Server for UI interactions.
 *   **`runMeGlobal.sh`**: The main entry point script for running benchmarks.
 *   **`.planning/`**: Project management docs (`PROJECT.md`, `MANIFESTO.md`).
@@ -43,7 +44,7 @@ To run a specific language against a specific matrix:
 
 The benchmarking process generates:
 1.  **`metrics.json`**: Inside the language directory.
-2.  **`benchmark_report.html`**: A visual dashboard (needs generation via `Metrics/HTMLGenerator.ts`).
+2.  **`index.html`**: A visual dashboard (needs generation via `Metrics/HTMLGenerator.ts`).
 
 ## Development Standards
 

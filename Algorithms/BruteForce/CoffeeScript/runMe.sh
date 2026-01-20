@@ -9,7 +9,7 @@ cd "$(dirname "$0")"
 LANGUAGE="CoffeeScript"
 SOLVER_BINARY="coffee Sudoku.coffee"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source common functions
 source ../../common.sh

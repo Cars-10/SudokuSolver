@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Julia"
 SOLVER_BINARY="julia Sudoku.jl"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300  # 5 minutes
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"  # 5 minutes
 
 # Source shared functions from common.sh
 source ../../common.sh

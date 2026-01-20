@@ -5,7 +5,7 @@ LANGUAGE="Erlang"
 ALGORITHM="DLX"
 SOLVER_BINARY="./dlx.erl"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

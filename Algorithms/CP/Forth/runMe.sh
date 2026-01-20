@@ -10,7 +10,7 @@ LANGUAGE="Forth"
 ALGORITHM="CP"
 SOLVER_BINARY="gforth cp.fs"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source shared functions from common.sh
 # Path is relative to this script: Algorithms/CP/Forth/ -> ../../common.sh

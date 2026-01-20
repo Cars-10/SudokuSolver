@@ -9,7 +9,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Prolog"
 SOLVER_BINARY="swipl -q -t main -s dlx.pl --"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source shared functions from common.sh
 source ../../common.sh

@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Crystal"
 SOLVER_BINARY="./Sudoku"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 # Source common functions
 source ../../common.sh

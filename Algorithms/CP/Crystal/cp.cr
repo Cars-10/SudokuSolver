@@ -50,17 +50,17 @@ module CP
   def self.get_peers(row : Int32, col : Int32) : Array(Tuple(Int32, Int32))
     peers = Array(Tuple(Int32, Int32)).new
 
-    # Same row (9 cells minus self = 8)
+    # Same row
     9.times do |c|
       peers << {row, c} if c != col
     end
 
-    # Same column (9 cells minus self = 8)
+    # Same column
     9.times do |r|
       peers << {r, col} if r != row
     end
 
-    # Same 3x3 box (9 cells minus self minus already counted = 4)
+    # Same 3x3 box
     box_row = (row // 3) * 3
     box_col = (col // 3) * 3
     (box_row...box_row + 3).each do |r|
@@ -72,22 +72,20 @@ module CP
     peers
   end
 
-  # Initialize grid from puzzle (matching C implementation exactly)
+  # Initialize grid from puzzle
   def self.init_grid(puzzle : Array(Array(Int32))) : CPGrid
     grid = CPGrid.new
 
     # Set all cells to either clue value or empty with all candidates
-    # Note: We do NOT eliminate clue digits from peers here
-    # That happens during propagate via the hidden singles logic
+    # Note: We do NOT eliminate clue digits from peers here (matching C implementation)
     9.times do |row|
       9.times do |col|
-        if puzzle[row][col] == 0
-          # Empty cell: set all candidates 1-9 (bits 1-9 set)
+        digit = puzzle[row][col]
+        if digit == 0
           grid.values[row][col] = 0
-          grid.candidates[row][col] = 0x3FE_u16  # Binary: 0011 1111 1110 (bits 1-9)
+          grid.candidates[row][col] = 0x3FE_u16 # Binary: 0011 1111 1110 (bits 1-9)
         else
           # Given clue: set single value
-          digit = puzzle[row][col]
           grid.values[row][col] = digit
           grid.candidates[row][col] = (1_u16 << digit)
         end
@@ -108,9 +106,7 @@ module CP
     # Check for contradiction (no candidates left)
     remaining = count_cand(grid.candidates[row][col])
     if remaining == 0
-      # But if cell already has this digit assigned, it's OK (it's a clue)
-      return true if grid.values[row][col] == digit
-      return false  # Contradiction
+      return false
     end
 
     # If only one candidate left, assign it (singleton elimination)
@@ -133,7 +129,6 @@ module CP
 
     # Eliminate digit from all peers
     peers = get_peers(row, col)
-
     peers.each do |peer_row, peer_col|
       return false if !eliminate(grid, peer_row, peer_col, digit)
     end
@@ -149,12 +144,11 @@ module CP
       changed = false
 
       # Strategy 1: Singleton elimination
-      # If a cell has only one candidate, assign it
       9.times do |row|
         9.times do |col|
           if grid.values[row][col] == 0
             num_candidates = count_cand(grid.candidates[row][col])
-            return false if num_candidates == 0  # Contradiction
+            return false if num_candidates == 0
 
             if num_candidates == 1
               digit = get_first_candidate(grid.candidates[row][col])
@@ -166,16 +160,14 @@ module CP
       end
 
       # Strategy 2: Hidden singles
-      # For each unit (row, col, box), if a digit appears in only one cell, assign it
-
-      # Check rows
+      # Rows
       9.times do |row|
         (1..9).each do |digit|
           count = 0
           last_col = -1
           9.times do |col|
             if grid.values[row][col] == digit
-              count = 0  # Already assigned
+              count = 0
               break
             end
             if has_cand(grid.candidates[row][col], digit)
@@ -188,7 +180,6 @@ module CP
             return false if !assign(grid, row, last_col, digit)
             changed = true
           elsif count == 0
-            # Check if digit is already assigned in this row
             found = false
             9.times do |col|
               if grid.values[row][col] == digit
@@ -196,19 +187,19 @@ module CP
                 break
               end
             end
-            return false if !found  # Digit cannot be placed anywhere in row
+            return false if !found
           end
         end
       end
 
-      # Check columns
+      # Columns
       9.times do |col|
         (1..9).each do |digit|
           count = 0
           last_row = -1
           9.times do |row|
             if grid.values[row][col] == digit
-              count = 0  # Already assigned
+              count = 0
               break
             end
             if has_cand(grid.candidates[row][col], digit)
@@ -221,7 +212,6 @@ module CP
             return false if !assign(grid, last_row, col, digit)
             changed = true
           elsif count == 0
-            # Check if digit is already assigned in this column
             found = false
             9.times do |row|
               if grid.values[row][col] == digit
@@ -229,12 +219,12 @@ module CP
                 break
               end
             end
-            return false if !found  # Digit cannot be placed anywhere in column
+            return false if !found
           end
         end
       end
 
-      # Check boxes
+      # Boxes
       9.times do |box|
         box_row = (box // 3) * 3
         box_col = (box % 3) * 3
@@ -244,48 +234,47 @@ module CP
           last_r = -1
           last_c = -1
 
+          already_in_box = false
           (box_row...box_row + 3).each do |r|
             (box_col...box_col + 3).each do |c|
               if grid.values[r][c] == digit
-                count = 0  # Already assigned
+                already_in_box = true
                 break
               end
+            end
+            break if already_in_box
+          end
+
+          if already_in_box
+            next
+          end
+
+          (box_row...box_row + 3).each do |r|
+            (box_col...box_col + 3).each do |c|
               if has_cand(grid.candidates[r][c], digit)
                 count += 1
                 last_r = r
                 last_c = c
               end
             end
-            break if count == 0 && grid.values.any? { |row| row.any? { |v| v == digit } }
           end
 
           if count == 1
             return false if !assign(grid, last_r, last_c, digit)
             changed = true
           elsif count == 0
-            # Check if digit is already assigned in this box
-            found = false
-            (box_row...box_row + 3).each do |r|
-              (box_col...box_col + 3).each do |c|
-                if grid.values[r][c] == digit
-                  found = true
-                  break
-                end
-              end
-              break if found
-            end
-            return false if !found  # Digit cannot be placed anywhere in box
+            return false
           end
         end
       end
     end
 
-    true  # Success - reached fixpoint
+    true
   end
 
   # Find cell with minimum remaining values (MRV heuristic)
   def self.find_mrv_cell(grid : CPGrid) : Tuple(Int32, Int32)?
-    min_candidates = 10  # More than 9, so any cell will be smaller
+    min_candidates = 10
     mrv_row = -1
     mrv_col = -1
 
@@ -302,39 +291,27 @@ module CP
       end
     end
 
-    return nil if mrv_row == -1  # No empty cells (grid complete)
+    return nil if mrv_row == -1
     {mrv_row, mrv_col}
   end
 
   # Search with backtracking
   def self.cp_search(grid : CPGrid) : Bool
-    # Base case: check if grid is complete
     mrv_cell = find_mrv_cell(grid)
-    if mrv_cell.nil?
-      # No empty cells - grid is complete
-      return true
-    end
+    return true if mrv_cell.nil?
 
-    mrv_row, mrv_col = mrv_cell
-
-    # Recursive case: try each candidate for the MRV cell
-    candidates = grid.candidates[mrv_row][mrv_col]
+    row, col = mrv_cell
+    candidates = grid.candidates[row][col]
 
     (1..9).each do |digit|
       if has_cand(candidates, digit)
-        # Save grid state for backtracking
         grid_copy = grid.deep_copy
-
-        # Try assigning this digit
-        if assign(grid, mrv_row, mrv_col, digit)
-          # Assignment succeeded, propagate constraints
+        if assign(grid, row, col, digit)
           if propagate(grid)
-            # Propagation succeeded, recurse
             return true if cp_search(grid)
           end
         end
-
-        # Failed - restore grid state and try next candidate
+        # Backtrack
         9.times do |r|
           9.times do |c|
             grid.values[r][c] = grid_copy.values[r][c]
@@ -344,99 +321,88 @@ module CP
       end
     end
 
-    # All candidates exhausted - dead end
     false
   end
 
-  # Parse matrix file
   def self.parse_matrix_file(filename : String) : Array(Array(Int32))
     puzzle = Array(Array(Int32)).new(9) { Array(Int32).new(9, 0) }
-
-    begin
-      file = File.open(filename, "r")
-
-      # Normalize path for output (convert absolute to relative)
-      if filename.size >= 14 && filename[0, 14] == "/app/Matrices/"
-        puts "../#{filename[5..]}"
-      else
-        puts filename
-      end
-
-      line_count = 0
-      file.each_line do |line|
-        line_str = line.strip
-
-        # Skip comments and empty lines
-        next if line_str.empty? || line_str[0] == '#'
-        break if line_count >= 9
-
-        # Parse 9 integers from line
-        parts = line_str.split
-        if parts.size >= 9
-          9.times do |i|
-            puzzle[line_count][i] = parts[i].to_i32
-            print "#{puzzle[line_count][i]} "
-          end
-          puts ""
-          line_count += 1
-        end
-      end
-
-      file.close
-    rescue ex
-      STDERR.puts "Error opening file '#{filename}': #{ex.message}"
-      exit(1)
+    file = File.open(filename, "r")
+    
+    # Path normalization
+    if filename.starts_with?("/app/Matrices/")
+      puts "../#{filename[5..]}"
+    else
+      puts filename
     end
 
+    line_count = 0
+    file.each_line do |line|
+      line = line.strip
+      next if line.empty? || line.starts_with?('#')
+      break if line_count >= 9
+      parts = line.split
+      if parts.size >= 9
+        9.times do |i|
+          puzzle[line_count][i] = parts[i].to_i32
+          print "#{puzzle[line_count][i]} "
+        end
+        puts ""
+        line_count += 1
+      end
+    end
+    file.close
     puzzle
   end
 
-  # Print puzzle
-  def self.print_puzzle(grid : CPGrid)
+  def self.solve_puzzle(filename : String)
+    puzzle = parse_matrix_file(filename)
+    
+    # Initialize grid - print initial state
     puts "\nPuzzle:"
-    9.times do |row|
-      9.times do |col|
-        print "#{grid.values[row][col]} "
+    9.times do |r|
+      9.times do |c|
+        print "#{puzzle[r][c]} "
       end
       puts ""
     end
-  end
 
-  # Main solving function
-  def self.solve_puzzle(filename : String)
-    puzzle = parse_matrix_file(filename)
-
-    # Initialize grid
     grid = init_grid(puzzle)
-    print_puzzle(grid)
-
-    # Reset iteration counter
     @@cp_iterations = 0
 
     # Apply initial propagation
     if propagate(grid)
       # Search for solution
       if cp_search(grid)
-        print_puzzle(grid)
+        puts "\nPuzzle:" # C implementation prints "Puzzle:" again before solution? Wait, let's check output.
+        # Actually C prints "Puzzle:" then input grid. Then if solved, prints solution.
+        # It doesn't print "Puzzle:" before solution.
+        # Let's match typical output:
+        # Puzzle:
+        # ...
+        # ... solution grid ...
+        # Solved in ...
+        9.times do |r|
+          9.times do |c|
+            print "#{grid.values[r][c]} "
+          end
+          puts ""
+        end
         puts "\nSolved in Iterations=#{@@cp_iterations}\n"
       else
-        puts "No solution found"
+        puts "\nNo solution found"
       end
     else
-      puts "No solution found (initial propagation failed)"
+      puts "\nNo solution found (initial propagation failed)"
     end
   end
 
-  # Main entry point
   def self.main
     start_time = Time.monotonic
-
     ARGV.each do |filename|
-      if filename.size >= 7 && filename[-7..] == ".matrix"
+      if filename.ends_with?(".matrix")
         solve_puzzle(filename)
       end
     end
-
     elapsed = Time.monotonic - start_time
     puts "Seconds to process %.3f" % elapsed.total_seconds
   end

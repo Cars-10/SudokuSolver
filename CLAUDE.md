@@ -105,7 +105,7 @@ The `runMe.sh` pattern:
 1. `runMe.sh` executes solver, captures timing/memory via Python subprocess wrapper in `common.sh`
 2. Results written to `Algorithms/BruteForce/{Language}/metrics.json` (or `Algorithms/DLX/{Language}/metrics.json` for DLX implementations)
 3. `generate_report_only.ts` aggregates all `metrics.json` files
-4. `HTMLGenerator.ts` produces `_report.html` with interactive visualizations
+4. `HTMLGenerator.ts` produces `index.html` with interactive visualizations
 
 ### Key TypeScript Files
 - `Metrics/types.ts` - `SolverMetrics` and `MetricResult` interfaces

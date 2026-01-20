@@ -3,7 +3,7 @@ cd "$(dirname "$0")"
 LANGUAGE="PowerShell"
 SOLVER_BINARY="pwsh cp.ps1"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 source ../../common.sh
 
 # Fix for CP directory structure: use ../../../Matrices instead of ../../Matrices

@@ -3,7 +3,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Wren"
 SOLVER_BINARY="wren_cli dlx.wren"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 source ../../common.sh
 
 compile() {

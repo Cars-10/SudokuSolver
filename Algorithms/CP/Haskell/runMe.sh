@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Haskell"
 SOLVER_BINARY="./cp"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

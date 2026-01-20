@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Kotlin"
 SOLVER_BINARY="java -jar Sudoku.jar"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300  # 5 minutes
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"  # 5 minutes
 
 # Setup Java environment (macOS Homebrew)
 if [ -d "/opt/homebrew/opt/openjdk" ]; then

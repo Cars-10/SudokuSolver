@@ -74,7 +74,7 @@ The **Benchmark Report (BR)** is a high-performance, single-file HTML report gen
 | Abbreviation | Term | Description |
 | :--- | :--- | :--- |
 | **SS** | Sudoku Solver | The overall project name. |
-| **BR** | Benchmark Report | The `benchmark_report.html` output file. |
+| **BR** | Benchmark Report | The `index.html` output file. |
 | **RP** | Red Pill | The "Matrix" theme/mode/easter egg. Also refers to the "wake up" philosophy. |
 | **TDD** | Test Driven Development | In our context: "Write code until Matrix 1 runs." |
 | **HTMLGen** | HTMLGenerator.ts | The script that builds the BR. |

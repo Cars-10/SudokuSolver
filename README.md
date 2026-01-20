@@ -158,7 +158,7 @@ cd Algorithms/BruteForce/C
 # Generate HTML report
 cd Metrics
 npx ts-node generate_report_only.ts
-open ../_report.html
+open ../index.html
 ```
 
 ### Starting the Web Server
@@ -220,7 +220,7 @@ SudokuSolver/
 ├── benchmark_config.json  # Language configuration
 ├── session_state.json     # UI state persistence
 ├── docker-compose.yml     # Docker configuration
-└── _report.html          # Generated benchmark report
+└── index.html          # Generated benchmark report
 ```
 
 ### Data Flow
@@ -228,7 +228,7 @@ SudokuSolver/
 1. **Execution**: `runMe.sh` → Solver → Output
 2. **Metrics Capture**: Python wrapper → `metrics.json`
 3. **Aggregation**: `generate_report_only.ts` → Collect all `metrics.json` files
-4. **Report Generation**: `HTMLGenerator.ts` → `_report.html`
+4. **Report Generation**: `HTMLGenerator.ts` → `index.html`
 5. **Web Serving**: Express server → Browser
 
 ### Language Implementation Pattern
@@ -309,7 +309,7 @@ cd Metrics
 npx ts-node generate_report_only.ts
 
 # View report
-open ../_report.html
+open ../index.html
 
 # Generate and serve
 ./runBenchmarks.sh --report
@@ -491,20 +491,46 @@ Seconds to process X.XXX
 
 ## Performance Metrics
 
-### What We Measure
+### 🏆 Scoring System (Composite Score)
 
-- **Time**: Wall clock execution time (milliseconds)
-- **Iterations**: Algorithm fingerprint (must match reference)
-- **Memory**: Peak resident set size (bytes)
-- **CPU User Time**: Time spent in user mode (milliseconds)
-- **CPU System Time**: Time spent in kernel mode (milliseconds)
-- **Page Faults Major**: Faults requiring disk I/O
-- **Page Faults Minor**: Faults satisfied from cache
-- **Context Switches Voluntary**: Process yielded CPU
-- **Context Switches Involuntary**: Process preempted
-- **I/O Operations**: Input and output operation counts
+The project uses a **Weighted Geometric Mean** to calculate a single "Composite Score" (Ψ) for each language. This method is an industry standard (used by SPEC and Geekbench) as it prevents outliers from dominating the results and rewards balanced performance.
 
-### Compiler Variants
+#### The Formula
+Ψ = exp(Σ wᵢ · ln(ρᵢ))
+
+Where:
+- **ρᵢ**: The ratio of the language's metric to the C baseline (Valueₗₐₙg / Value꜀).
+- **wᵢ**: The weight assigned to that metric (must sum to 1.0).
+
+#### Default Weights
+By default, the system emphasizes execution time over memory usage:
+- **Time Weight (wₜ)**: 0.8 (80%)
+- **Memory Weight (wₘ)**: 0.2 (20%)
+
+#### Admin UI & Configurability
+Scoring weights are **persistent and configurable**. Developers can adjust these weights in real-time through the **Methodology Modal** in the web interface. Changes are saved to `benchmark_config.json` and trigger an automated report regeneration to reflect the new rankings.
+
+#### Interpretation
+- **Ψ = 1.0**: Parity with C (the baseline).
+- **Ψ < 1.0**: Outperforms C (lower is better).
+- **Ψ > 1.0**: Underperforms C.
+
+### 📊 What We Measure
+
+Each benchmark run captures:
+
+- **Execution Time**: Wall clock execution time (milliseconds).
+- **Iteration Count**: Algorithm fingerprint (must match reference).
+- **Memory**: Peak resident set size (bytes).
+- **CPU User Time**: Time spent in user mode (milliseconds).
+- **CPU System Time**: Time spent in kernel mode (milliseconds).
+- **Page Faults Major**: Faults requiring disk I/O.
+- **Page Faults Minor**: Faults satisfied from cache.
+- **Context Switches Voluntary**: Process yielded CPU.
+- **Context Switches Involuntary**: Process preempted.
+- **I/O Operations**: Input and output operation counts.
+
+### 🛠️ Compiler Variants
 
 Test different optimization levels:
 

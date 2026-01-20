@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Ada"
 SOLVER_BINARY="./dlx"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

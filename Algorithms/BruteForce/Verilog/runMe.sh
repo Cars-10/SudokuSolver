@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Verilog"
 SOLVER_BINARY="./run_verilog.sh"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

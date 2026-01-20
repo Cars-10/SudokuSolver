@@ -1,21 +1,18 @@
 # Architecture
 
-## High-Level Design
-The system is a **Polyglot Benchmarking Harness**. It executes identical algorithms across different runtime environments to measure raw performance overhead.
+## High-Level Flow
+1. **Execution**: `runMeGlobal.sh` or `runBenchmarks.sh` orchestrates solver runs.
+2. **Timing**: Solvers are timed using `/usr/bin/time` or internal logic via `common.sh`.
+3. **Data Collection**: `gather_metrics.ts` scans language directories for `metrics.json`.
+4. **Synthesis**: `HTMLGenerator.ts` compiles metrics, metadata, and history into `_report.html`.
+5. **Presentation**: A single-file HTML dashboard with embedded CSS/JS.
 
-### Data Flow
-1. **Input:** `runMeGlobal.sh` accepts Language and Matrix arguments.
-2. **Execution:** Invokes `Languages/[Lang]/runMe.sh`.
-3. **Algorithm:** The solver reads `Matrices/[N].matrix`, solves via **Recursive Backtracking**, and prints results to `stdout`.
-4. **Capture:** `Languages/common.sh` wraps execution, capturing start/end times and valid output.
-5. **Persistence:** Metrics are written to `Languages/[Lang]/metrics.json`.
-6. **Aggregation:** `Metrics/` scripts aggregate JSON files into a consolidated report.
+## Component Boundaries
+- **Solvers**: Isolated processes that read `.matrix` files and output standard format strings.
+- **Orchestrator**: Bash scripts managing the lifecycle of solver execution.
+- **Metrics Engine**: Decoupled from solvers, processes JSON artifacts.
+- **Content Server**: Optional local service for logo management and UI interactions.
 
-## Design Patterns
-- **Template Method:** All languages implement the exact same logic; `common.sh` provides the "template" for execution.
-- **Strategy Pattern:** Each `Language/` directory is a strategy for solving the problem.
-- **Pipes and Filters:** Unix-style composition of input files, execution, and output processing.
-
-## Key Constraints
-- **Algorithmic Purity:** Implementations must use brute-force backtracking. No heuristics (DLX/Algorithm X) allowed in the main benchmark.
-- **IO Isolation:** Timing excludes compilation and interpreter startup where possible (handled by `common.sh`).
+## Data Flow
+- `Matrices/*.matrix` -> `Solver (Process)` -> `metrics.json`
+- `metrics.json` + `Algorithms/metadata.json` + `benchmark_history.db` -> `HTMLGenerator` -> `_report.html`

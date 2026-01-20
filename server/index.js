@@ -6,16 +6,12 @@ const { exec } = require('child_process');
 const os = require('os');
 
 const app = express();
+const isRunningInDocker = false;
 
-// Detect if running inside Docker
-const isRunningInDocker = fs.existsSync('/.dockerenv') ||
-    (fs.existsSync('/proc/1/cgroup') && fs.readFileSync('/proc/1/cgroup', 'utf8').includes('docker'));
-const hostPlatform = os.platform(); // 'darwin' for macOS, 'linux' for Linux/Docker
+// Use default port 9002 for local host
+const port = process.env.PORT || 9002;
 
-// Use different default ports: 9001 for Docker, 9002 for local host
-const port = process.env.PORT || (isRunningInDocker ? 9001 : 9002);
-
-console.log(`Server environment: ${isRunningInDocker ? 'Docker container' : 'Host'} (${hostPlatform})`);
+console.log(`Server running on Host (${os.platform()})`);
 
 app.use(cors());
 app.use(express.json());
@@ -28,7 +24,7 @@ app.use(express.static(path.join(__dirname, '.')));
 
 // Serve the Benchmark Report at Root
 app.get('/', (req, res) => {
-    const reportPath = path.join(__dirname, '../_report.html');
+    const reportPath = path.join(__dirname, '../index.html');
     if (fs.existsSync(reportPath)) {
         res.sendFile(reportPath);
     } else {
@@ -73,8 +69,21 @@ app.use('/js', express.static(path.join(__dirname, '../Metrics')));
 app.use('/css', express.static(path.join(__dirname, '../Metrics')));
 app.use('/Metrics', express.static(path.join(__dirname, '../Metrics')));
 
-// Serve logos directory
-app.use('/logos', express.static(path.join(__dirname, '../logos')));
+// Serve language media assets
+app.get('/media/:lang/:file', (req, res) => {
+    const { lang, file } = req.params;
+    // Basic sanitization
+    const safeLang = normalizeLanguageName(lang).replace(/[^a-zA-Z0-9_#+\-\.]/g, '');
+    const safeFile = file.replace(/[^a-zA-Z0-9_.\-]/g, '');
+    
+    const filePath = path.join(__dirname, '../Algorithms/BruteForce', safeLang, 'Media', safeFile);
+    
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('Media not found');
+    }
+});
 
 const LANGUAGES_DIR = path.join(__dirname, '../Algorithms/BruteForce');
 const MATRICES_DIR = path.join(__dirname, '../Matrices');
@@ -308,9 +317,10 @@ app.get('/api/metadata/:lang', (req, res) => {
 // Get Solver Source Code
 app.get('/api/source/:lang', (req, res) => {
     const lang = decodeURIComponent(req.params.lang);
-    const langDir = path.join(__dirname, '..', 'Algorithms', 'BruteForce', lang);
+    const algo = req.query.algorithm || 'BruteForce';
+    const langDir = path.join(__dirname, '..', 'Algorithms', algo, lang);
 
-    console.log(`[Source API] Requested: ${lang}, Path: ${langDir}, Docker: ${isRunningInDocker}`);
+    console.log(`[Source API] Requested: ${lang} (${algo}), Path: ${langDir}, Docker: ${isRunningInDocker}`);
 
     if (!fs.existsSync(langDir)) {
         console.error(`[Source API] Directory not found: ${langDir}`);
@@ -318,9 +328,33 @@ app.get('/api/source/:lang', (req, res) => {
     }
 
     try {
-        // Find the solver file (Sudoku.* pattern)
+        // Find the solver file
         const files = fs.readdirSync(langDir);
-        const solverFile = files.find(f => f.startsWith('Sudoku.') && !f.endsWith('.class') && !f.endsWith('.o') && !f.endsWith('.beam'));
+        let solverFile;
+        
+        const lowerAlgo = algo.toLowerCase();
+        
+        solverFile = files.find(f => {
+            const lower = f.toLowerCase();
+            // Ignore artifacts
+            if (f.endsWith('.class') || f.endsWith('.o') || f.endsWith('.beam') || f.endsWith('.exe') || f.endsWith('.dll') || f.endsWith('.jar')) return false;
+            if (f === 'runMe.sh' || f === 'metrics.json' || f === 'README.md' || f === 'common.sh') return false;
+            if (f.startsWith('.')) return false;
+
+            if (algo === 'BruteForce') return lower.startsWith('sudoku.');
+            if (algo === 'DLX') return lower.includes('dlx') && !lower.includes('test');
+            if (algo === 'CP') return lower.includes('cp') && !lower.includes('test');
+            return false;
+        });
+        
+        // Fallback
+        if (!solverFile) {
+             const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs'];
+             solverFile = files.find(f => {
+                const ext = path.extname(f).toLowerCase();
+                return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
+             });
+        }
 
         if (!solverFile) {
             console.error(`[Source API] Solver file not found in: ${langDir}, files: ${files.join(', ')}`);
@@ -328,11 +362,52 @@ app.get('/api/source/:lang', (req, res) => {
         }
 
         const filePath = path.join(langDir, solverFile);
+        
+        // Check file size
+        const stats = fs.statSync(filePath);
+        if (stats.size > 1024 * 1024) { // 1MB limit
+            console.warn(`[Source API] File too large: ${filePath} (${stats.size} bytes)`);
+            return res.json({ 
+                filename: solverFile, 
+                source: `// Source file is too large to display (${(stats.size / 1024 / 1024).toFixed(2)} MB).\n// File: ${solverFile}` 
+            });
+        }
+
         const source = fs.readFileSync(filePath, 'utf8');
         console.log(`[Source API] Success: ${filePath} (${source.length} bytes)`);
         res.json({ filename: solverFile, source: source });
     } catch (e) {
         console.error("[Source API] Error reading source:", e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get Solver Readme
+app.get('/api/readme/:lang', (req, res) => {
+    const lang = decodeURIComponent(req.params.lang);
+    const algo = req.query.algorithm || 'BruteForce';
+    const langDir = path.join(__dirname, '..', 'Algorithms', algo, lang);
+
+    if (!fs.existsSync(langDir)) {
+        return res.status(404).json({ error: 'Language not found' });
+    }
+
+    const readmePath = path.join(langDir, 'README.md');
+    if (!fs.existsSync(readmePath)) {
+        return res.status(404).json({ error: 'README.md not found' });
+    }
+
+    try {
+        const stats = fs.statSync(readmePath);
+        if (stats.size > 1024 * 1024) {
+            return res.json({ 
+                filename: 'README.md', 
+                source: `// README file is too large to display (${(stats.size / 1024 / 1024).toFixed(2)} MB).` 
+            });
+        }
+        const source = fs.readFileSync(readmePath, 'utf8');
+        res.json({ filename: 'README.md', source: source });
+    } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
@@ -566,6 +641,42 @@ app.post('/api/generate-report', (req, res) => {
 });
 
 const SESSION_FILE = path.join(__dirname, '../session_state.json');
+const CONFIG_FILE = path.join(__dirname, '../benchmark_config.json');
+
+// Get Benchmark Config
+app.get('/api/config', (req, res) => {
+    try {
+        if (fs.existsSync(CONFIG_FILE)) {
+            const data = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+            res.json(data);
+        } else {
+            res.status(404).json({ error: 'Config file not found' });
+        }
+    } catch (error) {
+        console.error('Error reading config:', error);
+        res.status(500).json({ error: 'Failed to read config' });
+    }
+});
+
+// Save Benchmark Config
+app.post('/api/config', (req, res) => {
+    try {
+        const config = req.body;
+        // Basic validation: ensure scoring_weights exists if we're updating it
+        if (config.scoring_weights) {
+            const weights = config.scoring_weights;
+            const total = (weights.time || 0) + (weights.memory || 0);
+            // We don't strictly enforce 1.0 here yet, but we could
+            console.log(`Updating scoring weights: Time=${weights.time}, Memory=${weights.memory}`);
+        }
+
+        fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error saving config:', error);
+        res.status(500).json({ error: 'Failed to save config' });
+    }
+});
 
 // Get Session State
 app.get('/api/session-state', (req, res) => {

@@ -161,7 +161,7 @@ case "$1" in
     --report)
         echo -e "${BLUE}Generating benchmark report...${NC}"
         (cd Metrics && npx ts-node generate_report_only.ts)
-        echo -e "${GREEN}✓ Report generated: _report.html${NC}"
+        echo -e "${GREEN}✓ Report generated: index.html${NC}"
         ;;
     --pending)
         echo -e "${YELLOW}Running all pending languages...${NC}"

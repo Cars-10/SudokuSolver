@@ -271,7 +271,7 @@ export const SharedStyles = `
         .modal .modal-content {
             /* Box Model - Fixed sizing for width consistency */
             box-sizing: border-box;
-            width: 900px;
+            width: 800px;
             max-width: 90vw;
             max-height: 90vh;
 
@@ -529,13 +529,13 @@ export const SharedStyles = `
             position: fixed;
             display: none;
             background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
-            border: 1px solid #414868;
+            border: 1px solid #00ff9d;
             border-radius: 8px;
             padding: 12px 16px;
             color: #c0caf5;
             font-size: 14px;
             line-height: 1.6;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.2), 0 8px 32px rgba(0, 0, 0, 0.6);
             z-index: 9999;
             pointer-events: none;
             max-width: 300px;

@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Groovy"
 SOLVER_BINARY="./dlx_solver"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

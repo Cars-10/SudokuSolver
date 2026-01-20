@@ -37,26 +37,28 @@ Object subclass: CPSolver [
 
     getPeers: idx [
         | peers r c boxR boxC |
-        peers := Set new.
+        peers := OrderedCollection new.
         r := (idx - 1) // 9.
         c := (idx - 1) \\ 9.
+        "Row peers"
         0 to: 8 do: [:i |
-            | ri ci |
-            ri := (self idx: r col: i).
-            ci := (self idx: i col: c).
-            ri ~= idx ifTrue: [peers add: ri].
-            ci ~= idx ifTrue: [peers add: ci].
+            i ~= c ifTrue: [peers add: (self idx: r col: i)].
         ].
+        "Column peers"
+        0 to: 8 do: [:i |
+            i ~= r ifTrue: [peers add: (self idx: i col: c)].
+        ].
+        "Box peers"
         boxR := (r // 3) * 3.
         boxC := (c // 3) * 3.
         boxR to: boxR + 2 do: [:br |
             boxC to: boxC + 2 do: [:bc |
-                | bi |
-                bi := (self idx: br col: bc).
-                (br ~= r or: [bc ~= c]) ifTrue: [peers add: bi].
+                (br ~= r and: [bc ~= c]) ifTrue: [
+                    peers add: (self idx: br col: bc).
+                ].
             ].
         ].
-        ^peers asArray
+        ^peers
     ]
 
     eliminate: idx digit: d [

@@ -16,7 +16,7 @@ fi
 LANGUAGE="Wren"
 SOLVER_BINARY="$WREN_CMD Sudoku.wren"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 
