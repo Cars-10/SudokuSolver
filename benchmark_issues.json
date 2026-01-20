@@ -5,5 +5,13 @@
     "timestamp": "2026-01-20T13:55:58Z",
     "status": "env_error",
     "output": "This is a test error from nested dir"
+  },
+  {
+    "solver": "TestFail",
+    "runType": "automated",
+    "timestamp": "2026-01-20T14:55:16Z",
+    "status": "error",
+    "matrix": "1",
+    "output": "Matrix 1 failed: error (Exit code 1)"
   }
 ]

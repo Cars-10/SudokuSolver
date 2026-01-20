@@ -815,10 +815,10 @@ window.renderAuthorList = function () {
 
     currentMetadata.authors.forEach((auth, idx) => {
         const div = document.createElement('div');
-        div.className = 'author-item';
+        div.className = 'sidebar-box author-item';
         div.innerHTML = `
-            <div class="modal-img-container" style="width: 150px; height: 150px; position: relative; border-radius: 4px; overflow: hidden; margin-bottom: 5px;">
-                <img src="${auth.image || ''}" class="author-img" id="author-img-${idx}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+            <div class="sidebar-img-container">
+                <img src="${auth.image || ''}" class="sidebar-img author-img" id="author-img-${idx}">
                 <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 2px; font-size: 0.6em; cursor: pointer; color: #fff;" onclick="handleAuthorImageChange(${idx}, event)">
                     Change
                 </div>
@@ -2110,75 +2110,7 @@ window.restoreUIState = function() {
     }
 };
 
-// Hook into events
-window.addEventListener('beforeunload', window.saveUIState);
-// Throttle scroll save? Or just save on unload. Unload is sufficient for "refresh".
-// But "location I'm looking at" implies scroll position.
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Status
-    const rows = document.querySelectorAll('tbody tr');
-    rows.forEach(row => {
-        const lang = row.getAttribute('data-lang');
-        const iters = parseInt(row.getAttribute('data-iters') || "0");
-        let status = 'Init';
-        if (iters > 0) status = 'Ready';
-        window.languageStatus[lang] = status;
-    });
-
-    // Load states
-    if (typeof window.loadSessionState === 'function') window.loadSessionState();
-    if (typeof window.applyTableVisibility === 'function') window.applyTableVisibility();
-    if (typeof window.updateRunButtonsForLockState === 'function') window.updateRunButtonsForLockState();
-    if (typeof window.updateSolverStats === 'function') window.updateSolverStats();
-
-    // Attach Score Column Click Handlers
-    document.querySelectorAll('.score-col').forEach(cell => {
-        cell.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const row = cell.closest('tr');
-            const lang = row?.getAttribute('data-lang');
-            if (lang) {
-                if (typeof window.openScoreModal === 'function') {
-                    window.openScoreModal(lang);
-                } else {
-                    console.error("openScoreModal function not found");
-                }
-            }
-        });
-        cell.style.cursor = 'pointer';
-    });
-
-    // Wait a tick for other initializations then restore UI prefs
-    setTimeout(window.restoreUIState, 100);
-});
-
-// Update persistence in specific actions
-const originalSwitchChart = window.switchChart;
-window.switchChart = function(type) {
-    if (originalSwitchChart) originalSwitchChart(type);
-    window.saveUIState();
-};
-
-const originalToggleMismatches = window.toggleMismatches;
-window.toggleMismatches = function() {
-    if (originalToggleMismatches) originalToggleMismatches();
-    window.saveUIState();
-};
-
-const originalToggleLogoMode = window.toggleLogoMode;
-window.toggleLogoMode = function(btn) {
-    if (originalToggleLogoMode) originalToggleLogoMode(btn);
-    window.saveUIState();
-};
-
-const originalChangePersonality = window.changePersonality;
-window.changePersonality = function() {
-    if (originalChangePersonality) originalChangePersonality();
-    window.saveUIState();
-};
 
 
 
@@ -2280,7 +2212,7 @@ window.verifyLanguage = async function (lang) {
 
 // Start
 // populateLanguageSelector(); // Don't auto-populate on load, wait for click
-initializeStatus();
+// initializeStatus(); // Removed - handled in DOMContentLoaded at end of file
 
 // --- D3.js Chart Implementation ---
 (function () {
@@ -5069,6 +5001,15 @@ window.openScoreModal = function(lang) {
     // Get score and tier from row
     const score = parseFloat(row.getAttribute('data-score')) || 0;
     const tier = row.getAttribute('data-tier') || 'F';
+    
+    const tierColors = {
+        'S': '#ffd700', // Gold
+        'A': '#00ff9d', // Green
+        'B': '#00b8ff', // Blue (matches CSS)
+        'C': '#e0e0e0', // White/Grey (matches CSS)
+        'D': '#ffaa00', // Orange (matches CSS)
+        'F': '#ff0055'  // Red
+    };
     const tierColor = tierColors[tier] || tierColors['F'];
 
     // Get breakdown data
@@ -5116,7 +5057,7 @@ window.openScoreModal = function(lang) {
 
     document.getElementById('scoreTimeRatio').textContent = timeRatio ? timeRatio.value.toFixed(2) + 'x' : '-';
     document.getElementById('scoreMemRatio').textContent = memRatio ? memRatio.value.toFixed(2) + 'x' : '-';
-
+    document.getElementById('scoreCpuRatio').textContent = cpuRatio ? cpuRatio.value.toFixed(2) + 'x' : '-';
 
     // Admin: Populate weights
     if (typeof benchmarkConfig !== 'undefined' && benchmarkConfig.scoring_weights) {
@@ -5500,22 +5441,7 @@ window.onVariantSelect = async function(variant) {
     }
 };
 
-// Add click handler for score cells
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.score-col').forEach(cell => {
-        cell.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
 
-            const row = cell.closest('tr');
-            const lang = row?.getAttribute('data-lang');
-            if (lang) {
-                window.openScoreModal(lang);
-            }
-        });
-        cell.style.cursor = 'pointer';
-    });
-});
 
 window.saveWeights = async function() {
     const time = parseFloat(document.getElementById('weight-time').value) || 0;
@@ -5547,5 +5473,74 @@ window.saveWeights = async function() {
         console.error(e);
         alert('Error saving weights');
     }
+};
+
+// Hook into events
+window.addEventListener('beforeunload', window.saveUIState);
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Status
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const lang = row.getAttribute('data-lang');
+        const iters = parseInt(row.getAttribute('data-iters') || "0");
+        let status = 'Init';
+        if (iters > 0) status = 'Ready';
+        window.languageStatus[lang] = status;
+    });
+
+    // Load states
+    if (typeof window.loadSessionState === 'function') window.loadSessionState();
+    if (typeof window.applyTableVisibility === 'function') window.applyTableVisibility();
+    if (typeof window.updateRunButtonsForLockState === 'function') window.updateRunButtonsForLockState();
+    if (typeof window.updateSolverStats === 'function') window.updateSolverStats();
+
+    // Attach Score Column Click Handlers
+    document.querySelectorAll('.score-col').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const row = cell.closest('tr');
+            const lang = row?.getAttribute('data-lang');
+            if (lang) {
+                if (typeof window.openScoreModal === 'function') {
+                    window.openScoreModal(lang);
+                } else {
+                    console.error("openScoreModal function not found");
+                }
+            }
+        });
+        cell.style.cursor = 'pointer';
+    });
+
+    // Wait a tick for other initializations then restore UI prefs
+    setTimeout(window.restoreUIState, 100);
+});
+
+// Update persistence in specific actions
+// Check if originals are already captured to avoid double-wrapping if re-run
+if (!window.originalSwitchChart) window.originalSwitchChart = window.switchChart;
+window.switchChart = function(type) {
+    if (window.originalSwitchChart) window.originalSwitchChart(type);
+    window.saveUIState();
+};
+
+if (!window.originalToggleMismatches) window.originalToggleMismatches = window.toggleMismatches;
+window.toggleMismatches = function() {
+    if (window.originalToggleMismatches) window.originalToggleMismatches();
+    window.saveUIState();
+};
+
+if (!window.originalToggleLogoMode) window.originalToggleLogoMode = window.toggleLogoMode;
+window.toggleLogoMode = function(btn) {
+    if (window.originalToggleLogoMode) window.originalToggleLogoMode(btn);
+    window.saveUIState();
+};
+
+if (!window.originalChangePersonality) window.originalChangePersonality = window.changePersonality;
+window.changePersonality = function() {
+    if (window.originalChangePersonality) window.originalChangePersonality();
+    window.saveUIState();
 };
 

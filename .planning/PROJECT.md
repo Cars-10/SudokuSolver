@@ -19,22 +19,25 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - ✓ Cleaned up UI (Run buttons removed) — v1
 - ✓ Robust Matrix Race fullscreen (screenfull) — v1
 - ✓ Aligned metadata & documentation — v1
+- ✓ Wikipedia metadata scraper for automated data extraction — v2
+- ✓ Enhanced language descriptions with encyclopedic content — v2
+- ✓ Author attribution with biographical metadata — v2
+- ✓ Media cleanup automation — v2
 
 ### Active
 - [ ] Define algorithmic fingerprinting scoring (based on iteration counts)
 - [ ] Implement "Zen Mode" toggle for simplified viewing
-- [ ] Embellish and refine language metadata
-
-### Out of Scope
 - [ ] Non-brute-force optimizations (DLX, constraint propagation) — must maintain algorithmic purity for benchmark fairness
-- [ ] Remote/Docker execution for this milestone — focusing on local performance and UI refinement
+- [ ] Remote/Docker execution — focusing on local performance and UI refinement
 
 ## Context
 - The project uses a Neon dark mode visual theme.
 - Solvers are implemented in a wide variety of "Tier 1" and esoteric languages.
-- Current UI issues include sticky fullscreen modes and cluttered cell interactions.
 - Performance data is stored in SQLite and JSON formats.
-- **Shipped v1**: Scoring engine, UI cleanup, and metadata alignment complete.
+- **Shipped v1**: Scoring engine, UI cleanup, and metadata alignment complete (2026-01-20).
+- **Shipped v2**: Wikipedia-powered metadata automation with enhanced language descriptions and author attribution (2026-01-20).
+- Python tooling pipeline established for metadata extraction and enrichment.
+- Media folder contains curated images for 70+ languages.
 
 ## Constraints
 - **Algorithmic**: Standard recursive backtracking — Required for fair comparison across all languages.
@@ -46,8 +49,10 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Local Execution Focus | User specified ignoring docker commands for now to focus on local refinements. | — Pending |
-| Scored Ranking | Moving from raw metrics to a weighted score to provide a "best" ranking. | — Pending |
+| Scored Ranking | Moving from raw metrics to a weighted score to provide a "best" ranking. | ✓ v1 |
 | 80/20 Scoring | Weighted Time (80%) and Memory (20%) for score calculation. | ✓ v1 |
+| Wikipedia Integration | Automate metadata extraction using Wikipedia API to maintain consistency and reduce manual effort. | ✓ v2 |
+| Media Cleanup | Remove obsolete timestamped images, keeping only curated/logo images. | ✓ v2 |
 
 ---
-*Last updated: 2026-01-20 after v1 milestone*
+*Last updated: 2026-01-20 after v2 milestone*

@@ -10,7 +10,7 @@
             "authors": [
                 {
                     "name": "Jean Ichbiah",
-                    "image": "Languages/Ada/Media/Ada_1766231197722.png"
+                    "image": "Algorithms/BruteForce/Ada/Media/Ada_1766231197722.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:13:57.114Z",
@@ -28,7 +28,7 @@
             "authors": [
                 {
                     "name": "Nenad Rakocevic",
-                    "image": "Languages/Red/Media/Red_1766232948029.png"
+                    "image": "Algorithms/BruteForce/Red/Media/Red_1766232948029.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:49:06.347Z",
@@ -47,7 +47,7 @@
             "authors": [
                 {
                     "name": "Kathleen Booth",
-                    "image": "Languages/Assembly/Media/Assembly_1766233131381.png"
+                    "image": "Algorithms/BruteForce/Assembly/Media/Assembly_1766233131381.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:19:02.893Z",
@@ -65,11 +65,11 @@
             "authors": [
                 {
                     "name": "John G. Kemeny",
-                    "image": "Languages/BASIC/Media/BASIC_1766233247366.png"
+                    "image": "Algorithms/BruteForce/BASIC/Media/BASIC_1766233247366.png"
                 },
                 {
                     "name": "Thomas E. Kurtz",
-                    "image": "Languages/BASIC/Media/BASIC_1766233291157.png"
+                    "image": "Algorithms/BruteForce/BASIC/Media/BASIC_1766233291157.png"
                 }
             ],
             "lastUpdated": "2026-01-13T14:30:12.077Z",
@@ -77,7 +77,7 @@
             "history": "1964. Brought programming to the masses.",
             "paradigm": "Procedural, imperative",
             "typeSystem": "Static (mostly), Weak",
-            "image": "Languages/BASIC/Media/BASIC_logo.png"
+            "image": "Algorithms/BruteForce/BASIC/Media/BASIC_logo.png"
         },
         "VisualBasic": {
             "creator": "Microsoft (Alan Cooper)",
@@ -89,7 +89,7 @@
             "authors": [
                 {
                     "name": "Microsoft (Alan Cooper)",
-                    "image": "Languages/VisualBasic/Media/VisualBasic_1766233459591.png"
+                    "image": "Algorithms/BruteForce/VisualBasic/Media/VisualBasic_1766233459591.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:25:10.894Z",
@@ -107,7 +107,7 @@
             "authors": [
                 {
                     "name": "David Korn",
-                    "image": "Languages/Ksh/Media/Ksh_1766233640986.png"
+                    "image": "Algorithms/BruteForce/Ksh/Media/Ksh_1766233640986.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:33:47.601Z",
@@ -143,7 +143,7 @@
             "authors": [
                 {
                     "name": "John Ousterhout",
-                    "image": "Languages/Tcl/Media/Tcl_1766234168095.png"
+                    "image": "Algorithms/BruteForce/Tcl/Media/Tcl_1766234168095.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:05:59.708Z",
@@ -162,15 +162,15 @@
             "authors": [
                 {
                     "name": "Alfred Aho",
-                    "image": "Languages/Awk/Media/Awk_1766234340958.png"
+                    "image": "Algorithms/BruteForce/Awk/Media/Awk_1766234340958.png"
                 },
                 {
                     "name": "Peter Weinberger",
-                    "image": "Languages/Awk/Media/Awk_1766234371636.png"
+                    "image": "Algorithms/BruteForce/Awk/Media/Awk_1766234371636.png"
                 },
                 {
                     "name": "Brian Kernighan",
-                    "image": "Languages/Awk/Media/Awk_1766234413850.png"
+                    "image": "Algorithms/BruteForce/Awk/Media/Awk_1766234413850.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:40:51.762Z",
@@ -188,7 +188,7 @@
             "authors": [
                 {
                     "name": "Phil Moorby",
-                    "image": "Languages/Verilog/Media/Verilog_1766234478715.png"
+                    "image": "Algorithms/BruteForce/Verilog/Media/Verilog_1766234478715.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:42:02.069Z",
@@ -207,15 +207,15 @@
             "authors": [
                 {
                     "name": "Alan Kay",
-                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234558182.png"
+                    "image": "Algorithms/BruteForce/Smalltalk/Media/Smalltalk_1766234558182.png"
                 },
                 {
                     "name": "Dan Ingalls",
-                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234610616.png"
+                    "image": "Algorithms/BruteForce/Smalltalk/Media/Smalltalk_1766234610616.png"
                 },
                 {
                     "name": "Adele Goldberg",
-                    "image": "Languages/Smalltalk/Media/Smalltalk_1766234692083.png"
+                    "image": "Algorithms/BruteForce/Smalltalk/Media/Smalltalk_1766234692083.png"
                 }
             ],
             "lastUpdated": "2026-01-12T12:51:05.031Z",
@@ -234,7 +234,7 @@
             "authors": [
                 {
                     "name": "Dennis Ritchie",
-                    "image": "Languages/C/Media/C_1766234736784.png"
+                    "image": "Algorithms/BruteForce/C/Media/C_1766234736784.png"
                 }
             ],
             "lastUpdated": "2025-12-24T17:04:21.809Z",
@@ -252,7 +252,7 @@
             "authors": [
                 {
                     "name": "Alexander Medvednikov",
-                    "image": "Languages/V/Media/V_1766234939239.png"
+                    "image": "Algorithms/BruteForce/V/Media/V_1766234939239.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:49:54.877Z",
@@ -270,11 +270,11 @@
             "authors": [
                 {
                     "name": "Brad Cox",
-                    "image": "Languages/Objective-C/Media/Objective-C_1766235044391.png"
+                    "image": "Algorithms/BruteForce/Objective-C/Media/Objective-C_1766235044391.png"
                 },
                 {
                     "name": "Tom Love",
-                    "image": "Languages/Objective-C/Media/Objective-C_1766235102093.png"
+                    "image": "Algorithms/BruteForce/Objective-C/Media/Objective-C_1766235102093.png"
                 }
             ],
             "lastUpdated": "2026-01-12T15:47:40.185Z",
@@ -293,7 +293,7 @@
             "authors": [
                 {
                     "name": "Andrew Kelley",
-                    "image": "Languages/Zig/Media/Zig_1766235184332.png"
+                    "image": "Algorithms/BruteForce/Zig/Media/Zig_1766235184332.png"
                 }
             ],
             "lastUpdated": "2025-12-20T12:53:05.078Z",
@@ -311,11 +311,11 @@
             "authors": [
                 {
                     "name": "Robert Morris",
-                    "image": "Languages/Dc/Media/Dc_1766235225430.png"
+                    "image": "Algorithms/BruteForce/Dc/Media/Dc_1766235225430.png"
                 },
                 {
                     "name": "Lorinda Cherry",
-                    "image": "Languages/Dc/Media/Dc_1766235283381.png"
+                    "image": "Algorithms/BruteForce/Dc/Media/Dc_1766235283381.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:32:54.536Z",
@@ -334,11 +334,11 @@
             "authors": [
                 {
                     "name": "Jürg Billeter",
-                    "image": "Languages/Vala/Media/Vala_1766235799985.png"
+                    "image": "Algorithms/BruteForce/Vala/Media/Vala_1766235799985.png"
                 },
                 {
                     "name": "Raffaele Sandrini",
-                    "image": "Languages/Vala/Media/Vala_1766236115955.png"
+                    "image": "Algorithms/BruteForce/Vala/Media/Vala_1766236115955.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:08:38.118Z",
@@ -373,7 +373,7 @@
             "authors": [
                 {
                     "name": "Jeremy Ashkenas",
-                    "image": "Languages/CoffeeScript/Media/CoffeeScript_1766236365726.png"
+                    "image": "Algorithms/BruteForce/CoffeeScript/Media/CoffeeScript_1766236365726.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:15:10.129Z",
@@ -391,7 +391,7 @@
             "authors": [
                 {
                     "name": "Niklaus Wirth",
-                    "image": "Languages/Pascal/Media/Pascal_1766236576239.png"
+                    "image": "Algorithms/BruteForce/Pascal/Media/Pascal_1766236576239.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:16:18.464Z",
@@ -409,7 +409,7 @@
             "authors": [
                 {
                     "name": "Lee E. McMahon",
-                    "image": "Languages/Sed/Media/Sed_1766236805475.png"
+                    "image": "Algorithms/BruteForce/Sed/Media/Sed_1766236805475.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:38:25.932Z",
@@ -445,7 +445,7 @@
             "authors": [
                 {
                     "name": "D. Richard Hipp",
-                    "image": "Languages/SQLite/Media/SQLite_1768314675300.png"
+                    "image": "Algorithms/BruteForce/SQLite/Media/SQLite_1768314675300.png"
                 }
             ],
             "lastUpdated": "2026-01-13T14:31:19.811Z",
@@ -453,7 +453,7 @@
             "history": "2000. The world's most used database engine.",
             "paradigm": "Relational, SQL",
             "typeSystem": "Dynamic, Weak",
-            "image": "Languages/SQLite/Media/SQLite_logo.png"
+            "image": "Algorithms/BruteForce/SQLite/Media/SQLite_logo.png"
         },
         "Crystal": {
             "creator": "Ary Borenszweig",
@@ -465,7 +465,7 @@
             "authors": [
                 {
                     "name": "Ary Borenszweig",
-                    "image": "Languages/Crystal/Media/Crystal_1766236978770.png"
+                    "image": "Algorithms/BruteForce/Crystal/Media/Crystal_1766236978770.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:23:00.810Z",
@@ -483,7 +483,7 @@
             "authors": [
                 {
                     "name": "Apple Inc.",
-                    "image": "Languages/AppleScript/Media/AppleScript_1766237045007.png"
+                    "image": "Algorithms/BruteForce/AppleScript/Media/AppleScript_1766237045007.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:24:06.600Z",
@@ -501,7 +501,7 @@
             "authors": [
                 {
                     "name": "Charles H. Moore",
-                    "image": "Languages/Forth/Media/Forth_1766237118262.png"
+                    "image": "Algorithms/BruteForce/Forth/Media/Forth_1766237118262.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:25:19.824Z",
@@ -519,7 +519,7 @@
             "authors": [
                 {
                     "name": "John Backus",
-                    "image": "Languages/Fortran/Media/Fortran_1766237167392.png"
+                    "image": "Algorithms/BruteForce/Fortran/Media/Fortran_1766237167392.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:26:31.134Z",
@@ -537,7 +537,7 @@
             "authors": [
                 {
                     "name": "Committee (Guy L. Steele Jr. et al.)",
-                    "image": "Languages/CommonLisp/Media/CommonLisp_1768228878936.png"
+                    "image": "Algorithms/BruteForce/CommonLisp/Media/CommonLisp_1768228878936.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:41:37.672Z",
@@ -556,7 +556,7 @@
             "authors": [
                 {
                     "name": "Fredrik Hübinette",
-                    "image": "Languages/Pike/Media/Pike_1768312688925.png"
+                    "image": "Algorithms/BruteForce/Pike/Media/Pike_1768312688925.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -574,11 +574,11 @@
             "authors": [
                 {
                     "name": "Brian Kernighan",
-                    "image": "Languages/M4/Media/M4_1766237497660.png"
+                    "image": "Algorithms/BruteForce/M4/Media/M4_1766237497660.png"
                 },
                 {
                     "name": "Dennis Ritchie",
-                    "image": "Languages/M4/Media/M4_1768224805456.png"
+                    "image": "Algorithms/BruteForce/M4/Media/M4_1768224805456.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:34:41.171Z",
@@ -597,7 +597,7 @@
             "authors": [
                 {
                     "name": "Phil Hagelberg",
-                    "image": "Languages/Fennel/Media/Fennel_1768312471842.png"
+                    "image": "Algorithms/BruteForce/Fennel/Media/Fennel_1768312471842.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -615,7 +615,7 @@
             "authors": [
                 {
                     "name": "José Valim",
-                    "image": "Languages/Elixir/Media/Elixir_1768312299724.png"
+                    "image": "Algorithms/BruteForce/Elixir/Media/Elixir_1768312299724.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:15:38.699Z",
@@ -634,7 +634,7 @@
             "authors": [
                 {
                     "name": "Mike Cowlishaw",
-                    "image": "Languages/Rexx/Media/Rexx_1766237957485.png"
+                    "image": "Algorithms/BruteForce/Rexx/Media/Rexx_1766237957485.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:11:33.175Z",
@@ -653,7 +653,7 @@
             "authors": [
                 {
                     "name": "Alain Colmerauer",
-                    "image": "Languages/Prolog/Media/Prolog_1766238007428.png"
+                    "image": "Algorithms/BruteForce/Prolog/Media/Prolog_1766238007428.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:29:25.226Z",
@@ -672,7 +672,7 @@
             "authors": [
                 {
                     "name": "Calvin Rose",
-                    "image": "Languages/Janet/Media/Janet_1768312472899.png"
+                    "image": "Algorithms/BruteForce/Janet/Media/Janet_1768312472899.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -690,7 +690,7 @@
             "authors": [
                 {
                     "name": "Bob Nystrom",
-                    "image": "Languages/Wren/Media/Wren_1766238481340.png"
+                    "image": "Algorithms/BruteForce/Wren/Media/Wren_1766238481340.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:48:02.833Z",
@@ -708,7 +708,7 @@
             "authors": [
                 {
                     "name": "Larry Wall",
-                    "image": "Languages/Raku/Media/Raku_1766238533801.png"
+                    "image": "Algorithms/BruteForce/Raku/Media/Raku_1766238533801.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:20:34.324Z",
@@ -727,7 +727,7 @@
             "authors": [
                 {
                     "name": "Axel Liljencrantz",
-                    "image": "Languages/Fish/Media/Fish_1766238248667.png"
+                    "image": "Algorithms/BruteForce/Fish/Media/Fish_1766238248667.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:50:01.163Z",
@@ -745,11 +745,11 @@
             "authors": [
                 {
                     "name": "John Warnock",
-                    "image": "Languages/PostScript/Media/PostScript_1766238625179.png"
+                    "image": "Algorithms/BruteForce/PostScript/Media/PostScript_1766238625179.png"
                 },
                 {
                     "name": "Charles Geschke",
-                    "image": "Languages/PostScript/Media/PostScript_1766238646639.png"
+                    "image": "Algorithms/BruteForce/PostScript/Media/PostScript_1766238646639.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:32:42.771Z",
@@ -768,11 +768,11 @@
             "authors": [
                 {
                     "name": "Thomas Williams",
-                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238704342.png"
+                    "image": "Algorithms/BruteForce/Gnuplot/Media/Gnuplot_1766238704342.png"
                 },
                 {
                     "name": "Colin Kelley",
-                    "image": "Languages/Gnuplot/Media/Gnuplot_1766238759425.png"
+                    "image": "Algorithms/BruteForce/Gnuplot/Media/Gnuplot_1766238759425.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:39:17.592Z",
@@ -792,7 +792,7 @@
             "authors": [
                 {
                     "name": "Stephen Dolan",
-                    "image": "Languages/Jq/Media/Jq_1768312474056.png"
+                    "image": "Algorithms/BruteForce/Jq/Media/Jq_1768312474056.png"
                 }
             ],
             "lastUpdated": "2025-12-20T13:59:12.446Z",
@@ -827,7 +827,7 @@
             "authors": [
                 {
                     "name": "Nicolas Cannasse",
-                    "image": "Languages/Haxe/Media/Haxe_1766240482489.png"
+                    "image": "Algorithms/BruteForce/Haxe/Media/Haxe_1766240482489.png"
                 }
             ],
             "lastUpdated": "2026-01-12T13:09:41.038Z",
@@ -847,7 +847,7 @@
             "authors": [
                 {
                     "name": "Don Syme",
-                    "image": "Languages/F_Sharp/Media/F_Sharp_1768312300302.png"
+                    "image": "Algorithms/BruteForce/F_Sharp/Media/F_Sharp_1768312300302.png"
                 }
             ],
             "lastUpdated": "2026-01-10T16:34:51.585Z",
@@ -867,7 +867,7 @@
             "authors": [
                 {
                     "name": "Rich Hickey",
-                    "image": "Languages/Clojure/Media/Clojure_1766250041395.png"
+                    "image": "Algorithms/BruteForce/Clojure/Media/Clojure_1766250041395.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:18.114Z",
@@ -886,7 +886,7 @@
             "authors": [
                 {
                     "name": "Brian Fox",
-                    "image": "Languages/Bash/Media/Bash_1766250114289.png"
+                    "image": "Algorithms/BruteForce/Bash/Media/Bash_1766250114289.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:55.962Z"
@@ -902,7 +902,7 @@
             "authors": [
                 {
                     "name": "Anders Hejlsberg",
-                    "image": "Languages/C_Sharp/Media/C_Sharp_1766250136978.png"
+                    "image": "Algorithms/BruteForce/C_Sharp/Media/C_Sharp_1766250136978.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:02:17.986Z",
@@ -921,7 +921,7 @@
             "authors": [
                 {
                     "name": "Bjarne Stroustrup",
-                    "image": "Languages/C++/Media/C++_1766311229769.png"
+                    "image": "Algorithms/BruteForce/C++/Media/C++_1766311229769.png"
                 }
             ],
             "lastUpdated": "2025-12-21T10:00:33.766Z",
@@ -940,11 +940,11 @@
             "authors": [
                 {
                     "name": "Guy L. Steele",
-                    "image": "Languages/Scheme/Media/Scheme_1768228054526.png"
+                    "image": "Algorithms/BruteForce/Scheme/Media/Scheme_1768228054526.png"
                 },
                 {
                     "name": "Gerald Jay Sussman",
-                    "image": "Languages/Scheme/Media/Scheme_1768228073740.png"
+                    "image": "Algorithms/BruteForce/Scheme/Media/Scheme_1768228073740.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:27:57.544Z",
@@ -963,11 +963,11 @@
             "authors": [
                 {
                     "name": "Lars Bak",
-                    "image": "Languages/Dart/Media/Dart_1768312698828.png"
+                    "image": "Algorithms/BruteForce/Dart/Media/Dart_1768312698828.png"
                 },
                 {
                     "name": "Kasper Lund",
-                    "image": "Languages/Dart/Media/Dart_1768312699861.png"
+                    "image": "Algorithms/BruteForce/Dart/Media/Dart_1768312699861.png"
                 }
             ],
             "lastUpdated": "2026-01-11T19:30:00.000Z",
@@ -986,7 +986,7 @@
             "authors": [
                 {
                     "name": "Joe Armstrong",
-                    "image": "Languages/Erlang/Media/Erlang_1768312701157.png"
+                    "image": "Algorithms/BruteForce/Erlang/Media/Erlang_1768312701157.png"
                 },
                 {
                     "name": "Robert Virding"
@@ -1047,7 +1047,7 @@
             "authors": [
                 {
                     "name": "Herbert Xu",
-                    "image": "Languages/Dash/Media/Dash_1768312719391.png"
+                    "image": "Algorithms/BruteForce/Dash/Media/Dash_1768312719391.png"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
@@ -1105,7 +1105,7 @@
             "authors": [
                 {
                     "name": "Fernando Pérez",
-                    "image": "Languages/Jupyter/Media/Jupyter_1768312475928.png"
+                    "image": "Algorithms/BruteForce/Jupyter/Media/Jupyter_1768312475928.png"
                 },
                 {
                     "name": "Brian Granger"
@@ -1127,7 +1127,7 @@
             "authors": [
                 {
                     "name": "Larry Wall",
-                    "image": "Languages/Perl/Media/Perl_1768312476946.jpg"
+                    "image": "Algorithms/BruteForce/Perl/Media/Perl_1768312476946.jpg"
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:51.940Z",
@@ -1145,7 +1145,7 @@
             "authors": [
                 {
                     "name": "Ken Greer",
-                    "image": "Languages/Tcsh/Media/Tcsh_1768163521224.png"
+                    "image": "Algorithms/BruteForce/Tcsh/Media/Tcsh_1768163521224.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -1181,7 +1181,7 @@
             "authors": [
                 {
                     "name": "Urban Müller",
-                    "image": "Languages/Brainfuck/Media/Brainfuck_1768312478048.png"
+                    "image": "Algorithms/BruteForce/Brainfuck/Media/Brainfuck_1768312478048.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -1221,7 +1221,7 @@
             "authors": [
                 {
                     "name": "Graydon Hoare",
-                    "image": "Languages/Rust/Media/Rust_1768228248801.png"
+                    "image": "Algorithms/BruteForce/Rust/Media/Rust_1768228248801.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:30:51.765Z"
@@ -1240,7 +1240,7 @@
             "authors": [
                 {
                     "name": "James Strachan",
-                    "image": "Languages/Groovy/Media/Groovy_1768312723195.png"
+                    "image": "Algorithms/BruteForce/Groovy/Media/Groovy_1768312723195.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:34:15.001Z"
@@ -1259,15 +1259,15 @@
             "authors": [
                 {
                     "name": "Jeff Bezanson",
-                    "image": "Languages/Julia/Media/Julia_1768312301515.png"
+                    "image": "Algorithms/BruteForce/Julia/Media/Julia_1768312301515.png"
                 },
                 {
                     "name": "Stefan Karpinski",
-                    "image": "Languages/Julia/Media/Julia_1768312302133.png"
+                    "image": "Algorithms/BruteForce/Julia/Media/Julia_1768312302133.png"
                 },
                 {
                     "name": "Viral B. Shah",
-                    "image": "Languages/Julia/Media/Julia_1768312302826.png"
+                    "image": "Algorithms/BruteForce/Julia/Media/Julia_1768312302826.png"
                 },
                 {
                     "name": "Alan Edelman"

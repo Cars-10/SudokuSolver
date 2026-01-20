@@ -448,35 +448,62 @@ export const SharedStyles = `
             background: #1a1b26;
         }
 
-        /* Author List Styling */
-        .author-list {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .author-item {
+        /* Sidebar Box Styling (Logo & Authors) */
+        .sidebar-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
             padding: 10px;
-            background: #24283b;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
             border: 1px solid #414868;
-            width: 140px; /* Fixed width for grid alignment */
+            border-radius: 12px;
+            width: 170px; /* 150px image + 2*10px padding */
+            box-sizing: border-box;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-img-container {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .sidebar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Default for logos */
+            border-radius: 4px;
         }
 
         .author-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #1a1b26;
-            border: 2px solid #7aa2f7;
-            flex-shrink: 0;
+            object-fit: cover; /* Authors look better covered/scaled */
+        }
+
+        .sidebar-box span {
+            color: #c0caf5;
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9em;
+            word-break: break-word;
+            width: 100%;
+        }
+
+        /* Author List Styling */
+        .author-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .author-item {
+            /* Inherits from .sidebar-box */
         }
 
         .author-item span {

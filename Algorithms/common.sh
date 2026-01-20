@@ -264,8 +264,9 @@ print(f'{duration_ms:.4f} {max_rss:.0f} {cpu_user_ms:.4f} {cpu_sys_ms:.4f} {usag
     # Escape output for JSON
     local escaped_output=$(echo "$output" | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read())[1:-1])')
 
-    # Write JSON result object
-    cat <<EOF
+    # Write JSON result object ONLY if success
+    if [ "$status" == "success" ]; then
+        cat <<EOF
     {
       "matrix": "$matrix_num",
       "time": $time_ms,
@@ -283,6 +284,44 @@ print(f'{duration_ms:.4f} {max_rss:.0f} {cpu_user_ms:.4f} {cpu_sys_ms:.4f} {usag
       "output": "$escaped_output"
     }
 EOF
+    else
+        # Log failure to benchmark_issues.json
+        local issues_file="../../../benchmark_issues.json"
+        local error_msg="Matrix $matrix_num failed: $status (Exit code $exit_code)"
+        
+        python3 -c "
+import json, os
+
+issues_file = '$issues_file'
+new_entry = {
+    'solver': '$LANGUAGE',
+    'runType': 'automated',
+    'timestamp': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
+    'status': '$status',
+    'matrix': '$matrix_num',
+    'output': '''$error_msg'''
+}
+
+data = []
+if os.path.exists(issues_file):
+    try:
+        with open(issues_file, 'r') as f:
+            content = f.read().strip()
+            if content:
+                data = json.loads(content)
+    except Exception:
+        data = []
+
+if not isinstance(data, list): data = []
+data.append(new_entry)
+
+try:
+    with open(issues_file, 'w') as f:
+        json.dump(data, f, indent=2)
+except Exception:
+    pass
+"
+    fi
 
     # Cleanup temp files
     rm -f "$temp_output" "$temp_timing"
@@ -337,20 +376,29 @@ run_benchmarks() {
 
         echo "Running $LANGUAGE on $(basename $matrix)..." >&2
 
-        # Add comma separator if not first result
-        if [ "$first" = true ]; then
-            first=false
-        else
-            echo "," >> "$temp_results"
-        fi
-
         # Run matrix and append result
-        run_matrix "$matrix" >> "$temp_results"
+        local result=$(run_matrix "$matrix")
+        
+        if [ -n "$result" ]; then
+            # Add comma separator if not first result
+            if [ "$first" = true ]; then
+                first=false
+            else
+                echo "," >> "$temp_results"
+            fi
+            echo "$result" >> "$temp_results"
+        fi
     done
 
     # Read new results
     local new_results=$(cat "$temp_results")
     rm -f "$temp_results"
+
+    # If no results (all failed), exit without writing metrics.json
+    if [ -z "$new_results" ]; then
+        echo "No successful results to write." >&2
+        return
+    fi
 
     # Merge results: use node/python if available, otherwise just use new results
     if [ -n "$existing_results" ] && command -v node &> /dev/null; then

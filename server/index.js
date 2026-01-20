@@ -341,13 +341,28 @@ app.get('/api/source/:lang', (req, res) => {
             if (f === 'runMe.sh' || f === 'metrics.json' || f === 'README.md' || f === 'common.sh') return false;
             if (f.startsWith('.')) return false;
 
-            if (algo === 'BruteForce') return lower.startsWith('sudoku.');
+            // Algorithm specific checks
+            if (algo === 'BruteForce') {
+                if (lang === 'Java' && f === 'Sudoku.java') return true;
+                if (lang === 'EmacsLisp' && f === 'sudoku.el') return true;
+                if (lang === 'Pascal' && f === 'sudoku.pas') return true;
+                return lower.startsWith('sudoku.');
+            }
             if (algo === 'DLX') return lower.includes('dlx') && !lower.includes('test');
             if (algo === 'CP') return lower.includes('cp') && !lower.includes('test');
             return false;
         });
         
-        // Fallback
+        // Fallback for DLX/CP if strict check failed (look for *any* source file if not found)
+        if (!solverFile) {
+             const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs', '.el'];
+             solverFile = files.find(f => {
+                const ext = path.extname(f).toLowerCase();
+                return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
+             });
+        }
+        
+        // General Fallback
         if (!solverFile) {
              const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs'];
              solverFile = files.find(f => {
@@ -714,7 +729,8 @@ function normalizeLanguageName(lang) {
     const mapping = {
         'C#': 'C_Sharp',
         'F#': 'F_Sharp',
-        'C++': 'C++'
+        'C++': 'C++',
+        'Objective-C': 'Objective-C',
     };
     return mapping[lang] || lang;
 }
@@ -765,83 +781,103 @@ app.get('/api/metrics/baseline/c', (req, res) => {
     }
 });
 
-// Get all variants for a language (US-005)
+// Get all variants for a language (US-005) - aggregated across all algorithms
 app.get('/api/variants/:language', (req, res) => {
     try {
         const lang = normalizeLanguageName(req.params.language);
-        const metricsPath = path.join(LANGUAGES_DIR, lang, 'metrics.json');
+        const algorithms = ['BruteForce', 'DLX', 'CP'];
+        let allVariants = [];
 
-        if (!fs.existsSync(metricsPath)) {
-            return res.status(404).json({ error: 'Language not found: ' + lang });
+        algorithms.forEach(algo => {
+            const metricsPath = path.join(__dirname, '..', 'Algorithms', algo, lang, 'metrics.json');
+            if (fs.existsSync(metricsPath)) {
+                try {
+                    const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+                    if (Array.isArray(metrics)) {
+                        metrics.forEach(run => {
+                            allVariants.push({
+                                variant: `${run.variant || 'default'} (${algo})`, // Disambiguate
+                                originalVariant: run.variant || 'default',
+                                algorithm: algo,
+                                timestamp: run.timestamp || null,
+                                runType: run.runType || 'Local'
+                            });
+                        });
+                    } else {
+                         allVariants.push({
+                            variant: `default (${algo})`,
+                            originalVariant: 'default',
+                            algorithm: algo,
+                            timestamp: metrics.timestamp || null,
+                            runType: metrics.runType || 'Local'
+                        });
+                    }
+                } catch (e) {
+                    console.warn(`Error reading metrics for ${algo}/${lang}:`, e.message);
+                }
+            }
+        });
+
+        if (allVariants.length === 0) {
+            return res.status(404).json({ error: 'Language not found in any algorithm' });
         }
 
-        const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-
-        if (!Array.isArray(metrics)) {
-            // Single run without variant info
-            return res.json([{
-                variant: 'default',
-                timestamp: metrics.timestamp || null,
-                runType: metrics.runType || 'Local'
-            }]);
-        }
-
-        // Extract unique variants from all runs
-        const variants = metrics.map(run => ({
-            variant: run.variant || 'default',
-            timestamp: run.timestamp || null,
-            runType: run.runType || 'Local'
-        }));
-
-        // Sort by timestamp descending (most recent first)
-        variants.sort((a, b) =>
+        // Sort by timestamp descending
+        allVariants.sort((a, b) =>
             new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime()
         );
 
-        res.json(variants);
+        res.json(allVariants);
     } catch (error) {
         console.error('Error reading variants:', error);
         res.status(500).json({ error: 'Failed to read variants' });
     }
 });
 
-// Get metrics for a specific variant (US-006)
+// Get metrics for a specific variant (US-006) - now supports algo selection
 app.get('/api/metrics/:language/:variant', (req, res) => {
     try {
         const lang = normalizeLanguageName(req.params.language);
-        const variant = req.params.variant;
-        const metricsPath = path.join(LANGUAGES_DIR, lang, 'metrics.json');
-
-        if (!fs.existsSync(metricsPath)) {
-            return res.status(404).json({ error: 'Language not found: ' + lang });
+        let variantParam = req.params.variant;
+        
+        // Extract algo if present in "Variant (Algo)" format
+        let targetAlgo = null;
+        const algoMatch = variantParam.match(/(.*) \((BruteForce|DLX|CP)\)$/);
+        if (algoMatch) {
+            variantParam = algoMatch[1];
+            targetAlgo = algoMatch[2];
         }
 
-        const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-
-        if (!Array.isArray(metrics)) {
-            // Single run - check if variant matches
-            const runVariant = metrics.variant || 'default';
-            if (runVariant === variant || variant === 'default') {
-                return res.json(metrics);
+        // Search locations
+        const algorithms = targetAlgo ? [targetAlgo] : ['BruteForce', 'DLX', 'CP'];
+        
+        for (const algo of algorithms) {
+            const metricsPath = path.join(__dirname, '..', 'Algorithms', algo, lang, 'metrics.json');
+            if (fs.existsSync(metricsPath)) {
+                const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+                
+                if (!Array.isArray(metrics)) {
+                    if ((metrics.variant || 'default') === variantParam) {
+                        // Inject algorithm type if missing
+                        if (!metrics.algorithmType) metrics.algorithmType = algo;
+                        return res.json(metrics);
+                    }
+                } else {
+                    const matchingRuns = metrics.filter(run => 
+                        (run.variant || 'default') === variantParam
+                    );
+                    if (matchingRuns.length > 0) {
+                        // Return most recent
+                        matchingRuns.sort((a, b) => new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime());
+                        const result = matchingRuns[0];
+                        if (!result.algorithmType) result.algorithmType = algo;
+                        return res.json(result);
+                    }
+                }
             }
-            return res.status(404).json({ error: 'Variant not found: ' + variant });
         }
 
-        // Find the run matching the variant (use most recent if multiple)
-        const matchingRuns = metrics.filter(run =>
-            (run.variant || 'default') === variant
-        );
-
-        if (matchingRuns.length === 0) {
-            return res.status(404).json({ error: 'Variant not found: ' + variant });
-        }
-
-        // Return most recent run for this variant
-        const sorted = matchingRuns.sort((a, b) =>
-            new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime()
-        );
-
-        res.json(sorted[0]);
+        return res.status(404).json({ error: 'Variant not found: ' + variantParam });
     } catch (error) {
         console.error('Error reading variant metrics:', error);
         res.status(500).json({ error: 'Failed to read variant metrics' });

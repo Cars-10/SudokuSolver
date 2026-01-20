@@ -432,17 +432,19 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <div style="display: flex; gap: 20px;">
                     <!-- Left Sidebar: Logo + Authors -->
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 170px; flex-shrink: 0;">
-                        <div class="modal-img-container" id="modalImgContainer" style="width: 150px; height: 150px; position: relative; border-radius: 8px; overflow: hidden; flex-shrink: 0; padding: 10px; background: rgba(0,0,0,0.2);">
-                            <img id="modalImg" class="modal-img" src="" alt="Language Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">
-                            <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
-                                Change
+                        <div class="sidebar-box" id="logoBox">
+                            <div class="sidebar-img-container" id="modalImgContainer">
+                                <img id="modalImg" class="sidebar-img" src="" alt="Language Logo">
+                                <div class="edit-only" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); text-align: center; padding: 5px; font-size: 0.8em; cursor: pointer;" onclick="handleLogoChange(event)">
+                                    Change
+                                </div>
+                                <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
+                                <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
                             </div>
-                            <input type="file" id="logoInput" style="display: none" accept="image/*" onchange="uploadLogo(this)">
-                            <input type="file" id="authorFileInput" style="display: none" accept="image/*" onchange="uploadAuthorLogo(this)">
                         </div>
                         
                         <!-- Authors Vertical Stack -->
-                        <div id="authorList" class="author-list" style="flex-direction: column; width: 150px; align-items: center;">
+                        <div id="authorList" class="author-list">
                             <!-- Dynamic authors -->
                         </div>
                         <button class="btn edit-only" style="font-size: 0.7em; width: 100%;" onclick="addAuthorField()">+ Add Author</button>
@@ -580,6 +582,10 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         <div class="breakdown-item">
                             <span class="breakdown-label">Memory Ratio</span>
                             <span id="scoreMemRatio" class="breakdown-value"></span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">CPU Ratio</span>
+                            <span id="scoreCpuRatio" class="breakdown-value"></span>
                         </div>
 
                     </div>
