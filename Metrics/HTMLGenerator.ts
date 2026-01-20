@@ -80,8 +80,16 @@ const compilerMapping: Record<string, string> = {
 
 export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}, options: { staticMode?: boolean } = {}): Promise<string> {
     const staticMode = options.staticMode || false;
-    // Merge overrides
-    const finalLanguageMetadata = { ...languageMetadata, ...(metadataOverrides.languageMetadata || {}) };
+    // Deep merge overrides (merge fields within each language, don't replace entire language objects)
+    const finalLanguageMetadata = { ...languageMetadata };
+    if (metadataOverrides.languageMetadata) {
+        Object.keys(metadataOverrides.languageMetadata).forEach(lang => {
+            finalLanguageMetadata[lang] = {
+                ...(languageMetadata[lang] || {}),
+                ...metadataOverrides.languageMetadata[lang]
+            };
+        });
+    }
     const finalPersonalities = { ...personalities, ...(metadataOverrides.personalities || {}) };
     const finalNarratorIntros = { ...narratorIntros, ...(metadataOverrides.narratorIntros || {}) };
 
