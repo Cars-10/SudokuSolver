@@ -1,38 +1,29 @@
-# Roadmap
+# Roadmap: Sudoku Solver
 
-## Proposed Phases
+## Milestones
 
-| # | Phase | Goal | Requirements | Success Criteria |
-|---|-------|------|--------------|------------------|
-| 1 | Scoring Engine | Implement weighted scoring | SCORE-01, SCORE-02, SCORE-03, SCORE-04 | 4 |
-| 2 | UI/UX Refinement | Clean up dashboard & fix fullscreen | UI-01, UI-02, UI-03, UI-04 | 4 |
-| 3 | Metadata Alignment| Ensure docs match code | META-01, META-02 | 2 |
+- ✅ **v1 Scoring & UI** — Phases 1-3 (shipped 2026-01-20)
+- 📋 **v2 Features** — (planned)
 
----
+## Phases
 
-## Phase Details
+<details>
+<summary>✅ v1 Scoring & UI (Phases 1-3) — SHIPPED 2026-01-20</summary>
 
-### Phase 1: Scoring Engine
-**Goal:** Establish a fair and transparent ranking system.
-**Requirements:** SCORE-01, SCORE-02, SCORE-03, SCORE-04
-**Success Criteria:**
-1. Scoring algorithm correctly calculates weighted geometric mean for all languages.
-2. C baseline normalization is verified (C score is 1.0/reference point).
-3. HTML report successfully renders scores in the main table.
-4. Weights can be adjusted in configuration without changing core logic.
+- [x] Phase 1: Scoring Engine (1 plan) — completed
+- [x] Phase 2: UI/UX Refinement (2 plans) — completed
+- [x] Phase 3: Metadata Alignment (1 plan) — completed
 
-### Phase 2: UI/UX Refinement
-**Goal:** Clean up the interface and fix Matrix Race behavior.
-**Requirements:** UI-01, UI-02, UI-03, UI-04
-**Success Criteria:**
-1. Table cell clutter is reduced by removing redundant 'Run' buttons.
-2. Matrix Race fullscreen toggle is stable using `screenfull`.
-3. Fullscreen exit does not trigger immediate re-entry.
-4. UI provides clear feedback on active/inactive fullscreen state.
+</details>
 
-### Phase 3: Metadata Alignment
-**Goal:** Ensure consistency between implementation and documentation.
-**Requirements:** META-01, META-02
-**Success Criteria:**
-1. Methodology documentation matches the implemented scoring formula.
-2. All UI tooltips and labels are consistent with the new metrics.
+### 🚧 v[Next] [Name] (In Progress / Planned)
+
+- [ ] Phase 4: [Name] ([N] plans)
+
+## Progress
+
+| Phase             | Milestone | Plans Complete | Status      | Completed  |
+| ----------------- | --------- | -------------- | ----------- | ---------- |
+| 1. Scoring Engine | v1        | 1/1            | Complete    | 2026-01-20 |
+| 2. UI/UX Refine   | v1        | 2/2            | Complete    | 2026-01-20 |
+| 3. Metadata Align | v1        | 1/1            | Complete    | 2026-01-20 |

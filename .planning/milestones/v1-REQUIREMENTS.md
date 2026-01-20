@@ -1,3 +1,13 @@
+# Requirements Archive: v1 Scoring & UI
+
+**Archived:** 2026-01-20
+**Status:** ✅ SHIPPED
+
+This is the archived requirements specification for v1.
+For current requirements, see `.planning/REQUIREMENTS.md` (created for next milestone).
+
+---
+
 # Requirements
 
 ## v1 Requirements
@@ -39,3 +49,14 @@
 | UI-04 | 2 | Complete |
 | META-01 | 3 | Complete |
 | META-02 | 3 | Complete |
+
+---
+
+## Milestone Summary
+
+**Shipped:** 10 of 10 v1 requirements
+**Adjusted:** SCORE-03 (defaults set to 80/20 instead of equal)
+**Dropped:** None
+
+---
+*Archived: 2026-01-20 as part of v1 milestone completion*

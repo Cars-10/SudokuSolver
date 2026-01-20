@@ -14,13 +14,15 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - ✓ Single-file HTML report generation with data visualization — existing
 - ✓ Language metadata and author attribution system — existing
 - ✓ Matrix-based testing (1.matrix to 6.matrix) — existing
+- ✓ Weighted geometric mean scoring (80/20) — v1
+- ✓ C baseline normalization — v1
+- ✓ Cleaned up UI (Run buttons removed) — v1
+- ✓ Robust Matrix Race fullscreen (screenfull) — v1
+- ✓ Aligned metadata & documentation — v1
 
 ### Active
-- [ ] Define and implement a robust language scoring algorithm
-- [ ] Weight performance metrics (CPU, Memory, Time) for ranking
-- [ ] Clean up UI: Remove redundant "run" buttons from cells
-- [ ] Fix Matrix Race fullscreen exit behavior
-- [ ] Disable automatic fullscreen re-entry in Matrix Race
+- [ ] Define algorithmic fingerprinting scoring (based on iteration counts)
+- [ ] Implement "Zen Mode" toggle for simplified viewing
 - [ ] Embellish and refine language metadata
 
 ### Out of Scope
@@ -32,6 +34,7 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - Solvers are implemented in a wide variety of "Tier 1" and esoteric languages.
 - Current UI issues include sticky fullscreen modes and cluttered cell interactions.
 - Performance data is stored in SQLite and JSON formats.
+- **Shipped v1**: Scoring engine, UI cleanup, and metadata alignment complete.
 
 ## Constraints
 - **Algorithmic**: Standard recursive backtracking — Required for fair comparison across all languages.
@@ -44,6 +47,7 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 |----------|-----------|---------|
 | Local Execution Focus | User specified ignoring docker commands for now to focus on local refinements. | — Pending |
 | Scored Ranking | Moving from raw metrics to a weighted score to provide a "best" ranking. | — Pending |
+| 80/20 Scoring | Weighted Time (80%) and Memory (20%) for score calculation. | ✓ v1 |
 
 ---
-*Last updated: 2026-01-18 after initialization*
+*Last updated: 2026-01-20 after v1 milestone*
