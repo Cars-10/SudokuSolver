@@ -41,7 +41,7 @@ sudo apt-get install -y dotnet-sdk-8.0
 ### Using runMe.sh (Recommended)
 
 ```bash
-cd Languages/C_Sharp
+cd Algorithms/BruteForce/C_Sharp
 ./runMe.sh ../../Matrices/1.matrix
 ```
 

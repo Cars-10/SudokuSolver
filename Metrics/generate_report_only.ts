@@ -83,7 +83,7 @@ async function run() {
                             algorithmType = pathParts[algoIndex + 1] as 'BruteForce' | 'DLX' | 'CP';
                             solverName = pathParts[algoIndex + 2];
                         } else if (langIndex !== -1 && pathParts[langIndex + 1]) {
-                            // Legacy structure: Languages/C/metrics.json
+                            // Legacy structure: Algorithms/BruteForce/C/metrics.json
                             solverName = pathParts[langIndex + 1];
                             algorithmType = 'BruteForce'; // Legacy defaults to BruteForce
                         }
@@ -128,6 +128,56 @@ async function run() {
             }
         }
 
+        // Process Benchmark Issues (for Recent Failures)
+        const issuesPath = path.join(rootDir, 'benchmark_issues.json');
+        if (fs.existsSync(issuesPath)) {
+            try {
+                const issuesContent = await fs.promises.readFile(issuesPath, 'utf-8');
+                const issues = JSON.parse(issuesContent);
+
+                // Group issues by solver/algorithm
+                const latestIssues = new Map<string, any>();
+                for (const issue of issues) {
+                    const key = `${issue.solver}::${issue.algorithm || 'BruteForce'}`;
+                    const issueTs = new Date(issue.timestamp).getTime();
+
+                    if (!latestIssues.has(key) || issueTs > latestIssues.get(key).timestamp) {
+                        latestIssues.set(key, { ...issue, timestamp: issueTs });
+                    }
+                }
+
+                // Check against successes
+                for (const [key, issue] of latestIssues) {
+                    const foundMetric = aggregatedMetrics.find(m => `${m.solver}::${m.algorithmType || 'BruteForce'}` === key);
+
+                    if (foundMetric) {
+                        // If issue is newer than success, mark as failed
+                        const metricTs = new Date(foundMetric.timestamp).getTime();
+                        if (issue.timestamp > metricTs) {
+                            foundMetric.failed = true;
+                            foundMetric.failureReason = `${issue.status}: ${issue.output ? issue.output.substring(0, 100) : 'Unknown error'}`;
+                            console.log(`Marking ${key} as FAILED due to recent issue (Success: ${metricTs}, Issue: ${issue.timestamp})`);
+                        }
+                    } else {
+                        // Metric doesn't exist? It might be a new language that failed completely.
+                        // We should add it to aggregatedMetrics so it shows up in the report as failed.
+                        aggregatedMetrics.push({
+                            solver: issue.solver,
+                            algorithmType: issue.algorithm || 'BruteForce',
+                            runType: issue.runType || 'automated',
+                            timestamp: issue.timestamp,
+                            failed: true,
+                            failureReason: `${issue.status}: ${issue.output ? issue.output.substring(0, 100) : 'Unknown error'}`,
+                            results: []
+                        });
+                        knownSolverAlgoPairs.add(key);
+                        console.log(`Adding completely failed solver ${key} to report.`);
+                    }
+                }
+            } catch (e) {
+                console.warn("Error processing benchmark_issues.json:", e);
+            }
+        }
         // Check for metadata overrides
         let metadataOverrides = {};
         const metadataPath = path.join(__dirname, '../Algorithms/metadata.json');
@@ -225,7 +275,7 @@ async function run() {
         for (const m of finalMetrics) {
             const algo = m.algorithmType || 'BruteForce';
             const cMetric = cBaselines.get(algo);
-            
+
             // If we have a baseline (and it's not the baseline itself, though comparing C to C gives 1.0 which is correct)
             if (cMetric) {
                 // Pass the results array (MetricsResult[])
@@ -246,14 +296,14 @@ async function run() {
         console.log(`Final Report contains ${finalMetrics.length} languages.`);
 
         const result = await generateHtml(finalMetrics, history, personalities, languageMetadata, methodologyTexts, {}, allowedMatrices, benchmarkConfig, metadataOverrides);
-        
+
         let htmlContent = "";
         if (typeof result === 'string') {
             htmlContent = result;
         } else if (result && typeof result === 'object' && result.html) {
-             // Handle object return if it happens (forward compatibility)
-             htmlContent = result.html;
-             if (result.assets) {
+            // Handle object return if it happens (forward compatibility)
+            htmlContent = result.html;
+            if (result.assets) {
                 const assetsDir = path.join(rootDir, 'assets');
                 if (!fs.existsSync(assetsDir)) {
                     await fs.promises.mkdir(assetsDir, { recursive: true });
@@ -267,7 +317,7 @@ async function run() {
                     await fs.promises.writeFile(fullPath, content as string);
                     console.log(`Generated asset: ${assetPath}`);
                 }
-             }
+            }
         }
 
         await fs.promises.writeFile(htmlFile, htmlContent);

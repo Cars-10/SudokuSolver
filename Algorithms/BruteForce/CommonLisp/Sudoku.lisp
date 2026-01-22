@@ -1,6 +1,8 @@
 ;;; Sudoku Solver in Common Lisp (SBCL)
 ;;; Brute-force backtracking algorithm matching C reference exactly
 
+(declaim (optimize (speed 3) (safety 0) (debug 0)))
+
 (defvar *puzzle* (make-array '(9 9) :initial-element 0))
 (defvar *count* 0)
 
@@ -55,6 +57,7 @@
                      (incf row))))))))
 
 (defun is-valid (row col val)
+  (declare (type fixnum row col val))
   ;; Check row
   (dotimes (c 9)
     (when (= (get-cell row c) val)
@@ -66,9 +69,10 @@
   ;; Check 3x3 box
   (let ((box-row (* (floor row 3) 3))
         (box-col (* (floor col 3) 3)))
+    (declare (type fixnum box-row box-col))
     (dotimes (br 3)
       (dotimes (bc 3)
-        (when (= (get-cell (+ box-row br) (+ box-col bc)) val)
+        (when (= (get-cell (the fixnum (+ box-row br)) (the fixnum (+ box-col bc))) val)
           (return-from is-valid nil)))))
   t)
 
@@ -91,6 +95,7 @@
         ;; Try values 1-9
         (let ((row (first empty))
               (col (second empty)))
+          (declare (type fixnum row col))
           (loop for val from 1 to 9
                 do (incf *count*)  ; Count EVERY attempt
                    (when (is-valid row col val)
@@ -100,23 +105,13 @@
                      (set-cell row col 0)))  ; Backtrack
           nil))))
 
-(defun get-script-args ()
-  "Get command line arguments after --"
-  (let ((args sb-ext:*posix-argv*)
-        (result '()))
-    (loop for arg in (cdr args)  ; Skip program name
-          with past-separator = nil
-          do (if (string= arg "--")
-                 (setf past-separator t)
-                 (when past-separator
-                   (push arg result))))
-    (nreverse result)))
-
 (defun main ()
-  (let ((args (get-script-args)))
+  ;; sb-ext:*posix-argv* contains (program-name arg1 arg2 ...)
+  ;; We just want the arguments
+  (let ((args (cdr sb-ext:*posix-argv*)))
     (if (null args)
         (progn
-          (format *error-output* "Usage: sbcl --script sudoku.lisp -- <matrix_file>~%")
+          (format *error-output* "Usage: ./sudoku_lisp <matrix_file>~%")
           (sb-ext:exit :code 1))
         (dolist (filename args)
           (when (search ".matrix" filename)
@@ -126,5 +121,3 @@
             (print-puzzle)
             (unless (solve)
               (format t "No solution found~%")))))))
-
-(main)

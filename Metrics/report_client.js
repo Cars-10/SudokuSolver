@@ -1851,7 +1851,7 @@ window.updateSolverStats = function () {
         const avgMem = (totalMemory / metricsData.length).toFixed(1);
 
         // Display language count in solver text
-        screensaverText.innerText = `${metricsData.length} LANGUAGES`;
+        screensaverText.innerText = `${metricsData.length} IMPLEMENTATIONS`;
     } else if (screensaverText) {
         screensaverText.innerText = `LOADING...`;
     }

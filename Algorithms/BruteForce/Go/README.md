@@ -53,7 +53,7 @@ VARIANT=stripped ./runMe.sh
 
 ### Run with modular script (recommended)
 ```bash
-cd Languages/Go
+cd Algorithms/BruteForce/Go
 ./runMe.sh /app/Matrices/1.matrix
 ```
 
@@ -140,6 +140,6 @@ Seconds to process 0.004
 
 ```bash
 # Run and validate in Docker
-cd Languages/Go
+cd Algorithms/BruteForce/Go
 ./runMe.sh /app/Matrices/{1,2,3,4,5}.matrix
 ```

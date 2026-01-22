@@ -128,7 +128,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             logoMap.set(langName, `Algorithms/BruteForce/${langDir}/Media/${filename}`);
         }
     }
-    
+
     // Priority 2: Fall back to any image in Algorithms/BruteForce/*/Media/
     const mediaLogos = await glob(`${languagesDir}/*/Media/*.{png,svg,jpg}`);
     for (const p of mediaLogos) {
@@ -242,7 +242,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     };
 
     const languagesWithResults = new Set(metrics.map(m => m.solver.replace(/ \((AI)\)$/, '')));
-    
+
     metrics.forEach(m => {
         const lang = m.solver;
         // Filter out "N/A" matrix entries - those are toolchain checks, not actual matrix failures
@@ -756,7 +756,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <div id="fullscreen-header">
         <div class="header-counters">
             <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
-                <span id="solver-text">${metrics.length} LANGUAGES</span>
+                <span id="solver-text">${metrics.length} IMPLEMENTATIONS</span>
                 <div id="riddle-container" class="riddle-text"></div>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
                 <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
@@ -1261,7 +1261,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const cBaselineForMismatch = cMetricsByAlgorithm.get(algoType) || cMetrics;
 
         let expectedIters = 0;
-        const mismatchDetails: Array<{matrix: string, actual: number, expected: number}> = [];
+        const mismatchDetails: Array<{ matrix: string, actual: number, expected: number }> = [];
 
         // Skip mismatch check for CP
         if (cBaselineForMismatch && algoType !== 'CP') {
@@ -1362,6 +1362,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const isMs = runTime >= msCutoff;
         const timeUnit = isMs ? 'ms' : 's';
 
+        // Check for failure status
+        let failedBadge = '';
+        if (m.failed) {
+            const reason = (m.failureReason || 'Benchmark Failed').replace(/"/g, '&quot;');
+            failedBadge = `<span style="margin-left: 6px; padding: 2px 6px; background: rgba(255, 0, 85, 0.2); border: 1px solid #ff0055; border-radius: 3px; font-size: 0.75em; color: #ff0055; font-weight: bold;" title="${reason}">⚠ FAILED</span>`;
+        }
+
         html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
             data-lang="${lang}"
             data-algorithm-type="${m.algorithmType || 'BruteForce'}"
@@ -1383,7 +1390,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
-                        ${displayName}${algoBadge}${typeIcon}
+                        ${displayName}${algoBadge}${typeIcon}${failedBadge}
                     </div>
                     <div class='lang-year'>${year}</div>
                 </div>
@@ -1724,11 +1731,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const uniqueCount = uniqueLangs.size;
         const langCountEl = document.getElementById('langSelectorBtn');
         if (langCountEl) {
-            langCountEl.textContent = uniqueCount + ' LANGUAGES ▾';
+            langCountEl.textContent = uniqueCount + ' IMPLEMENTATIONS ▾';
         }
         const solverTextEl = document.getElementById('solver-text');
         if (solverTextEl) {
-            solverTextEl.textContent = uniqueCount + ' LANGUAGES';
+            solverTextEl.textContent = uniqueCount + ' IMPLEMENTATIONS';
         }
 
         // Refresh current chart to reflect algorithm filter
@@ -1855,12 +1862,12 @@ export function generateHistoryHtml(history: any[]): string {
                     </thead>
                     <tbody>
                         ${rows.map(r => {
-                            const statusLower = (r.status || 'unknown').toLowerCase();
-                            // Heuristic for time unit: after Dec 30 2025 is ms
-                            const isMs = new Date(r.timestamp).getTime() >= new Date('2025-12-30').getTime();
-                            const timeDisplay = isMs ? `${(r.time ?? 0).toFixed(2)} ms` : `${(r.time ?? 0).toFixed(4)} s`;
-                            
-                            return `
+        const statusLower = (r.status || 'unknown').toLowerCase();
+        // Heuristic for time unit: after Dec 30 2025 is ms
+        const isMs = new Date(r.timestamp).getTime() >= new Date('2025-12-30').getTime();
+        const timeDisplay = isMs ? `${(r.time ?? 0).toFixed(2)} ms` : `${(r.time ?? 0).toFixed(4)} s`;
+
+        return `
                             <tr>
                                 <td style="color: var(--muted); font-size: 0.9em;">${new Date(r.timestamp).toLocaleString()}</td>
                                 <td style="color: var(--primary); font-weight: bold;">${r.solver}</td>
@@ -1870,7 +1877,7 @@ export function generateHistoryHtml(history: any[]): string {
                                 <td class="status-${statusLower}">${r.status || '-'}</td>
                             </tr>
                             `;
-                        }).join('')}
+    }).join('')}
                     </tbody>
                 </table>
             </div>

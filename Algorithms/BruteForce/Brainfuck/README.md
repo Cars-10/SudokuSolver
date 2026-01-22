@@ -218,7 +218,7 @@ A complete runtime implementation would likely exceed 50,000 characters and run 
 ## Usage
 
 ```bash
-cd Languages/Brainfuck
+cd Algorithms/BruteForce/Brainfuck
 ./runMe.sh
 ```
 

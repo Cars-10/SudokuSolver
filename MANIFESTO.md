@@ -18,7 +18,7 @@ This document captures the philosophy, architecture, and standard operating proc
 ## 2. Workflows & Standards
 
 ### Adding a New Language
-1.  **Directory**: Create `Languages/[LanguageName]`.
+1.  **Directory**: Create `Algorithms/BruteForce/[LanguageName]`.
 2.  **Entry Point**:
     *   **Option A (Local)**: `setupAndRunMe.sh`. Must verify dependencies (compiler/interpreter), compile (if needed), and run the solver against provided matrix files.
     *   **Option B (Docker)**: `Dockerfile`. If present, the system will build and run this container.
@@ -37,7 +37,7 @@ This document captures the philosophy, architecture, and standard operating proc
 
 ### File & Folder Structure
 *   **``**: The source of truth.
-*   **`Languages/`**: Solver source code.
+*   **`Algorithms/BruteForce/`**: Solver source code.
 *   **`Metrics/`**: Report generation logic (`HTMLGenerator.ts`, `server.js`).
 *   **`Matrices/`**: The puzzle inputs.
 *   **`logos/`**: Local cache of language logos.

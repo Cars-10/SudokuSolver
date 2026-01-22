@@ -139,11 +139,11 @@ app.post('/api/run', (req, res) => {
     const matrixPath = matrix ? path.join(MATRICES_DIR, matrix) : null;
 
     // Relative path to matrix from the language directory (where script runs)
-    // server/../Languages/Lang -> server/../Matrices/1.matrix
+    // server/../Algorithms/BruteForce/Lang -> server/../Matrices/1.matrix
     // We need to match how runBenchmarks.sh passes arguments
     // runBenchmarks.sh passes: ../../../Matrices/${m}.matrix
     // The CWD when running runMe.sh is the language directory.
-    // So `../../Matrices` from `Languages/Lang` refers to `Matrices` at root.
+    // So `../../Matrices` from `Algorithms/BruteForce/Lang` refers to `Matrices` at root.
 
     const metricsFile = path.join(langDir, 'metrics.json');
     let previousMetrics = [];
@@ -328,55 +328,80 @@ app.get('/api/source/:lang', (req, res) => {
     }
 
     try {
-        // Find the solver file
-        const files = fs.readdirSync(langDir);
         let solverFile;
-        
-        const lowerAlgo = algo.toLowerCase();
-        
-        solverFile = files.find(f => {
-            const lower = f.toLowerCase();
-            // Ignore artifacts
-            if (f.endsWith('.class') || f.endsWith('.o') || f.endsWith('.beam') || f.endsWith('.exe') || f.endsWith('.dll') || f.endsWith('.jar')) return false;
-            if (f === 'runMe.sh' || f === 'metrics.json' || f === 'README.md' || f === 'common.sh') return false;
-            if (f.startsWith('.')) return false;
+        let explicitPath = null;
 
-            // Algorithm specific checks
-            if (algo === 'BruteForce') {
-                if (lang === 'Java' && f === 'Sudoku.java') return true;
-                if (lang === 'EmacsLisp' && f === 'sudoku.el') return true;
-                if (lang === 'Pascal' && f === 'sudoku.pas') return true;
-                return lower.startsWith('sudoku.');
+        // 1. Try to get from benchmark_config.json
+        if (fs.existsSync(CONFIG_FILE)) {
+            try {
+                const config = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+                const key = `${algo}/${lang}`;
+                if (config.languages && config.languages[key] && config.languages[key].source_file) {
+                    // Resolve path relative to project root
+                    explicitPath = path.join(__dirname, '..', config.languages[key].source_file);
+                    if (fs.existsSync(explicitPath)) {
+                        console.log(`[Source API] Found explicit source path in config: ${explicitPath}`);
+                        solverFile = path.basename(explicitPath);
+                    } else {
+                        console.warn(`[Source API] Config path not found on disk: ${explicitPath}`);
+                        explicitPath = null;
+                    }
+                }
+            } catch (e) {
+                console.warn(`[Source API] Failed to read config for source lookup: ${e.message}`);
             }
-            if (algo === 'DLX') return lower.includes('dlx') && !lower.includes('test');
-            if (algo === 'CP') return lower.includes('cp') && !lower.includes('test');
-            return false;
-        });
-        
-        // Fallback for DLX/CP if strict check failed (look for *any* source file if not found)
-        if (!solverFile) {
-             const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs', '.el'];
-             solverFile = files.find(f => {
-                const ext = path.extname(f).toLowerCase();
-                return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
-             });
-        }
-        
-        // General Fallback
-        if (!solverFile) {
-             const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs'];
-             solverFile = files.find(f => {
-                const ext = path.extname(f).toLowerCase();
-                return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
-             });
         }
 
-        if (!solverFile) {
-            console.error(`[Source API] Solver file not found in: ${langDir}, files: ${files.join(', ')}`);
+        // 2. Fallback to directory scanning if no config match
+        if (!explicitPath) {
+            const files = fs.readdirSync(langDir);
+            const lowerAlgo = algo.toLowerCase();
+            
+            solverFile = files.find(f => {
+                const lower = f.toLowerCase();
+                // Ignore artifacts
+                if (f.endsWith('.class') || f.endsWith('.o') || f.endsWith('.beam') || f.endsWith('.exe') || f.endsWith('.dll') || f.endsWith('.jar')) return false;
+                if (f === 'runMe.sh' || f === 'metrics.json' || f === 'README.md' || f === 'common.sh') return false;
+                if (f.startsWith('.')) return false;
+
+                // Algorithm specific checks
+                if (algo === 'BruteForce') {
+                    if (lang === 'Java' && f === 'Sudoku.java') return true;
+                    if (lang === 'EmacsLisp' && f === 'sudoku.el') return true;
+                    if (lang === 'Pascal' && f === 'sudoku.pas') return true;
+                    return lower.startsWith('sudoku.');
+                }
+                if (algo === 'DLX') return lower.includes('dlx') && !lower.includes('test');
+                if (algo === 'CP') return lower.includes('cp') && !lower.includes('test');
+                return false;
+            });
+            
+            // Fallback for DLX/CP if strict check failed (look for *any* source file if not found)
+            if (!solverFile) {
+                 const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs', '.el', '.io', '.factor'];
+                 solverFile = files.find(f => {
+                    const ext = path.extname(f).toLowerCase();
+                    return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
+                 });
+            }
+            
+            // General Fallback
+            if (!solverFile) {
+                 const validExtensions = ['.c', '.cpp', '.cc', '.rs', '.go', '.java', '.js', '.ts', '.py', '.rb', '.pl', '.php', '.bas', '.f90', '.pas', '.nim', '.cr', '.zig', '.v', '.vala', '.jl', '.kt', '.swift', '.clj', '.ex', '.lisp', '.hs', '.ml', '.cs', '.fs', '.io', '.factor'];
+                 solverFile = files.find(f => {
+                    const ext = path.extname(f).toLowerCase();
+                    return validExtensions.includes(ext) && !f.toLowerCase().includes('test');
+                 });
+            }
+        }
+
+        if (!solverFile && !explicitPath) {
+            console.error(`[Source API] Solver file not found in: ${langDir}`);
+            const files = fs.readdirSync(langDir); // Re-read for logging
             return res.status(404).json({ error: 'Solver file not found', files: files });
         }
 
-        const filePath = path.join(langDir, solverFile);
+        const filePath = explicitPath || path.join(langDir, solverFile);
         
         // Check file size
         const stats = fs.statSync(filePath);

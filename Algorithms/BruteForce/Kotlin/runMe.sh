@@ -16,6 +16,7 @@ TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"  # 5 minutes
 if [ -d "/opt/homebrew/opt/openjdk" ]; then
     export JAVA_HOME="/opt/homebrew/opt/openjdk"
     export PATH="$JAVA_HOME/bin:$PATH"
+    SOLVER_BINARY="$JAVA_HOME/bin/java -jar Sudoku.jar"
 fi
 
 # Source shared functions from common.sh

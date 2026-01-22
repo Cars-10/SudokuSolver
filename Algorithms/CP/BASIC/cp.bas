@@ -13,6 +13,8 @@ Algorithm: Constraint propagation with MRV (Minimum Remaining Values) heuristic
 
 ' Global iteration counter
 Dim Shared As Integer cp_iterations
+Dim Shared As Integer puzzle(0 To 8, 0 To 8)
+Dim Shared As Integer solution(0 To 80)
 
 ' Grid structure with assigned values and candidate tracking
 Type CPGrid
@@ -101,7 +103,7 @@ Sub get_peers(row As Integer, col As Integer, peers As PeerList Ptr)
     Next
 End Sub
 
-Sub init_grid(grid As CPGrid Ptr, puzzle() As Integer)
+Sub init_grid(grid As CPGrid Ptr)
     For row As Integer = 0 To 8
         For col As Integer = 0 To 8
             If puzzle(row, col) = 0 Then
@@ -328,7 +330,7 @@ Sub copy_grid(dest As CPGrid Ptr, src As CPGrid Ptr)
     Next
 End Sub
 
-Function cp_search(grid As CPGrid Ptr, solution() As Integer) As Integer
+Function cp_search(grid As CPGrid Ptr) As Integer
     ' Base case: check if grid is complete
     Dim As Integer mrv_row, mrv_col, found
     find_mrv_cell(grid, @mrv_row, @mrv_col, @found)
@@ -357,7 +359,7 @@ Function cp_search(grid As CPGrid Ptr, solution() As Integer) As Integer
                 ' Assignment succeeded, propagate constraints
                 If propagate(grid) Then
                     ' Propagation succeeded, recurse
-                    If cp_search(grid, solution()) Then
+                    If cp_search(grid) Then
                         Return 1  ' Found solution
                     End If
                 End If
@@ -376,79 +378,49 @@ End Function
 ' I/O Functions
 ' ============================================================================
 
-Sub print_puzzle(puzzle() As Integer)
+Sub print_puzzle_grid(grid() As Integer)
     Print
     Print "Puzzle:"
     For r As Integer = 0 To 8
         For c As Integer = 0 To 8
-            Print Str$(puzzle(r, c)); " ";
+            Print Str$(grid(r, c)); " ";
         Next
         Print " "
     Next
 End Sub
 
-Function read_matrix_file(filename As String, puzzle() As Integer) As Integer
-    Dim As Integer f = FreeFile
-    Dim As String text_line
-    Dim As Integer row_count = 0
-
-    Print filename
-
+Function read_matrix_file(filename As String) As Integer
+    Dim f As Integer = FreeFile
     If Open(filename For Input As #f) <> 0 Then
-        Print "Error: Cannot open file: " + filename
+        Print "Error opening file: "; filename
         Return 0
     End If
 
-    While Not Eof(f) And row_count < 9
-        Line Input #f, text_line
-        text_line = Trim$(text_line)
-
-        ' Skip comments and empty lines
-        If Len(text_line) = 0 Or Left$(text_line, 1) = "#" Then
-            Continue While
-        End If
-
-        ' Parse 9 integers from line
-        Dim As Integer col = 0
-        Dim As String value_str = ""
-
-        For i As Integer = 1 To Len(text_line)
-            Dim As String ch = Mid$(text_line, i, 1)
-            If ch = " " Or ch = Chr$(9) Then  ' Space or tab
-                If Len(value_str) > 0 Then
-                    If col < 9 Then
-                        puzzle(row_count, col) = Val(value_str)
-                        Print value_str; " ";
-                        col += 1
-                    End If
-                    value_str = ""
+    Dim line_text As String
+    Dim row As Integer = 0
+    While Not Eof(f) And row < 9
+        Line Input #f, line_text
+        If Len(line_text) > 0 And Left(line_text, 1) <> "#" Then
+            Dim col As Integer = 0
+            Dim i As Integer = 1
+            While i <= Len(line_text) And col < 9
+                Dim char_at As String = Mid(line_text, i, 1)
+                If char_at >= "0" And char_at <= "9" Then
+                    puzzle(row, col) = Val(char_at)
+                    col += 1
                 End If
-            Else
-                value_str += ch
-            End If
-        Next
-
-        ' Handle last value
-        If Len(value_str) > 0 And col < 9 Then
-            puzzle(row_count, col) = Val(value_str)
-            Print value_str; " ";
-            col += 1
-        End If
-
-        Print " "
-
-        If col = 9 Then
-            row_count += 1
+                i += 1
+            Wend
+            If col = 9 Then row += 1
         End If
     Wend
-
     Close #f
-
-    If row_count <> 9 Then
-        Print "Error: Expected 9 lines, got "; row_count
-        Return 0
+    
+    If row <> 9 Then
+         Print "Error parsing matrix: Found "; row; " rows"
+         Return 0
     End If
-
+    
     Return 1
 End Function
 
@@ -457,8 +429,6 @@ End Function
 ' ============================================================================
 
 Dim As Double start_time, end_time
-Dim As Integer puzzle(0 To 8, 0 To 8)
-Dim As Integer solution(0 To 80)
 
 start_time = Timer
 
@@ -468,15 +438,17 @@ If Command$(1) = "" Then
 End If
 
 ' Read puzzle from file
-If Not read_matrix_file(Command$(1), puzzle()) Then
+If Not read_matrix_file(Command$(1)) Then
     End 1
 End If
 
-print_puzzle(puzzle())
+Print "DEBUG: Before print_puzzle_grid"
+print_puzzle_grid(puzzle())
+Print "DEBUG: After print_puzzle_grid"
 
 ' Initialize CP grid
 Dim As CPGrid grid
-init_grid(@grid, puzzle())
+init_grid(@grid)
 
 ' Apply initial propagation
 cp_iterations = 0
@@ -490,7 +462,7 @@ If Not propagate(@grid) Then
 End If
 
 ' Run search
-Dim As Integer solved = cp_search(@grid, solution())
+Dim As Integer solved = cp_search(@grid)
 
 If solved Then
     ' Convert solution array back to 2D for printing
@@ -501,7 +473,7 @@ If solved Then
         Next
     Next
 
-    print_puzzle(solution_grid())
+    print_puzzle_grid(solution_grid())
     Print
     Print "Solved in Iterations="; cp_iterations
     Print

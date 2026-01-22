@@ -1,11 +1,8 @@
 #!/bin/bash
-# runMe.sh - Common Lisp (SBCL) Sudoku Solver Benchmark
-# Created: 2025-12-18
-
 # Language configuration
 LANGUAGE="CommonLisp"
-SOLVER_BINARY="sbcl --script Sudoku.lisp --"
-COMPILE_CMD=""  # No compilation needed for SBCL script
+SOLVER_BINARY="./sudoku_lisp"
+COMPILE_CMD="sbcl --no-userinit --disable-debugger --eval '(compile-file \"Sudoku.lisp\")' --eval '(load \"Sudoku.fasl\")' --eval '(sb-ext:save-lisp-and-die \"sudoku_lisp\" :toplevel #'\''main :executable t)'"
 
 # Source common benchmark functions
 source ../../common.sh

@@ -1,0 +1,532 @@
+=== Sudoku Benchmark Runner ===
+Started: Wed Jan 21 07:14:08 CET 2026
+
+Fast/Medium languages: 69
+Slow languages: 17
+
+=== Phase 1: Fast/Medium Languages ===
+[07:14:09] Ada
+  ✓ Success
+
+[07:14:10] Assembly
+  ✗ Failed (exit 1)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:14:10] BASH
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:25] BASIC
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:27] Brainfuck
+  ✗ Failed (exit 1)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:27] C_Sharp
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:28] C
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:29] C++
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:29] Clojure
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:33] Cobol
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:33] CoffeeScript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:34] CommonLisp
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:35] Crystal
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:36] D
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:36] Dart
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:37] Elixir
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:40] EmacsLisp
+  ✗ Failed (exit 1)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:40] Erlang
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:42] Expect
+  ⚠ No runMe.sh
+Traceback (most recent call last):
+  File "<stdin>", line 15, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:42] F_Sharp
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:43] F#
+  ⚠ No runMe.sh
+Traceback (most recent call last):
+  File "<stdin>", line 15, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:43] Fennel
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:44] Forth
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:44] Fortran
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:45] Go
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:46] Groovy
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:56] Haskell
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:57] Haxe
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:58] Icon
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:59] Janet
+  ✗ Failed (exit 1)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:15:59] Java
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:00] JavaScript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:01] Julia
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:04] Jupyter
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:05] Kotlin
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:09] Lua
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:10] Nim
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:10] Objective-C
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:11] OCaml
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:11] Octave
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:25] Pascal
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:26] Perl
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:27] PHP
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:28] Pike
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:29] Prolog
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:32] Python
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:33] R
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:36] Racket
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:38] Raku
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:46] Red
+  ✗ Failed (exit 1)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:46] Rexx
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:49] Ruby
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:50] Rust
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:51] Scala
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:52] Scheme
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:53] Smalltalk
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:54] SML
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:55] SQL
+  ⚠ No runMe.sh
+Traceback (most recent call last):
+  File "<stdin>", line 15, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:55] SQLite
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:55] Swift
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:56] Tcl
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:58] TypeScript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:16:59] V
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:00] Vala
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:00] Verilog
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:01] Vimscript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:38] VisualBasic
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:39] Wren
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:17:40] Zig
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+Phase 1: 61 succeeded, 8 failed
+
+=== Phase 2: Slow Languages ===
+[07:17:41] AppleScript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:18:03] Awk
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:18:06] Bc
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:18:10] Dash
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:19:21] Dc
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:19:22] Fish
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:32:26] Gnuplot
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:32:58] Jq
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:33:08] Ksh
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:33:20] M4
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:34:15] Make
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:34:59] PostScript
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:35:24] PowerShell
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:35:43] Sed
+  ✗ Timeout (15min)
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:50:43] Tcsh
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:56:58] XSLT
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+[07:57:05] Zsh
+  ✓ Success
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+TypeError: list indices must be integers or slices, not str
+
+Phase 2: 16 succeeded, 1 failed
+
+=== Summary ===
+Completed: Wed Jan 21 07:57:33 CET 2026
+Success: 77
+Failed: 9
+
+Results: benchmark_issues.json
+Full log: benchmark_run.log

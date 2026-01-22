@@ -6,7 +6,7 @@ This directory contains implementations of the brute-force Sudoku solver across 
 
 ### common.sh - Shared Function Library
 
-The `Languages/common.sh` file provides reusable functions for:
+The `Algorithms/common.sh` file provides reusable functions for:
 - **Environment detection** - OS detection, time command selection
 - **Error handling** - `report_env_error()` for environment failures
 - **Metrics capture** - Timing, memory, CPU measurement
@@ -29,7 +29,7 @@ Each language has its own `runMe.sh` (or `setupAndRunMe.sh`) that:
 
 ```bash
 #!/bin/bash
-# Languages/YourLanguage/runMe.sh
+# Algorithms/BruteForce/YourLanguage/runMe.sh
 
 cd "$(dirname "$0")"
 
@@ -112,7 +112,7 @@ main "$@"
 
 ```bash
 #!/bin/bash
-# Languages/C/runMe.sh
+# Algorithms/BruteForce/C/runMe.sh
 
 cd "$(dirname "$0")"
 
@@ -237,7 +237,7 @@ The script generates:
 3. **Call report_env_error()** - For environment failures (not runtime errors)
 4. **Test with Matrix 1 first** - Smallest matrix (656 iterations), fast validation
 5. **Document variants** - If your language supports optimization flags
-6. **Match C output exactly** - See Languages/C/ALGORITHM.md for format requirements
+6. **Match C output exactly** - See Algorithms/BruteForce/C/ALGORITHM.md for format requirements
 
 ## Validation
 
@@ -245,14 +245,14 @@ After implementing a language, validate with:
 
 ```bash
 # Run benchmarks
-cd Languages/YourLanguage
+cd Algorithms/BruteForce/YourLanguage
 ./runMe.sh ../../../Matrices/1.matrix
 
 # Check metrics generated
 cat metrics.json
 
 # Validate against reference
-node /app/Metrics/validate_run.js /app/Languages/YourLanguage/metrics.json
+node /app/Metrics/validate_run.js /app/Algorithms/BruteForce/YourLanguage/metrics.json
 ```
 
 Expected: Iteration count matches C reference (656 for Matrix 1), output format matches exactly.
@@ -273,8 +273,8 @@ Check that you're calling `run_benchmarks()`, not implementing metrics generatio
 
 ### "Iteration count doesn't match"
 
-Your algorithm differs from C reference. See Languages/C/ALGORITHM.md for exact algorithm requirements.
+Your algorithm differs from C reference. See Algorithms/BruteForce/C/ALGORITHM.md for exact algorithm requirements.
 
 ## Reference Implementation
 
-See `Languages/C/runMe.sh` for the authoritative reference implementation that all other languages should follow.
+See `Algorithms/BruteForce/C/runMe.sh` for the authoritative reference implementation that all other languages should follow.

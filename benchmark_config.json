@@ -2,5 +2,1020 @@
   "scoring_weights": {
     "time": 0.8,
     "memory": 0.2
-  }
+  },
+  "languages": {
+    "BruteForce/C": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/C/Sudoku.c"
+    },
+    "BruteForce/Ada": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Ada/Sudoku.adb"
+    },
+    "BruteForce/AppleScript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/AppleScript/runMe.sh"
+    },
+    "BruteForce/Awk": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Awk/Sudoku.awk"
+    },
+    "BruteForce/BASH": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/BASH/Sudoku.sh"
+    },
+    "BruteForce/BASIC": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/BASIC/Sudoku.bas"
+    },
+    "BruteForce/Bc": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Bc/bc_wrapper.sh"
+    },
+    "BruteForce/C_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/C_Sharp/runMe.sh"
+    },
+    "BruteForce/C++": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/C++/Sudoku.cpp"
+    },
+    "BruteForce/Clojure": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Clojure/Sudoku.clj"
+    },
+    "BruteForce/Cobol": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Cobol/runMe.sh"
+    },
+    "BruteForce/CoffeeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/CoffeeScript/Sudoku.coffee"
+    },
+    "BruteForce/CommonLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/CommonLisp/Sudoku.lisp"
+    },
+    "BruteForce/Crystal": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Crystal/Sudoku.cr"
+    },
+    "BruteForce/D": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/D/runMe.sh"
+    },
+    "BruteForce/Dart": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Dart/Sudoku.dart"
+    },
+    "BruteForce/Dash": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Dash/Sudoku.dash"
+    },
+    "BruteForce/Dc": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Dc/dc_wrapper.sh"
+    },
+    "BruteForce/Elixir": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Elixir/runMe.sh"
+    },
+    "BruteForce/Erlang": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Erlang/runMe.sh"
+    },
+    "BruteForce/F_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/F_Sharp/Sudoku.fs"
+    },
+    "BruteForce/Fennel": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Fennel/runMe.sh"
+    },
+    "BruteForce/Fish": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Fish/Sudoku.fish"
+    },
+    "BruteForce/Forth": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Forth/Sudoku.fs"
+    },
+    "BruteForce/Fortran": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Fortran/Sudoku.f90"
+    },
+    "BruteForce/Gnuplot": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Gnuplot/Sudoku.gp"
+    },
+    "BruteForce/Go": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Go/Sudoku.go"
+    },
+    "BruteForce/Groovy": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Groovy/Sudoku.groovy"
+    },
+    "BruteForce/Haskell": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Haskell/runMe.sh"
+    },
+    "BruteForce/Haxe": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Haxe/runMe.sh"
+    },
+    "BruteForce/Icon": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Icon/runMe.sh"
+    },
+    "BruteForce/Java": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Java/Sudoku.java"
+    },
+    "BruteForce/JavaScript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/JavaScript/Sudoku.js"
+    },
+    "BruteForce/Jq": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Jq/Sudoku.jq"
+    },
+    "BruteForce/Julia": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Julia/runMe.sh"
+    },
+    "BruteForce/Jupyter": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Jupyter/Sudoku.ipynb"
+    },
+    "BruteForce/Kotlin": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Kotlin/Sudoku.kt"
+    },
+    "BruteForce/Ksh": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Ksh/Sudoku.ksh"
+    },
+    "BruteForce/Lua": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Lua/runMe.sh"
+    },
+    "BruteForce/M4": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/M4/Sudoku.m4"
+    },
+    "BruteForce/Make": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Make/runMe.sh"
+    },
+    "BruteForce/Nim": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Nim/Sudoku.nim"
+    },
+    "BruteForce/Objective-C": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Objective-C/sudoku.m"
+    },
+    "BruteForce/OCaml": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/OCaml/runMe.sh"
+    },
+    "BruteForce/Octave": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Octave/Sudoku.m"
+    },
+    "BruteForce/Pascal": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Pascal/sudoku.pas"
+    },
+    "BruteForce/Perl": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Perl/Sudoku.pl"
+    },
+    "BruteForce/PHP": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/PHP/Sudoku.php"
+    },
+    "BruteForce/Pike": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Pike/Sudoku.pike"
+    },
+    "BruteForce/PostScript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/PostScript/Sudoku.ps"
+    },
+    "BruteForce/PowerShell": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/PowerShell/runMe.sh"
+    },
+    "BruteForce/Prolog": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Prolog/sudoku.pl"
+    },
+    "BruteForce/Python": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Python/Sudoku.py"
+    },
+    "BruteForce/R": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/R/runMe.sh"
+    },
+    "BruteForce/Racket": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Racket/Sudoku.rkt"
+    },
+    "BruteForce/Raku": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Raku/runMe.sh"
+    },
+    "BruteForce/Rexx": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Rexx/Sudoku.rexx"
+    },
+    "BruteForce/Ruby": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Ruby/Sudoku.rb"
+    },
+    "BruteForce/Rust": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Rust/runMe.sh"
+    },
+    "BruteForce/Scala": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Scala/Sudoku.scala"
+    },
+    "BruteForce/Scheme": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Scheme/sudoku.scm"
+    },
+    "BruteForce/Sed": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Sed/Sudoku.sed"
+    },
+    "BruteForce/Smalltalk": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Smalltalk/Sudoku.st"
+    },
+    "BruteForce/SQLite": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/SQLite/Sudoku.js"
+    },
+    "BruteForce/Swift": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Swift/Sudoku.swift"
+    },
+    "BruteForce/Tcl": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Tcl/Sudoku.tcl"
+    },
+    "BruteForce/Tcsh": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Tcsh/Sudoku.tcsh"
+    },
+    "BruteForce/TypeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/TypeScript/Sudoku.ts"
+    },
+    "BruteForce/V": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/V/Sudoku.v"
+    },
+    "BruteForce/Vala": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Vala/Sudoku.vala"
+    },
+    "BruteForce/Verilog": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Verilog/Sudoku.v"
+    },
+    "BruteForce/Vimscript": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Vimscript/runMe.sh"
+    },
+    "BruteForce/VisualBasic": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/VisualBasic/Program.vb"
+    },
+    "BruteForce/Wren": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Wren/Sudoku.wren"
+    },
+    "BruteForce/XSLT": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/XSLT/Sudoku.xslt"
+    },
+    "BruteForce/Zig": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Zig/Sudoku.zig"
+    },
+    "BruteForce/Zsh": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Zsh/Sudoku.zsh"
+    },
+    "CP/AppleScript": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/AppleScript/runMe.sh"
+    },
+    "CP/Awk": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Awk/cp.awk"
+    },
+    "CP/BASH": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/BASH/cp.sh"
+    },
+    "CP/BASIC": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/BASIC/cp.bas"
+    },
+    "CP/C": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/C/cp.h"
+    },
+    "CP/C_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/C_Sharp/runMe.sh"
+    },
+    "CP/C++": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/C++/cp.h"
+    },
+    "CP/Clojure": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Clojure/cp.clj"
+    },
+    "CP/Cobol": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Cobol/runMe.sh"
+    },
+    "CP/CoffeeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/CoffeeScript/cp.coffee"
+    },
+    "CP/CommonLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/CommonLisp/cp.lisp"
+    },
+    "CP/Crystal": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Crystal/cp.cr"
+    },
+    "CP/D": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/D/runMe.sh"
+    },
+    "CP/Dart": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Dart/cp.dart"
+    },
+    "CP/Elixir": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Elixir/runMe.sh"
+    },
+    "CP/Erlang": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Erlang/runMe.sh"
+    },
+    "CP/F_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/F_Sharp/cp.fs"
+    },
+    "CP/Forth": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Forth/cp.fs"
+    },
+    "CP/Fortran": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Fortran/cp.f90"
+    },
+    "CP/Go": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Go/cp.go"
+    },
+    "CP/Groovy": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Groovy/CP.groovy"
+    },
+    "CP/Haskell": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Haskell/runMe.sh"
+    },
+    "CP/Haxe": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Haxe/runMe.sh"
+    },
+    "CP/Icon": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Icon/runMe.sh"
+    },
+    "CP/Java": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Java/CP.java"
+    },
+    "CP/JavaScript": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/JavaScript/cp.js"
+    },
+    "CP/Julia": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Julia/runMe.sh"
+    },
+    "CP/Kotlin": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Kotlin/CP.kt"
+    },
+    "CP/Lua": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Lua/runMe.sh"
+    },
+    "CP/Nim": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Nim/cp.nim"
+    },
+    "CP/Objective-C": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Objective-C/cp.h"
+    },
+    "CP/OCaml": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/OCaml/runMe.sh"
+    },
+    "CP/Octave": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Octave/cp.m"
+    },
+    "CP/Pascal": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Pascal/cp.pas"
+    },
+    "CP/Perl": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Perl/cp.pl"
+    },
+    "CP/PHP": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/PHP/cp.php"
+    },
+    "CP/Pike": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Pike/cp.pike"
+    },
+    "DLX/JavaScript": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/JavaScript/dlx.js"
+    },
+    "DLX/CommonLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/CommonLisp/dlx.lisp"
+    },
+    "CP/Scheme": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Scheme/cp.scm"
+    },
+    "DLX/Pascal": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Pascal/dlx.pas"
+    },
+    "DLX/Perl": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Perl/dlx.pl"
+    },
+    "DLX/Scheme": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Scheme/dlx.scm"
+    },
+    "CP/Ruby": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Ruby/cp.rb"
+    },
+    "CP/Tcl": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Tcl/cp.tcl"
+    },
+    "DLX/Awk": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Awk/dlx.awk"
+    },
+    "DLX/BASH": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/BASH/dlx.sh"
+    },
+    "DLX/PowerShell": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/PowerShell/runMe.sh"
+    },
+    "DLX/Tcl": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Tcl/dlx.tcl"
+    },
+    "DLX/AppleScript": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/AppleScript/runMe.sh"
+    },
+    "DLX/C": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/C/dlx.h"
+    },
+    "DLX/Rust": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Rust/runMe.sh"
+    },
+    "CP/Prolog": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Prolog/cp.pl"
+    },
+    "CP/Python": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Python/cp.py"
+    },
+    "CP/R": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/R/runMe.sh"
+    },
+    "CP/Racket": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Racket/cp.rkt"
+    },
+    "CP/Raku": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Raku/runMe.sh"
+    },
+    "CP/Rexx": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Rexx/cp.rexx"
+    },
+    "CP/Rust": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Rust/runMe.sh"
+    },
+    "CP/Scala": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Scala/CP.scala"
+    },
+    "CP/Smalltalk": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Smalltalk/cp.st"
+    },
+    "CP/Swift": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Swift/cp.swift"
+    },
+    "CP/TypeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/TypeScript/cp.js"
+    },
+    "CP/V": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/V/cp.v"
+    },
+    "CP/Vala": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Vala/cp.vala"
+    },
+    "CP/Wren": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Wren/cp.wren"
+    },
+    "CP/Zig": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Zig/cp.zig"
+    },
+    "DLX/BASIC": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/BASIC/DLX.bas"
+    },
+    "DLX/C_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/C_Sharp/runMe.sh"
+    },
+    "DLX/C++": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/C++/dlx.h"
+    },
+    "DLX/Clojure": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Clojure/dlx.clj"
+    },
+    "DLX/CoffeeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/CoffeeScript/dlx.coffee"
+    },
+    "DLX/Crystal": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Crystal/dlx.cr"
+    },
+    "DLX/D": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/D/runMe.sh"
+    },
+    "DLX/Dart": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Dart/dlx.dart"
+    },
+    "DLX/Elixir": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Elixir/runMe.sh"
+    },
+    "DLX/Erlang": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Erlang/runMe.sh"
+    },
+    "DLX/F_Sharp": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/F_Sharp/dlx.fs"
+    },
+    "DLX/Fortran": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Fortran/dlx.f90"
+    },
+    "DLX/Go": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Go/dlx.go"
+    },
+    "DLX/Groovy": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Groovy/DLX.groovy"
+    },
+    "DLX/Haskell": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Haskell/runMe.sh"
+    },
+    "DLX/Haxe": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Haxe/runMe.sh"
+    },
+    "DLX/Java": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Java/DLX.java"
+    },
+    "DLX/Julia": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Julia/runMe.sh"
+    },
+    "DLX/Kotlin": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Kotlin/DLX.kt"
+    },
+    "DLX/Lua": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Lua/runMe.sh"
+    },
+    "DLX/Nim": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Nim/dlx.nim"
+    },
+    "DLX/Objective-C": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Objective-C/dlx.h"
+    },
+    "DLX/OCaml": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/OCaml/runMe.sh"
+    },
+    "DLX/Octave": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Octave/dlx.m"
+    },
+    "DLX/PHP": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/PHP/dlx.php"
+    },
+    "DLX/Prolog": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Prolog/dlx.pl"
+    },
+    "DLX/Python": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Python/dlx.py"
+    },
+    "DLX/R": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/R/runMe.sh"
+    },
+    "DLX/Racket": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Racket/dlx.rkt"
+    },
+    "DLX/Raku": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Raku/runMe.sh"
+    },
+    "DLX/Ruby": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Ruby/dlx.rb"
+    },
+    "DLX/Scala": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Scala/DLX.scala"
+    },
+    "DLX/Smalltalk": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Smalltalk/dlx.st"
+    },
+    "DLX/Swift": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Swift/dlx.swift"
+    },
+    "DLX/TypeScript": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/TypeScript/dlx.js"
+    },
+    "DLX/V": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/V/dlx.v"
+    },
+    "DLX/Vala": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Vala/dlx.vala"
+    },
+    "DLX/Wren": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Wren/dlx.wren"
+    },
+    "DLX/Zig": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Zig/dlx.zig"
+    },
+    "BruteForce/Factor": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Factor/Sudoku.factor"
+    },
+    "CP/Factor": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Factor/cp.factor"
+    },
+    "BruteForce/Io": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Io/Sudoku.io"
+    },
+    "CP/Io": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Io/cp.io"
+    },
+    "DLX/Io": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Io/dlx.io"
+    },
+    "BruteForce/Assembly": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Assembly/Sudoku.asm"
+    },
+    "BruteForce/Brainfuck": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Brainfuck/Sudoku.bf"
+    },
+    "BruteForce/EmacsLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/EmacsLisp/sudoku.el"
+    },
+    "BruteForce/Janet": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Janet/Sudoku.janet"
+    },
+    "BruteForce/Red": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/Red/Sudoku.red"
+    },
+    "BruteForce/SML": {
+      "status": "complete",
+      "source_file": "Algorithms/BruteForce/SML/runMe.sh"
+    },
+    "DLX/Ada": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Ada/dlx.adb"
+    },
+    "DLX/EmacsLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/EmacsLisp/dlx.el"
+    },
+    "DLX/Factor": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/Factor/dlx.factor"
+    },
+    "DLX/SML": {
+      "status": "complete",
+      "source_file": "Algorithms/DLX/SML/runMe.sh"
+    },
+    "CP/Ada": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/Ada/cp.adb"
+    },
+    "CP/EmacsLisp": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/EmacsLisp/cp.el"
+    },
+    "CP/PowerShell": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/PowerShell/runMe.sh"
+    },
+    "CP/SML": {
+      "status": "complete",
+      "source_file": "Algorithms/CP/SML/runMe.sh"
+    },
+    "DLX/Rexx": {
+      "status": "complete"
+    },
+    "CP/Fennel": {
+      "status": "complete"
+    },
+    "DLX/Fennel": {
+      "status": "complete"
+    }
+  },
+  "completed": [
+    "BruteForce/C",
+    "BruteForce/Ada",
+    "BruteForce/AppleScript",
+    "BruteForce/Awk",
+    "BruteForce/BASH",
+    "BruteForce/BASIC",
+    "BruteForce/Bc",
+    "BruteForce/C_Sharp",
+    "BruteForce/C++",
+    "BruteForce/Clojure",
+    "BruteForce/Cobol",
+    "BruteForce/CoffeeScript",
+    "BruteForce/CommonLisp",
+    "BruteForce/Crystal",
+    "BruteForce/D",
+    "BruteForce/Dart",
+    "BruteForce/Dash",
+    "BruteForce/Dc",
+    "BruteForce/Elixir",
+    "BruteForce/Erlang",
+    "BruteForce/F_Sharp",
+    "BruteForce/Fennel",
+    "BruteForce/Fish",
+    "BruteForce/Forth",
+    "BruteForce/Fortran",
+    "BruteForce/Gnuplot",
+    "BruteForce/Go",
+    "BruteForce/Groovy",
+    "BruteForce/Haskell",
+    "BruteForce/Haxe",
+    "BruteForce/Icon",
+    "BruteForce/Java",
+    "BruteForce/JavaScript",
+    "BruteForce/Jq",
+    "BruteForce/Julia",
+    "BruteForce/Jupyter",
+    "BruteForce/Kotlin",
+    "BruteForce/Ksh",
+    "BruteForce/Lua",
+    "BruteForce/M4",
+    "BruteForce/Make",
+    "BruteForce/Nim",
+    "BruteForce/Objective-C",
+    "BruteForce/OCaml",
+    "BruteForce/Octave",
+    "BruteForce/Pascal",
+    "BruteForce/Perl",
+    "BruteForce/PHP",
+    "BruteForce/Pike",
+    "BruteForce/PostScript",
+    "BruteForce/PowerShell",
+    "BruteForce/Prolog",
+    "BruteForce/Python",
+    "BruteForce/R",
+    "BruteForce/Racket",
+    "BruteForce/Raku",
+    "BruteForce/Rexx",
+    "BruteForce/Ruby",
+    "BruteForce/Rust",
+    "BruteForce/Scala",
+    "BruteForce/Scheme",
+    "BruteForce/Sed",
+    "BruteForce/Smalltalk",
+    "BruteForce/SQLite",
+    "BruteForce/Swift",
+    "BruteForce/Tcl",
+    "BruteForce/Tcsh",
+    "BruteForce/TypeScript",
+    "BruteForce/V",
+    "BruteForce/Vala",
+    "BruteForce/Verilog",
+    "BruteForce/Vimscript",
+    "BruteForce/VisualBasic",
+    "BruteForce/Wren",
+    "BruteForce/XSLT",
+    "BruteForce/Zig",
+    "BruteForce/Zsh",
+    "CP/AppleScript",
+    "CP/Awk",
+    "CP/BASH",
+    "CP/BASIC",
+    "CP/C",
+    "CP/C_Sharp",
+    "CP/C++",
+    "CP/Clojure",
+    "CP/Cobol",
+    "CP/CoffeeScript",
+    "CP/CommonLisp",
+    "CP/Crystal",
+    "CP/D",
+    "CP/Dart",
+    "CP/Elixir",
+    "CP/Erlang",
+    "CP/F_Sharp",
+    "CP/Forth",
+    "CP/Fortran",
+    "CP/Go",
+    "CP/Groovy",
+    "CP/Haskell",
+    "CP/Haxe",
+    "CP/Icon",
+    "CP/Java",
+    "CP/JavaScript",
+    "CP/Julia",
+    "CP/Kotlin",
+    "CP/Lua",
+    "CP/Nim",
+    "CP/Objective-C",
+    "CP/OCaml",
+    "CP/Octave",
+    "CP/Pascal",
+    "CP/Perl",
+    "CP/PHP",
+    "CP/Pike",
+    "DLX/JavaScript",
+    "DLX/CommonLisp",
+    "CP/Scheme",
+    "DLX/Pascal",
+    "DLX/Perl",
+    "DLX/Scheme",
+    "CP/Ruby",
+    "CP/Tcl",
+    "DLX/Awk",
+    "DLX/BASH",
+    "DLX/PowerShell",
+    "DLX/Tcl",
+    "DLX/AppleScript",
+    "DLX/C",
+    "DLX/Rust",
+    "CP/Prolog",
+    "CP/Python",
+    "CP/R",
+    "CP/Racket",
+    "CP/Raku",
+    "CP/Rexx",
+    "CP/Rust",
+    "CP/Scala",
+    "CP/Smalltalk",
+    "CP/Swift",
+    "CP/TypeScript",
+    "CP/V",
+    "CP/Vala",
+    "CP/Wren",
+    "CP/Zig",
+    "DLX/BASIC",
+    "DLX/C_Sharp",
+    "DLX/C++",
+    "DLX/Clojure",
+    "DLX/CoffeeScript",
+    "DLX/Crystal",
+    "DLX/D",
+    "DLX/Dart",
+    "DLX/Elixir",
+    "DLX/Erlang",
+    "DLX/F_Sharp",
+    "DLX/Fortran",
+    "DLX/Go",
+    "DLX/Groovy",
+    "DLX/Haskell",
+    "DLX/Haxe",
+    "DLX/Java",
+    "DLX/Julia",
+    "DLX/Kotlin",
+    "DLX/Lua",
+    "DLX/Nim",
+    "DLX/Objective-C",
+    "DLX/OCaml",
+    "DLX/Octave",
+    "DLX/PHP",
+    "DLX/Prolog",
+    "DLX/Python",
+    "DLX/R",
+    "DLX/Racket",
+    "DLX/Raku",
+    "DLX/Ruby",
+    "DLX/Scala",
+    "DLX/Smalltalk",
+    "DLX/Swift",
+    "DLX/TypeScript",
+    "DLX/V",
+    "DLX/Vala",
+    "DLX/Wren",
+    "DLX/Zig",
+    "BruteForce/Factor",
+    "CP/Factor",
+    "BruteForce/Io",
+    "CP/Io",
+    "DLX/Io",
+    "CP/Ada",
+    "DLX/Ada",
+    "DLX/Rexx",
+    "DLX/Factor",
+    "CP/Fennel",
+    "DLX/Fennel"
+  ]
 }

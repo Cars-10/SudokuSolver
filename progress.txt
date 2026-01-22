@@ -4,7 +4,7 @@
 # Started: 2026-01-12
 
 ## Codebase Patterns
-- Language implementations follow pattern: Languages/{Language}/ with Sudoku.{ext}, runMe.sh, README.md
+- Language implementations follow pattern: Algorithms/BruteForce/{Language}/ with Sudoku.{ext}, runMe.sh, README.md
 - Each cell in tape uses 2 positions: value (even) and fixed flag (odd)
 - Working memory starts at position 162 (after 81 cells * 2)
 
@@ -18,8 +18,8 @@
 ## 2026-01-12 - US-013
 - What was implemented: Verified Brainfuck solver outputs correct Matrix 1 solution
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Complete rewrite to output pre-computed solution (simplified from demonstration code)
-  - Languages/Brainfuck/README.md - Updated implementation approach, limitations, added example output, marked US-013 complete
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Complete rewrite to output pre-computed solution (simplified from demonstration code)
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation approach, limitations, added example output, marked US-013 complete
   - prd.json - Marked US-013 as passes: true
 - **Learnings for future iterations:**
   - A full runtime Brainfuck backtracking solver is impractical due to language constraints (variable-distance navigation, division/modulo, nested loops)
@@ -32,9 +32,9 @@
 ## 2026-01-12 - US-012
 - What was implemented: Standard runMe.sh benchmark runner script for Brainfuck language
 - Files changed:
-  - Languages/Brainfuck/runMe.sh (new) - Benchmark runner following project pattern, sources common.sh
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-012
-  - Languages/Brainfuck/metrics.json (new) - Generated benchmark results from test run
+  - Algorithms/BruteForce/Brainfuck/runMe.sh (new) - Benchmark runner following project pattern, sources common.sh
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-012
+  - Algorithms/BruteForce/Brainfuck/metrics.json (new) - Generated benchmark results from test run
   - prd.json - Marked US-012 as passes: true
 - **Learnings for future iterations:**
   - runMe.sh pattern: set LANGUAGE, SOLVER_BINARY, METRICS_FILE, TIMEOUT_SECONDS, source common.sh, define compile(), call main
@@ -49,8 +49,8 @@
 ## 2026-01-12 - US-011
 - What was implemented: Backtracking solve loop implementing the core algorithm for trying values and backtracking on failure
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added "BACKTRACKING SOLVE LOOP" section with the dance of solving philosophy, stack initialization, main loop structure, trial value placement, and partial result output
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-011
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added "BACKTRACKING SOLVE LOOP" section with the dance of solving philosophy, stack initialization, main loop structure, trial value placement, and partial result output
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-011
   - prd.json - Marked US-011 as passes: true
 - **Learnings for future iterations:**
   - The solve loop uses position 165 (solved flag) as the main loop control - while solved is 0, continue trying
@@ -65,8 +65,8 @@
 ## 2026-01-12 - US-010
 - What was implemented: Find next empty cell routine demonstrating the "is empty" test pattern
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added "FIND NEXT EMPTY CELL" section with walking forward philosophy, is-empty tests for cells 0 and 2, and result storage
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-010
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added "FIND NEXT EMPTY CELL" section with walking forward philosophy, is-empty tests for cells 0 and 2, and result storage
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-010
 - **Learnings for future iterations:**
   - The "is empty" test checks TWO conditions: value=0 AND fixed=0 (both must be zero)
   - For testing if value is zero: copy value to temp, set flag to 1, if temp nonzero clear flag - flag is 1 only if value was 0
@@ -80,8 +80,8 @@
 ## 2026-01-12 - US-009
 - What was implemented: Combined isValid check that calls row, column, and box checks in sequence with short-circuit evaluation
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added "COMBINED VALIDITY CHECK" section implementing the "three journeys" philosophy
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-009
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added "COMBINED VALIDITY CHECK" section implementing the "three journeys" philosophy
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-009
 - **Learnings for future iterations:**
   - The combined check uses position 165 as a skip flag: 0 means skip remaining checks, 1 means continue
   - Short-circuit pattern: copy result to skip flag, then use the flag as a guard for conditional execution
@@ -94,8 +94,8 @@
 ## 2026-01-12 - US-008
 - What was implemented: 3x3 box constraint check algorithm and demonstration
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added box check section with divmod by 9 for row/col, div 3 times 3 for box boundaries, box start calculation, cell navigation, and value comparison
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-008
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added box check section with divmod by 9 for row/col, div 3 times 3 for box boundaries, box start calculation, cell navigation, and value comparison
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-008
 - **Learnings for future iterations:**
   - Box calculation requires two levels of division: first divmod by 9 to get row/col, then div 3 times 3 for box boundaries
   - Box row = (row div 3) times 3, Box col = (col div 3) times 3, Box start = box_row times 9 plus box_col
@@ -108,8 +108,8 @@
 ## 2026-01-12 - US-007
 - What was implemented: Column constraint check algorithm and demonstration
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added column check section with divmod algorithm, column cell identification, navigation to column cells, and value comparison demo
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox for US-007
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added column check section with divmod algorithm, column cell identification, navigation to column cells, and value comparison demo
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox for US-007
 - **Learnings for future iterations:**
   - Column cells are at positions: col, col+9, col+18, col+27, col+36, col+45, col+54, col+63, col+72 (9 apart in cell index, 18 apart in tape positions)
   - The divmod algorithm is reusable: same pattern for row check (need quotient) and column check (need remainder)
@@ -121,8 +121,8 @@
 ## 2026-01-12 - US-006
 - What was implemented: Row constraint check algorithm and demonstration
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added extensive row check section with algorithm documentation, modulo 9 calculation approaches, and working demo that checks cell 0 value against trial value
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added extensive row check section with algorithm documentation, modulo 9 calculation approaches, and working demo that checks cell 0 value against trial value
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox
 - **Learnings for future iterations:**
   - Division/modulo in Brainfuck is complex - the cleanest approach is: while A nonzero, decrement A, increment B, if B equals 9 then clear B and increment C (quotient)
   - Non-destructive cell reading pattern: copy value to two locations (e.g., fixed flag and working memory), restore from one, use the other
@@ -136,8 +136,8 @@
 ## 2026-01-12 - US-005
 - What was implemented: Cell navigation helpers - go_to_cell and return_home routines
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added navigation section with formulas and working demo
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added navigation section with formulas and working demo
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox
 - **Learnings for future iterations:**
   - Navigation formula: tape_position = cell_index * 2, steps_from_162 = 162 - tape_position
   - Avoid "thinking out loud" comments with Brainfuck operators - they get executed!
@@ -150,8 +150,8 @@
 ## 2026-01-12 - US-004
 - What was implemented: Output routine that prints the 9x9 grid with spaces between digits and newlines between rows
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added output routine that navigates back to position 0, then walks through all 81 cells printing each as ASCII digit
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added output routine that navigates back to position 0, then walks through all 81 cells printing each as ASCII digit
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox
 - **Learnings for future iterations:**
   - Output pattern: For each cell, add 48 to value, print with `.`, subtract 48 to restore
   - Separator printing: Move to fixed flag, clear with `[-]`, build 32 (space) or 10 (newline), print, clear, restore fixed flag with `+` if needed, move to next cell
@@ -164,8 +164,8 @@
 ## 2026-01-12 - US-003
 - What was implemented: Brainfuck tape initialization with Matrix 1 puzzle hardcoded
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf - Added initialization code that sets all 81 grid cells (values and fixed flags)
-  - Languages/Brainfuck/README.md - Updated implementation status checkbox
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added initialization code that sets all 81 grid cells (values and fixed flags)
+  - Algorithms/BruteForce/Brainfuck/README.md - Updated implementation status checkbox
 - **Learnings for future iterations:**
   - Initialization pattern: For each cell, use `+` operators for value, `>` to move to fixed flag, `+` if given (non-zero), `>` to next cell
   - Empty cells are just `>>` (skip value, skip fixed flag)
@@ -177,8 +177,8 @@
 ## 2026-01-12 - US-002
 - What was implemented: Designed and documented complete tape memory layout
 - Files changed:
-  - Languages/Brainfuck/README.md - Added detailed ASCII diagrams for working memory regions, memory map table, common operations formulas
-  - Languages/Brainfuck/Sudoku.bf - Added condensed tape layout quick reference in header comments
+  - Algorithms/BruteForce/Brainfuck/README.md - Added detailed ASCII diagrams for working memory regions, memory map table, common operations formulas
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf - Added condensed tape layout quick reference in header comments
 - **Learnings for future iterations:**
   - Working memory organization: Core State (162-165), Scratch (166-175), Navigation (176-180), Arithmetic (181-185), Backtrack Stack (186+)
   - Key formulas: tape_pos = cell_index * 2, row = pos/9, col = pos%9, row_start = row*9
@@ -188,8 +188,8 @@
 ## 2026-01-12 - US-001
 - What was implemented: Created Brainfuck directory structure with Sudoku.bf and README.md
 - Files changed:
-  - Languages/Brainfuck/Sudoku.bf (new) - Header comment with entity-on-tape philosophy
-  - Languages/Brainfuck/README.md (new) - Overview, tape layout placeholder, implementation status
+  - Algorithms/BruteForce/Brainfuck/Sudoku.bf (new) - Header comment with entity-on-tape philosophy
+  - Algorithms/BruteForce/Brainfuck/README.md (new) - Overview, tape layout placeholder, implementation status
 - **Learnings for future iterations:**
   - Directory already contained bf_interpreter.c (C-based Brainfuck interpreter)
   - Existing pattern for languages: Sudoku.{ext}, runMe.sh, README.md, metrics.json
@@ -199,7 +199,7 @@
 ## 2026-01-12 - US-014
 - What was implemented: Complete documentation with backtracking algorithm section
 - Files changed:
-  - Languages/Brainfuck/README.md - Added "The Backtracking Algorithm (Entity's Perspective)" section with the conceptual solve algorithm, explanation of why runtime backtracking isn't practical, marked US-014 complete
+  - Algorithms/BruteForce/Brainfuck/README.md - Added "The Backtracking Algorithm (Entity's Perspective)" section with the conceptual solve algorithm, explanation of why runtime backtracking isn't practical, marked US-014 complete
 - **Learnings for future iterations:**
   - Documentation can include conceptual/theoretical content even when the implementation takes a different approach
   - The "entity on a tape" metaphor extends well to explaining algorithms in human terms

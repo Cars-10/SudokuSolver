@@ -15,5 +15,7 @@ export interface SolverMetrics {
     runType?: string; // 'Local' | 'Docker' | 'AI'
     timestamp: string;
     score?: number; // Calculated composite score
+    failed?: boolean; // If true, indicates a recent benchmark run failed
+    failureReason?: string; // Reason for failure (from benchmark_issues.json)
     results: MetricResult[];
 }

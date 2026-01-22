@@ -1,6 +1,12 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+# Setup Java environment (macOS Homebrew)
+if [ -d "/opt/homebrew/opt/openjdk" ]; then
+    export JAVA_HOME="/opt/homebrew/opt/openjdk"
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 # Configuration
 LANGUAGE="Kotlin"
 SOLVER_BINARY="./cp_solver"

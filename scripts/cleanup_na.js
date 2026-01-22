@@ -4,8 +4,8 @@ const { globSync } = require('glob');
 
 function clean() {
     // Find all metrics.json files
-    // Patterns: Algorithms/*/*/metrics.json and Languages/*/metrics.json
-    const patterns = ['Algorithms/*/*/metrics.json', 'Languages/*/metrics.json'];
+    // Patterns: Algorithms/*/*/metrics.json and Algorithms/BruteForce/*/metrics.json
+    const patterns = ['Algorithms/*/*/metrics.json', 'Algorithms/BruteForce/*/metrics.json'];
     let files = [];
     for (const p of patterns) {
         files = files.concat(globSync(p));

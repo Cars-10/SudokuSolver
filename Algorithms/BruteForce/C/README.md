@@ -68,7 +68,7 @@ VARIANT=Ofast ./runMe.sh
 
 ### Run with modular script (recommended)
 ```bash
-cd Languages/C
+cd Algorithms/BruteForce/C
 ./runMe.sh ../../../Matrices/1.matrix
 ```
 
@@ -161,7 +161,7 @@ This C implementation serves as the standard for:
 
 ```bash
 # Run and validate
-cd Languages/C
+cd Algorithms/BruteForce/C
 ./runMe.sh ../../../Matrices/{1,2,3,4,5}.matrix
 node ../../Metrics/validate_run.js ./metrics.json
 
@@ -193,7 +193,7 @@ This is harmless (missing `#include <stdlib.h>`), does not affect functionality 
 1. Copy the algorithm from `ALGORITHM.md`
 2. Implement in your target language
 3. Run with `runMe.sh` (or create language-specific script)
-4. Validate: `node Metrics/validate_run.js Languages/YourLanguage/metrics.json`
+4. Validate: `node Metrics/validate_run.js Algorithms/BruteForce/YourLanguage/metrics.json`
 5. Ensure iteration counts match C exactly
 6. Ensure output format matches C exactly
 

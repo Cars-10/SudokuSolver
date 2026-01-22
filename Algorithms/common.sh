@@ -1,5 +1,5 @@
 #!/bin/bash
-# Languages/common.sh - Shared functions for benchmark scripts
+# Algorithms/common.sh - Shared functions for benchmark scripts
 # Created: 2025-12-16
 #
 # This library provides reusable functions for all language implementations.

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const metadataPath = path.join(__dirname, '../Languages/metadata.json');
+const metadataPath = path.join(__dirname, '../Algorithms/metadata.json');
 let metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
 
 const updates = {

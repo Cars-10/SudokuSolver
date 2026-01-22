@@ -5,6 +5,13 @@ cd "$(dirname "$0")"
 
 # Configuration
 LANGUAGE="Clojure"
+
+# Setup Java environment (macOS Homebrew)
+if [ -d "/opt/homebrew/opt/openjdk" ]; then
+    export JAVA_HOME="/opt/homebrew/opt/openjdk"
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 SOLVER_BINARY="./dlx_solver"
 METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"

@@ -344,10 +344,10 @@ cd Metrics
 node validate_run.js Algorithms/BruteForce/C/metrics.json
 
 # Validate output format
-node validate_run.js --format Languages/C/metrics.json
+node validate_run.js --format Algorithms/BruteForce/C/metrics.json
 
 # Complete validation
-node validate_run.js --all Languages/C/metrics.json
+node validate_run.js --all Algorithms/BruteForce/C/metrics.json
 ```
 
 ## Adding a New Language

@@ -36,7 +36,7 @@ Pure brute-force recursive backtracking matching C reference:
 
 ### Run with modular script (recommended)
 ```bash
-cd Languages/Python
+cd Algorithms/BruteForce/Python
 ./runMe.sh ../../Matrices/1.matrix
 ```
 

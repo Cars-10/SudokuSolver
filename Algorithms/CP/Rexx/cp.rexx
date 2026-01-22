@@ -1,4 +1,4 @@
-#!/usr/bin/env rexx
+#!/usr/bin/env regina
 /* Constraint Propagation (CP) Sudoku Solver - Rexx Implementation */
 /* Algorithm: Constraint propagation with MRV heuristic */
 
@@ -16,7 +16,39 @@ if filename = '' then do
     exit 1
 end
 
-/* Bitset operations */
+/* Read puzzle from file */
+call read_puzzle filename
+
+/* Initialize grid */
+call init_grid
+
+/* Print initial puzzle */
+call print_grid 'Initial'
+
+/* Solve */
+call time 'R'
+solved = cp_search()
+elapsed = time('E')
+
+/* Print solution */
+call print_grid 'Solution'
+
+if solved then do
+    say ''
+    say 'Solved in Iterations='cp_iterations
+end
+else do
+    say ''
+    say 'No solution found'
+end
+
+say ''
+say 'Seconds to process' format(elapsed, , 3)
+exit 0
+
+/* ================================================================
+ * Bitset operations
+ * ================================================================ */
 has_candidate:
     parse arg candidate_set, digit
     return (candidate_set // (2 ** (digit + 1))) >= (2 ** digit)
@@ -48,35 +80,9 @@ get_first_candidate:
     end
     return 0
 
-/* Read puzzle from file */
-call read_puzzle filename
-
-/* Initialize grid */
-call init_grid
-
-/* Print initial puzzle */
-call print_grid 'Initial'
-
-/* Solve */
-call time 'R'
-result = cp_search()
-elapsed = time('E')
-
-/* Print solution */
-call print_grid 'Solution'
-
-if result then do
-    say ''
-    say 'Solved in Iterations='cp_iterations
-end
-else do
-    say ''
-    say 'No solution found'
-end
-
-say ''
-say 'Seconds to process' format(elapsed, , 3)
-exit 0
+/* ================================================================
+ * Procedures
+ * ================================================================ */
 
 /* Read puzzle from file */
 read_puzzle: procedure expose puzzle.

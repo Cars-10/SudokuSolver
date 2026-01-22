@@ -37,7 +37,7 @@ brew install scala openjdk
 ### Using runMe.sh (Recommended)
 
 ```bash
-cd Languages/Scala
+cd Algorithms/BruteForce/Scala
 ./runMe.sh ../../Matrices/1.matrix
 ```
 

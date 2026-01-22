@@ -2,7 +2,7 @@
 import fs from 'fs';
 import { glob } from 'glob';
 
-const files = await glob('./Languages/*/metrics.json');
+const files = await glob('./Algorithms/BruteForce/*/metrics.json');
 const invalid = [];
 
 for (const file of files) {
@@ -39,7 +39,7 @@ const grouped = {};
 for (const i of invalid) {
     const key = i.reason;
     if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(i.file.replace('./Languages/', '').replace('/metrics.json', ''));
+    grouped[key].push(i.file.replace('./Algorithms/BruteForce/', '').replace('/metrics.json', ''));
 }
 
 for (const [reason, files] of Object.entries(grouped)) {
