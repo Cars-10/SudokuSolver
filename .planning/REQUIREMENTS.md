@@ -18,13 +18,13 @@ Requirements for quality, correctness validation, scoring optimization, and enha
 
 ### Scoring Analysis
 
-- [ ] **SCORE-01**: System performs sensitivity analysis across weight scenarios (time-only, 80/20, 50/50, memory-only)
-- [ ] **SCORE-02**: System calculates rank stability per language across weight scenarios
-- [ ] **SCORE-03**: Report shows score decomposition view (time 80% + memory 20% contributions)
-- [ ] **SCORE-04**: System computes correlation analysis (R^2 for time vs memory relationship)
-- [ ] **SCORE-05**: Report displays percentile rankings (p50, p90, p99)
-- [ ] **SCORE-06**: System performs distribution analysis to identify performance tiers
-- [ ] **SCORE-07**: System identifies and flags statistical outliers with analysis
+- [x] **SCORE-01**: System performs sensitivity analysis across weight scenarios (time-only, 80/20, 50/50, memory-only)
+- [x] **SCORE-02**: System calculates rank stability per language across weight scenarios
+- [x] **SCORE-03**: Report shows score decomposition view (time 80% + memory 20% contributions)
+- [x] **SCORE-04**: System computes correlation analysis (R^2 for time vs memory relationship)
+- [x] **SCORE-05**: Report displays percentile rankings (p50, p90, p99)
+- [x] **SCORE-06**: System performs distribution analysis to identify performance tiers
+- [x] **SCORE-07**: System identifies and flags statistical outliers with analysis
 
 ### Data Visualization
 
@@ -87,13 +87,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VAL-04 | Phase 6 | Pending | UI: visual warning badges (deferred from Phase 4 per CONTEXT.md) |
 | VAL-05 | Phase 6 | Pending | UI: diagnostics modal (deferred from Phase 4 per CONTEXT.md) |
 | VAL-06 | Phase 4 | Complete | +/-1 tolerance |
-| SCORE-01 | Phase 5 | Pending | |
-| SCORE-02 | Phase 5 | Pending | |
-| SCORE-03 | Phase 5 | Pending | |
-| SCORE-04 | Phase 5 | Pending | |
-| SCORE-05 | Phase 5 | Pending | |
-| SCORE-06 | Phase 5 | Pending | |
-| SCORE-07 | Phase 5 | Pending | |
+| SCORE-01 | Phase 5 | Complete | Sensitivity analysis module |
+| SCORE-02 | Phase 5 | Complete | Rank stability computation |
+| SCORE-03 | Phase 5 | Complete | Stacked bar score decomposition |
+| SCORE-04 | Phase 5 | Complete | R^2 correlation analysis |
+| SCORE-05 | Phase 5 | Complete | Percentile calculations |
+| SCORE-06 | Phase 5 | Complete | Distribution tier analysis |
+| SCORE-07 | Phase 5 | Complete | IQR outlier detection |
 | VIZ-01 | Phase 6 | Pending | |
 | VIZ-02 | Phase 6 | Pending | |
 | VIZ-03 | Phase 6 | Pending | |
@@ -125,4 +125,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after Phase 4 execution complete (VAL-01, VAL-02, VAL-03, VAL-06 complete)*
+*Last updated: 2026-01-23 after Phase 5 execution complete (SCORE-01 through SCORE-07 complete)*
