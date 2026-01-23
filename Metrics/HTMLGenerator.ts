@@ -1442,7 +1442,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             window.benchmarkConfig = ${safeJSON(benchmarkConfig)};
             window.tailoring = ${safeJSON(tailoringConfig)};
             window.scoringAnalysisData = ${scoringAnalysisJson};
-            window.metricsData = ${safeJSON(metrics.map(m => {
+            window.metricsData = ${safeJSON(metrics.filter(m => m.solver).map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
 
         // Logo Lookup with Special Handling
