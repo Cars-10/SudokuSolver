@@ -7,7 +7,7 @@ const isLocalPort = window.location.port === '9002';
 console.log(`Execution mode: ${useDockerMode ? 'Docker (port 9001)' : 'Local (port 9002)'}`);
 
 // Switch execution mode by navigating to different port
-window.switchExecutionMode = function() {
+window.switchExecutionMode = function () {
     const currentPort = window.location.port;
     const newPort = currentPort === '9001' ? '9002' : '9001';
     const newUrl = window.location.protocol + '//' + window.location.hostname + ':' + newPort + window.location.pathname;
@@ -15,7 +15,7 @@ window.switchExecutionMode = function() {
 };
 
 // Initialize Docker/Local button based on current port
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const icon = document.getElementById('dockerIcon');
     const label = document.getElementById('dockerLabel');
     const btn = document.getElementById('dockerToggleBtn');
@@ -245,13 +245,23 @@ function toggleMismatches() {
     const curseWord = mismatchLabels[persona] || mismatchLabels['Standard'] || "MISMATCHES";
 
     if (isHidingMismatches) {
-        // Active = mismatches are hidden
-        btn.classList.add('filter-active-red');
+        // Active = mismatches are HIDDEN. Button prompts to SHOW.
         btn.querySelector('span').textContent = "Show " + curseWord;
+
+        // Green Styling (Clean state)
+        btn.style.background = 'transparent';
+        btn.style.color = '#00ff9d';      // Green text
+        btn.style.border = '1px solid #00ff9d'; // Green border
+        btn.classList.remove('filter-active-red'); // Remove legacy class if any
     } else {
-        // Inactive = all rows visible
-        btn.classList.remove('filter-active-red');
+        // Inactive = mismatches are VISIBLE. Button prompts to HIDE.
         btn.querySelector('span').textContent = "Hide " + curseWord;
+
+        // Red Styling (Warning state)
+        btn.style.background = 'transparent';
+        btn.style.color = '#ff0055';         // Red text
+        btn.style.border = '1px solid #ff0055'; // Red border
+        btn.classList.add('filter-active-red'); // Add legacy class if needed for other logic?? No, override style.
     }
 
     // Only affect data rows (those with data-lang), not expanded-content rows
@@ -564,7 +574,7 @@ window.showLanguageDetails = async function (lang, x, y) {
 
     const displayName = lang === "C_Sharp" ? "C#" : (lang === "F_Sharp" ? "F#" : lang);
     document.getElementById('modalTitle').innerText = displayName;
-    
+
     // Updated for Phase 3 Grid Layout: Populate Date and Creator separately
     const dateEl = document.getElementById('modalDate');
     const creatorEl = document.getElementById('modalCreator');
@@ -585,10 +595,10 @@ window.showLanguageDetails = async function (lang, x, y) {
     // The HTMLGenerator injects historyData and languageHistories/metadata
     // But we are in client JS. We used to rely on data-history attribute.
     // Let's use meta.history first.
-    const historyText = meta.history || ""; 
+    const historyText = meta.history || "";
     const historyContainer = document.getElementById('historySection');
     const historyEl = document.getElementById('modalHistory');
-    
+
     if (historyText) {
         historyEl.innerText = historyText;
         historyContainer.style.display = 'block';
@@ -1176,7 +1186,7 @@ function closeModal(event) {
 }
 
 // Source Code Modal Functions
-window.viewSourceCode = async function() {
+window.viewSourceCode = async function () {
     if (!currentEditingLang) return;
 
     const modal = document.getElementById('sourceModal');
@@ -1215,13 +1225,13 @@ window.viewSourceCode = async function() {
     }
 };
 
-window.closeSourceModal = function(event) {
+window.closeSourceModal = function (event) {
     if (!event || event.target.id === 'sourceModal' || event.target.classList.contains('modal-close')) {
         document.getElementById('sourceModal').classList.remove('visible');
     }
 };
 
-window.copySourceCode = function() {
+window.copySourceCode = function () {
     const content = document.getElementById('sourceCodeContent').textContent;
     navigator.clipboard.writeText(content).then(() => {
         alert('Source code copied to clipboard!');
@@ -1313,14 +1323,20 @@ function showDiagnostics() {
 
     ['BruteForce', 'DLX', 'CP'].forEach(algo => {
         const stats = algoStats[algo];
-        const isActive = currentAlgo === 'all' || currentAlgo === algo;
+        // Uniform styling - no specific highlight based on selection
+        const borderColor = '#333';
+        const bg = 'transparent'; // Uniform background
+
+        // Calculate total iterations for this algorithm (sum of C baseline)
+        const baseline = cBaselines[algo] || {};
+        const totalIterations = Object.values(baseline).reduce((a, b) => Number(a) + Number(b), 0);
+
         html += `
-            <div style="padding: 10px; background: ${isActive ? 'rgba(122,162,247,0.1)' : 'transparent'}; border-radius: 6px; border: 1px solid ${isActive ? algoColors[algo] : '#333'};">
+            <div style="padding: 10px; background: ${bg}; border-radius: 6px; border: 1px solid ${borderColor};">
                 <div style="color: ${algoColors[algo]}; font-weight: bold; margin-bottom: 5px;">${algoLabels[algo]}</div>
                 <div style="font-size: 0.9em;">
                     <div>Total: <strong>${stats.total}</strong></div>
-                    <div style="color: #00ff9d;">Success: <strong>${stats.success}</strong></div>
-                    <div style="color: ${stats.mismatches > 0 ? '#ff0055' : '#565f89'};">Mismatches: <strong>${stats.mismatches}</strong></div>
+                    <div style="color: #ff0055;">Issues: <strong>${stats.total - stats.success}</strong></div>
                 </div>
             </div>
         `;
@@ -1339,9 +1355,9 @@ function showDiagnostics() {
             <div style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
                 <div style="color: ${algoColors[algo]}; font-weight: bold; margin-bottom: 5px;">${algoLabels[algo]}</div>
                 ${matrices.length > 0
-                    ? matrices.map(m => `<div>Matrix ${m}: <strong>${baseline[m].toLocaleString()}</strong></div>`).join('')
-                    : '<div style="color: #565f89;">No data</div>'
-                }
+                ? matrices.map(m => `<div>Matrix ${m}: <strong>${baseline[m].toLocaleString()}</strong></div>`).join('')
+                : '<div style="color: #565f89;">No data</div>'
+            }
             </div>
         `;
     });
@@ -1364,14 +1380,14 @@ function showDiagnostics() {
                 <h3 style="color: ${cat.color}; margin-top: 0;">${cat.title} (${data.count})</h3>
                 <div style="max-height: 150px; overflow-y: auto; font-size: 0.9em;">
                     ${data.languages.length > 0
-                        ? data.languages.map(l => `
+                ? data.languages.map(l => `
                             <div style="margin-bottom: 5px;">
                                 <strong>${l.language}</strong>
                                 ${l.matrices.length > 0 ? `<span style="color: var(--muted);"> (M${l.matrices.join(', ')})</span>` : ''}
                             </div>
                         `).join('')
-                        : '<div style="color: var(--muted);">None</div>'
-                    }
+                : '<div style="color: var(--muted);">None</div>'
+            }
                 </div>
             </div>
         `;
@@ -1409,7 +1425,7 @@ function closeDiagnostics(event) {
 }
 
 // Mismatch Modal - shows why a row is marked as mismatch
-window.showMismatchModal = function(row) {
+window.showMismatchModal = function (row) {
     if (!row) return;
 
     const lang = row.getAttribute('data-lang');
@@ -1505,12 +1521,53 @@ window.showMismatchModal = function(row) {
     `;
 
     // Use the diagnostics modal infrastructure
-    const content = document.getElementById('diagnosticsContent');
-    if (content) {
-        content.innerHTML = html;
-        document.getElementById('diagnosticsModal').classList.add('visible');
+    content.innerHTML = html;
+    document.getElementById('diagnosticsModal').classList.add('visible');
+}
+
+
+window.toggleFailed = function () {
+    const btn = document.getElementById('toggleFailedBtn');
+    const isCurrentlyHiding = document.body.classList.contains('hide-failed');
+
+    if (isCurrentlyHiding) {
+        // Switch to Showing Failed Rows
+        btn.innerText = 'Hide Failed';
+        btn.style.background = 'transparent';
+        btn.style.color = '#ff0055';         // Red text
+        btn.style.border = '1px solid #ff0055'; // Red border
+        document.body.classList.remove('hide-failed');
+    } else {
+        // Switch to Hiding Failed Rows
+        btn.innerText = 'Show Failed';
+        btn.style.background = 'transparent';
+        btn.style.color = '#00ff9d';      // Green text
+        btn.style.border = '1px solid #00ff9d'; // Green border
+        document.body.classList.add('hide-failed');
     }
 };
+
+// Initialize button color on load
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('toggleFailedBtn');
+    if (btn) {
+        btn.style.background = 'transparent';
+        btn.style.color = '#ff0055';
+        btn.style.border = '1px solid #ff0055';
+    }
+});
+
+// Add CSS for hiding failed rows
+const style = document.createElement('style');
+style.textContent = `
+    .hide-failed tr.status-failure, 
+    .hide-failed tr.status-error, 
+    .hide-failed tr.status-timeout,
+    .hide-failed tr.status-env_error {
+        display: none !important;
+    }
+`;
+document.head.appendChild(style);
 
 // Initialize
 // Note: Mismatch filter starts inactive (showing all rows)
@@ -1527,7 +1584,7 @@ document.addEventListener('keydown', function (event) {
         if (langModal && langModal.classList.contains('visible')) {
             closeModal(null);
         }
-        
+
         const scoreModal = document.getElementById('scoreModal');
         if (scoreModal && scoreModal.style.display === 'flex') {
             closeScoreModal(null);
@@ -1589,6 +1646,14 @@ function trapFocus(element) {
 
 // Handle broken logo images
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialize Toggle Mismatches Button
+    const mismatchBtn = document.getElementById('toggleMismatchesBtn');
+    if (mismatchBtn) {
+        mismatchBtn.style.background = 'transparent';
+        mismatchBtn.style.color = '#ff0055'; // Red text
+        mismatchBtn.style.border = '1px solid #ff0055';
+    }
+
     const logos = document.querySelectorAll('.lang-logo');
     logos.forEach(img => {
         img.addEventListener('error', function () {
@@ -1674,6 +1739,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.toggleLogoMode = function (btn) {
     window.showLogos = !window.showLogos;
+
+    // Sync CSS class for Line Chart (which relies on CSS toggling)
+    const container = document.getElementById('d3-chart-container');
+    if (container) {
+        if (window.showLogos) {
+            container.classList.remove('show-text-labels');
+        } else {
+            container.classList.add('show-text-labels');
+        }
+    }
+
     // Update Icon
     if (window.showLogos) {
         // Show Text Icon (option to switch to text)
@@ -2003,7 +2079,7 @@ window.applyTableVisibility = function () {
 
 // --- UI Persistence Logic ---
 
-window.saveUIState = function() {
+window.saveUIState = function () {
     const state = {
         scrollX: window.scrollX,
         scrollY: window.scrollY,
@@ -2016,7 +2092,7 @@ window.saveUIState = function() {
     localStorage.setItem('sudoku_ui_state', JSON.stringify(state));
 };
 
-window.restoreUIState = function() {
+window.restoreUIState = function () {
     try {
         const stored = localStorage.getItem('sudoku_ui_state');
         if (!stored) return;
@@ -2045,7 +2121,7 @@ window.restoreUIState = function() {
         if (btn) {
             const currentlyHidden = btn.classList.contains('active');
             const shouldBeVisible = state.showMismatches; // True = visible
-            
+
             // If we want visible but it's hidden, OR we want hidden but it's visible -> toggle
             if (shouldBeVisible === currentlyHidden) {
                 window.toggleMismatches();
@@ -2424,7 +2500,7 @@ window.verifyLanguage = async function (lang) {
             container.transition()
                 .duration(200)
                 .style("opacity", 0)
-                .on("end", function() {
+                .on("end", function () {
                     container.selectAll("*").remove();
                     container.style("opacity", 1);
 
@@ -2784,7 +2860,7 @@ window.verifyLanguage = async function (lang) {
                 if (selectedAlgo === 'all') {
                     const algoType = solver.algorithmType || 'BruteForce';
                     const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
-                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                        algoType === 'CP' ? ' (CP)' : ' (BF)';
                     displayName = solver.solver + algoSuffix;
                 }
                 return { ...solver, displayName };
@@ -2920,13 +2996,14 @@ window.verifyLanguage = async function (lang) {
                         return null;
                     });
 
-                // Text Label (Hidden by default via CSS)
+                // Text Labels for intermediate points REMOVED per user request
+                // Only end-labels are desired.
+                /* 
                 pointGroup.append("text")
                     .attr("class", "chart-node-label")
                     .text(solver.displayName)
-                    .attr("text-anchor", "middle")
-                    .attr("y", 20) // Position below image
-                    .style("pointer-events", "none");
+                    ...
+                */
 
                 // Docker Icon (Whale)
                 if (solver.runType === 'Docker') {
@@ -2975,13 +3052,26 @@ window.verifyLanguage = async function (lang) {
                 const lastPoint = solverData[solverData.length - 1];
                 if (lastPoint) {
                     svg.append("text")
+                        .attr("class", "chart-label-end") // Always visible
                         .attr("x", x(normalizeMatrix(lastPoint.matrix)) + 10)
                         .attr("y", y(Math.max(lastPoint.time, minTime)))
                         .attr("dy", "0.35em")
                         .style("fill", color(solver.solver))
                         .style("font-size", "12px")
-                        .style("font-weight", "bold")
-                        .text(solver.displayName);
+                        .style("font-weight", "normal") // Not bold
+                        .each(function () {
+                            const el = d3.select(this);
+                            const name = solver.displayName;
+                            const match = name.match(/^(.*?)(\s\((?:DLX|CP|BF|AI)\))$/);
+                            if (match) {
+                                el.append("tspan").text(match[1]);
+                                el.append("tspan").text(match[2])
+                                    .style("opacity", 0.5)
+                                    .style("font-size", "0.6em"); // 50-60% smaller
+                            } else {
+                                el.text(name);
+                            }
+                        });
                 }
             });
         }
@@ -3047,7 +3137,7 @@ window.verifyLanguage = async function (lang) {
                 if (selectedAlgo === 'all') {
                     const algoType = s.algorithmType || 'BruteForce';
                     const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
-                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                        algoType === 'CP' ? ' (CP)' : ' (BF)';
                     displayName = s.solver + algoSuffix;
                 }
 
@@ -3257,7 +3347,7 @@ window.verifyLanguage = async function (lang) {
                 .attr("height", d => chartHeight - y(algorithmData[d].avgTime))
                 .attr("fill", colors.time)
                 .attr("opacity", 0.8)
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).attr("opacity", 1);
                     g.append("text")
                         .attr("class", "tooltip-text")
@@ -3269,7 +3359,7 @@ window.verifyLanguage = async function (lang) {
                         .style("font-size", "12px")
                         .text(`${algorithmData[d].avgTime.toFixed(3)}s`);
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     d3.select(this).attr("opacity", 0.8);
                     g.selectAll(".tooltip-text").remove();
                 });
@@ -3282,7 +3372,7 @@ window.verifyLanguage = async function (lang) {
                 .attr("height", d => chartHeight - y(algorithmData[d].avgIterations / 1000))
                 .attr("fill", colors.iterations)
                 .attr("opacity", 0.8)
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).attr("opacity", 1);
                     g.append("text")
                         .attr("class", "tooltip-text")
@@ -3294,7 +3384,7 @@ window.verifyLanguage = async function (lang) {
                         .style("font-size", "12px")
                         .text(`${Math.round(algorithmData[d].avgIterations)} iter`);
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     d3.select(this).attr("opacity", 0.8);
                     g.selectAll(".tooltip-text").remove();
                 });
@@ -3307,7 +3397,7 @@ window.verifyLanguage = async function (lang) {
                 .attr("height", d => chartHeight - y(algorithmData[d].avgTime * 10))
                 .attr("fill", colors.efficiency)
                 .attr("opacity", 0.8)
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).attr("opacity", 1);
                     g.append("text")
                         .attr("class", "tooltip-text")
@@ -3319,7 +3409,7 @@ window.verifyLanguage = async function (lang) {
                         .style("font-size", "12px")
                         .text(`${algorithmData[d].languageCount} langs`);
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     d3.select(this).attr("opacity", 0.8);
                     g.selectAll(".tooltip-text").remove();
                 });
@@ -3421,7 +3511,7 @@ window.verifyLanguage = async function (lang) {
                 if (selectedAlgo === 'all') {
                     // Add suffix for all algorithm types in "All Algorithms" mode
                     const algoSuffix = algoType === 'DLX' ? ' (DLX)' :
-                                      algoType === 'CP' ? ' (CP)' : ' (BF)';
+                        algoType === 'CP' ? ' (CP)' : ' (BF)';
                     displayName = lang.solver + algoSuffix;
                 }
 
@@ -3561,10 +3651,10 @@ window.verifyLanguage = async function (lang) {
                 .attr("height", y.bandwidth())
                 .attr("fill", (d, i) => colorScale(i))
                 .attr("opacity", 0.8)
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).attr("opacity", 1);
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     d3.select(this).attr("opacity", 0.8);
                 });
 
@@ -3607,7 +3697,7 @@ window.verifyLanguage = async function (lang) {
             if (selectedAlgo === 'all') {
                 const langMap = new Map(topLanguages.map(d => [d.displayName, d]));
 
-                yAxis.selectAll("text").each(function(displayName) {
+                yAxis.selectAll("text").each(function (displayName) {
                     const langData = langMap.get(displayName);
                     if (!langData) return;
 
@@ -3849,7 +3939,7 @@ window.verifyLanguage = async function (lang) {
                     .attr("fill", "#00ff9d")
                     .attr("stroke", "#000")
                     .attr("stroke-width", 1)
-                    .on("mouseover", function(event, d) {
+                    .on("mouseover", function (event, d) {
                         d3.select(this).attr("r", 6);
 
                         // Show tooltip
@@ -3875,7 +3965,7 @@ window.verifyLanguage = async function (lang) {
                             .attr("stroke-width", 1)
                             .attr("rx", 3);
                     })
-                    .on("mouseout", function() {
+                    .on("mouseout", function () {
                         d3.select(this).attr("r", 4);
                         g.selectAll(".tooltip").remove();
                     });
@@ -3901,12 +3991,12 @@ window.verifyLanguage = async function (lang) {
                     .attr("stroke-width", 1.5)
                     .attr("opacity", 0.8)
                     .attr("d", line)
-                    .on("mouseover", function() {
+                    .on("mouseover", function () {
                         d3.select(this)
                             .attr("stroke-width", 2.5)
                             .attr("opacity", 1);
                     })
-                    .on("mouseout", function() {
+                    .on("mouseout", function () {
                         d3.select(this)
                             .attr("stroke-width", 1.5)
                             .attr("opacity", 0.8);
@@ -3923,7 +4013,7 @@ window.verifyLanguage = async function (lang) {
                     .attr("fill", color)
                     .attr("stroke", "#000")
                     .attr("stroke-width", 1)
-                    .on("mouseover", function(event, d) {
+                    .on("mouseover", function (event, d) {
                         d3.select(this).attr("r", 5);
 
                         // Highlight line
@@ -3954,7 +4044,7 @@ window.verifyLanguage = async function (lang) {
                             .attr("stroke-width", 1)
                             .attr("rx", 3);
                     })
-                    .on("mouseout", function() {
+                    .on("mouseout", function () {
                         d3.select(this).attr("r", 3);
                         g.select(`.line-${idx}`)
                             .attr("stroke-width", 1.5)
@@ -4045,7 +4135,7 @@ window.verifyLanguage = async function (lang) {
                 const legendItem = legend.append("g")
                     .attr("transform", `translate(0, ${yPos})`)
                     .style("cursor", "pointer")
-                    .on("click", function() {
+                    .on("click", function () {
                         // Toggle line visibility
                         const line = g.select(`.line-${idx}`);
                         const currentOpacity = line.attr("opacity");
@@ -4094,7 +4184,7 @@ window.verifyLanguage = async function (lang) {
 // End of D3 closure
 
 // Fullscreen change handler - resize charts when exiting fullscreen
-document.addEventListener('fullscreenchange', function() {
+document.addEventListener('fullscreenchange', function () {
     if (!document.fullscreenElement && window.currentChart && typeof window.switchChart === 'function') {
         // User exited fullscreen - redraw the current chart to fit normal container
         console.log('Exited fullscreen, resizing chart:', window.currentChart);
@@ -4289,10 +4379,10 @@ let startScreensaverGlobal;
             // Handle glitch timing
             if (currentMode === 'red') {
                 // Initial 5-second glitch
-                if (!initialGlitchComplete && (now - glitchStartTime) < 5000) {
+                if (!initialGlitchComplete && (now - glitchStartTime) < 3000) {
                     isGlitching = true;
-                    applyGlitchEffect(now - glitchStartTime, 5000);
-                } else if (!initialGlitchComplete && (now - glitchStartTime) >= 5000) {
+                    applyGlitchEffect(now - glitchStartTime, 3000);
+                } else if (!initialGlitchComplete && (now - glitchStartTime) >= 3000) {
                     initialGlitchComplete = true;
                     isGlitching = false;
                     resetGlitchEffect();
@@ -4302,7 +4392,7 @@ let startScreensaverGlobal;
                 else if (initialGlitchComplete && (now - lastGlitchTime) >= 60000) {
                     if ((now - lastGlitchTime) < 65000) {
                         isGlitching = true;
-                        applyGlitchEffect((now - lastGlitchTime) - 60000, 5000);
+                        applyGlitchEffect((now - lastGlitchTime) - 60000, 3000);
                     } else {
                         isGlitching = false;
                         resetGlitchEffect();
@@ -4551,9 +4641,9 @@ let startScreensaverGlobal;
                 const puzzleTime = perfPuzzleEnd - perfPuzzleStart;
                 console.log(`[Matrix Rain Performance]
   Total frame time: ${totalTime.toFixed(2)}ms
-  - Clear canvas: ${clearTime.toFixed(2)}ms (${(clearTime/totalTime*100).toFixed(1)}%)
-  - Rain drops: ${rainTime.toFixed(2)}ms (${(rainTime/totalTime*100).toFixed(1)}%)
-  - Puzzle overlay: ${puzzleTime.toFixed(2)}ms (${(puzzleTime/totalTime*100).toFixed(1)}%)
+  - Clear canvas: ${clearTime.toFixed(2)}ms (${(clearTime / totalTime * 100).toFixed(1)}%)
+  - Rain drops: ${rainTime.toFixed(2)}ms (${(rainTime / totalTime * 100).toFixed(1)}%)
+  - Puzzle overlay: ${puzzleTime.toFixed(2)}ms (${(puzzleTime / totalTime * 100).toFixed(1)}%)
   Target: 16.67ms for 60fps, 33.33ms for 30fps effective`);
             }
         }
@@ -4634,7 +4724,7 @@ let startScreensaverGlobal;
 
             textElements.forEach(elem => {
                 let element = elem.id ? document.getElementById(elem.id) :
-                             elem.class ? fsHeader.querySelector('.' + elem.class) : null;
+                    elem.class ? fsHeader.querySelector('.' + elem.class) : null;
 
                 if (element) {
                     // Store original text on first glitch
@@ -4686,7 +4776,7 @@ let startScreensaverGlobal;
 
             textElements.forEach(elem => {
                 let element = elem.id ? document.getElementById(elem.id) :
-                             elem.class ? fsHeader.querySelector('.' + elem.class) : null;
+                    elem.class ? fsHeader.querySelector('.' + elem.class) : null;
 
                 if (element && originalTexts[elem.key]) {
                     element.textContent = originalTexts[elem.key];
@@ -5204,7 +5294,7 @@ const tierColors = {
 };
 
 // Close Score Modal
-window.closeScoreModal = function(event) {
+window.closeScoreModal = function (event) {
     if (event) event.stopPropagation();
     const modal = document.getElementById('scoreModal');
     if (modal) {
@@ -5214,7 +5304,7 @@ window.closeScoreModal = function(event) {
 };
 
 // Open Score Modal for a language
-window.openScoreModal = function(lang) {
+window.openScoreModal = function (lang) {
     const modal = document.getElementById('scoreModal');
     if (!modal) return;
 
@@ -5256,7 +5346,7 @@ window.openScoreModal = function(lang) {
     // Get score and tier from row
     const score = parseFloat(row.getAttribute('data-score')) || 0;
     const tier = row.getAttribute('data-tier') || 'F';
-    
+
     const tierColors = {
         'S': '#ffd700', // Gold
         'A': '#00ff9d', // Green
@@ -5603,7 +5693,7 @@ async function populateVariantSelector(lang) {
 }
 
 // Handle variant selection (US-007)
-window.onVariantSelect = async function(variant) {
+window.onVariantSelect = async function (variant) {
     if (!currentScoreModalLang || !variant) return;
 
     try {
@@ -5648,7 +5738,7 @@ window.onVariantSelect = async function(variant) {
         const avgCpu = cpuRatios.length > 0 ? cpuRatios.reduce((a, b) => a + b, 0) / cpuRatios.length : 1;
 
         // Composite score: geometric mean of 3 ratios (time, mem, cpu - NO iterations)
-        const score = Math.pow(Math.max(0.001, avgTime) * Math.max(0.001, avgMem) * Math.max(0.001, avgCpu), 1/3);
+        const score = Math.pow(Math.max(0.001, avgTime) * Math.max(0.001, avgMem) * Math.max(0.001, avgCpu), 1 / 3);
 
         // Determine tier (same thresholds as main report)
         let tier = 'F';
@@ -5673,7 +5763,7 @@ window.onVariantSelect = async function(variant) {
 
         document.getElementById('scoreTimeRatio').textContent = avgTime.toFixed(2) + 'x';
         document.getElementById('scoreMemRatio').textContent = avgMem.toFixed(2) + 'x';
-    
+
 
         // Redraw radar chart (3 axes: Time, Mem, CPU - NO iterations)
         const breakdownParts = [
@@ -5698,11 +5788,11 @@ window.onVariantSelect = async function(variant) {
 
 
 
-window.saveWeights = async function() {
+window.saveWeights = async function () {
     const time = parseFloat(document.getElementById('weight-time').value) || 0;
     const mem = parseFloat(document.getElementById('weight-mem').value) || 0;
     const cpu = parseFloat(document.getElementById('weight-cpu').value) || 0;
-    
+
     const config = {
         scoring_weights: {
             time: time,
@@ -5710,21 +5800,21 @@ window.saveWeights = async function() {
             cpu: cpu
         }
     };
-    
+
     try {
         const res = await fetch('/api/config', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(config)
         });
-        
+
         if (res.ok) {
-             await fetch('/api/generate-report', { method: 'POST' });
-             window.location.reload();
+            await fetch('/api/generate-report', { method: 'POST' });
+            window.location.reload();
         } else {
             alert('Failed to save weights');
         }
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         alert('Error saving weights');
     }
@@ -5776,25 +5866,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // Update persistence in specific actions
 // Check if originals are already captured to avoid double-wrapping if re-run
 if (!window.originalSwitchChart) window.originalSwitchChart = window.switchChart;
-window.switchChart = function(type) {
+window.switchChart = function (type) {
     if (window.originalSwitchChart) window.originalSwitchChart(type);
     window.saveUIState();
 };
 
 if (!window.originalToggleMismatches) window.originalToggleMismatches = window.toggleMismatches;
-window.toggleMismatches = function() {
+window.toggleMismatches = function () {
     if (window.originalToggleMismatches) window.originalToggleMismatches();
     window.saveUIState();
 };
 
 if (!window.originalToggleLogoMode) window.originalToggleLogoMode = window.toggleLogoMode;
-window.toggleLogoMode = function(btn) {
+window.toggleLogoMode = function (btn) {
     if (window.originalToggleLogoMode) window.originalToggleLogoMode(btn);
     window.saveUIState();
 };
 
 if (!window.originalChangePersonality) window.originalChangePersonality = window.changePersonality;
-window.changePersonality = function() {
+window.changePersonality = function () {
     if (window.originalChangePersonality) window.originalChangePersonality();
     window.saveUIState();
 };

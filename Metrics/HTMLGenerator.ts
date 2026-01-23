@@ -11,7 +11,7 @@ export { orderedLanguages, languageHistories, quotes, personalities, methodology
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
+import { C_Baselines } from './C_Baselines.ts';
 
 // --- Logic ---
 
@@ -865,6 +865,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <button class="btn" id="toggleMismatchesBtn" onclick="toggleMismatches()" title="Toggle visibility of languages with iteration counts that don't match the C reference">
                 <span>Hide Mismatches</span>
             </button>
+            <button class="btn" id="toggleFailedBtn" onclick="toggleFailed()">Hide Failed</button>
             <button class="btn" onclick="showDiagnostics()">Diagnostics</button>
             <div class="dropdown">
                 <button class="btn">Info ▾</button>
@@ -875,7 +876,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 </div>
             </div>
             <div style="position: relative; display: inline-block;">
-                <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">${metrics.length} LANGUAGES ▾</button>
+                <button class="btn" onclick="toggleLanguageSelector()" id="langSelectorBtn">${languagesWithResults.size} LANGUAGES ▾</button>
                 <div id="language-selector-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #1a1b26; border: 1px solid var(--primary); padding: 10px; z-index: 1000; min-width: 150px; max-height: 300px; overflow-y: auto;">
                     <!-- Populated by JS -->
                 </div>
@@ -1062,9 +1063,22 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Check if language is locked (from session_state.json)
         const isLocked = benchmarkConfig?.lockedLanguages?.includes(lang) || false;
 
-        // Quote
         const baseLang = lang; // lang is already clean now
         const runType = m.runType || 'Local';
+
+        // Determine failure status classes
+        if (m.failed || (m.results.length === 0 && m.runType !== 'Init')) {
+            // Try to find specific failure reason from metrics
+            const hasEnvError = m.results.some(r => r.status === 'env_error') || (m.results.length === 0);
+            const hasTimeout = m.results.some(r => r.status === 'timeout');
+            const hasError = m.results.some(r => r.status === 'error');
+
+            if (hasEnvError) rowClass += " status-env_error";
+            if (hasTimeout) rowClass += " status-timeout";
+            if (hasError) rowClass += " status-error";
+            // Fallback
+            if (!hasEnvError && !hasTimeout && !hasError) rowClass += " status-failure";
+        }
         const quote = (personalities['Standard'] as any)[baseLang] || (personalities['Standard'] as any)[lang] || "A mystery wrapped in code.";
         const safeQuote = quote.replace(/'/g, "&apos;") + ` Efficiency: ${efficiencyScore.toFixed(2)} MB/s`;
 
@@ -1390,84 +1404,55 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         console.error('Warning: Could not read report_client.js, falling back to external script');
     }
 
+    // Verify C Baselines integrity before generation
+    console.log(`Injecting C_Baselines with ${Object.keys(C_Baselines).length} algos`);
+    if (Object.keys(C_Baselines).length === 0) console.warn("WARNING: C_Baselines object is empty!");
+
+    // Inject Data SCRIPTS FIRST (so they are available to report_client.js if needed immediately)
+    html += `
+    <script>
+        window.cBaselines = ${safeJSON(C_Baselines)};
+        window.currentAlgorithm = 'all';
+    </script>
+    `;
+
     html += `
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
         Report generated: ${generatedAt} CET
     </footer>
     ${clientScript ? `<script>\n${clientScript}\n</script>` : '<script src="./Metrics/report_client.js"></script>'}
-
+    
     <script>
-    // Track current algorithm filter state
-    window.currentAlgorithm = 'all';
-
-    // C baseline iterations per algorithm (for dynamic mismatch calculation)
-    window.cBaselines = {
-        'BruteForce': {},
-        'DLX': {},
-        'CP': {}
-    };
-
-    // Initialize C baselines from metrics data
+    // Other initialization that depends on client script being loaded
     (function() {
-        if (typeof metricsData !== 'undefined') {
-            metricsData.forEach(m => {
-                if (m.solver === 'C') {
-                    const algo = m.algorithmType || 'BruteForce';
-                    m.results.forEach(r => {
-                        if (r.status === 'success') {
-                            const matrix = String(r.matrix).replace('.matrix', '');
-                            window.cBaselines[algo][matrix] = r.iterations;
-                        }
-                    });
-                }
-            });
-        }
+        // Verify injection on client side
+        console.log("Client-side C Baselines:", window.cBaselines);
     })();
-
-
-        // Update mismatch count for selected algorithm
-        window.updateMismatchDisplay(algorithmType);
-
-        // Update language count to show unique languages (not rows)
-        const visibleRows = document.querySelectorAll('#mainTableBody tr:not([style*="display: none"])');
-        const uniqueLangs = new Set();
-        visibleRows.forEach(row => {
-            const lang = row.getAttribute('data-lang');
-            if (lang) uniqueLangs.add(lang);
-        });
-        const uniqueCount = uniqueLangs.size;
-        const langCountEl = document.getElementById('langSelectorBtn');
-        if (langCountEl) {
-            langCountEl.textContent = uniqueCount + ' LANGUAGES ▾';
-        }
-        const solverTextEl = document.getElementById('solver-text');
-        if (solverTextEl) {
-            solverTextEl.textContent = uniqueCount + ' LANGUAGES';
-        }
-
-        // Refresh current chart to reflect algorithm filter
-        if (typeof window.currentChart !== 'undefined' && typeof window.switchChart === 'function') {
-            window.switchChart(window.currentChart);
-        }
-    };
-
-    // Initialize on load - restore from localStorage or default to all
-    document.addEventListener('DOMContentLoaded', function() {
-        let savedAlgo = 'all';
-        try {
-            const stored = localStorage.getItem('sudoku-benchmark-algorithm');
-            if (stored && ['all', 'BruteForce', 'DLX', 'CP'].includes(stored)) {
-                savedAlgo = stored;
-            }
-        } catch (e) { /* localStorage unavailable */ }
-
-        filterByAlgorithm(savedAlgo);
-    });
     </script>
+    `;
+
+    // Verify C Baselines injection (Server-side log, visible in generation output)
+    console.log("Static C Baselines injected.");
+
+    html += `
+    <script>
+    // Initialize on load - restore from localStorage or default to all
+document.addEventListener('DOMContentLoaded', function () {
+    let savedAlgo = 'all';
+    try {
+        const stored = localStorage.getItem('sudoku-benchmark-algorithm');
+        if (stored && ['all', 'BruteForce', 'DLX', 'CP'].includes(stored)) {
+            savedAlgo = stored;
+        }
+    } catch (e) { /* localStorage unavailable */ }
+
+    filterByAlgorithm(savedAlgo);
+});
+</script>
 
     </body>
     </html>
-    `;
+        `;
     return html;
 }
 
@@ -1488,86 +1473,86 @@ export function generateHistoryHtml(history: any[]): string {
     rows.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Benchmark History</title>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./Metrics/index.css">
-        <style>
-            ${SharedStyles}
+    < !DOCTYPE html >
+        <html lang="en" >
+            <head>
+            <meta charset="UTF-8" >
+                <title>Benchmark History </title>
+                    < link href = "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel = "stylesheet" >
+                        <link rel="stylesheet" href = "./Metrics/index.css" >
+                            <style>
+                            ${SharedStyles}
             /* History-specific overrides */
             body { padding: 40px; }
-            .history-container { max-width: 1400px; margin: 0 auto; }
-            .status-success { color: #00ff9d; font-weight: bold; }
-            .status-failure, .status-error, .status-timeout { color: #ff0055; font-weight: bold; }
-            .time-val { font-family: 'JetBrains Mono', monospace; color: #fff; }
-        </style>
-        <script>
-            function sortTable(n) {
-                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                table = document.getElementById("historyTable");
-                switching = true;
-                dir = "asc";
-                while (switching) {
-                    switching = false;
-                    rows = table.rows;
-                    // Start loop at 1 to skip header
-                    for (i = 1; i < (rows.length - 1); i++) {
-                        shouldSwitch = false;
-                        x = rows[i].getElementsByTagName("TD")[n];
-                        y = rows[i + 1].getElementsByTagName("TD")[n];
-                        var xContent = x.innerText.toLowerCase();
-                        var yContent = y.innerText.toLowerCase();
-                        
-                        // Numeric sort for Time (3) and Iterations (4)
-                        if (n === 3 || n === 4) {
-                            xContent = parseFloat(xContent.replace(/[^0-9.]/g, '')) || 0;
-                            yContent = parseFloat(yContent.replace(/[^0-9.]/g, '')) || 0;
-                        }
-                        
-                        if (dir == "asc") {
-                            if (xContent > yContent) { shouldSwitch = true; break; }
-                        } else if (dir == "desc") {
-                            if (xContent < yContent) { shouldSwitch = true; break; }
-                        }
-                    }
-                    if (shouldSwitch) {
-                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                        switching = true;
-                        switchcount ++;
-                    } else {
-                        if (switchcount == 0 && dir == "asc") {
-                            dir = "desc";
-                            switching = true;
-                        }
-                    }
-                }
-            }
-        </script>
-    </head>
-    <body>
-        <div class="history-container">
-            <h1>Benchmark History</h1>
-            
-            <div style="margin-bottom: 20px; text-align: right;">
-                <a href="benchmark_report.html" class="btn">View Latest Report</a>
-            </div>
+            .history - container { max - width: 1400px; margin: 0 auto; }
+            .status - success { color: #00ff9d; font - weight: bold; }
+            .status - failure, .status - error, .status - timeout { color: #ff0055; font - weight: bold; }
+            .time - val { font - family: 'JetBrains Mono', monospace; color: #fff; }
+</style>
+    <script>
+function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("historyTable");
+    switching = true;
+    dir = "asc";
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        // Start loop at 1 to skip header
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            var xContent = x.innerText.toLowerCase();
+            var yContent = y.innerText.toLowerCase();
 
-            <div class="container" style="width: 100%; padding: 0;">
-                <table id="historyTable">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable(0)" style="cursor: pointer;">Timestamp ↕</th>
-                            <th onclick="sortTable(1)" style="cursor: pointer;">Solver ↕</th>
-                            <th onclick="sortTable(2)" style="cursor: pointer;">Matrix ↕</th>
-                            <th onclick="sortTable(3)" style="cursor: pointer;">Time ↕</th>
-                            <th onclick="sortTable(4)" style="cursor: pointer;">Iterations ↕</th>
-                            <th onclick="sortTable(5)" style="cursor: pointer;">Status ↕</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            // Numeric sort for Time (3) and Iterations (4)
+            if (n === 3 || n === 4) {
+                xContent = parseFloat(xContent.replace(/[^0-9.]/g, '')) || 0;
+                yContent = parseFloat(yContent.replace(/[^0-9.]/g, '')) || 0;
+            }
+
+            if (dir == "asc") {
+                if (xContent > yContent) { shouldSwitch = true; break; }
+            } else if (dir == "desc") {
+                if (xContent < yContent) { shouldSwitch = true; break; }
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount++;
+        } else {
+            if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+}
+</script>
+    </head>
+    < body >
+    <div class="history-container" >
+        <h1>Benchmark History </h1>
+
+            < div style = "margin-bottom: 20px; text-align: right;" >
+                <a href="benchmark_report.html" class="btn" > View Latest Report </a>
+                    </div>
+
+                    < div class="container" style = "width: 100%; padding: 0;" >
+                        <table id="historyTable" >
+                            <thead>
+                            <tr>
+                            <th onclick="sortTable(0)" style = "cursor: pointer;" > Timestamp ↕</th>
+                                < th onclick = "sortTable(1)" style = "cursor: pointer;" > Solver ↕</th>
+                                    < th onclick = "sortTable(2)" style = "cursor: pointer;" > Matrix ↕</th>
+                                        < th onclick = "sortTable(3)" style = "cursor: pointer;" > Time ↕</th>
+                                            < th onclick = "sortTable(4)" style = "cursor: pointer;" > Iterations ↕</th>
+                                                < th onclick = "sortTable(5)" style = "cursor: pointer;" > Status ↕</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
                         ${rows.map(r => {
         const statusLower = (r.status || 'unknown').toLowerCase();
         // Heuristic for time unit: after Dec 30 2025 is ms
@@ -1584,12 +1569,13 @@ export function generateHistoryHtml(history: any[]): string {
                                 <td class="status-${statusLower}">${r.status || '-'}</td>
                             </tr>
                             `;
-    }).join('')}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    }).join('')
+        }
+</tbody>
+    </table>
+    </div>
+    </div>
     </body>
     </html>
-    `;
+        `;
 }

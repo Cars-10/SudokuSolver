@@ -618,8 +618,9 @@ export const SharedStyles = `
         }
         
         /* Node Label Toggling */
-        .chart-node-label { display: none; fill: #e0e0e0; font-size: 12px; font-weight: bold; text-shadow: 0 0 2px #000; }
-        .show-text-labels .chart-node-label { display: block; }
+        .chart-node-label { display: none; fill: #e0e0e0; font-size: 10px; font-weight: normal; text-shadow: 0 0 2px #000; }
+        .chart-label-end { display: block; } /* Always show end labels */
+        .show-text-labels .chart-node-label { display: block; } /* Show intermediate on toggle */
         .show-text-labels .chart-node-image { display: none; }
         
         /* All columns equal width */
