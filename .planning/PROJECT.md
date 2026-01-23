@@ -6,6 +6,16 @@ A polyglot benchmarking project that compares the performance of 70+ programming
 ## Core Value
 Providing a fair, transparent, and visually engaging comparison of programming language performance using a standardized algorithmic implementation.
 
+## Current Milestone: v3.0 Quality & Insights
+
+**Goal:** Ensure algorithmic correctness through enhanced validation, determine optimal scoring methodology through data analysis, and provide richer insights through improved visualizations.
+
+**Target features:**
+- Enhanced test framework with iteration count validation (flag invalid implementations)
+- Data-driven scoring methodology analysis (distribution, correlation, outlier detection)
+- UI fixes (algorithm dropdown sorting, label updates, visual bugs)
+- New chart types (scatter plots, histograms, heatmaps) for deeper insights
+
 ## Requirements
 
 ### Validated
@@ -24,7 +34,17 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - ✓ Author attribution with biographical metadata — v2
 - ✓ Media cleanup automation — v2
 
-### Active
+### Active (v3.0)
+- [ ] Enhanced test framework enforcing iteration count validation
+- [ ] Invalid implementation flagging (visible in report with warnings)
+- [ ] Scoring methodology analysis and optimization
+- [ ] Algorithm dropdown sorting and label updates
+- [ ] Visual bug fixes and layout improvements
+- [ ] Scatter plot charts (time vs memory, metric relationships)
+- [ ] Distribution histogram charts
+- [ ] Heatmap visualizations
+
+### Future
 - [ ] Define algorithmic fingerprinting scoring (based on iteration counts)
 - [ ] Implement "Zen Mode" toggle for simplified viewing
 - [ ] Non-brute-force optimizations (DLX, constraint propagation) — must maintain algorithmic purity for benchmark fairness
@@ -55,4 +75,4 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 | Media Cleanup | Remove obsolete timestamped images, keeping only curated/logo images. | ✓ v2 |
 
 ---
-*Last updated: 2026-01-20 after v2 milestone*
+*Last updated: 2026-01-23 after v3 milestone start*
