@@ -9,19 +9,19 @@ Requirements for quality, correctness validation, scoring optimization, and enha
 
 ### Validation & Correctness
 
-- [ ] **VAL-01**: System validates iteration count against C reference (656 for matrix 1, etc.)
-- [ ] **VAL-02**: System validates solution correctness (9×9 Sudoku constraints satisfied)
-- [ ] **VAL-03**: System categorizes validation failures with severity levels (CRITICAL/WARNING/INFO)
+- [x] **VAL-01**: System validates iteration count against C reference (656 for matrix 1, etc.)
+- [x] **VAL-02**: System validates solution correctness (9x9 Sudoku constraints satisfied)
+- [x] **VAL-03**: System categorizes validation failures with severity levels (CRITICAL/WARNING/INFO)
 - [ ] **VAL-04**: Report displays visual warning badges for invalid implementations
 - [ ] **VAL-05**: Diagnostics modal shows iteration mismatch category with details
-- [ ] **VAL-06**: Iteration validation uses ±1 tolerance to minimize false positives
+- [x] **VAL-06**: Iteration validation uses +/-1 tolerance to minimize false positives
 
 ### Scoring Analysis
 
 - [ ] **SCORE-01**: System performs sensitivity analysis across weight scenarios (time-only, 80/20, 50/50, memory-only)
 - [ ] **SCORE-02**: System calculates rank stability per language across weight scenarios
 - [ ] **SCORE-03**: Report shows score decomposition view (time 80% + memory 20% contributions)
-- [ ] **SCORE-04**: System computes correlation analysis (R² for time vs memory relationship)
+- [ ] **SCORE-04**: System computes correlation analysis (R^2 for time vs memory relationship)
 - [ ] **SCORE-05**: Report displays percentile rankings (p50, p90, p99)
 - [ ] **SCORE-06**: System performs distribution analysis to identify performance tiers
 - [ ] **SCORE-07**: System identifies and flags statistical outliers with analysis
@@ -29,7 +29,7 @@ Requirements for quality, correctness validation, scoring optimization, and enha
 ### Data Visualization
 
 - [ ] **VIZ-01**: Report includes scatter plot showing Time vs Memory with logarithmic scales
-- [ ] **VIZ-02**: Report includes heatmap showing Language × Matrix performance patterns
+- [ ] **VIZ-02**: Report includes heatmap showing Language x Matrix performance patterns
 - [ ] **VIZ-03**: Report includes distribution histogram showing score clusters/tiers
 - [ ] **VIZ-04**: Report includes iteration delta chart for validation diagnostics
 - [ ] **VIZ-05**: Report includes validation dashboard visualization
@@ -79,50 +79,50 @@ Explicitly excluded to maintain focus and prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| VAL-01 | Phase 4 | Pending |
-| VAL-02 | Phase 4 | Pending |
-| VAL-03 | Phase 4 | Pending |
-| VAL-04 | Phase 4 | Pending |
-| VAL-05 | Phase 4 | Pending |
-| VAL-06 | Phase 4 | Pending |
-| SCORE-01 | Phase 5 | Pending |
-| SCORE-02 | Phase 5 | Pending |
-| SCORE-03 | Phase 5 | Pending |
-| SCORE-04 | Phase 5 | Pending |
-| SCORE-05 | Phase 5 | Pending |
-| SCORE-06 | Phase 5 | Pending |
-| SCORE-07 | Phase 5 | Pending |
-| VIZ-01 | Phase 6 | Pending |
-| VIZ-02 | Phase 6 | Pending |
-| VIZ-03 | Phase 6 | Pending |
-| VIZ-04 | Phase 6 | Pending |
-| VIZ-05 | Phase 6 | Pending |
-| VIZ-06 | Phase 6 | Pending |
-| UI-01 | Phase 6 | Pending |
-| UI-02 | Phase 6 | Pending |
-| UI-03 | Phase 6 | Pending |
-| UI-04 | Phase 6 | Pending |
-| INT-01 | Phase 7 | Pending |
-| INT-02 | Phase 7 | Pending |
-| INT-03 | Phase 7 | Pending |
-| INT-04 | Phase 7 | Pending |
-| INT-05 | Phase 7 | Pending |
+| Requirement | Phase | Status | Notes |
+|-------------|-------|--------|-------|
+| VAL-01 | Phase 4 | Complete | Iteration validation |
+| VAL-02 | Phase 4 | Complete | Solution validation |
+| VAL-03 | Phase 4 | Complete | Severity categorization |
+| VAL-04 | Phase 6 | Pending | UI: visual warning badges (deferred from Phase 4 per CONTEXT.md) |
+| VAL-05 | Phase 6 | Pending | UI: diagnostics modal (deferred from Phase 4 per CONTEXT.md) |
+| VAL-06 | Phase 4 | Complete | +/-1 tolerance |
+| SCORE-01 | Phase 5 | Pending | |
+| SCORE-02 | Phase 5 | Pending | |
+| SCORE-03 | Phase 5 | Pending | |
+| SCORE-04 | Phase 5 | Pending | |
+| SCORE-05 | Phase 5 | Pending | |
+| SCORE-06 | Phase 5 | Pending | |
+| SCORE-07 | Phase 5 | Pending | |
+| VIZ-01 | Phase 6 | Pending | |
+| VIZ-02 | Phase 6 | Pending | |
+| VIZ-03 | Phase 6 | Pending | |
+| VIZ-04 | Phase 6 | Pending | |
+| VIZ-05 | Phase 6 | Pending | |
+| VIZ-06 | Phase 6 | Pending | |
+| UI-01 | Phase 6 | Pending | |
+| UI-02 | Phase 6 | Pending | |
+| UI-03 | Phase 6 | Pending | |
+| UI-04 | Phase 6 | Pending | |
+| INT-01 | Phase 7 | Pending | |
+| INT-02 | Phase 7 | Pending | |
+| INT-03 | Phase 7 | Pending | |
+| INT-04 | Phase 7 | Pending | |
+| INT-05 | Phase 7 | Pending | |
 
 **Coverage:**
-- v3.0 requirements: 30 total
-- Mapped to phases: 30 ✓
-- Unmapped: 0 ✓
+- v3.0 requirements: 28 total
+- Mapped to phases: 28
+- Unmapped: 0
 
 **Phase breakdown:**
-- Phase 4 (Validation Infrastructure): 6 requirements
+- Phase 4 (Validation Infrastructure): 4 requirements (VAL-01, VAL-02, VAL-03, VAL-06)
 - Phase 5 (Scoring Analysis): 7 requirements
-- Phase 6 (Visualization & UI): 10 requirements
+- Phase 6 (Visualization & UI): 12 requirements (including VAL-04, VAL-05 UI work)
 - Phase 7 (Interactive Solver): 5 requirements
 
-**Total: 28 requirements across 4 phases** ✓
+**Total: 28 requirements across 4 phases**
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after v3.0 roadmap creation*
+*Last updated: 2026-01-23 after Phase 4 execution complete (VAL-01, VAL-02, VAL-03, VAL-06 complete)*

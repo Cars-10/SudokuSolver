@@ -49,7 +49,7 @@
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 4: Validation Infrastructure** - Algorithmic correctness foundation
+- [x] **Phase 4: Validation Infrastructure** - Algorithmic correctness foundation
 - [ ] **Phase 5: Scoring Analysis** - Statistical rigor and methodology optimization
 - [ ] **Phase 6: Visualization & UI** - Enhanced insights and polish
 - [ ] **Phase 7: Interactive Solver** - Engaging user experience
@@ -61,7 +61,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Depends on:** Nothing (first phase of v3.0)
 
-**Requirements:** VAL-01, VAL-02, VAL-03, VAL-04, VAL-05, VAL-06
+**Requirements:** VAL-01, VAL-02, VAL-03, VAL-06 (backend validation only)
+
+**Note:** VAL-04 (visual warning badges) and VAL-05 (diagnostics modal) are UI-layer concerns deferred to Phase 6 per user decision in 04-CONTEXT.md: "NO new UI elements in report--validation results only appear in benchmark_issues.json log".
 
 **Implementation Scope:**
 This phase adds validation logic to the benchmark execution pipeline (common.sh) with transparent integration into all language implementations via run_matrix().
@@ -82,7 +84,7 @@ This phase adds validation logic to the benchmark execution pipeline (common.sh)
 **Plans:** 1 plan
 
 Plans:
-- [ ] 04-01-PLAN.md - Add validation functions to common.sh and integrate into run_matrix()
+- [x] 04-01-PLAN.md - Add validation functions to common.sh and integrate into run_matrix()
 
 ### Phase 5: Scoring Analysis
 **Goal:** Provide statistical rigor through sensitivity analysis, correlation computation, and versioned scoring to validate current methodology and enable informed future improvements.
@@ -110,7 +112,9 @@ Plans:
 
 **Depends on:** Phase 4 + Phase 5 (visualizes validation results and scoring insights)
 
-**Requirements:** VIZ-01, VIZ-02, VIZ-03, VIZ-04, VIZ-05, VIZ-06, UI-01, UI-02, UI-03, UI-04
+**Requirements:** VAL-04, VAL-05, VIZ-01, VIZ-02, VIZ-03, VIZ-04, VIZ-05, VIZ-06, UI-01, UI-02, UI-03, UI-04
+
+**Note:** VAL-04 and VAL-05 are validation UI visualization (deferred from Phase 4).
 
 **Success Criteria** (what must be TRUE):
 1. Report includes scatter plot showing Time vs Memory with logarithmic scales
@@ -119,6 +123,8 @@ Plans:
 4. Algorithm dropdown sorts options alphabetically and updates labels correctly
 5. Matrix Race fullscreen exit works correctly without temporary exit/re-enter bug
 6. All visualizations handle 70+ languages and 6 orders of magnitude without misleading scales
+7. Report displays visual warning badges for invalid implementations (VAL-04)
+8. Diagnostics modal shows iteration mismatch details (VAL-05)
 
 **Plans:** TBD (estimated 3-4 plans)
 
@@ -158,10 +164,10 @@ Phases execute in numeric order: 4 -> 5 -> 6 -> 7
 | 1. Scoring Engine | v1.0 | 1/1 | Complete | 2026-01-20 |
 | 2. UI/UX Refine | v1.0 | 2/2 | Complete | 2026-01-20 |
 | 3. Metadata Align | v1.0 | 1/1 | Complete | 2026-01-20 |
-| 4. Validation Infrastructure | v3.0 | 0/1 | Planned | - |
+| 4. Validation Infrastructure | v3.0 | 1/1 | Complete | 2026-01-23 |
 | 5. Scoring Analysis | v3.0 | 0/2 | Not started | - |
 | 6. Visualization & UI | v3.0 | 0/3 | Not started | - |
 | 7. Interactive Solver | v3.0 | 0/2 | Not started | - |
 
 ---
-*Last updated: 2026-01-23 after Phase 4 planning (1 plan created)*
+*Last updated: 2026-01-23 after Phase 4 execution complete*
