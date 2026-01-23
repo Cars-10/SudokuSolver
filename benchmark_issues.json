@@ -1,1656 +1,146 @@
 [
   {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:54:19Z",
+    "status": "error",
+    "matrix": "1",
+    "output": "Matrix 1 failed: error (Exit code 1)"
+  },
+  {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:54:19Z",
+    "status": "error",
+    "matrix": "2",
+    "output": "Matrix 2 failed: error (Exit code 1)"
+  },
+  {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:54:19Z",
+    "status": "error",
+    "matrix": "3",
+    "output": "Matrix 3 failed: error (Exit code 1)"
+  },
+  {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:54:20Z",
+    "status": "error",
+    "matrix": "4",
+    "output": "Matrix 4 failed: error (Exit code 1)"
+  },
+  {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:54:20Z",
+    "status": "error",
+    "matrix": "5",
+    "output": "Matrix 5 failed: error (Exit code 1)"
+  },
+  {
+    "solver": "Factor",
+    "runType": "automated",
+    "timestamp": "2026-01-22T20:56:27Z",
+    "status": "env_error",
+    "output": "No matrix files found"
+  },
+  {
     "solver": "Assembly",
     "runType": "automated",
-    "timestamp": "2026-01-21T18:34:01Z",
-    "status": "env_error",
-    "output": "Compilation failed for ARM64"
-  },
-  {
-    "solver": "Brainfuck",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:36:41Z",
+    "timestamp": "2026-01-22T20:57:08Z",
     "status": "env_error",
     "output": "No matrix files found"
   },
   {
-    "solver": "Dc",
+    "solver": "Assembly",
     "runType": "automated",
-    "timestamp": "2026-01-21T18:39:19Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 3)"
-  },
-  {
-    "solver": "Dc",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:19Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 3)"
-  },
-  {
-    "solver": "Dc",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:19Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 3)"
-  },
-  {
-    "solver": "Dc",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:19Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 3)"
-  },
-  {
-    "solver": "Dc",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:19Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 3)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:31Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:31Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:32Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:32Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:39:32Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "Janet",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:00Z",
-    "status": "env_error",
-    "output": "janet not found in PATH"
-  },
-  {
-    "solver": "Jupyter",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:30Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 127)"
-  },
-  {
-    "solver": "Jupyter",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:30Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 127)"
-  },
-  {
-    "solver": "Jupyter",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:31Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 127)"
-  },
-  {
-    "solver": "Jupyter",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:31Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 127)"
-  },
-  {
-    "solver": "Jupyter",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:46:31Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 127)"
-  },
-  {
-    "solver": "M4",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:47:03Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 134)"
-  },
-  {
-    "solver": "M4",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:47:50Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 134)"
-  },
-  {
-    "solver": "M4",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:48:01Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 134)"
-  },
-  {
-    "solver": "M4",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:48:02Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 134)"
-  },
-  {
-    "solver": "M4",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:48:49Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 134)"
-  },
-  {
-    "solver": "Red",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:52:43Z",
-    "status": "env_error",
-    "output": "red not found in PATH"
-  },
-  {
-    "solver": "SML",
-    "runType": "automated",
-    "timestamp": "2026-01-21T18:57:57Z",
-    "status": "env_error",
-    "output": "No SML compiler found (tried mlton, polyc, poly, sml)"
-  },
-  {
-    "solver": "Verilog",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:03:08Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 15)"
-  },
-  {
-    "solver": "Verilog",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:03:08Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 15)"
-  },
-  {
-    "solver": "Verilog",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:03:08Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 15)"
-  },
-  {
-    "solver": "Verilog",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:03:08Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 15)"
-  },
-  {
-    "solver": "Verilog",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:03:08Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 15)"
-  },
-  {
-    "solver": "Ada",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:05:31Z",
-    "status": "env_error",
-    "output": "gnatmake not found in PATH"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:36Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:36Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:36Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:36Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:38Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:38Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:38Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:38Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:39Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:41Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:41Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:42Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:42Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:42Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:44Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:45Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:46Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:47Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:08:48Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:17:45Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:17:45Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:17:45Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:17:45Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:17:46Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Rexx",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:20Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 215)"
-  },
-  {
-    "solver": "Rexx",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:20Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 215)"
-  },
-  {
-    "solver": "Rexx",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:20Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 215)"
-  },
-  {
-    "solver": "Rexx",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:20Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 215)"
-  },
-  {
-    "solver": "Rexx",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:20Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 215)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:45Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:45Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:46Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:36:46Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "SML",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:37:07Z",
-    "status": "env_error",
-    "output": "No SML compiler found (tried mlton, polyc, poly, sml)"
-  },
-  {
-    "solver": "Ada",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:38:51Z",
-    "status": "env_error",
-    "output": "gnatmake not found in PATH"
-  },
-  {
-    "solver": "AppleScript",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:44Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:46Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:47Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:47Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASH",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:47Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:55Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:55Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:55Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:55Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "C_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:40:55Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:03Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:03Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:04Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:04Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Kotlin",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:04Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "SML",
-    "runType": "automated",
-    "timestamp": "2026-01-21T19:42:55Z",
-    "status": "env_error",
-    "output": "No SML compiler found (tried mlton, polyc, poly, sml)"
-  },
-  {
-    "solver": "Io",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:03Z",
-    "status": "env_error",
-    "output": "io not found in PATH"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:35Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:35Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:35Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:36Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:30:36Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:20Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:20Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:21Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:21Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:21Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:43Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:43Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:44Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:44Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:34:44Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:00Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:00Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:01Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:01Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:01Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:17Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:17Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:17Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:17Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:18Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:22Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:22Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:22Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:23Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:41:23Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Io",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:04Z",
-    "status": "env_error",
-    "output": "io not found in PATH"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:23Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:23Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:23Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:23Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:24Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:25Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:25Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:25Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:25Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:25Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:52Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:52Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:52Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:53Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:53Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:42:53Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:01Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:01Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:01Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:02Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:02Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:11Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:59Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:46:59Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:47:00Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:47:00Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:47:00Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:47:00Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:49:38Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:05Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:27Z",
-    "status": "env_error",
-    "output": "Compilation failed"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:50:49Z",
-    "status": "env_error",
-    "output": "Compilation failed"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:03Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:03Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:04Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:04Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:04Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:04Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:51:32Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:52:39Z",
-    "status": "env_error",
-    "output": "Compilation failed"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "BASIC",
-    "runType": "automated",
-    "timestamp": "2026-01-22T05:53:21Z",
-    "status": "error",
-    "matrix": "6",
-    "output": "Matrix 6 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:09:16Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 150)"
-  },
-  {
-    "solver": "F_Sharp",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:10:36Z",
+    "timestamp": "2026-01-22T20:57:09Z",
     "status": "env_error",
     "output": "No matrix files found"
   },
   {
-    "solver": "Clojure",
+    "solver": "Assembly",
     "runType": "automated",
-    "timestamp": "2026-01-22T06:32:18Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:32:18Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:32:19Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:32:19Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:32:20Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Clojure",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:33:58Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:52:14Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:52:14Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:52:14Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:52:14Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:15Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:15Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:15Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:16Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:16Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:16Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:17Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:17Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:17Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:18Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:18Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:19Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:19Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:19Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T06:53:20Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:06:21Z",
+    "timestamp": "2026-01-22T20:57:09Z",
     "status": "env_error",
     "output": "No matrix files found"
   },
   {
+    "solver": "PostScript",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:15:04Z",
+    "status": "env_error",
+    "output": "No matrix files found"
+  },
+  {
+    "solver": "SQLite",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:17:05Z",
+    "status": "env_error",
+    "output": "No matrix files found"
+  },
+  {
+    "solver": "PostScript",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:21:35Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "XSLT",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:23:13Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Icon",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:24:01Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:24:21Z",
+    "status": "timeout",
+    "matrix": "1",
+    "output": "Matrix 1 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Jq",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:27:39Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:29:21Z",
+    "status": "timeout",
+    "matrix": "2",
+    "output": "Matrix 2 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:30:56Z",
+    "status": "timeout",
+    "matrix": "1",
+    "output": "Matrix 1 failed: timeout (Exit code 124)"
+  },
+  {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:02Z",
+    "timestamp": "2026-01-22T23:31:00Z",
     "status": "error",
     "matrix": "1",
     "output": "Matrix 1 failed: error (Exit code 1)"
@@ -1658,7 +148,7 @@
   {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:02Z",
+    "timestamp": "2026-01-22T23:31:03Z",
     "status": "error",
     "matrix": "2",
     "output": "Matrix 2 failed: error (Exit code 1)"
@@ -1666,7 +156,7 @@
   {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:03Z",
+    "timestamp": "2026-01-22T23:31:06Z",
     "status": "error",
     "matrix": "3",
     "output": "Matrix 3 failed: error (Exit code 1)"
@@ -1674,7 +164,7 @@
   {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:03Z",
+    "timestamp": "2026-01-22T23:31:08Z",
     "status": "error",
     "matrix": "4",
     "output": "Matrix 4 failed: error (Exit code 1)"
@@ -1682,7 +172,7 @@
   {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:03Z",
+    "timestamp": "2026-01-22T23:31:10Z",
     "status": "error",
     "matrix": "5",
     "output": "Matrix 5 failed: error (Exit code 1)"
@@ -1690,233 +180,97 @@
   {
     "solver": "Factor",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:04Z",
+    "timestamp": "2026-01-22T23:31:12Z",
     "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
+    "matrix": "6",
+    "output": "Matrix 6 failed: error (Exit code 1)"
   },
   {
-    "solver": "Factor",
+    "solver": "XSLT",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:04Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:31:25Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Gnuplot",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:31:53Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:34:21Z",
+    "status": "timeout",
+    "matrix": "3",
+    "output": "Matrix 3 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:35:56Z",
+    "status": "timeout",
     "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
+    "output": "Matrix 2 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:04Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:28:05Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:39:21Z",
+    "status": "timeout",
     "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
+    "output": "Matrix 4 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:05Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:28:05Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:28:06Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:28:06Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:40:57Z",
+    "status": "timeout",
     "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
+    "output": "Matrix 3 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:28:06Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:28:07Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:44:21Z",
+    "status": "timeout",
     "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
+    "output": "Matrix 5 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:31:09Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:09Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:10Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:10Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:45:57Z",
+    "status": "timeout",
     "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
+    "output": "Matrix 4 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:31:10Z",
-    "status": "error",
+    "timestamp": "2026-01-22T23:49:22Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
+  },
+  {
+    "solver": "Sed",
+    "runType": "automated",
+    "timestamp": "2026-01-22T23:50:57Z",
+    "status": "timeout",
     "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
+    "output": "Matrix 5 failed: timeout (Exit code 124)"
   },
   {
-    "solver": "Factor",
+    "solver": "Sed",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:31:10Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:11Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:11Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:11Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:12Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:12Z",
-    "status": "error",
-    "matrix": "1",
-    "output": "Matrix 1 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:12Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:13Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:13Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Factor",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:13Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:24Z",
-    "status": "error",
-    "matrix": "2",
-    "output": "Matrix 2 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:24Z",
-    "status": "error",
-    "matrix": "3",
-    "output": "Matrix 3 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:24Z",
-    "status": "error",
-    "matrix": "4",
-    "output": "Matrix 4 failed: error (Exit code 1)"
-  },
-  {
-    "solver": "Scheme",
-    "runType": "automated",
-    "timestamp": "2026-01-22T07:31:24Z",
-    "status": "error",
-    "matrix": "5",
-    "output": "Matrix 5 failed: error (Exit code 1)"
+    "timestamp": "2026-01-22T23:55:57Z",
+    "status": "timeout",
+    "matrix": "6",
+    "output": "Matrix 6 failed: timeout (Exit code 124)"
   }
 ]

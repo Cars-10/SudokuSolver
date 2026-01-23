@@ -2,14 +2,14 @@
 cd "$(dirname "$0")"
 
 LANGUAGE="Factor"
-SOLVER_BINARY="/Users/vibe/Downloads/factor/Factor.app/Contents/MacOS/factor dlx.factor"
+SOLVER_BINARY="./factor_wrapper.sh dlx.factor"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 
 compile() {
-    check_toolchain factor
+    check_toolchain /Applications/factor/factor
 }
 
 main "$@"

@@ -88,6 +88,9 @@ async function run() {
                             algorithmType = 'BruteForce'; // Legacy defaults to BruteForce
                         }
 
+                        // Normalize specific solver names
+                        if (solverName === 'Bash') solverName = 'BASH';
+
                         const stats = await fs.promises.stat(file);
 
                         // Check for run_type file

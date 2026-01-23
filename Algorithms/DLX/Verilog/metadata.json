@@ -1,0 +1,9 @@
+{
+  "creator": "Verilog HDL Team",
+  "date": "1984",
+  "description": "Hardware description language primarily used for modeling electronic systems.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Verilog_Logo.svg/200px-Verilog_Logo.svg.png",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Verilog_Logo.svg/64px-Verilog_Logo.svg.png",
+  "location": "Gateway Design Automation",
+  "benefits": "Hardware simulation, FPGA design, digital logic verification."
+}

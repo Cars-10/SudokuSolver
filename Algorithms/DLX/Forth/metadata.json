@@ -1,0 +1,8 @@
+{
+  "creator": "Charles H. Moore",
+  "date": "1970",
+  "description": "A stack-oriented, concatenative, procedural, and reflective programming language.",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Forth_logo.svg",
+  "location": "NRAO, USA",
+  "benefits": "Compactness, hardware control, interactivity."
+}

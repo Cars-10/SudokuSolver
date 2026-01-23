@@ -2,7 +2,7 @@
   {
     "solver": "Kotlin",
     "runType": "automated",
-    "timestamp": "2026-01-22T06:16:26Z",
+    "timestamp": "2026-01-22T15:26:53Z",
     "results": [
       {
         "matrix": "1",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 3546.3843,
+        "time": 13689.8699,
         "iterations": 622577597,
-        "memory": 52789248,
-        "cpu_user": 3562.146,
-        "cpu_sys": 23.762,
-        "page_faults_major": 1,
-        "page_faults_minor": 4637,
-        "context_switches_voluntary": 4,
-        "context_switches_involuntary": 1732,
+        "memory": 52920320,
+        "cpu_user": 8067.809,
+        "cpu_sys": 153.365,
+        "page_faults_major": 5,
+        "page_faults_minor": 4640,
+        "context_switches_voluntary": 35,
+        "context_switches_involuntary": 26754,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
-        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 3.500\n"
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=622577597\n\nSeconds to process 13.317\n"
       }
     ]
   }

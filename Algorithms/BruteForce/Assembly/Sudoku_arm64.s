@@ -1,16 +1,16 @@
 // Sudoku Solver in ARM64 Assembly (AArch64)
 // Uses C library functions: fopen, fclose, fgetc, printf
 
-.global main
-.global solve
-.global is_valid
-.global print_board
+.global _main
+.global _solve
+.global _is_valid
+.global _print_board
 
-.extern fopen
-.extern fclose
-.extern fgetc
-.extern printf
-.extern exit
+.extern _fopen
+.extern _fclose
+.extern _fgetc
+.extern _printf
+.extern _exit
 
 .data
     .align 3
@@ -26,17 +26,14 @@
     .align 3
     iterations: .quad 0
     file_handle: .quad 0
-
-.bss
-    .align 3
-    board: .skip 81
+    board: .fill 81, 1, 0
 
 .text
 
 // ----------------------------------------------------------------
 // main(argc, argv)
 // ----------------------------------------------------------------
-main:
+_main:
     // Save fp, lr, and callee-saved x19, x20
     stp x29, x30, [sp, -32]!
     mov x29, sp
@@ -48,14 +45,14 @@ main:
 
     // Open file: fopen(argv[1], "r")
     ldr x0, [x1, 8]        // argv[1]
-    adrp x1, mode_r
-    add x1, x1, :lo12:mode_r
-    bl fopen
+    adrp x1, mode_r@PAGE
+    add x1, x1, mode_r@PAGEOFF
+    bl _fopen
     cbz x0, .open_err      // if NULL, print error and exit
-    
+
     // Store file handle
-    adrp x1, file_handle
-    add x1, x1, :lo12:file_handle
+    adrp x1, file_handle@PAGE
+    add x1, x1, file_handle@PAGEOFF
     str x0, [x1]
 
     // Read file loop
@@ -67,10 +64,10 @@ main:
     b.ge .read_done
 
     // fgetc(file_handle)
-    adrp x1, file_handle
-    add x1, x1, :lo12:file_handle
+    adrp x1, file_handle@PAGE
+    add x1, x1, file_handle@PAGEOFF
     ldr x0, [x1]
-    bl fgetc
+    bl _fgetc
     
     // Check EOF (-1)
     cmp w0, -1
@@ -84,58 +81,58 @@ main:
 
     // Convert to int and store in board
     sub w0, w0, 48
-    adrp x1, board
-    add x1, x1, :lo12:board
+    adrp x1, board@PAGE
+    add x1, x1, board@PAGEOFF
     strb w0, [x1, x19]
     add x19, x19, 1
     b .read_loop
 
 .read_done:
     // fclose(file_handle)
-    adrp x1, file_handle
-    add x1, x1, :lo12:file_handle
+    adrp x1, file_handle@PAGE
+    add x1, x1, file_handle@PAGEOFF
     ldr x0, [x1]
-    bl fclose
+    bl _fclose
 
     // Call solve()
-    bl solve
+    bl _solve
     cbz x0, .no_solution
 
     // Print result
     // printf("Solved in Iterations= %ld\n", iterations)
-    adrp x0, fmt_solved
-    add x0, x0, :lo12:fmt_solved
-    adrp x1, iterations
-    add x1, x1, :lo12:iterations
+    adrp x0, fmt_solved@PAGE
+    add x0, x0, fmt_solved@PAGEOFF
+    adrp x1, iterations@PAGE
+    add x1, x1, iterations@PAGEOFF
     ldr x1, [x1]
-    bl printf
+    bl _printf
 
-    bl print_board
+    bl _print_board
     mov x0, 0
-    bl exit
+    bl _exit
 
 .no_solution:
-    adrp x0, fmt_nosol
-    add x0, x0, :lo12:fmt_nosol
-    bl printf
+    adrp x0, fmt_nosol@PAGE
+    add x0, x0, fmt_nosol@PAGEOFF
+    bl _printf
     mov x0, 1
-    bl exit
+    bl _exit
 
 .open_err:
-    adrp x0, fmt_err
-    add x0, x0, :lo12:fmt_err
-    bl printf
+    adrp x0, fmt_err@PAGE
+    add x0, x0, fmt_err@PAGEOFF
+    bl _printf
     mov x0, 1
-    bl exit
+    bl _exit
 
 .exit_err:
     mov x0, 1
-    bl exit
+    bl _exit
 
 // ----------------------------------------------------------------
 // solve() -> 1 (true) or 0 (false)
 // ----------------------------------------------------------------
-solve:
+_solve:
     stp x29, x30, [sp, -48]!
     mov x29, sp
     stp x19, x20, [sp, 16]
@@ -148,8 +145,8 @@ solve:
     cmp x19, 81
     b.ge .solved
 
-    adrp x1, board
-    add x1, x1, :lo12:board
+    adrp x1, board@PAGE
+    add x1, x1, board@PAGEOFF
     ldrb w2, [x1, x19]
     cbz w2, .found_empty
     
@@ -165,8 +162,8 @@ solve:
     b.gt .backtrack
 
     // Increment iterations
-    adrp x2, iterations
-    add x2, x2, :lo12:iterations
+    adrp x2, iterations@PAGE
+    add x2, x2, iterations@PAGEOFF
     ldr x3, [x2]
     add x3, x3, 1
     str x3, [x2]
@@ -174,21 +171,21 @@ solve:
     // is_valid(index, num)
     mov x0, x19
     mov x1, x20
-    bl is_valid
+    bl _is_valid
     cbz x0, .next_num
 
     // Place number
-    adrp x1, board
-    add x1, x1, :lo12:board
+    adrp x1, board@PAGE
+    add x1, x1, board@PAGEOFF
     strb w20, [x1, x19]
 
     // Recurse solve()
-    bl solve
+    bl _solve
     cbnz x0, .return_true
 
     // Backtrack: reset cell to 0
-    adrp x1, board
-    add x1, x1, :lo12:board
+    adrp x1, board@PAGE
+    add x1, x1, board@PAGEOFF
     strb wzr, [x1, x19]
 
 .next_num:
@@ -216,7 +213,7 @@ solve:
 // is_valid(index, num) -> 1 or 0
 // x0: index, x1: num
 // ----------------------------------------------------------------
-is_valid:
+_is_valid:
     stp x29, x30, [sp, -16]!
     mov x29, sp
 
@@ -238,8 +235,8 @@ is_valid:
     mul x6, x3, x2     // row * 9
     add x6, x6, x5     // + i
     
-    adrp x7, board
-    add x7, x7, :lo12:board
+    adrp x7, board@PAGE
+    add x7, x7, board@PAGEOFF
     ldrb w8, [x7, x6]
     cmp w8, w10
     b.eq .invalid
@@ -258,8 +255,8 @@ is_valid:
     mul x6, x5, x2     // i * 9
     add x6, x6, x4     // + col
     
-    adrp x7, board
-    add x7, x7, :lo12:board
+    adrp x7, board@PAGE
+    add x7, x7, board@PAGEOFF
     ldrb w8, [x7, x6]
     cmp w8, w10
     b.eq .invalid
@@ -294,8 +291,8 @@ is_valid:
     add x15, x13, x6   // startCol + j
     add x14, x14, x15  // final index
 
-    adrp x7, board
-    add x7, x7, :lo12:board
+    adrp x7, board@PAGE
+    add x7, x7, board@PAGEOFF
     ldrb w8, [x7, x14]
     cmp w8, w10
     b.eq .invalid
@@ -320,7 +317,7 @@ is_valid:
 // ----------------------------------------------------------------
 // print_board()
 // ----------------------------------------------------------------
-print_board:
+_print_board:
     stp x29, x30, [sp, -32]!
     mov x29, sp
     stp x19, x20, [sp, 16]
@@ -340,32 +337,32 @@ print_board:
     mul x3, x19, x2
     add x3, x3, x20 // index
     
-    adrp x4, board
-    add x4, x4, :lo12:board
+    adrp x4, board@PAGE
+    add x4, x4, board@PAGEOFF
     ldrb w1, [x4, x3]
     
     // Print char
     add w1, w1, 48 // + '0'
-    adrp x0, fmt_char
-    add x0, x0, :lo12:fmt_char
-    bl printf
+    adrp x0, fmt_char@PAGE
+    add x0, x0, fmt_char@PAGEOFF
+    bl _printf
 
     // Print space if col < 8
     cmp x20, 8
     b.ge .skip_space
     
-    adrp x0, fmt_space
-    add x0, x0, :lo12:fmt_space
-    bl printf
+    adrp x0, fmt_space@PAGE
+    add x0, x0, fmt_space@PAGEOFF
+    bl _printf
 
 .skip_space:
     add x20, x20, 1
     b .p_col
 
 .p_next_row:
-    adrp x0, fmt_newline
-    add x0, x0, :lo12:fmt_newline
-    bl printf
+    adrp x0, fmt_newline@PAGE
+    add x0, x0, fmt_newline@PAGEOFF
+    bl _printf
 
     add x19, x19, 1
     b .p_row

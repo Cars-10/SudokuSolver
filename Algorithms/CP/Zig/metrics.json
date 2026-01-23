@@ -2,7 +2,7 @@
   {
     "solver": "Zig",
     "runType": "automated",
-    "timestamp": "2026-01-21T19:38:49Z",
+    "timestamp": "2026-01-22T16:47:16Z",
     "results": [
       {
         "matrix": "1",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 6.7237,
-        "iterations": 0,
-        "memory": 1835008,
-        "cpu_user": 1.969,
-        "cpu_sys": 2.877,
-        "page_faults_major": 5,
-        "page_faults_minor": 707,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 14,
+        "time": 45738.5635,
+        "iterations": 69497705,
+        "memory": 1474560,
+        "cpu_user": 39636.27,
+        "cpu_sys": 493.482,
+        "page_faults_major": 7,
+        "page_faults_minor": 549,
+        "context_switches_voluntary": 6,
+        "context_switches_involuntary": 90621,
         "io_inputs": 0,
         "io_outputs": 0,
-        "status": "error",
-        "output": "\n"
+        "status": "success",
+        "output": "9 8 7 6 5 4 3 2 1\n2 4 6 1 7 3 9 8 5\n3 5 1 9 2 8 7 4 6\n1 2 8 5 3 7 6 9 4\n6 3 4 8 9 2 1 5 7\n7 9 5 4 6 1 8 3 2\n5 1 9 2 8 6 4 7 3\n4 7 2 3 1 9 5 6 8\n8 6 3 7 4 5 2 1 9\nSolved in Iterations=69497705\n"
       }
     ]
   }

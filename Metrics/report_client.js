@@ -2474,8 +2474,15 @@ window.verifyLanguage = async function (lang) {
             .attr("height", height);
 
         const raceDuration = 15000; // 15s
+
+        // Filter by current algorithm to avoid duplicates
+        const selectedAlgo = window.currentAlgorithm || 'BruteForce';
+        const filteredData = selectedAlgo === 'all'
+            ? data.filter(d => (d.algorithmType || 'BruteForce') === 'BruteForce') // Default to BruteForce when 'all' selected
+            : data.filter(d => (d.algorithmType || 'BruteForce') === selectedAlgo);
+
         // Show all languages that have results
-        const topN = data.filter(d => d.results && d.results.length >= 5).length;
+        const topN = filteredData.filter(d => d.results && d.results.length >= 5).length;
 
         // X scale: 0 to 5 (Matrices)
         const x = d3.scaleLinear()
@@ -2489,7 +2496,7 @@ window.verifyLanguage = async function (lang) {
             .padding(0.1);
 
         // Solver processing
-        const solvers = data
+        const solvers = filteredData
             .filter(d => d.results && d.results.length >= 5)
             .map(d => {
                 let cum = 0;
@@ -4259,6 +4266,15 @@ let startScreensaverGlobal;
 
         let currentMode = 'red'; // Default to full screen
 
+        // Glitch Effect State
+        let isGlitching = false;
+        let glitchStartTime = 0;
+        let lastGlitchTime = 0;
+        let initialGlitchComplete = false;
+        let originalTexts = {}; // Store original text content
+        let escOptionElement = null;
+        let cylonInterval = null;
+
         function draw() {
             if (active) {
                 animationId = requestAnimationFrame(draw);
@@ -4268,6 +4284,32 @@ let startScreensaverGlobal;
             if (frame % 2 !== 0) return;
 
             const perfStart = performance.now();
+            const now = Date.now();
+
+            // Handle glitch timing
+            if (currentMode === 'red') {
+                // Initial 5-second glitch
+                if (!initialGlitchComplete && (now - glitchStartTime) < 5000) {
+                    isGlitching = true;
+                    applyGlitchEffect(now - glitchStartTime, 5000);
+                } else if (!initialGlitchComplete && (now - glitchStartTime) >= 5000) {
+                    initialGlitchComplete = true;
+                    isGlitching = false;
+                    resetGlitchEffect();
+                    lastGlitchTime = now;
+                }
+                // Periodic glitch every 60 seconds for 5 seconds
+                else if (initialGlitchComplete && (now - lastGlitchTime) >= 60000) {
+                    if ((now - lastGlitchTime) < 65000) {
+                        isGlitching = true;
+                        applyGlitchEffect((now - lastGlitchTime) - 60000, 5000);
+                    } else {
+                        isGlitching = false;
+                        resetGlitchEffect();
+                        lastGlitchTime = now;
+                    }
+                }
+            }
 
             // Black background with opacity for trail effect
             // Lower opacity = longer trails
@@ -4277,6 +4319,9 @@ let startScreensaverGlobal;
             const perfClearEnd = performance.now();
 
             const perfRainStart = performance.now();
+
+            // Skip rain rendering during glitch
+            if (isGlitching) return;
 
             // Set default shadow once for normal rain
             ctx.shadowBlur = 8;
@@ -4554,6 +4599,180 @@ let startScreensaverGlobal;
             else if (mode === 'bar') drawBarChart();
             else if (mode === 'radar') drawRadarChart();
         };
+
+        // Glitch effect functions
+        function getRandomAlienChar() {
+            return chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        function glitchText(text) {
+            // Replace ~30% of characters with random alien chars
+            return text.split('').map(char => {
+                if (char === ' ' || char === ':' || char === '\n') return char;
+                return Math.random() > 0.7 ? getRandomAlienChar() : char;
+            }).join('');
+        }
+
+        function applyGlitchEffect(elapsed, duration) {
+            const fsHeader = document.getElementById('fullscreen-header');
+            if (!fsHeader) return;
+
+            // Keep status field centered on screen at all times
+            fsHeader.style.position = 'fixed';
+            fsHeader.style.top = '50%';
+            fsHeader.style.left = '50%';
+            fsHeader.style.transform = 'translate(-50%, -50%)';
+
+            // Apply alien character glitch to all text elements
+            // NOTE: diagnostics-status is handled separately below to preserve span colors
+            const textElements = [
+                { id: 'solver-text', key: 'solverText' },
+                { id: 'matrix-timer', key: 'matrixTimer' },
+                { class: 'mismatch-counter', key: 'mismatchCounter' },
+                { id: 'riddle-container', key: 'riddleContainer' }
+            ];
+
+            textElements.forEach(elem => {
+                let element = elem.id ? document.getElementById(elem.id) :
+                             elem.class ? fsHeader.querySelector('.' + elem.class) : null;
+
+                if (element) {
+                    // Store original text on first glitch
+                    if (!originalTexts[elem.key]) {
+                        originalTexts[elem.key] = element.textContent || element.innerText;
+                    }
+
+                    // Apply glitch effect every few frames for animation
+                    if (Math.random() > 0.7) {
+                        element.textContent = glitchText(originalTexts[elem.key]);
+                    }
+                }
+            });
+
+            // Handle diagnostics status spans separately
+            const diagStatus = document.getElementById('diagnostics-status');
+            if (diagStatus) {
+                const spans = diagStatus.querySelectorAll('span');
+                spans.forEach((span, idx) => {
+                    const key = `diagSpan${idx}`;
+                    if (!originalTexts[key]) {
+                        originalTexts[key] = span.textContent;
+                    }
+                    if (Math.random() > 0.7) {
+                        span.textContent = glitchText(originalTexts[key]);
+                    }
+                });
+            }
+        }
+
+        function resetGlitchEffect() {
+            const fsHeader = document.getElementById('fullscreen-header');
+            if (!fsHeader) return;
+
+            // Keep centered position
+            fsHeader.style.position = 'fixed';
+            fsHeader.style.top = '50%';
+            fsHeader.style.left = '50%';
+            fsHeader.style.transform = 'translate(-50%, -50%)';
+
+            // Restore all original text
+            // NOTE: diagnostics-status is handled separately below to preserve span colors
+            const textElements = [
+                { id: 'solver-text', key: 'solverText' },
+                { id: 'matrix-timer', key: 'matrixTimer' },
+                { class: 'mismatch-counter', key: 'mismatchCounter' },
+                { id: 'riddle-container', key: 'riddleContainer' }
+            ];
+
+            textElements.forEach(elem => {
+                let element = elem.id ? document.getElementById(elem.id) :
+                             elem.class ? fsHeader.querySelector('.' + elem.class) : null;
+
+                if (element && originalTexts[elem.key]) {
+                    element.textContent = originalTexts[elem.key];
+                }
+            });
+
+            // Restore diagnostics spans
+            const diagStatus = document.getElementById('diagnostics-status');
+            if (diagStatus) {
+                const spans = diagStatus.querySelectorAll('span');
+                spans.forEach((span, idx) => {
+                    const key = `diagSpan${idx}`;
+                    if (originalTexts[key]) {
+                        span.textContent = originalTexts[key];
+                    }
+                });
+            }
+
+            // Show riddle "OptionIsEscape" after initial glitch completes
+            if (initialGlitchComplete) {
+                const riddleContainer = document.getElementById('riddle-container');
+                if (riddleContainer && !riddleContainer.hasAttribute('data-escape-shown')) {
+                    // Create individual spans for each letter for Cylon effect
+                    const text = 'OptionIsEscape';
+                    riddleContainer.innerHTML = '';
+
+                    for (let i = 0; i < text.length; i++) {
+                        const span = document.createElement('span');
+                        span.textContent = text[i];
+                        span.style.transition = 'all 0.3s ease';
+                        span.className = 'riddle-letter';
+                        riddleContainer.appendChild(span);
+                    }
+
+                    riddleContainer.style.opacity = '0';
+                    riddleContainer.style.transition = 'opacity 1s ease-in';
+                    riddleContainer.style.fontWeight = 'normal';
+                    riddleContainer.style.fontSize = '0.4em'; // Half the previous size
+                    riddleContainer.style.color = '#ffffff'; // White default color
+                    riddleContainer.setAttribute('data-escape-shown', 'true');
+
+                    // Fade in
+                    setTimeout(() => {
+                        riddleContainer.style.opacity = '1';
+                        startCylonEffect(riddleContainer);
+                    }, 100);
+                }
+            }
+        }
+
+        function startCylonEffect(container) {
+            if (cylonInterval) clearInterval(cylonInterval);
+
+            const letters = container.querySelectorAll('.riddle-letter');
+            if (letters.length === 0) return;
+
+            let position = 0;
+            let direction = 1; // 1 = forward, -1 = backward
+
+            cylonInterval = setInterval(() => {
+                // Clear all highlights - white default
+                letters.forEach(letter => {
+                    letter.style.color = '#ffffff';
+                    letter.style.textShadow = 'none';
+                });
+
+                // Highlight current position with bright red
+                if (letters[position]) {
+                    letters[position].style.color = '#ff3366';
+                    letters[position].style.textShadow = '0 0 10px #ff3366, 0 0 20px #ff3366, 0 0 30px #ff3366, 0 0 40px #ff0000';
+                }
+
+                // Move position
+                position += direction;
+
+                // Reverse direction at ends
+                if (position >= letters.length) {
+                    position = letters.length - 2;
+                    direction = -1;
+                } else if (position < 0) {
+                    position = 1;
+                    direction = 1;
+                }
+            }, 150); // Speed of scan
+        }
+
         function startScreensaver(mode) {
             console.log("startScreensaver called with mode:", mode);
             // Allow switching modes?
@@ -4579,6 +4798,11 @@ let startScreensaverGlobal;
             if (currentMode === 'red') {
                 // Full Screen Mode
 
+                // Initialize glitch timing
+                glitchStartTime = Date.now();
+                isGlitching = true;
+                initialGlitchComplete = false;
+
                 // Save scroll position BEFORE any DOM changes to prevent bounce
                 savedScrollX = window.scrollX;
                 savedScrollY = window.scrollY;
@@ -4599,11 +4823,17 @@ let startScreensaverGlobal;
                 canvas.style.height = '100vh';
                 canvas.style.zIndex = '1000';
 
-                // Show fullscreen header
+                // Show fullscreen header centered on screen
                 const fsHeader = document.getElementById('fullscreen-header');
                 if (fsHeader) {
                     fsHeader.style.display = 'block';
-                    fsHeader.style.opacity = '1'; // Ensure visibility
+                    fsHeader.style.opacity = '1';
+                    fsHeader.style.position = 'fixed';
+                    fsHeader.style.top = '50%';
+                    fsHeader.style.left = '50%';
+                    fsHeader.style.transform = 'translate(-50%, -50%)'; // Center both horizontally and vertically
+                    fsHeader.style.transition = 'none'; // Disable CSS transitions for JS control
+                    fsHeader.style.zIndex = '1001'; // Above canvas
                     if (window.startRiddleAnimation) window.startRiddleAnimation();
                     if (window.startTimerAnimation) window.startTimerAnimation();
                 }
@@ -4691,6 +4921,28 @@ let startScreensaverGlobal;
             if (!active) return;
             active = false;
             slideInComplete = false; // Reset flag
+
+            // Reset glitch state
+            isGlitching = false;
+            initialGlitchComplete = false;
+            originalTexts = {};
+
+            // Stop Cylon effect
+            if (cylonInterval) {
+                clearInterval(cylonInterval);
+                cylonInterval = null;
+            }
+
+            // Reset riddle container
+            const riddleContainer = document.getElementById('riddle-container');
+            if (riddleContainer) {
+                riddleContainer.innerHTML = '';
+                riddleContainer.textContent = '';
+                riddleContainer.removeAttribute('data-escape-shown');
+                riddleContainer.style.opacity = '';
+                riddleContainer.style.fontWeight = '';
+            }
+
             const canvas = document.getElementById('matrix-canvas');
             const content = document.getElementById('main-content');
 
@@ -4699,9 +4951,12 @@ let startScreensaverGlobal;
             // Remove fullscreen class from body
             document.body.classList.remove('fullscreen-active');
 
-            // Hide fullscreen header
+            // Hide fullscreen header and reset all inline styles
             const fsHeader = document.getElementById('fullscreen-header');
-            if (fsHeader) fsHeader.style.display = 'none';
+            if (fsHeader) {
+                fsHeader.style.cssText = ''; // Clear all inline styles
+                fsHeader.style.display = 'none'; // Then hide it
+            }
             if (window.stopTimerAnimation) window.stopTimerAnimation();
 
             // Remove animation classes

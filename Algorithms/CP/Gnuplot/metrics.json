@@ -1,0 +1,10 @@
+{
+  "solver": "Gnuplot",
+  "algorithm": "cp",
+  "algorithmType": "CP",
+  "runType": "Local",
+  "timestamp": "2026-01-22T21:49:12.968Z",
+  "results": [],
+  "failed": true,
+  "notes": "Placeholder created by fix script"
+}

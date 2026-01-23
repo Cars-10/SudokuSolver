@@ -243,19 +243,6 @@ export const languageMetadata: Record<string, LanguageMeta> = {
         ],
         "website": "https://www.gnu.org/software/bash/"
     },
-    "Basic": {
-        "creator": "John G. Kemeny, Thomas E. Kurtz",
-        "date": "1964",
-        "description": "Beginner's All-purpose Symbolic Instruction Code. Designed to emphasize ease of use. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects.",
-        "location": "Dartmouth College, USA",
-        "benefits": "Easy to learn, interactive, historical significance.",
-        "related": "Fortran, JOSS, Visual Basic, COMAL",
-        "history": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
-        "authors": [
-            { "name": "John G. Kemeny" },
-            { "name": "Thomas E. Kurtz" }
-        ]
-    },
     "C": {
         "creator": "Dennis Ritchie",
         "date": "1972",
@@ -821,8 +808,12 @@ export const languageMetadata: Record<string, LanguageMeta> = {
 
         "location": "Dartmouth College, USA",
         "benefits": "Easy to learn, interactive, historical significance.",
-        "related": "Fortran, Visual Basic",
-        "authors": []
+        "related": "Fortran, Visual Basic, COMAL",
+        "history": "1964. Beginner's All-purpose Symbolic Instruction Code (BASIC) was created by John Kemeny and Thomas Kurtz at Dartmouth College to give students easy access to computing. Early implementations ran on the Dartmouth Time-Sharing System and emphasized simple, interactive use (PRINT, LET, GOTO, line numbers). BASIC exploded in popularity on microcomputers in the 1970s and 1980s via many dialects (and influential ports such as Altair BASIC), helping introduce programming to hobbyists and a generation of developers.",
+        "authors": [
+            { "name": "John G. Kemeny" },
+            { "name": "Thomas E. Kurtz" }
+        ]
     },
     "Wren": {
         "creator": "Bob Nystrom",

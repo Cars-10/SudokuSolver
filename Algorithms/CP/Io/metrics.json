@@ -2,7 +2,7 @@
   {
     "solver": "Io",
     "runType": "automated",
-    "timestamp": "2026-01-22T05:48:43Z",
+    "timestamp": "2026-01-22T16:15:13Z",
     "results": [
       {
         "matrix": "1",
@@ -83,6 +83,22 @@
         "io_outputs": 0,
         "status": "success",
         "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/5.matrix\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 7 5 3 6 4 9 \n9 4 3 6 8 2 1 7 5 \n6 7 5 4 9 1 2 8 3 \n1 5 4 2 3 7 8 9 6 \n3 6 9 8 4 5 7 2 1 \n2 8 7 1 6 9 5 3 4 \n5 2 1 9 7 4 3 6 8 \n4 3 8 5 2 6 9 1 7 \n7 9 6 3 1 8 4 5 2 \n\nSolved in Iterations=13519\nSeconds to process 0.000\n"
+      },
+      {
+        "matrix": "6",
+        "time": 20995.1712,
+        "iterations": 65752,
+        "memory": 8634368,
+        "cpu_user": 11427.465,
+        "cpu_sys": 192.012,
+        "page_faults_major": 52,
+        "page_faults_minor": 1584,
+        "context_switches_voluntary": 7,
+        "context_switches_involuntary": 36090,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=65752\nSeconds to process 0.000\n"
       }
     ]
   }

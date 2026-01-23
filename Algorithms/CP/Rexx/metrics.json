@@ -2,7 +2,7 @@
   {
     "solver": "Rexx",
     "runType": "automated",
-    "timestamp": "2026-01-22T06:28:42Z",
+    "timestamp": "2026-01-22T16:36:03Z",
     "results": [
       {
         "matrix": "1",
@@ -83,6 +83,22 @@
         "io_outputs": 0,
         "status": "success",
         "output": "\nPuzzle:\n8 0 0 0 0 0 0 0 0 \n0 0 3 6 0 0 0 0 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nPuzzle:\n8 1 2 3 5 4 6 7 9 \n0 0 3 6 1 2 5 4 0 \n0 7 0 0 9 0 2 0 0 \n0 5 0 0 0 7 0 0 0 \n0 0 0 0 4 5 7 0 0 \n0 0 0 1 0 0 0 3 0 \n0 0 1 0 0 0 0 6 8 \n0 0 8 5 0 0 0 1 0 \n0 9 0 0 0 0 4 0 0 \n\nNo solution found\n\nSeconds to process 0.031\n"
+      },
+      {
+        "matrix": "6",
+        "time": 77.2538,
+        "iterations": 0,
+        "memory": 2932736,
+        "cpu_user": 54.068,
+        "cpu_sys": 9.942,
+        "page_faults_major": 27,
+        "page_faults_minor": 607,
+        "context_switches_voluntary": 10,
+        "context_switches_involuntary": 121,
+        "io_inputs": 0,
+        "io_outputs": 0,
+        "status": "success",
+        "output": "\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n2 3 5 1 6 4 7 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nNo solution found\n\nSeconds to process 0.058\n"
       }
     ]
   }

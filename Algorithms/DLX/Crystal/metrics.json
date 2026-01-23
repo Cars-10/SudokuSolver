@@ -2,7 +2,7 @@
   {
     "solver": "Crystal",
     "runType": "automated",
-    "timestamp": "2026-01-21T19:41:12Z",
+    "timestamp": "2026-01-22T16:48:00Z",
     "results": [
       {
         "matrix": "1",
@@ -86,15 +86,15 @@
       },
       {
         "matrix": "6",
-        "time": 9.3972,
+        "time": 21.6413,
         "iterations": 65,
-        "memory": 3538944,
-        "cpu_user": 3.807,
-        "cpu_sys": 3.378,
-        "page_faults_major": 3,
-        "page_faults_minor": 672,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 11,
+        "memory": 3522560,
+        "cpu_user": 4.754,
+        "cpu_sys": 6.854,
+        "page_faults_major": 43,
+        "page_faults_minor": 632,
+        "context_switches_voluntary": 8,
+        "context_switches_involuntary": 68,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",

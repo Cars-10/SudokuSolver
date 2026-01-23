@@ -2,7 +2,7 @@
   {
     "solver": "C++",
     "runType": "automated",
-    "timestamp": "2026-01-21T19:08:42Z",
+    "timestamp": "2026-01-22T15:53:55Z",
     "results": [
       {
         "matrix": "1",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 26116.2952,
+        "time": 90658.3959,
         "iterations": 69497705,
-        "memory": 1507328,
-        "cpu_user": 26064.361,
-        "cpu_sys": 36.465,
-        "page_faults_major": 2,
-        "page_faults_minor": 527,
+        "memory": 1474560,
+        "cpu_user": 55353.509,
+        "cpu_sys": 705.143,
+        "page_faults_major": 4,
+        "page_faults_minor": 571,
         "context_switches_voluntary": 1,
-        "context_switches_involuntary": 2532,
+        "context_switches_involuntary": 145123,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
-        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=69497705\n\nSeconds to process 26.111\n"
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=69497705\n\nSeconds to process 90.627\n"
       }
     ]
   }

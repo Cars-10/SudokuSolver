@@ -8,9 +8,10 @@ cd "$(dirname "$0")"
 CONFIG_FILE="benchmark_config.json"
 ISSUES_FILE="benchmark_issues.json"
 LANGUAGES_DIR="Algorithms"
-TIMEOUT_DURATION="5m"
+TIMEOUT_DURATION="50m"
+export TIMEOUT_SECONDS=3000 # 50 minutes in seconds for common.sh
 MAX_JOBS=5
-SLOW_LANGUAGES="PowerShell BASH Awk Sed SQL Make Vimscript Tcl AppleScript"
+SLOW_LANGUAGES="PowerShell BASH DASH Fish Ksh M4 Make Awk Sed Make Vimscript Tcsh XSLT Zsh EmacsLisp"
 
 # Colors
 GREEN='\033[0;32m'
@@ -208,7 +209,12 @@ run_benchmark() {
     fi
     
     # Get matrices for this language
-    local matrices=$(get_matrices_for_language "$lang")
+    local matrices=""
+    if [ -n "$MATRIX_OVERRIDE" ]; then
+        matrices="$MATRIX_OVERRIDE"
+    else
+        matrices=$(get_matrices_for_language "$lang")
+    fi
     local matrix_args=""
     local matrix_dir="$(cd Matrices && pwd)"
     
@@ -297,10 +303,16 @@ show_status() {
 # Parse arguments
 MODE=""
 TARGET=""
+MATRIX_OVERRIDE=""
 ALGO_FILTER="ALL"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --matrix)
+            shift
+            MATRIX_OVERRIDE="$1"
+            shift
+            ;;
         --recompile|--force)
             echo -e "${YELLOW}Forcing recompilation...${NC}"
             export FORCE_COMPILE=1
@@ -440,6 +452,7 @@ case "$MODE" in
         echo "  --fast      - Run fast languages (skip slow & known issues) in parallel"
         echo "  --slow      - Run only slow languages in parallel"
         echo "  --algo      - Filter by algorithm: BF, CP, DLX, ALL (default: ALL)"
+        echo "  --matrix    - Override matrices to run (e.g. \"6\" or \"1 2\")"
         echo "  --report    - Generate benchmark report"
         ;;
 esac

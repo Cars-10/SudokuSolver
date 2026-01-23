@@ -1,4 +1,4 @@
-USING: accessors calendar command-line formatting io io.encodings.utf8 io.files kernel locals math math.parser math.ranges namespaces prettyprint sequences splitting system tools.time vectors ;
+USING: accessors calendar command-line formatting io io.encodings.utf8 io.files kernel locals math math.parser namespaces prettyprint sequences splitting system tools.time vectors ;
 IN: sudoku.dlx
 
 TUPLE: node { left initial: f } { right initial: f } { up initial: f } { down initial: f } col row-idx ;

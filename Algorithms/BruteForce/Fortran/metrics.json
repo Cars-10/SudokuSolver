@@ -2,7 +2,7 @@
   {
     "solver": "Fortran",
     "runType": "automated",
-    "timestamp": "2026-01-21T18:44:35Z",
+    "timestamp": "2026-01-22T15:20:07Z",
     "results": [
       {
         "matrix": "1",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 6.7775,
+        "time": 447.6169,
         "iterations": 0,
-        "memory": 1835008,
-        "cpu_user": 1.974,
-        "cpu_sys": 2.845,
-        "page_faults_major": 5,
-        "page_faults_minor": 709,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 17,
+        "memory": 3846144,
+        "cpu_user": 17.266,
+        "cpu_sys": 16.374,
+        "page_faults_major": 105,
+        "page_faults_minor": 1329,
+        "context_switches_voluntary": 25,
+        "context_switches_involuntary": 116,
         "io_inputs": 0,
         "io_outputs": 0,
-        "status": "error",
-        "output": "\n"
+        "status": "success",
+        "output": "\nSeconds to process    0.000\n"
       }
     ]
   }

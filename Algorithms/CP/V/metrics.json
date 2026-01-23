@@ -2,7 +2,7 @@
   {
     "solver": "V",
     "runType": "automated",
-    "timestamp": "2026-01-21T19:38:21Z",
+    "timestamp": "2026-01-22T16:45:05Z",
     "results": [
       {
         "matrix": "1",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 6.4037,
-        "iterations": 0,
-        "memory": 1835008,
-        "cpu_user": 1.851,
-        "cpu_sys": 2.756,
-        "page_faults_major": 5,
-        "page_faults_minor": 707,
-        "context_switches_voluntary": 1,
-        "context_switches_involuntary": 14,
+        "time": 73003.5448,
+        "iterations": 69497705,
+        "memory": 2899968,
+        "cpu_user": 57642.382,
+        "cpu_sys": 856.672,
+        "page_faults_major": 19,
+        "page_faults_minor": 643,
+        "context_switches_voluntary": 13,
+        "context_switches_involuntary": 132194,
         "io_inputs": 0,
         "io_outputs": 0,
-        "status": "error",
-        "output": "\n"
+        "status": "success",
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=69497705\n\nSeconds to process 72.972\n"
       }
     ]
   }

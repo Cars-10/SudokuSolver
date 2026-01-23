@@ -756,242 +756,20 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <div id="fullscreen-header">
         <div class="header-counters">
             <div id="solver-box" class="solver-counter" style="position: relative; display: flex; flex-direction: column; align-items: center; line-height: 1; min-height: 40px; padding-bottom: 20px;">
-                <span id="solver-text">${metrics.length} IMPLEMENTATIONS</span>
-                <div id="riddle-container" class="riddle-text"></div>
+                <span id="solver-text">${metrics.length} WORKING IMPLEMENTATIONS</span>
                 <div id="matrix-timer" class="matrix-timer" style="display: none;"></div>
                 <div class="mismatch-counter">MISMATCHES: ${mismatchCount}</div>
-                <div id="diagnostics-status" class="diagnostics-status" style="margin-top: 8px; font-size: 0.7em; color: #565f89; font-family: 'JetBrains Mono', monospace; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                    <span style="color: ${diagnostics.env_error.count > 0 ? '#ff9e64' : '#565f89'};">ENV: ${diagnostics.env_error.count}</span>
-                    <span style="color: ${diagnostics.timeout.count > 0 ? '#f7768e' : '#565f89'};">TIMEOUT: ${diagnostics.timeout.count}</span>
-                    <span style="color: ${diagnostics.error.count > 0 ? '#ff0055' : '#565f89'};">ERROR: ${diagnostics.error.count}</span>
-                    <span style="color: ${diagnostics.missing.count > 0 ? '#bb9af7' : '#565f89'};">MISSING: ${diagnostics.missing.count}</span>
+                <div id="diagnostics-status" class="diagnostics-status" style="margin-top: 8px; font-size: 0.7em; font-family: 'JetBrains Mono', monospace; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <span style="color: #ff9e64 !important;">ENV: ${diagnostics.env_error.count}</span>
+                    <span style="color: #f7768e !important;">TIMEOUT: ${diagnostics.timeout.count}</span>
+                    <span style="color: #ff0055 !important;">ERROR: ${diagnostics.error.count}</span>
+                    <span style="color: #bb9af7 !important;">MISSING: ${diagnostics.missing.count}</span>
                 </div>
+                <div id="riddle-container" class="riddle-text" style="font-size: 0.8em; color: var(--secondary); margin-top: 5px; position: relative; bottom: auto;"></div>
             </div>
         </div>
     </div>
 
-    <script>
-    // --- Riddle Logic ---
-    class RiddleSystem {
-        constructor() {
-            this.target = "OptionIsEscape";
-            this.container = document.getElementById('riddle-container'); // Specific container
-            // this.textSpan = document.getElementById('solver-text'); // No longer hiding this
-            this.aliens = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789";
-            this.chars = [];
-            this.active = false;
-            this.requestId = null;
-        }
-
-        start() {
-            if (!this.container) return;
-            this.active = true;
-            this.runScanOnly(); // Skip scramble
-        }
-
-        runScanOnly() {
-             this.container.innerHTML = '';
-             this.chars = [];
-             
-             // Create chars directly without animation
-             for (let i = 0; i < this.target.length; i++) {
-                const span = document.createElement('span');
-                span.className = 'riddle-char';
-                span.innerText = this.target[i];
-                this.container.appendChild(span);
-                this.chars.push({ span: span, value: this.target[i] });
-             }
-             
-             // Start Scan Loop
-             this.runScan();
-        }
-
-        stop() {
-            this.active = false;
-            if (this.requestId) cancelAnimationFrame(this.requestId);
-        }
-
-        restartCycle() {
-            if (!this.active) return;
-            
-            // Start
-            // this.container.classList.add('riddle-mode'); // No longer needed
-            if (this.textSpan) this.textSpan.style.display = 'none';
-
-            // Clean up old chars if any (though we shouldn't have any if we cleared, but here we append)
-            // Actually, we want to REMOVE existing chars but KEEP the textSpan.
-            // InnerHTML = '' would kill textSpan.
-            // So let's remove children that are spans (riddle-char)
-            Array.from(this.container.getElementsByClassName('riddle-char')).forEach(el => el.remove());
-            
-            this.chars = [];
-            
-            // Generate chars
-            for (let i = 0; i < this.target.length; i++) {
-                const span = document.createElement('span');
-                span.className = 'riddle-char';
-                span.innerText = this.aliens[Math.floor(Math.random() * this.aliens.length)];
-                span.style.transform = 'rotateY(' + (Math.random() * 360) + 'deg)';
-                span.style.transition = 'color 0.2s, text-shadow 0.2s'; // For scanning effect
-                this.container.appendChild(span);
-                this.chars.push({
-                    span: span,
-                    target: this.target[i],
-                    locked: false,
-                    spinSpeed: 2 + Math.random() * 5
-                });
-            }
-
-            // Start Reveal Phase
-            this.runReveal();
-        }
-
-        runReveal() {
-            let frame = 0;
-            const animate = () => {
-                if (!this.active) return;
-                frame++;
-                let allLocked = true;
-
-                this.chars.forEach((c, i) => {
-                    if (c.locked) return;
-
-                    // Randomize
-                    if (frame % 15 === 0) {
-                        c.span.innerText = this.aliens[Math.floor(Math.random() * this.aliens.length)];
-                    }
-
-                    // Spin
-                    const currentRot = parseFloat(c.span.style.transform.replace(/[^0-9.]/g, '') || 0);
-                    c.span.style.transform = 'rotateY(' + (currentRot + c.spinSpeed) + 'deg)';
-
-                    // Lock Logic (Slower)
-                    if (frame > 50 + (i * 30)) {
-                        if (Math.random() > 0.1) {
-                            c.locked = true;
-                            c.span.innerText = c.target;
-                            c.span.style.transform = 'rotateY(0deg)';
-                            c.span.style.color = '#00ff9d';
-                        }
-                    } else {
-                        allLocked = false;
-                    }
-                });
-
-                if (!allLocked) {
-                    this.requestId = requestAnimationFrame(animate);
-                } else {
-                    // Phase 2: Scan (10 seconds)
-                    this.runScan();
-                }
-            };
-            this.requestId = requestAnimationFrame(animate);
-        }
-
-        runScan() {
-            const startTime = performance.now();
-            const duration = 10000; // 10s
-            
-            const animate = () => {
-                if (!this.active) return;
-                const now = performance.now();
-                const elapsed = now - startTime;
-                
-                // Indefinite Scan loop - keeps "OptionIsEscape" visible
-                /*
-                if (elapsed > duration) {
-                    // Phase 3: Hold Single Char
-                    this.runSingleCharHold(); 
-                    return;
-                }
-                */
-
-                // Knight Rider Scan Effect
-                // Triangle Wave for constant speed (no pause at ends)
-                const scanSpeed = 0.0005; // Adjusted for triangle wave frequency 
-                // (now * speed) % 2 grows 0->2. Subtract 1 => -1->1. Abs => 1->0->1. 
-                // We want 0->1->0. So: 1 - Math.abs(...)
-                const positionFactor = 1 - Math.abs((now * scanSpeed) % 2 - 1); 
-                const scanIdx = positionFactor * (this.chars.length - 1);
-
-                this.chars.forEach((c, i) => {
-                    const dist = Math.abs(i - scanIdx);
-                    // Narrower falloff (20% narrower than 1.2 => ~0.96) -> Widen to 1.5 to ensure visibility
-                    if (dist < 1.5) {
-                        c.span.style.color = '#ff0055'; // Red
-                        c.span.style.textShadow = '0 0 10px #ff0055, 0 0 20px #ff0055';
-                    } else {
-                        c.span.style.color = '#00ff9d'; // Back to green
-                        c.span.style.textShadow = '0 0 5px #00ff9d, 0 0 10px #00ff9d';
-                    }
-                });
-
-                this.requestId = requestAnimationFrame(animate);
-            };
-            this.requestId = requestAnimationFrame(animate);
-        }
-
-        runSingleCharHold() {
-             const centerIdx = Math.floor(this.chars.length / 2);
-             
-             // Hide all except center
-             this.chars.forEach((c, i) => {
-                 if (i === centerIdx) {
-                      c.span.style.color = '#ff0055'; 
-                      c.span.style.textShadow = '0 0 15px #ff0055, 0 0 30px #ff0055';
-                 } else {
-                      c.span.style.opacity = '0'; // Fade out others immediatley
-                 }
-             });
-             
-             setTimeout(() => {
-                 this.runFadeOut();
-             }, 2000); // Hold for 2s
-        }
-
-        runFadeOut() {
-            // Fade out over 2 seconds
-            this.container.style.transition = 'opacity 2s';
-            this.container.style.opacity = '0';
-            
-            setTimeout(() => {
-                // Stop/Reset
-                // Clear chars
-                this.container.innerHTML = '';
-                this.chars = [];
-
-                // Phase 4: Wait (60 seconds) then Restart
-                setTimeout(() => {
-                    this.start(); // Restart directly
-                }, 60000); 
-            }, 2000);
-        }
-    }
-
-    let riddleSystem;
-    window.addEventListener('DOMContentLoaded', () => {
-        riddleSystem = new RiddleSystem();
-    });
-
-    // Random persona selection on load - use window.onload to ensure report_client.js is loaded
-    window.addEventListener('load', () => {
-        const personaSelector = document.getElementById('personality-selector');
-        if (personaSelector) {
-            const options = Array.from(personaSelector.options).filter(o => !o.disabled && o.value);
-            if (options.length > 0) {
-                const randomIndex = Math.floor(Math.random() * options.length);
-                personaSelector.value = options[randomIndex].value;
-                if (typeof changePersonality === 'function') {
-                    changePersonality();
-                }
-            }
-        }
-    });
-    window.startRiddleAnimation = () => {
-         if (riddleSystem) riddleSystem.start();
-    };
-    // Global active state for screensaver
-    </script>
     
     <div id="main-content" class="content-wrapper">
     <h1>Sudoku Benchmark Results</h1>
@@ -1003,11 +781,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <div class="pill-half blue" title="Take the Blue Pill (Slide Effect)" onclick="event.stopPropagation(); window.startScreensaver('blue')"></div>
                 <div class="pill-half red" title="Take the Red Pill (Instant Matrix)" onclick="event.stopPropagation(); window.startScreensaver('red')"></div>
             </div>
-        </div>
-
-        <div id="screensaver-pill" style="display: none; font-size: 0.8em; color: var(--secondary); margin-top: 5px; align-self: flex-start;">
-            <span style="display: inline-block; width: 8px; height: 8px; background: #00ff9d; border-radius: 50%; margin-right: 5px; box-shadow: 0 0 5px #00ff9d;"></span>
-            Screensaver Active
         </div>
     </div>
     
@@ -1043,7 +816,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             </select>
         </div>
                 <div id="d3-chart-container" style="width: 100%; height: 100%; position: relative;">
-                    <!-- Chart rendered here -->
+            <div id="d3-chart" style="width: 100%; height: 100%;"></div>
                 </div>
 
     </div>
@@ -1057,7 +830,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         <div class="controls">
 
             
-            <div id="d3-chart"></div>
+
             <select id="personality-selector" class="btn" onchange="changePersonality()">
                 <option value="" disabled selected>PERSONA</option>
                 <option value="Standard">Standard</option>
@@ -1231,7 +1004,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const cpuRatio = Math.max(0.001, (cMatchedCpu > 0) ? (totalCpu / cMatchedCpu) : 1);
 
         // Weighted Geometric Mean: (Time^0.8 * Mem^0.2)
-        const normalizedScore = Math.pow(timeRatio, 0.8) * Math.pow(memRatio, 0.2);
+        let normalizedScore = Math.pow(timeRatio, 0.8) * Math.pow(memRatio, 0.2);
 
         // Tier Calculation
         let tier = 'F';
@@ -1302,12 +1075,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         let displayName = displayNameRaw;
 
         // Add algorithm badge for non-BruteForce algorithms
+        const badgeAlgoType = m.algorithmType || 'BruteForce';
         let algoBadge = '';
-        if (algoType === 'DLX') {
+
+        if (badgeAlgoType === 'DLX') {
             algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(122, 162, 247, 0.2); border: 1px solid #7aa2f7; border-radius: 3px; font-size: 0.75em; color: #7aa2f7; font-weight: bold;" title="Dancing Links (Algorithm X)">DLX</span>';
-        } else if (algoType === 'CP') {
+        } else if (badgeAlgoType === 'CP') {
             algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(187, 154, 247, 0.2); border: 1px solid #bb9af7; border-radius: 3px; font-size: 0.75em; color: #bb9af7; font-weight: bold;" title="Constraint Propagation">CP</span>';
+        } else if (badgeAlgoType === 'BruteForce') {
+            algoBadge = '<span style="margin-left: 6px; padding: 2px 6px; background: rgba(125, 207, 255, 0.2); border: 1px solid #7dcfff; border-radius: 3px; font-size: 0.75em; color: #7dcfff; font-weight: bold;" title="Brute Force (Backtracking)">BF</span>';
         }
+
+
 
         let typeIcon = '';
         if (runType === 'Docker') {
@@ -1362,6 +1141,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const isMs = runTime >= msCutoff;
         const timeUnit = isMs ? 'ms' : 's';
 
+        // Check if language failed (explicit flag or empty results for non-placeholder)
+        const isFailed = m.failed === true || (m.results.length === 0 && m.runType !== 'Init');
+
+        // Override Score/Tier if Failed
+        let displayScore = normalizedScore.toFixed(2);
+        if (isFailed) {
+            normalizedScore = 999; // Force to bottom
+            displayScore = "FAIL";
+            tier = 'F';
+            tierClass = 'tier-f';
+        }
+
         // Check for failure status
         let failedBadge = '';
         if (m.failed) {
@@ -1369,20 +1160,25 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             failedBadge = `<span style="margin-left: 6px; padding: 2px 6px; background: rgba(255, 0, 85, 0.2); border: 1px solid #ff0055; border-radius: 3px; font-size: 0.75em; color: #ff0055; font-weight: bold;" title="${reason}">⚠ FAILED</span>`;
         }
 
+        const totalDisplayTime = isFailed ? "FAILED" : (isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`);
+        const mismatchStyle = isMismatch ? 'cursor: pointer; background: rgba(255,0,85,0.1);' : '';
+        const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
+        const mismatchTitle = isMismatch ? `title="Click to see mismatch details"` : '';
+
         html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
             data-lang="${lang}"
             data-algorithm-type="${m.algorithmType || 'BruteForce'}"
             data-timestamp="${new Date(m.timestamp).getTime()}"
             data-year="${year}"
-            data-time="${totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6)}"
+            data-time="${isFailed ? 999999 : (totalTime < 0.0001 && totalTime > 0 ? totalTime.toExponential(2) : totalTime.toFixed(6))}"
             data-time-unit="${timeUnit}"
             data-iters="${totalIters}"
             data-mem="${maxMem}"
             data-memory="${maxMem}"
             data-compiler="${rowCompilerInfo}"
-            data-score="${normalizedScore.toFixed(2)}"
+            data-score="${isFailed ? 999 : normalizedScore.toFixed(2)}"
             data-tier="${tier}"
-            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x"
+            data-score-breakdown="Time: ${timeRatio.toFixed(2)}x | Mem: ${memRatio.toFixed(2)}x | CPU: ${cpuRatio.toFixed(2)}x"
             data-mismatch-details='${JSON.stringify(mismatchDetails).replace(/'/g, "&apos;")}'
             data-expected-iters="${expectedIters}"
             data-quote="${quote}" data-history='${historyText}' ${matrixDataAttrs}>
@@ -1390,7 +1186,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
-                        ${displayName}${algoBadge}${typeIcon}${failedBadge}
+                        ${displayName}${algoBadge}${typeIcon}
+                        ${isFailed ? '<span class="status-badge status-failure" style="font-size: 0.7em; margin-left: 5px; color: #ff0055; border: 1px solid #ff0055; padding: 1px 4px; border-radius: 3px;">FAILED</span>' : ''}
                     </div>
                     <div class='lang-year'>${year}</div>
                 </div>
@@ -1398,8 +1195,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <td class="score-col">
                 <div class="score-container" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <div class="tier-badge ${tierClass}" title="Tier ${tier}">${tier}</div>
-                    <div class="total-score" style="color: ${normalizedScore <= 1.0 ? 'var(--primary)' : '#ff0055'};">
-                        ${normalizedScore.toFixed(2)}
+                    <div class="total-score" style="color: ${normalizedScore <= 1.0 ? 'var(--primary)' : (isFailed ? '#ff0055' : '#ff0055')}; font-size: ${isFailed ? '0.9em' : '1.1em'};">
+                        ${displayScore}
                     </div>
                 </div>
             </td>
@@ -1410,8 +1207,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             </td>`;
 
         for (let i = 0; i < maxMatrices; i++) {
-            const r = m.results[i];
-            if (r) {
+            const r = m.results.find((res: any) => normalizeMatrix(res.matrix) === String(i + 1));
+
+            if (isFailed) {
+                // Explicit Failure Cell
+                html += `<td class="matrix-cell" data-matrix-index="${i}">
+                    <div style="color: #ff0055; font-size: 0.8em; font-weight: bold; opacity: 0.7;">FAILED</div>
+                 </td>`;
+            } else if (r) {
                 const memMb = r.memory / 1024 / 1024;
 
                 let scoreDisplay = "";
@@ -1425,7 +1228,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 html += `<td class="matrix-cell" data-matrix-index="${i}">
                     <div class="cell-content">
                         <div class="cell-header">
-                             
                              <div class="time" title="Wall Clock Time">${displayTime}</div>
                         </div>
                         <div class="meta">
@@ -1436,7 +1238,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                         const rIter = Number(r.iterations);
                         const cIter = Number(cIterations);
                         const isBaseline = m.solver === 'C' && (m.runType === 'Local' || !m.runType);
-                        // Skip mismatch flag for CP
                         const isMismatch = !isBaseline && cIterations !== null && rIter !== cIter && m.algorithmType !== 'CP';
 
                         return `<span title="Iterations: ${rIter} vs C: ${cIter}" class="${isMismatch ? 'mismatch' : ''}">#${r.iterations}</span>`;
@@ -1452,11 +1253,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 </td>`;
             }
         }
-
-        const totalDisplayTime = isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`;
-        const mismatchStyle = isMismatch ? 'cursor: pointer; background: rgba(255,0,85,0.1);' : '';
-        const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
-        const mismatchTitle = isMismatch ? `title="Click to see mismatch details"` : '';
 
         html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;"><div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
 
@@ -1495,23 +1291,23 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </tbody></table></div>
         <script>
             // Static Data
-            const personalities = ${safeJSON(personalities)};
-            const narratorIntros = ${safeJSON(narratorIntros)};
-            const languageMetadata = ${safeJSON(languageMetadata)};
-            const methodologyTexts = ${safeJSON(methodologyTexts)};
-            const mismatchLabels = ${safeJSON(mismatchLabels)};
-            const iterationLabels = ${safeJSON(iterationLabels)};
-            const timeLabels = ${safeJSON(timeLabels)};
-            const memoryLabels = ${safeJSON(memoryLabels)};
-            const scoreLabels = ${safeJSON(scoreLabels)};
-            const diagnosticsData = ${safeJSON(diagnostics)};
-            const sourceCodeData = ${safeJSON(sourceCodeData)};
+            window.personalities = ${safeJSON(personalities)};
+            window.narratorIntros = ${safeJSON(narratorIntros)};
+            window.languageMetadata = ${safeJSON(languageMetadata)};
+            window.methodologyTexts = ${safeJSON(methodologyTexts)};
+            window.mismatchLabels = ${safeJSON(mismatchLabels)};
+            window.iterationLabels = ${safeJSON(iterationLabels)};
+            window.timeLabels = ${safeJSON(timeLabels)};
+            window.memoryLabels = ${safeJSON(memoryLabels)};
+            window.scoreLabels = ${safeJSON(scoreLabels)};
+            window.diagnosticsData = ${safeJSON(diagnostics)};
+            window.sourceCodeData = ${safeJSON(sourceCodeData)};
 
             // Dynamic Data
-            const referenceOutputs = ${safeJSON(referenceOutputs)};
-            const benchmarkConfig = ${safeJSON(benchmarkConfig)};
-            const tailoring = ${safeJSON(tailoringConfig)};
-            const metricsData = ${safeJSON(metrics.map(m => {
+            window.referenceOutputs = ${safeJSON(referenceOutputs)};
+            window.benchmarkConfig = ${safeJSON(benchmarkConfig)};
+            window.tailoring = ${safeJSON(tailoringConfig)};
+            window.metricsData = ${safeJSON(metrics.map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
 
         // Logo Lookup with Special Handling
@@ -1570,7 +1366,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             logo: localLogo || meta.logo || meta.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alchemist_symbol_for_process_2.svg/120px-Alchemist_symbol_for_process_2.svg.png"
         };
     }))};
-            const matrixPuzzles = ${safeJSON(matrixContents)};
+            window.matrixPuzzles = ${safeJSON(matrixContents)};
         </script>
     `;
 
@@ -1602,7 +1398,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     <script>
     // Track current algorithm filter state
-    window.currentAlgorithm = 'BruteForce';
+    window.currentAlgorithm = 'all';
 
     // C baseline iterations per algorithm (for dynamic mismatch calculation)
     window.cBaselines = {
@@ -1628,95 +1424,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
     })();
 
-    // Calculate mismatch count for a given algorithm
-    window.calculateMismatchCount = function(algorithmType) {
-        if (typeof metricsData === 'undefined') return 0;
-
-        const baseline = algorithmType === 'all' ? null : window.cBaselines[algorithmType];
-        let count = 0;
-
-        metricsData.forEach(m => {
-            if (m.solver === 'C') return;
-            const mAlgo = m.algorithmType || 'BruteForce';
-
-            // Skip CP algorithms from mismatch counting
-            if (mAlgo === 'CP') return;
-
-            // Skip if filtering by algo and this isn't that algo
-            if (algorithmType !== 'all' && mAlgo !== algorithmType) return;
-
-            // Get the right baseline for this metric's algorithm
-            const useBaseline = algorithmType === 'all' ? window.cBaselines[mAlgo] : baseline;
-            if (!useBaseline) return;
-
-            // Check for mismatches only on matrices that have run data
-            let hasMismatch = false;
-            m.results.forEach(r => {
-                if (r.status !== 'success') return;
-                const matrix = String(r.matrix).replace('.matrix', '');
-                const expected = useBaseline[matrix];
-                if (expected !== undefined && r.iterations !== expected) {
-                    hasMismatch = true;
-                }
-            });
-            if (hasMismatch) count++;
-        });
-
-        return count;
-    };
-
-    // Update mismatch display
-    window.updateMismatchDisplay = function(algorithmType) {
-        const count = window.calculateMismatchCount(algorithmType);
-        const mismatchEl = document.querySelector('.mismatch-counter');
-        if (mismatchEl) {
-            mismatchEl.textContent = 'MISMATCHES: ' + count;
-            mismatchEl.style.color = count > 0 ? '#ff0055' : '#565f89';
-        }
-    };
-
-    // Algorithm filtering function
-    window.filterByAlgorithm = function(algorithmType) {
-        window.currentAlgorithm = algorithmType;
-
-        // Persist selection to localStorage
-        try {
-            localStorage.setItem('sudoku-benchmark-algorithm', algorithmType);
-        } catch (e) { /* localStorage unavailable */ }
-
-        const rows = document.querySelectorAll('#mainTableBody tr');
-
-        rows.forEach(row => {
-            const rowAlgo = row.getAttribute('data-algorithm-type');
-            if (algorithmType === 'all' || rowAlgo === algorithmType) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        // Update button label
-        const btn = document.getElementById('algorithmSelectorBtn');
-        const labels = {
-            'all': 'ALL ALGORITHMS',
-            'BruteForce': 'BRUTE FORCE',
-            'DLX': 'DANCING LINKS',
-            'CP': 'CONSTRAINT PROPAGATION'
-        };
-        if (btn) {
-            btn.textContent = (labels[algorithmType] || 'ALGORITHM') + ' ▾';
-        }
-
-        // Update active state in dropdown
-        const dropdownLinks = document.querySelectorAll('#algorithmSelectorBtn + .dropdown-content a');
-        dropdownLinks.forEach(link => {
-            link.classList.remove('active');
-            // Find the link that matches this algorithm
-            const onclick = link.getAttribute('onclick') || '';
-            if (onclick.includes("'" + algorithmType + "'")) {
-                link.classList.add('active');
-            }
-        });
 
         // Update mismatch count for selected algorithm
         window.updateMismatchDisplay(algorithmType);
@@ -1731,11 +1438,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const uniqueCount = uniqueLangs.size;
         const langCountEl = document.getElementById('langSelectorBtn');
         if (langCountEl) {
-            langCountEl.textContent = uniqueCount + ' IMPLEMENTATIONS ▾';
+            langCountEl.textContent = uniqueCount + ' LANGUAGES ▾';
         }
         const solverTextEl = document.getElementById('solver-text');
         if (solverTextEl) {
-            solverTextEl.textContent = uniqueCount + ' IMPLEMENTATIONS';
+            solverTextEl.textContent = uniqueCount + ' LANGUAGES';
         }
 
         // Refresh current chart to reflect algorithm filter
@@ -1744,9 +1451,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         }
     };
 
-    // Initialize on load - restore from localStorage or default to BruteForce
+    // Initialize on load - restore from localStorage or default to all
     document.addEventListener('DOMContentLoaded', function() {
-        let savedAlgo = 'BruteForce';
+        let savedAlgo = 'all';
         try {
             const stored = localStorage.getItem('sudoku-benchmark-algorithm');
             if (stored && ['all', 'BruteForce', 'DLX', 'CP'].includes(stored)) {

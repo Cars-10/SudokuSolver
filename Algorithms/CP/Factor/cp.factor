@@ -1,4 +1,4 @@
-USING: accessors calendar command-line formatting io io.encodings.utf8 io.files kernel locals math math.bitwise math.parser math.ranges namespaces prettyprint sequences splitting system tools.time vectors ;
+USING: accessors calendar command-line formatting io io.encodings.utf8 io.files kernel locals math math.bitwise math.parser namespaces prettyprint sequences splitting system tools.time vectors ;
 IN: sudoku.cp
 
 SYMBOL: grid-values
@@ -19,9 +19,9 @@ SYMBOL: peers-cache
             ! Box
             r 3 /i 3 * :> br
             c 3 /i 3 * :> bc
-            br 3 +iota [
+            3 iota [ br + ] map [
                 :> rr
-                bc 3 +iota [
+                3 iota [ bc + ] map [
                     :> cc
                     rr r = cc c = and not [ rr cc 2array p push ] when
                 ] each

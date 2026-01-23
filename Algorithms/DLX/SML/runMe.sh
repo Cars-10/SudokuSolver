@@ -32,13 +32,42 @@ compile() {
 poly -q --use dlx.sml --eval "OS.Process.exit(OS.Process.success)" "$@" 2>&1 | grep -v "^val " | grep -v "^>"
 EOF
         chmod +x dlx
-    elif command -v sml &> /dev/null; then
-        echo "Compiling with SML/NJ..." >&2
-        # Create a wrapper script for SML/NJ
-        cat > dlx <<'EOF'
+    elif command -v sml &> /dev/null || [ -x /usr/local/smlnj/bin/sml ]; then
+        # Determine path to sml
+        SML_PATH=$(command -v sml 2>/dev/null || echo "/usr/local/smlnj/bin/sml")
+
+        echo "Using SML/NJ interpreter at $SML_PATH..." >&2
+
+        # Create a wrapper that generates a modified source file with hardcoded arguments
+        cat > dlx <<'WRAPPER_EOF'
 #!/bin/bash
-echo 'use "dlx.sml";' | sml "$@" 2>&1 | tail -n +3
-EOF
+DIR="$(cd "$(dirname "$0")" && pwd)"
+SML_PATH="SMLPATH_PLACEHOLDER"
+
+# Create temp file with modified source
+TMP_FILE="$DIR/.dlx_$$.sml"
+trap "rm -f '$TMP_FILE'" EXIT
+
+# Build argument list
+ARGS=""
+for arg in "$@"; do
+    [ -n "$ARGS" ] && ARGS="$ARGS, "
+    # Escape backslashes and quotes in the argument
+    ESCAPED=$(echo "$arg" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    ARGS="$ARGS\"$ESCAPED\""
+done
+
+# Copy source and replace CommandLine.arguments() with our hardcoded args
+# Use | as delimiter to avoid conflicts with / in paths
+sed "s|CommandLine\.arguments ()|let val _ = () in [$ARGS] end|g" "$DIR/dlx.sml" > "$TMP_FILE"
+
+# Run SML
+cd "$DIR" && $SML_PATH < "$TMP_FILE" 2>&1 | tail -n +3
+WRAPPER_EOF
+
+        # Substitute SML path
+        sed -i.bak "s|SMLPATH_PLACEHOLDER|$SML_PATH|" dlx
+        rm -f dlx.bak
         chmod +x dlx
     else
         report_env_error "No SML compiler found (tried mlton, polyc, poly, sml)"

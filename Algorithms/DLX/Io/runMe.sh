@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 LANGUAGE="Io"
 SOLVER_BINARY="io dlx.io"
 METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS=300
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 
 source ../../common.sh
 

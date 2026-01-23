@@ -820,6 +820,30 @@
     },
     "DLX/Fennel": {
       "status": "complete"
+    },
+    "CP/Janet": {
+      "status": "complete"
+    },
+    "DLX/Janet": {
+      "status": "complete"
+    },
+    "CP/Assembly": {
+      "status": "complete"
+    },
+    "DLX/Assembly": {
+      "status": "complete"
+    },
+    "CP/Verilog": {
+      "status": "complete"
+    },
+    "DLX/Verilog": {
+      "status": "complete"
+    },
+    "BruteForce/Postscript": {
+      "status": "complete"
+    },
+    "DLX/Pike": {
+      "status": "complete"
     }
   },
   "completed": [
@@ -1016,6 +1040,23 @@
     "DLX/Rexx",
     "DLX/Factor",
     "CP/Fennel",
-    "DLX/Fennel"
+    "DLX/Fennel",
+    "BruteForce/Janet",
+    "CP/Janet",
+    "DLX/Janet",
+    "BruteForce/SML",
+    "CP/SML",
+    "DLX/SML",
+    "BruteForce/Assembly",
+    "CP/Assembly",
+    "DLX/Assembly",
+    "CP/Verilog",
+    "DLX/Verilog",
+    "BruteForce/Postscript",
+    "CP/PowerShell",
+    "DLX/Pike",
+    "CP/EmacsLisp",
+    "DLX/EmacsLisp",
+    "BruteForce/EmacsLisp"
   ]
 }

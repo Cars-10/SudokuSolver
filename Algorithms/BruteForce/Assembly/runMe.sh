@@ -16,29 +16,33 @@ echo "Detected architecture: $ARCH"
 
 compile() {
     if [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then
-        echo "Compiling for ARM64..."
+        echo "Compiling for ARM64 (Native Assembly)..."
         if [ ! -f "Sudoku_arm64.s" ]; then
              report_env_error "Sudoku_arm64.s not found"
         fi
-        
-        # Use GCC to assemble and link
+
+        # Compile native ARM64 assembly
         gcc -o sudoku Sudoku_arm64.s
-        
+
         if [ $? -ne 0 ]; then
             report_env_error "Compilation failed for ARM64"
         fi
-        
+
+        if [ $? -ne 0 ]; then
+            report_env_error "Compilation failed for ARM64"
+        fi
+
     elif [[ "$ARCH" == "x86_64" ]]; then
         echo "Compiling for x86_64..."
         check_toolchain nasm
-        
+
         if [ ! -f "Sudoku.asm" ]; then
              report_env_error "Sudoku.asm not found"
         fi
 
-        nasm -f elf64 Sudoku.asm -o Sudoku.o
+        nasm -f macho64 Sudoku.asm -o Sudoku.o
         gcc Sudoku.o -o sudoku
-        
+
         if [ $? -ne 0 ]; then
              report_env_error "Compilation failed for x86_64"
         fi

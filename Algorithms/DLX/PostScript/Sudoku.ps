@@ -1,0 +1,148 @@
+%!PS
+% Sudoku Solver in PostScript
+% Exact match of C brute-force algorithm
+
+/board 81 array def
+/iterations 0 def
+
+/read-matrix { % (filename) ->
+    (r) file /f exch def
+    /idx 0 def
+    {
+        f read not { exit } if
+        /char exch def
+        char 48 ge char 57 le and {
+            board idx char 48 sub put
+            /idx idx 1 add def
+        } if
+        idx 81 ge { exit } if
+    } loop
+    f closefile
+} def
+
+/print-grid {
+    0 1 8 {
+        /r exch def
+        0 1 8 {
+            /c exch def
+            board r 9 mul c add get
+            3 string cvs print
+            ( ) print
+        } for
+        (
+) print
+    } for
+} def
+
+/is-valid { % r c val -> bool
+    10 dict begin
+        /v exch def
+        /c exch def
+        /r exch def
+        
+        /ret true def
+        
+        % Check row
+        0 1 8 {
+            /i exch def
+            board r 9 mul i add get v eq { /ret false def exit } if
+        } for
+        
+        ret {
+            % Check col
+            0 1 8 {
+                /i exch def
+                board i 9 mul c add get v eq { /ret false def exit } if
+            } for
+        } if
+        
+        ret {
+            % Check box
+            /br r 3 idiv 3 mul def
+            /bc c 3 idiv 3 mul def
+            0 1 2 {
+                /i exch def
+                0 1 2 {
+                    /j exch def
+                    board br i add 9 mul bc j add add get v eq { /ret false def exit } if
+                } for
+                ret not { exit } if
+            } for
+        } if
+        
+        ret
+    end
+} def
+
+/solve {
+    5 dict begin
+        /row -1 def
+        /col -1 def
+        /found false def
+        
+        % Find first empty cell
+        0 1 8 {
+            /r exch def
+            0 1 8 {
+                /c exch def
+                board r 9 mul c add get 0 eq {
+                    /row r def
+                    /col c def
+                    /found true def
+                    exit
+                } if
+            } for
+            found { exit } if
+        } for
+        
+        found not { true } {
+            /solved false def
+            1 1 9 {
+                /v exch def
+                % Increment iterations (using store to update global)
+                /iterations iterations 1 add store
+                row col v is-valid {
+                    board row 9 mul col add v put
+                    solve {
+                        /solved true def
+                        exit
+                    } if
+                    board row 9 mul col add 0 put % Backtrack
+                } if
+            } for
+            solved
+        } ifelse
+    end
+} def
+
+% Main execution
+/Main {
+    % Get filename from InputFile defined via command line -sInputFile=(...)
+    InputFile read-matrix
+    
+    InputFile print (
+) print
+    (
+Puzzle:
+) print
+    print-grid
+    
+    /iterations 0 store
+    solve {
+        (
+Puzzle:
+) print
+        print-grid
+        (
+Solved in Iterations=) print
+        iterations 20 string cvs print
+        (
+) print
+    } {
+        (No solution found.
+) print
+    } ifelse
+} def
+
+Main
+quit

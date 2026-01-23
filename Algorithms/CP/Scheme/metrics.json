@@ -2,19 +2,19 @@
   {
     "solver": "Scheme",
     "runType": "automated",
-    "timestamp": "2026-01-22T07:31:24Z",
+    "timestamp": "2026-01-22T16:40:01Z",
     "results": [
       {
         "matrix": "1",
-        "time": 17.1109,
+        "time": 17.495,
         "iterations": 84,
-        "memory": 13615104,
-        "cpu_user": 10.054,
-        "cpu_sys": 4.49,
+        "memory": 13680640,
+        "cpu_user": 10.257,
+        "cpu_sys": 4.453,
         "page_faults_major": 11,
-        "page_faults_minor": 1345,
-        "context_switches_voluntary": 3,
-        "context_switches_involuntary": 44,
+        "page_faults_minor": 1348,
+        "context_switches_voluntary": 4,
+        "context_switches_involuntary": 38,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
@@ -86,19 +86,19 @@
       },
       {
         "matrix": "6",
-        "time": 10.3898,
+        "time": 82.9383,
         "iterations": 81,
-        "memory": 11304960,
-        "cpu_user": 9.564,
-        "cpu_sys": 0.275,
-        "page_faults_major": 0,
-        "page_faults_minor": 680,
-        "context_switches_voluntary": 13,
-        "context_switches_involuntary": 5,
+        "memory": 13713408,
+        "cpu_user": 24.638,
+        "cpu_sys": 20.077,
+        "page_faults_major": 259,
+        "page_faults_minor": 1101,
+        "context_switches_voluntary": 55,
+        "context_switches_involuntary": 322,
         "io_inputs": 0,
-        "io_outputs": 8,
+        "io_outputs": 0,
         "status": "success",
-        "output": "../../../Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=81\n"
+        "output": "/Users/vibe/ClaudeCode/SudokuSolver/Matrices/6.matrix\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 3 0 8 5 \n0 0 1 0 2 0 0 0 0 \n0 0 0 5 0 7 0 0 0 \n0 0 4 0 0 0 1 0 0 \n0 9 0 0 0 0 0 0 0 \n5 0 0 0 0 0 0 7 3 \n0 0 2 0 1 0 0 0 0 \n0 0 0 0 4 0 0 0 9 \n\nPuzzle:\n9 8 7 6 5 4 3 2 1 \n2 4 6 1 7 3 9 8 5 \n3 5 1 9 2 8 7 4 6 \n1 2 8 5 3 7 6 9 4 \n6 3 4 8 9 2 1 5 7 \n7 9 5 4 6 1 8 3 2 \n5 1 9 2 8 6 4 7 3 \n4 7 2 3 1 9 5 6 8 \n8 6 3 7 4 5 2 1 9 \n\nSolved in Iterations=81\n"
       }
     ]
   }
