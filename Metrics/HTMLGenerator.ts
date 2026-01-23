@@ -283,7 +283,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         missing: { count: 0, languages: [] }
     };
 
-    const languagesWithResults = new Set(metrics.map(m => m.solver.replace(/ \((AI)\)$/, '')));
+    const languagesWithResults = new Set(metrics.filter(m => m.solver).map(m => m.solver.replace(/ \((AI)\)$/, '')));
 
     metrics.forEach(m => {
         const lang = m.solver;
