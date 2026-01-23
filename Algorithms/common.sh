@@ -119,6 +119,69 @@ extract_iterations() {
 }
 
 # ============================================================================
+# VALIDATION FUNCTIONS
+# ============================================================================
+
+# Detect algorithm type from current working directory
+detect_algorithm_type() {
+    local cwd=$(pwd)
+    if [[ "$cwd" == */Algorithms/BruteForce/* ]]; then
+        echo "BruteForce"
+    elif [[ "$cwd" == */Algorithms/DLX/* ]]; then
+        echo "DLX"
+    elif [[ "$cwd" == */Algorithms/CP/* ]]; then
+        echo "CP"
+    else
+        echo "Unknown"
+    fi
+}
+
+# Look up C reference iteration count for algorithm and matrix
+get_reference_iterations() {
+    local matrix_num="$1"
+    local algo_type=$(detect_algorithm_type)
+
+    case "$algo_type" in
+        BruteForce)
+            case "$matrix_num" in
+                1) echo 656 ;;
+                2) echo 439269 ;;
+                3) echo 98847 ;;
+                4) echo 9085 ;;
+                5) echo 445778 ;;
+                6) echo 622577597 ;;
+                *) echo 0 ;;
+            esac
+            ;;
+        DLX)
+            case "$matrix_num" in
+                1) echo 43 ;;
+                2) echo 111 ;;
+                3) echo 131 ;;
+                4) echo 70 ;;
+                5) echo 1472 ;;
+                6) echo 65 ;;
+                *) echo 0 ;;
+            esac
+            ;;
+        CP)
+            case "$matrix_num" in
+                1) echo 67 ;;
+                2) echo 87180 ;;
+                3) echo 4241 ;;
+                4) echo 1787 ;;
+                5) echo 31430 ;;
+                6) echo 69497705 ;;
+                *) echo 0 ;;
+            esac
+            ;;
+        *)
+            echo 0
+            ;;
+    esac
+}
+
+# ============================================================================
 # MATRIX EXECUTION
 # ============================================================================
 
