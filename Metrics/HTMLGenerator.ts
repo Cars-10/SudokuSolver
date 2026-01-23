@@ -1221,7 +1221,9 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
         const mismatchTitle = isMismatch ? `title="Click to see mismatch details"` : '';
 
-        html += `<tr class="${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
+        const safeId = lang.replace(/[^a-zA-Z0-9]/g, '_');
+        html += `<tr class="main-row ${rowClass} ${isFastest ? 'fastest-row' : ''} ${isSlowest ? 'slowest-row' : ''}"
+            onclick="toggleRow('expand-${safeId}')"
             data-lang="${lang}"
             data-algorithm-type="${m.algorithmType || 'BruteForce'}"
             data-timestamp="${new Date(m.timestamp).getTime()}"
@@ -1251,9 +1253,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             <td class="score-col">
                 <div class="score-container" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <div class="tier-badge ${tierClass}" title="Tier ${tier}">${tier}</div>
-                    <div class="total-score" style="color: ${normalizedScore <= 1.0 ? 'var(--primary)' : (isFailed ? '#ff0055' : '#ff0055')}; font-size: ${isFailed ? '0.9em' : '1.1em'};">
-                        ${displayScore}
-                    </div>
+                    ${isFailed ?
+                        `<div class="total-score" style="color: #ff0055; font-size: 0.9em;">${displayScore}</div>` :
+                        `<div class="score-decomposition"
+                             onmouseenter="showScoreTooltip(event, '${lang.replace(/'/g, "\\'")}')"
+                             onmouseleave="hideScoreTooltip()">
+                            <div class="stacked-bar">
+                                <div class="bar-segment bar-time" style="width: 80%"></div>
+                                <div class="bar-segment bar-memory" style="width: 20%"></div>
+                            </div>
+                            <span class="score-value">${displayScore}</span>
+                        </div>`
+                    }
                 </div>
             </td>
             <td class="updated-cell">
@@ -1310,7 +1321,29 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
-        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;"><div>${totalDisplayTime}</div></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
+        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;"><div>${totalDisplayTime}</div><span class="expand-indicator">▼</span></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
+
+        // Add expandable sensitivity row
+        html += `<tr id="expand-${safeId}" class="expandable-row" style="display: none;">
+            <td colspan="${3 + maxMatrices + 1}">
+                <div class="sensitivity-details">
+                    <h4>Rank Sensitivity Analysis</h4>
+                    <table class="sensitivity-table">
+                        <thead>
+                            <tr>
+                                <th>Weight Scenario</th>
+                                <th>Rank</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sensitivity-body-${safeId}">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <p class="rank-swing">Max rank swing: <strong id="swing-${safeId}">--</strong> positions</p>
+                </div>
+            </td>
+        </tr>`;
 
         // Add expanded content row
         const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
@@ -1471,6 +1504,111 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         // Verify injection on client side
         console.log("Client-side C Baselines:", window.cBaselines);
     })();
+
+    // Scoring Analysis Interactive Functions
+    function toggleRow(rowId) {
+        const row = document.getElementById(rowId);
+        if (!row) return;
+        const mainRow = row.previousElementSibling;
+
+        if (row.style.display === 'none') {
+            row.style.display = 'table-row';
+            if (mainRow) mainRow.classList.add('expanded');
+            populateSensitivityRow(rowId);
+        } else {
+            row.style.display = 'none';
+            if (mainRow) mainRow.classList.remove('expanded');
+        }
+    }
+
+    function populateSensitivityRow(rowId) {
+        if (!window.scoringAnalysisData) return;
+
+        const language = rowId.replace('expand-', '').replace(/_/g, ' ');
+        // Handle special cases like C_Sharp -> C#
+        let langLookup = language;
+        if (language === 'C Sharp') langLookup = 'C#';
+        if (language === 'F Sharp') langLookup = 'F#';
+        if (language === 'C  ') langLookup = 'C++';
+
+        const langData = window.scoringAnalysisData.sensitivity.find(s =>
+            s.language === langLookup || s.language === language
+        );
+        const stabilityData = window.scoringAnalysisData.stability.find(s =>
+            s.language === langLookup || s.language === language
+        );
+
+        if (!langData) return;
+
+        const tbody = document.getElementById('sensitivity-body-' + rowId.replace('expand-', ''));
+        const swingEl = document.getElementById('swing-' + rowId.replace('expand-', ''));
+
+        if (tbody) {
+            tbody.innerHTML = langData.scenarios.map(s => \`
+                <tr class="\${s.scenario === 'Current (80/20)' ? 'current-scenario' : ''}">
+                    <td>\${s.scenario}</td>
+                    <td>#\${s.rank}</td>
+                    <td>\${s.score.toFixed(3)}</td>
+                </tr>
+            \`).join('');
+        }
+
+        if (swingEl && stabilityData) {
+            swingEl.textContent = stabilityData.maxSwing;
+        }
+    }
+
+    let tooltipEl = null;
+
+    function showScoreTooltip(event, language) {
+        if (!window.scoringAnalysisData) return;
+
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.className = 'score-tooltip';
+            document.body.appendChild(tooltipEl);
+        }
+
+        // Handle special character replacements
+        let langLookup = language;
+        if (language === 'C_Sharp') langLookup = 'C#';
+        if (language === 'F_Sharp') langLookup = 'F#';
+
+        const langData = window.scoringAnalysisData.sensitivity.find(s =>
+            s.language === langLookup || s.language === language ||
+            s.language.replace(/[#\\+]/g, '_') === language.replace(/[#\\+]/g, '_')
+        );
+        const currentScenario = langData?.scenarios.find(s => s.scenario === 'Current (80/20)');
+
+        if (currentScenario) {
+            const timeComponent = currentScenario.score * 0.8;
+            const memoryComponent = currentScenario.score * 0.2;
+            tooltipEl.innerHTML = \`
+                <div class="tooltip-row">
+                    <span class="label">Time (80%):</span>
+                    <span class="value time">\${timeComponent.toFixed(2)}</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="label">Memory (20%):</span>
+                    <span class="value memory">\${memoryComponent.toFixed(2)}</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="label">Total:</span>
+                    <span class="value">\${currentScenario.score.toFixed(2)}</span>
+                </div>
+            \`;
+        }
+
+        tooltipEl.style.display = 'block';
+        tooltipEl.style.left = (event.pageX + 10) + 'px';
+        tooltipEl.style.top = (event.pageY - 10) + 'px';
+    }
+
+    function hideScoreTooltip() {
+        if (tooltipEl) {
+            tooltipEl.style.display = 'none';
+        }
+    }
     </script>
     `;
 
