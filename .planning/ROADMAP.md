@@ -93,6 +93,14 @@ Plans:
 
 **Requirements:** SCORE-01, SCORE-02, SCORE-03, SCORE-04, SCORE-05, SCORE-06, SCORE-07
 
+**Implementation Scope:**
+This phase creates a scoring analysis module (Metrics/scoring-analysis.ts) with statistical functions, then integrates them into HTMLGenerator.ts with interactive UI elements including stacked bar score decomposition, expandable sensitivity rows, and summary insight cards.
+
+**Key components:**
+1. **Analysis Module (scoring-analysis.ts)** - calculateSensitivityScores, calculateRankStability, computeCorrelation, identifyOutliers, calculatePercentiles
+2. **UI Integration (HTMLGenerator.ts)** - Score decomposition stacked bars, expandable sensitivity rows, Scoring Insights summary section
+3. **Dependency** - simple-statistics library for statistical calculations (correlation, quartiles, IQR)
+
 **Success Criteria** (what must be TRUE):
 1. System performs sensitivity analysis across weight scenarios (time-only, 80/20, 50/50, memory-only)
 2. Report shows score decomposition view (time 80% + memory 20% contributions visible)
@@ -101,11 +109,11 @@ Plans:
 5. System identifies and flags statistical outliers with analysis
 6. Scoring methodology changes preserve historical comparability through versioning
 
-**Plans:** TBD (estimated 2-3 plans)
+**Plans:** 2 plans
 
 Plans:
-- [ ] 05-01: TBD during planning
-- [ ] 05-02: TBD during planning
+- [ ] 05-01-PLAN.md - Create scoring analysis module with sensitivity, correlation, and outlier functions
+- [ ] 05-02-PLAN.md - Integrate analysis into HTMLGenerator.ts with interactive UI components
 
 ### Phase 6: Visualization & UI
 **Goal:** Reveal performance patterns through advanced chart types while fixing UI bugs to provide polished, insightful visual experience.
@@ -165,9 +173,9 @@ Phases execute in numeric order: 4 -> 5 -> 6 -> 7
 | 2. UI/UX Refine | v1.0 | 2/2 | Complete | 2026-01-20 |
 | 3. Metadata Align | v1.0 | 1/1 | Complete | 2026-01-20 |
 | 4. Validation Infrastructure | v3.0 | 1/1 | Complete | 2026-01-23 |
-| 5. Scoring Analysis | v3.0 | 0/2 | Not started | - |
+| 5. Scoring Analysis | v3.0 | 0/2 | Planned | - |
 | 6. Visualization & UI | v3.0 | 0/3 | Not started | - |
 | 7. Interactive Solver | v3.0 | 0/2 | Not started | - |
 
 ---
-*Last updated: 2026-01-23 after Phase 4 execution complete*
+*Last updated: 2026-01-23 after Phase 5 planning complete*
