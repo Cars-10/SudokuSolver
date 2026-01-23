@@ -12,6 +12,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import { C_Baselines } from './C_Baselines.ts';
+import {
+    calculateSensitivityScores,
+    calculateRankStability,
+    sensitivityMapToArray,
+    computeCorrelation,
+    identifyOutliers,
+    getScorePercentiles,
+    WEIGHT_SCENARIOS
+} from './scoring-analysis.ts';
 
 // --- Logic ---
 
@@ -200,6 +209,39 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     const cTotalTime = cTimes.reduce((a, b) => a + b, 0);
     const cTotalMem = cMetrics ? Math.max(...cMetrics.results.map(r => r.memory)) : 1; // Max RSS
     const cTotalCpu = cMetrics ? cMetrics.results.reduce((a, b) => a + b.cpu_user + b.cpu_sys, 0) : 1;
+
+    // Compute scoring analysis data
+    let scoringAnalysisData: {
+        sensitivity: Array<{ language: string; scenarios: Array<{ scenario: string; score: number; rank: number }> }>;
+        stability: Array<{ language: string; maxSwing: number; bestRank: number; worstRank: number; currentRank: number }>;
+        correlation: { rValue: number; rSquared: number; interpretation: string };
+        outliers: Array<{ language: string; metric: string; value: number; threshold: number; direction: string; explanation: string }>;
+        percentiles: { p25: number; p50: number; p75: number; p90: number; p99: number };
+    } = {
+        sensitivity: [],
+        stability: [],
+        correlation: { rValue: 0, rSquared: 0, interpretation: 'N/A' },
+        outliers: [],
+        percentiles: { p25: 0, p50: 0, p75: 0, p90: 0, p99: 0 }
+    };
+
+    if (cMetrics && cMetrics.results.length > 0) {
+        // Filter metrics to only those with successful results
+        const validMetrics = metrics.filter(m =>
+            m.results.some(r => r.status === 'success' && r.time > 0)
+        );
+
+        if (validMetrics.length > 0) {
+            const sensitivityMap = calculateSensitivityScores(validMetrics, cMetrics.results);
+            scoringAnalysisData.sensitivity = sensitivityMapToArray(sensitivityMap);
+            scoringAnalysisData.stability = calculateRankStability(sensitivityMap);
+            scoringAnalysisData.correlation = computeCorrelation(validMetrics);
+            scoringAnalysisData.outliers = identifyOutliers(validMetrics);
+            scoringAnalysisData.percentiles = getScorePercentiles(validMetrics);
+        }
+    }
+
+    const scoringAnalysisJson = safeJSON(scoringAnalysisData);
 
     // Calculate mismatch count
     // Calculate mismatch count (Per-matrix logic, verified against algorithm-specific C baseline)
@@ -1321,6 +1363,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             window.referenceOutputs = ${safeJSON(referenceOutputs)};
             window.benchmarkConfig = ${safeJSON(benchmarkConfig)};
             window.tailoring = ${safeJSON(tailoringConfig)};
+            window.scoringAnalysisData = ${scoringAnalysisJson};
             window.metricsData = ${safeJSON(metrics.map(m => {
         const baseLang = m.solver.replace(/ \((AI)\)$/, '');
 
