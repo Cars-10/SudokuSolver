@@ -181,6 +181,170 @@ get_reference_iterations() {
     esac
 }
 
+# Log validation failure to benchmark_issues.json
+write_validation_failure() {
+    local failure_type="$1"
+    local matrix_num="$2"
+    local error_message="$3"
+    local actual_iterations="${4:-0}"
+    local expected_iterations="${5:-0}"
+    local algo_type=$(detect_algorithm_type)
+    local timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    local issues_file="../../../benchmark_issues.json"
+
+    # Determine severity based on failure type and iteration delta
+    local severity="CRITICAL"
+    if [[ "$failure_type" == "iteration_mismatch" ]]; then
+        local delta=$((actual_iterations - expected_iterations))
+        if [[ $delta -lt 0 ]]; then delta=$((-delta)); fi
+        if [[ $delta -le 1 ]]; then
+            severity="WARNING"
+        fi
+    fi
+
+    python3 -c "
+import json, os
+
+issues_file = '$issues_file'
+new_entry = {
+    'timestamp': '$timestamp',
+    'language': '$LANGUAGE',
+    'algorithm': '$algo_type',
+    'matrix': '$matrix_num',
+    'failure_type': '$failure_type',
+    'severity': '$severity',
+    'message': '''$error_message''',
+    'expected_iterations': $expected_iterations,
+    'actual_iterations': $actual_iterations
+}
+
+data = []
+if os.path.exists(issues_file):
+    try:
+        with open(issues_file, 'r') as f:
+            content = f.read().strip()
+            if content:
+                data = json.loads(content)
+    except Exception:
+        data = []
+
+if not isinstance(data, list): data = []
+data.append(new_entry)
+
+with open(issues_file, 'w') as f:
+    json.dump(data, f, indent=2)
+"
+}
+
+# Check iteration count against C reference
+validate_iteration_count() {
+    local actual="$1"
+    local matrix_num="$2"
+    local expected=$(get_reference_iterations "$matrix_num")
+    local algo_type=$(detect_algorithm_type)
+
+    # Skip validation if no reference available
+    if [[ $expected -eq 0 ]]; then
+        return 0
+    fi
+
+    local delta=$((actual - expected))
+    if [[ $delta -lt 0 ]]; then delta=$((-delta)); fi
+
+    # BruteForce requires exact match
+    if [[ "$algo_type" == "BruteForce" ]]; then
+        if [[ $actual -ne $expected ]]; then
+            return 1
+        fi
+    else
+        # DLX/CP allow +/-1 tolerance
+        if [[ $delta -gt 1 ]]; then
+            return 1
+        fi
+    fi
+
+    return 0
+}
+
+# Check that solution satisfies Sudoku constraints
+validate_solution() {
+    local output="$1"
+    local matrix_num="$2"
+
+    # Extract the last puzzle block (9 lines after final "Puzzle:" heading)
+    local solution=$(echo "$output" | grep -A9 "^Puzzle:" | tail -9)
+
+    if [[ -z "$solution" ]]; then
+        echo "ERROR: Could not extract solution from output" >&2
+        return 1
+    fi
+
+    # Validate using Python
+    python3 -c "
+import sys
+
+solution = '''$solution'''
+lines = [l.strip() for l in solution.strip().split('\n') if l.strip()]
+
+if len(lines) != 9:
+    print(f'Invalid grid: expected 9 rows, got {len(lines)}', file=sys.stderr)
+    sys.exit(1)
+
+grid = []
+for i, line in enumerate(lines):
+    # Handle both space-separated and non-separated formats
+    if ' ' in line:
+        cells = line.split()
+    else:
+        cells = list(line)
+
+    if len(cells) != 9:
+        print(f'Invalid row {i+1}: expected 9 cells, got {len(cells)}', file=sys.stderr)
+        sys.exit(1)
+
+    row = []
+    for j, c in enumerate(cells):
+        try:
+            val = int(c)
+            if val < 1 or val > 9:
+                print(f'Invalid value at ({i+1},{j+1}): {val}', file=sys.stderr)
+                sys.exit(1)
+            row.append(val)
+        except ValueError:
+            print(f'Non-numeric value at ({i+1},{j+1}): {c}', file=sys.stderr)
+            sys.exit(1)
+    grid.append(row)
+
+# Check rows
+for i, row in enumerate(grid):
+    if len(set(row)) != 9:
+        print(f'Duplicate in row {i+1}', file=sys.stderr)
+        sys.exit(1)
+
+# Check columns
+for j in range(9):
+    col = [grid[i][j] for i in range(9)]
+    if len(set(col)) != 9:
+        print(f'Duplicate in column {j+1}', file=sys.stderr)
+        sys.exit(1)
+
+# Check 3x3 boxes
+for box_row in range(3):
+    for box_col in range(3):
+        box = []
+        for i in range(3):
+            for j in range(3):
+                box.append(grid[box_row*3 + i][box_col*3 + j])
+        if len(set(box)) != 9:
+            print(f'Duplicate in box ({box_row+1},{box_col+1})', file=sys.stderr)
+            sys.exit(1)
+
+print('Solution valid', file=sys.stderr)
+sys.exit(0)
+"
+    return $?
+}
+
 # ============================================================================
 # MATRIX EXECUTION
 # ============================================================================
