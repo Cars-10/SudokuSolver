@@ -1,6 +1,6 @@
 import { sampleCorrelation, linearRegression, linearRegressionLine, rSquared, quantile, interquartileRange } from 'simple-statistics';
-import { calculateOverallScore } from './scoring';
-import type { SolverMetrics, MetricResult, WeightScenario, ScenarioResult, SensitivityResult, RankStabilityResult, CorrelationResult, OutlierAnalysis, PercentileResult } from './types';
+import { calculateOverallScore } from './scoring.ts';
+import type { SolverMetrics, MetricResult, WeightScenario, ScenarioResult, SensitivityResult, RankStabilityResult, CorrelationResult, OutlierAnalysis, PercentileResult } from './types.ts';
 
 // Weight scenarios for sensitivity analysis
 export const WEIGHT_SCENARIOS: WeightScenario[] = [
