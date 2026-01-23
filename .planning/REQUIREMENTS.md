@@ -81,40 +81,48 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VAL-01 | TBD | Pending |
-| VAL-02 | TBD | Pending |
-| VAL-03 | TBD | Pending |
-| VAL-04 | TBD | Pending |
-| VAL-05 | TBD | Pending |
-| VAL-06 | TBD | Pending |
-| SCORE-01 | TBD | Pending |
-| SCORE-02 | TBD | Pending |
-| SCORE-03 | TBD | Pending |
-| SCORE-04 | TBD | Pending |
-| SCORE-05 | TBD | Pending |
-| SCORE-06 | TBD | Pending |
-| SCORE-07 | TBD | Pending |
-| VIZ-01 | TBD | Pending |
-| VIZ-02 | TBD | Pending |
-| VIZ-03 | TBD | Pending |
-| VIZ-04 | TBD | Pending |
-| VIZ-05 | TBD | Pending |
-| VIZ-06 | TBD | Pending |
-| UI-01 | TBD | Pending |
-| UI-02 | TBD | Pending |
-| UI-03 | TBD | Pending |
-| UI-04 | TBD | Pending |
-| INT-01 | TBD | Pending |
-| INT-02 | TBD | Pending |
-| INT-03 | TBD | Pending |
-| INT-04 | TBD | Pending |
-| INT-05 | TBD | Pending |
+| VAL-01 | Phase 4 | Pending |
+| VAL-02 | Phase 4 | Pending |
+| VAL-03 | Phase 4 | Pending |
+| VAL-04 | Phase 4 | Pending |
+| VAL-05 | Phase 4 | Pending |
+| VAL-06 | Phase 4 | Pending |
+| SCORE-01 | Phase 5 | Pending |
+| SCORE-02 | Phase 5 | Pending |
+| SCORE-03 | Phase 5 | Pending |
+| SCORE-04 | Phase 5 | Pending |
+| SCORE-05 | Phase 5 | Pending |
+| SCORE-06 | Phase 5 | Pending |
+| SCORE-07 | Phase 5 | Pending |
+| VIZ-01 | Phase 6 | Pending |
+| VIZ-02 | Phase 6 | Pending |
+| VIZ-03 | Phase 6 | Pending |
+| VIZ-04 | Phase 6 | Pending |
+| VIZ-05 | Phase 6 | Pending |
+| VIZ-06 | Phase 6 | Pending |
+| UI-01 | Phase 6 | Pending |
+| UI-02 | Phase 6 | Pending |
+| UI-03 | Phase 6 | Pending |
+| UI-04 | Phase 6 | Pending |
+| INT-01 | Phase 7 | Pending |
+| INT-02 | Phase 7 | Pending |
+| INT-03 | Phase 7 | Pending |
+| INT-04 | Phase 7 | Pending |
+| INT-05 | Phase 7 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 30 total
-- Mapped to phases: 0 (pending roadmap creation)
-- Unmapped: 30 ⚠️
+- Mapped to phases: 30 ✓
+- Unmapped: 0 ✓
+
+**Phase breakdown:**
+- Phase 4 (Validation Infrastructure): 6 requirements
+- Phase 5 (Scoring Analysis): 7 requirements
+- Phase 6 (Visualization & UI): 10 requirements
+- Phase 7 (Interactive Solver): 5 requirements
+
+**Total: 28 requirements across 4 phases** ✓
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after initial definition*
+*Last updated: 2026-01-23 after v3.0 roadmap creation*
