@@ -1003,6 +1003,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     </tr></thead><tbody id="mainTableBody">`;
 
     for (const m of sortedMetrics) {
+        // Skip metrics with undefined solver (data integrity issue)
+        if (!m.solver) {
+            console.warn(`Skipping metric with undefined solver:`, m);
+            continue;
+        }
         const lang = m.solver;
         const times = m.results.map(r => r.time);
         const iters = m.results.map(r => r.iterations);
