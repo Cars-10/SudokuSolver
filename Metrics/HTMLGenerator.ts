@@ -1378,6 +1378,46 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     html += `
         </tbody></table></div>
+
+        <!-- Scoring Insights Section -->
+        <section class="scoring-insights">
+            <h3>Scoring Insights</h3>
+            <div class="insight-grid">
+                <!-- Correlation Card -->
+                <div class="insight-card correlation">
+                    <h4><span>📊</span> Time vs Memory Correlation</h4>
+                    <div class="metric-value" id="correlation-r2">--</div>
+                    <p id="correlation-interpretation">Loading...</p>
+                </div>
+
+                <!-- Rank Stability Card -->
+                <div class="insight-card stability">
+                    <h4><span>📈</span> Rank Stability Analysis</h4>
+                    <p>How rankings change across different time/memory weight scenarios:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
+                        <div>
+                            <p style="color: #2ECC71; font-weight: 500; margin-bottom: 8px;">Most Stable (Top 5)</p>
+                            <ul id="stable-languages" style="color: #ccc;"></ul>
+                        </div>
+                        <div>
+                            <p style="color: #E74C3C; font-weight: 500; margin-bottom: 8px;">Most Volatile (Top 5)</p>
+                            <ul id="unstable-languages" style="color: #ccc;"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outliers Card -->
+                <div class="insight-card outliers">
+                    <h4><span>🎯</span> Statistical Outliers</h4>
+                    <p>Languages with exceptional performance characteristics (IQR method):</p>
+                    <ul id="outlier-list" style="margin-top: 12px;"></ul>
+                    <p id="no-outliers" style="display: none; color: #888; font-style: italic;">
+                        No statistical outliers detected.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <script>
             // Static Data
             window.personalities = ${safeJSON(personalities)};
@@ -1609,6 +1649,55 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             tooltipEl.style.display = 'none';
         }
     }
+
+    // Populate Scoring Insights section
+    function populateScoringInsights() {
+        const data = window.scoringAnalysisData;
+        if (!data) return;
+
+        // Correlation
+        const r2El = document.getElementById('correlation-r2');
+        const interpEl = document.getElementById('correlation-interpretation');
+        if (r2El && interpEl && data.correlation) {
+            r2El.textContent = 'R² = ' + data.correlation.rSquared.toFixed(3);
+            interpEl.textContent = data.correlation.interpretation;
+        }
+
+        // Rank Stability
+        const stableEl = document.getElementById('stable-languages');
+        const unstableEl = document.getElementById('unstable-languages');
+        if (stableEl && unstableEl && data.stability) {
+            // Most stable (lowest swing)
+            const sortedByStability = [...data.stability].sort((a, b) => a.maxSwing - b.maxSwing);
+            const mostStable = sortedByStability.slice(0, 5);
+            stableEl.innerHTML = mostStable.map(s =>
+                \`<li>\${s.language} <span class="stable-badge stable">±\${s.maxSwing}</span></li>\`
+            ).join('');
+
+            // Most unstable (highest swing)
+            const mostUnstable = sortedByStability.slice(-5).reverse();
+            unstableEl.innerHTML = mostUnstable.map(s =>
+                \`<li>\${s.language} <span class="stable-badge unstable">±\${s.maxSwing}</span></li>\`
+            ).join('');
+        }
+
+        // Outliers
+        const outlierListEl = document.getElementById('outlier-list');
+        const noOutliersEl = document.getElementById('no-outliers');
+        if (outlierListEl && noOutliersEl && data.outliers) {
+            if (data.outliers.length === 0) {
+                outlierListEl.style.display = 'none';
+                noOutliersEl.style.display = 'block';
+            } else {
+                outlierListEl.innerHTML = data.outliers.map(o =>
+                    \`<li><strong>\${o.language}</strong> (\${o.metric}): \${o.explanation}</li>\`
+                ).join('');
+            }
+        }
+    }
+
+    // Call on page load
+    document.addEventListener('DOMContentLoaded', populateScoringInsights);
     </script>
     `;
 
