@@ -472,6 +472,26 @@ print(f'{duration_ms:.4f} {max_rss:.0f} {cpu_user_ms:.4f} {cpu_sys_ms:.4f} {usag
     # Extract iterations from output
     local iterations=$(extract_iterations "$output")
 
+    # VALIDATION: Check solution and iteration count (fail-fast)
+    # Validate solution correctness first (more fundamental check)
+    if ! validate_solution "$output" "$matrix_num"; then
+        write_validation_failure "solution_invalid" "$matrix_num" \
+            "Solution does not satisfy Sudoku constraints" "0" "0"
+        rm -f "$temp_output" "$temp_timing"
+        exit 1
+    fi
+
+    # Validate iteration count against C reference
+    local expected_iterations=$(get_reference_iterations "$matrix_num")
+    if [[ $expected_iterations -ne 0 ]]; then
+        if ! validate_iteration_count "$iterations" "$matrix_num"; then
+            write_validation_failure "iteration_mismatch" "$matrix_num" \
+                "Expected $expected_iterations iterations, got $iterations" "$iterations" "$expected_iterations"
+            rm -f "$temp_output" "$temp_timing"
+            exit 1
+        fi
+    fi
+
     # Default values if parsing failed
     time_ms=${time_ms:-0}
     memory_kb=${memory_kb:-0}
