@@ -847,7 +847,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             </div>
         </div>
     </div>
-    
+
+    <!-- Interactive Solver Section -->
+    <div id="interactive-solver-section" style="width: 95%; max-width: 1200px; margin: 0 auto 40px auto;">
+        <!-- Content populated by interactive-solver.js -->
+    </div>
+
     <div id="chart-wrapper" style="width: 95%; max-width: 1600px; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
         <div class="chart-controls">
             <button class="zoom-btn" onclick="toggleLogoMode(this)" title="Toggle Logos/Text" style="margin-right: 2px;">
@@ -1824,6 +1829,19 @@ document.addEventListener('DOMContentLoaded', function () {
     filterByAlgorithm(savedAlgo);
 });
 </script>
+
+    <!-- Interactive Solver Module -->
+    <script type="module">
+        import { initInteractiveSolver } from './Metrics/modules/interactive-solver.js';
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initInteractiveSolver);
+        } else {
+            // DOM already loaded
+            initInteractiveSolver();
+        }
+    </script>
 
     </body>
     </html>
