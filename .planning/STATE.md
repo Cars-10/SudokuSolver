@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 7 of 7 (Interactive Solver)
-Plan: 2 of 4 in current phase
+Plan: 1 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-24 — Completed 07-02-PLAN.md (Visual rendering layer)
+Last activity: 2026-01-24 — Completed 07-01-PLAN.md (Solver engine & state management)
 
-Progress: [█████████░] 100% (13 of 13 estimated total plans)
+Progress: [█████████░] 92% (12 of 13 estimated total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13 (v1.0: 4, v3.0: 9)
-- Average duration: ~5.5 days per plan (v1.0 avg), 2.9 minutes (v3.0 avg)
-- Total execution time: ~33 days (v1.0), 26 minutes (v3.0)
+- Total plans completed: 12 (v1.0: 4, v3.0: 8)
+- Average duration: ~5.5 days per plan (v1.0 avg), 3.2 minutes (v3.0 avg)
+- Total execution time: ~33 days (v1.0), 25.6 minutes (v3.0)
 
 **By Phase:**
 
@@ -34,7 +34,7 @@ Progress: [█████████░] 100% (13 of 13 estimated total plans)
 | 4. Validation Infra | 1 | 2 min | 2 min |
 | 5. Scoring Analysis | 2 | 9 min | 4.5 min |
 | 6. Visualization & UI | 4 | 15.4 min | 3.9 min |
-| 7. Interactive Solver | 2 | 8 min | 4 min |
+| 7. Interactive Solver | 1 | 3.2 min | 3.2 min |
 
 **Recent Trend:**
 - v1.0 completed in 33 days (manual exploration)
@@ -42,10 +42,10 @@ Progress: [█████████░] 100% (13 of 13 estimated total plans)
 - v3.0 Phase 4 completed in 2 minutes (autonomous execution)
 - v3.0 Phase 5 completed in 9 minutes (autonomous execution, 2 plans)
 - v3.0 Phase 6 completed in 15.4 minutes (4 plans: 06-01 UI fixes, 06-02 advanced viz, 06-03 validation UI, 06-04 chart validation)
-- v3.0 Phase 7 in progress: 8 minutes (2 plans: 07-01 browser solver, 07-02 visual rendering)
-- Trend: Sustained velocity with autonomous execution - averaging 2-4 minutes per plan
+- v3.0 Phase 7 in progress: 3.2 minutes (1 plan: 07-01 solver engine & state management)
+- Trend: Sustained velocity with autonomous execution - averaging 3-4 minutes per plan
 
-*Updated after 07-02 completion*
+*Updated after 07-01 completion*
 
 ## Accumulated Context
 
@@ -72,9 +72,9 @@ Recent decisions affecting current work:
 - **06-03 Validation Data Embedding (2026-01-24)**: Embed benchmark_issues.json as window.validationIssues for client-side badge/modal rendering - avoids server-side complexity
 - **06-03 Separate Validation Modal (2026-01-24)**: Distinct modal for validation diagnostics vs runtime diagnostics - prevents confusion between algorithm errors and environment issues
 - **06-04 Chart Validation Styling (2026-01-24)**: Scatter plot uses class-based styling (.invalid), heatmap uses inline styles for dynamic conditional rendering - window.hasValidationIssues guard for backward compatibility
-- **07-02 CSS vs Canvas Rendering (2026-01-24)**: CSS Grid + CSS Transforms chosen over Canvas for 3D grid - GPU accelerated, easier styling, better accessibility
-- **07-02 Spin Direction as State (2026-01-24)**: Clockwise spin = forward progress, counter-clockwise = backtracking - immediate visual feedback without reading state
-- **07-02 Adaptive Animation Strategy (2026-01-24)**: Full animations 1x-10x, color-only >10x, prevents visual chaos at high playback speeds
+- **07-01 State Callback Timing (2026-01-24)**: Emit state BEFORE validity check to match C reference iteration counting - ensures 656 iterations for Matrix 1
+- **07-01 Memory Limit Default (2026-01-24)**: Cap history at 10,000 states by default - prevents memory explosion on long solvers (Matrix 2 = 439K iterations)
+- **07-01 Double Immutability (2026-01-24)**: Object.freeze both grid and row arrays for complete immutability - prevents accidental mutations during animation
 
 ### Pending Todos
 
@@ -110,20 +110,21 @@ None yet (v3.0 just started).
 
 **Phase 7 considerations:**
 - ✅ Browser-compatible solver with state emission - COMPLETED 07-01
-- ✅ 3D CSS grid renderer with neon styling - COMPLETED 07-02
-- ✅ Glitch effects system (screen shake, alien scramble, chromatic aberration) - COMPLETED 07-02
-- Next: Animation controller (07-03) and playback controls (07-04)
-- Integration point ready: render(state) API and onStateChange(state, prevState)
+- ✅ Immutable state history with memory limits - COMPLETED 07-01
+- Next: Visual rendering (07-02), animation controller (07-03), playback controls (07-04)
+- Module exports ready: BruteForceSolver, SolverHistory
+- State emission pattern established: onStateChange({ grid, row, col, value, iteration, depth, isBacktrack })
 
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 07-02-PLAN.md — Visual rendering layer (3D grid + glitch effects)
+Stopped at: Completed 07-01-PLAN.md — Solver engine & state management (browser-compatible solver + immutable history)
 Resume file: None
 
 **Next steps:**
 1. Continue Phase 7 execution:
-   - 07-03: Animation controller with state history and requestAnimationFrame loop
+   - 07-02: Visual rendering layer (3D grid renderer + glitch effects)
+   - 07-03: Animation controller with requestAnimationFrame loop
    - 07-04: Playback controls (play/pause/reset/skip, speed slider, step forward/backward)
 2. Interactive solver will be fully functional after 07-04
 3. Consider final polish or project completion
