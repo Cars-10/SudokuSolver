@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 6 of 7 (Visualization & UI)
-Plan: 3 of ~3 in current phase
-Status: In progress
-Last activity: 2026-01-24 — Completed 06-03-PLAN.md (Validation UI integration)
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-01-24 — Completed 06-04-PLAN.md (Chart validation styling)
 
-Progress: [████████░░] 83% (10 of 12 estimated total plans)
+Progress: [█████████░] 92% (11 of 12 estimated total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8 (v1.0: 4, v3.0: 4)
-- Average duration: ~5.5 days per plan (v1.0 avg), 3.5 minutes (v3.0 avg)
-- Total execution time: ~33 days (v1.0), 14.5 minutes (v3.0)
+- Total plans completed: 9 (v1.0: 4, v3.0: 5)
+- Average duration: ~5.5 days per plan (v1.0 avg), 3.6 minutes (v3.0 avg)
+- Total execution time: ~33 days (v1.0), 18 minutes (v3.0)
 
 **By Phase:**
 
@@ -33,17 +33,17 @@ Progress: [████████░░] 83% (10 of 12 estimated total plans)
 | 3. Metadata Align | 1 | ~8 days | ~8 days |
 | 4. Validation Infra | 1 | 2 min | 2 min |
 | 5. Scoring Analysis | 2 | 9 min | 4.5 min |
-| 6. Visualization & UI | 3 | 12 min | 4 min |
+| 6. Visualization & UI | 4 | 15.4 min | 3.9 min |
 
 **Recent Trend:**
 - v1.0 completed in 33 days (manual exploration)
 - v2.0 completed in 1 day (retroactive metadata work)
 - v3.0 Phase 4 completed in 2 minutes (autonomous execution)
 - v3.0 Phase 5 completed in 9 minutes (autonomous execution, 2 plans)
-- v3.0 Phase 6 in progress: 12 minutes (3 plans: 06-01 UI fixes, 06-02 advanced viz, 06-03 validation UI)
+- v3.0 Phase 6 completed in 15.4 minutes (4 plans: 06-01 UI fixes, 06-02 advanced viz, 06-03 validation UI, 06-04 chart validation)
 - Trend: Sustained velocity with autonomous execution - averaging 3-4 minutes per plan
 
-*Updated after 06-03 completion*
+*Updated after 06-04 completion*
 
 ## Accumulated Context
 
@@ -69,6 +69,7 @@ Recent decisions affecting current work:
 - **06-01 Fullscreen Exit Guard (2026-01-24)**: Surgical guard for Matrix Race fullscreen to prevent exit/re-enter loop - check currentChart before redraw
 - **06-03 Validation Data Embedding (2026-01-24)**: Embed benchmark_issues.json as window.validationIssues for client-side badge/modal rendering - avoids server-side complexity
 - **06-03 Separate Validation Modal (2026-01-24)**: Distinct modal for validation diagnostics vs runtime diagnostics - prevents confusion between algorithm errors and environment issues
+- **06-04 Chart Validation Styling (2026-01-24)**: Scatter plot uses class-based styling (.invalid), heatmap uses inline styles for dynamic conditional rendering - window.hasValidationIssues guard for backward compatibility
 
 ### Pending Todos
 
@@ -97,20 +98,21 @@ None yet (v3.0 just started).
 - ✅ UI bugs fixed: alphabetical dropdown, Matrix Race fullscreen exit - COMPLETED 06-01
 - ✅ Advanced visualizations added: scatter plot, heatmap, histogram - COMPLETED 06-02
 - ✅ Validation UI elements: badges and diagnostics modal - COMPLETED 06-03
+- ✅ Chart validation styling: scatter plot and heatmap visual distinction - COMPLETED 06-04
 - ✅ Logarithmic scaling and language filtering implemented - COMPLETED 06-02
-- Phase 6 Wave 1 and Wave 2 complete
+- ✅ Phase 6 complete: All 3 waves delivered (UI fixes, advanced viz, validation integration)
 - May want to address data integrity issue (undefined solver metric) at source
 
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 06-03-PLAN.md — Validation UI integration (badges, diagnostics modal)
+Stopped at: Completed 06-04-PLAN.md — Chart validation styling integration
 Resume file: None
 
 **Next steps:**
-1. Phase 6 Wave 1 and Wave 2 complete (06-01 UI fixes, 06-02 advanced viz, 06-03 validation UI)
-2. Phase 6 appears complete - all planned visualizations and UI improvements delivered
-3. Ready for Phase 7: Cleanup & Polish
+1. ✅ Phase 6 complete - all 4 plans delivered (UI fixes, advanced viz, validation UI, chart validation)
+2. Ready for Phase 7: Cleanup & Polish
    - Address data integrity issue (undefined solver metric)
    - Final polish and refinement
    - Documentation updates
+3. Consider creating Phase 7 plan or project completion report
