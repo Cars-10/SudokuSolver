@@ -1294,8 +1294,17 @@ export const SharedStyles = `
         .solver-section {
             background: #0a0a0f;
             padding: 2rem;
+            padding-top: 3rem; /* Space for close button */
             border-radius: 8px;
             border: 1px solid rgba(0, 255, 157, 0.3);
+            position: relative;
+            z-index: 1;
+            min-height: 400px;
+        }
+
+        #interactive-solver-section {
+            position: relative;
+            z-index: 1;
         }
 
         /* Solver header */

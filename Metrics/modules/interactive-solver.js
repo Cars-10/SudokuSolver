@@ -332,14 +332,17 @@ export class InteractiveSolver {
 
 // Initialize interactive solver when DOM ready
 export function initInteractiveSolver() {
+    console.log('[Interactive Solver] initInteractiveSolver called');
     const container = document.getElementById('interactive-solver-section');
     if (!container) {
-        console.warn('Interactive solver container not found');
+        console.error('[Interactive Solver] Container not found!');
         return null;
     }
 
+    console.log('[Interactive Solver] Container found, creating solver instance');
     const solver = new InteractiveSolver(container);
     solver.init();
+    console.log('[Interactive Solver] Solver initialized successfully');
 
     // Store reference for cleanup
     window.interactiveSolver = solver;
