@@ -1243,6 +1243,18 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             failedBadge = `<span style="margin-left: 6px; padding: 2px 6px; background: rgba(255, 0, 85, 0.2); border: 1px solid #ff0055; border-radius: 3px; font-size: 0.75em; color: #ff0055; font-weight: bold;" title="${reason}">⚠ FAILED</span>`;
         }
 
+        // Validation badge
+        let validationBadge = '';
+        const langValidationIssues = validationIssues.filter(i => i.language === lang);
+        if (langValidationIssues.length > 0) {
+            const hasCritical = langValidationIssues.some(i => i.severity === 'CRITICAL');
+            const severityClass = hasCritical ? 'critical' : 'warning';
+            const icon = hasCritical
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+            validationBadge = `<span class="validation-badge ${severityClass}" onclick="event.stopPropagation(); showDiagnosticsModal('${lang}')" title="${langValidationIssues.length} validation issue(s)">${icon}${langValidationIssues.length}</span>`;
+        }
+
         const totalDisplayTime = isFailed ? "FAILED" : (isMs ? `${totalTime.toFixed(2)} ms` : `${totalTime.toFixed(3)} s`);
         const mismatchStyle = isMismatch ? 'cursor: pointer; background: rgba(255,0,85,0.1);' : '';
         const mismatchOnclick = isMismatch ? `onclick="showMismatchModal(this.closest('tr'))"` : '';
@@ -1271,7 +1283,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 ${logoUrl ? `<img src="${logoUrl}" alt="${displayNameRaw}" class="lang-logo" style="${filterStyle}">` : ''}
                 <div style="display: inline-block; vertical-align: middle;">
                     <div>
-                        ${displayName}${algoBadge}${typeIcon}
+                        ${displayName}${algoBadge}${typeIcon}${validationBadge}
                         ${isFailed ? '<span class="status-badge status-failure" style="font-size: 0.7em; margin-left: 5px; color: #ff0055; border: 1px solid #ff0055; padding: 1px 4px; border-radius: 3px;">FAILED</span>' : ''}
                     </div>
                     <div class='lang-year'>${year}</div>
