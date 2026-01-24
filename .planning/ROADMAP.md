@@ -50,7 +50,7 @@
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 4: Validation Infrastructure** - Algorithmic correctness foundation
-- [ ] **Phase 5: Scoring Analysis** - Statistical rigor and methodology optimization
+- [x] **Phase 5: Scoring Analysis** - Statistical rigor and methodology optimization
 - [ ] **Phase 6: Visualization & UI** - Enhanced insights and polish
 - [ ] **Phase 7: Interactive Solver** - Engaging user experience
 
@@ -120,9 +120,17 @@ Plans:
 
 **Depends on:** Phase 4 + Phase 5 (visualizes validation results and scoring insights)
 
-**Requirements:** VAL-04, VAL-05, VIZ-01, VIZ-02, VIZ-03, VIZ-04, VIZ-05, VIZ-06, UI-01, UI-02, UI-03, UI-04
+**Requirements:** VAL-04, VAL-05, VIZ-01, VIZ-02, VIZ-03, UI-01, UI-02, UI-03
 
-**Note:** VAL-04 and VAL-05 are validation UI visualization (deferred from Phase 4).
+**Note:** VAL-04 and VAL-05 are validation UI visualization (deferred from Phase 4). VIZ-04, VIZ-05, VIZ-06, UI-04 deferred to future phases.
+
+**Implementation Scope:**
+This phase fixes UI bugs (dropdown sorting, fullscreen exit), adds three advanced D3.js visualizations (scatter plot, heatmap, histogram), and surfaces validation results through warning badges and diagnostics modal.
+
+**Key components:**
+1. **UI Bug Fixes (06-01)** - Algorithm dropdown alphabetical sorting, Matrix Race fullscreen exit loop fix
+2. **Advanced Visualizations (06-02)** - Time vs Memory scatter plot with log scale, Language x Matrix heatmap with click-to-detail, Score distribution histogram with percentile markers
+3. **Validation UI (06-03)** - Warning badges on invalid implementations, diagnostics modal showing iteration mismatch details
 
 **Success Criteria** (what must be TRUE):
 1. Report includes scatter plot showing Time vs Memory with logarithmic scales
@@ -134,12 +142,12 @@ Plans:
 7. Report displays visual warning badges for invalid implementations (VAL-04)
 8. Diagnostics modal shows iteration mismatch details (VAL-05)
 
-**Plans:** TBD (estimated 3-4 plans)
+**Plans:** 3 plans
 
 Plans:
-- [ ] 06-01: TBD during planning
-- [ ] 06-02: TBD during planning
-- [ ] 06-03: TBD during planning
+- [ ] 06-01-PLAN.md - Fix UI bugs: algorithm dropdown sorting and Matrix Race fullscreen exit
+- [ ] 06-02-PLAN.md - Add advanced visualizations: scatter plot, heatmap, histogram
+- [ ] 06-03-PLAN.md - Add validation UI: warning badges and diagnostics modal
 
 ### Phase 7: Interactive Solver
 **Goal:** Provide engaging, visually entertaining solver animation with Neon/Matrix theme styling for interactive user exploration.
@@ -178,4 +186,4 @@ Phases execute in numeric order: 4 -> 5 -> 6 -> 7
 | 7. Interactive Solver | v3.0 | 0/2 | Not started | - |
 
 ---
-*Last updated: 2026-01-23 after Phase 5 execution complete*
+*Last updated: 2026-01-24 after Phase 6 planning complete*
