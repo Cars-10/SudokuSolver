@@ -1011,13 +1011,174 @@
             color: #F5A623;
         }
 
+        /* ========================================
+           VALIDATION UI COMPONENTS
+           ======================================== */
+
+        /* Validation badge styles */
+        .validation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 6px;
+        }
+
+        .validation-badge.critical {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .validation-badge.warning {
+            background: rgba(255, 157, 0, 0.2);
+            border: 1px solid #ff9d00;
+            color: #ff9d00;
+        }
+
+        .validation-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .validation-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Diagnostics modal overlay */
+        .diagnostics-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .diagnostics-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .diagnostics-modal {
+            background: var(--bg-dark, #0d0d12);
+            border: 1px solid var(--primary, #00ff9d);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+        }
+
+        .diagnostics-modal h3 {
+            color: var(--primary, #00ff9d);
+            margin: 0 0 16px 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .diagnostics-modal .issue-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .diagnostics-modal .issue-severity {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .diagnostics-modal .issue-severity.critical {
+            background: #ff4444;
+            color: #000;
+        }
+
+        .diagnostics-modal .issue-severity.warning {
+            background: #ff9d00;
+            color: #000;
+        }
+
+        .diagnostics-modal .iteration-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .diagnostics-modal .iteration-compare .expected,
+        .diagnostics-modal .iteration-compare .actual {
+            text-align: center;
+        }
+
+        .diagnostics-modal .iteration-compare label {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .diagnostics-modal .iteration-compare .value {
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .diagnostics-modal .iteration-compare .expected .value {
+            color: var(--primary, #00ff9d);
+        }
+
+        .diagnostics-modal .iteration-compare .actual .value {
+            color: #ff4444;
+        }
+
+        .diagnostics-modal .close-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--primary, #00ff9d);
+            color: var(--primary, #00ff9d);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+        }
+
+        .diagnostics-modal .close-btn:hover {
+            background: var(--primary, #00ff9d);
+            color: #000;
+        }
+
+        /* Invalid chart points */
+        .scatter-point.invalid {
+            stroke: #ff4444;
+            stroke-width: 2;
+            stroke-dasharray: 2,2;
+        }
+
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
     <script>
-        // Cache buster: 1769238935874
+        // Cache buster: 1769239240515
     </script>
     <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
@@ -32361,6 +32522,12 @@
             window.scoreLabels = {"Standard":"Score","Neuromancer":"Index","Jockey":"Place","Professor":"Grade","Surfer":"Stoke","Matrix":"Anomaly","Galactica":"Threat Level","Star Trek":"Efficiency","Star Wars":"Midichlorians","BTTF":"Gigawatts","Babylon 5":"Influence","Expanse":"Bounty","Terminator":"Casualties","LotR":"Power","Dune":"Prescience","Buck Rogers":"Style","Flash Gordon":"Heroism","Batman":"Justice","Alien":"Terror","Blade Runner":"Humanity","Farscape":"Freill","Apocalypse Now":"Madness","Airplane":"Jive","Fast Times":"Waves","Tron":"Resolution","Bill and Ted":"History","John Wick":"Focus","Dark Knight":"Fear"};
             window.diagnosticsData = {"env_error":{"count":0,"languages":[]},"timeout":{"count":14,"languages":[{"language":"Wren","matrices":["6"]},{"language":"EmacsLisp","matrices":["6"]},{"language":"Fish","matrices":["2","5"]},{"language":"Awk","matrices":["6"]},{"language":"Sed","matrices":["1","2","3","4","5"]},{"language":"Dc","matrices":["1","2","3","4","5"]},{"language":"Janet","matrices":["6"]},{"language":"Icon","matrices":["6"]},{"language":"Tcl","matrices":["6"]},{"language":"Smalltalk","matrices":["6"]},{"language":"Raku","matrices":["6"]},{"language":"Icon","matrices":["1","2","3","4","5"]},{"language":"Forth","matrices":["6"]},{"language":"CoffeeScript","matrices":["6"]}]},"error":{"count":10,"languages":[{"language":"Vala","matrices":["6"]},{"language":"Scheme","matrices":["2","3","4","5"]},{"language":"Pascal","matrices":["6"]},{"language":"OCaml","matrices":["6"]},{"language":"Lua","matrices":["6"]},{"language":"Haskell","matrices":["6"]},{"language":"Go","matrices":["6"]},{"language":"CommonLisp","matrices":["2","3","4","5"]},{"language":"BASIC","matrices":["1","2","3","4","5","6"]},{"language":"BASH","matrices":["2","4","5"]}]},"missing":{"count":1,"languages":[{"language":"Bash","matrices":[]}]}};
             window.sourceCodeData = {};
+            window.validationIssues = [{"timestamp":"2026-01-23T15:37:41Z","language":"TestLang","algorithm":"BruteForce","matrix":"1","failure_type":"solution_invalid","severity":"CRITICAL","message":"Bad solution","expected_iterations":0,"actual_iterations":0},{"timestamp":"2026-01-23T15:37:41Z","language":"TestLang","algorithm":"BruteForce","matrix":"1","failure_type":"iteration_mismatch","severity":"WARNING","message":"Off by 1","expected_iterations":656,"actual_iterations":657},{"timestamp":"2026-01-23T15:37:41Z","language":"TestLang","algorithm":"BruteForce","matrix":"1","failure_type":"iteration_mismatch","severity":"CRITICAL","message":"Way off","expected_iterations":656,"actual_iterations":666}];
+
+            // Validation helper function
+            window.getValidationIssues = function(language) {
+                return window.validationIssues.filter(i => i.language === language);
+            };
 
             // Dynamic Data
             window.referenceOutputs = {};
@@ -32377,7 +32544,7 @@
     </script>
     
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
-        Report generated: 24/01/2026, 08:15:35 CET
+        Report generated: 24/01/2026, 08:20:40 CET
     </footer>
     <script>
 let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)

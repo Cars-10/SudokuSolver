@@ -89,6 +89,19 @@ const compilerMapping: Record<string, string> = {
 
 export async function generateHtml(metrics: SolverMetrics[], history: any[], personalities: any, languageMetadata: any, methodologyTexts: any, referenceOutputs: any, allowedMatrices: string[] = [], benchmarkConfig: any = {}, metadataOverrides: any = {}, options: { staticMode?: boolean } = {}): Promise<string> {
     const staticMode = options.staticMode || false;
+
+    // Read validation issues
+    let validationIssues: any[] = [];
+    const issuesPath = path.join(__dirname, '..', 'benchmark_issues.json');
+    try {
+        if (fsSync.existsSync(issuesPath)) {
+            const issuesContent = await fs.readFile(issuesPath, 'utf-8');
+            validationIssues = JSON.parse(issuesContent);
+        }
+    } catch (e) {
+        console.warn('Could not read benchmark_issues.json:', e);
+    }
+
     // Deep merge overrides (merge fields within each language, don't replace entire language objects)
     const finalLanguageMetadata = { ...languageMetadata };
     if (metadataOverrides.languageMetadata) {
@@ -1436,6 +1449,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             window.scoreLabels = ${safeJSON(scoreLabels)};
             window.diagnosticsData = ${safeJSON(diagnostics)};
             window.sourceCodeData = ${safeJSON(sourceCodeData)};
+            window.validationIssues = ${safeJSON(validationIssues)};
+
+            // Validation helper function
+            window.getValidationIssues = function(language) {
+                return window.validationIssues.filter(i => i.language === language);
+            };
 
             // Dynamic Data
             window.referenceOutputs = ${safeJSON(referenceOutputs)};
