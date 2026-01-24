@@ -1497,6 +1497,200 @@ export const SharedStyles = `
             text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
         }
 
+        /* Interactive Solver - Controls */
+        .solver-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 157, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            margin-top: 1rem;
+        }
+
+        .solver-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .solver-btn {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: #00ff9d;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solver-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .solver-btn.primary {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: #00ff9d;
+        }
+
+        .solver-btn.primary:hover {
+            background: rgba(0, 255, 157, 0.3);
+        }
+
+        /* Play/Pause icon */
+        .solver-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Speed slider container */
+        .solver-speed-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .solver-speed-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #888;
+            min-width: 60px;
+        }
+
+        .solver-speed-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #00ff9d;
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Speed slider styling */
+        .solver-speed-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            flex: 1;
+            height: 20px;
+        }
+
+        .solver-speed-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(
+                to right,
+                #00ff9d 0%,
+                #00ff9d var(--progress, 1%),
+                rgba(255, 255, 255, 0.1) var(--progress, 1%),
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            height: 6px;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-speed-slider::-moz-range-track {
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .solver-speed-slider::-moz-range-progress {
+            background: #00ff9d;
+            height: 6px;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 18px;
+            width: 18px;
+            background: #fff;
+            border: 2px solid #00ff9d;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #fff, 0 0 10px #00ff9d;
+            margin-top: -6px;
+            transition: transform 0.1s ease;
+        }
+
+        .solver-speed-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .solver-speed-slider::-moz-range-thumb {
+            height: 18px;
+            width: 18px;
+            background: #fff;
+            border: 2px solid #00ff9d;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #fff, 0 0 10px #00ff9d;
+            transition: transform 0.1s ease;
+        }
+
+        .solver-speed-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Speed presets */
+        .solver-speed-presets {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        .solver-speed-preset {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .solver-speed-preset:hover {
+            color: #00ff9d;
+        }
+
+        .solver-speed-preset.active {
+            color: #00ff9d;
+        }
+
+        /* Progress bar */
+        .solver-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .solver-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff9d, #00b8ff);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
         /* Responsive - smaller on mobile */
         @media (max-width: 600px) {
             .solver-cell {
@@ -1505,6 +1699,17 @@ export const SharedStyles = `
             }
             .cell-value {
                 font-size: 1rem;
+            }
+            .solver-controls-row {
+                flex-direction: column;
+            }
+            .solver-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .solver-speed-container {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
 `;
