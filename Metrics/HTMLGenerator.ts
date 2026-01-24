@@ -1744,6 +1744,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     // Call on page load
     document.addEventListener('DOMContentLoaded', populateScoringInsights);
 
+    // Validation styling helper for charts
+    window.hasValidationIssues = function(solver) {
+        return window.validationIssues && window.validationIssues.some(i => i.language === solver);
+    };
+
     // Validation Diagnostics Modal Functions
     window.showDiagnosticsModal = function(language) {
         const issues = window.getValidationIssues(language);

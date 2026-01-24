@@ -1407,7 +1407,7 @@
 <body>
     <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
     <script>
-        // Cache buster: 1769239345428
+        // Cache buster: 1769239396470
     </script>
     <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
@@ -32782,7 +32782,7 @@
     </script>
     
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
-        Report generated: 24/01/2026, 08:22:25 CET
+        Report generated: 24/01/2026, 08:23:16 CET
     </footer>
     <script>
 let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)
@@ -36954,6 +36954,539 @@ window.verifyLanguage = async function (lang) {
             });
         } // End of drawIterationCountChart
 
+        // ========================================
+        // SCATTER PLOT: Time vs Memory (06-02)
+        // ========================================
+        function drawScatterPlot() {
+            const container = document.getElementById('d3-chart-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const margin = { top: 50, right: 80, bottom: 60, left: 80 };
+
+            // Get Matrix 1 data for each language (most comparable)
+            const scatterData = data
+                .map(d => {
+                    const matrix1 = d.results.find(r => normalizeMatrix(r.matrix) === '1');
+                    return matrix1 ? {
+                        solver: d.solver,
+                        time: matrix1.time,
+                        memory: matrix1.memory,
+                        logo: d.logo || null
+                    } : null;
+                })
+                .filter(d => d && d.time > 0 && d.memory > 0);
+
+            // Identify outliers using window.scoringAnalysisData if available
+            const outlierNames = new Set();
+            if (window.scoringAnalysisData && window.scoringAnalysisData.outliers) {
+                window.scoringAnalysisData.outliers.forEach(o => outlierNames.add(o.solver));
+            }
+
+            // Create SVG
+            const svg = d3.select("#d3-chart-container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g");
+
+            // Log scale toggle state
+            let useLogScale = true;
+
+            function redrawScatter() {
+                g.selectAll("*").remove();
+
+                // Create scales
+                const xExtent = d3.extent(scatterData, d => d.time);
+                const yExtent = d3.extent(scatterData, d => d.memory);
+
+                const xScale = useLogScale
+                    ? d3.scaleLog().domain([xExtent[0] * 0.5, xExtent[1] * 2])
+                    : d3.scaleLinear().domain([0, xExtent[1] * 1.1]);
+                xScale.range([margin.left, width - margin.right]);
+
+                const yScale = useLogScale
+                    ? d3.scaleLog().domain([yExtent[0] * 0.5, yExtent[1] * 2])
+                    : d3.scaleLinear().domain([0, yExtent[1] * 1.1]);
+                yScale.range([height - margin.bottom, margin.top]);
+
+                // Draw axes
+                g.append("g")
+                    .attr("transform", `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale).ticks(8).tickFormat(d => d < 1 ? d.toFixed(3) : d.toFixed(1)))
+                    .selectAll("text")
+                    .attr("fill", "#c0caf5")
+                    .style("font-family", "JetBrains Mono");
+
+                g.append("g")
+                    .attr("transform", `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(yScale).ticks(8))
+                    .selectAll("text")
+                    .attr("fill", "#c0caf5")
+                    .style("font-family", "JetBrains Mono");
+
+                // Axis labels
+                g.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height - 10)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "#c0caf5")
+                    .style("font-family", "JetBrains Mono")
+                    .style("font-size", "14px")
+                    .text("Time (seconds) - Matrix 1");
+
+                g.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("x", -height / 2)
+                    .attr("y", 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "#c0caf5")
+                    .style("font-family", "JetBrains Mono")
+                    .style("font-size", "14px")
+                    .text("Memory (MB)");
+
+                // Draw gridlines
+                g.append("g")
+                    .attr("class", "grid")
+                    .attr("transform", `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale).ticks(8).tickSize(-height + margin.top + margin.bottom).tickFormat(""))
+                    .selectAll("line")
+                    .attr("stroke", "rgba(255,255,255,0.1)")
+                    .attr("stroke-dasharray", "2,2");
+
+                g.append("g")
+                    .attr("class", "grid")
+                    .attr("transform", `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(yScale).ticks(8).tickSize(-width + margin.left + margin.right).tickFormat(""))
+                    .selectAll("line")
+                    .attr("stroke", "rgba(255,255,255,0.1)")
+                    .attr("stroke-dasharray", "2,2");
+
+                // Draw points
+                const circles = g.selectAll(".scatter-point")
+                    .data(scatterData)
+                    .enter()
+                    .append("circle")
+                    .attr("class", d => {
+                        let classes = "scatter-point";
+                        if (outlierNames.has(d.solver)) classes += " outlier";
+                        return classes;
+                    })
+                    .attr("cx", d => xScale(d.time))
+                    .attr("cy", d => yScale(d.memory))
+                    .attr("r", 5)
+                    .attr("data-lang", d => d.solver);
+
+                // Tooltip
+                const tooltip = d3.select("body").append("div")
+                    .attr("class", "scatter-tooltip")
+                    .style("display", "none");
+
+                circles
+                    .on("mouseover", function (event, d) {
+                        d3.select(this).attr("r", 7);
+
+                        tooltip
+                            .style("display", "block")
+                            .html(`<strong>${d.solver}</strong><br/>Time: ${d.time.toFixed(3)}s<br/>Memory: ${d.memory.toFixed(1)} MB`);
+
+                        // Edge detection for tooltip
+                        const tooltipNode = tooltip.node();
+                        const tooltipWidth = tooltipNode.offsetWidth;
+                        const tooltipHeight = tooltipNode.offsetHeight;
+                        const windowWidth = window.innerWidth;
+                        const windowHeight = window.innerHeight;
+
+                        let left = event.pageX + 10;
+                        let top = event.pageY - 10;
+
+                        if (left + tooltipWidth > windowWidth) {
+                            left = event.pageX - tooltipWidth - 10;
+                        }
+                        if (top + tooltipHeight > windowHeight) {
+                            top = event.pageY - tooltipHeight - 10;
+                        }
+
+                        tooltip
+                            .style("left", left + "px")
+                            .style("top", top + "px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this).attr("r", 5);
+                        tooltip.style("display", "none");
+                    })
+                    .on("click", function (event, d) {
+                        // Clear previous highlights
+                        d3.selectAll(".scatter-point").classed("highlighted", false);
+                        d3.selectAll("tr[data-lang]").style("background", "");
+
+                        // Highlight this point
+                        d3.select(this).classed("highlighted", true);
+
+                        // Highlight and scroll to table row
+                        const row = document.querySelector(`tr[data-lang="${d.solver}"]`);
+                        if (row) {
+                            row.style.background = "rgba(0, 255, 157, 0.15)";
+                            row.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }
+                    });
+            }
+
+            // Initial draw
+            redrawScatter();
+
+            // Add log/linear toggle button
+            svg.append("foreignObject")
+                .attr("x", width - 120)
+                .attr("y", 10)
+                .attr("width", 110)
+                .attr("height", 30)
+                .append("xhtml:div")
+                .html(`<button class="log-scale-toggle ${useLogScale ? 'active' : ''}" id="log-toggle">
+                    ${useLogScale ? 'Log Scale' : 'Linear Scale'}
+                </button>`)
+                .on("click", function () {
+                    useLogScale = !useLogScale;
+                    d3.select("#log-toggle")
+                        .classed("active", useLogScale)
+                        .text(useLogScale ? "Log Scale" : "Linear Scale");
+                    redrawScatter();
+                });
+        } // End of drawScatterPlot
+
+        // ========================================
+        // HEATMAP: Language x Matrix (06-02)
+        // ========================================
+        function drawHeatmap() {
+            const container = document.getElementById('d3-chart-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const margin = { top: 30, right: 100, bottom: 50, left: 150 };
+
+            // Get all matrices and languages
+            const matrices = ['1', '2', '3', '4', '5'];
+            const languages = [...new Set(data.map(d => d.solver))].sort();
+
+            // Build data matrix
+            const heatmapData = [];
+            languages.forEach(lang => {
+                const langData = data.find(d => d.solver === lang);
+                if (langData && langData.results) {
+                    matrices.forEach(matrix => {
+                        const result = langData.results.find(r => normalizeMatrix(r.matrix) === matrix);
+                        if (result && result.time > 0) {
+                            heatmapData.push({
+                                language: lang,
+                                matrix: matrix,
+                                time: result.time,
+                                memory: result.memory,
+                                iterations: result.iterations,
+                                score: result.score || null
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Create SVG
+            const svg = d3.select("#d3-chart-container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g");
+
+            // Create band scales
+            const xScale = d3.scaleBand()
+                .domain(matrices)
+                .range([margin.left, width - margin.right])
+                .padding(0.05);
+
+            const yScale = d3.scaleBand()
+                .domain(languages)
+                .range([margin.top, height - margin.bottom])
+                .padding(0.05);
+
+            // Color scale: log scale for time, viridis palette (reversed: faster = brighter)
+            const times = heatmapData.map(d => d.time).filter(t => t > 0);
+            const colorScale = d3.scaleSequentialLog(d3.interpolateViridis)
+                .domain([d3.max(times), d3.min(times)]); // Reversed for "faster = brighter"
+
+            // Draw cells
+            g.selectAll(".heatmap-cell")
+                .data(heatmapData)
+                .enter()
+                .append("rect")
+                .attr("class", "heatmap-cell")
+                .attr("x", d => xScale(d.matrix))
+                .attr("y", d => yScale(d.language))
+                .attr("width", xScale.bandwidth())
+                .attr("height", yScale.bandwidth())
+                .attr("fill", d => colorScale(d.time))
+                .on("mouseover", function () {
+                    d3.select(this).style("stroke-width", "3px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).style("stroke-width", "1px");
+                })
+                .on("click", function (event, d) {
+                    showHeatmapDetail(d);
+                });
+
+            // Draw axes
+            g.append("g")
+                .attr("transform", `translate(0,${margin.top})`)
+                .call(d3.axisTop(xScale).tickFormat(d => `M${d}`))
+                .selectAll("text")
+                .attr("class", "heatmap-axis-label")
+                .style("font-size", "12px");
+
+            g.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(yScale))
+                .selectAll("text")
+                .attr("class", "heatmap-axis-label")
+                .style("font-size", "10px");
+
+            // Add legend
+            const legendWidth = 200;
+            const legendHeight = 20;
+            const legend = svg.append("g")
+                .attr("transform", `translate(${width - margin.right + 10}, ${margin.top})`);
+
+            // Create gradient for legend
+            const defs = svg.append("defs");
+            const gradient = defs.append("linearGradient")
+                .attr("id", "heatmap-gradient")
+                .attr("x1", "0%")
+                .attr("x2", "100%");
+
+            gradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", colorScale(d3.max(times)));
+
+            gradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", colorScale(d3.min(times)));
+
+            legend.append("rect")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("fill", "url(#heatmap-gradient)")
+                .style("stroke", "rgba(255,255,255,0.2)");
+
+            legend.append("text")
+                .attr("x", 0)
+                .attr("y", -5)
+                .attr("class", "heatmap-axis-label")
+                .style("font-size", "11px")
+                .text("Time (s)");
+
+            legend.append("text")
+                .attr("x", 0)
+                .attr("y", legendHeight + 15)
+                .attr("class", "heatmap-axis-label")
+                .style("font-size", "10px")
+                .text(`${d3.max(times).toFixed(2)}s`);
+
+            legend.append("text")
+                .attr("x", legendWidth)
+                .attr("y", legendHeight + 15)
+                .attr("text-anchor", "end")
+                .attr("class", "heatmap-axis-label")
+                .style("font-size", "10px")
+                .text(`${d3.min(times).toFixed(3)}s`);
+        } // End of drawHeatmap
+
+        function showHeatmapDetail(data) {
+            // Create modal overlay
+            const overlay = d3.select("body").append("div")
+                .attr("class", "modal-overlay visible")
+                .style("display", "flex")
+                .on("click", function (event) {
+                    if (event.target === this) {
+                        d3.select(this).remove();
+                    }
+                });
+
+            const modal = overlay.append("div")
+                .attr("class", "modal-content")
+                .style("background", "#1a1b26")
+                .style("border", "2px solid #00ff9d")
+                .style("border-radius", "8px")
+                .style("padding", "24px")
+                .style("max-width", "400px")
+                .style("position", "relative")
+                .on("click", function (event) {
+                    event.stopPropagation();
+                });
+
+            // Close button
+            modal.append("div")
+                .attr("class", "modal-close")
+                .html("&times;")
+                .on("click", function () {
+                    overlay.remove();
+                });
+
+            // Modal content
+            modal.append("h3")
+                .style("color", "#00ff9d")
+                .style("margin", "0 0 16px 0")
+                .text(`${data.language} - Matrix ${data.matrix}`);
+
+            const details = modal.append("div")
+                .style("color", "#c0caf5")
+                .style("font-family", "JetBrains Mono")
+                .style("font-size", "14px")
+                .style("line-height", "1.8");
+
+            details.append("div").html(`<strong>Time:</strong> ${data.time.toFixed(3)} seconds`);
+            details.append("div").html(`<strong>Memory:</strong> ${data.memory.toFixed(1)} MB`);
+            details.append("div").html(`<strong>Iterations:</strong> ${data.iterations ? data.iterations.toLocaleString() : 'N/A'}`);
+            if (data.score) {
+                details.append("div").html(`<strong>Score:</strong> ${data.score.toFixed(2)}`);
+            }
+
+            modal.append("button")
+                .attr("class", "btn")
+                .style("margin-top", "16px")
+                .style("width", "100%")
+                .text("Close")
+                .on("click", function () {
+                    overlay.remove();
+                });
+        }
+
+        // ========================================
+        // HISTOGRAM: Score Distribution (06-02)
+        // ========================================
+        function drawHistogram() {
+            const container = document.getElementById('d3-chart-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+
+            // Get scores from Matrix 1 results
+            const scores = data
+                .map(d => {
+                    const matrix1 = d.results.find(r => normalizeMatrix(r.matrix) === '1');
+                    return matrix1 && matrix1.score ? matrix1.score : null;
+                })
+                .filter(s => s !== null && s > 0);
+
+            if (scores.length === 0) {
+                d3.select("#d3-chart-container")
+                    .append("div")
+                    .style("color", "#ff4444")
+                    .style("padding", "20px")
+                    .style("text-align", "center")
+                    .text("No score data available for histogram");
+                return;
+            }
+
+            // Create SVG
+            const svg = d3.select("#d3-chart-container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g");
+
+            // X scale for score range
+            const xScale = d3.scaleLinear()
+                .domain([0, d3.max(scores) * 1.1])
+                .range([margin.left, width - margin.right]);
+
+            // Create histogram bins
+            const histogram = d3.histogram()
+                .domain(xScale.domain())
+                .thresholds(20);
+
+            const bins = histogram(scores);
+
+            // Y scale for frequency
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(bins, d => d.length)])
+                .range([height - margin.bottom, margin.top]);
+
+            // Draw bars
+            g.selectAll(".histogram-bar")
+                .data(bins)
+                .enter()
+                .append("rect")
+                .attr("class", "histogram-bar")
+                .attr("x", d => xScale(d.x0))
+                .attr("y", d => yScale(d.length))
+                .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1))
+                .attr("height", d => yScale(0) - yScale(d.length));
+
+            // Calculate statistics
+            const sortedScores = scores.slice().sort((a, b) => a - b);
+            const q1 = d3.quantile(sortedScores, 0.25);
+            const median = d3.quantile(sortedScores, 0.5);
+            const q3 = d3.quantile(sortedScores, 0.75);
+            const mean = d3.mean(scores);
+
+            // Draw percentile lines
+            function drawPercentileLine(value, label, className) {
+                const x = xScale(value);
+
+                g.append("line")
+                    .attr("class", `percentile-line ${className}`)
+                    .attr("x1", x)
+                    .attr("x2", x)
+                    .attr("y1", margin.top)
+                    .attr("y2", height - margin.bottom);
+
+                g.append("text")
+                    .attr("class", `percentile-label ${className}`)
+                    .attr("x", x)
+                    .attr("y", margin.top - 10)
+                    .text(label);
+            }
+
+            drawPercentileLine(q1, "Q1", "q1");
+            drawPercentileLine(median, "Median", "median");
+            drawPercentileLine(q3, "Q3", "q3");
+            drawPercentileLine(mean, "Mean", "mean");
+
+            // Draw axes
+            g.append("g")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")
+                .attr("fill", "#c0caf5")
+                .style("font-family", "JetBrains Mono");
+
+            g.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(yScale))
+                .selectAll("text")
+                .attr("fill", "#c0caf5")
+                .style("font-family", "JetBrains Mono");
+
+            // Axis labels
+            g.append("text")
+                .attr("x", width / 2)
+                .attr("y", height - 10)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#c0caf5")
+                .style("font-family", "JetBrains Mono")
+                .style("font-size", "14px")
+                .text("Composite Score (Matrix 1)");
+
+            g.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -height / 2)
+                .attr("y", 20)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#c0caf5")
+                .style("font-family", "JetBrains Mono")
+                .style("font-size", "14px")
+                .text("Frequency");
+        } // End of drawHistogram
+
         // Initial Draw
         if (typeof d3 !== 'undefined') {
             drawLineChart();
@@ -38844,6 +39377,11 @@ window.changePersonality = function () {
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', populateScoringInsights);
+
+    // Validation styling helper for charts
+    window.hasValidationIssues = function(solver) {
+        return window.validationIssues && window.validationIssues.some(i => i.language === solver);
+    };
 
     // Validation Diagnostics Modal Functions
     window.showDiagnosticsModal = function(language) {
