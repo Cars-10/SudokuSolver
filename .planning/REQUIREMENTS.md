@@ -12,8 +12,8 @@ Requirements for quality, correctness validation, scoring optimization, and enha
 - [x] **VAL-01**: System validates iteration count against C reference (656 for matrix 1, etc.)
 - [x] **VAL-02**: System validates solution correctness (9x9 Sudoku constraints satisfied)
 - [x] **VAL-03**: System categorizes validation failures with severity levels (CRITICAL/WARNING/INFO)
-- [ ] **VAL-04**: Report displays visual warning badges for invalid implementations
-- [ ] **VAL-05**: Diagnostics modal shows iteration mismatch category with details
+- [x] **VAL-04**: Report displays visual warning badges for invalid implementations
+- [x] **VAL-05**: Diagnostics modal shows iteration mismatch category with details
 - [x] **VAL-06**: Iteration validation uses +/-1 tolerance to minimize false positives
 
 ### Scoring Analysis
@@ -28,18 +28,18 @@ Requirements for quality, correctness validation, scoring optimization, and enha
 
 ### Data Visualization
 
-- [ ] **VIZ-01**: Report includes scatter plot showing Time vs Memory with logarithmic scales
-- [ ] **VIZ-02**: Report includes heatmap showing Language x Matrix performance patterns
-- [ ] **VIZ-03**: Report includes distribution histogram showing score clusters/tiers
+- [x] **VIZ-01**: Report includes scatter plot showing Time vs Memory with logarithmic scales
+- [x] **VIZ-02**: Report includes heatmap showing Language x Matrix performance patterns
+- [x] **VIZ-03**: Report includes distribution histogram showing score clusters/tiers
 - [ ] **VIZ-04**: Report includes iteration delta chart for validation diagnostics
 - [ ] **VIZ-05**: Report includes validation dashboard visualization
 - [ ] **VIZ-06**: Report includes scoring sensitivity chart with interactive weight exploration
 
 ### UI Fixes & Enhancements
 
-- [ ] **UI-01**: Algorithm dropdown sorts options alphabetically
-- [ ] **UI-02**: Algorithm dropdown label updates when selection changes
-- [ ] **UI-03**: Matrix Race fullscreen exit works correctly (no temporary exit/re-enter bug)
+- [x] **UI-01**: Algorithm dropdown sorts options alphabetically
+- [x] **UI-02**: Algorithm dropdown label updates when selection changes
+- [x] **UI-03**: Matrix Race fullscreen exit works correctly (no temporary exit/re-enter bug)
 - [ ] **UI-04**: Visual layout issues resolved
 
 ### Interactive Features
