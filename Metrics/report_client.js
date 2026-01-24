@@ -4289,6 +4289,7 @@ window.verifyLanguage = async function (lang) {
                     .attr("class", d => {
                         let classes = "scatter-point";
                         if (outlierNames.has(d.solver)) classes += " outlier";
+                        if (window.hasValidationIssues && window.hasValidationIssues(d.solver)) classes += " invalid";
                         return classes;
                     })
                     .attr("cx", d => xScale(d.time))
@@ -4442,6 +4443,8 @@ window.verifyLanguage = async function (lang) {
                 .attr("width", xScale.bandwidth())
                 .attr("height", yScale.bandwidth())
                 .attr("fill", d => colorScale(d.time))
+                .style("stroke", d => window.hasValidationIssues && window.hasValidationIssues(d.language) ? '#ff4444' : '#2a2a35')
+                .style("stroke-width", d => window.hasValidationIssues && window.hasValidationIssues(d.language) ? '2' : '1')
                 .on("mouseover", function () {
                     d3.select(this).style("stroke-width", "3px");
                 })
