@@ -895,4 +895,165 @@ export const SharedStyles = `
         .score-tooltip .value.memory {
             color: #F5A623;
         }
+
+        /* ========================================
+           VALIDATION UI COMPONENTS
+           ======================================== */
+
+        /* Validation badge styles */
+        .validation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 6px;
+        }
+
+        .validation-badge.critical {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .validation-badge.warning {
+            background: rgba(255, 157, 0, 0.2);
+            border: 1px solid #ff9d00;
+            color: #ff9d00;
+        }
+
+        .validation-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .validation-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Diagnostics modal overlay */
+        .diagnostics-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .diagnostics-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .diagnostics-modal {
+            background: var(--bg-dark, #0d0d12);
+            border: 1px solid var(--primary, #00ff9d);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+        }
+
+        .diagnostics-modal h3 {
+            color: var(--primary, #00ff9d);
+            margin: 0 0 16px 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .diagnostics-modal .issue-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .diagnostics-modal .issue-severity {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .diagnostics-modal .issue-severity.critical {
+            background: #ff4444;
+            color: #000;
+        }
+
+        .diagnostics-modal .issue-severity.warning {
+            background: #ff9d00;
+            color: #000;
+        }
+
+        .diagnostics-modal .iteration-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .diagnostics-modal .iteration-compare .expected,
+        .diagnostics-modal .iteration-compare .actual {
+            text-align: center;
+        }
+
+        .diagnostics-modal .iteration-compare label {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .diagnostics-modal .iteration-compare .value {
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .diagnostics-modal .iteration-compare .expected .value {
+            color: var(--primary, #00ff9d);
+        }
+
+        .diagnostics-modal .iteration-compare .actual .value {
+            color: #ff4444;
+        }
+
+        .diagnostics-modal .close-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--primary, #00ff9d);
+            color: var(--primary, #00ff9d);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+        }
+
+        .diagnostics-modal .close-btn:hover {
+            background: var(--primary, #00ff9d);
+            color: #000;
+        }
+
+        /* Invalid chart points */
+        .scatter-point.invalid {
+            stroke: #ff4444;
+            stroke-width: 2;
+            stroke-dasharray: 2,2;
+        }
 `;
