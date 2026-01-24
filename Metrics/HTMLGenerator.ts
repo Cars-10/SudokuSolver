@@ -849,12 +849,12 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             </button>
 
             <select id="chart-selector" class="btn active" onchange="switchChart(this.value)" style="cursor: pointer;">
-                <option value="line">Metrics</option>
-                <option value="jockey">Horse Race</option>
-                <option value="race">Matrix Race</option>
                 <option value="algorithm">Algorithm Comparison</option>
-                <option value="language">Top Languages</option>
+                <option value="jockey">Horse Race</option>
                 <option value="iterations">Iteration Counts</option>
+                <option value="language">Language</option>
+                <option value="line">Line</option>
+                <option value="race">Matrix Race</option>
             </select>
         </div>
                 <div id="d3-chart-container" style="width: 100%; height: 100%; position: relative;">
