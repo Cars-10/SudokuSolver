@@ -1056,4 +1056,233 @@ export const SharedStyles = `
             stroke-width: 2;
             stroke-dasharray: 2,2;
         }
+
+        /* ========================================
+           ADVANCED VISUALIZATION STYLES (06-02)
+           ======================================== */
+
+        /* Scatter Plot - Time vs Memory */
+        .scatter-point {
+            fill: rgba(0, 184, 255, 0.6);
+            stroke: #00b8ff;
+            stroke-width: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .scatter-point:hover {
+            fill: rgba(0, 255, 157, 0.8);
+            stroke: #00ff9d;
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.6));
+        }
+
+        .scatter-point.outlier {
+            fill: rgba(255, 68, 68, 0.6);
+            stroke: #ff4444;
+        }
+
+        .scatter-point.outlier:hover {
+            fill: rgba(255, 68, 68, 0.9);
+            filter: drop-shadow(0 0 8px rgba(255, 68, 68, 0.8));
+        }
+
+        .scatter-point.highlighted {
+            fill: rgba(0, 255, 157, 1) !important;
+            stroke: #00ff9d !important;
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 12px rgba(0, 255, 157, 1)) !important;
+        }
+
+        .scatter-tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            border: 1px solid #00ff9d;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c0caf5;
+            font-size: 13px;
+            line-height: 1.6;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3), 0 8px 32px rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 250px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .log-scale-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 184, 255, 0.2);
+            border: 1px solid #00b8ff;
+            color: #00b8ff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .log-scale-toggle:hover {
+            background: rgba(0, 184, 255, 0.4);
+            border-color: #00ff9d;
+            color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 184, 255, 0.5);
+        }
+
+        .log-scale-toggle.active {
+            background: rgba(0, 255, 157, 0.3);
+            border-color: #00ff9d;
+            color: #00ff9d;
+        }
+
+        /* Heatmap - Language x Matrix */
+        .heatmap-cell {
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 1px;
+            cursor: pointer;
+            transition: stroke 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            stroke: #00ff9d;
+            stroke-width: 2px;
+        }
+
+        .heatmap-axis-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            fill: #c0caf5;
+            user-select: none;
+        }
+
+        .heatmap-legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px;
+            z-index: 10;
+        }
+
+        .heatmap-legend-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #c0caf5;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .heatmap-gradient {
+            width: 200px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .heatmap-legend-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* Histogram - Score Distribution */
+        .histogram-bar {
+            fill: rgba(0, 184, 255, 0.4);
+            stroke: rgba(0, 184, 255, 0.5);
+            stroke-width: 1px;
+            transition: fill 0.2s ease;
+        }
+
+        .histogram-bar:hover {
+            fill: rgba(0, 255, 157, 0.4);
+            stroke: #00ff9d;
+        }
+
+        .percentile-line {
+            stroke-width: 2px;
+            stroke-dasharray: none;
+        }
+
+        .percentile-line.q1 {
+            stroke: #4A90E2;
+        }
+
+        .percentile-line.median {
+            stroke: #2ECC71;
+            stroke-width: 3px;
+        }
+
+        .percentile-line.q3 {
+            stroke: #4A90E2;
+        }
+
+        .percentile-line.mean {
+            stroke: #F5A623;
+            stroke-dasharray: 5,5;
+        }
+
+        .percentile-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        .percentile-label.q1 {
+            fill: #4A90E2;
+        }
+
+        .percentile-label.median {
+            fill: #2ECC71;
+        }
+
+        .percentile-label.q3 {
+            fill: #4A90E2;
+        }
+
+        .percentile-label.mean {
+            fill: #F5A623;
+        }
+
+        /* Chart Controls (Shared) */
+        .chart-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .language-filter {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 184, 255, 0.5);
+            border-radius: 4px;
+            padding: 6px 12px;
+            color: #c0caf5;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .language-filter:focus {
+            border-color: #00ff9d;
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+        }
+
+        .language-filter::placeholder {
+            color: #666;
+        }
 `;
