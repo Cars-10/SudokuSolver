@@ -1172,13 +1172,242 @@
             stroke-dasharray: 2,2;
         }
 
+        /* ========================================
+           ADVANCED VISUALIZATION STYLES (06-02)
+           ======================================== */
+
+        /* Scatter Plot - Time vs Memory */
+        .scatter-point {
+            fill: rgba(0, 184, 255, 0.6);
+            stroke: #00b8ff;
+            stroke-width: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .scatter-point:hover {
+            fill: rgba(0, 255, 157, 0.8);
+            stroke: #00ff9d;
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.6));
+        }
+
+        .scatter-point.outlier {
+            fill: rgba(255, 68, 68, 0.6);
+            stroke: #ff4444;
+        }
+
+        .scatter-point.outlier:hover {
+            fill: rgba(255, 68, 68, 0.9);
+            filter: drop-shadow(0 0 8px rgba(255, 68, 68, 0.8));
+        }
+
+        .scatter-point.highlighted {
+            fill: rgba(0, 255, 157, 1) !important;
+            stroke: #00ff9d !important;
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 12px rgba(0, 255, 157, 1)) !important;
+        }
+
+        .scatter-tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+            border: 1px solid #00ff9d;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c0caf5;
+            font-size: 13px;
+            line-height: 1.6;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3), 0 8px 32px rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 250px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .log-scale-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 184, 255, 0.2);
+            border: 1px solid #00b8ff;
+            color: #00b8ff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .log-scale-toggle:hover {
+            background: rgba(0, 184, 255, 0.4);
+            border-color: #00ff9d;
+            color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 184, 255, 0.5);
+        }
+
+        .log-scale-toggle.active {
+            background: rgba(0, 255, 157, 0.3);
+            border-color: #00ff9d;
+            color: #00ff9d;
+        }
+
+        /* Heatmap - Language x Matrix */
+        .heatmap-cell {
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 1px;
+            cursor: pointer;
+            transition: stroke 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            stroke: #00ff9d;
+            stroke-width: 2px;
+        }
+
+        .heatmap-axis-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            fill: #c0caf5;
+            user-select: none;
+        }
+
+        .heatmap-legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px;
+            z-index: 10;
+        }
+
+        .heatmap-legend-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #c0caf5;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .heatmap-gradient {
+            width: 200px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .heatmap-legend-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* Histogram - Score Distribution */
+        .histogram-bar {
+            fill: rgba(0, 184, 255, 0.4);
+            stroke: rgba(0, 184, 255, 0.5);
+            stroke-width: 1px;
+            transition: fill 0.2s ease;
+        }
+
+        .histogram-bar:hover {
+            fill: rgba(0, 255, 157, 0.4);
+            stroke: #00ff9d;
+        }
+
+        .percentile-line {
+            stroke-width: 2px;
+            stroke-dasharray: none;
+        }
+
+        .percentile-line.q1 {
+            stroke: #4A90E2;
+        }
+
+        .percentile-line.median {
+            stroke: #2ECC71;
+            stroke-width: 3px;
+        }
+
+        .percentile-line.q3 {
+            stroke: #4A90E2;
+        }
+
+        .percentile-line.mean {
+            stroke: #F5A623;
+            stroke-dasharray: 5,5;
+        }
+
+        .percentile-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        .percentile-label.q1 {
+            fill: #4A90E2;
+        }
+
+        .percentile-label.median {
+            fill: #2ECC71;
+        }
+
+        .percentile-label.q3 {
+            fill: #4A90E2;
+        }
+
+        .percentile-label.mean {
+            fill: #F5A623;
+        }
+
+        /* Chart Controls (Shared) */
+        .chart-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .language-filter {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 184, 255, 0.5);
+            border-radius: 4px;
+            padding: 6px 12px;
+            color: #c0caf5;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .language-filter:focus {
+            border-color: #00ff9d;
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+        }
+
+        .language-filter::placeholder {
+            color: #666;
+        }
+
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
     <script>
-        // Cache buster: 1769239240515
+        // Cache buster: 1769239297888
     </script>
     <canvas id="matrix-canvas"></canvas>
     <div id="tooltip"></div>
@@ -1514,6 +1743,15 @@
             <div class="modal-desc" id="diagnosticsContent">
                 <!-- Populated by JS -->
             </div>
+        </div>
+    </div>
+
+    <!-- Validation Diagnostics Modal -->
+    <div id="validation-diagnostics-modal-overlay" class="diagnostics-modal-overlay" onclick="if(event.target === this) window.hideDiagnosticsModal()">
+        <div class="diagnostics-modal">
+            <h3 id="validation-diagnostics-modal-title">Validation Issues</h3>
+            <div id="validation-diagnostics-modal-content"></div>
+            <button class="close-btn" onclick="window.hideDiagnosticsModal()">Close</button>
         </div>
     </div>
 
@@ -32544,7 +32782,7 @@
     </script>
     
     <footer style="text-align: right; padding: 20px 40px; color: #666; font-size: 12px; border-top: 1px solid #333; margin-top: 40px;">
-        Report generated: 24/01/2026, 08:20:40 CET
+        Report generated: 24/01/2026, 08:21:37 CET
     </footer>
     <script>
 let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)
@@ -38606,6 +38844,58 @@ window.changePersonality = function () {
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', populateScoringInsights);
+
+    // Validation Diagnostics Modal Functions
+    window.showDiagnosticsModal = function(language) {
+        const issues = window.getValidationIssues(language);
+        const modal = document.getElementById('validation-diagnostics-modal-overlay');
+        const title = document.getElementById('validation-diagnostics-modal-title');
+        const content = document.getElementById('validation-diagnostics-modal-content');
+
+        // Normalize language name for display
+        const displayName = language.replace('_Sharp', '#').replace(/_Plus/g, '+');
+        title.textContent = displayName + ' - Validation Issues';
+
+        if (issues.length === 0) {
+            content.innerHTML = '<p style="color: var(--primary);">No validation issues found.</p>';
+        } else {
+            content.innerHTML = issues.map(issue => {
+                const severityClass = issue.severity.toLowerCase();
+                return `
+                    <div class="issue-item">
+                        <span class="issue-severity ${severityClass}">${issue.severity}</span>
+                        <span style="margin-left: 8px; color: #aaa;">Matrix ${issue.matrix}</span>
+                        <p style="margin: 8px 0 0 0; color: var(--text);">${issue.message}</p>
+                        ${issue.failure_type === 'iteration_mismatch' ? `
+                            <div class="iteration-compare">
+                                <div class="expected">
+                                    <label>Expected</label>
+                                    <div class="value">${issue.expected_iterations.toLocaleString()}</div>
+                                </div>
+                                <div class="actual">
+                                    <label>Actual</label>
+                                    <div class="value">${issue.actual_iterations.toLocaleString()}</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        modal.classList.add('visible');
+    };
+
+    window.hideDiagnosticsModal = function() {
+        document.getElementById('validation-diagnostics-modal-overlay').classList.remove('visible');
+    };
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            window.hideDiagnosticsModal();
+        }
+    });
     </script>
     
     <script>

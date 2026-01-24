@@ -807,6 +807,15 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
+    <!-- Validation Diagnostics Modal -->
+    <div id="validation-diagnostics-modal-overlay" class="diagnostics-modal-overlay" onclick="if(event.target === this) window.hideDiagnosticsModal()">
+        <div class="diagnostics-modal">
+            <h3 id="validation-diagnostics-modal-title">Validation Issues</h3>
+            <div id="validation-diagnostics-modal-content"></div>
+            <button class="close-btn" onclick="window.hideDiagnosticsModal()">Close</button>
+        </div>
+    </div>
+
     <!-- Fullscreen header overlay - matches main page header -->
     <div id="fullscreen-header">
         <div class="header-counters">
@@ -1722,6 +1731,58 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', populateScoringInsights);
+
+    // Validation Diagnostics Modal Functions
+    window.showDiagnosticsModal = function(language) {
+        const issues = window.getValidationIssues(language);
+        const modal = document.getElementById('validation-diagnostics-modal-overlay');
+        const title = document.getElementById('validation-diagnostics-modal-title');
+        const content = document.getElementById('validation-diagnostics-modal-content');
+
+        // Normalize language name for display
+        const displayName = language.replace('_Sharp', '#').replace(/_Plus/g, '+');
+        title.textContent = displayName + ' - Validation Issues';
+
+        if (issues.length === 0) {
+            content.innerHTML = '<p style="color: var(--primary);">No validation issues found.</p>';
+        } else {
+            content.innerHTML = issues.map(issue => {
+                const severityClass = issue.severity.toLowerCase();
+                return \`
+                    <div class="issue-item">
+                        <span class="issue-severity \${severityClass}">\${issue.severity}</span>
+                        <span style="margin-left: 8px; color: #aaa;">Matrix \${issue.matrix}</span>
+                        <p style="margin: 8px 0 0 0; color: var(--text);">\${issue.message}</p>
+                        \${issue.failure_type === 'iteration_mismatch' ? \`
+                            <div class="iteration-compare">
+                                <div class="expected">
+                                    <label>Expected</label>
+                                    <div class="value">\${issue.expected_iterations.toLocaleString()}</div>
+                                </div>
+                                <div class="actual">
+                                    <label>Actual</label>
+                                    <div class="value">\${issue.actual_iterations.toLocaleString()}</div>
+                                </div>
+                            </div>
+                        \` : ''}
+                    </div>
+                \`;
+            }).join('');
+        }
+
+        modal.classList.add('visible');
+    };
+
+    window.hideDiagnosticsModal = function() {
+        document.getElementById('validation-diagnostics-modal-overlay').classList.remove('visible');
+    };
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            window.hideDiagnosticsModal();
+        }
+    });
     </script>
     `;
 
