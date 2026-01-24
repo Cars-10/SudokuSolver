@@ -848,11 +848,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         </div>
     </div>
 
-    <!-- Interactive Solver Section -->
-    <div id="interactive-solver-section" style="width: 95%; max-width: 1200px; margin: 0 auto 40px auto;">
-        <!-- Content populated by interactive-solver.js -->
-    </div>
-
     <div id="chart-wrapper" style="width: 95%; max-width: 1600px; margin: 0 auto 40px auto; background: #16161e; padding: 20px; border-radius: 8px; border: 1px solid #2a2a35; height: 500px; position: relative;">
         <div class="chart-controls">
             <button class="zoom-btn" onclick="toggleLogoMode(this)" title="Toggle Logos/Text" style="margin-right: 2px;">
@@ -945,6 +940,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <a onclick="showMethodology()">Methodology</a>
                     <a onclick="showGoals()">Project Goals</a>
                     <a onclick="showWhy()">Why???</a>
+                    <a onclick="launchInteractiveSolver()">🎮 Interactive Solver</a>
                 </div>
             </div>
             <div style="position: relative; display: inline-block;">
@@ -1830,17 +1826,73 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+    <!-- Interactive Solver Modal -->
+    <div id="solver-modal" class="modal-overlay" style="display: none;">
+        <div class="diagnostics-modal" style="max-width: 1200px; width: 95%; max-height: 95vh; overflow-y: auto;">
+            <button class="modal-close" onclick="closeInteractiveSolver()" style="position: absolute; right: 15px; top: 15px; font-size: 24px; background: none; border: none; color: #888; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s;">&times;</button>
+            <div id="interactive-solver-section">
+                <!-- Content populated by interactive-solver.js -->
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Solver Module -->
     <script type="module">
         import { initInteractiveSolver } from './Metrics/modules/interactive-solver.js';
 
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initInteractiveSolver);
-        } else {
-            // DOM already loaded
-            initInteractiveSolver();
-        }
+        // Store solver instance globally for modal lifecycle
+        window.solverInstance = null;
+
+        // Launch modal
+        window.launchInteractiveSolver = function() {
+            const modal = document.getElementById('solver-modal');
+            const container = document.getElementById('interactive-solver-section');
+
+            if (!modal || !container) return;
+
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Initialize solver if not already done
+            if (!window.solverInstance) {
+                window.solverInstance = initInteractiveSolver();
+            }
+        };
+
+        // Close modal
+        window.closeInteractiveSolver = function() {
+            const modal = document.getElementById('solver-modal');
+            if (!modal) return;
+
+            // Hide modal
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+
+            // Cleanup solver instance if it exists
+            if (window.solverInstance && typeof window.solverInstance.cleanup === 'function') {
+                window.solverInstance.cleanup();
+                window.solverInstance = null;
+            }
+        };
+
+        // Close on backdrop click
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('solver-modal');
+            if (e.target === modal) {
+                window.closeInteractiveSolver();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('solver-modal');
+                if (modal && modal.style.display === 'flex') {
+                    window.closeInteractiveSolver();
+                }
+            }
+        });
     </script>
 
     </body>

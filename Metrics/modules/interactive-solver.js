@@ -347,12 +347,5 @@ export function initInteractiveSolver() {
     return solver;
 }
 
-// Auto-initialize when module loads (for use in generated HTML)
-if (typeof document !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-        // Only auto-init if container exists
-        if (document.getElementById('interactive-solver-section')) {
-            initInteractiveSolver();
-        }
-    });
-}
+// Note: No auto-initialization - solver is launched via modal from INFO menu
+// The launchInteractiveSolver() function in HTMLGenerator.ts handles initialization
