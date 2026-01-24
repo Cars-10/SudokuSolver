@@ -4186,6 +4186,11 @@ window.verifyLanguage = async function (lang) {
 // Fullscreen change handler - resize charts when exiting fullscreen
 document.addEventListener('fullscreenchange', function () {
     if (!document.fullscreenElement && window.currentChart && typeof window.switchChart === 'function') {
+        // Skip redraw for Matrix Race - it handles fullscreen specially
+        if (window.currentChart === 'race') {
+            console.log('Exited fullscreen from Matrix Race, skipping redraw');
+            return;
+        }
         // User exited fullscreen - redraw the current chart to fit normal container
         console.log('Exited fullscreen, resizing chart:', window.currentChart);
         setTimeout(() => {
