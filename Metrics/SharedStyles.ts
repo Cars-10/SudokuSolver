@@ -1285,4 +1285,226 @@ export const SharedStyles = `
         .language-filter::placeholder {
             color: #666;
         }
+
+        /* ========================================
+           INTERACTIVE SOLVER - 3D GRID
+           ======================================== */
+
+        /* Interactive Solver Section */
+        .solver-section {
+            background: #0a0a0f;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-grid-container {
+            perspective: 1000px;
+            perspective-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .solver-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 2px;
+            background: rgba(0, 255, 157, 0.1);
+            padding: 4px;
+            border-radius: 4px;
+            box-shadow:
+                0 0 20px rgba(0, 255, 157, 0.3),
+                inset 0 0 20px rgba(0, 255, 157, 0.1);
+            transform-style: preserve-3d;
+            transform: rotateX(5deg); /* Slight 3D tilt */
+        }
+
+        .solver-cell {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 20, 0.9);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, background 0.3s ease;
+            position: relative;
+        }
+
+        /* 3x3 box emphasis borders */
+        .solver-cell[data-col="2"],
+        .solver-cell[data-col="5"] {
+            border-right: 2px solid rgba(0, 255, 157, 0.5);
+        }
+
+        .solver-cell[data-row="2"],
+        .solver-cell[data-row="5"] {
+            border-bottom: 2px solid rgba(0, 255, 157, 0.5);
+        }
+
+        .cell-value {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff9d;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #00ff9d,
+                0 0 20px #00ff9d;
+            backface-visibility: hidden;
+        }
+
+        /* Initial puzzle values (fixed) */
+        .solver-cell.fixed .cell-value {
+            color: #888;
+            text-shadow: none;
+        }
+
+        /* Active cell being tried */
+        .solver-cell.active {
+            background: rgba(0, 184, 255, 0.2);
+            border-color: #00b8ff;
+            box-shadow:
+                0 0 10px rgba(0, 184, 255, 0.5),
+                inset 0 0 10px rgba(0, 184, 255, 0.2);
+        }
+
+        .solver-cell.active .cell-value {
+            color: #00b8ff;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #00b8ff,
+                0 0 20px #00b8ff;
+        }
+
+        /* Successfully placed value */
+        .solver-cell.success {
+            background: rgba(0, 255, 157, 0.2);
+        }
+
+        .solver-cell.success .cell-value {
+            color: #00ff9d;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #00ff9d,
+                0 0 20px #00ff9d,
+                0 0 40px #00ff9d;
+        }
+
+        /* Backtracking - error state */
+        .solver-cell.backtrack {
+            background: rgba(255, 0, 100, 0.2);
+            border-color: #ff0064;
+        }
+
+        .solver-cell.backtrack .cell-value {
+            color: #ff0064;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #ff0064,
+                0 0 20px #ff0064;
+        }
+
+        /* Spin animations */
+        .solver-cell.spinning {
+            animation: spinY var(--spin-duration, 0.6s) ease-in-out;
+        }
+
+        .solver-cell.spinning-reverse {
+            animation: spinY-reverse var(--spin-duration, 0.6s) ease-in-out;
+        }
+
+        @keyframes spinY {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        @keyframes spinY-reverse {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        /* Glitch effects */
+        .solver-grid-container.glitch-screen-shake {
+            animation: shake 0.2s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-3px, 3px); }
+            50% { transform: translate(3px, -3px); }
+            75% { transform: translate(-3px, -3px); }
+        }
+
+        /* Chromatic aberration on intense moments */
+        .solver-cell.chromatic .cell-value {
+            position: relative;
+        }
+
+        .solver-cell.chromatic .cell-value::before,
+        .solver-cell.chromatic .cell-value::after {
+            content: attr(data-value);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .solver-cell.chromatic .cell-value::before {
+            left: 2px;
+            color: #f0f;
+            opacity: 0.7;
+        }
+
+        .solver-cell.chromatic .cell-value::after {
+            left: -2px;
+            color: #0ff;
+            opacity: 0.7;
+        }
+
+        /* Info panel */
+        .solver-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 157, 0.05);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .solver-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .solver-info-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .solver-info-value {
+            font-size: 1.25rem;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        /* Responsive - smaller on mobile */
+        @media (max-width: 600px) {
+            .solver-cell {
+                width: 32px;
+                height: 32px;
+            }
+            .cell-value {
+                font-size: 1rem;
+            }
+        }
 `;
