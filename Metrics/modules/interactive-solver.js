@@ -51,6 +51,7 @@ export class InteractiveSolver {
 
     // Initialize the UI structure
     init() {
+        console.log('[Interactive Solver] init() called, container:', this.container);
         this.container.innerHTML = `
             <div class="solver-section">
                 <div class="solver-header">
@@ -98,10 +99,18 @@ export class InteractiveSolver {
             </div>
         `;
 
+        console.log('[Interactive Solver] HTML inserted, length:', this.container.innerHTML.length);
+
         // Get container references
         this.gridContainer = this.container.querySelector('#solver-grid-area');
         this.controlsContainer = this.container.querySelector('#solver-controls-area');
         this.statusContainer = this.container.querySelector('#solver-status');
+
+        console.log('[Interactive Solver] Containers found:', {
+            grid: !!this.gridContainer,
+            controls: !!this.controlsContainer,
+            status: !!this.statusContainer
+        });
 
         // Setup event listeners
         this.container.querySelector('#start-solving').addEventListener('click', () => {

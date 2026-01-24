@@ -1307,6 +1307,12 @@ export const SharedStyles = `
             z-index: 1;
         }
 
+        /* Modal centering for solver */
+        #solver-modal .diagnostics-modal {
+            margin: auto;
+            position: relative;
+        }
+
         /* Solver header */
         .solver-header {
             text-align: center;

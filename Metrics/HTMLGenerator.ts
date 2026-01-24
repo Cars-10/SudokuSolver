@@ -1854,6 +1854,12 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
+            // Scroll modal to top
+            const modalContent = modal.querySelector('.diagnostics-modal');
+            if (modalContent) {
+                modalContent.scrollTop = 0;
+            }
+
             // Initialize solver if not already done
             if (!window.solverInstance) {
                 window.solverInstance = initInteractiveSolver();
