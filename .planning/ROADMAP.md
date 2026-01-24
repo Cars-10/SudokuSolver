@@ -131,6 +131,7 @@ This phase fixes UI bugs (dropdown sorting, fullscreen exit), adds three advance
 1. **UI Bug Fixes (06-01)** - Algorithm dropdown alphabetical sorting, Matrix Race fullscreen exit loop fix
 2. **Advanced Visualizations (06-02)** - Time vs Memory scatter plot with log scale, Language x Matrix heatmap with click-to-detail, Score distribution histogram with percentile markers
 3. **Validation UI (06-03)** - Warning badges on invalid implementations, diagnostics modal showing iteration mismatch details
+4. **Gap Closure (06-04)** - Wire validation styling to scatter plot and heatmap charts
 
 **Success Criteria** (what must be TRUE):
 1. Report includes scatter plot showing Time vs Memory with logarithmic scales
@@ -141,13 +142,15 @@ This phase fixes UI bugs (dropdown sorting, fullscreen exit), adds three advance
 6. All visualizations handle 70+ languages and 6 orders of magnitude without misleading scales
 7. Report displays visual warning badges for invalid implementations (VAL-04)
 8. Diagnostics modal shows iteration mismatch details (VAL-05)
+9. Invalid implementations visually distinguished in scatter plot and heatmap charts
 
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] 06-01-PLAN.md - Fix UI bugs: algorithm dropdown sorting and Matrix Race fullscreen exit
-- [ ] 06-02-PLAN.md - Add advanced visualizations: scatter plot, heatmap, histogram
-- [ ] 06-03-PLAN.md - Add validation UI: warning badges and diagnostics modal
+- [x] 06-01-PLAN.md - Fix UI bugs: algorithm dropdown sorting and Matrix Race fullscreen exit
+- [x] 06-02-PLAN.md - Add advanced visualizations: scatter plot, heatmap, histogram
+- [x] 06-03-PLAN.md - Add validation UI: warning badges and diagnostics modal
+- [ ] 06-04-PLAN.md - Wire validation styling to scatter plot and heatmap charts (gap closure)
 
 ### Phase 7: Interactive Solver
 **Goal:** Provide engaging, visually entertaining solver animation with Neon/Matrix theme styling for interactive user exploration.
@@ -182,8 +185,8 @@ Phases execute in numeric order: 4 -> 5 -> 6 -> 7
 | 3. Metadata Align | v1.0 | 1/1 | Complete | 2026-01-20 |
 | 4. Validation Infrastructure | v3.0 | 1/1 | Complete | 2026-01-23 |
 | 5. Scoring Analysis | v3.0 | 2/2 | Complete | 2026-01-23 |
-| 6. Visualization & UI | v3.0 | 0/3 | Not started | - |
+| 6. Visualization & UI | v3.0 | 3/4 | In Progress | - |
 | 7. Interactive Solver | v3.0 | 0/2 | Not started | - |
 
 ---
-*Last updated: 2026-01-24 after Phase 6 planning complete*
+*Last updated: 2026-01-24 after gap closure plan created*
