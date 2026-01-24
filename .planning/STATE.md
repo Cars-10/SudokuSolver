@@ -6,23 +6,23 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Providing a fair, transparent, and visually engaging comparison of programming language performance using a standardized algorithmic implementation.
 
-**Current focus:** Phase 5 - Scoring Analysis
+**Current focus:** Phase 6 - Visualization & UI
 
 ## Current Position
 
-Phase: 5 of 7 (Scoring Analysis)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-01-23 — Completed 05-02-PLAN.md (scoring analysis visualization)
+Phase: 6 of 7 (Visualization & UI)
+Plan: 1 of ~3 in current phase
+Status: In progress
+Last activity: 2026-01-24 — Completed 06-01-PLAN.md (UI bug fixes)
 
-Progress: [██████░░░░] 58% (7 of 12 estimated total plans)
+Progress: [███████░░░] 67% (8 of 12 estimated total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7 (v1.0: 4, v3.0: 3)
-- Average duration: ~5.5 days per plan (v1.0 avg), 3.7 minutes (v3.0 avg)
-- Total execution time: ~33 days (v1.0), 11 minutes (v3.0)
+- Total plans completed: 8 (v1.0: 4, v3.0: 4)
+- Average duration: ~5.5 days per plan (v1.0 avg), 3.5 minutes (v3.0 avg)
+- Total execution time: ~33 days (v1.0), 14.5 minutes (v3.0)
 
 **By Phase:**
 
@@ -33,15 +33,17 @@ Progress: [██████░░░░] 58% (7 of 12 estimated total plans)
 | 3. Metadata Align | 1 | ~8 days | ~8 days |
 | 4. Validation Infra | 1 | 2 min | 2 min |
 | 5. Scoring Analysis | 2 | 9 min | 4.5 min |
+| 6. Visualization & UI | 1 | 3.5 min | 3.5 min |
 
 **Recent Trend:**
 - v1.0 completed in 33 days (manual exploration)
 - v2.0 completed in 1 day (retroactive metadata work)
 - v3.0 Phase 4 completed in 2 minutes (autonomous execution)
 - v3.0 Phase 5 completed in 9 minutes (autonomous execution, 2 plans)
-- Trend: Sustained velocity with autonomous execution - averaging 2-6 minutes per plan
+- v3.0 Phase 6 in progress: 3.5 minutes (1 plan complete)
+- Trend: Sustained velocity with autonomous execution - averaging 2-4 minutes per plan
 
-*Updated after 05-02 completion*
+*Updated after 06-01 completion*
 
 ## Accumulated Context
 
@@ -63,6 +65,8 @@ Recent decisions affecting current work:
 - **05-02 Stacked Bar Visualization (2026-01-23)**: 80% blue (time) + 20% orange (memory) inline stacked bars make 80/20 weighting transparent at a glance
 - **05-02 Expandable Row Interaction (2026-01-23)**: Inline expandable rows with expand indicator (▼) in total time column - reduces cognitive load vs separate table
 - **05-02 Special Character Normalization (2026-01-23)**: Consistent C_Sharp→C#, F_Sharp→F# handling across toggleRow, populateSensitivityRow, showScoreTooltip functions
+- **06-01 Chart Selector Sorting (2026-01-24)**: Alphabetical sorting by display text (not value) for chart selector dropdown - predictable UX
+- **06-01 Fullscreen Exit Guard (2026-01-24)**: Surgical guard for Matrix Race fullscreen to prevent exit/re-enter loop - check currentChart before redraw
 
 ### Pending Todos
 
@@ -88,21 +92,24 @@ None yet (v3.0 just started).
 - Data integrity issue: One metric file has undefined solver (handled defensively in 3 locations)
 
 **Phase 6 considerations:**
+- ✅ UI bugs fixed: alphabetical dropdown, Matrix Race fullscreen exit - COMPLETED 06-01
 - Visualization overload threshold - which charts provide most value
 - Logarithmic scaling required for 6 orders of magnitude performance data
-- Consider additional advanced visualizations (charts, graphs)
+- Consider additional advanced visualizations (scatter plot, heatmap, histogram)
+- Validation UI elements deferred from Phase 4 (VAL-04 badges, VAL-05 diagnostics modal)
 - May want to address data integrity issue (undefined solver metric) at source
 
 ## Session Continuity
 
-Last session: 2026-01-23
-Stopped at: Completed 05-02-PLAN.md — scoring analysis visualization with stacked bars, expandable rows, insights section
+Last session: 2026-01-24
+Stopped at: Completed 06-01-PLAN.md — UI bug fixes (alphabetical dropdown, Matrix Race fullscreen exit)
 Resume file: None
 
 **Next steps:**
-1. Phase 5 (Scoring Analysis) is now complete with both statistical analysis module (05-01) and UI integration (05-02)
-2. Run `/gsd:discuss-phase 6` or `/gsd:plan-phase 6` to begin Phase 6 (Visualization Enhancements)
-3. Phase 6 should consider:
-   - Additional advanced visualizations beyond current stacked bars and insights
-   - Addressing data integrity issue (undefined solver metric) if needed
-   - Logarithmic scaling for 6 orders of magnitude performance variation
+1. Phase 6 Plan 1 complete - UI bugs fixed, clean foundation for advanced visualizations
+2. Continue Phase 6 with advanced D3.js visualizations:
+   - Scatter plot (Time vs Memory)
+   - Heatmap (Language x Matrix)
+   - Histogram (Score distribution)
+   - Validation UI elements (VAL-04, VAL-05)
+3. Consider logarithmic scaling for 6 orders of magnitude data range
