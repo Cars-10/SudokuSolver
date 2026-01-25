@@ -680,85 +680,6 @@ export const SharedStyles = `
             min-width: 50px;
         }
 
-        /* Expandable Row Styles */
-        .expandable-row {
-            background: rgba(0,0,0,0.2);
-        }
-
-        .expandable-row td {
-            padding: 0 !important;
-            border-top: none;
-        }
-
-        .sensitivity-details {
-            padding: 16px 24px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
-            border-left: 3px solid #4A90E2;
-            overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
-        }
-
-        .sensitivity-details h4 {
-            margin: 0 0 12px 0;
-            color: #4A90E2;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .sensitivity-table {
-            width: auto;
-            margin-bottom: 12px;
-            border-collapse: collapse;
-        }
-
-        .sensitivity-table th,
-        .sensitivity-table td {
-            padding: 6px 16px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 13px;
-        }
-
-        .sensitivity-table th {
-            color: #888;
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-        }
-
-        .sensitivity-table tr.current-scenario {
-            background: rgba(74,144,226,0.15);
-        }
-
-        .rank-swing {
-            margin: 12px 0 0 0;
-            font-size: 13px;
-            color: #aaa;
-        }
-
-        .rank-swing strong {
-            color: #F5A623;
-        }
-
-        .expand-indicator {
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.2s ease;
-            font-size: 10px;
-            color: #666;
-            padding: 4px 8px;
-        }
-
-        .main-row:hover .expand-indicator {
-            color: #4A90E2;
-        }
-
-        .main-row.expanded .expand-indicator {
-            transform: rotate(180deg);
-        }
-
         /* Highlighted/Pinned Row State */
         .main-row.highlighted {
             background: linear-gradient(90deg, rgba(0, 255, 157, 0.15), rgba(0, 255, 157, 0.05)) !important;
@@ -769,23 +690,25 @@ export const SharedStyles = `
             position: relative;
         }
 
-        .main-row.highlighted::before {
+        .main-row.highlighted td:first-child {
+            position: relative;
+            padding-left: 28px !important;
+        }
+
+        .main-row.highlighted td:first-child::before {
             content: '📍';
             position: absolute;
-            left: 8px;
+            left: 6px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 16px;
+            font-size: 14px;
             animation: pinBounce 1s ease-in-out;
+            z-index: 1;
         }
 
         @keyframes pinBounce {
             0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-50%) scale(1.3); }
-        }
-
-        .main-row.highlighted td:first-child {
-            padding-left: 32px;
+            50% { transform: translateY(-50%) scale(1.2); }
         }
 
         /* Scoring Insights Section */
@@ -2029,5 +1952,162 @@ export const SharedStyles = `
             display: block;
             max-width: 100%;
             height: auto;
+        }
+
+        /* ========================================
+           SENSITIVITY DASHBOARD - Visual Analytics
+           ======================================== */
+
+        .sensitivity-dashboard {
+            padding: 24px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
+            border-left: 4px solid var(--primary);
+        }
+
+        .dashboard-header {
+            margin-bottom: 24px;
+        }
+
+        .dashboard-header h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .dashboard-subtitle {
+            margin: 0;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .dashboard-panel {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .dashboard-panel h5 {
+            margin: 0 0 16px 0;
+            color: #00ff9d;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Compact Temperature Scale Heatmap */
+        .sensitivity-heatmap {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+
+        .heatmap-cell {
+            flex: 1;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 0 12px rgba(255,255,255,0.4);
+        }
+
+        .heatmap-cell.current {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px rgba(0,255,157,0.5);
+        }
+
+        .cell-rank {
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .heatmap-info {
+            margin-left: 8px;
+            padding: 4px 8px;
+            background: rgba(255,100,100,0.2);
+            border: 1px solid rgba(255,100,100,0.4);
+            border-radius: 3px;
+            color: #ff6464;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Metric Gauges / Dials */
+        .metrics-gauges {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gauge-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gauge {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .gauge-label {
+            color: #888;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .gauge-display {
+            color: #00ff9d;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .gauge-meter {
+            height: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff9d 0%, rgba(0,255,157,0.6) 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(0,255,157,0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
 `;

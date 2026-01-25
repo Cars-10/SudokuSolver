@@ -181,6 +181,13 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     const matricesDir = path.resolve(__dirname, '../Matrices');
     let matrixFiles = await glob('*.matrix', { cwd: matricesDir });
 
+    // Sort matrix files numerically (1.matrix, 2.matrix, etc.)
+    matrixFiles.sort((a, b) => {
+        const numA = parseInt(a.match(/(\d+)\.matrix/)?.[1] || '0', 10);
+        const numB = parseInt(b.match(/(\d+)\.matrix/)?.[1] || '0', 10);
+        return numA - numB;
+    });
+
     // Filter matrices if allowed list is provided
     if (allowedMatrices && allowedMatrices.length > 0) {
         console.log(`Filtering matrices to: ${allowedMatrices.join(', ')}`);
@@ -466,22 +473,30 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <!-- Debug Overlay -->
-    <div id="debug-overlay" style="position: fixed; top: 10px; left: 10px; background: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; z-index: 99999; border: 1px solid rgba(255, 255, 255, 0.2); line-height: 1.4;">
+    <!-- Debug Overlay (Hidden by default, shown with ?debug=1) -->
+    <div id="debug-overlay" style="display: none; position: fixed; top: 10px; left: 10px; background: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; z-index: 99999; border: 1px solid rgba(255, 255, 255, 0.2); line-height: 1.4;">
         <div style="font-weight: bold; margin-bottom: 2px;">🔍 Debug Info</div>
         <div>Branch: <span id="debug-branch">loading...</span></div>
         <div>Commit: <span id="debug-hash">loading...</span></div>
         <div>Built: <span id="debug-time">${new Date().toLocaleString()}</span></div>
     </div>
     <script>
-        // Populate git info from backend
-        fetch('/api/git-info').then(r => r.json()).then(data => {
-            document.getElementById('debug-branch').textContent = data.branch || 'unknown';
-            document.getElementById('debug-hash').textContent = data.hash || 'unknown';
-        }).catch(() => {
-            document.getElementById('debug-branch').textContent = 'offline';
-            document.getElementById('debug-hash').textContent = 'offline';
-        });
+        // Show debug overlay only when ?debug=1 is in URL
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('debug') === '1') {
+                document.getElementById('debug-overlay').style.display = 'block';
+
+            // Populate git info from backend
+            fetch('/api/git-info').then(r => r.json()).then(data => {
+                document.getElementById('debug-branch').textContent = data.branch || 'unknown';
+                document.getElementById('debug-hash').textContent = data.hash || 'unknown';
+            }).catch(() => {
+                document.getElementById('debug-branch').textContent = 'offline';
+                document.getElementById('debug-hash').textContent = 'offline';
+            });
+            }
+        })();
     </script>
 
     <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
@@ -772,11 +787,11 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     </div>
 
 
-    <!-- Project Goals Modal -->
+    <!-- Goals Modal -->
     <div id="goalsModal" class="modal-overlay" onclick="closeGoals(event)">
         <div class="modal-content" style="text-align: left;">
             <span class="modal-close" onclick="closeGoals(event)">&times;</span>
-            <div class="modal-title" style="text-align: center;">Project Goals</div>
+            <div class="modal-title" style="text-align: center;">Goals</div>
             <div class="modal-desc">
                 <h3 style="color: var(--secondary);">Mission</h3>
                 <p>To benchmark and analyze Sudoku solvers across a wide spectrum of programming languages, from legacy systems to modern frameworks.</p>
@@ -956,7 +971,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                 <button class="btn">Info ▾</button>
                 <div class="dropdown-content">
                     <a onclick="showMethodology()">Methodology</a>
-                    <a onclick="showGoals()">Project Goals</a>
+                    <a onclick="showGoals()">Goals</a>
                     <a onclick="showWhy()">Why???</a>
                     <a onclick="showScoringInsights()">Insights</a>
                     <a onclick="launchInteractiveSolver()">Solver</a>
@@ -1047,13 +1062,14 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     </th>
     </tr></thead><tbody id="mainTableBody">`;
 
-    for (const m of sortedMetrics) {
+    sortedMetrics.forEach((m, rankIndex) => {
         // Skip metrics with undefined solver (data integrity issue)
         if (!m.solver) {
             console.warn(`Skipping metric with undefined solver:`, m);
-            continue;
+            return;
         }
         const lang = m.solver;
+        const rank = rankIndex + 1;
         const times = m.results.map(r => r.time);
         const iters = m.results.map(r => r.iterations);
         const mems = m.results.map(r => r.memory || 0).filter(m => !isNaN(m));
@@ -1383,60 +1399,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
             }
         }
 
-        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div style="display:flex;align-items:center;gap:5px;"><div>${totalDisplayTime}</div><span class="expand-indicator">▼</span></div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
-
-        // Add expandable sensitivity row
-        html += `<tr id="expand-${safeId}" class="expandable-row" style="display: none;">
-            <td colspan="${3 + maxMatrices + 1}">
-                <div class="sensitivity-details">
-                    <h4>Rank Sensitivity Analysis</h4>
-                    <table class="sensitivity-table">
-                        <thead>
-                            <tr>
-                                <th>Weight Scenario</th>
-                                <th>Rank</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sensitivity-body-${safeId}">
-                            <!-- Populated by JavaScript -->
-                        </tbody>
-                    </table>
-                    <p class="rank-swing">Max rank swing: <strong id="swing-${safeId}">--</strong> positions</p>
-                </div>
-            </td>
-        </tr>`;
-
-        // Add expanded content row
-        const totalCols = 3 + maxMatrices + 1; // Language + Score + Updated + Matrices + Total
-        html += `<tr class="expanded-content">
-            <td colspan="${totalCols}">
-                <div class="expanded-wrapper">
-                    <div class="expanded-sections">
-                        <div class="expanded-section">
-                            <div class="section-title">System</div>
-                            <div class="section-content">OS: - | CPU: - | RAM: - | Arch: -</div>
-                        </div>
-                        <div class="expanded-section">
-                            <div class="section-title">Compilation</div>
-                            <div class="section-content">Compiler: ${rowCompilerInfo} | Flags: - | Level: -</div>
-                        </div>
-                        <div class="expanded-section">
-                            <div class="section-title">Matrix Results</div>
-                            <div class="section-content">
-                                ${m.results.filter(r => r != null).map((r, idx) => {
-            const memMb = (r.memory || 0) / 1024 / 1024;
-            const time = r.time || 0;
-            const iterations = r.iterations || 0;
-            return `M${idx + 1}: ${time.toFixed(3)}s, ${iterations.toLocaleString()} iter, ${memMb.toFixed(1)}MB`;
-        }).join(' | ')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>`;
-    }
+        html += `<td class='total-time' style="${mismatchStyle}" ${mismatchOnclick} ${mismatchTitle}><div style='display:flex;flex-direction:column;align-items:center;'><div>${totalDisplayTime}</div><div style='font-size:0.6em;color:${isMismatch ? '#ff0055' : '#5c5c66'};'>${totalIters.toLocaleString()} iters${isMismatch ? ' ⚠' : ''}</div></div></td></tr>`;
+    });
 
     html += `
         </tbody></table></div>
@@ -1609,17 +1573,69 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
         if (!langData) return;
 
-        const tbody = document.getElementById('sensitivity-body-' + rowId.replace('expand-', ''));
+        const chartEl = document.getElementById('chart-' + rowId.replace('expand-', ''));
+        const gaugesEl = document.getElementById('gauges-' + rowId.replace('expand-', ''));
         const swingEl = document.getElementById('swing-' + rowId.replace('expand-', ''));
 
-        if (tbody) {
-            tbody.innerHTML = langData.scenarios.map(s => \`
-                <tr class="\${s.scenario === 'Current (80/20)' ? 'current-scenario' : ''}">
-                    <td>\${s.scenario}</td>
-                    <td>#\${s.rank}</td>
-                    <td>\${s.score.toFixed(3)}</td>
-                </tr>
-            \`).join('');
+        // Render horizontal bar chart for rank sensitivity
+        if (chartEl) {
+            const maxRank = Math.max(...langData.scenarios.map(s => s.rank));
+            chartEl.innerHTML = langData.scenarios.map(s => {
+                const barWidth = (s.rank / maxRank) * 100;
+                const isCurrent = s.scenario === 'Current (80/20)';
+                return \`
+                    <div class="sensitivity-bar-row \${isCurrent ? 'current-scenario' : ''}">
+                        <div class="bar-label">
+                            <span class="scenario-name">\${s.scenario}</span>
+                            <span class="scenario-rank">#\${s.rank}</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: \${barWidth}%">
+                                <span class="bar-value">\${s.score.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+                \`;
+            }).join('');
+        }
+
+        // Render metric gauges
+        if (gaugesEl) {
+            const metric = window.allMetrics.find(m =>
+                m.solver === langLookup || m.solver === language
+            );
+
+            if (metric && metric.results && metric.results.length > 0) {
+                const avgTime = metric.results.reduce((sum, r) => sum + (r.seconds || 0), 0) / metric.results.length;
+                const avgMem = metric.results.reduce((sum, r) => sum + (r.memoryKB || 0), 0) / metric.results.length;
+                const avgIter = metric.results.reduce((sum, r) => sum + (r.iterations || 0), 0) / metric.results.length;
+
+                gaugesEl.innerHTML = \`
+                    <div class="gauge-row">
+                        <div class="gauge">
+                            <div class="gauge-label">Avg Time</div>
+                            <div class="gauge-display">\${avgTime.toFixed(3)}s</div>
+                            <div class="gauge-meter">
+                                <div class="gauge-fill" style="width: \${Math.min(100, (avgTime / 10) * 100)}%"></div>
+                            </div>
+                        </div>
+                        <div class="gauge">
+                            <div class="gauge-label">Avg Memory</div>
+                            <div class="gauge-display">\${(avgMem / 1024).toFixed(1)} MB</div>
+                            <div class="gauge-meter">
+                                <div class="gauge-fill" style="width: \${Math.min(100, (avgMem / 50000) * 100)}%"></div>
+                            </div>
+                        </div>
+                        <div class="gauge">
+                            <div class="gauge-label">Avg Iterations</div>
+                            <div class="gauge-display">\${avgIter.toLocaleString()}</div>
+                            <div class="gauge-meter">
+                                <div class="gauge-fill" style="width: \${Math.min(100, (avgIter / 500000) * 100)}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                \`;
+            }
         }
 
         if (swingEl && stabilityData) {
@@ -1932,7 +1948,7 @@ function filterByAlgorithm(algo) {
         if (!langCell) return;
 
         const language = langCell.textContent.trim();
-        const rowAlgo = row.getAttribute('data-algorithm') || 'BruteForce'; // Default to BruteForce
+        const rowAlgo = row.getAttribute('data-algorithm-type') || 'BruteForce'; // Default to BruteForce
 
         if (algo === 'all' || rowAlgo === algo) {
             row.style.display = '';

@@ -1,10 +1,60 @@
 let currentSort = { metric: '', dir: 1 }; // 1 = Asc, -1 = Desc (empty metric allows first click to set natural direction)
 
+// Debug mode - enable with ?debug=1 in URL
+const urlParams = new URLSearchParams(window.location.search);
+const DEBUG_MODE = urlParams.get('debug') === '1';
+
+// Debug logging wrapper
+function debugLog(...args) {
+    if (DEBUG_MODE) {
+        console.log('[DEBUG]', ...args);
+    }
+}
+
+// Show debug indicator if debug mode is active
+if (DEBUG_MODE) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const indicator = document.createElement('div');
+        indicator.id = 'debug-indicator';
+        indicator.innerHTML = '🐛 DEBUG MODE';
+        indicator.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 100, 100, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+        `;
+        indicator.title = 'Debug mode is active. Click to toggle console visibility.';
+        indicator.onclick = function() {
+            // Toggle between showing all logs vs just errors
+            const currentLevel = localStorage.getItem('debugLogLevel') || 'all';
+            if (currentLevel === 'all') {
+                localStorage.setItem('debugLogLevel', 'errors');
+                indicator.innerHTML = '🐛 DEBUG (Errors Only)';
+                indicator.style.background = 'rgba(255, 165, 0, 0.9)';
+            } else {
+                localStorage.setItem('debugLogLevel', 'all');
+                indicator.innerHTML = '🐛 DEBUG MODE';
+                indicator.style.background = 'rgba(255, 100, 100, 0.9)';
+            }
+        };
+        document.body.appendChild(indicator);
+        console.log('%c🐛 DEBUG MODE ACTIVE', 'background: #ff6464; color: white; padding: 4px 8px; font-weight: bold; border-radius: 3px;');
+    });
+}
+
 // Docker mode - auto-detect based on port (9001 = Docker, 9002 = Local)
 const useDockerMode = window.location.port === '9001';
 const isDockerPort = window.location.port === '9001';
 const isLocalPort = window.location.port === '9002';
-console.log(`Execution mode: ${useDockerMode ? 'Docker (port 9001)' : 'Local (port 9002)'}`);
+debugLog(`Execution mode: ${useDockerMode ? 'Docker (port 9001)' : 'Local (port 9002)'}`);
 
 // Switch execution mode by navigating to different port
 window.switchExecutionMode = function () {
@@ -96,24 +146,15 @@ function filterLanguages() {
 
 // Sorting Logic
 function sortRows(metric, btn) {
-    console.log('sortRows called with metric:', metric, 'btn:', btn);
+    debugLog('sortRows called with metric:', metric, 'btn:', btn);
     const tbody = document.getElementById('mainTableBody');
     if (!tbody) {
         console.error('mainTableBody not found!');
         return;
     }
-    // Only get main data rows, not expanded-content rows
+    // Get all data rows
     const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
-    console.log('Found', rows.length, 'rows to sort');
-
-    // Capture row pairs BEFORE sorting (each data row with its expanded-content)
-    const rowPairs = rows.map(row => {
-        const expandedRow = row.nextElementSibling;
-        return {
-            dataRow: row,
-            expandedRow: (expandedRow && expandedRow.classList.contains('expanded-content')) ? expandedRow : null
-        };
-    });
+    debugLog('Found', rows.length, 'rows to sort');
 
     // Toggle direction or set natural direction for new column
     if (currentSort.metric === metric) {
@@ -143,9 +184,9 @@ function sortRows(metric, btn) {
         }
     }
 
-    rowPairs.sort((a, b) => {
-        const aVal = a.dataRow.getAttribute('data-' + metric);
-        const bVal = b.dataRow.getAttribute('data-' + metric);
+    rows.sort((a, b) => {
+        const aVal = a.getAttribute('data-' + metric);
+        const bVal = b.getAttribute('data-' + metric);
 
         // Special handling for score: N/A (value 0) stays at bottom regardless of direction
         if (metric === 'score') {
@@ -168,28 +209,16 @@ function sortRows(metric, btn) {
         }
     });
 
-    // Re-append rows with their expanded-content siblings
-    rowPairs.forEach(pair => {
-        tbody.appendChild(pair.dataRow);
-        if (pair.expandedRow) {
-            tbody.appendChild(pair.expandedRow);
-        }
+    // Re-append sorted rows
+    rows.forEach(row => {
+        tbody.appendChild(row);
     });
 }
 
 function sortMatrix(index, metric, btn) {
     const tbody = document.getElementById('mainTableBody');
-    // Only get main data rows, not expanded-content rows
+    // Get all data rows
     const rows = Array.from(tbody.querySelectorAll('tr[data-lang]'));
-
-    // Capture row pairs BEFORE sorting (each data row with its expanded-content)
-    const rowPairs = rows.map(row => {
-        const expandedRow = row.nextElementSibling;
-        return {
-            dataRow: row,
-            expandedRow: (expandedRow && expandedRow.classList.contains('expanded-content')) ? expandedRow : null
-        };
-    });
 
     const attr = 'data-m' + index + '-' + metric;
     const fullMetric = 'm' + index + '_' + metric;
@@ -220,18 +249,15 @@ function sortMatrix(index, metric, btn) {
         }
     }
 
-    rowPairs.sort((a, b) => {
-        const aVal = parseFloat(a.dataRow.getAttribute(attr));
-        const bVal = parseFloat(b.dataRow.getAttribute(attr));
+    rows.sort((a, b) => {
+        const aVal = parseFloat(a.getAttribute(attr));
+        const bVal = parseFloat(b.getAttribute(attr));
         return (aVal - bVal) * currentSort.dir;
     });
 
-    // Re-append rows with their expanded-content siblings
-    rowPairs.forEach(pair => {
-        tbody.appendChild(pair.dataRow);
-        if (pair.expandedRow) {
-            tbody.appendChild(pair.expandedRow);
-        }
+    // Re-append sorted rows
+    rows.forEach(row => {
+        tbody.appendChild(row);
     });
 }
 
@@ -264,30 +290,23 @@ function toggleMismatches() {
         btn.classList.add('filter-active-red'); // Add legacy class if needed for other logic?? No, override style.
     }
 
-    // Only affect data rows (those with data-lang), not expanded-content rows
+    // Only affect data rows (those with data-lang)
     const rows = document.querySelectorAll('tbody tr[data-lang]');
     rows.forEach(row => {
-        const expandedRow = row.nextElementSibling;
         const isMismatch = row.classList.contains('mismatch-iterations');
 
         if (isHidingMismatches && isMismatch) {
             // Hide mismatch rows when filter is active
             row.style.display = 'none';
-            if (expandedRow?.classList.contains('expanded-content')) {
-                expandedRow.style.display = 'none';
-            }
         } else {
             // Show all other rows
             row.style.display = '';
-            if (expandedRow?.classList.contains('expanded-content')) {
-                expandedRow.style.display = row.classList.contains('expanded') ? 'table-row' : 'none';
-            }
         }
     });
 }
 
 // Personality Selector
-function changePersonality() {
+window.changePersonality = function() {
     const selector = document.getElementById('personality-selector');
     const persona = selector.value || 'Standard'; // Fallback to Standard
 
@@ -484,12 +503,6 @@ document.addEventListener('DOMContentLoaded', function () {
         cell.style.cursor = 'pointer';
     });
 
-    // Prevent clicks on expanded content from bubbling
-    document.querySelectorAll('.expanded-content').forEach(row => {
-        row.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    });
 });
 
 // Modal Logic
@@ -499,7 +512,7 @@ let lastPopulatedMetadata = null; // Track the last saved state to prevent overw
 
 // Updated Show Function
 window.showLanguageDetails = async function (lang, x, y) {
-    console.log("Opening modal for:", lang, "at", x, y);
+    debugLog("Opening modal for:", lang, "at", x, y);
     currentEditingLang = lang;
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
@@ -609,8 +622,8 @@ window.showLanguageDetails = async function (lang, x, y) {
 
     // Description: Check Persona first
     let desc = meta.description;
-    console.log("[DEBUG] meta.description:", meta.description);
-    console.log("[DEBUG] full meta:", meta);
+    debugLog("meta.description:", meta.description);
+    debugLog("full meta:", meta);
     const currentPersona = window.currentPersona || 'Standard';
     if (window.personalities && window.personalities[currentPersona]) {
         // Look for specific lang match
@@ -635,7 +648,7 @@ window.showLanguageDetails = async function (lang, x, y) {
         }
     }
 
-    console.log("[DEBUG] Final desc to display:", desc);
+    debugLog("Final desc to display:", desc);
     document.getElementById('modalDesc').innerText = desc || "No description available.";
 
     // Set button URLs
@@ -775,7 +788,7 @@ window.saveLanguageDetails = async function (event) {
 
     // Save to backend
     try {
-        console.log("Attempting to save metadata to:", '/api/save-metadata');
+        debugLog("Attempting to save metadata to:", '/api/save-metadata');
         const res = await fetch('/api/save-metadata', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -923,7 +936,7 @@ window.handleLogoChange = async function (event) {
             }
         }
     } catch (err) {
-        console.log("Clipboard access not available or empty, falling back to file picker.");
+        debugLog("Clipboard access not available or empty, falling back to file picker.");
     }
 
     // Fallback
@@ -961,7 +974,7 @@ window.handleAuthorImageChange = async function (index, event) {
             }
         }
     } catch (err) {
-        console.log("Clipboard access not available, falling back to file input");
+        debugLog("Clipboard access not available, fallback to file input");
     }
 
     // Fallback to hidden input specific for authors
@@ -972,22 +985,22 @@ window.handleAuthorImageChange = async function (index, event) {
 
 // Paste Listener for Modal
 document.addEventListener('paste', async (e) => {
-    console.log('Paste event detected');
+    debugLog('Paste event detected');
 
     // Only if modal is open and editing
     const modal = document.getElementById('langModal');
     const modalContent = document.getElementById('modalContent');
 
     if (!modal || !modal.classList.contains('visible')) {
-        console.log('Paste ignored: modal not visible');
+        debugLog('Paste ignored: modal not visible');
         return;
     }
     if (!modalContent || !modalContent.classList.contains('editing')) {
-        console.log('Paste ignored: not in edit mode. Classes:', modalContent?.classList?.toString());
+        debugLog('Paste ignored: not in edit mode. Classes:', modalContent?.classList?.toString());
         return;
     }
 
-    console.log('Paste accepted: modal visible and in edit mode');
+    debugLog('Paste accepted: modal visible and in edit mode');
 
     // Check for active element (Author Input)
     const activeEl = document.activeElement;
@@ -998,23 +1011,23 @@ document.addEventListener('paste', async (e) => {
 
     const clipboardData = e.clipboardData || e.originalEvent?.clipboardData;
     if (!clipboardData) {
-        console.log('Paste failed: no clipboard data available');
+        debugLog('Paste failed: no clipboard data available');
         return;
     }
 
     const items = clipboardData.items;
-    console.log('Clipboard items:', items?.length || 0);
+    debugLog('Clipboard items:', items?.length || 0);
 
     // First pass: check if there's an image file to handle
     let hasImageFile = false;
     for (let index in items) {
-        console.log(`Item ${index}: kind=${items[index].kind}, type=${items[index].type}`);
+        debugLog(`Item ${index}: kind=${items[index].kind}, type=${items[index].type}`);
         if (items[index].kind === 'file' && items[index].type.startsWith('image/')) {
             hasImageFile = true;
         }
     }
 
-    console.log('Has image file:', hasImageFile);
+    debugLog('Has image file:', hasImageFile);
 
     // Prevent default if we're going to handle an image
     if (hasImageFile) {
@@ -1026,7 +1039,7 @@ document.addEventListener('paste', async (e) => {
         const item = items[index];
         if (item.kind === 'file') {
             const blob = item.getAsFile();
-            console.log('Processing file blob:', blob?.type, blob?.size);
+            debugLog('Processing file blob:', blob?.type, blob?.size);
 
             if (targetAuthorIdx >= 0) {
                 // Upload for Author
@@ -1177,11 +1190,11 @@ function closeModal(event) {
     // Only close if clicking directly on the modal backdrop or close button
     // Don't close if clicking on modal content or any buttons
     if (event.target.id === 'langModal' || event.target.classList.contains('modal-close')) {
-        console.log('Closing modal - clicked on backdrop or close button');
+        debugLog('Closing modal - clicked on backdrop or close button');
         modal.classList.remove('visible');
         document.body.classList.remove('modal-open');
     } else {
-        console.log('Not closing modal - clicked on:', event.target.id || event.target.className);
+        debugLog('Not closing modal - clicked on:', event.target.id || event.target.className);
     }
 }
 
@@ -1956,7 +1969,7 @@ window.loadSessionState = async function () {
         const res = await fetch('/api/session-state?t=' + Date.now());
         if (res.ok) {
             const state = await res.json();
-            console.log("Loaded session state:", state);
+            debugLog("Loaded session state:", state);
             if (state.locked) {
                 window.lockedLanguages = new Map(state.locked);
             }
@@ -2251,7 +2264,7 @@ window.updateStatusBadgeUI = function (lang, status) {
 };
 
 window.verifyLanguage = async function (lang) {
-    console.log("Verifying " + lang);
+    debugLog("Verifying " + lang);
     updateStatusBadgeUI(lang, 'Testing');
 
     // Run Matrix 1 as a test
@@ -2387,7 +2400,7 @@ window.verifyLanguage = async function (lang) {
 
         // Check if language is locked - skip with notification
         if (window.lockedLanguages && window.lockedLanguages.has(lang)) {
-            console.log(`Skipping ${lang} - locked`);
+            debugLog(`Skipping ${lang} - locked`);
             headerTitle.innerText = "Execution Skipped: " + lang;
             outputDiv.innerHTML = `<div style="color:#ffd700; font-size:1.2em; text-align:center; padding:40px;">
                 <div style="font-size:2em; margin-bottom:10px;">🔒</div>
@@ -4727,11 +4740,11 @@ document.addEventListener('fullscreenchange', function () {
     if (!document.fullscreenElement && window.currentChart && typeof window.switchChart === 'function') {
         // Skip redraw for Matrix Race - it handles fullscreen specially
         if (window.currentChart === 'race') {
-            console.log('Exited fullscreen from Matrix Race, skipping redraw');
+            debugLog('Exited fullscreen from Matrix Race, skipping redraw');
             return;
         }
         // User exited fullscreen - redraw the current chart to fit normal container
-        console.log('Exited fullscreen, resizing chart:', window.currentChart);
+        debugLog('Exited fullscreen, resizing chart:', window.currentChart);
         setTimeout(() => {
             window.switchChart(window.currentChart);
         }, 100); // Small delay to allow DOM to settle
@@ -4751,7 +4764,7 @@ let startScreensaverGlobal;
     try {
 
 
-        console.log("Initializing Matrix Screensaver...");
+        debugLog("Initializing Matrix Screensaver...");
         const canvas = document.getElementById('matrix-canvas');
         if (!canvas) console.error("Matrix canvas not found!");
 
@@ -4818,7 +4831,7 @@ let startScreensaverGlobal;
                 // Check if puzzle is substantial enough to show
                 if (lines.length > 3) {
                     puzzleLines = lines;
-                    console.log('Prepared puzzle index', currentPuzzleIndex, 'with', puzzleLines.length, 'lines');
+                    debugLog('Prepared puzzle index', currentPuzzleIndex, 'with', puzzleLines.length, 'lines');
 
                     // Start from the BOTTOM of the screen
                     puzzleY = height || window.innerHeight;
@@ -5183,7 +5196,7 @@ let startScreensaverGlobal;
                 const clearTime = perfClearEnd - perfClearStart;
                 const rainTime = perfRainEnd - perfRainStart;
                 const puzzleTime = perfPuzzleEnd - perfPuzzleStart;
-                console.log(`[Matrix Rain Performance]
+                debugLog(`[Matrix Rain Performance]
   Total frame time: ${totalTime.toFixed(2)}ms
   - Clear canvas: ${clearTime.toFixed(2)}ms (${(clearTime / totalTime * 100).toFixed(1)}%)
   - Rain drops: ${rainTime.toFixed(2)}ms (${(rainTime / totalTime * 100).toFixed(1)}%)
@@ -5408,7 +5421,7 @@ let startScreensaverGlobal;
         }
 
         function startScreensaver(mode) {
-            console.log("startScreensaver called with mode:", mode);
+            debugLog("startScreensaver called with mode:", mode);
             // Allow switching modes?
             if (active) {
                 if (currentMode !== mode) {
@@ -5491,7 +5504,7 @@ let startScreensaverGlobal;
                     // Set flag earlier so numbers appear sooner (0.5s instead of 1.5s)
                     setTimeout(() => {
                         slideInComplete = true;
-                        console.log('slideInComplete set to true');
+                        debugLog('slideInComplete set to true');
                     }, 500);
 
                     // Trigger Browser Fullscreen AFTER animation starts
@@ -5672,7 +5685,7 @@ let startScreensaverGlobal;
         // Expose globally
 
 
-        console.log("Matrix Screensaver initialized successfully. startScreensaver is:", typeof window.startScreensaver);
+        debugLog("Matrix Screensaver initialized successfully. startScreensaver is:", typeof window.startScreensaver);
 
 
     } catch (e) {
@@ -6562,3 +6575,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 });
+
+// Stub functions for removed features
+window.showEdit = function() {
+    console.warn('showEdit: This function is deprecated');
+};
+
+window.toggleFilterNotRun = function() {
+    console.warn('toggleFilterNotRun: This function is deprecated');
+};

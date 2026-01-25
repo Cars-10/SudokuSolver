@@ -336,16 +336,17 @@ class BruteForceSolver {
 
 /*
 // Matrix 1 puzzle (should solve in 656 iterations)
+// Must match Matrices/1.matrix exactly for C-reference compatibility
 const matrix1 = [
-    [0, 0, 3, 0, 2, 0, 6, 0, 0],
-    [9, 0, 0, 3, 0, 5, 0, 0, 1],
-    [0, 0, 1, 8, 0, 6, 4, 0, 0],
-    [0, 0, 8, 1, 0, 2, 9, 0, 0],
-    [7, 0, 0, 0, 0, 0, 0, 0, 8],
-    [0, 0, 6, 7, 0, 8, 2, 0, 0],
-    [0, 0, 2, 6, 0, 9, 5, 0, 0],
-    [8, 0, 0, 2, 0, 3, 0, 0, 9],
-    [0, 0, 5, 0, 1, 0, 3, 0, 0]
+    [9, 2, 0, 0, 0, 0, 5, 8, 4],
+    [0, 0, 0, 5, 0, 0, 0, 0, 3],
+    [0, 8, 3, 0, 9, 2, 0, 0, 0],
+    [2, 6, 0, 8, 5, 4, 0, 0, 1],
+    [0, 0, 5, 3, 6, 1, 0, 9, 0],
+    [1, 0, 0, 0, 0, 9, 0, 0, 0],
+    [8, 5, 0, 2, 0, 3, 0, 1, 0],
+    [4, 1, 2, 9, 8, 0, 0, 3, 0],
+    [3, 9, 0, 0, 0, 6, 8, 0, 0]
 ];
 
 console.log('Testing BruteForceSolver...');
@@ -760,63 +761,80 @@ class SolverGridRenderer {
     }
 
     // Render state with animations and styling
+    // The state contains:
+    // - grid: puzzle state BEFORE this iteration's attempt
+    // - row, col: cell being tried
+    // - value: value being attempted (1-9)
+    // - iteration: C-reference compatible iteration count
+    // - isBacktrack: true if this is a backtrack (removing a failed value)
     render(state, options = {}) {
-        const { grid, row, col, value, isBacktrack, depth } = state;
+        const { grid, row, col, value, isBacktrack, depth, isSolved } = state;
         const skipAnimation = options.skipAnimation || false;
 
-        // Update all cell values
+        // Update all cell values from grid
         this.renderGrid(grid);
 
         // Clear previous active/backtrack states (except fixed)
         this.cells.forEach(cell => {
-            cell.classList.remove('active', 'success', 'backtrack', 'spinning', 'spinning-reverse', 'chromatic', 'pink-glow', 'cooling-down');
+            cell.classList.remove('active', 'success', 'backtrack', 'spinning', 'spinning-reverse', 'chromatic', 'pink-glow', 'cooling-down', 'matrix-solve');
         });
+
+        // Mark cells that have values in the grid as success (they were valid placements)
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (grid[r][c] !== 0) {
+                    const idx = r * 9 + c;
+                    const cell = this.cells[idx];
+                    // Only mark as success if it's not a fixed (initial) cell
+                    if (!cell.classList.contains('fixed')) {
+                        cell.classList.add('success');
+                    }
+                }
+            }
+        }
 
         // Highlight active cell if specified
         if (row !== undefined && col !== undefined && row >= 0 && col >= 0) {
             const idx = row * 9 + col;
             const cell = this.cells[idx];
+            const valueSpan = cell.querySelector('.cell-value');
 
             if (isBacktrack) {
                 cell.classList.add('backtrack');
+                cell.classList.remove('success'); // Remove success state on backtrack
+                // On backtrack, show the value that failed
+                if (value && valueSpan) {
+                    valueSpan.textContent = value;
+                    valueSpan.setAttribute('data-value', value);
+                }
                 if (!skipAnimation && this.currentAnimationSpeed <= 10) {
                     cell.classList.add('spinning-reverse');
                 }
             } else {
                 cell.classList.add('active');
+                cell.classList.remove('success'); // Currently being tried, not yet confirmed
+
+                // SYNC FIX: Show the value being tried in the cell
+                // The grid snapshot is taken BEFORE the value is placed,
+                // but state.value contains what we're trying at this iteration
+                if (value && valueSpan) {
+                    valueSpan.textContent = value;
+                    valueSpan.setAttribute('data-value', value);
+                }
+
                 if (!skipAnimation && this.currentAnimationSpeed <= 10) {
                     cell.classList.add('spinning');
                 }
-
-                // Success if value was placed (non-zero in grid at that position)
-                if (grid[row][col] !== 0) {
-                    // Hot pink glow -> cool down to green sequence
-                    if (!skipAnimation && this.currentAnimationSpeed <= 10) {
-                        setTimeout(() => {
-                            cell.classList.remove('active', 'spinning');
-                            cell.classList.add('pink-glow');
-
-                            // Cool down to green after 500ms
-                            setTimeout(() => {
-                                cell.classList.remove('pink-glow');
-                                cell.classList.add('cooling-down');
-
-                                // Final green state
-                                setTimeout(() => {
-                                    cell.classList.remove('cooling-down');
-                                    cell.classList.add('success');
-                                }, 500);
-                            }, 100);
-                        }, 200);
-                    } else {
-                        // Fast mode: skip to success immediately
-                        setTimeout(() => {
-                            cell.classList.remove('active');
-                            cell.classList.add('success');
-                        }, skipAnimation ? 0 : 50);
-                    }
-                }
             }
+        }
+
+        // If puzzle is solved, mark all non-fixed cells as success
+        if (isSolved) {
+            this.cells.forEach((cell, idx) => {
+                if (!cell.classList.contains('fixed')) {
+                    cell.classList.add('success');
+                }
+            });
         }
     }
 

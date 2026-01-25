@@ -16,14 +16,16 @@
  */
 
 export class SolverControls {
-    constructor(containerElement, animationController) {
+    constructor(containerElement, animationController, onPlayCallback = null) {
         this.container = containerElement;
         this.controller = animationController;
         this.isPlaying = false;
         this.currentSpeed = 1;
+        this.onPlayCallback = onPlayCallback; // Custom callback for Play button
 
         // UI element references
         this.playPauseBtn = null;
+        this.playIcon = null;
         this.stepBackBtn = null;
         this.stepForwardBtn = null;
         this.resetBtn = null;
@@ -49,35 +51,35 @@ export class SolverControls {
         this.container.innerHTML = `
             <div class="solver-controls">
                 <div class="solver-controls-row">
-                    <button class="solver-btn" id="solver-reset" title="Reset">
-                        <span class="icon">⏮</span> Reset
+                    <button class="solver-btn" id="solver-reset" title="Reset to Start">
+                        <span class="media-icon">⏮</span>
                     </button>
-                    <button class="solver-btn" id="solver-step-back" title="Step Back">
-                        <span class="icon">⏪</span> Back
+                    <button class="solver-btn primary" id="solver-step-back" title="Step Backward">
+                        <span class="media-icon">◀</span>
                     </button>
-                    <button class="solver-btn primary" id="solver-play-pause" title="Play/Pause">
-                        <span class="icon" id="play-icon">▶</span> Play
+                    <button class="solver-btn primary" id="solver-play-pause" title="Play">
+                        <span class="media-icon play-icon">▶</span>
                     </button>
-                    <button class="solver-btn" id="solver-step-forward" title="Step Forward">
-                        <span class="icon">⏩</span> Fwd
+                    <button class="solver-btn primary" id="solver-step-forward" title="Step Forward">
+                        <span class="media-icon">▶</span>
                     </button>
                     <button class="solver-btn" id="solver-skip-end" title="Skip to End">
-                        <span class="icon">⏭</span> End
+                        <span class="media-icon">⏭</span>
                     </button>
                 </div>
 
                 <div class="solver-speed-container">
                     <span class="solver-speed-label">Speed:</span>
                     <input type="range" class="solver-speed-slider" id="solver-speed"
-                           min="1" max="100" value="1" step="1">
+                           min="1" max="1000" value="1" step="1">
                     <span class="solver-speed-value" id="solver-speed-value">1x</span>
                 </div>
 
                 <div class="solver-speed-presets">
                     <span class="solver-speed-preset active" data-speed="1">1x</span>
                     <span class="solver-speed-preset" data-speed="10">10x</span>
-                    <span class="solver-speed-preset" data-speed="50">50x</span>
-                    <span class="solver-speed-preset" data-speed="100">Max</span>
+                    <span class="solver-speed-preset" data-speed="100">100x</span>
+                    <span class="solver-speed-preset" data-speed="1000">Max</span>
                 </div>
 
                 <div class="solver-progress">
@@ -107,6 +109,7 @@ export class SolverControls {
 
         // Get references
         this.playPauseBtn = this.container.querySelector('#solver-play-pause');
+        this.playIcon = this.playPauseBtn?.querySelector('.play-icon');
         this.stepBackBtn = this.container.querySelector('#solver-step-back');
         this.stepForwardBtn = this.container.querySelector('#solver-step-forward');
         this.resetBtn = this.container.querySelector('#solver-reset');
@@ -152,6 +155,16 @@ export class SolverControls {
     // ========================================================================
 
     handlePlayPause() {
+        // If onPlayCallback is provided and controller is not playing, call it first
+        // This allows the solver to start solving when Play is pressed initially
+        if (this.onPlayCallback && !this.isPlaying) {
+            const callbackResult = this.onPlayCallback();
+            // If callback handled the action (e.g., started solving), don't toggle
+            // The callback should return true to indicate it handled the action
+            if (callbackResult === true) {
+                return;
+            }
+        }
         this.controller.toggle();
     }
 
@@ -182,7 +195,7 @@ export class SolverControls {
 
     /**
      * Set speed and update UI
-     * @param {number} speed - Speed multiplier (1-100)
+     * @param {number} speed - Speed multiplier (1-1000)
      */
     setSpeed(speed) {
         this.currentSpeed = speed;
@@ -190,10 +203,10 @@ export class SolverControls {
 
         // Update slider
         this.speedSlider.value = speed;
-        this.speedValue.textContent = speed === 100 ? 'Max' : `${speed}x`;
+        this.speedValue.textContent = speed === 1000 ? 'Max' : `${speed}x`;
 
         // Update slider visual progress
-        const progress = (speed - 1) / 99 * 100;
+        const progress = (speed - 1) / 999 * 100;
         this.speedSlider.style.setProperty('--progress', `${progress}%`);
 
         // Update preset highlights
@@ -204,21 +217,46 @@ export class SolverControls {
     }
 
     /**
+     * Set recommended speed based on algorithm and expected iterations
+     * @param {string} algorithm - Algorithm name (BruteForce, CP, or DLX)
+     * @param {number} expectedIterations - Expected iteration count
+     */
+    setRecommendedSpeed(algorithm, expectedIterations) {
+        let recommendedSpeed = 1;
+
+        // For brute force, speed depends on iteration count
+        if (algorithm === 'BruteForce') {
+            if (expectedIterations < 1000) {
+                recommendedSpeed = 1; // Slow for small puzzles
+            } else if (expectedIterations < 10000) {
+                recommendedSpeed = 10;
+            } else if (expectedIterations < 100000) {
+                recommendedSpeed = 50;
+            } else {
+                recommendedSpeed = 100;
+            }
+        } else if (algorithm === 'CP') {
+            // CP is faster than brute force, typically 10-100x reduction
+            recommendedSpeed = 50;
+        } else if (algorithm === 'DLX') {
+            // DLX is the fastest
+            recommendedSpeed = 100;
+        }
+
+        this.setSpeed(recommendedSpeed);
+    }
+
+    /**
      * Update play/pause button state
      * @param {boolean} playing - Whether animation is playing
      */
     updatePlayState(playing) {
         this.isPlaying = playing;
-        const icon = this.playPauseBtn.querySelector('.icon');
-        icon.textContent = playing ? '⏸' : '▶';
-        this.playPauseBtn.title = playing ? 'Pause' : 'Play';
 
-        // Update button text as well
-        const textNode = Array.from(this.playPauseBtn.childNodes).find(
-            node => node.nodeType === Node.TEXT_NODE
-        );
-        if (textNode) {
-            textNode.textContent = playing ? ' Pause' : ' Play';
+        // Toggle icon between play and pause
+        if (this.playIcon) {
+            this.playIcon.textContent = playing ? '⏸' : '▶';
+            this.playPauseBtn.title = playing ? 'Pause' : 'Play';
         }
     }
 
@@ -236,7 +274,15 @@ export class SolverControls {
         const depth = this.container.querySelector('#info-depth');
 
         iteration.textContent = state.iteration.toLocaleString();
-        cell.textContent = state.row !== undefined ? `(${state.row}, ${state.col})` : '-';
+
+        // Show cell position only if valid (0-8 range)
+        if (state.row !== undefined && state.row >= 0 && state.row <= 8 &&
+            state.col !== undefined && state.col >= 0 && state.col <= 8) {
+            cell.textContent = `(${state.row}, ${state.col})`;
+        } else {
+            cell.textContent = '-';
+        }
+
         value.textContent = state.value || '-';
         depth.textContent = state.depth || '0';
 
@@ -306,10 +352,11 @@ export class SolverControls {
  * Factory function to create and initialize SolverControls
  * @param {HTMLElement} containerElement - Container element for controls
  * @param {AnimationController} animationController - Animation controller instance
+ * @param {Function} onPlayCallback - Optional callback when Play is clicked (before solving starts)
  * @returns {SolverControls} Initialized controls instance
  */
-export function createSolverControls(containerElement, animationController) {
-    const controls = new SolverControls(containerElement, animationController);
+export function createSolverControls(containerElement, animationController, onPlayCallback = null) {
+    const controls = new SolverControls(containerElement, animationController, onPlayCallback);
     controls.init();
     return controls;
 }

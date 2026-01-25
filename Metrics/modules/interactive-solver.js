@@ -1,6 +1,8 @@
 // interactive-solver.js - Main Orchestrator for Interactive Solver
 
 import { BruteForceSolver } from './solver-engine.js';
+import { DLXSolver } from './solver-dlx.js';
+import { CPSolver } from './solver-cp.js';
 import { SolverHistory, getSharedHistory, resetSharedHistory } from './solver-state.js';
 import { SolverGridRenderer } from './solver-grid.js';
 import { GlitchEffects, createGlitchEffects } from './solver-effects.js';
@@ -54,35 +56,11 @@ export class InteractiveSolver {
         console.log('[Interactive Solver] init() called, container:', this.container);
         this.container.innerHTML = `
             <div class="solver-section">
-                <!-- Three-column header -->
-                <div class="solver-header-grid">
+                <!-- Two-column header -->
+                <div class="solver-header-grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
                     <div class="solver-header-title">
                         <h2>Interactive <span class="persona-word">Solver</span></h2>
                         <p class="solver-subtitle">Watch the algorithm think</p>
-                    </div>
-
-                    <div class="solver-header-controls">
-                        <div class="solver-control-group">
-                            <label>Matrix:</label>
-                            <select id="matrix-select" class="solver-select">
-                                <option value="1">Matrix 1 (656 iterations)</option>
-                                <option value="2">Matrix 2 (439,269 iterations)</option>
-                                <option value="3">Matrix 3 (98,847 iterations)</option>
-                                <option value="4">Matrix 4 (9,085 iterations)</option>
-                                <option value="5">Matrix 5 (445,778 iterations)</option>
-                                <option value="6" disabled>Matrix 6 (622M - too large)</option>
-                            </select>
-                        </div>
-                        <div class="solver-control-group">
-                            <label>Algorithm:</label>
-                            <select id="algorithm-select" class="solver-select">
-                                <option value="BruteForce" selected>Brute Force</option>
-                                <option value="DLX" disabled>Dancing Links (coming soon)</option>
-                            </select>
-                        </div>
-                        <button id="start-solving" class="solver-btn primary solver-start-btn">
-                            <span class="icon">▶</span> Start Solving
-                        </button>
                     </div>
 
                     <div class="solver-header-description">
@@ -119,13 +97,31 @@ export class InteractiveSolver {
                     </div>
 
                     <div class="solver-controls-section">
-                        <div class="solver-controls-placeholder" id="controls-placeholder" style="padding: 2rem; background: rgba(0, 255, 157, 0.05); border: 1px solid rgba(0, 255, 157, 0.2); border-radius: 8px; text-align: center; color: #888; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
-                            <div style="margin-bottom: 1rem; font-size: 2rem;">⏳</div>
-                            <div style="color: #00ff9d;">Playback Controls</div>
-                            <div style="margin-top: 0.5rem; font-size: 0.8rem;">Will appear after solving completes</div>
+                        <!-- Matrix and Algorithm selection above controls -->
+                        <div class="solver-header-controls" style="margin-bottom: 1rem; padding: 1rem; background: rgba(0, 255, 157, 0.05); border: 1px solid rgba(0, 255, 157, 0.2); border-radius: 8px;">
+                            <div class="solver-control-group">
+                                <label>Matrix:</label>
+                                <select id="matrix-select" class="solver-select">
+                                    <option value="1">Matrix 1 (656 iterations)</option>
+                                    <option value="2">Matrix 2 (439,269 iterations)</option>
+                                    <option value="3">Matrix 3 (98,847 iterations)</option>
+                                    <option value="4">Matrix 4 (9,085 iterations)</option>
+                                    <option value="5">Matrix 5 (445,778 iterations)</option>
+                                    <option value="6" disabled>Matrix 6 (622M - too large)</option>
+                                </select>
+                            </div>
+                            <div class="solver-control-group">
+                                <label>Algorithm:</label>
+                                <select id="algorithm-select" class="solver-select">
+                                    <option value="BruteForce" selected>Brute Force</option>
+                                    <option value="CP">Constraint Propagation</option>
+                                    <option value="DLX">Dancing Links (DLX)</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div id="solver-controls-area" style="display: none;"></div>
+                        <!-- Controls area (visible from start) -->
+                        <div id="solver-controls-area"></div>
 
                         <div class="solver-memory-warning" id="memory-warning" style="display: none;">
                             <span class="warning-icon">⚠</span>
@@ -151,10 +147,6 @@ export class InteractiveSolver {
         });
 
         // Setup event listeners
-        this.container.querySelector('#start-solving').addEventListener('click', () => {
-            this.startSolving();
-        });
-
         this.container.querySelector('#matrix-select').addEventListener('change', (e) => {
             this.currentMatrix = e.target.value;
             this.reset();
@@ -173,6 +165,9 @@ export class InteractiveSolver {
 
         // Show initial puzzle immediately
         this.showInitialPuzzle();
+
+        // Initialize controls immediately (before solving)
+        this.initializeControls();
     }
 
     // Load matrix puzzle data
@@ -189,7 +184,8 @@ export class InteractiveSolver {
     updateAlgorithmDescription(algo) {
         const descriptions = {
             'BruteForce': '<strong>Brute Force Backtracking:</strong> Tries every possible number (1-9) in each empty cell, row by row. If a number violates Sudoku rules, it backtracks and tries the next number. Guaranteed to find a solution but explores many dead ends.',
-            'DLX': '<strong>Dancing Links (Algorithm X):</strong> Uses Donald Knuth\'s Algorithm X to efficiently solve the exact cover problem. Represents the puzzle as a matrix of constraints and uses clever pointer manipulation to quickly explore valid solutions. Much faster than brute force.'
+            'CP': '<strong>Constraint Propagation:</strong> Maintains candidate values for each cell and propagates constraints when values are assigned. Uses the Minimum Remaining Values (MRV) heuristic to choose the best cell to fill next. Much smarter than brute force, reducing search space by 10-100x.',
+            'DLX': '<strong>Dancing Links (Algorithm X):</strong> Uses Donald Knuth\'s Algorithm X with Dancing Links to efficiently solve the exact cover problem. Represents the puzzle as a 324-column constraint matrix and uses circular doubly-linked lists for fast covering/uncovering operations. Typically 10-100x faster than brute force.'
         };
 
         const descEl = this.container.querySelector('#algo-desc-content');
@@ -242,6 +238,70 @@ export class InteractiveSolver {
         this.gridRenderer.render(initialState, { skipAnimation: true });
     }
 
+    // Initialize controls before solving (with Play button to start)
+    initializeControls() {
+        console.log('[Interactive Solver] Initializing controls');
+
+        // Create a minimal history with just the initial state
+        this.history = getSharedHistory(10000);
+
+        const puzzle = MATRIX_PUZZLES[this.currentMatrix];
+        if (puzzle) {
+            const initialState = {
+                grid: puzzle.map(row => [...row]),
+                row: -1,
+                col: -1,
+                value: 0,
+                iteration: 0,
+                depth: 0,
+                isBacktrack: false,
+                isSolved: false
+            };
+            this.history.push(initialState);
+        }
+
+        // Initialize grid renderer if needed
+        if (!this.gridRenderer) {
+            this.gridRenderer = new SolverGridRenderer(this.gridContainer);
+            this.gridRenderer.initGrid();
+        }
+
+        // Initialize effects
+        if (!this.effects) {
+            this.effects = createGlitchEffects(this.gridRenderer.getGridContainer());
+        }
+
+        // Initialize animation controller
+        this.animationController = createAnimationController(
+            this.history,
+            this.gridRenderer,
+            this.effects
+        );
+
+        // Initialize controls with a custom onPlay callback
+        this.controls = createSolverControls(
+            this.controlsContainer,
+            this.animationController,
+            () => {
+                // Custom Play button handler - start solving if not yet solved
+                if (!this.isLoaded && !this.isSolving) {
+                    console.log('[Interactive Solver] Play button clicked - starting solve');
+                    this.startSolving();
+                    return true; // Indicate that we handled the action
+                }
+                return false; // Normal playback should proceed
+            }
+        );
+
+        // Set initial speed to 1x to show animations when solving starts
+        // User can adjust speed during playback
+        if (this.controls) {
+            this.controls.setSpeed(1);
+        }
+
+        console.log('[Interactive Solver] Controls initialized');
+    }
+
     // Show status message
     showStatus(message, type = 'info') {
         this.statusContainer.style.display = 'block';
@@ -271,13 +331,13 @@ export class InteractiveSolver {
         // Show live stats
         this.liveStatsContainer.style.display = 'flex';
 
-        // Disable start button
-        const startBtn = this.container.querySelector('#start-solving');
-        startBtn.disabled = true;
-        startBtn.innerHTML = '<span class="icon">⏳</span> Solving...';
+        // Disable controls during solving
+        if (this.controls) {
+            this.controls.setEnabled(false);
+        }
 
-        // Reset any previous state
-        this.cleanupModules();
+        // Reset any previous state (but keep controls)
+        this.cleanupSolvingState();
 
         // Initialize modules
         this.history = getSharedHistory(10000); // 10K state limit
@@ -291,26 +351,40 @@ export class InteractiveSolver {
         // Set initial puzzle
         this.gridRenderer.setInitialPuzzle(puzzle);
 
+        // Set animation speed to 1x for live solving (to show matrix animations)
+        this.gridRenderer.setAnimationSpeed(1);
+
         // Initialize effects
         this.effects = createGlitchEffects(this.gridRenderer.getGridContainer());
 
-        // Initialize solver
-        this.solver = new BruteForceSolver();
+        // Initialize solver based on selected algorithm
+        if (this.currentAlgorithm === 'DLX') {
+            this.solver = new DLXSolver();
+        } else if (this.currentAlgorithm === 'CP') {
+            this.solver = new CPSolver();
+        } else {
+            this.solver = new BruteForceSolver();
+        }
         this.solver.loadPuzzle(puzzle);
 
-        // Adaptive state sampling based on expected iteration count
+        // Adaptive state sampling based on expected iteration count (BruteForce reference)
         const expectedIterations = REFERENCE_ITERATIONS[this.currentMatrix];
         const maxStoredStates = 10000;
         const samplingInterval = Math.max(1, Math.floor(expectedIterations / maxStoredStates));
 
-        console.log(`[Solver] Matrix ${this.currentMatrix}: Expected ${expectedIterations} iterations, sampling every ${samplingInterval} states`);
+        if (this.currentAlgorithm === 'BruteForce') {
+            console.log(`[Solver] Matrix ${this.currentMatrix}: Expected ${expectedIterations} iterations, sampling every ${samplingInterval} states`);
+        } else {
+            console.log(`[Solver] Matrix ${this.currentMatrix} using ${this.currentAlgorithm}: Sampling every ${samplingInterval} states (BruteForce ref: ${expectedIterations} iterations)`);
+        }
 
         // Show grid and initialize renderer for live updates
         this.gridRenderer.setInitialPuzzle(puzzle);
 
         // Live rendering variables
         let lastRenderTime = Date.now();
-        const renderInterval = 50; // Render every 50ms for live animation
+        // Longer interval at low speeds to allow animations to complete
+        const renderInterval = this.gridRenderer.currentAnimationSpeed <= 10 ? 200 : 50;
 
         // Capture states during solving with adaptive sampling AND live rendering
         let stateCounter = 0;
@@ -322,12 +396,14 @@ export class InteractiveSolver {
                 this.history.push(state);
             }
 
-            // Live render every 50ms for immediate visual feedback
+            // Live render with throttling based on animation speed
             const now = Date.now();
             if (now - lastRenderTime > renderInterval || state.isSolved) {
-                this.gridRenderer.render(state, { skipAnimation: true });
+                // Only skip animation at very high speeds (>10x)
+                const skipAnim = this.gridRenderer.currentAnimationSpeed > 10;
+                this.gridRenderer.render(state, { skipAnimation: skipAnim });
 
-                // Update live stats
+                // Update live stats (top display)
                 const iterEl = this.container.querySelector('#live-iterations');
                 const depthEl = this.container.querySelector('#live-depth');
                 const cellEl = this.container.querySelector('#live-cell');
@@ -350,6 +426,11 @@ export class InteractiveSolver {
                     cellEl.textContent = '-';
                 }
 
+                // Update controls info display (bottom display)
+                if (this.controls) {
+                    this.controls.updateInfo(state, this.history.getStats());
+                }
+
                 lastRenderTime = now;
             }
         };
@@ -367,12 +448,17 @@ export class InteractiveSolver {
             // Hide live stats now that we're done
             this.liveStatsContainer.style.display = 'none';
 
-            // Validate iteration count
-            if (this.solver.iteration !== expectedIterations) {
-                console.warn(`[Solver] Iteration mismatch: expected ${expectedIterations}, got ${this.solver.iteration}`);
-                this.showStatus(`⚠ Solved in ${this.solver.iteration.toLocaleString()} iterations (expected ${expectedIterations.toLocaleString()})`, 'warning');
+            // Validate iteration count (only for BruteForce algorithm - DLX and CP have different iteration counts)
+            if (this.currentAlgorithm === 'BruteForce') {
+                if (this.solver.iteration !== expectedIterations) {
+                    console.warn(`[Solver] Iteration mismatch: expected ${expectedIterations}, got ${this.solver.iteration}`);
+                    this.showStatus(`⚠ Solved in ${this.solver.iteration.toLocaleString()} iterations (expected ${expectedIterations.toLocaleString()})`, 'warning');
+                } else {
+                    this.showStatus(`✓ Solved in ${this.solver.iteration.toLocaleString()} iterations - Use controls to replay`, 'success');
+                }
             } else {
-                this.showStatus(`✓ Solved in ${this.solver.iteration.toLocaleString()} iterations - Use controls to replay`, 'success');
+                // For DLX and CP, just show completion without validation
+                this.showStatus(`✓ Solved in ${this.solver.iteration.toLocaleString()} iterations using ${this.currentAlgorithm} - Use controls to replay`, 'success');
             }
 
         } catch (error) {
@@ -380,37 +466,48 @@ export class InteractiveSolver {
             this.liveStatsContainer.style.display = 'none';
             this.showStatus(`Error: ${error.message}`, 'error');
             this.isSolving = false;
-            startBtn.disabled = false;
-            startBtn.innerHTML = '<span class="icon">▶</span> Start Solving';
+
+            // Re-enable controls
+            if (this.controls) {
+                this.controls.setEnabled(true);
+            }
             return;
         }
 
         // Go to start of history
         this.history.goToStart();
 
-        // Initialize animation controller
+        // Recreate animation controller with new history
+        if (this.animationController) {
+            this.animationController.cleanup();
+        }
         this.animationController = createAnimationController(
             this.history,
             this.gridRenderer,
             this.effects
         );
 
-        // Initialize controls
-        console.log('[Solver] Showing controls container');
+        // Re-wire the animation controller to the controls
+        if (this.controls) {
+            this.controls.controller = this.animationController;
 
-        // Hide placeholder and show controls
-        const placeholder = this.container.querySelector('#controls-placeholder');
-        if (placeholder) {
-            placeholder.style.display = 'none';
-            console.log('[Solver] Placeholder hidden');
+            // Re-register controller callbacks
+            this.animationController.onPlayStateChange = (playing) => {
+                this.controls.updatePlayState(playing);
+            };
+
+            this.animationController.onStateChange = (state, stats) => {
+                this.controls.updateInfo(state, stats);
+                this.controls.updateProgress(stats);
+            };
+
+            this.animationController.onComplete = () => {
+                this.controls.updatePlayState(false);
+            };
+
+            // Re-enable controls
+            this.controls.setEnabled(true);
         }
-
-        this.controlsContainer.style.display = 'block';
-        console.log('[Solver] Controls container display:', this.controlsContainer.style.display);
-        console.log('[Solver] Creating controls...');
-        this.controls = createSolverControls(this.controlsContainer, this.animationController);
-        console.log('[Solver] Controls created:', !!this.controls);
-        console.log('[Solver] Controls HTML length:', this.controlsContainer.innerHTML.length);
 
         // Check if memory limit was reached
         const stats = this.history.getStats();
@@ -418,15 +515,13 @@ export class InteractiveSolver {
             this.container.querySelector('#memory-warning').style.display = 'block';
         }
 
-        // Update start button
-        startBtn.innerHTML = '<span class="icon">🔄</span> Restart';
-        startBtn.disabled = false;
-
         // Render initial state
         const initialState = this.history.getCurrentState();
         if (initialState) {
             this.gridRenderer.render(initialState, { skipAnimation: true });
-            this.controls.updateInfo(initialState, stats);
+            if (this.controls) {
+                this.controls.updateInfo(initialState, stats);
+            }
         }
 
         this.isLoaded = true;
@@ -449,45 +544,30 @@ export class InteractiveSolver {
 
     // Reset to initial state
     reset() {
-        // Only cleanup solving-related modules, keep grid renderer
-        if (this.animationController) {
-            this.animationController.cleanup();
-            this.animationController = null;
-        }
+        // Cleanup solving state
+        this.cleanupSolvingState();
 
-        if (this.controls) {
-            this.controls.cleanup();
-            this.controls = null;
-        }
-
-        if (this.effects) {
-            this.effects.clear();
-            this.effects = null;
-        }
-
-        resetSharedHistory();
-        this.history = null;
-        this.solver = null;
-
-        this.controlsContainer.style.display = 'none';
         this.liveStatsContainer.style.display = 'none';
         this.container.querySelector('#memory-warning').style.display = 'none';
         this.hideStatus();
-
-        // Show placeholder again
-        const placeholder = this.container.querySelector('#controls-placeholder');
-        if (placeholder) {
-            placeholder.style.display = 'block';
-        }
-
-        const startBtn = this.container.querySelector('#start-solving');
-        startBtn.disabled = false;
-        startBtn.innerHTML = '<span class="icon">▶</span> Start Solving';
 
         this.isLoaded = false;
 
         // Show the new puzzle
         this.showInitialPuzzle();
+
+        // Reinitialize controls for the new puzzle
+        this.initializeControls();
+    }
+
+    // Cleanup solving-related state (but keep controls)
+    cleanupSolvingState() {
+        if (this.solver) {
+            this.solver = null;
+        }
+
+        resetSharedHistory();
+        this.history = null;
     }
 
     // Cleanup module instances
