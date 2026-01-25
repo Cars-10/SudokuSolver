@@ -4589,13 +4589,10 @@ window.verifyLanguage = async function (lang) {
             const height = container.clientHeight;
             const margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
-            // Get scores from Matrix 1 results
+            // Get composite scores from all languages
             const scores = data
-                .map(d => {
-                    const matrix1 = d.results.find(r => normalizeMatrix(r.matrix) === '1');
-                    return matrix1 && matrix1.score ? matrix1.score : null;
-                })
-                .filter(s => s !== null && s > 0);
+                .map(d => d.score)
+                .filter(s => s !== null && s !== undefined && s > 0 && isFinite(s));
 
             if (scores.length === 0) {
                 d3.select("#d3-chart-container")
