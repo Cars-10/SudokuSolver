@@ -2102,7 +2102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     <!-- Interactive Solver Modal -->
     <div id="solver-modal" class="modal-overlay">
-        <div class="diagnostics-modal" style="max-width: 1200px; width: 95%; max-height: 95vh; overflow-y: auto;">
+        <div class="solver-modal-content" style="max-width: 1200px; width: 95%; max-height: 95vh; overflow-y: auto; background: #0a0a0f; border-radius: 8px; border: 1px solid rgba(0, 255, 157, 0.3); position: relative; padding: 2rem;">
             <button class="modal-close" onclick="closeInteractiveSolver()" style="position: absolute; right: 15px; top: 15px; font-size: 24px; background: none; border: none; color: #888; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s;">&times;</button>
             <div id="interactive-solver-section">
                 <!-- Content populated by interactive-solver.js -->
@@ -2137,7 +2137,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.scrollTo(0, 0);
 
             // Scroll modal content to top
-            const modalContent = modal.querySelector('.diagnostics-modal');
+            const modalContent = modal.querySelector('.solver-modal-content');
             if (modalContent) {
                 modalContent.scrollTop = 0;
             }
