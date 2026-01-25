@@ -119,6 +119,12 @@ export class InteractiveSolver {
                     </div>
 
                     <div class="solver-controls-section">
+                        <div class="solver-controls-placeholder" id="controls-placeholder" style="padding: 2rem; background: rgba(0, 255, 157, 0.05); border: 1px solid rgba(0, 255, 157, 0.2); border-radius: 8px; text-align: center; color: #888; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
+                            <div style="margin-bottom: 1rem; font-size: 2rem;">⏳</div>
+                            <div style="color: #00ff9d;">Playback Controls</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem;">Will appear after solving completes</div>
+                        </div>
+
                         <div id="solver-controls-area" style="display: none;"></div>
 
                         <div class="solver-memory-warning" id="memory-warning" style="display: none;">
@@ -391,6 +397,14 @@ export class InteractiveSolver {
 
         // Initialize controls
         console.log('[Solver] Showing controls container');
+
+        // Hide placeholder and show controls
+        const placeholder = this.container.querySelector('#controls-placeholder');
+        if (placeholder) {
+            placeholder.style.display = 'none';
+            console.log('[Solver] Placeholder hidden');
+        }
+
         this.controlsContainer.style.display = 'block';
         console.log('[Solver] Controls container display:', this.controlsContainer.style.display);
         console.log('[Solver] Creating controls...');
@@ -459,6 +473,12 @@ export class InteractiveSolver {
         this.liveStatsContainer.style.display = 'none';
         this.container.querySelector('#memory-warning').style.display = 'none';
         this.hideStatus();
+
+        // Show placeholder again
+        const placeholder = this.container.querySelector('#controls-placeholder');
+        if (placeholder) {
+            placeholder.style.display = 'block';
+        }
 
         const startBtn = this.container.querySelector('#start-solving');
         startBtn.disabled = false;
