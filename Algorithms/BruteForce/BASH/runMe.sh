@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
-LANGUAGE="Bash"
+LANGUAGE="BASH"
 SOLVER_BINARY="bash Sudoku.sh"
 METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"  # 5 minutes

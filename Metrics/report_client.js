@@ -5991,14 +5991,17 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmTyp
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
-    // Labels for the 2 axes (80/20 Weight)
-    const labels = ['Speed (80%)', 'Memory (20%)'];
-    const values = [
-        breakdownParts.find(p => p.label === 'Time')?.value || 1,
-        breakdownParts.find(p => p.label === 'Mem')?.value || 1
-    ];
+    // Get values
+    const timeValue = breakdownParts.find(p => p.label === 'Time')?.value || 1;
+    const memValue = breakdownParts.find(p => p.label === 'Mem')?.value || 1;
+    // Calculate composite score (weighted geometric mean)
+    const compositeValue = Math.pow(timeValue, 0.8) * Math.pow(memValue, 0.2);
 
-    const numAxes = labels.length;
+    // 3 axes for polar chart
+    const labels = ['Speed', 'Memory', 'Composite'];
+    const values = [timeValue, memValue, compositeValue];
+
+    const numAxes = 3;
     const angleSlice = (Math.PI * 2) / numAxes;
 
     // Calculate max scale (at least 3, or round up to nearest integer)
@@ -6048,10 +6051,10 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmTyp
         ctx.fillText(labels[i], x, y + 4);
     }
 
-    // Draw C baseline polygon (all at 1.0)
-    ctx.fillStyle = 'rgba(122, 162, 247, 0.2)';
-    ctx.strokeStyle = 'rgba(122, 162, 247, 0.5)';
+    // Draw C baseline triangle (all at 1.0)
+    ctx.strokeStyle = 'rgba(122, 162, 247, 0.6)';
     ctx.lineWidth = 2;
+    ctx.setLineDash([3, 3]);
     ctx.beginPath();
     for (let i = 0; i < numAxes; i++) {
         const angle = angleSlice * i - Math.PI / 2;
@@ -6062,18 +6065,30 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmTyp
         else ctx.lineTo(x, y);
     }
     ctx.closePath();
-    ctx.fill();
     ctx.stroke();
+    ctx.setLineDash([]);
 
-    // Draw language polygon with tier color
-    const tierColorRgba = hexToRgba(tierColor, 0.3);
-    ctx.fillStyle = tierColorRgba;
-    ctx.strokeStyle = tierColor;
-    ctx.lineWidth = 2;
+    // Draw baseline points
+    ctx.fillStyle = 'rgba(122, 162, 247, 0.8)';
+    for (let i = 0; i < numAxes; i++) {
+        const angle = angleSlice * i - Math.PI / 2;
+        const r = baselineR;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Draw subtle connection lines for language
+    const tierColorRgba = hexToRgba(tierColor, 0.15);
+    ctx.strokeStyle = tierColorRgba;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([2, 2]);
     ctx.beginPath();
     for (let i = 0; i < numAxes; i++) {
         const angle = angleSlice * i - Math.PI / 2;
-        const val = Math.min(values[i], maxValue); // Cap at maxValue
+        const val = Math.min(values[i], maxValue);
         const r = (radius / maxValue) * val;
         const x = centerX + r * Math.cos(angle);
         const y = centerY + r * Math.sin(angle);
@@ -6081,20 +6096,45 @@ function drawScoreRadarChart(lang, tier, tierColor, breakdownParts, algorithmTyp
         else ctx.lineTo(x, y);
     }
     ctx.closePath();
-    ctx.fill();
     ctx.stroke();
+    ctx.setLineDash([]);
 
-    // Draw data points
-    ctx.fillStyle = tierColor;
+    // Draw LARGE data points with glow effect
     for (let i = 0; i < numAxes; i++) {
         const angle = angleSlice * i - Math.PI / 2;
         const val = Math.min(values[i], maxValue);
         const r = (radius / maxValue) * val;
         const x = centerX + r * Math.cos(angle);
         const y = centerY + r * Math.sin(angle);
+
+        // Glow effect
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 15);
+        gradient.addColorStop(0, tierColor);
+        gradient.addColorStop(0.5, hexToRgba(tierColor, 0.4));
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.arc(x, y, 15, 0, Math.PI * 2);
         ctx.fill();
+
+        // Solid point
+        ctx.fillStyle = tierColor;
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // White center
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw value label
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        const labelY = y < centerY ? y - 18 : y + 25;
+        ctx.fillText(val.toFixed(2), x, labelY);
     }
 }
 
@@ -6436,3 +6476,92 @@ window.changePersonality = function () {
     window.saveUIState();
 };
 
+
+// Row Highlighting Feature - Double-click to pin/highlight rows
+document.addEventListener('DOMContentLoaded', function() {
+    let highlightedRows = new Set();
+
+    function toggleRowHighlight(row) {
+        const lang = row.getAttribute('data-lang');
+        if (!lang) return;
+
+        if (row.classList.contains('highlighted')) {
+            row.classList.remove('highlighted');
+            highlightedRows.delete(lang);
+        } else {
+            row.classList.add('highlighted');
+            highlightedRows.add(lang);
+        }
+
+        // Save highlighted state
+        try {
+            localStorage.setItem('highlighted-rows', JSON.stringify(Array.from(highlightedRows)));
+        } catch (e) { /* ignore */ }
+    }
+
+    function attachHighlightHandlers() {
+        document.querySelectorAll('tbody tr[data-lang]').forEach(row => {
+            // Double-click to highlight
+            row.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleRowHighlight(row);
+            });
+
+            // Also allow Ctrl+Click (Cmd+Click on Mac)
+            row.addEventListener('click', (e) => {
+                if (e.metaKey || e.ctrlKey) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleRowHighlight(row);
+                }
+            });
+        });
+    }
+
+    // Restore highlighted rows from storage
+    function restoreHighlights() {
+        try {
+            const saved = localStorage.getItem('highlighted-rows');
+            if (saved) {
+                highlightedRows = new Set(JSON.parse(saved));
+                highlightedRows.forEach(lang => {
+                    const row = document.querySelector(`tr[data-lang="${lang}"]`);
+                    if (row) row.classList.add('highlighted');
+                });
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    // Initialize
+    attachHighlightHandlers();
+    restoreHighlights();
+
+    // Re-attach when filters change
+    const observer = new MutationObserver(() => {
+        attachHighlightHandlers();
+        restoreHighlights();
+    });
+
+    const tbody = document.querySelector('tbody');
+    if (tbody) {
+        observer.observe(tbody, { childList: true, subtree: true });
+    }
+
+    // Add tooltip hint
+    const headerRow = document.querySelector('thead tr');
+    if (headerRow && !document.getElementById('highlight-hint')) {
+        const hint = document.createElement('div');
+        hint.id = 'highlight-hint';
+        hint.style.cssText = 'position: fixed; top: 150px; right: 20px; background: rgba(0, 255, 157, 0.1); border: 1px solid var(--primary); padding: 12px; border-radius: 6px; font-size: 12px; color: #aaa; max-width: 200px; z-index: 100; font-family: "JetBrains Mono", monospace;';
+        hint.innerHTML = '💡 <strong style="color: var(--primary);">Tip:</strong> Double-click or Ctrl+Click rows to highlight them!';
+        document.body.appendChild(hint);
+
+        // Fade out after 5 seconds
+        setTimeout(() => {
+            hint.style.transition = 'opacity 1s';
+            hint.style.opacity = '0';
+            setTimeout(() => hint.remove(), 1000);
+        }, 5000);
+    }
+});

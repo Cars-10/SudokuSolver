@@ -256,9 +256,10 @@ export const SharedStyles = `
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
             display: none;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             z-index: 10000;
+            padding-top: 40px;
             backdrop-filter: blur(8px);
             pointer-events: auto;
         }
@@ -756,6 +757,35 @@ export const SharedStyles = `
 
         .main-row.expanded .expand-indicator {
             transform: rotate(180deg);
+        }
+
+        /* Highlighted/Pinned Row State */
+        .main-row.highlighted {
+            background: linear-gradient(90deg, rgba(0, 255, 157, 0.15), rgba(0, 255, 157, 0.05)) !important;
+            border-left: 4px solid var(--primary) !important;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+            transform: scale(1.01);
+            z-index: 10;
+            position: relative;
+        }
+
+        .main-row.highlighted::before {
+            content: '📍';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            animation: pinBounce 1s ease-in-out;
+        }
+
+        @keyframes pinBounce {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.3); }
+        }
+
+        .main-row.highlighted td:first-child {
+            padding-left: 32px;
         }
 
         /* Scoring Insights Section */
@@ -1302,6 +1332,96 @@ export const SharedStyles = `
             min-height: 400px;
         }
 
+        /* Three-column header layout */
+        .solver-header-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 255, 157, 0.2);
+        }
+
+        .solver-header-title h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        .solver-header-title .solver-subtitle {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .solver-header-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .solver-control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .solver-control-group label {
+            min-width: 80px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #00ff9d;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-header-description h4 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1rem;
+            color: #00ff9d;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+        }
+
+        .solver-header-description p {
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        /* Main content area: Grid on left, Controls on right */
+        .solver-main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            min-height: 500px;
+        }
+
+        .solver-grid-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .solver-controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 1200px) {
+            .solver-header-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solver-main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
         #interactive-solver-section {
             position: relative;
             z-index: 1;
@@ -1455,8 +1575,8 @@ export const SharedStyles = `
         }
 
         .solver-cell {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1480,7 +1600,7 @@ export const SharedStyles = `
 
         .cell-value {
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: bold;
             color: #00ff9d;
             text-shadow:
@@ -1844,5 +1964,20 @@ export const SharedStyles = `
                 flex-direction: column;
                 align-items: stretch;
             }
+        }
+
+        /* Stability Visualization Canvas */
+        .stability-viz-container {
+            margin-bottom: 24px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        #stabilityVizCanvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
         }
 `;

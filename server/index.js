@@ -88,6 +88,24 @@ app.get('/media/:lang/:file', (req, res) => {
 const LANGUAGES_DIR = path.join(__dirname, '../Algorithms/BruteForce');
 const MATRICES_DIR = path.join(__dirname, '../Matrices');
 
+// Get git info for debug overlay
+app.get('/api/git-info', (req, res) => {
+    try {
+        exec('git rev-parse --abbrev-ref HEAD', (err, branch) => {
+            exec('git rev-parse --short HEAD', (err2, hash) => {
+                res.json({
+                    branch: branch ? branch.trim() : 'unknown',
+                    hash: hash ? hash.trim() : 'unknown',
+                    timestamp: new Date().toISOString()
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Error getting git info:', error);
+        res.status(500).json({ error: 'Failed to get git info' });
+    }
+});
+
 // Get list of matrices
 app.get('/api/matrices', (req, res) => {
     try {

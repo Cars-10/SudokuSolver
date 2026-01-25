@@ -438,7 +438,9 @@ If Command$(1) = "" Then
 End If
 
 ' Read puzzle from file
+Print "DEBUG: Reading file "; Command$(1)
 If Not read_matrix_file(Command$(1)) Then
+    Print "DEBUG: Failed to read matrix file"
     End 1
 End If
 
@@ -451,6 +453,7 @@ Dim As CPGrid grid
 init_grid(@grid)
 
 ' Apply initial propagation
+Print "DEBUG: Initial propagation"
 cp_iterations = 0
 If Not propagate(@grid) Then
     Print
@@ -460,6 +463,8 @@ If Not propagate(@grid) Then
     Print "Seconds to process "; Format$(end_time - start_time, "0.000")
     End 0
 End If
+
+Print "DEBUG: Starting search"
 
 ' Run search
 Dim As Integer solved = cp_search(@grid)

@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "timestamp": "2026-01-23T15:37:41Z",
+    "language": "TestLang",
+    "algorithm": "BruteForce",
+    "matrix": "1",
+    "failure_type": "solution_invalid",
+    "severity": "CRITICAL",
+    "message": "Bad solution",
+    "expected_iterations": 0,
+    "actual_iterations": 0
+  },
+  {
+    "timestamp": "2026-01-23T15:37:41Z",
+    "language": "TestLang",
+    "algorithm": "BruteForce",
+    "matrix": "1",
+    "failure_type": "iteration_mismatch",
+    "severity": "WARNING",
+    "message": "Off by 1",
+    "expected_iterations": 656,
+    "actual_iterations": 657
+  },
+  {
+    "timestamp": "2026-01-23T15:37:41Z",
+    "language": "TestLang",
+    "algorithm": "BruteForce",
+    "matrix": "1",
+    "failure_type": "iteration_mismatch",
+    "severity": "CRITICAL",
+    "message": "Way off",
+    "expected_iterations": 656,
+    "actual_iterations": 666
+  }
+]

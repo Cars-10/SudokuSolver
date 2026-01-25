@@ -1,6 +1,6 @@
 [
   {
-    "solver": "Bash",
+    "solver": "BASH",
     "runType": "automated",
     "timestamp": "2026-01-22T20:30:27Z",
     "results": [

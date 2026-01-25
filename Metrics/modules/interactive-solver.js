@@ -54,47 +54,78 @@ export class InteractiveSolver {
         console.log('[Interactive Solver] init() called, container:', this.container);
         this.container.innerHTML = `
             <div class="solver-section">
-                <div class="solver-header">
-                    <h2>Interactive Solver</h2>
-                    <p class="solver-subtitle">Watch the algorithm think</p>
-                </div>
-
-                <div class="solver-setup">
-                    <div class="solver-setup-row">
-                        <label for="matrix-select">Matrix:</label>
-                        <select id="matrix-select" class="solver-select">
-                            <option value="1">Matrix 1 (656 iterations)</option>
-                            <option value="2">Matrix 2 (439,269 iterations)</option>
-                            <option value="3">Matrix 3 (98,847 iterations)</option>
-                            <option value="4">Matrix 4 (9,085 iterations)</option>
-                            <option value="5">Matrix 5 (445,778 iterations)</option>
-                            <option value="6" disabled>Matrix 6 (622M - too large)</option>
-                        </select>
+                <!-- Three-column header -->
+                <div class="solver-header-grid">
+                    <div class="solver-header-title">
+                        <h2>Interactive <span class="persona-word">Solver</span></h2>
+                        <p class="solver-subtitle">Watch the algorithm think</p>
                     </div>
 
-                    <div class="solver-setup-row">
-                        <label for="algorithm-select">Algorithm:</label>
-                        <select id="algorithm-select" class="solver-select">
-                            <option value="BruteForce">Brute Force Backtracking</option>
-                        </select>
+                    <div class="solver-header-controls">
+                        <div class="solver-control-group">
+                            <label>Matrix:</label>
+                            <select id="matrix-select" class="solver-select">
+                                <option value="1">Matrix 1 (656 iterations)</option>
+                                <option value="2">Matrix 2 (439,269 iterations)</option>
+                                <option value="3">Matrix 3 (98,847 iterations)</option>
+                                <option value="4">Matrix 4 (9,085 iterations)</option>
+                                <option value="5">Matrix 5 (445,778 iterations)</option>
+                                <option value="6" disabled>Matrix 6 (622M - too large)</option>
+                            </select>
+                        </div>
+                        <div class="solver-control-group">
+                            <label>Algorithm:</label>
+                            <select id="algorithm-select" class="solver-select">
+                                <option value="BruteForce" selected>Brute Force</option>
+                                <option value="DLX" disabled>Dancing Links (coming soon)</option>
+                            </select>
+                        </div>
+                        <button id="start-solving" class="solver-btn primary solver-start-btn">
+                            <span class="icon">▶</span> Start Solving
+                        </button>
                     </div>
 
-                    <button id="start-solving" class="solver-btn primary solver-start-btn">
-                        <span class="icon">▶</span> Start Solving
-                    </button>
+                    <div class="solver-header-description">
+                        <h4>How It Works</h4>
+                        <p id="algo-desc-content">
+                            <strong>Brute Force Backtracking:</strong> Tries every possible number (1-9) in each empty cell, row by row. If a number violates Sudoku rules, it backtracks and tries the next number. Guaranteed to find a solution but explores many dead ends.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="solver-status" id="solver-status" style="display: none;">
-                    <span class="status-text"></span>
-                </div>
+                <!-- Main content area: Grid on left, Controls on right -->
+                <div class="solver-main-content">
+                    <div class="solver-grid-section">
+                        <div class="solver-status" id="solver-status" style="display: none;">
+                            <span class="status-text"></span>
+                        </div>
 
-                <div id="solver-grid-area" style="display: none;"></div>
+                        <div class="solver-live-stats" id="solver-live-stats" style="display: none;">
+                            <div class="live-stat">
+                                <span class="live-stat-label">Iterations:</span>
+                                <span class="live-stat-value" id="live-iterations">0</span>
+                            </div>
+                            <div class="live-stat">
+                                <span class="live-stat-label">Depth:</span>
+                                <span class="live-stat-value" id="live-depth">0</span>
+                            </div>
+                            <div class="live-stat">
+                                <span class="live-stat-label">Current Cell:</span>
+                                <span class="live-stat-value" id="live-cell">-</span>
+                            </div>
+                        </div>
 
-                <div id="solver-controls-area" style="display: none;"></div>
+                        <div id="solver-grid-area"></div>
+                    </div>
 
-                <div class="solver-memory-warning" id="memory-warning" style="display: none;">
-                    <span class="warning-icon">⚠</span>
-                    <span class="warning-text">History limit reached. Older states have been discarded.</span>
+                    <div class="solver-controls-section">
+                        <div id="solver-controls-area" style="display: none;"></div>
+
+                        <div class="solver-memory-warning" id="memory-warning" style="display: none;">
+                            <span class="warning-icon">⚠</span>
+                            <span class="warning-text">History limit reached. Older states have been discarded.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -105,6 +136,7 @@ export class InteractiveSolver {
         this.gridContainer = this.container.querySelector('#solver-grid-area');
         this.controlsContainer = this.container.querySelector('#solver-controls-area');
         this.statusContainer = this.container.querySelector('#solver-status');
+        this.liveStatsContainer = this.container.querySelector('#solver-live-stats');
 
         console.log('[Interactive Solver] Containers found:', {
             grid: !!this.gridContainer,
@@ -124,6 +156,7 @@ export class InteractiveSolver {
 
         this.container.querySelector('#algorithm-select').addEventListener('change', (e) => {
             this.currentAlgorithm = e.target.value;
+            this.updateAlgorithmDescription(e.target.value);
             this.reset();
         });
 
@@ -131,6 +164,9 @@ export class InteractiveSolver {
         if (window.matrixPuzzles) {
             this.loadMatrixData(window.matrixPuzzles);
         }
+
+        // Show initial puzzle immediately
+        this.showInitialPuzzle();
     }
 
     // Load matrix puzzle data
@@ -141,6 +177,19 @@ export class InteractiveSolver {
                 MATRIX_PUZZLES[String(index + 1)] = this.parseMatrixString(puzzleStr);
             }
         });
+    }
+
+    // Update algorithm description
+    updateAlgorithmDescription(algo) {
+        const descriptions = {
+            'BruteForce': '<strong>Brute Force Backtracking:</strong> Tries every possible number (1-9) in each empty cell, row by row. If a number violates Sudoku rules, it backtracks and tries the next number. Guaranteed to find a solution but explores many dead ends.',
+            'DLX': '<strong>Dancing Links (Algorithm X):</strong> Uses Donald Knuth\'s Algorithm X to efficiently solve the exact cover problem. Represents the puzzle as a matrix of constraints and uses clever pointer manipulation to quickly explore valid solutions. Much faster than brute force.'
+        };
+
+        const descEl = this.container.querySelector('#algo-desc-content');
+        if (descEl && descriptions[algo]) {
+            descEl.innerHTML = descriptions[algo];
+        }
     }
 
     // Parse matrix string to 2D array
@@ -159,6 +208,32 @@ export class InteractiveSolver {
         }
 
         return grid.length === 9 ? grid : null;
+    }
+
+    // Show initial puzzle in grid
+    showInitialPuzzle() {
+        const puzzle = MATRIX_PUZZLES[this.currentMatrix];
+        if (!puzzle) return;
+
+        // Initialize grid renderer if not already done
+        if (!this.gridRenderer) {
+            this.gridRenderer = new SolverGridRenderer(this.gridContainer);
+            this.gridRenderer.initGrid();
+        }
+
+        // Show the initial puzzle
+        this.gridRenderer.setInitialPuzzle(puzzle);
+
+        // Create a simple state representation for rendering
+        const initialState = {
+            grid: puzzle.map(row => [...row]),
+            row: -1,
+            col: -1,
+            value: 0,
+            iteration: 0
+        };
+
+        this.gridRenderer.render(initialState, { skipAnimation: true });
     }
 
     // Show status message
@@ -187,6 +262,9 @@ export class InteractiveSolver {
         this.isSolving = true;
         this.showStatus('Solving puzzle...', 'info');
 
+        // Show live stats
+        this.liveStatsContainer.style.display = 'flex';
+
         // Disable start button
         const startBtn = this.container.querySelector('#start-solving');
         startBtn.disabled = true;
@@ -198,10 +276,11 @@ export class InteractiveSolver {
         // Initialize modules
         this.history = getSharedHistory(10000); // 10K state limit
 
-        // Initialize grid renderer
-        this.gridRenderer = new SolverGridRenderer(this.gridContainer);
-        this.gridRenderer.initGrid();
-        this.gridContainer.style.display = 'block';
+        // Reuse or initialize grid renderer
+        if (!this.gridRenderer) {
+            this.gridRenderer = new SolverGridRenderer(this.gridContainer);
+            this.gridRenderer.initGrid();
+        }
 
         // Set initial puzzle
         this.gridRenderer.setInitialPuzzle(puzzle);
@@ -213,27 +292,86 @@ export class InteractiveSolver {
         this.solver = new BruteForceSolver();
         this.solver.loadPuzzle(puzzle);
 
-        // Capture states during solving
+        // Adaptive state sampling based on expected iteration count
+        const expectedIterations = REFERENCE_ITERATIONS[this.currentMatrix];
+        const maxStoredStates = 10000;
+        const samplingInterval = Math.max(1, Math.floor(expectedIterations / maxStoredStates));
+
+        console.log(`[Solver] Matrix ${this.currentMatrix}: Expected ${expectedIterations} iterations, sampling every ${samplingInterval} states`);
+
+        // Show grid and initialize renderer for live updates
+        this.gridRenderer.setInitialPuzzle(puzzle);
+
+        // Live rendering variables
+        let lastRenderTime = Date.now();
+        const renderInterval = 50; // Render every 50ms for live animation
+
+        // Capture states during solving with adaptive sampling AND live rendering
+        let stateCounter = 0;
         this.solver.onStateChange = (state) => {
-            this.history.push(state);
+            stateCounter++;
+
+            // Sample states for history (playback later)
+            if (stateCounter === 1 || stateCounter % samplingInterval === 0 || state.isSolved) {
+                this.history.push(state);
+            }
+
+            // Live render every 50ms for immediate visual feedback
+            const now = Date.now();
+            if (now - lastRenderTime > renderInterval || state.isSolved) {
+                this.gridRenderer.render(state, { skipAnimation: true });
+
+                // Update live stats
+                const iterEl = this.container.querySelector('#live-iterations');
+                const depthEl = this.container.querySelector('#live-depth');
+                const cellEl = this.container.querySelector('#live-cell');
+
+                if (iterEl) iterEl.textContent = state.iteration.toLocaleString();
+                if (depthEl) {
+                    depthEl.textContent = state.depth;
+                    // Color depth based on value
+                    if (state.depth > 5) {
+                        depthEl.style.color = '#ff0064';
+                    } else if (state.depth > 2) {
+                        depthEl.style.color = '#ff9d00';
+                    } else {
+                        depthEl.style.color = '#00ff9d';
+                    }
+                }
+                if (cellEl && state.row >= 0) {
+                    cellEl.textContent = `(${state.row}, ${state.col}) = ${state.value}`;
+                } else if (cellEl) {
+                    cellEl.textContent = '-';
+                }
+
+                lastRenderTime = now;
+            }
         };
 
         // Run solver (synchronous for small puzzles)
         // For large puzzles, we'd want to chunk this
-        const expectedIterations = REFERENCE_ITERATIONS[this.currentMatrix];
-
         try {
+            console.log(`[Solver] Starting to solve Matrix ${this.currentMatrix}...`);
+
             // Solve in chunks to keep UI responsive
             await this.solveInChunks();
 
+            console.log(`[Solver] Solving complete. Iterations: ${this.solver.iteration}, States captured: ${this.history.getLength()}`);
+
+            // Hide live stats now that we're done
+            this.liveStatsContainer.style.display = 'none';
+
             // Validate iteration count
             if (this.solver.iteration !== expectedIterations) {
-                console.warn(`Iteration mismatch: expected ${expectedIterations}, got ${this.solver.iteration}`);
+                console.warn(`[Solver] Iteration mismatch: expected ${expectedIterations}, got ${this.solver.iteration}`);
+                this.showStatus(`⚠ Solved in ${this.solver.iteration.toLocaleString()} iterations (expected ${expectedIterations.toLocaleString()})`, 'warning');
+            } else {
+                this.showStatus(`✓ Solved in ${this.solver.iteration.toLocaleString()} iterations - Use controls to replay`, 'success');
             }
 
-            this.showStatus(`Solved in ${this.solver.iteration.toLocaleString()} iterations`, 'success');
-
         } catch (error) {
+            console.error('[Solver] Fatal error:', error);
+            this.liveStatsContainer.style.display = 'none';
             this.showStatus(`Error: ${error.message}`, 'error');
             this.isSolving = false;
             startBtn.disabled = false;
@@ -274,27 +412,46 @@ export class InteractiveSolver {
 
         this.isLoaded = true;
         this.isSolving = false;
+
+        // Don't auto-play - user saw it live! But they can replay if they want
+        this.showStatus('✓ Complete! Use controls below to replay', 'success');
     }
 
-    // Solve puzzle in chunks to keep UI responsive
-    solveInChunks() {
-        return new Promise((resolve, reject) => {
-            // For Matrix 1-5, synchronous solving is fast enough
-            // For very large puzzles, we'd chunk this differently
-            try {
-                this.solver.solve();
-                resolve();
-            } catch (error) {
-                reject(error);
-            }
-        });
+    // Solve puzzle asynchronously with UI updates
+    async solveInChunks() {
+        try {
+            // Use async solver that yields every 100 iterations
+            await this.solver.solveAsync(100);
+        } catch (error) {
+            console.error('[Solver] Error during solve:', error);
+            throw error;
+        }
     }
 
     // Reset to initial state
     reset() {
-        this.cleanupModules();
-        this.gridContainer.style.display = 'none';
+        // Only cleanup solving-related modules, keep grid renderer
+        if (this.animationController) {
+            this.animationController.cleanup();
+            this.animationController = null;
+        }
+
+        if (this.controls) {
+            this.controls.cleanup();
+            this.controls = null;
+        }
+
+        if (this.effects) {
+            this.effects.clear();
+            this.effects = null;
+        }
+
+        resetSharedHistory();
+        this.history = null;
+        this.solver = null;
+
         this.controlsContainer.style.display = 'none';
+        this.liveStatsContainer.style.display = 'none';
         this.container.querySelector('#memory-warning').style.display = 'none';
         this.hideStatus();
 
@@ -303,6 +460,9 @@ export class InteractiveSolver {
         startBtn.innerHTML = '<span class="icon">▶</span> Start Solving';
 
         this.isLoaded = false;
+
+        // Show the new puzzle
+        this.showInitialPuzzle();
     }
 
     // Cleanup module instances

@@ -69,7 +69,7 @@ export class SolverGridRenderer {
 
         // Clear previous active/backtrack states (except fixed)
         this.cells.forEach(cell => {
-            cell.classList.remove('active', 'success', 'backtrack', 'spinning', 'spinning-reverse', 'chromatic');
+            cell.classList.remove('active', 'success', 'backtrack', 'spinning', 'spinning-reverse', 'chromatic', 'pink-glow', 'cooling-down');
         });
 
         // Highlight active cell if specified
@@ -90,11 +90,31 @@ export class SolverGridRenderer {
 
                 // Success if value was placed (non-zero in grid at that position)
                 if (grid[row][col] !== 0) {
-                    // Transition to success after spin
-                    setTimeout(() => {
-                        cell.classList.remove('active');
-                        cell.classList.add('success');
-                    }, skipAnimation ? 0 : 300);
+                    // Hot pink glow -> cool down to green sequence
+                    if (!skipAnimation && this.currentAnimationSpeed <= 10) {
+                        setTimeout(() => {
+                            cell.classList.remove('active', 'spinning');
+                            cell.classList.add('pink-glow');
+
+                            // Cool down to green after 500ms
+                            setTimeout(() => {
+                                cell.classList.remove('pink-glow');
+                                cell.classList.add('cooling-down');
+
+                                // Final green state
+                                setTimeout(() => {
+                                    cell.classList.remove('cooling-down');
+                                    cell.classList.add('success');
+                                }, 500);
+                            }, 100);
+                        }, 200);
+                    } else {
+                        // Fast mode: skip to success immediately
+                        setTimeout(() => {
+                            cell.classList.remove('active');
+                            cell.classList.add('success');
+                        }, skipAnimation ? 0 : 50);
+                    }
                 }
             }
         }

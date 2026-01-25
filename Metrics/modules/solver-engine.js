@@ -206,6 +206,107 @@ export class BruteForceSolver {
     }
 
     /**
+     * Async solving algorithm that yields to UI periodically
+     * Returns true if solved, false if unsolvable
+     */
+    async solveAsync(yieldInterval = 100) {
+        this._yieldCounter = 0;
+        this._yieldInterval = yieldInterval;
+        return await this._solveAsyncRecursive();
+    }
+
+    async _solveAsyncRecursive() {
+        // Find first empty cell (row-major order)
+        let row = -1, col = -1;
+        outer: for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (this.puzzle[r][c] === 0) {
+                    row = r;
+                    col = c;
+                    break outer;
+                }
+            }
+        }
+
+        // If no empty cell found, puzzle is solved
+        if (row === -1) {
+            this.solved = true;
+
+            // Emit final solved state
+            if (this.onStateChange) {
+                this.onStateChange({
+                    grid: this.getGridSnapshot(),
+                    row: -1,
+                    col: -1,
+                    value: 0,
+                    iteration: this.iteration,
+                    depth: this.depth,
+                    isBacktrack: false,
+                    isSolved: true
+                });
+            }
+
+            return true;
+        }
+
+        // Try values 1-9 in ascending order
+        for (let val = 1; val <= 9; val++) {
+            // COUNT EVERY ATTEMPT - this is the algorithm fingerprint
+            this.iteration++;
+
+            // Yield to UI periodically (every N iterations)
+            this._yieldCounter++;
+            if (this._yieldCounter % this._yieldInterval === 0) {
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+
+            // Emit state BEFORE validity check (matches C reference timing)
+            if (this.onStateChange) {
+                this.onStateChange({
+                    grid: this.getGridSnapshot(),
+                    row: row,
+                    col: col,
+                    value: val,
+                    iteration: this.iteration,
+                    depth: this.depth,
+                    isBacktrack: false,
+                    isSolved: false
+                });
+            }
+
+            if (this.isValid(row, col, val)) {
+                // Place value and recurse
+                this.puzzle[row][col] = val;
+                this.depth++;
+
+                if (await this._solveAsyncRecursive()) {
+                    return true;
+                }
+
+                // Backtrack - restore cell to empty
+                this.puzzle[row][col] = 0;
+                this.depth--;
+
+                // Emit backtrack state
+                if (this.onStateChange) {
+                    this.onStateChange({
+                        grid: this.getGridSnapshot(),
+                        row: row,
+                        col: col,
+                        value: val,
+                        iteration: this.iteration,
+                        depth: this.depth,
+                        isBacktrack: true,
+                        isSolved: false
+                    });
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Reset solver to initial state
      */
     reset() {

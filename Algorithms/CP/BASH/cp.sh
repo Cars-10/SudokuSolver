@@ -375,7 +375,7 @@ read_matrix() {
             ((lc++))
             ((lc >= 9)) && break
         fi
-    done < "$file"
+    done < <(cat "$file"; echo "")
 
     ((lc == 9)) || { echo "Error: Need 9 rows" >&2; return 1; }
     return 0

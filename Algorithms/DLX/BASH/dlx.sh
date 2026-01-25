@@ -14,7 +14,7 @@ declare -A LEFT RIGHT UP DOWN COL ROW_ID
 declare -A SIZE NAME
 
 # Node count and allocation
-MAX_NODES=3000
+MAX_NODES=5000
 NODE_COUNT=0
 
 # Root is node 0, columns are nodes 1-324
@@ -370,7 +370,7 @@ read_matrix() {
             ((lc++))
             ((lc >= 9)) && break
         fi
-    done < "$file"
+    done < <(cat "$file"; echo "")
 
     ((lc == 9)) || { echo "Error: Need 9 rows" >&2; return 1; }
     return 0

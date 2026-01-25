@@ -1,22 +1,28 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+# Algorithms/DLX/F_Sharp/runMe.sh
 
-LANGUAGE="F_Sharp"
-SOLVER_BINARY="dotnet dlx.dll"
-METRICS_FILE="metrics.json"
-TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
+LANGUAGE="F#"
+# We use 'dotnet run' which handles restore/build/run
+# Optimization: build release once
+SOLVER_DIR="$(dirname "$0")"
 
+# Source shared functions
 source ../../common.sh
 
 compile() {
-    check_toolchain dotnet
-
-    # Use dotnet build with project file
-    dotnet build dlx.fsproj -c Release -o . >/dev/null 2>&1 || return 1
-
-    # Make the binary executable
-    chmod +x dlx 2>/dev/null || true
-    return 0
+    # Check for dotnet
+    if ! command -v dotnet &> /dev/null; then
+        report_env_error "dotnet not found"
+        return 1
+    fi
+    
+    # Pre-build to avoid noise during timing
+    dotnet build -c Release "$SOLVER_DIR" > /dev/null
 }
 
+# Set solver command logic
+# We use dotnet run with the project file
+SOLVER_BINARY="dotnet run -c Release --no-build --project $SOLVER_DIR/dlx.fsproj"
+
+# Execute benchmarks
 main "$@"

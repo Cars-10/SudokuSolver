@@ -2,23 +2,23 @@
   {
     "solver": "Assembly",
     "runType": "automated",
-    "timestamp": "2026-01-22T20:57:25Z",
+    "timestamp": "2026-01-23T10:51:34Z",
     "results": [
       {
         "matrix": "1",
-        "time": 184.7717,
-        "iterations": 6160249360,
+        "time": 209.8596,
+        "iterations": 6093615712,
         "memory": 1474560,
-        "cpu_user": 1.409,
-        "cpu_sys": 3.944,
-        "page_faults_major": 4,
-        "page_faults_minor": 520,
-        "context_switches_voluntary": 2,
-        "context_switches_involuntary": 66,
+        "cpu_user": 1.419,
+        "cpu_sys": 2.717,
+        "page_faults_major": 8,
+        "page_faults_minor": 514,
+        "context_switches_voluntary": 4,
+        "context_switches_involuntary": 36,
         "io_inputs": 0,
         "io_outputs": 0,
         "status": "success",
-        "output": "Solved in Iterations= 6160249360\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n\udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0 \udca0\n"
+        "output": "Solved in Iterations= 6093615712\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n\udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0 \udcf0\n"
       },
       {
         "matrix": "2",

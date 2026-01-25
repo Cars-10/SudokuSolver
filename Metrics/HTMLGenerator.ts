@@ -466,6 +466,24 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    <!-- Debug Overlay -->
+    <div id="debug-overlay" style="position: fixed; top: 10px; left: 10px; background: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; z-index: 99999; border: 1px solid rgba(255, 255, 255, 0.2); line-height: 1.4;">
+        <div style="font-weight: bold; margin-bottom: 2px;">🔍 Debug Info</div>
+        <div>Branch: <span id="debug-branch">loading...</span></div>
+        <div>Commit: <span id="debug-hash">loading...</span></div>
+        <div>Built: <span id="debug-time">${new Date().toLocaleString()}</span></div>
+    </div>
+    <script>
+        // Populate git info from backend
+        fetch('/api/git-info').then(r => r.json()).then(data => {
+            document.getElementById('debug-branch').textContent = data.branch || 'unknown';
+            document.getElementById('debug-hash').textContent = data.hash || 'unknown';
+        }).catch(() => {
+            document.getElementById('debug-branch').textContent = 'offline';
+            document.getElementById('debug-hash').textContent = 'offline';
+        });
+    </script>
+
     <!-- Force browser to reload JavaScript by adding cache-busting timestamp -->
     <script>
         // Cache buster: ${Date.now()}
@@ -940,7 +958,8 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <a onclick="showMethodology()">Methodology</a>
                     <a onclick="showGoals()">Project Goals</a>
                     <a onclick="showWhy()">Why???</a>
-                    <a onclick="launchInteractiveSolver()">🎮 Interactive Solver</a>
+                    <a onclick="showScoringInsights()">Insights</a>
+                    <a onclick="launchInteractiveSolver()">Interactive Solver</a>
                 </div>
             </div>
             <div style="position: relative; display: inline-block;">
@@ -1422,45 +1441,6 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     html += `
         </tbody></table></div>
 
-        <!-- Scoring Insights Section -->
-        <section class="scoring-insights">
-            <h3>Scoring Insights</h3>
-            <div class="insight-grid">
-                <!-- Correlation Card -->
-                <div class="insight-card correlation">
-                    <h4><span>📊</span> Time vs Memory Correlation</h4>
-                    <div class="metric-value" id="correlation-r2">--</div>
-                    <p id="correlation-interpretation">Loading...</p>
-                </div>
-
-                <!-- Rank Stability Card -->
-                <div class="insight-card stability">
-                    <h4><span>📈</span> Rank Stability Analysis</h4>
-                    <p>How rankings change across different time/memory weight scenarios:</p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
-                        <div>
-                            <p style="color: #2ECC71; font-weight: 500; margin-bottom: 8px;">Most Stable (Top 5)</p>
-                            <ul id="stable-languages" style="color: #ccc;"></ul>
-                        </div>
-                        <div>
-                            <p style="color: #E74C3C; font-weight: 500; margin-bottom: 8px;">Most Volatile (Top 5)</p>
-                            <ul id="unstable-languages" style="color: #ccc;"></ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Outliers Card -->
-                <div class="insight-card outliers">
-                    <h4><span>🎯</span> Statistical Outliers</h4>
-                    <p>Languages with exceptional performance characteristics (IQR method):</p>
-                    <ul id="outlier-list" style="margin-top: 12px;"></ul>
-                    <p id="no-outliers" style="display: none; color: #888; font-style: italic;">
-                        No statistical outliers detected.
-                    </p>
-                </div>
-            </div>
-        </section>
-
         <script>
             // Static Data
             window.personalities = ${safeJSON(personalities)};
@@ -1704,42 +1684,69 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
         const data = window.scoringAnalysisData;
         if (!data) return;
 
-        // Correlation
+        // Correlation - Enhanced
         const r2El = document.getElementById('correlation-r2');
         const interpEl = document.getElementById('correlation-interpretation');
+        const barEl = document.getElementById('correlation-bar');
         if (r2El && interpEl && data.correlation) {
-            r2El.textContent = 'R² = ' + data.correlation.rSquared.toFixed(3);
+            const r2Value = data.correlation.rSquared;
+            r2El.textContent = r2Value.toFixed(3);
             interpEl.textContent = data.correlation.interpretation;
+
+            // Animate the bar
+            if (barEl) {
+                setTimeout(() => {
+                    barEl.style.width = (r2Value * 100) + '%';
+                }, 100);
+            }
         }
 
-        // Rank Stability
-        const stableEl = document.getElementById('stable-languages');
-        const unstableEl = document.getElementById('unstable-languages');
-        if (stableEl && unstableEl && data.stability) {
+        // Rank Stability - Enhanced with visualization
+        const stableEnhancedEl = document.getElementById('stable-languages-enhanced');
+        const unstableEnhancedEl = document.getElementById('unstable-languages-enhanced');
+        if (stableEnhancedEl && unstableEnhancedEl && data.stability) {
             // Most stable (lowest swing)
             const sortedByStability = [...data.stability].sort((a, b) => a.maxSwing - b.maxSwing);
             const mostStable = sortedByStability.slice(0, 5);
-            stableEl.innerHTML = mostStable.map(s =>
-                \`<li>\${s.language} <span class="stable-badge stable">±\${s.maxSwing}</span></li>\`
+            stableEnhancedEl.innerHTML = mostStable.map((s, index) =>
+                \`<div class="stability-item" style="animation-delay: \${index * 0.1}s">
+                    <span class="stability-item-name">\${s.language}</span>
+                    <span class="stability-item-value">±\${s.maxSwing}</span>
+                </div>\`
             ).join('');
 
             // Most unstable (highest swing)
             const mostUnstable = sortedByStability.slice(-5).reverse();
-            unstableEl.innerHTML = mostUnstable.map(s =>
-                \`<li>\${s.language} <span class="stable-badge unstable">±\${s.maxSwing}</span></li>\`
+            unstableEnhancedEl.innerHTML = mostUnstable.map((s, index) =>
+                \`<div class="stability-item" style="animation-delay: \${index * 0.1}s">
+                    <span class="stability-item-name">\${s.language}</span>
+                    <span class="stability-item-value">±\${s.maxSwing}</span>
+                </div>\`
             ).join('');
+
+            // Draw visualization
+            setTimeout(drawStabilityVisualization, 200);
         }
 
-        // Outliers
-        const outlierListEl = document.getElementById('outlier-list');
-        const noOutliersEl = document.getElementById('no-outliers');
-        if (outlierListEl && noOutliersEl && data.outliers) {
+        // Outliers - Enhanced
+        const outlierEnhancedEl = document.getElementById('outlier-list-enhanced');
+        const noOutliersEnhancedEl = document.getElementById('no-outliers-enhanced');
+        if (outlierEnhancedEl && noOutliersEnhancedEl && data.outliers) {
             if (data.outliers.length === 0) {
-                outlierListEl.style.display = 'none';
-                noOutliersEl.style.display = 'block';
+                outlierEnhancedEl.style.display = 'none';
+                noOutliersEnhancedEl.style.display = 'flex';
             } else {
-                outlierListEl.innerHTML = data.outliers.map(o =>
-                    \`<li><strong>\${o.language}</strong> (\${o.metric}): \${o.explanation}</li>\`
+                const colors = [
+                    '#fa709a', '#fee140', '#30cfd0', '#a8edea', '#ff6b6b', '#4ecdc4'
+                ];
+                outlierEnhancedEl.innerHTML = data.outliers.map((o, index) =>
+                    \`<div class="outlier-item" style="border-color: \${colors[index % colors.length]}; animation: sectionFadeIn 0.6s ease forwards; animation-delay: \${index * 0.1}s; opacity: 0;">
+                        <div class="outlier-item-header">
+                            <span class="outlier-item-name">\${o.language}</span>
+                            <span class="outlier-badge" style="background: \${colors[index % colors.length]}22; color: \${colors[index % colors.length]};">\${o.metric}</span>
+                        </div>
+                        <p class="outlier-item-desc">\${o.explanation}</p>
+                    </div>\`
                 ).join('');
             }
         }
@@ -1752,6 +1759,99 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
     window.hasValidationIssues = function(solver) {
         return window.validationIssues && window.validationIssues.some(i => i.language === solver);
     };
+
+    // Scoring Insights Modal Functions
+    function showScoringInsights() {
+        // Scroll page to top before showing modal
+        window.scrollTo(0, 0);
+        document.getElementById('scoringInsightsModal').classList.add('visible');
+    }
+
+    function closeScoringInsights(event) {
+        if (event.target.id === 'scoringInsightsModal' ||
+            event.target.classList.contains('modal-close') ||
+            event.target.classList.contains('insights-close-btn')) {
+            document.getElementById('scoringInsightsModal').classList.remove('visible');
+        }
+    }
+
+    // Draw rank stability visualization
+    function drawStabilityVisualization() {
+        const canvas = document.getElementById('stabilityVizCanvas');
+        if (!canvas) return;
+
+        const data = window.scoringAnalysisData;
+        if (!data || !data.stability) return;
+
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const padding = 60;
+        const chartWidth = width - 2 * padding;
+        const chartHeight = height - 2 * padding;
+
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
+
+        // Get top 10 languages sorted by max swing
+        const sorted = [...data.stability].sort((a, b) => b.maxSwing - a.maxSwing);
+        const top10 = sorted.slice(0, 10);
+
+        const barHeight = chartHeight / top10.length;
+        const maxSwing = Math.max(...top10.map(d => d.maxSwing));
+
+        // Draw background grid
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const x = padding + (chartWidth / 5) * i;
+            ctx.beginPath();
+            ctx.moveTo(x, padding);
+            ctx.lineTo(x, height - padding);
+            ctx.stroke();
+        }
+
+        // Draw bars
+        top10.forEach((lang, index) => {
+            const y = padding + index * barHeight;
+            const barWidth = (lang.maxSwing / maxSwing) * chartWidth;
+
+            // Gradient color based on volatility
+            const gradient = ctx.createLinearGradient(padding, 0, padding + barWidth, 0);
+            const hue = 120 - (lang.maxSwing / maxSwing) * 120; // Green to Red
+            gradient.addColorStop(0, \`hsla(\${hue}, 70%, 50%, 0.3)\`);
+            gradient.addColorStop(1, \`hsla(\${hue}, 70%, 50%, 0.8)\`);
+
+            // Draw bar
+            ctx.fillStyle = gradient;
+            ctx.fillRect(padding, y + barHeight * 0.2, barWidth, barHeight * 0.6);
+
+            // Draw border
+            ctx.strokeStyle = \`hsla(\${hue}, 70%, 50%, 1)\`;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(padding, y + barHeight * 0.2, barWidth, barHeight * 0.6);
+
+            // Draw language name
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px JetBrains Mono, monospace';
+            ctx.textAlign = 'right';
+            ctx.fillText(lang.language, padding - 10, y + barHeight * 0.5 + 4);
+
+            // Draw value
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#fff';
+            ctx.fillText(\`±\${lang.maxSwing}\`, padding + barWidth + 10, y + barHeight * 0.5 + 4);
+        });
+
+        // Draw title
+        ctx.fillStyle = '#888';
+        ctx.font = '14px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('Rank Volatility (Max Position Swing)', width / 2, padding - 20);
+
+        // Draw axis label
+        ctx.fillText('Position Changes', width / 2, height - padding + 35);
+    }
 
     // Validation Diagnostics Modal Functions
     window.showDiagnosticsModal = function(language) {
@@ -1812,6 +1912,53 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
 
     html += `
     <script>
+    // Filter table rows by algorithm
+function filterByAlgorithm(algo) {
+    const rows = document.querySelectorAll('table tbody tr');
+    const links = document.querySelectorAll('#algorithmSelectorBtn + .dropdown-content a');
+
+    // Update active link
+    links.forEach(link => {
+        link.classList.remove('active');
+        const linkAlgo = link.getAttribute('onclick').match(/'([^']+)'/)[1];
+        if (linkAlgo === algo) {
+            link.classList.add('active');
+        }
+    });
+
+    // Filter rows
+    rows.forEach(row => {
+        const langCell = row.querySelector('td:first-child');
+        if (!langCell) return;
+
+        const language = langCell.textContent.trim();
+        const rowAlgo = row.getAttribute('data-algorithm') || 'BruteForce'; // Default to BruteForce
+
+        if (algo === 'all' || rowAlgo === algo) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Save to localStorage
+    try {
+        localStorage.setItem('sudoku-benchmark-algorithm', algo);
+    } catch (e) { /* ignore */ }
+
+    // Update button text
+    const btn = document.getElementById('algorithmSelectorBtn');
+    if (btn) {
+        const algoNames = {
+            'all': 'All Algorithms',
+            'BruteForce': 'Brute Force',
+            'DLX': 'Dancing Links',
+            'CP': 'Constraint Propagation'
+        };
+        btn.textContent = (algoNames[algo] || 'ALGORITHM') + ' ▾';
+    }
+}
+
     // Initialize on load - restore from localStorage or default to all
 document.addEventListener('DOMContentLoaded', function () {
     let savedAlgo = 'all';
@@ -1826,8 +1973,135 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+    <!-- Scoring Insights Modal -->
+    <div id="scoringInsightsModal" class="modal-overlay" onclick="closeScoringInsights(event)">
+        <div class="insights-modal-container" onclick="event.stopPropagation()">
+            <button class="insights-close-btn" onclick="event.stopPropagation(); closeScoringInsights(event);">&times;</button>
+
+            <!-- Hero Header -->
+            <div class="insights-hero">
+                <div class="insights-hero-bg"></div>
+                <div class="insights-hero-content">
+                    <div class="insights-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            <path d="M10 7v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h1 class="insights-title">Scoring Insights</h1>
+                    <p class="insights-subtitle">Deep dive into performance metrics and ranking behavior</p>
+                </div>
+            </div>
+
+            <!-- Insights Content -->
+            <div class="insights-content">
+                <!-- Correlation Section -->
+                <section class="insights-section">
+                    <div class="section-header">
+                        <div class="section-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Time vs Memory Correlation</h2>
+                            <p class="section-desc">Statistical relationship between execution time and memory usage</p>
+                        </div>
+                    </div>
+                    <div class="insights-card correlation-card">
+                        <div class="correlation-display">
+                            <div class="correlation-value">
+                                <div class="value-label">R² Coefficient</div>
+                                <div class="value-number" id="correlation-r2">--</div>
+                                <div class="value-bar">
+                                    <div class="value-bar-fill" id="correlation-bar"></div>
+                                </div>
+                            </div>
+                            <div class="correlation-interpretation">
+                                <div class="interpretation-icon">💡</div>
+                                <p id="correlation-interpretation">Loading analysis...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Rank Stability Section with Visualization -->
+                <section class="insights-section">
+                    <div class="section-header">
+                        <div class="section-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Rank Stability Analysis</h2>
+                            <p class="section-desc">How language rankings shift across different weighting scenarios</p>
+                        </div>
+                    </div>
+                    <div class="insights-card stability-card">
+                        <!-- Visualization Canvas -->
+                        <div class="stability-viz-container">
+                            <canvas id="stabilityVizCanvas" width="800" height="300"></canvas>
+                        </div>
+                        <div class="stability-grid">
+                            <div class="stability-column stable">
+                                <div class="column-header">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                    <span>Most Stable</span>
+                                </div>
+                                <div class="stability-list" id="stable-languages-enhanced"></div>
+                            </div>
+                            <div class="stability-divider"></div>
+                            <div class="stability-column volatile">
+                                <div class="column-header">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                    </svg>
+                                    <span>Most Volatile</span>
+                                </div>
+                                <div class="stability-list" id="unstable-languages-enhanced"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Outliers Section -->
+                <section class="insights-section">
+                    <div class="section-header">
+                        <div class="section-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 16v-4"/>
+                                <path d="M12 8h.01"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Statistical Outliers</h2>
+                            <p class="section-desc">Languages with exceptional performance characteristics (IQR method)</p>
+                        </div>
+                    </div>
+                    <div class="insights-card outliers-card">
+                        <div class="outliers-list" id="outlier-list-enhanced"></div>
+                        <div class="no-outliers" id="no-outliers-enhanced" style="display: none;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="15" y1="9" x2="9" y2="15"/>
+                                <line x1="9" y1="9" x2="15" y2="15"/>
+                            </svg>
+                            <p>No statistical outliers detected</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Solver Modal -->
-    <div id="solver-modal" class="modal-overlay" style="display: none;">
+    <div id="solver-modal" class="modal-overlay">
         <div class="diagnostics-modal" style="max-width: 1200px; width: 95%; max-height: 95vh; overflow-y: auto;">
             <button class="modal-close" onclick="closeInteractiveSolver()" style="position: absolute; right: 15px; top: 15px; font-size: 24px; background: none; border: none; color: #888; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s;">&times;</button>
             <div id="interactive-solver-section">

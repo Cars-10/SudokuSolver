@@ -3,7 +3,7 @@
 
 cd "$(dirname "$0")"
 
-LANGUAGE="F_Sharp"
+LANGUAGE="F#"
 METRICS_FILE="metrics.json"
 TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 

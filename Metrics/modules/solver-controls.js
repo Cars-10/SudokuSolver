@@ -53,13 +53,13 @@ export class SolverControls {
                         <span class="icon">⏮</span> Reset
                     </button>
                     <button class="solver-btn" id="solver-step-back" title="Step Back">
-                        <span class="icon">⏪</span>
+                        <span class="icon">⏪</span> Back
                     </button>
                     <button class="solver-btn primary" id="solver-play-pause" title="Play/Pause">
-                        <span class="icon" id="play-icon">▶</span>
+                        <span class="icon" id="play-icon">▶</span> Play
                     </button>
                     <button class="solver-btn" id="solver-step-forward" title="Step Forward">
-                        <span class="icon">⏩</span>
+                        <span class="icon">⏩</span> Fwd
                     </button>
                     <button class="solver-btn" id="solver-skip-end" title="Skip to End">
                         <span class="icon">⏭</span> End
@@ -212,6 +212,14 @@ export class SolverControls {
         const icon = this.playPauseBtn.querySelector('.icon');
         icon.textContent = playing ? '⏸' : '▶';
         this.playPauseBtn.title = playing ? 'Pause' : 'Play';
+
+        // Update button text as well
+        const textNode = Array.from(this.playPauseBtn.childNodes).find(
+            node => node.nodeType === Node.TEXT_NODE
+        );
+        if (textNode) {
+            textNode.textContent = playing ? ' Pause' : ' Play';
+        }
     }
 
     /**

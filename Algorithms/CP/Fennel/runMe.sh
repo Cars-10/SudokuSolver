@@ -1,4 +1,10 @@
 #!/bin/bash
-set -e
-SOLVER_BINARY="./fennel"
-$SOLVER_BINARY Sudoku.fnl "$@"
+cd "$(dirname "$0")"
+
+LANGUAGE="Fennel"
+SOLVER_BINARY="./fennel Sudoku.fnl"
+METRICS_FILE="metrics.json"
+
+source ../../common.sh
+
+main "$@"
