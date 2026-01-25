@@ -1633,18 +1633,40 @@ export const SharedStyles = `
                 0 0 20px #00b8ff;
         }
 
-        /* Successfully placed value */
+        /* Successfully placed value - RED GLOW */
         .solver-cell.success {
-            background: rgba(0, 255, 157, 0.2);
+            background: rgba(255, 0, 100, 0.3);
+            border-color: #ff0064;
+            box-shadow:
+                0 0 15px rgba(255, 0, 100, 0.6),
+                inset 0 0 15px rgba(255, 0, 100, 0.3);
         }
 
         .solver-cell.success .cell-value {
-            color: #00ff9d;
+            color: #ff0064;
             text-shadow:
-                0 0 5px #fff,
-                0 0 10px #00ff9d,
-                0 0 20px #00ff9d,
-                0 0 40px #00ff9d;
+                0 0 10px #fff,
+                0 0 20px #ff0064,
+                0 0 30px #ff0064,
+                0 0 50px #ff0064;
+            animation: pulse-red 0.5s ease-in-out;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px #ff0064,
+                    0 0 30px #ff0064,
+                    0 0 50px #ff0064;
+            }
+            50% {
+                text-shadow:
+                    0 0 20px #fff,
+                    0 0 40px #ff0064,
+                    0 0 60px #ff0064,
+                    0 0 100px #ff0064;
+            }
         }
 
         /* Backtracking - error state */
@@ -1661,13 +1683,41 @@ export const SharedStyles = `
                 0 0 20px #ff0064;
         }
 
-        /* Spin animations */
+        /* Spin animations with Matrix glitch effect */
         .solver-cell.spinning {
             animation: spinY var(--spin-duration, 0.6s) ease-in-out;
         }
 
         .solver-cell.spinning-reverse {
             animation: spinY-reverse var(--spin-duration, 0.6s) ease-in-out;
+        }
+
+        /* Matrix glitch effect during spin */
+        .solver-cell.spinning .cell-value::before,
+        .solver-cell.spinning-reverse .cell-value::before {
+            content: attr(data-glitch);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #00ff9d;
+            opacity: 0;
+            animation: glitch 0.3s linear;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 0; content: 'ア'; transform: translate(0, 0); }
+            10% { opacity: 0.8; content: 'イ'; transform: translate(-2px, 2px); }
+            20% { opacity: 0.6; content: 'ウ'; transform: translate(2px, -2px); }
+            30% { opacity: 0.9; content: 'エ'; transform: translate(-3px, -1px); }
+            40% { opacity: 0.7; content: 'オ'; transform: translate(1px, 3px); }
+            50% { opacity: 1; content: 'カ'; transform: translate(-1px, -2px); }
+            60% { opacity: 0.5; content: 'キ'; transform: translate(3px, 1px); }
+            70% { opacity: 0.8; content: 'ク'; transform: translate(-2px, 2px); }
+            80% { opacity: 0.4; content: 'ケ'; transform: translate(2px, -3px); }
+            90% { opacity: 0.6; content: 'コ'; transform: translate(-1px, 1px); }
+            100% { opacity: 0; transform: translate(0, 0); }
         }
 
         @keyframes spinY {
