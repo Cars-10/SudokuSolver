@@ -390,8 +390,13 @@ export class InteractiveSolver {
         );
 
         // Initialize controls
+        console.log('[Solver] Showing controls container');
         this.controlsContainer.style.display = 'block';
+        console.log('[Solver] Controls container display:', this.controlsContainer.style.display);
+        console.log('[Solver] Creating controls...');
         this.controls = createSolverControls(this.controlsContainer, this.animationController);
+        console.log('[Solver] Controls created:', !!this.controls);
+        console.log('[Solver] Controls HTML length:', this.controlsContainer.innerHTML.length);
 
         // Check if memory limit was reached
         const stats = this.history.getStats();
