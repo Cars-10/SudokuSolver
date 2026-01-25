@@ -1,7 +1,8 @@
 # Phase 7: Interactive Solver - Context
 
 **Gathered:** 2026-01-24
-**Status:** Ready for planning
+**Updated:** 2026-01-25 (post-implementation)
+**Status:** Implemented and verified
 
 <domain>
 ## Phase Boundary
@@ -33,7 +34,8 @@ Provide engaging, visually entertaining solver animation with Neon/Matrix theme 
 - **Grid depth**: 3D with perspective - cells have depth, tilt slightly, numbers appear to float
 
 ### User controls
-- **UI location**: New dedicated tab/section - add 'Interactive Solver' as separate section in report
+- **UI location**: Modal popup launched from INFO dropdown menu - provides better focus and screen real estate for immersive experience (changed from dedicated tab during implementation based on user feedback)
+- **Lazy initialization**: Solver only loads when modal opens (not on page load) - performance optimization
 - **Selection interface**: Dropdowns like current chart selector - separate dropdowns for matrix (1-6) and algorithm (BruteForce/DLX)
 - **Playback controls**: All four controls available:
   - Play/Pause button
@@ -41,6 +43,7 @@ Provide engaging, visually entertaining solver animation with Neon/Matrix theme 
   - Skip to end (jump to solved state)
   - Speed slider (1x-100x as discussed)
 - **Mobile adaptation**: Simplified mobile version - fewer controls on mobile (just play/pause and speed), full controls on desktop
+- **Lifecycle management**: Modal closes with Escape key or backdrop click, full cleanup destroys solver instance to free memory
 
 ### Letter spinning
 - **Individual cell spins**: Only the active cell being modified spins its number (not row/column cascade or synchronized grid)
@@ -78,3 +81,4 @@ None - discussion stayed within phase scope
 
 *Phase: 07-interactive-solver*
 *Context gathered: 2026-01-24*
+*Updated: 2026-01-25 (reflects actual implementation)*
