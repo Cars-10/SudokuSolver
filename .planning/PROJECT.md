@@ -33,16 +33,21 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - ✓ Enhanced language descriptions with encyclopedic content — v2
 - ✓ Author attribution with biographical metadata — v2
 - ✓ Media cleanup automation — v2
+- ✓ Execution-time validation with iteration count checking — v3.0
+- ✓ Invalid implementation flagging with warning badges — v3.0
+- ✓ Scoring methodology sensitivity analysis (4 weight scenarios) — v3.0
+- ✓ Statistical analysis with IQR outlier detection and R² correlation — v3.0
+- ✓ Algorithm dropdown alphabetical sorting — v3.0
+- ✓ Matrix Race fullscreen exit bug fix — v3.0
+- ✓ Scatter plot visualization (Time vs Memory with log scaling) — v3.0
+- ✓ Heatmap visualization (Language x Matrix performance grid) — v3.0
+- ✓ Distribution histogram with percentile markers — v3.0
+- ✓ Interactive browser-based Sudoku solver with animation — v3.0
+- ✓ Validation diagnostics modal with iteration mismatch details — v3.0
 
-### Active (v3.0)
-- [ ] Enhanced test framework enforcing iteration count validation
-- [ ] Invalid implementation flagging (visible in report with warnings)
-- [ ] Scoring methodology analysis and optimization
-- [ ] Algorithm dropdown sorting and label updates
-- [ ] Visual bug fixes and layout improvements
-- [ ] Scatter plot charts (time vs memory, metric relationships)
-- [ ] Distribution histogram charts
-- [ ] Heatmap visualizations
+### Active (Future)
+- [ ] Define algorithmic fingerprinting scoring (based on iteration counts)
+- [ ] Implement "Zen Mode" toggle for simplified viewing
 
 ### Future
 - [ ] Define algorithmic fingerprinting scoring (based on iteration counts)
@@ -51,13 +56,16 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 - [ ] Remote/Docker execution — focusing on local performance and UI refinement
 
 ## Context
-- The project uses a Neon dark mode visual theme.
+- The project uses a Neon dark mode visual theme with Matrix-inspired aesthetics.
 - Solvers are implemented in a wide variety of "Tier 1" and esoteric languages.
 - Performance data is stored in SQLite and JSON formats.
 - **Shipped v1**: Scoring engine, UI cleanup, and metadata alignment complete (2026-01-20).
 - **Shipped v2**: Wikipedia-powered metadata automation with enhanced language descriptions and author attribution (2026-01-20).
+- **Shipped v3.0**: Validation infrastructure, statistical analysis, advanced D3.js visualizations, and interactive solver (2026-01-25).
 - Python tooling pipeline established for metadata extraction and enrichment.
-- Media folder contains curated images for 70+ languages.
+- TypeScript analysis modules provide IQR-based outlier detection, R² correlation, and sensitivity analysis.
+- Interactive solver features 3D CSS grid with neon styling, glitch effects, and playback controls.
+- Current codebase: ~600K LOC across 1,760+ files (TypeScript, JavaScript, Python, 88+ solver languages).
 
 ## Constraints
 - **Algorithmic**: Standard recursive backtracking — Required for fair comparison across all languages.
@@ -73,6 +81,10 @@ Providing a fair, transparent, and visually engaging comparison of programming l
 | 80/20 Scoring | Weighted Time (80%) and Memory (20%) for score calculation. | ✓ v1 |
 | Wikipedia Integration | Automate metadata extraction using Wikipedia API to maintain consistency and reduce manual effort. | ✓ v2 |
 | Media Cleanup | Remove obsolete timestamped images, keeping only curated/logo images. | ✓ v2 |
+| Execution-time Validation | Validate during benchmark execution (not report generation) for immediate feedback. | ✓ v3.0 |
+| Algorithm-specific Tolerance | BruteForce requires exact iteration match; DLX/CP allow +/-1 tolerance for non-deterministic choices. | ✓ v3.0 |
+| IQR Outlier Detection | Use IQR method over Z-score for robustness to skewed distributions (6 orders of magnitude variation). | ✓ v3.0 |
+| Interactive Solver Modal | Launch from INFO dropdown as modal popup instead of inline tab for better focus and immersive experience. | ✓ v3.0 |
 
 ---
-*Last updated: 2026-01-23 after v3 milestone start*
+*Last updated: 2026-01-25 after v3.0 milestone completion*

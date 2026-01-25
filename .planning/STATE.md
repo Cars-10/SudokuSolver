@@ -2,20 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-23)
+See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** Providing a fair, transparent, and visually engaging comparison of programming language performance using a standardized algorithmic implementation.
 
-**Current focus:** Phase 7 - Interactive Solver
+**Current focus:** Planning next milestone or project wrap-up
 
 ## Current Position
 
-Phase: 7 of 7 (Interactive Solver)
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-24 — Completed 07-04-PLAN.md (Integration & UI - modal popup from INFO dropdown)
+Milestone: v3.0 Quality & Insights — ✅ COMPLETE
+Status: Ready for next milestone
+Last activity: 2026-01-25 — v3.0 milestone complete and archived
 
-Progress: [██████████] 100% (14 of 14 estimated total plans)
+Progress: v3.0 shipped (4 phases, 11 plans, 23 requirements)
 
 ## Performance Metrics
 
@@ -51,92 +50,34 @@ Progress: [██████████] 100% (14 of 14 estimated total plans)
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- Local Execution Focus: User specified ignoring docker commands for now to focus on local refinements
-- Wikipedia Integration: Automate metadata extraction using Wikipedia API (v2.0)
-- Media Cleanup: Remove obsolete timestamped images, keeping only curated/logo images (v2.0)
-- Phase 4 Scope Clarification (2026-01-23): Validation infrastructure includes common.sh execution logic and runMe.sh integration points, not just report-time HTMLGenerator.ts validation
-- **04-01 Validation Timing (2026-01-23)**: Validate during execution (not report generation) for immediate feedback - prevents invalid metrics from being written
-- **04-01 Algorithm-specific Tolerance (2026-01-23)**: BruteForce requires exact iteration match; DLX/CP allow +/-1 tolerance for non-deterministic algorithm choices
-- **04-01 Severity Categorization (2026-01-23)**: CRITICAL for solution_invalid or >1 iteration delta; WARNING for +/-1 delta to prioritize fixes
-- **05-01 Outlier Detection Method (2026-01-23)**: IQR method (Q1-1.5×IQR, Q3+1.5×IQR) chosen over Z-score for robustness to skewed distributions - benchmark has 6 orders of magnitude variation
-- **05-01 Correlation Interpretation (2026-01-23)**: R² thresholds: very strong ≥0.8, moderate ≥0.5, weak ≥0.3 - accessible to non-statisticians while maintaining accuracy
-- **05-01 Weight Scenarios (2026-01-23)**: Four scenarios (Time Only 100/0, Current 80/20, Balanced 50/50, Memory Only 0/100) capture spectrum for sensitivity analysis
-- **05-02 Stacked Bar Visualization (2026-01-23)**: 80% blue (time) + 20% orange (memory) inline stacked bars make 80/20 weighting transparent at a glance
-- **05-02 Expandable Row Interaction (2026-01-23)**: Inline expandable rows with expand indicator (▼) in total time column - reduces cognitive load vs separate table
-- **05-02 Special Character Normalization (2026-01-23)**: Consistent C_Sharp→C#, F_Sharp→F# handling across toggleRow, populateSensitivityRow, showScoreTooltip functions
-- **06-01 Chart Selector Sorting (2026-01-24)**: Alphabetical sorting by display text (not value) for chart selector dropdown - predictable UX
-- **06-01 Fullscreen Exit Guard (2026-01-24)**: Surgical guard for Matrix Race fullscreen to prevent exit/re-enter loop - check currentChart before redraw
-- **06-03 Validation Data Embedding (2026-01-24)**: Embed benchmark_issues.json as window.validationIssues for client-side badge/modal rendering - avoids server-side complexity
-- **06-03 Separate Validation Modal (2026-01-24)**: Distinct modal for validation diagnostics vs runtime diagnostics - prevents confusion between algorithm errors and environment issues
-- **06-04 Chart Validation Styling (2026-01-24)**: Scatter plot uses class-based styling (.invalid), heatmap uses inline styles for dynamic conditional rendering - window.hasValidationIssues guard for backward compatibility
-- **07-01 State Callback Timing (2026-01-24)**: Emit state BEFORE validity check to match C reference iteration counting - ensures 656 iterations for Matrix 1
-- **07-01 Memory Limit Default (2026-01-24)**: Cap history at 10,000 states by default - prevents memory explosion on long solvers (Matrix 2 = 439K iterations)
-- **07-01 Double Immutability (2026-01-24)**: Object.freeze both grid and row arrays for complete immutability - prevents accidental mutations during animation
-- **07-02 Perspective Transform (2026-01-24)**: CSS perspective + rotateX for 3D grid depth - pure CSS avoids WebGL complexity while maintaining Matrix aesthetic
-- **07-02 Spin Direction Convention (2026-01-24)**: Clockwise spin for forward progress, counter-clockwise for backtrack - directional convention conveys algorithm state
-- **07-02 Glitch Intensity Scaling (2026-01-24)**: Backtrack depth determines glitch intensity - deep backtracks (depth >5) trigger stronger visual effects
-- **07-03 Delta-time Animation (2026-01-24)**: requestAnimationFrame with delta-time calculation prevents animation speed doubling on high-refresh displays (120Hz, 144Hz)
-- **07-03 Adaptive Animation Skipping (2026-01-24)**: Disable visual animations at >10x speed for performance - smooth playback at high speeds without browser lag
-- **07-03 Progress CSS Variable (2026-01-24)**: Use CSS custom property --progress for slider visual fill - GPU-accelerated rendering with clean separation of concerns
-- **07-04 Modal vs Inline Tab (2026-01-24)**: Interactive Solver launched from INFO dropdown as modal popup instead of inline tab - better focus and screen real estate for immersive experience
-- **07-04 Lazy Initialization (2026-01-24)**: Solver only initializes when modal opens - performance optimization avoiding module loading on page load
+All major decisions are now logged in PROJECT.md Key Decisions table.
+v3.0 milestone decisions archived to milestones/v3.0-ROADMAP.md.
 
 ### Pending Todos
 
-None yet (v3.0 just started).
+None - v3.0 milestone complete.
 
 ### Blockers/Concerns
 
-**Phase 4 considerations:**
-- ✅ Validation logic added to common.sh (execution stage) - COMPLETED 04-01
-- ✅ Transparent integration via sourced common.sh - all runMe.sh scripts automatically inherit validation - COMPLETED 04-01
-- ✅ Iteration count tolerance established: BruteForce exact, DLX/CP +/-1 - COMPLETED 04-01
-- Memory measurement reliability (RSS variance across OS/runtime) - monitoring in 04-02
-- Expect validation failures across 88+ implementations (goal is to find broken implementations) - will address in 04-02
+**v3.0 Completed:**
+- ✅ All 4 phases delivered (Validation, Scoring Analysis, Visualization & UI, Interactive Solver)
+- ✅ 23 of 28 requirements shipped (82% complete)
+- ✅ 5 requirements deferred to future (VIZ-04, VIZ-05, VIZ-06, UI-04, advanced features)
+- ✅ Milestone archived to milestones/v3.0-ROADMAP.md and milestones/v3.0-REQUIREMENTS.md
 
-**Phase 5 considerations:**
-- ✅ Statistical analysis module complete with IQR outlier detection - COMPLETED 05-01
-- ✅ Sensitivity analysis across 4 weight scenarios implemented - COMPLETED 05-01
-- ✅ Rank stability metrics (max swing) calculation ready - COMPLETED 05-01
-- ✅ R² correlation with plain-English interpretation - COMPLETED 05-01
-- ✅ Integration of analysis functions into HTMLGenerator.ts - COMPLETED 05-02
-- ✅ UI design: expandable rows for sensitivity data, mini stacked bars for score decomposition - COMPLETED 05-02
-- ✅ Summary insight sections for rank stability, correlation, and outliers - COMPLETED 05-02
-- Data integrity issue: One metric file has undefined solver (handled defensively in 3 locations)
-
-**Phase 6 considerations:**
-- ✅ UI bugs fixed: alphabetical dropdown, Matrix Race fullscreen exit - COMPLETED 06-01
-- ✅ Advanced visualizations added: scatter plot, heatmap, histogram - COMPLETED 06-02
-- ✅ Validation UI elements: badges and diagnostics modal - COMPLETED 06-03
-- ✅ Chart validation styling: scatter plot and heatmap visual distinction - COMPLETED 06-04
-- ✅ Logarithmic scaling and language filtering implemented - COMPLETED 06-02
-- ✅ Phase 6 complete: All 3 waves delivered (UI fixes, advanced viz, validation integration)
-- May want to address data integrity issue (undefined solver metric) at source
-
-**Phase 7 considerations:**
-- ✅ Browser-compatible solver with state emission - COMPLETED 07-01
-- ✅ Immutable state history with memory limits - COMPLETED 07-01
-- ✅ 3D grid renderer with neon Matrix styling - COMPLETED 07-02
-- ✅ Glitch effects (screen shake, chromatic, alien symbols) - COMPLETED 07-02
-- ✅ Animation controller with requestAnimationFrame - COMPLETED 07-03
-- ✅ Playback controls UI (play/pause/step/reset/skip, speed slider) - COMPLETED 07-03
-- ✅ Integration & UI with modal popup launcher - COMPLETED 07-04
-- ✅ Phase 7 complete: All 4 plans delivered
-- Interactive Solver accessible from INFO dropdown menu
-- Modal UI with lazy initialization and full lifecycle management
+**Known issues for future:**
+- Data integrity: One metric file has undefined solver (handled defensively)
+- Deferred visualizations: Iteration delta chart, validation dashboard, sensitivity chart
 
 ## Session Continuity
 
-Last session: 2026-01-24
-Stopped at: Completed 07-04-PLAN.md — Integration & UI (modal popup from INFO dropdown with lazy initialization)
+Last session: 2026-01-25
+Stopped at: v3.0 milestone completion and archival
 Resume file: None
 
 **Next steps:**
-1. ✅ Phase 7 complete - all 4 plans delivered
-2. ✅ Interactive Solver fully functional and integrated
-3. All 7 phases complete (14 plans total)
-4. Project ready for final testing and deployment
-5. Consider additional phases or project wrap-up
+1. ✅ v3.0 milestone complete - 4 phases, 11 plans, 23 requirements shipped
+2. ✅ Milestone archived to milestones/v3.0-ROADMAP.md and milestones/v3.0-REQUIREMENTS.md
+3. ✅ PROJECT.md evolved with validated requirements
+4. Start next milestone with `/gsd:new-milestone` (requires fresh requirements definition)
+5. Or: Project wrap-up, additional features, or polish work
