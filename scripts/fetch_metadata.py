@@ -21,7 +21,7 @@ BLACKLIST_IMAGES = [
     "iso", "iec", "ansi", "logo", "flag" # We handle logos separately
 ]
 
-# Master Language List
+# Master Language List (Directory names)
 ORDERED_LANGUAGES = [
     "C", "C++", "Rust", "Zig", "Ada", "Fortran", "Pascal", "D", "Nim", "Crystal", "V", "Vala", "Go",
     "Java", "C_Sharp", "F_Sharp", "Scala", "Kotlin", "Swift", "Dart", "Julia", "R", "Haxe",
@@ -33,6 +33,37 @@ ORDERED_LANGUAGES = [
     "SQLite", "XSLT", "Gnuplot", "PostScript",
     "Assembly", "Verilog", "BASIC", "Forth", "Jupyter", "Octave"
 ]
+
+# Mapping from directory names to LanguagesMetadata.ts keys
+DIR_TO_METADATA_KEY = {
+    "C_Sharp": "C#",
+    "F_Sharp": "F#",
+    "Bash": "BASH",
+    "EmacsLisp": "EmacsLisp",
+    "Vimscript": "Vimscript",
+    "Smalltalk": "Smalltalk",
+    "Rexx": "Rexx",
+    "Zsh": "Zsh",
+    "Fish": "Fish",
+    "Ksh": "Ksh",
+    "Tcsh": "Tcsh",
+    "PowerShell": "PowerShell",
+    "AppleScript": "AppleScript",
+    "Make": "Make",
+    "M4": "M4",
+    "Sed": "Sed",
+    "Bc": "Bc",
+    "Dc": "Dc",
+    "Jq": "Jq",
+    "SQLite": "SQLite",
+    "XSLT": "XSLT",
+    "Gnuplot": "Gnuplot",
+    "PostScript": "PostScript",
+    "Verilog": "Verilog",
+    "Forth": "Forth",
+    "Jupyter": "Jupyter",
+    "Haxe": "Haxe"
+}
 
 WIKI_QUERIES = {
     "C": "C (programming language)",
@@ -338,29 +369,33 @@ if __name__ == "__main__":
         content = f.read()
     
     for lang, meta in collected_data.items():
+        # Map directory name to metadata key
+        metadata_key = DIR_TO_METADATA_KEY.get(lang, lang)
+
         # Build the author string
         auth_str = '''        "authors": [
 '''
         for auth in meta["authors"]:
-            auth_str += '            { ' 
-            auth_str += f'"name": "{auth["name"]}"' 
+            auth_str += '            { '
+            auth_str += f'"name": "{auth["name"]}"'
             if "image" in auth:
                     auth_str += f', "image": "{auth["image"]}"'
             auth_str += ' },\n'
         auth_str = auth_str.rstrip(",\n") + "\n"
         auth_str += '        ],'
-        
+
         # JSON dump description
         desc_str = f'        "description": {json.dumps(meta["description"])},'
-        
+
         # Correct regex pattern with escaping for languages like C++
-        lang_pattern = r'("' + re.escape(lang) + r'"\s*:\s*\{)([\s\S]*?)(\})'
-        
+        # Match until }, followed by whitespace and either a closing brace or another language key
+        lang_pattern = r'("' + re.escape(metadata_key) + r'"\s*:\s*\{)([\s\S]*?)(\},\s*(?="|\}))'
+
         match = re.search(lang_pattern, content)
         if match:
             block_start = match.group(1)
             block_content = match.group(2)
-            block_end = match.group(3)
+            block_end = '},'
             
             # Replace description
             if '"description":' in block_content:
@@ -382,7 +417,7 @@ if __name__ == "__main__":
             # Replace in main content (only the first occurrence of this specific block)
             content = content.replace(match.group(0), new_block)
         else:
-            print(f"Warning: Could not find metadata block for {lang} in {OUTPUT_FILE}.")
+            print(f"Warning: Could not find metadata block for {metadata_key} in {OUTPUT_FILE}.")
 
     with open(OUTPUT_FILE, 'w') as f:
         f.write(content)
