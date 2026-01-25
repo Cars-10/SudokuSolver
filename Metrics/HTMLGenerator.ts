@@ -959,7 +959,7 @@ export async function generateHtml(metrics: SolverMetrics[], history: any[], per
                     <a onclick="showGoals()">Project Goals</a>
                     <a onclick="showWhy()">Why???</a>
                     <a onclick="showScoringInsights()">Insights</a>
-                    <a onclick="launchInteractiveSolver()">Interactive Solver</a>
+                    <a onclick="launchInteractiveSolver()">Solver</a>
                 </div>
             </div>
             <div style="position: relative; display: inline-block;">
@@ -2122,13 +2122,21 @@ document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('solver-modal');
             const container = document.getElementById('interactive-solver-section');
 
-            if (!modal || !container) return;
+            if (!modal || !container) {
+                console.error('[Solver Modal] Modal or container not found', { modal: !!modal, container: !!container });
+                return;
+            }
 
-            // Show modal
-            modal.style.display = 'flex';
+            console.log('[Solver Modal] Launching solver modal');
+
+            // Show modal using visible class (like other modals)
+            modal.classList.add('visible');
             document.body.style.overflow = 'hidden';
 
-            // Scroll modal to top
+            // Scroll page to top
+            window.scrollTo(0, 0);
+
+            // Scroll modal content to top
             const modalContent = modal.querySelector('.diagnostics-modal');
             if (modalContent) {
                 modalContent.scrollTop = 0;
@@ -2136,6 +2144,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Initialize solver if not already done
             if (!window.solverInstance) {
+                console.log('[Solver Modal] Initializing solver instance');
                 window.solverInstance = initInteractiveSolver();
             }
         };
@@ -2145,8 +2154,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('solver-modal');
             if (!modal) return;
 
-            // Hide modal
-            modal.style.display = 'none';
+            console.log('[Solver Modal] Closing solver modal');
+
+            // Hide modal using visible class
+            modal.classList.remove('visible');
             document.body.style.overflow = '';
 
             // Cleanup solver instance if it exists
