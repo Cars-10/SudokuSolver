@@ -677,19 +677,15 @@ app.post('/api/fetch-logo', async (req, res) => {
     }
 });
 
-// Generate Report
+// Generate Report via Vite build
 app.post('/api/generate-report', (req, res) => {
-    console.log('Generating benchmark report...');
+    console.log('Building Vite report...');
 
-    // Use tsx for TypeScript execution
-    // In Docker: tsx is installed globally
-    // On host: use npx tsx
     const command = isRunningInDocker
-        ? 'tsx Metrics/generate_report_only.ts'
-        : 'npx tsx Metrics/generate_report_only.ts';
+        ? 'npm run build'
+        : 'npm run build';
 
     // CWD should be the root of the project (parent of server)
-    // In Docker: /app (since server is at /app/server)
     const projectRoot = path.join(__dirname, '..');
 
     exec(command, { cwd: projectRoot, timeout: 120000 }, (error, stdout, stderr) => {
@@ -699,15 +695,15 @@ app.post('/api/generate-report', (req, res) => {
         }
 
         if (error) {
-            console.error(`Report generation error: ${error}`);
+            console.error(`Build error: ${error}`);
             return res.status(500).json({
                 success: false,
-                error: 'Report generation failed',
+                error: 'Build failed',
                 details: stderr || error.message
             });
         } else {
-            console.log('Report generated successfully using TypeScript generator.');
-            res.json({ success: true, generator: 'typescript' });
+            console.log('Build completed successfully. dist/index-v2.html is ready.');
+            res.json({ success: true, generator: 'vite' });
         }
     });
 });
