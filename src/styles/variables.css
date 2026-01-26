@@ -1,3 +1,6 @@
+/* Import JetBrains Mono font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 /* CSS Custom Properties - Neon Theme */
 :root {
   /* Neon Colors */
