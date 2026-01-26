@@ -6,14 +6,12 @@ import { persistenceService } from './services/PersistenceService';
 import { personalityService } from './services/PersonalityService';
 import { metricsService } from './services/MetricsService';
 
-// Import styles
-import './styles/variables.css';
-import './styles/base.css';
-import './styles/modals.css';
-import './styles/tables.css';
+// Import modular styles
+import './styles/main.css';
 
 // Import components
 import { benchmarkTable } from './components/BenchmarkTable';
+import { screensaver } from './components/Screensaver';
 
 // Import components (modals)
 import { languageDetailsModal } from './components/modals/LanguageDetailsModal';
@@ -78,11 +76,14 @@ function renderApp() {
       </header>
 
       <main class="app-main">
-        <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="control-panel-buttons">
           <button id="test-methodology" class="btn">Methodology</button>
           <button id="test-goals" class="btn">Goals</button>
           <button id="test-why" class="btn">Why</button>
           <button id="test-solver" class="btn">Interactive Solver</button>
+          <span class="control-panel-separator">|</span>
+          <button id="red-pill" class="btn btn-red-pill">🔴 Red Pill</button>
+          <button id="blue-pill" class="btn btn-blue-pill">🔵 Blue Pill</button>
         </div>
 
         <div id="benchmark-table-container"></div>
@@ -112,6 +113,15 @@ function wireUpModalButtons() {
 
   document.getElementById('test-solver')?.addEventListener('click', () => {
     interactiveSolverModal.open();
+  });
+
+  // Screensaver buttons
+  document.getElementById('red-pill')?.addEventListener('click', () => {
+    screensaver.start('red');
+  });
+
+  document.getElementById('blue-pill')?.addEventListener('click', () => {
+    screensaver.start('blue');
   });
 }
 

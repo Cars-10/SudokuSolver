@@ -1,86 +1,150 @@
-/* Import JetBrains Mono font */
+/**
+ * CSS Design Tokens - Neon Theme
+ * All color, spacing, and typography values are defined here
+ */
+
+/* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-/* CSS Custom Properties - Neon Theme */
 :root {
-  /* Neon Colors */
-  --bg: #0d0d12;
-  --surface: #16161e;
-  --primary: #00ff9d;
-  --secondary: #00b8ff;
-  --text: #e0e0e0;
-  --muted: #5c5c66;
-  --border: #2a2a35;
+  /* ===================
+     COLOR PALETTE
+     =================== */
 
-  /* Legacy compatibility mappings */
-  --color-primary: var(--primary);
-  --color-primary-dark: #00cc7d;
-  --color-secondary: var(--secondary);
+  /* Primary Colors - Neon */
+  --primary: #00ff9d;
+  --primary-dark: #00cc7d;
+  --primary-light: #33ffb1;
+  --primary-glow: rgba(0, 255, 157, 0.5);
+
+  --secondary: #00b8ff;
+  --secondary-dark: #0099dd;
+  --secondary-light: #33c9ff;
+  --secondary-glow: rgba(0, 184, 255, 0.5);
+
+  /* Background Colors */
+  --bg: #0d0d12;
+  --bg-elevated: #111118;
+  --surface: #16161e;
+  --surface-hover: #1c1c26;
+  --surface-active: #252530;
+
+  /* Text Colors */
+  --text: #e0e0e0;
+  --text-bright: #ffffff;
+  --muted: #5c5c66;
+  --muted-light: #7a7a85;
+
+  /* Border Colors */
+  --border: #2a2a35;
+  --border-light: #3a3a45;
+  --border-focus: var(--primary);
+
+  /* Status Colors */
   --color-success: #00ff9d;
   --color-warning: #ffcc00;
   --color-error: #ff5555;
+  --color-info: #00b8ff;
 
+  /* Legacy Mappings */
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary: var(--secondary);
   --color-bg: var(--bg);
   --color-bg-secondary: var(--surface);
   --color-text: var(--text);
   --color-text-muted: var(--muted);
   --color-border: var(--border);
 
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
+  /* ===================
+     SPACING SCALE
+     =================== */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
 
-  /* Typography */
+  /* ===================
+     TYPOGRAPHY
+     =================== */
   --font-family-base: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
   --font-family-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
 
-  /* Borders */
-  --border-radius-sm: 0.25rem;
-  --border-radius-md: 0.5rem;
-  --border-radius-lg: 0.75rem;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.75;
 
-  /* Neon Shadows with Glow */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 255, 157, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 255, 157, 0.2), 0 0 10px rgba(0, 255, 157, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 255, 157, 0.3), 0 0 15px rgba(0, 255, 157, 0.15);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 255, 157, 0.4), 0 0 20px rgba(0, 255, 157, 0.2);
+  /* ===================
+     BORDERS & RADIUS
+     =================== */
+  --border-width: 1px;
+  --border-radius-sm: 0.25rem;  /* 4px */
+  --border-radius-md: 0.5rem;   /* 8px */
+  --border-radius-lg: 0.75rem;  /* 12px */
+  --border-radius-xl: 1rem;     /* 16px */
+  --border-radius-full: 9999px;
 
-  /* Transitions */
+  /* ===================
+     SHADOWS - Neon Glow
+     =================== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 255, 157, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 255, 157, 0.1), 0 0 10px rgba(0, 255, 157, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 255, 157, 0.15), 0 0 15px rgba(0, 255, 157, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 255, 157, 0.2), 0 0 20px rgba(0, 255, 157, 0.15);
+
+  --shadow-glow-sm: 0 0 10px rgba(0, 255, 157, 0.3);
+  --shadow-glow-md: 0 0 20px rgba(0, 255, 157, 0.4);
+  --shadow-glow-lg: 0 0 30px rgba(0, 255, 157, 0.5);
+
+  /* ===================
+     TRANSITIONS
+     =================== */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 350ms ease;
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-  /* Z-index layers */
+  /* ===================
+     Z-INDEX LAYERS
+     =================== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 500;
+  --z-screensaver: 999;
   --z-modal-backdrop: 1000;
   --z-modal: 1001;
   --z-tooltip: 1002;
-  --z-screensaver: 999;
+  --z-notification: 1003;
 }
 
-/* Glow animations */
+/* ===================
+   KEYFRAME ANIMATIONS
+   =================== */
+
 @keyframes glow {
   from {
-    box-shadow: 0 0 10px rgba(0, 255, 157, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
   }
   to {
-    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.4);
   }
 }
 
 @keyframes pulse-neon {
-  0% {
+  0%, 100% {
     opacity: 0.8;
     text-shadow: 0 0 10px var(--primary);
   }
@@ -88,8 +152,78 @@
     opacity: 1;
     text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Scanline effect for retro feel */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
   100% {
-    opacity: 0.8;
-    text-shadow: 0 0 10px var(--primary);
+    transform: translateY(100vh);
   }
 }

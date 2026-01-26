@@ -1,6 +1,7 @@
 // Benchmark Table Component
 import { metricsService } from '../services/MetricsService';
 import { languageDetailsModal } from './modals/LanguageDetailsModal';
+import { timeAgo } from '../utils/timeago';
 
 export class BenchmarkTable {
   private container: HTMLElement | null = null;
@@ -16,9 +17,9 @@ export class BenchmarkTable {
 
     if (metrics.length === 0) {
       this.container.innerHTML = `
-        <div style="text-align: center; padding: 2rem; color: var(--muted);">
+        <div class="empty-state text-center p-xl text-muted">
           <p>No benchmark data available</p>
-          <p style="font-size: 0.9em; margin-top: 1rem;">
+          <p class="text-sm mt-md">
             Run benchmarks to see results: <code>./runBenchmarks.sh --all</code>
           </p>
         </div>
@@ -41,6 +42,7 @@ export class BenchmarkTable {
               <th>Rank</th>
               <th class="lang-col-header">Language</th>
               <th>Algorithm</th>
+              <th>Updated</th>
               <th>Total Time (s)</th>
               <th>Avg Iterations</th>
               <th>Avg Memory (KB)</th>
@@ -62,6 +64,7 @@ export class BenchmarkTable {
   private renderRow(metric: any, rank: number): string {
     const lang = metric.language || metric.solver;
     const algo = metric.algorithm || metric.algorithmType || 'BruteForce';
+    const updated = metric.timestamp ? timeAgo(metric.timestamp) : 'N/A';
     const totalTime = metric.totalTime ? metric.totalTime.toFixed(3) : 'N/A';
     const avgIters = metric.avgIterations ? Math.round(metric.avgIterations) : 'N/A';
     const avgMem = metric.avgMemory ? Math.round(metric.avgMemory) : 'N/A';
@@ -71,17 +74,20 @@ export class BenchmarkTable {
     const statusClass = failed ? 'status-fail' : 'status-success';
     const statusText = failed ? '✖ Failed' : '✓ Pass';
 
+    const scoreClass = score !== 'N/A' ? 'score-col score-good' : 'score-col text-muted';
+
     return `
       <tr data-language="${lang}" data-algorithm="${algo}">
         <td>${rank}</td>
         <td class="lang-col" data-lang="${lang}">
-          <span style="cursor: pointer; text-decoration: underline dotted;">${lang}</span>
+          <span class="lang-name">${lang}</span>
         </td>
         <td>${algo}</td>
+        <td class="text-muted text-sm">${updated}</td>
         <td>${totalTime}</td>
         <td>${avgIters}</td>
         <td>${avgMem}</td>
-        <td style="font-weight: bold; color: ${score !== 'N/A' ? 'var(--primary)' : 'var(--muted)'}">
+        <td class="${scoreClass}">
           ${score}${score !== 'N/A' ? '%' : ''}
         </td>
         <td>

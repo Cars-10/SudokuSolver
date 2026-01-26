@@ -13,22 +13,55 @@
 }
 
 /* Modal Container */
-.modal {
+.modal,
+.modal-overlay {
+  display: none;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(13, 13, 18, 0.85);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal visibility control */
+.modal.visible,
+.modal-overlay.visible {
+  display: flex !important;
+}
+
+/* Modal content box */
+.modal-content {
+  background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
+  margin: auto;
+  padding: var(--space-md);
+  border: 2px solid var(--secondary);
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-xl);
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 184, 255, 0.2);
+  position: relative;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  z-index: var(--z-modal);
-  animation: slideIn var(--transition-base);
+  animation: modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* Modal Header */

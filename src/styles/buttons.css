@@ -1,0 +1,247 @@
+/**
+ * Button Styles - Neon Theme
+ */
+
+/* Base Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-xs);
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.2);
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+}
+
+.btn:hover {
+  background: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+  transform: translateY(-1px);
+  text-shadow: 0 0 8px rgba(0, 255, 157, 0.8);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  background: transparent;
+}
+
+/* Active State */
+.btn.active {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.6);
+  text-shadow: none;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  box-shadow: 0 0 5px rgba(0, 184, 255, 0.2);
+  text-shadow: 0 0 5px rgba(0, 184, 255, 0.5);
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 184, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 184, 255, 0.5);
+  text-shadow: 0 0 8px rgba(0, 184, 255, 0.8);
+}
+
+.btn-secondary.active {
+  background: var(--secondary);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0, 184, 255, 0.6);
+}
+
+/* Danger Button */
+.btn-danger {
+  color: var(--color-error);
+  border-color: var(--color-error);
+  box-shadow: 0 0 5px rgba(255, 85, 85, 0.2);
+  text-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 85, 85, 0.1);
+  box-shadow: 0 0 15px rgba(255, 85, 85, 0.5);
+  text-shadow: 0 0 8px rgba(255, 85, 85, 0.8);
+}
+
+/* Warning Button */
+.btn-warning {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+  box-shadow: 0 0 5px rgba(255, 204, 0, 0.2);
+  text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.btn-warning:hover {
+  background: rgba(255, 204, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+}
+
+/* Small Button */
+.btn-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+/* Large Button */
+.btn-lg {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+}
+
+/* Icon Button */
+.btn-icon {
+  padding: var(--space-sm);
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.btn-icon .icon {
+  font-size: var(--font-size-lg);
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+/* Ghost Button (minimal styling) */
+.btn-ghost {
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.btn-ghost:hover {
+  background: rgba(0, 255, 157, 0.1);
+  box-shadow: none;
+}
+
+/* Button Group */
+.btn-group {
+  display: inline-flex;
+  gap: 0;
+}
+
+.btn-group .btn {
+  margin: 0;
+  border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+}
+
+.btn-group .btn:last-child {
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+.btn-group .btn:not(:last-child) {
+  border-right: none;
+}
+
+/* Run Button (for benchmark table) */
+.run-btn {
+  background: rgba(0, 255, 157, 0.15);
+  border: 1px solid rgba(0, 255, 157, 0.4);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+.matrix-cell:hover .run-btn,
+.total-time:hover .run-btn,
+tr:hover .run-btn {
+  opacity: 0.8;
+}
+
+.run-btn:hover {
+  opacity: 1;
+  background: rgba(0, 255, 157, 0.3);
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  padding: 0;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.toggle-btn::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: all var(--transition-fast);
+}
+
+.toggle-btn.active::after {
+  left: 26px;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* ===================
+   PILL BUTTONS
+   =================== */
+
+/* Red Pill Button */
+.btn-red-pill {
+  background: linear-gradient(135deg, rgba(255, 50, 50, 0.4), rgba(180, 0, 0, 0.6));
+  border-color: #ff3333;
+  color: #ff6666;
+  text-shadow: 0 0 5px rgba(255, 50, 50, 0.5);
+  box-shadow: 0 0 5px rgba(255, 50, 50, 0.3);
+}
+
+.btn-red-pill:hover {
+  background: linear-gradient(135deg, rgba(255, 50, 50, 0.6), rgba(180, 0, 0, 0.8));
+  box-shadow: 0 0 15px rgba(255, 50, 50, 0.5);
+  text-shadow: 0 0 8px rgba(255, 50, 50, 0.8);
+}
+
+/* Blue Pill Button */
+.btn-blue-pill {
+  background: linear-gradient(135deg, rgba(50, 50, 255, 0.4), rgba(0, 0, 180, 0.6));
+  border-color: #3333ff;
+  color: #6666ff;
+  text-shadow: 0 0 5px rgba(50, 50, 255, 0.5);
+  box-shadow: 0 0 5px rgba(50, 50, 255, 0.3);
+}
+
+.btn-blue-pill:hover {
+  background: linear-gradient(135deg, rgba(50, 50, 255, 0.6), rgba(0, 0, 180, 0.8));
+  box-shadow: 0 0 15px rgba(50, 50, 255, 0.5);
+  text-shadow: 0 0 8px rgba(50, 50, 255, 0.8);
+}

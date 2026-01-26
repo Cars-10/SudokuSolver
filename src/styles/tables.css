@@ -1,142 +1,371 @@
-/* Benchmark Table Styles - Neon Theme */
+/**
+ * Table Styles - Neon Theme
+ */
 
+/* Base Table */
 table {
   width: 100%;
   table-layout: auto;
   border-collapse: separate;
   border-spacing: 0 4px;
+  font-family: var(--font-family-mono);
 }
 
-th, td {
-  text-align: center;
-  white-space: nowrap;
+/* Table Header */
+thead {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
 }
 
 th {
-  padding: 12px;
-  color: #00b8ff;
-  font-size: 1.1em;
+  text-align: center;
+  padding: var(--space-md);
+  color: var(--secondary);
+  font-size: var(--font-size-base);
+  font-weight: 600;
   text-transform: uppercase;
-  border-bottom: 2px solid #2a2a35;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--border);
+  background-color: var(--bg);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition-fast);
 }
 
+th:hover {
+  color: var(--primary);
+}
+
+th.sorted {
+  color: var(--primary);
+}
+
+th.sorted::after {
+  content: ' ▼';
+  font-size: 0.8em;
+}
+
+th.sorted.asc::after {
+  content: ' ▲';
+}
+
+/* Table Cells */
 td {
-  background-color: #16161e;
-  padding: 12px;
-  border-top: 1px solid #2a2a35;
-  border-bottom: 1px solid #2a2a35;
+  text-align: center;
+  padding: var(--space-md);
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
-  transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
 }
 
-tr:hover td {
-  background-color: #1c1c26;
+/* First and last cell borders */
+td:first-child {
+  border-left: 1px solid var(--border);
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+}
+
+td:last-child {
+  border-right: 1px solid var(--border);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+/* Row Hover */
+tbody tr:hover td {
+  background-color: var(--surface-hover);
   border-color: var(--secondary);
   box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
 }
 
+/* Cell Hover */
 td:hover {
-  background-color: #252530 !important;
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3) !important;
+  background-color: var(--surface-active);
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
 }
 
+/* Active Row */
+tr.active-row td,
 .active-row td {
-  background-color: #1c1c26;
+  background-color: var(--surface-hover);
   border-color: var(--primary);
   box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
-  z-index: 20;
   position: relative;
+  z-index: 20;
   animation: glow 1.5s infinite alternate;
 }
 
-/* Language column */
+/* ===================
+   LANGUAGE COLUMN
+   =================== */
+
 .lang-col {
-  font-weight: bold;
-  color: #00ff9d;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: left;
   border-left: 3px solid transparent;
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: #00b8ff;
-  text-align: left;
+  text-decoration-color: var(--secondary);
+  transition: all var(--transition-fast);
 }
 
 .lang-col:hover {
-  border-left-color: #00ff9d;
+  border-left-color: var(--primary);
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+}
+
+.lang-name {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--secondary);
 }
 
 .lang-logo {
   width: 20px;
   height: 20px;
-  margin-right: 8px;
+  margin-right: var(--space-sm);
   vertical-align: middle;
   object-fit: contain;
+  filter: drop-shadow(0 0 2px rgba(0, 255, 157, 0.3));
 }
 
-/* Badges */
+.lang-year {
+  font-size: var(--font-size-xs);
+  color: var(--muted);
+  margin-left: var(--space-xs);
+}
+
+/* ===================
+   BADGES
+   =================== */
+
 .badge {
   display: inline-block;
   padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8em;
-  font-weight: bold;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 5px;
+  letter-spacing: 0.5px;
 }
 
 .badge-easy {
   background-color: rgba(0, 255, 157, 0.1);
-  color: #00ff9d;
-  border: 1px solid #00ff9d;
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
 }
 
 .badge-medium {
   background-color: rgba(255, 204, 0, 0.1);
-  color: #ffcc00;
-  border: 1px solid #ffcc00;
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
 }
 
 .badge-hard {
   background-color: rgba(255, 85, 85, 0.1);
-  color: #ff5555;
-  border: 1px solid #ff5555;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
 }
 
-/* Status Indicators */
+.badge-info {
+  background-color: rgba(0, 184, 255, 0.1);
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
+}
+
+/* ===================
+   STATUS INDICATORS
+   =================== */
+
 .status {
+  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
+  margin-right: var(--space-xs);
+  vertical-align: middle;
 }
 
 .status-success {
-  background-color: #00ff9d;
-  box-shadow: 0 0 5px #00ff9d;
+  background-color: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
 }
 
-.status-fail {
-  background-color: #ff5555;
-  box-shadow: 0 0 5px #ff5555;
+.status-fail,
+.status-error {
+  background-color: var(--color-error);
+  box-shadow: 0 0 8px var(--color-error);
 }
 
-/* Run button styling */
-.run-btn {
-  background: rgba(0, 255, 157, 0.15) !important;
-  border: 1px solid rgba(0, 255, 157, 0.4) !important;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+.status-warning,
+.status-timeout {
+  background-color: var(--color-warning);
+  box-shadow: 0 0 8px var(--color-warning);
 }
 
-.matrix-cell:hover .run-btn,
-.total-time:hover .run-btn {
-  opacity: 0.8;
+.status-pending {
+  background-color: var(--muted);
+  box-shadow: 0 0 8px var(--muted);
 }
 
-.run-btn:hover {
-  opacity: 1 !important;
-  background: rgba(0, 255, 157, 0.3) !important;
+/* ===================
+   MATRIX CELLS
+   =================== */
+
+.matrix-cell {
+  position: relative;
+  min-width: 80px;
+}
+
+.matrix-cell .meta {
+  font-size: var(--font-size-xs);
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.matrix-timer {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--primary);
+}
+
+/* ===================
+   SCORE COLUMN
+   =================== */
+
+.score-col {
+  font-family: var(--font-family-mono);
+  font-weight: 700;
+}
+
+.score-good {
+  color: var(--color-success);
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+}
+
+.score-medium {
+  color: var(--color-warning);
+  text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.score-poor {
+  color: var(--color-error);
+  text-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+}
+
+/* ===================
+   MEMORY COLUMN
+   =================== */
+
+.memory-col {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+/* ===================
+   COMPILER COLUMN
+   =================== */
+
+.compiler-col {
+  font-size: var(--font-size-sm);
+  color: var(--muted);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===================
+   EXPANDED ROWS
+   =================== */
+
+.expanded-content {
+  display: none;
+}
+
+.expanded-content.visible,
+.expanded-content.open {
+  display: table-row;
+}
+
+.expanded-content td {
+  padding: var(--space-lg);
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.expanded-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-slow);
+}
+
+.expanded-content.open .expanded-wrapper {
+  max-height: 500px;
+}
+
+.expanded-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.expanded-section h4 {
+  color: var(--secondary);
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* ===================
+   MISMATCH HIGHLIGHT
+   =================== */
+
+tr.mismatch-iterations td,
+.mismatch-iterations td {
+  background-color: rgba(255, 85, 85, 0.1);
+  border-color: var(--color-error);
+}
+
+.mismatch-counter {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: rgba(255, 85, 85, 0.2);
+  border: 1px solid var(--color-error);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-error);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+/* ===================
+   RESPONSIVE
+   =================== */
+
+@media (max-width: 1024px) {
+  th, td {
+    padding: var(--space-sm);
+    font-size: var(--font-size-sm);
+  }
+
+  .lang-logo {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th, td {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+  }
 }
