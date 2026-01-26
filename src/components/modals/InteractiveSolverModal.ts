@@ -13,6 +13,15 @@ import { SolverEffects } from '../solver/SolverEffects';
  * Integrates all solver components into a complete interactive sudoku solving experience.
  * ✅ Phase 4 Complete - Full implementation with all 7 solver modules
  */
+// Expected iteration counts for each matrix (used for speed scaling)
+const MATRIX_ITERATIONS: Record<number, number> = {
+  1: 656,
+  2: 439269,
+  3: 98847,
+  4: 9085,
+  5: 445778
+};
+
 export class InteractiveSolverModal extends BaseModal {
   private solver: BruteForceSolver | null = null;
   private history: SolverHistory | null = null;
@@ -165,6 +174,28 @@ export class InteractiveSolverModal extends BaseModal {
     });
   }
 
+  /**
+   * Calculate recommended speed based on expected iteration count
+   * Returns a speed that allows playback in a reasonable time
+   */
+  private getRecommendedSpeed(matrixNum: number): number {
+    const iterations = MATRIX_ITERATIONS[matrixNum] || 656;
+
+    // Target: complete playback in roughly 30-60 seconds at 60fps
+    // 60fps * 30s = 1800 frames for "fast" playback
+    // 60fps * 60s = 3600 frames for "comfortable" playback
+
+    if (iterations < 1000) {
+      return 1; // Matrix 1: slow enough to watch each step
+    } else if (iterations < 10000) {
+      return 10; // Matrix 4: moderate speed
+    } else if (iterations < 100000) {
+      return 25; // Matrix 3: faster
+    } else {
+      return 50; // Matrix 2, 5: high speed for large iteration counts
+    }
+  }
+
   private updateAlgorithmDescription(algorithm: string): void {
     const descriptions: Record<string, string> = {
       'BruteForce': '<strong>Brute Force Backtracking:</strong> Tries every possible number (1-9) in each empty cell, row by row. If a number violates Sudoku rules, it backtracks and tries the next number. Guaranteed to find a solution but explores many dead ends.',
@@ -219,12 +250,18 @@ export class InteractiveSolverModal extends BaseModal {
       const elapsed = (performance.now() - startTime).toFixed(2);
 
       if (solved) {
+        const iterCount = this.solver.getIteration();
+        const recommendedSpeed = this.getRecommendedSpeed(matrixNum);
+
         this.updateStatus(
-          `✅ Solved in ${this.solver.getIteration().toLocaleString()} iterations (${elapsed}ms). Use controls to replay.`
+          `✅ Solved in ${iterCount.toLocaleString()} iterations (${elapsed}ms). Speed set to ${recommendedSpeed}x for this matrix.`
         );
 
         // Enable controls for playback
         this.controls.setEnabled(true);
+
+        // Set recommended speed based on iteration count
+        this.controls.setSpeed(recommendedSpeed);
 
         // Go to first state
         if (this.animationController) {

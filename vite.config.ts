@@ -12,7 +12,7 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index-v2.html')
+        main: path.resolve(__dirname, 'index.html')
       }
     },
     chunkSizeWarningLimit: 1000
