@@ -10,6 +10,7 @@ import { metricsService } from './services/MetricsService';
 import './styles/variables.css';
 import './styles/base.css';
 import './styles/modals.css';
+import './styles/tables.css';
 
 // Import components (modals)
 import { languageDetailsModal } from './components/modals/LanguageDetailsModal';

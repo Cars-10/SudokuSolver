@@ -1,25 +1,27 @@
-/* CSS Custom Properties */
+/* CSS Custom Properties - Neon Theme */
 :root {
-  /* Colors */
-  --color-primary: #007acc;
-  --color-primary-dark: #005a9e;
-  --color-secondary: #5c2d91;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
+  /* Neon Colors */
+  --bg: #0d0d12;
+  --surface: #16161e;
+  --primary: #00ff9d;
+  --secondary: #00b8ff;
+  --text: #e0e0e0;
+  --muted: #5c5c66;
+  --border: #2a2a35;
 
-  --color-bg: #ffffff;
-  --color-bg-secondary: #f3f4f6;
-  --color-text: #1f2937;
-  --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
+  /* Legacy compatibility mappings */
+  --color-primary: var(--primary);
+  --color-primary-dark: #00cc7d;
+  --color-secondary: var(--secondary);
+  --color-success: #00ff9d;
+  --color-warning: #ffcc00;
+  --color-error: #ff5555;
 
-  /* Dark mode */
-  --color-bg-dark: #1f2937;
-  --color-bg-secondary-dark: #111827;
-  --color-text-dark: #f9fafb;
-  --color-text-muted-dark: #9ca3af;
-  --color-border-dark: #374151;
+  --color-bg: var(--bg);
+  --color-bg-secondary: var(--surface);
+  --color-text: var(--text);
+  --color-text-muted: var(--muted);
+  --color-border: var(--border);
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -30,8 +32,8 @@
   --space-2xl: 3rem;
 
   /* Typography */
-  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  --font-family-base: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+  --font-family-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -46,11 +48,11 @@
   --border-radius-md: 0.5rem;
   --border-radius-lg: 0.75rem;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  /* Neon Shadows with Glow */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 255, 157, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 255, 157, 0.2), 0 0 10px rgba(0, 255, 157, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 255, 157, 0.3), 0 0 15px rgba(0, 255, 157, 0.15);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 255, 157, 0.4), 0 0 20px rgba(0, 255, 157, 0.2);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -64,13 +66,27 @@
   --z-screensaver: 999;
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: var(--color-bg-dark);
-    --color-bg-secondary: var(--color-bg-secondary-dark);
-    --color-text: var(--color-text-dark);
-    --color-text-muted: var(--color-text-muted-dark);
-    --color-border: var(--color-border-dark);
+/* Glow animations */
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.1);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+  }
+}
+
+@keyframes pulse-neon {
+  0% {
+    opacity: 0.8;
+    text-shadow: 0 0 10px var(--primary);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
+  }
+  100% {
+    opacity: 0.8;
+    text-shadow: 0 0 10px var(--primary);
   }
 }

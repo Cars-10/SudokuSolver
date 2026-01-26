@@ -1,4 +1,4 @@
-/* Base styles and resets */
+/* Base styles and resets - Neon Theme */
 
 * {
   box-sizing: border-box;
@@ -16,8 +16,19 @@ body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: 1.5;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  color: var(--text);
+  background-color: var(--bg);
+  overflow-x: auto;
+}
+
+body.fullscreen-active {
+  overflow: hidden;
+}
+
+/* Neon heading styles */
+h1, h2, h3 {
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
 }
 
 /* App container */
@@ -89,27 +100,41 @@ body {
   margin-bottom: var(--space-xs);
 }
 
-/* Buttons */
+/* Buttons - Neon Style */
 .btn {
   display: inline-block;
   padding: var(--space-sm) var(--space-md);
   margin: var(--space-xs);
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-base);
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all var(--transition-base);
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.2);
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
 }
 
 .btn:hover {
-  background-color: #005a9e;
+  background: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+  transform: translateY(-1px);
+  text-shadow: 0 0 8px rgba(0, 255, 157, 0.8);
 }
 
 .btn:active {
   transform: translateY(1px);
+}
+
+.btn.active {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.6);
+  text-shadow: none;
 }
 
 /* Test output */
