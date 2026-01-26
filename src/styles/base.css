@@ -10,18 +10,24 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0d0d12;
+  background-color: #0d0d12 !important;
 }
 
 body {
-  font-family: 'JetBrains Mono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
-  font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto !important;
+  font-size: 1rem !important;
   line-height: 1.5;
-  color: #e0e0e0;
-  background-color: #0d0d12;
-  margin: 0;
-  padding: 40px;
+  color: #e0e0e0 !important;
+  background-color: #0d0d12 !important;
+  margin: 0 !important;
+  padding: 40px !important;
   overflow-x: auto;
+}
+
+#app {
+  background-color: #0d0d12 !important;
+  color: #e0e0e0 !important;
+  min-height: 100vh;
 }
 
 body.fullscreen-active {
@@ -30,23 +36,29 @@ body.fullscreen-active {
 
 /* Neon heading styles */
 h1 {
-  text-align: center;
-  color: #00ff9d;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 40px;
-  text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  text-align: center !important;
+  color: #00ff9d !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 40px !important;
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.3) !important;
 }
 
 h2, h3 {
-  color: #00ff9d;
-  text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  color: #00ff9d !important;
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.3) !important;
+}
+
+p {
+  color: #e0e0e0 !important;
 }
 
 /* App container */
 .app-container {
   min-height: 100vh;
   padding: 40px;
+  background-color: #0d0d12 !important;
+  color: #e0e0e0 !important;
 }
 
 .container {
@@ -55,11 +67,17 @@ h2, h3 {
   margin: 0 auto;
   overflow-x: auto;
   padding-bottom: 60px;
+  background-color: #0d0d12 !important;
 }
 
 .app-header {
   text-align: center;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: 3rem;
+  background-color: #0d0d12 !important;
+}
+
+.app-main {
+  background-color: #0d0d12 !important;
 }
 
 .app-header h1 {
