@@ -29,7 +29,9 @@ export class PersistenceService {
         }
       }
     } catch (err) {
-      console.error('[PersistenceService] Restore failed:', err);
+      console.warn('[PersistenceService] Failed to restore state, clearing:', err);
+      // Clear corrupted state
+      localStorage.removeItem(this.STORAGE_KEY);
     }
   }
 
