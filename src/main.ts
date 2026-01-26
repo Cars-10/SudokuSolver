@@ -12,6 +12,9 @@ import './styles/base.css';
 import './styles/modals.css';
 import './styles/tables.css';
 
+// Import components
+import { benchmarkTable } from './components/BenchmarkTable';
+
 // Import components (modals)
 import { languageDetailsModal } from './components/modals/LanguageDetailsModal';
 import { methodologyModal } from './components/modals/MethodologyModal';
@@ -69,147 +72,46 @@ function renderApp() {
   app.innerHTML = `
     <div class="app-container">
       <header class="app-header">
-        <h1>Sudoku Benchmark Report v2.0</h1>
-        <p class="subtitle">${metricsCount} language implementations</p>
-        <div class="dev-banner">
-          ⚠️ Development Build - Vite Hot Reload Active
-        </div>
+        <h1>Sudoku Benchmark Report</h1>
+        <p class="subtitle">${metricsCount} Language Implementations</p>
+        ${import.meta.env.DEV ? '<div class="dev-banner">⚠️ Development Mode - Vite v2.0</div>' : ''}
       </header>
 
       <main class="app-main">
-        <section class="info-section">
-          <h2>🎉 Phase 3 COMPLETE!</h2>
-          <p><strong>All 8 modals implemented:</strong></p>
-          <ul>
-            <li>✅ BaseModal abstract class (draggable, keyboard handlers)</li>
-            <li>✅ LanguageDetailsModal (LDM) - shows metrics & metadata</li>
-            <li>✅ MethodologyModal (MM) - explains benchmark methodology</li>
-            <li>✅ GoalsModal (GM) - project goals</li>
-            <li>✅ WhyModal (WM) - project motivation</li>
-            <li>✅ SourceCodeModal (SCM) - displays source code</li>
-            <li>✅ DiagnosticsModal (DM) - benchmark issues</li>
-            <li>✅ ScoreAnalysisModal (SAM) - score breakdown</li>
-            <li>✅ InteractiveSolverModal (ISM) - placeholder for Phase 4</li>
-            <li>✅ Modal styles CSS</li>
-          </ul>
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <button id="test-methodology" class="btn">Methodology</button>
+          <button id="test-goals" class="btn">Goals</button>
+          <button id="test-why" class="btn">Why</button>
+          <button id="test-solver" class="btn">Interactive Solver</button>
+        </div>
 
-          <h3>Next Steps:</h3>
-          <p>Phase 4 (Week 2-3): Migrate Solver Modules</p>
-          <ul>
-            <li>SolverEngine, SolverState, SolverGrid</li>
-            <li>SolverAnimation, SolverControls, SolverEffects</li>
-            <li>Complete InteractiveSolver with full UI</li>
-            <li>⚠️ CRITICAL: DO NOT modify algorithm logic!</li>
-          </ul>
-        </section>
-
-        <section class="test-section">
-          <h2>🧪 Test Modals</h2>
-          <div style="margin-bottom: 1rem;">
-            <button id="test-lang-modal" class="btn">Language Details</button>
-            <button id="test-methodology" class="btn">Methodology</button>
-            <button id="test-goals" class="btn">Goals</button>
-            <button id="test-why" class="btn">Why</button>
-          </div>
-          <div style="margin-bottom: 1rem;">
-            <button id="test-source" class="btn">Source Code</button>
-            <button id="test-diagnostics" class="btn">Diagnostics</button>
-            <button id="test-score" class="btn">Score Analysis</button>
-            <button id="test-solver" class="btn">Interactive Solver</button>
-          </div>
-
-          <h3>🧪 Test Infrastructure</h3>
-          <button id="test-state-btn" class="btn">StateManager</button>
-          <button id="test-events-btn" class="btn">EventBus</button>
-          <button id="test-registry-btn" class="btn">Component Registry</button>
-          <button id="test-persona-btn" class="btn">Persona</button>
-          <pre id="test-output" class="test-output"></pre>
-        </section>
+        <div id="benchmark-table-container"></div>
       </main>
     </div>
   `;
 
-  // Wire up test buttons
-  wireUpTests();
+  // Render the benchmark table
+  benchmarkTable.render('benchmark-table-container');
+
+  // Wire up modal buttons
+  wireUpModalButtons();
 }
 
-function wireUpTests() {
-  const output = document.getElementById('test-output');
-  if (!output) return;
-
-  document.getElementById('test-state-btn')?.addEventListener('click', () => {
-    const state = appState.get();
-    output.textContent = JSON.stringify(state, null, 2);
-  });
-
-  document.getElementById('test-events-btn')?.addEventListener('click', () => {
-    eventBus.emit(Events.STATE_UPDATED, 'test event');
-    const count = eventBus.listenerCount();
-    output.textContent = `EventBus has ${count} total listeners\nEvent emitted: STATE_UPDATED`;
-  });
-
-  document.getElementById('test-registry-btn')?.addEventListener('click', () => {
-    output.textContent = componentRegistry.summary();
-  });
-
-  document.getElementById('test-persona-btn')?.addEventListener('click', () => {
-    const current = personalityService.getCurrent();
-    output.textContent = JSON.stringify(current, null, 2);
-  });
-
-  // Modal test buttons
-  document.getElementById('test-lang-modal')?.addEventListener('click', () => {
-    const metrics = metricsService.getAll();
-    const firstLang = metrics[0]?.language || 'C';
-    languageDetailsModal.showForLanguage(firstLang);
-    output.textContent = `Opened Language Details for: ${firstLang}`;
-  });
-
+function wireUpModalButtons() {
   document.getElementById('test-methodology')?.addEventListener('click', () => {
     methodologyModal.open();
-    output.textContent = 'Opened Methodology Modal';
   });
 
   document.getElementById('test-goals')?.addEventListener('click', () => {
     goalsModal.open();
-    output.textContent = 'Opened Goals Modal';
   });
 
   document.getElementById('test-why')?.addEventListener('click', () => {
     whyModal.open();
-    output.textContent = 'Opened Why Modal';
-  });
-
-  document.getElementById('test-source')?.addEventListener('click', () => {
-    const sampleCode = `// Sample C code\n#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}`;
-    sourceCodeModal.showForLanguage('C', sampleCode);
-    output.textContent = 'Opened Source Code Modal';
-  });
-
-  document.getElementById('test-diagnostics')?.addEventListener('click', () => {
-    const sampleDiagnostics = [
-      {
-        language: 'Python',
-        type: 'error',
-        message: 'Iteration count mismatch',
-        expectedIterations: 656,
-        actualIterations: 658
-      }
-    ];
-    diagnosticsModal.showDiagnostics(sampleDiagnostics);
-    output.textContent = 'Opened Diagnostics Modal';
-  });
-
-  document.getElementById('test-score')?.addEventListener('click', () => {
-    const metrics = metricsService.getAll();
-    const firstLang = metrics[0]?.language || 'C';
-    scoreAnalysisModal.showForLanguage(firstLang);
-    output.textContent = `Opened Score Analysis for: ${firstLang}`;
   });
 
   document.getElementById('test-solver')?.addEventListener('click', () => {
     interactiveSolverModal.open();
-    output.textContent = 'Opened Interactive Solver Modal (placeholder)';
   });
 }
 

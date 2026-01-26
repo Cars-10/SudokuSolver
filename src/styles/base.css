@@ -34,7 +34,15 @@ h1, h2, h3 {
 /* App container */
 .app-container {
   min-height: 100vh;
-  padding: var(--space-xl);
+  padding: 40px;
+}
+
+.container {
+  width: 90%;
+  max-width: none;
+  margin: 0 auto;
+  overflow-x: auto;
+  padding-bottom: 60px;
 }
 
 .app-header {
