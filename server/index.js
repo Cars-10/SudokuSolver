@@ -16,18 +16,32 @@ console.log(`Server running on Host (${os.platform()})`);
 app.use(cors());
 app.use(express.json());
 
+// Serve dist directory for Vite build assets (CSS, JS, sourcemaps)
+app.use(express.static(path.join(__dirname, '../dist')));
+
 // Serve root directory for static assets (timestamp.js, images, etc.)
 app.use(express.static(path.join(__dirname, '..')));
 
 // Serve server directory for static assets
 app.use(express.static(path.join(__dirname, '.')));
 
-// Serve the Benchmark Report at Root
+// Serve the Benchmark Report at Root (Vite build: dist/index-v2.html)
+// Falls back to index.html (legacy) if Vite build not available
 app.get('/', (req, res) => {
-    const reportPath = path.join(__dirname, '../index.html');
-    if (fs.existsSync(reportPath)) {
-        res.sendFile(reportPath);
-    } else {
+    const vitePath = path.join(__dirname, '../dist/index-v2.html');
+    const legacyPath = path.join(__dirname, '../index.html');
+
+    // Try Vite build first (modern, modular UI)
+    if (fs.existsSync(vitePath)) {
+        res.sendFile(vitePath);
+    }
+    // Fallback to legacy build if Vite not available
+    else if (fs.existsSync(legacyPath)) {
+        console.warn('Vite build not found, serving legacy index.html. Run: npm run build');
+        res.sendFile(legacyPath);
+    }
+    // No report available
+    else {
         res.send(`
             <html>
                 <body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: #fff;">
