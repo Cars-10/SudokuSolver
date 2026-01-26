@@ -20,7 +20,10 @@ export class BenchmarkTable {
         <div class="empty-state text-center p-xl text-muted">
           <p>No benchmark data available</p>
           <p class="text-sm mt-md">
-            Run benchmarks to see results: <code>./runBenchmarks.sh --all</code>
+            Start the server to load data: <code>cd server && npm start</code>
+          </p>
+          <p class="text-sm mt-sm">
+            Or run benchmarks: <code>./runBenchmarks.sh --all</code>
           </p>
         </div>
       `;

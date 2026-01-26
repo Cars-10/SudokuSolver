@@ -19,6 +19,13 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    open: true
+    open: true,
+    proxy: {
+      // Proxy API requests to the Express server
+      '/api': {
+        target: 'http://localhost:9002',
+        changeOrigin: true
+      }
+    }
   }
 });

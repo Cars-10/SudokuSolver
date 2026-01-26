@@ -799,6 +799,53 @@ function getLatestRun(metrics) {
     return sorted[0];
 }
 
+// Get all metrics (aggregated from all languages)
+app.get('/api/metrics', (req, res) => {
+    try {
+        const allMetrics = [];
+        const algorithms = ['BruteForce', 'DLX'];
+
+        algorithms.forEach(algo => {
+            const algoDir = path.join(__dirname, '..', 'Algorithms', algo);
+            if (!fs.existsSync(algoDir)) return;
+
+            const langs = fs.readdirSync(algoDir).filter(f => {
+                const fullPath = path.join(algoDir, f);
+                return fs.statSync(fullPath).isDirectory();
+            });
+
+            langs.forEach(lang => {
+                const metricsPath = path.join(algoDir, lang, 'metrics.json');
+                if (fs.existsSync(metricsPath)) {
+                    try {
+                        const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+                        const latest = getLatestRun(metrics);
+                        if (latest) {
+                            // Add algorithm type if not present
+                            if (!latest.algorithmType) latest.algorithmType = algo;
+                            allMetrics.push(latest);
+                        }
+                    } catch (e) {
+                        console.warn(`Error reading metrics for ${algo}/${lang}:`, e.message);
+                    }
+                }
+            });
+        });
+
+        // Sort by total time (fastest first)
+        allMetrics.sort((a, b) => {
+            const aTime = a.results ? a.results.reduce((sum, r) => sum + r.time, 0) : Infinity;
+            const bTime = b.results ? b.results.reduce((sum, r) => sum + r.time, 0) : Infinity;
+            return aTime - bTime;
+        });
+
+        res.json(allMetrics);
+    } catch (error) {
+        console.error('Error reading all metrics:', error);
+        res.status(500).json({ error: 'Failed to read metrics' });
+    }
+});
+
 // Get metrics for a specific language (latest run)
 app.get('/api/metrics/:language', (req, res) => {
     try {
