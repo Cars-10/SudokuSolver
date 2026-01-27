@@ -379,7 +379,7 @@ export class LanguageDetailsModal extends BaseModal {
         <h4>Learn More</h4>
         <div class="link-buttons">
           <button id="view-source-btn" class="btn btn-link">
-            View Source
+            Source Code
           </button>
           <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(displayName)}_programming_language"
              target="_blank" class="btn btn-link">

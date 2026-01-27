@@ -149,10 +149,6 @@
 
 /* Language Logo Box */
 .language-logo-box {
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  padding: var(--space-md);
   margin-bottom: var(--space-md);
 }
 
@@ -558,9 +554,6 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .language-logo-box {
-    width: 100px;
-  }
 }
 
 /* Source Code Modal Specific */
