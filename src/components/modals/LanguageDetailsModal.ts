@@ -1,13 +1,12 @@
 // Language Details Modal - displays comprehensive information about a language
 import { BaseModal } from './BaseModal';
 import { metricsService } from '../../services/MetricsService';
+import { sourceCodeModal } from './SourceCodeModal';
 import type { SolverMetrics } from '../../types/metrics';
 
 export class LanguageDetailsModal extends BaseModal {
   private currentLanguage: string = '';
   private currentMetrics: SolverMetrics | undefined;
-  private editMode: boolean = false;
-  private editableMetadata: any = {};
 
   constructor() {
     super('LDM', 'Language Details Modal', {
@@ -51,25 +50,31 @@ export class LanguageDetailsModal extends BaseModal {
       );
     }
 
-    const title = this.getPersonaText('languageDetails') + ': ' + this.currentLanguage;
+    const title = 'Language Details';
     const bodyContent = this.renderBody();
 
-    return this.createModalElement(title, bodyContent);
+    const modal = this.createModalElement(title, bodyContent);
+
+    // Add tier badge to header if available
+    if (this.currentMetrics?.tier) {
+      const header = modal.querySelector('.modal-header');
+      const closeBtn = header?.querySelector('.modal-close-btn');
+      if (header && closeBtn) {
+        const tierBadge = document.createElement('span');
+        tierBadge.className = `tier-badge tier-${this.currentMetrics.tier.toLowerCase()}`;
+        tierBadge.textContent = this.currentMetrics.tier;
+        tierBadge.style.cssText = 'margin-left: auto; margin-right: 12px; font-size: 1em; padding: 6px 12px;';
+        header.insertBefore(tierBadge, closeBtn);
+      }
+    }
+
+    return modal;
   }
 
   private renderBody(): HTMLElement {
     const body = document.createElement('div');
     body.setAttribute('data-component-id', `${this.id}-CONTENT`);
 
-    // Edit mode toggle button
-    const toolbar = document.createElement('div');
-    toolbar.style.cssText = 'display: flex; justify-content: flex-end; margin-bottom: 10px;';
-    toolbar.innerHTML = `
-      <button id="edit-mode-toggle" class="btn" style="font-size: 0.8em; padding: 6px 12px;">
-        ${this.editMode ? '✓ Save Changes' : '✎ Edit Metadata'}
-      </button>
-    `;
-    body.appendChild(toolbar);
 
     // Main layout: sidebar + content
     const layout = document.createElement('div');
@@ -86,69 +91,14 @@ export class LanguageDetailsModal extends BaseModal {
 
     body.appendChild(layout);
 
-    // Attach edit toggle handler after rendering
-    setTimeout(() => this.attachEditHandlers(), 0);
+    // Attach handlers after rendering
+    setTimeout(() => {
+      this.attachSourceButtonHandler();
+    }, 0);
 
     return body;
   }
 
-  private attachEditHandlers(): void {
-    const toggleBtn = document.getElementById('edit-mode-toggle');
-    toggleBtn?.addEventListener('click', () => {
-      if (this.editMode) {
-        this.saveMetadata();
-      } else {
-        this.editMode = true;
-        this.refreshContent();
-      }
-    });
-
-    // Attach input change handlers when in edit mode
-    if (this.editMode) {
-      const inputs = document.querySelectorAll('.edit-input');
-      inputs.forEach(input => {
-        input.addEventListener('change', (e) => {
-          const target = e.target as HTMLInputElement;
-          const field = target.dataset.field;
-          if (field) {
-            this.editableMetadata[field] = target.value;
-          }
-        });
-      });
-    }
-  }
-
-  private async saveMetadata(): Promise<void> {
-    try {
-      const res = await fetch('/api/save-metadata', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lang: this.currentLanguage,
-          metadata: this.editableMetadata
-        })
-      });
-
-      if (!res.ok) {
-        throw new Error(`Save failed: ${res.status}`);
-      }
-
-      // Update local state
-      if ((window as any).languageMetadata) {
-        (window as any).languageMetadata[this.currentLanguage] = {
-          ...(window as any).languageMetadata[this.currentLanguage],
-          ...this.editableMetadata
-        };
-      }
-
-      this.editMode = false;
-      this.refreshContent();
-      console.log('[LanguageDetailsModal] Metadata saved successfully');
-    } catch (err) {
-      console.error('[LanguageDetailsModal] Save failed:', err);
-      alert('Failed to save metadata. Check console for details.');
-    }
-  }
 
   private refreshContent(): void {
     if (this.container) {
@@ -181,10 +131,6 @@ export class LanguageDetailsModal extends BaseModal {
         <div class="logo-fallback" style="display: none;">
           <span>${this.currentLanguage.charAt(0)}</span>
         </div>
-      </div>
-      <div class="lang-title">
-        <h2>${displayName}</h2>
-        ${this.currentMetrics?.tier ? `<span class="tier-badge tier-${this.currentMetrics.tier.toLowerCase()}">${this.currentMetrics.tier}</span>` : ''}
       </div>
     `;
 
@@ -250,12 +196,12 @@ export class LanguageDetailsModal extends BaseModal {
     } else {
       descSection.innerHTML = `
         <h3>About ${displayName}</h3>
-        <p style="color: var(--muted);">No description available. Click "Edit Metadata" to add one.</p>
+        <p style="color: var(--muted);">No description available.</p>
       `;
     }
     content.appendChild(descSection);
 
-    // Metadata section (Year, Paradigm, Type System) - clean horizontal layout
+    // Metadata section (Year, Paradigm, Type System) - grid layout with labels above values
     const isLoading = metadata?._loading;
     const metaSection = document.createElement('div');
     metaSection.className = 'language-metadata-section';
@@ -268,9 +214,9 @@ export class LanguageDetailsModal extends BaseModal {
     const year = isLoading ? '...' : (metadata?.year || null);
     if (year) {
       metaItems.push(`
-        <div class="meta-item" style="text-align: center;">
-          <span class="meta-label" style="display: block; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Year</span>
-          <span class="meta-value" style="display: block; color: var(--primary); font-weight: 700; font-size: 1.1em;">${year}</span>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value" style="color: var(--primary); font-weight: 700;">${year}</span>
         </div>
       `);
     }
@@ -279,9 +225,9 @@ export class LanguageDetailsModal extends BaseModal {
     const paradigm = isLoading ? '...' : (metadata?.paradigm?.join(', ') || null);
     if (paradigm) {
       metaItems.push(`
-        <div class="meta-item" style="text-align: center; flex: 2;">
-          <span class="meta-label" style="display: block; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Paradigm</span>
-          <span class="meta-value" style="display: block; color: var(--text); font-weight: 600;">${paradigm}</span>
+        <div class="meta-item">
+          <span class="meta-label">Paradigm</span>
+          <span class="meta-value">${paradigm}</span>
         </div>
       `);
     }
@@ -289,9 +235,9 @@ export class LanguageDetailsModal extends BaseModal {
     // Type System
     if (metadata?.typeSystem) {
       metaItems.push(`
-        <div class="meta-item" style="text-align: center;">
-          <span class="meta-label" style="display: block; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Type System</span>
-          <span class="meta-value" style="display: block; color: var(--text); font-weight: 600;">${metadata.typeSystem}</span>
+        <div class="meta-item">
+          <span class="meta-label">Type System</span>
+          <span class="meta-value">${metadata.typeSystem}</span>
         </div>
       `);
     }
@@ -299,16 +245,16 @@ export class LanguageDetailsModal extends BaseModal {
     // Website
     if (metadata?.website) {
       metaItems.push(`
-        <div class="meta-item" style="text-align: center;">
-          <span class="meta-label" style="display: block; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Website</span>
-          <a href="${metadata.website}" target="_blank" style="color: var(--secondary); font-weight: 600; text-decoration: none;">Visit →</a>
+        <div class="meta-item">
+          <span class="meta-label">Website</span>
+          <a href="${metadata.website}" target="_blank" class="meta-value" style="color: var(--secondary); text-decoration: none;">Visit →</a>
         </div>
       `);
     }
 
     metaSection.innerHTML = `
-      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-        ${metaItems.join('<div style="width: 1px; height: 40px; background: var(--border);"></div>')}
+      <div class="metadata-grid">
+        ${metaItems.join('')}
       </div>
     `;
     content.appendChild(metaSection);
@@ -432,21 +378,35 @@ export class LanguageDetailsModal extends BaseModal {
       <div class="external-links">
         <h4>Learn More</h4>
         <div class="link-buttons">
+          <button id="view-source-btn" class="btn btn-link">
+            View Source
+          </button>
           <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(displayName)}_programming_language"
              target="_blank" class="btn btn-link">
-            📚 Wikipedia
+            Wikipedia
           </a>
           <a href="https://google.com/search?q=${searchTerm}"
              target="_blank" class="btn btn-link">
-            🔍 Google
+            Google
           </a>
           <a href="https://github.com/search?q=${encodeURIComponent(displayName + ' language')}&type=repositories"
              target="_blank" class="btn btn-link">
-            💻 GitHub
+            GitHub
           </a>
         </div>
       </div>
     `;
+  }
+
+  private attachSourceButtonHandler(): void {
+    const btn = document.getElementById('view-source-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        // Get the algorithm from the current metrics if available
+        const algo = this.currentMetrics?.algorithm || this.currentMetrics?.algorithmType || 'BruteForce';
+        sourceCodeModal.showForLanguage(this.currentLanguage, algo);
+      });
+    }
   }
 
   /**
@@ -458,7 +418,7 @@ export class LanguageDetailsModal extends BaseModal {
     // Update title
     const titleEl = this.container.querySelector('h2');
     if (titleEl) {
-      titleEl.textContent = this.getPersonaText('languageDetails') + ': ' + this.currentLanguage;
+      titleEl.textContent = 'Language Details';
     }
 
     console.debug(`[${this.id}] Adapted to persona: ${persona}`);
