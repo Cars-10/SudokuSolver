@@ -214,7 +214,7 @@ export class LanguageDetailsModal extends BaseModal {
     const year = isLoading ? '...' : (metadata?.year || null);
     if (year) {
       metaItems.push(`
-        <div class="meta-item">
+        <div class="meta-item compact">
           <span class="meta-label">Year</span>
           <span class="meta-value" style="color: var(--primary); font-weight: 700;">${year}</span>
         </div>

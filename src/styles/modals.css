@@ -191,6 +191,10 @@
   gap: var(--space-xs);
 }
 
+.meta-item.compact {
+  max-width: 6ch;
+}
+
 .meta-item:last-child {
   margin-bottom: 0;
 }
