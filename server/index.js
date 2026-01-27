@@ -803,7 +803,7 @@ function getLatestRun(metrics) {
 app.get('/api/metrics', (req, res) => {
     try {
         const allMetrics = [];
-        const algorithms = ['BruteForce', 'DLX'];
+        const algorithms = ['BruteForce', 'DLX', 'CP'];
 
         algorithms.forEach(algo => {
             const algoDir = path.join(__dirname, '..', 'Algorithms', algo);
