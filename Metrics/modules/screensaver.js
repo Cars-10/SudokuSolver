@@ -459,6 +459,8 @@ function draw() {
 
     const secretMessage = "/Cars10 ";
 
+    const shouldMove = rainFrame % 2 === 0;
+
     for (let i = 0; i < drops.length; i++) {
         const x = i * 14;
         const y = drops[i] * 14;
@@ -468,7 +470,10 @@ function draw() {
         if (cars10State[i] >= 0) {
             const idx = cars10State[i] % secretMessage.length;
             char = secretMessage[idx];
-            cars10State[i]++;
+            // Only advance to next character when the drop moves
+            if (shouldMove) {
+                cars10State[i]++;
+            }
             isSpecial = true;
         } else {
             char = chars.charAt(Math.floor(Math.random() * chars.length));
@@ -477,7 +482,8 @@ function draw() {
         if (isSpecial) {
             ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 14px monospace';
-            if (cars10State[i] < 20) {
+            if (cars10State[i] < secretMessage.length * 2) {
+                // Bright glow for first two cycles of the message
                 ctx.shadowColor = '#FFFFFF';
                 ctx.shadowBlur = 15;
             } else {
@@ -499,7 +505,7 @@ function draw() {
             else cars10State[i] = -1;
         }
         // Rain moves at half speed (only increment every 2 frames)
-        if (rainFrame % 2 === 0) {
+        if (shouldMove) {
             drops[i]++;
         }
     }
