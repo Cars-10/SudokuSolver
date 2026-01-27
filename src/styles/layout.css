@@ -719,10 +719,7 @@ footer {
   top: 12px;
   left: 12px;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   background: rgba(26, 27, 38, 0.85);
   border: 1px solid rgba(90, 216, 255, 0.3);
   border-radius: 6px;
@@ -737,13 +734,31 @@ footer {
   box-shadow: 0 0 12px rgba(90, 216, 255, 0.2);
 }
 
-.gsd-text {
+.gsd-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gsd-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
 }
 
+.gsd-author {
+  font-family: "Andale Mono", "Monaco", "Consolas", monospace;
+  color: #5AD8FF;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(90, 216, 255, 0.6);
+  letter-spacing: 0.5px;
+}
+
 .gsd-logo {
-  height: 20px;
+  height: 16px;
   width: auto;
+  vertical-align: middle;
 }

@@ -255,8 +255,10 @@ function renderApp() {
 
     <!-- GSD Attribution Overlay -->
     <a href="https://github.com/glittercowboy/get-shit-done" target="_blank" class="gsd-overlay" title="Built with Get Shit Done">
-      <span class="gsd-text">Built with</span>
-      <img src="/images/gsd-logo.png" alt="GSD" class="gsd-logo">
+      <div class="gsd-text-block">
+        <span class="gsd-line">Built by <span class="gsd-author">/Cars10</span></span>
+        <span class="gsd-line">With <img src="/images/gsd-logo.png" alt="GSD" class="gsd-logo"></span>
+      </div>
     </a>
 
     <!-- Table Scroll Buttons -->
