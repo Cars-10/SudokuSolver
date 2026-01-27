@@ -79,9 +79,23 @@ export class AlienStatusSystem {
         this.rotations = originals.map(text =>
             Array.from(text).map(() => Math.random() * 360)
         );
+
+        // Track which characters have been "locked" back to original
+        const locked = originals.map(text => Array.from(text).map(() => false));
+
         const startTime = Date.now();
-        const duration = 3000;
+        const glitchDuration = 2500; // Main glitch phase
+        const revealDuration = 1500; // Reveal phase - chars lock in one at a time
+        const totalDuration = glitchDuration + revealDuration;
         window.alienEffectActive = true;
+
+        // Calculate total non-space characters for reveal timing
+        let totalChars = 0;
+        originals.forEach(text => {
+            for (const ch of text) {
+                if (ch !== ' ' && ch !== ':' && ch !== '\n') totalChars++;
+            }
+        });
 
         // Add perspective to parent for 3D effect
         targets.forEach(el => {
@@ -90,10 +104,12 @@ export class AlienStatusSystem {
         });
 
         let lastUpdate = 0;
+        let revealedCount = 0;
+
         const animate = (timestamp) => {
             const elapsed = Date.now() - startTime;
 
-            if (elapsed > duration) {
+            if (elapsed > totalDuration) {
                 // Restore original text properly
                 targets.forEach((el, i) => {
                     el.innerText = originals[i];
@@ -103,14 +119,39 @@ export class AlienStatusSystem {
                 return;
             }
 
-            // Progress from 0 to 1 over the duration
-            const progress = elapsed / duration;
+            const inRevealPhase = elapsed > glitchDuration;
+
+            // During reveal phase, calculate how many chars should be locked
+            if (inRevealPhase) {
+                const revealProgress = (elapsed - glitchDuration) / revealDuration;
+                const targetRevealed = Math.floor(revealProgress * totalChars);
+
+                // Lock new characters one at a time
+                while (revealedCount < targetRevealed) {
+                    // Find next unlocked character (iterate through all targets/chars)
+                    let found = false;
+                    for (let i = 0; i < originals.length && !found; i++) {
+                        for (let j = 0; j < originals[i].length && !found; j++) {
+                            const ch = originals[i][j];
+                            if (ch !== ' ' && ch !== ':' && ch !== '\n' && !locked[i][j]) {
+                                locked[i][j] = true;
+                                revealedCount++;
+                                found = true;
+                            }
+                        }
+                    }
+                    if (!found) break; // All locked
+                }
+            }
+
+            // Progress for glitch intensity (0 to 1 during glitch phase, stays at 1 during reveal)
+            const glitchProgress = Math.min(elapsed / glitchDuration, 1);
 
             // Rotation speed: starts fast (25 deg), slows to near-stop (1 deg)
-            const rotationSpeed = 25 * (1 - progress * 0.96); // 25 -> 1
+            const rotationSpeed = 25 * (1 - glitchProgress * 0.96); // 25 -> 1
 
             // Character change frequency: starts every frame, slows down
-            const changeInterval = 30 + progress * 150; // 30ms -> 180ms
+            const changeInterval = 30 + glitchProgress * 150; // 30ms -> 180ms
             const shouldChangeChars = (timestamp - lastUpdate) > changeInterval;
             if (shouldChangeChars) lastUpdate = timestamp;
 
@@ -124,6 +165,9 @@ export class AlienStatusSystem {
                         html += ' ';
                     } else if (orig[j] === ':' || orig[j] === '\n') {
                         html += orig[j];
+                    } else if (locked[i][j]) {
+                        // Character is locked - show original with green glow
+                        html += `<span style="display:inline-block;transform:rotateY(0deg);color:#00ff9d;text-shadow:0 0 10px #00ff9d;">${orig[j]}</span>`;
                     } else {
                         // Update rotation - speed decreases over time
                         this.rotations[i][j] = (this.rotations[i][j] + rotationSpeed + Math.random() * rotationSpeed * 0.5) % 360;
