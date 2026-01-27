@@ -8,7 +8,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Jean Ichbiah"
+                    "name": "Jean Ichbiah",
+                    "image": "Algorithms/BruteForce/Ada/Media/Jean_Ichbiah.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T12:13:57.114Z",
@@ -245,7 +246,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Brad Cox"
+                    "name": "Brad Cox",
+                    "image": "Algorithms/BruteForce/Objective-C/Media/Brad_Cox.jpg"
                 },
                 {
                     "name": "Tom Love"
@@ -281,7 +283,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Robert Morris"
+                    "name": "Robert Morris",
+                    "image": "Algorithms/BruteForce/Dc/Media/Robert_Morris.png"
                 },
                 {
                     "name": "Lorinda Cherry"
@@ -622,7 +625,8 @@
             "website": "https://janet-lang.org/",
             "authors": [
                 {
-                    "name": "Calvin Rose"
+                    "name": "Calvin Rose",
+                    "image": "Algorithms/BruteForce/Janet/Media/Calvin_Rose.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -638,7 +642,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Bob Nystrom"
+                    "name": "Bob Nystrom",
+                    "image": "Algorithms/BruteForce/Wren/Media/Bob_Nystrom.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T13:48:02.833Z",
@@ -714,7 +719,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Thomas Williams"
+                    "name": "Thomas Williams",
+                    "image": "Algorithms/BruteForce/Gnuplot/Media/Thomas_Williams.jpg"
                 },
                 {
                     "name": "Colin Kelley"
@@ -825,7 +831,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Brian Fox"
+                    "name": "Brian Fox",
+                    "image": "Algorithms/BruteForce/Bash/Media/Brian_Fox.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:01:55.962Z"
@@ -839,7 +846,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Anders Hejlsberg"
+                    "name": "Anders Hejlsberg",
+                    "image": "Algorithms/BruteForce/C_Sharp/Media/Anders_Hejlsberg.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T17:02:17.986Z",
@@ -874,10 +882,12 @@
             "website": "https://www.scheme.org/",
             "authors": [
                 {
-                    "name": "Guy L. Steele"
+                    "name": "Guy L. Steele",
+                    "image": "Algorithms/BruteForce/Scheme/Media/Guy_L__Steele.jpg"
                 },
                 {
-                    "name": "Gerald Jay Sussman"
+                    "name": "Gerald Jay Sussman",
+                    "image": "Algorithms/BruteForce/Scheme/Media/Gerald_Jay_Sussman.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:27:57.544Z",
@@ -933,7 +943,8 @@
             "website": "https://www.vim.org/",
             "authors": [
                 {
-                    "name": "Bram Moolenaar"
+                    "name": "Bram Moolenaar",
+                    "image": "Algorithms/BruteForce/Vimscript/Media/Bram_Moolenaar.jpg"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
@@ -1006,7 +1017,8 @@
             "website": "https://www.gnu.org/software/bc/",
             "authors": [
                 {
-                    "name": "Robert Morris"
+                    "name": "Robert Morris",
+                    "image": "Algorithms/BruteForce/Bc/Media/Robert_Morris.png"
                 },
                 {
                     "name": "Lorinda Cherry"
@@ -1097,7 +1109,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Urban M\u00fcller"
+                    "name": "Urban M\u00fcller",
+                    "image": "Algorithms/BruteForce/Brainfuck/Media/Urban_M_ller.png"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
