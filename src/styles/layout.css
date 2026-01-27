@@ -781,3 +781,34 @@ footer {
   width: auto;
   vertical-align: middle;
 }
+
+/* Custom tooltips for GSD overlay */
+.gsd-overlay [data-tooltip] {
+  position: relative;
+}
+
+.gsd-overlay [data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(26, 27, 38, 0.95);
+  border: 1px solid rgba(90, 216, 255, 0.4);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.gsd-overlay [data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
