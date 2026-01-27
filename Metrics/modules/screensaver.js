@@ -15,13 +15,52 @@ export class AlienStatusSystem {
         this.aliens = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789";
         this.interval = null;
         this.scrambleInterval = null;
+        this.rotations = []; // Track rotation state for each character
+        this.originals = new Map(); // Store original text for each element
         console.log('[AlienStatusSystem] Constructor');
     }
 
     start() {
-        // Run every 10 seconds (User requested update)
-        // console.log('[AlienStatusSystem] Starting - will trigger every 10 seconds');
-        setInterval(() => this.triggerEffect(), 10000);
+        // Store original text values on start
+        this.storeOriginals();
+        // Run every 10 seconds
+        this.interval = setInterval(() => this.triggerEffect(), 10000);
+    }
+
+    stop() {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+        // Restore all originals when stopping
+        this.restoreOriginals();
+    }
+
+    storeOriginals() {
+        const targets = this.getTargets();
+        targets.forEach(el => {
+            if (!this.originals.has(el)) {
+                this.originals.set(el, el.innerText);
+            }
+        });
+    }
+
+    restoreOriginals() {
+        this.originals.forEach((text, el) => {
+            if (el && document.body.contains(el)) {
+                el.innerText = text;
+                el.style.perspective = '';
+            }
+        });
+    }
+
+    getTargets() {
+        return [
+            ...document.querySelectorAll('.screensaver-diagnostics span'),
+            document.querySelector('.screensaver-mismatch'),
+            document.querySelector('.screensaver-title-text'),
+            document.getElementById('riddle-container')
+        ].filter(el => el);
     }
 
     triggerEffect() {
@@ -29,191 +68,108 @@ export class AlienStatusSystem {
         const isFullscreen = document.body.classList.contains('fullscreen-active');
         if (!isFullscreen) return;
 
-        const targets = [
-            ...document.querySelectorAll('.diagnostics-status span'),
-            document.querySelector('.mismatch-counter'),
-            document.getElementById('solver-text'),
-            document.getElementById('riddle-container')
-        ].filter(el => el);
-
+        const targets = this.getTargets();
         if (targets.length === 0) return;
 
-        // Save originals
-        const originals = targets.map(el => el.innerText);
+        // Re-store originals in case they changed
+        this.storeOriginals();
+
+        // Get originals for this effect run
+        const originals = targets.map(el => this.originals.get(el) || el.innerText);
+        this.rotations = originals.map(text =>
+            Array.from(text).map(() => Math.random() * 360)
+        );
         const startTime = Date.now();
+        const duration = 3000;
         window.alienEffectActive = true;
 
-        this.scrambleInterval = setInterval(() => {
+        // Add perspective to parent for 3D effect
+        targets.forEach(el => {
+            el.style.perspective = '500px';
+            el.style.perspectiveOrigin = 'center';
+        });
+
+        let lastUpdate = 0;
+        const animate = (timestamp) => {
             const elapsed = Date.now() - startTime;
-            if (elapsed > 3000) {
-                clearInterval(this.scrambleInterval);
-                targets.forEach((el, i) => el.innerText = originals[i]);
+
+            if (elapsed > duration) {
+                // Restore original text properly
+                targets.forEach((el, i) => {
+                    el.innerText = originals[i];
+                    el.style.perspective = '';
+                });
                 window.alienEffectActive = false;
                 return;
             }
 
-            // Scramble logic
+            // Progress from 0 to 1 over the duration
+            const progress = elapsed / duration;
+
+            // Rotation speed: starts fast (25 deg), slows to near-stop (1 deg)
+            const rotationSpeed = 25 * (1 - progress * 0.96); // 25 -> 1
+
+            // Character change frequency: starts every frame, slows down
+            const changeInterval = 30 + progress * 150; // 30ms -> 180ms
+            const shouldChangeChars = (timestamp - lastUpdate) > changeInterval;
+            if (shouldChangeChars) lastUpdate = timestamp;
+
+            // Scramble ALL targets together with rotation
             for (let i = 0; i < targets.length; i++) {
                 const el = targets[i];
                 const orig = originals[i];
-                let newTxt = '';
+                let html = '';
                 for (let j = 0; j < orig.length; j++) {
-                    if (orig[j] === ' ' || orig[j] === ':' || orig[j] === '\n') newTxt += orig[j];
-                    else newTxt += this.aliens[Math.floor(Math.random() * this.aliens.length)];
+                    if (orig[j] === ' ') {
+                        html += ' ';
+                    } else if (orig[j] === ':' || orig[j] === '\n') {
+                        html += orig[j];
+                    } else {
+                        // Update rotation - speed decreases over time
+                        this.rotations[i][j] = (this.rotations[i][j] + rotationSpeed + Math.random() * rotationSpeed * 0.5) % 360;
+                        const rot = this.rotations[i][j];
+                        // Only change character at the slowing interval
+                        const char = shouldChangeChars
+                            ? this.aliens[Math.floor(Math.random() * this.aliens.length)]
+                            : el.children[j]?.textContent || this.aliens[Math.floor(Math.random() * this.aliens.length)];
+                        html += `<span style="display:inline-block;transform:rotateY(${rot}deg);transform-style:preserve-3d;">${char}</span>`;
+                    }
                 }
-                el.innerText = newTxt;
+                el.innerHTML = html;
             }
-        }, 80);
+
+            requestAnimationFrame(animate);
+        };
+
+        requestAnimationFrame(animate);
     }
 }
 
 // --- Riddle System ---
+// Simplified: Just displays "OptionIsEscape" as static text
+// AlienStatusSystem handles the glitch effect for ALL text including this
 export class RiddleSystem {
     constructor() {
         this.target = "OptionIsEscape";
-        this.container = document.getElementById('riddle-container');
-        this.textSpan = document.getElementById('solver-text');
-        this.aliens = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789";
-        this.chars = [];
+        this.container = null;
         this.active = false;
-        this.requestId = null;
     }
 
     start() {
+        this.container = document.getElementById('riddle-container');
         if (!this.container) return;
         this.active = true;
-        this.restartCycle();
+        // Simply display the text - AlienStatusSystem will glitch it along with everything else
+        this.container.innerText = this.target;
+        this.container.style.color = '#00ff9d';
+        this.container.style.textShadow = '0 0 5px #00ff9d, 0 0 10px #00ff9d';
     }
 
     stop() {
         this.active = false;
-        if (this.requestId) cancelAnimationFrame(this.requestId);
-    }
-
-    restartCycle() {
-        if (!this.active) return;
-        if (this.textSpan) this.textSpan.style.display = 'none';
-
-        Array.from(this.container.getElementsByClassName('riddle-char')).forEach(el => el.remove());
-        this.chars = [];
-
-        for (let i = 0; i < this.target.length; i++) {
-            const span = document.createElement('span');
-            span.className = 'riddle-char';
-            span.innerText = this.aliens[Math.floor(Math.random() * this.aliens.length)];
-            span.style.transform = 'rotateY(' + (Math.random() * 360) + 'deg)';
-            span.style.transition = 'color 0.2s, text-shadow 0.2s';
-            this.container.appendChild(span);
-            this.chars.push({
-                span: span,
-                target: this.target[i],
-                locked: false,
-                spinSpeed: 2 + Math.random() * 5
-            });
+        if (this.container) {
+            this.container.innerText = '';
         }
-        this.runReveal();
-    }
-
-    runReveal() {
-        let frame = 0;
-        const animate = () => {
-            if (!this.active) return;
-            frame++;
-            let allLocked = true;
-
-            this.chars.forEach((c, i) => {
-                if (c.locked) return;
-                if (frame % 15 === 0) c.span.innerText = this.aliens[Math.floor(Math.random() * this.aliens.length)];
-
-                const currentRot = parseFloat(c.span.style.transform.replace(/[^0-9.]/g, '') || 0);
-                c.span.style.transform = 'rotateY(' + (currentRot + c.spinSpeed) + 'deg)';
-
-                if (frame > 50 + (i * 30)) {
-                    if (Math.random() > 0.1) {
-                        c.locked = true;
-                        c.span.innerText = c.target;
-                        c.span.style.transform = 'rotateY(0deg)';
-                        c.span.style.color = '#00ff9d';
-                    }
-                } else {
-                    allLocked = false;
-                }
-            });
-
-            if (!allLocked) {
-                this.requestId = requestAnimationFrame(animate);
-            } else {
-                this.runScan();
-            }
-        };
-        this.requestId = requestAnimationFrame(animate);
-    }
-
-    runScan() {
-        const startTime = performance.now();
-        const duration = 10000;
-
-        const animate = (time) => {
-            if (!this.active) return;
-            const elapsed = time - startTime;
-            if (elapsed > duration) {
-                this.runSingleCharHold();
-                return;
-            }
-
-            // Scanner visual effect
-            const centerIdx = Math.floor(this.chars.length / 2);
-            const range = 2;
-            const progress = (Math.sin(elapsed / 500) + 1) / 2;
-            const focusIdx = Math.floor(progress * (this.chars.length - 1));
-
-            this.chars.forEach((c, i) => {
-                const dist = Math.abs(i - focusIdx);
-                if (dist < range) {
-                    c.span.style.color = '#ffffff';
-                    c.span.style.textShadow = '0 0 10px #ffffff, 0 0 20px #ffffff';
-                } else {
-                    c.span.style.color = '#00ff9d';
-                    c.span.style.textShadow = '0 0 5px #00ff9d, 0 0 10px #00ff9d';
-                }
-            });
-
-            this.requestId = requestAnimationFrame(animate);
-        };
-        this.requestId = requestAnimationFrame(animate);
-    }
-
-    runSingleCharHold() {
-        const centerIdx = Math.floor(this.chars.length / 2);
-        this.chars.forEach((c, i) => {
-            if (i === centerIdx) {
-                c.span.style.color = '#ff0055';
-                c.span.style.textShadow = '0 0 15px #ff0055, 0 0 30px #ff0055';
-            } else {
-                c.span.style.opacity = '0';
-            }
-        });
-
-        setTimeout(() => {
-            this.runFadeOut();
-        }, 2000);
-    }
-
-    runFadeOut() {
-        this.container.style.transition = 'opacity 2s';
-        this.container.style.opacity = '0';
-
-        setTimeout(() => {
-            this.container.innerHTML = '';
-            this.chars = [];
-            this.container.style.opacity = '1'; // Reset opacity for next run
-            if (this.textSpan) this.textSpan.style.display = 'block'; // Show original text (if needed, or waiting for loop)
-
-            // Loop restart in 60s
-            setTimeout(() => {
-                this.start();
-            }, 60000);
-        }, 2000);
     }
 }
 
@@ -239,13 +195,18 @@ let lastDanceTime = 0;
 let dancingRow = 0;
 let dancingCol = 0;
 let slideInComplete = false;
+let interactionGraceTime = 0; // Grace period before mouse exits blue pill
 
 // Initialize
 export function initMatrixScreensaver(puzzles) {
     matrixPuzzles = puzzles || [];
     const canvas = document.getElementById('matrix-canvas');
-    if (!canvas) return;
+    if (!canvas) {
+        console.error('[Screensaver] Canvas not found during init');
+        return;
+    }
     ctx = canvas.getContext('2d');
+    console.log('[Screensaver] Initialized, ctx:', !!ctx);
 
     // Resize handler
     window.addEventListener('resize', () => {
@@ -254,29 +215,49 @@ export function initMatrixScreensaver(puzzles) {
 }
 
 function resize(canvas) {
-    if (document.fullscreenElement) {
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100vw';
-        canvas.style.height = '100vh';
-        canvas.style.zIndex = '1000';
+    // Get device pixel ratio for sharp rendering on high-DPI displays
+    const dpr = window.devicePixelRatio || 1;
+
+    if (currentMode === 'red') {
+        // Red pill: fullscreen - force visibility with inline styles
+        canvas.style.cssText = `
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            background: #000 !important;
+            display: block !important;
+        `;
         width = window.innerWidth;
         height = window.innerHeight;
+        console.log('[Screensaver] Red pill resize - viewport:', width, 'x', height);
     } else {
-        canvas.style.position = 'absolute';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.zIndex = '10';
+        // Blue pill: use parent container dimensions
         const parent = canvas.parentElement;
-        width = parent.clientWidth;
-        height = parent.clientHeight;
+        if (parent) {
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.zIndex = '10';
+            canvas.style.background = '#000';
+            width = parent.clientWidth || 800;
+            height = parent.clientHeight || 400;
+        } else {
+            width = 800;
+            height = 400;
+        }
     }
 
-    canvas.width = width;
-    canvas.height = height;
+    // Set canvas resolution accounting for device pixel ratio (fixes blurriness)
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    // Scale the context to match the device pixel ratio
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const fontSize = 14;
     columns = Math.ceil(width / fontSize);
@@ -297,6 +278,9 @@ export function startScreensaver(mode) {
 
     active = true;
 
+    // Set grace period for blue pill mode (500ms before mouse can exit)
+    interactionGraceTime = mode === 'blue' ? Date.now() + 500 : 0;
+
     // Request fullscreen if Red
     if (mode === 'red') {
         const elem = document.documentElement;
@@ -307,13 +291,31 @@ export function startScreensaver(mode) {
             });
         }
         document.body.classList.add('fullscreen-active');
-        document.getElementById('fullscreen-header').style.display = 'block';
+        const header = document.getElementById('fullscreen-header');
+        if (header) header.style.display = 'block';
     } else {
+        // Blue pill: chart area only
         document.body.classList.remove('fullscreen-active');
-        document.getElementById('fullscreen-header').style.display = 'none';
+        const header = document.getElementById('fullscreen-header');
+        if (header) header.style.display = 'none';
     }
 
     resize(canvas);
+
+    // Debug: log canvas dimensions
+    console.log('[Screensaver] Canvas dimensions:', width, 'x', height, 'columns:', columns, 'drops:', drops.length);
+
+    // Reset draw counter for debug
+    drawCount = 0;
+
+    // Initialize with solid black background
+    if (ctx) {
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, width, height);
+    } else {
+        console.error('[Screensaver] No ctx when trying to fill background!');
+    }
+
     animationId = requestAnimationFrame(draw);
 
     // Input handling to stop
@@ -373,20 +375,37 @@ function handleKeyInput(e) {
 
 function handleInteraction(e) {
     if (!active) return;
-    if (currentMode !== 'red') { // Blue pill exits on interaction
+
+    // Blue pill: exit on mouse move or click (after grace period)
+    if (currentMode !== 'red') {
+        // Check grace period for mouse movement
+        if (e.type === 'mousemove' && Date.now() < interactionGraceTime) {
+            return; // Still in grace period, ignore mouse movement
+        }
         stopScreensaver();
     }
 }
 
+let drawCount = 0;
+let rainFrame = 0;
 function draw() {
     if (!active) return;
     animationId = requestAnimationFrame(draw);
+    rainFrame++;
 
-    // [Draw logic matches previous implementation, simplified for brevity here but needs full copy]
-    // ... Copying draw logic ...
+    // Debug logging (first few frames only)
+    if (drawCount < 5) {
+        console.log('[Screensaver] draw() called, frame:', drawCount, 'drops:', drops.length, 'ctx:', !!ctx, 'dimensions:', width, 'x', height);
+        drawCount++;
+    }
 
-    // Black background with opacity for trail effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
+    if (!ctx) {
+        console.error('[Screensaver] No canvas context!');
+        return;
+    }
+
+    // Black background with opacity for trail effect (0.05 = faster fade, crisper rain)
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, width, height);
 
     ctx.shadowBlur = 8;
@@ -435,7 +454,10 @@ function draw() {
             if (Math.random() > 0.98) cars10State[i] = 0;
             else cars10State[i] = -1;
         }
-        drops[i]++;
+        // Rain moves at half speed (only increment every 2 frames)
+        if (rainFrame % 2 === 0) {
+            drops[i]++;
+        }
     }
 
     ctx.shadowBlur = 0;
