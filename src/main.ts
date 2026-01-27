@@ -256,8 +256,8 @@ function renderApp() {
     <!-- GSD Attribution Overlay -->
     <div class="gsd-overlay">
       <div class="gsd-text-block">
-        <span class="gsd-line">Built by <a href="https://github.com/Cars-10" target="_blank" class="gsd-author">/Cars10</a></span>
-        <a href="https://github.com/glittercowboy" target="_blank" class="gsd-line">With <img src="/images/gsd-logo.png" alt="GSD" class="gsd-logo"></a>
+        <span class="gsd-line">Built By <a href="https://github.com/Cars-10" target="_blank" class="gsd-author">/Cars10</a></span>
+        <a href="https://github.com/glittercowboy" target="_blank" class="gsd-line">using <img src="/images/gsd-logo.png" alt="GSD" class="gsd-logo"></a>
       </div>
     </div>
 
