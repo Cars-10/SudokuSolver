@@ -179,9 +179,9 @@
 
 /* Metadata grid - labels above values, left aligned */
 .metadata-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  display: flex;
   gap: var(--space-lg);
+  flex-wrap: wrap;
 }
 
 .meta-item {
@@ -189,10 +189,14 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-xs);
+  flex: 1;
+  min-width: 100px;
 }
 
 .meta-item.compact {
-  max-width: 6ch;
+  flex: 0 0 auto;
+  min-width: auto;
+  width: 6ch;
 }
 
 .meta-item:last-child {
