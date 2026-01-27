@@ -256,61 +256,7 @@ function renderApp() {
     <!-- GSD Attribution Overlay -->
     <a href="https://github.com/glittercowboy/get-shit-done" target="_blank" class="gsd-overlay" title="Built with Get Shit Done">
       <span class="gsd-text">Built with</span>
-      <svg class="gsd-logo" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
-        <!-- G -->
-        <rect x="2" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="10" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="18" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="6" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="10" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="14" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="18" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="14" y="18" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="18" y="18" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="22" y="14" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="10" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="18" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="30" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="26" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="2" y="22" width="4" height="4" fill="#5AD8FF"/>
-        <!-- S -->
-        <rect x="32" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="40" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="48" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="32" y="6" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="32" y="10" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="32" y="14" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="40" y="18" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="48" y="18" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="52" y="22" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="52" y="26" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="52" y="30" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="32" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="40" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="48" y="34" width="4" height="4" fill="#5AD8FF"/>
-        <!-- D -->
-        <rect x="62" y="2" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="6" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="10" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="14" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="18" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="22" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="26" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="30" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="62" y="34" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="66" y="2" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="74" y="2" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="78" y="6" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="82" y="10" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="82" y="14" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="82" y="18" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="82" y="22" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="82" y="26" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="78" y="30" width="4" height="4" fill="#5AD8FF"/>
-        <rect x="66" y="34" width="8" height="4" fill="#5AD8FF"/>
-        <rect x="74" y="34" width="4" height="4" fill="#5AD8FF"/>
-      </svg>
+      <img src="/images/gsd-logo.png" alt="GSD" class="gsd-logo">
     </a>
 
     <!-- Table Scroll Buttons -->
