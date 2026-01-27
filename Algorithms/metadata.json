@@ -57,10 +57,12 @@
             "website": "",
             "authors": [
                 {
-                    "name": "John G. Kemeny"
+                    "name": "John G. Kemeny",
+                    "image": "Algorithms/BruteForce/BASIC/Media/John_G_Kemeny.jpg"
                 },
                 {
-                    "name": "Thomas E. Kurtz"
+                    "name": "Thomas E. Kurtz",
+                    "image": "Algorithms/BruteForce/BASIC/Media/Thomas_E_Kurtz.gif"
                 }
             ],
             "lastUpdated": "2026-01-13T14:30:12.077Z",
@@ -127,7 +129,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "John Ousterhout"
+                    "name": "John Ousterhout",
+                    "image": "Algorithms/BruteForce/Tcl/Media/John_Ousterhout.png"
                 }
             ],
             "lastUpdated": "2025-12-20T17:05:59.708Z",
@@ -147,7 +150,8 @@
                     "name": "Alfred Aho"
                 },
                 {
-                    "name": "Peter Weinberger"
+                    "name": "Peter Weinberger",
+                    "image": "Algorithms/BruteForce/Awk/Media/Peter_Weinberger.jpg"
                 },
                 {
                     "name": "Brian Kernighan"
@@ -186,10 +190,12 @@
                     "name": "Alan Kay"
                 },
                 {
-                    "name": "Dan Ingalls"
+                    "name": "Dan Ingalls",
+                    "image": "Algorithms/BruteForce/Smalltalk/Media/Dan_Ingalls.jpg"
                 },
                 {
-                    "name": "Adele Goldberg"
+                    "name": "Adele Goldberg",
+                    "image": "Algorithms/BruteForce/Smalltalk/Media/Adele_Goldberg.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T12:51:05.031Z",
@@ -312,11 +318,7 @@
             "location": "Worldwide",
             "benefits": "XML transformation, functional, template-based.",
             "website": "",
-            "authors": [
-                {
-                    "name": "W3C"
-                }
-            ],
+            "authors": [],
             "lastUpdated": "2025-12-20T13:12:23.985Z",
             "history": "1998. XML transformations.",
             "paradigm": "Declarative, functional",
@@ -347,7 +349,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Niklaus Wirth"
+                    "name": "Niklaus Wirth",
+                    "image": "Algorithms/BruteForce/Pascal/Media/Niklaus_Wirth.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T13:16:18.464Z",
@@ -363,7 +366,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Lee E. McMahon"
+                    "name": "Lee E. McMahon",
+                    "image": "Algorithms/BruteForce/Sed/Media/Lee_E_McMahon.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:38:25.932Z",
@@ -381,6 +385,10 @@
             "authors": [
                 {
                     "name": "CODASYL Committee (Grace Hopper)"
+                },
+                {
+                    "name": "Howard Bromberg",
+                    "image": "Algorithms/BruteForce/Cobol/Media/Howard_Bromberg.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T13:21:24.713Z",
@@ -396,7 +404,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "D. Richard Hipp"
+                    "name": "D. Richard Hipp",
+                    "image": "Algorithms/BruteForce/SQLite/Media/D_Richard_Hipp.jpeg"
                 }
             ],
             "lastUpdated": "2026-01-13T14:31:19.811Z",
@@ -446,7 +455,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Charles H. Moore"
+                    "name": "Charles H. Moore",
+                    "image": "Algorithms/BruteForce/Forth/Media/Charles_H_Moore.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T13:25:19.824Z",
@@ -462,7 +472,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "John Backus"
+                    "name": "John Backus",
+                    "image": "Algorithms/BruteForce/Fortran/Media/John_Backus.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T13:26:31.134Z",
@@ -478,7 +489,16 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Committee (Guy L. Steele Jr. et al.)"
+                    "name": "Committee (Guy L. Steele Jr. et al.)",
+                    "image": "Algorithms/BruteForce/CommonLisp/Media/Guy_Steele.jpg"
+                },
+                {
+                    "name": "Scott Fahlman",
+                    "image": "Algorithms/BruteForce/CommonLisp/Media/Scott_Fahlman.jpg"
+                },
+                {
+                    "name": "David A Moon",
+                    "image": "Algorithms/BruteForce/CommonLisp/Media/David_A_Moon.png"
                 }
             ],
             "lastUpdated": "2026-01-12T14:41:37.672Z",
@@ -511,10 +531,12 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Brian Kernighan"
+                    "name": "Brian Kernighan",
+                    "image": "Algorithms/BruteForce/M4/Media/Brian_Kernighan.jpg"
                 },
                 {
-                    "name": "Dennis Ritchie"
+                    "name": "Dennis Ritchie",
+                    "image": "Algorithms/BruteForce/M4/Media/Dennis_Ritchie.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:34:41.171Z",
@@ -564,7 +586,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Mike Cowlishaw"
+                    "name": "Mike Cowlishaw",
+                    "image": "Algorithms/BruteForce/Rexx/Media/Mike_Cowlishaw.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T13:11:33.175Z",
@@ -581,7 +604,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Alain Colmerauer"
+                    "name": "Alain Colmerauer",
+                    "image": "Algorithms/BruteForce/Prolog/Media/Alain_Colmerauer.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:29:25.226Z",
@@ -630,7 +654,8 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Larry Wall"
+                    "name": "Larry Wall",
+                    "image": "Algorithms/BruteForce/Raku/Media/Larry_Wall.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T13:20:34.324Z",
@@ -663,10 +688,16 @@
             "website": "",
             "authors": [
                 {
-                    "name": "John Warnock"
+                    "name": "John Warnock",
+                    "image": "Algorithms/BruteForce/PostScript/Media/John_Warnock.jpg"
                 },
                 {
-                    "name": "Charles Geschke"
+                    "name": "Charles Geschke",
+                    "image": "Algorithms/BruteForce/PostScript/Media/Chuck_Geschke.png"
+                },
+                {
+                    "name": "Bill Paxton",
+                    "image": "Algorithms/BruteForce/PostScript/Media/Bill_Paxton.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:32:42.771Z",
@@ -720,7 +751,12 @@
             "website": "",
             "authors": [
                 {
-                    "name": "Xavier Leroy et al."
+                    "name": "Xavier Leroy et al.",
+                    "image": "Algorithms/BruteForce/OCaml/Media/Xavier_Leroy.jpg"
+                },
+                {
+                    "name": "Damien Doligez",
+                    "image": "Algorithms/BruteForce/OCaml/Media/Damien_Doligez.jpg"
                 }
             ],
             "lastUpdated": "2025-12-20T14:21:00.236Z",
@@ -858,7 +894,8 @@
             "website": "https://dart.dev/",
             "authors": [
                 {
-                    "name": "Lars Bak"
+                    "name": "Lars Bak",
+                    "image": "Algorithms/BruteForce/Dart/Media/Lars_Bak.jpg"
                 },
                 {
                     "name": "Kasper Lund"
@@ -931,6 +968,10 @@
             "authors": [
                 {
                     "name": "Herbert Xu"
+                },
+                {
+                    "name": "Dash",
+                    "image": "Algorithms/BruteForce/Dash/Media/Dash.png"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
@@ -947,7 +988,8 @@
             "website": "https://www.gnu.org/software/make/",
             "authors": [
                 {
-                    "name": "Stuart Feldman"
+                    "name": "Stuart Feldman",
+                    "image": "Algorithms/BruteForce/Make/Media/Stuart_Feldman.jpg"
                 }
             ],
             "lastUpdated": "2026-01-11T19:33:00.000Z",
@@ -1004,7 +1046,8 @@
             "website": "https://www.perl.org/",
             "authors": [
                 {
-                    "name": "Larry Wall"
+                    "name": "Larry Wall",
+                    "image": "Algorithms/BruteForce/Perl/Media/Larry_Wall.jpg"
                 }
             ],
             "lastUpdated": "2026-01-11T20:33:51.940Z",
@@ -1020,7 +1063,8 @@
             "website": "https://www.tcsh.org/",
             "authors": [
                 {
-                    "name": "Ken Greer"
+                    "name": "Ken Greer",
+                    "image": "Algorithms/BruteForce/Tcsh/Media/Ken_Greer.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -1073,7 +1117,8 @@
             "typeSystem": "Static, Strong, Inferred",
             "authors": [
                 {
-                    "name": "Martin Odersky"
+                    "name": "Martin Odersky",
+                    "image": "Algorithms/BruteForce/Scala/Media/Martin_Odersky.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:20:43.505Z"
@@ -1127,13 +1172,16 @@
                     "name": "Jeff Bezanson"
                 },
                 {
-                    "name": "Stefan Karpinski"
+                    "name": "Stefan Karpinski",
+                    "image": "Algorithms/BruteForce/Julia/Media/Stefan_Karpinski.jpg"
                 },
                 {
-                    "name": "Viral B. Shah"
+                    "name": "Viral B. Shah",
+                    "image": "Algorithms/BruteForce/Julia/Media/Viral_B_Shah.jpg"
                 },
                 {
-                    "name": "Alan Edelman"
+                    "name": "Alan Edelman",
+                    "image": "Algorithms/BruteForce/Julia/Media/Alan_Edelman.jpg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:40:12.216Z"
@@ -1150,7 +1198,12 @@
             "typeSystem": "Static, Strong, Inferred",
             "authors": [
                 {
-                    "name": "Chris Lattner et al."
+                    "name": "Chris Lattner et al.",
+                    "image": "Algorithms/BruteForce/Swift/Media/Chris_Lattner.jpg"
+                },
+                {
+                    "name": "John McCall",
+                    "image": "Algorithms/BruteForce/Swift/Media/John_McCall.jpeg"
                 }
             ],
             "lastUpdated": "2026-01-12T14:52:22.598Z"
@@ -1174,7 +1227,17 @@
         "EmacsLisp": {
             "history": "1985. The programmable text editor.",
             "paradigm": "Functional, procedural, reflective",
-            "typeSystem": "Dynamic, Strong"
+            "typeSystem": "Dynamic, Strong",
+            "authors": [
+                {
+                    "name": "Guy L Steele",
+                    "image": "Algorithms/BruteForce/EmacsLisp/Media/Guy_L_Steele.jpg"
+                },
+                {
+                    "name": "Richard Stallman",
+                    "image": "Algorithms/BruteForce/EmacsLisp/Media/Richard_Stallman.jpg"
+                }
+            ]
         },
         "Go": {
             "history": "2009. Google's answer to complexity.",
@@ -1184,12 +1247,32 @@
         "Haskell": {
             "history": "1990. Purely functional research language.",
             "paradigm": "Purely functional, lazy",
-            "typeSystem": "Static, Strong, Inferred"
+            "typeSystem": "Static, Strong, Inferred",
+            "authors": [
+                {
+                    "name": "Philip Wadler",
+                    "image": "Algorithms/BruteForce/Haskell/Media/Philip_Wadler.JPG"
+                },
+                {
+                    "name": "Simon Peyton Jones",
+                    "image": "Algorithms/BruteForce/Haskell/Media/Simon_Peyton_Jones.jpg"
+                },
+                {
+                    "name": "Kevin Hammond",
+                    "image": "Algorithms/BruteForce/Haskell/Media/Kevin_Hammond.jpg"
+                }
+            ]
         },
         "Java": {
             "history": "1995. Write once, run anywhere.",
             "paradigm": "Multi-paradigm, object-oriented, structured",
-            "typeSystem": "Static, Strong, Safe"
+            "typeSystem": "Static, Strong, Safe",
+            "authors": [
+                {
+                    "name": "James Gosling",
+                    "image": "Algorithms/BruteForce/Java/Media/James_Gosling.jpg"
+                }
+            ]
         },
         "JavaScript": {
             "history": "1995. The language of the web.",
@@ -1214,12 +1297,24 @@
         "PHP": {
             "history": "1995. Powering 80% of the web.",
             "paradigm": "Imperative, functional, object-oriented",
-            "typeSystem": "Dynamic, Weak (optional static)"
+            "typeSystem": "Dynamic, Weak (optional static)",
+            "authors": [
+                {
+                    "name": "Rasmus Lerdorf",
+                    "image": "Algorithms/BruteForce/PHP/Media/Rasmus_Lerdorf.JPG"
+                }
+            ]
         },
         "PowerShell": {
             "history": "2006. Object-oriented shell for Windows.",
             "paradigm": "Imperative, object-oriented, pipeline",
-            "typeSystem": "Dynamic, Strong, .NET"
+            "typeSystem": "Dynamic, Strong, .NET",
+            "authors": [
+                {
+                    "name": "Jeffrey Snover",
+                    "image": "Algorithms/BruteForce/PowerShell/Media/Jeffrey_Snover.jpg"
+                }
+            ]
         },
         "Python": {
             "history": "1991. Simple, readable, popular.",
@@ -1245,12 +1340,24 @@
         "Ruby": {
             "history": "1995. Optimized for developer happiness.",
             "paradigm": "Multi-paradigm, object-oriented, functional",
-            "typeSystem": "Dynamic, Strong"
+            "typeSystem": "Dynamic, Strong",
+            "authors": [
+                {
+                    "name": "Yukihiro Matsumoto",
+                    "image": "Algorithms/BruteForce/Ruby/Media/Yukihiro_Matsumoto.jpg"
+                }
+            ]
         },
         "TypeScript": {
             "history": "2012. JavaScript with syntax for types.",
             "paradigm": "Multi-paradigm, object-oriented, functional",
-            "typeSystem": "Static (gradual), Structural"
+            "typeSystem": "Static (gradual), Structural",
+            "authors": [
+                {
+                    "name": "Anders Hejlsberg",
+                    "image": "Algorithms/BruteForce/TypeScript/Media/Anders_Hejlsberg.jpg"
+                }
+            ]
         }
     }
 }
