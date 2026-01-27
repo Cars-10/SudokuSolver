@@ -3,7 +3,7 @@
 export interface ComponentMetadata {
   id: string;
   fullName: string;
-  type: 'modal' | 'chart' | 'table' | 'solver' | 'effect';
+  type: 'modal' | 'chart' | 'table' | 'solver' | 'effect' | 'feature';
   path: string;
   domId?: string;
   dependencies?: string[];

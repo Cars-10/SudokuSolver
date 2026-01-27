@@ -193,12 +193,16 @@
   font-family: var(--font-family-mono);
   font-size: var(--font-size-sm);
   color: var(--secondary);
-  max-width: 400px;
-  text-align: right;
-  border-right: 2px solid var(--border);
-  padding-right: var(--space-lg);
-  line-height: 1.4;
+  width: 66.67%;
+  max-width: none;
+  text-align: center;
+  margin: 0 auto 20px auto;
+  padding: 20px 30px;
+  line-height: 1.6;
   font-style: italic;
+  background: rgba(0, 255, 157, 0.05);
+  border: 1px solid rgba(0, 255, 157, 0.1);
+  border-radius: 8px;
 }
 
 /* ===================

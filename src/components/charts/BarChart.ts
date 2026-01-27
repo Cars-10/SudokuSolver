@@ -33,10 +33,25 @@ export class BarChart extends BaseChart {
 
     const { innerWidth, innerHeight } = this.dimensions;
 
+    // Filter out invalid data and sort
+    const validData = data.filter(d => d.totalTime > 0 && !isNaN(d.totalTime));
+
+    if (validData.length === 0) {
+      this.g.append('text')
+        .attr('x', innerWidth / 2)
+        .attr('y', innerHeight / 2)
+        .attr('text-anchor', 'middle')
+        .style('fill', '#565f89')
+        .text('No valid data to display');
+      return;
+    }
+
     // Sort and limit to top 20
-    const sortedData = [...data]
+    const sortedData = [...validData]
       .sort((a, b) => a.totalTime - b.totalTime)
       .slice(0, 20);
+
+    console.log('[BarChart] Rendering', sortedData.length, 'bars');
 
     // Create tooltip
     const tooltip = this.createTooltip();
@@ -47,9 +62,11 @@ export class BarChart extends BaseChart {
       .range([0, innerHeight])
       .padding(0.2);
 
+    const maxTime = d3.max(sortedData, d => d.totalTime) || 1;
     const xScale = d3.scaleLinear()
-      .domain([0, d3.max(sortedData, d => d.totalTime)!])
-      .range([0, innerWidth]);
+      .domain([0, maxTime * 1.15]) // 15% padding
+      .range([0, innerWidth])
+      .nice();
 
     // Axes
     this.g.append('g')
@@ -60,7 +77,7 @@ export class BarChart extends BaseChart {
 
     this.g.append('g')
       .attr('transform', `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(xScale).tickFormat(d => `${d}s`))
+      .call(d3.axisBottom(xScale).ticks(8).tickFormat(d => this.formatTimeAxis(d as number)))
       .attr('color', '#565f89')
       .style('font-family', 'var(--font-family-mono)');
 
@@ -83,10 +100,13 @@ export class BarChart extends BaseChart {
           .style('fill', '#fff');
 
         const content = `
-          <strong>${d.solver}</strong><br/>
+          <strong>${d.language || d.solver}</strong><br/>
+          Algorithm: ${d.algorithm || 'BruteForce'}<br/>
           Time: ${this.formatTime(d.totalTime)}<br/>
           Memory: ${this.formatMemory(d.maxMem)}<br/>
-          Iterations: ${d.avgIterations.toLocaleString()}
+          Iterations: ${d.avgIterations.toLocaleString()}<br/>
+          Score: ${(d.score || 0).toFixed(2)}x<br/>
+          Tier: ${d.tier || 'N/A'}
         `;
         this.showTooltip(tooltip, content, event);
       })

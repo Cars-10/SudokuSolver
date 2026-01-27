@@ -15,7 +15,9 @@ export interface UIState {
   };
   showLogos: boolean;
   showMismatches: boolean;
+  showFailed: boolean;
   dockerMode: boolean;
+  scrollY: number;
 }
 
 export interface SolverState {
@@ -28,7 +30,7 @@ export interface SolverState {
 }
 
 export interface ChartState {
-  mode: 'scatter' | 'line' | 'bar' | 'heatmap' | 'treemap';
+  mode: 'scatter' | 'line' | 'bar' | 'heatmap' | 'treemap' | 'histogram' | 'race' | 'jockey' | 'iterations' | 'algorithm';
   fullscreen: boolean;
   logScale: boolean;
   xAxis: string;

@@ -59,7 +59,8 @@ The container mounts the project directories, so benchmark results persist to ho
 
 ### Start Server Locally (without Docker)
 ```bash
-cd server && npm install && npm start         # Serves report at localhost:9001
+./runSudokuBenchmark_ui.sh                    # One-command launch (port 9002)
+./runSudokuBenchmark_ui.sh --dev              # Development mode with hot reload
 ```
 
 ### Generate Report Only

@@ -164,14 +164,17 @@ open ../index.html
 ### Starting the Web Server
 
 ```bash
-# Local server (port 9002)
-cd server
-npm install
-npm start
+# One-command launch (recommended)
+./runSudokuBenchmark_ui.sh
+
+# Development mode with hot reload
+./runSudokuBenchmark_ui.sh --dev
 
 # Docker server (port 9001)
 docker-compose up -d
 ```
+
+See [docs/QUICKSTART.md](docs/QUICKSTART.md) for detailed setup instructions.
 
 ## Architecture
 

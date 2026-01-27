@@ -23,8 +23,8 @@ export class AlienStatusSystem {
     start() {
         // Store original text values on start
         this.storeOriginals();
-        // Run every 10 seconds
-        this.interval = setInterval(() => this.triggerEffect(), 10000);
+        // Run every 60 seconds (one minute between glitches)
+        this.interval = setInterval(() => this.triggerEffect(), 60000);
     }
 
     stop() {
@@ -48,7 +48,8 @@ export class AlienStatusSystem {
     restoreOriginals() {
         this.originals.forEach((text, el) => {
             if (el && document.body.contains(el)) {
-                el.innerText = text;
+                // Use innerHTML and convert \n to <br> to preserve line breaks
+                el.innerHTML = text.replace(/\n/g, '<br>');
                 el.style.perspective = '';
             }
         });
@@ -85,8 +86,9 @@ export class AlienStatusSystem {
 
         const startTime = Date.now();
         const glitchDuration = 2500; // Main glitch phase
-        const revealDuration = 1500; // Reveal phase - chars lock in one at a time
-        const totalDuration = glitchDuration + revealDuration;
+        const revealDuration = 4000; // Reveal phase - chars lock in one at a time (slowed down)
+        const cylonDuration = 3000; // Red cylon scanning phase after reveal
+        const totalDuration = glitchDuration + revealDuration + cylonDuration;
         window.alienEffectActive = true;
 
         // Calculate total non-space characters for reveal timing
@@ -110,16 +112,17 @@ export class AlienStatusSystem {
             const elapsed = Date.now() - startTime;
 
             if (elapsed > totalDuration) {
-                // Restore original text properly
+                // Restore original text properly - use innerHTML to preserve <br> line breaks
                 targets.forEach((el, i) => {
-                    el.innerText = originals[i];
+                    el.innerHTML = originals[i].replace(/\n/g, '<br>');
                     el.style.perspective = '';
                 });
                 window.alienEffectActive = false;
                 return;
             }
 
-            const inRevealPhase = elapsed > glitchDuration;
+            const inRevealPhase = elapsed > glitchDuration && elapsed <= glitchDuration + revealDuration;
+            const inCylonPhase = elapsed > glitchDuration + revealDuration;
 
             // During reveal phase, calculate how many chars should be locked
             if (inRevealPhase) {
@@ -142,6 +145,13 @@ export class AlienStatusSystem {
                     }
                     if (!found) break; // All locked
                 }
+            } else if (inCylonPhase) {
+                // Ensure all characters are locked during cylon phase
+                for (let i = 0; i < locked.length; i++) {
+                    for (let j = 0; j < locked[i].length; j++) {
+                        locked[i][j] = true;
+                    }
+                }
             }
 
             // Progress for glitch intensity (0 to 1 during glitch phase, stays at 1 during reveal)
@@ -155,19 +165,55 @@ export class AlienStatusSystem {
             const shouldChangeChars = (timestamp - lastUpdate) > changeInterval;
             if (shouldChangeChars) lastUpdate = timestamp;
 
+            // Calculate cylon scanner position (sweeps back and forth) - runs from the very beginning
+            let cylonPos = -1;
+            let cylonWidth = 2; // Cover 2 letters at a time
+            // Cylon runs throughout the entire effect on OptionIsEscape
+            const cylonCycleDuration = 3000; // 3 seconds per sweep (slower)
+            const cylonProgress = (elapsed % cylonCycleDuration) / cylonCycleDuration;
+            // Ping-pong effect: go right then left
+            const phase = (cylonProgress * 2) % 2;
+            const normalizedPos = phase < 1 ? phase : 2 - phase; // 0->1->0
+            // Find the riddle container's text length for cylon scanning
+            const riddleEl = document.getElementById('riddle-container');
+            const riddleLen = riddleEl ? (this.originals.get(riddleEl) || riddleEl.innerText).replace(/[ :\n]/g, '').length : 0;
+            cylonPos = Math.floor(normalizedPos * (riddleLen + cylonWidth - 1));
+
             // Scramble ALL targets together with rotation
             for (let i = 0; i < targets.length; i++) {
                 const el = targets[i];
                 const orig = originals[i];
+                const isRiddleContainer = el.id === 'riddle-container';
                 let html = '';
+                let charIndex = 0; // Track non-space character index for cylon effect
                 for (let j = 0; j < orig.length; j++) {
                     if (orig[j] === ' ') {
                         html += ' ';
-                    } else if (orig[j] === ':' || orig[j] === '\n') {
+                    } else if (orig[j] === '\n') {
+                        html += '<br>';  // Convert newlines to <br> for HTML rendering
+                    } else if (orig[j] === ':') {
                         html += orig[j];
                     } else if (locked[i][j]) {
-                        // Character is locked - show original with green glow
-                        html += `<span style="display:inline-block;transform:rotateY(0deg);color:#00ff9d;text-shadow:0 0 10px #00ff9d;">${orig[j]}</span>`;
+                        // Character is locked - show original
+                        // Riddle container always has cylon effect (white text with red scanner)
+                        if (isRiddleContainer) {
+                            const distFromScanner = Math.abs(charIndex - cylonPos);
+                            if (distFromScanner < cylonWidth) {
+                                // Cylon scanner - red glow with gradient from red to white
+                                const intensity = 1 - (distFromScanner / cylonWidth);
+                                const glow = Math.floor(25 * intensity);
+                                const g = Math.floor(255 * (1 - intensity));
+                                const b = Math.floor(255 * (1 - intensity));
+                                html += `<span style="display:inline-block;transform:rotateY(0deg);color:rgb(255,${g},${b});text-shadow:0 0 ${glow}px #ff0000, 0 0 ${glow * 2}px #ff3300, 0 0 ${glow * 3}px #990000;">${orig[j]}</span>`;
+                            } else {
+                                // Not in scanner range - white text
+                                html += `<span style="display:inline-block;transform:rotateY(0deg);color:#ffffff;text-shadow:0 0 5px rgba(255,255,255,0.3);">${orig[j]}</span>`;
+                            }
+                            charIndex++;
+                        } else {
+                            // Other elements - green glow
+                            html += `<span style="display:inline-block;transform:rotateY(0deg);color:#00ff9d;text-shadow:0 0 10px #00ff9d;">${orig[j]}</span>`;
+                        }
                     } else {
                         // Update rotation - speed decreases over time
                         this.rotations[i][j] = (this.rotations[i][j] + rotationSpeed + Math.random() * rotationSpeed * 0.5) % 360;
@@ -176,7 +222,23 @@ export class AlienStatusSystem {
                         const char = shouldChangeChars
                             ? this.aliens[Math.floor(Math.random() * this.aliens.length)]
                             : el.children[j]?.textContent || this.aliens[Math.floor(Math.random() * this.aliens.length)];
-                        html += `<span style="display:inline-block;transform:rotateY(${rot}deg);transform-style:preserve-3d;">${char}</span>`;
+
+                        // Apply cylon effect to riddle container even during glitch
+                        if (isRiddleContainer) {
+                            const distFromScanner = Math.abs(charIndex - cylonPos);
+                            if (distFromScanner < cylonWidth) {
+                                const intensity = 1 - (distFromScanner / cylonWidth);
+                                const glow = Math.floor(25 * intensity);
+                                const g = Math.floor(180 * (1 - intensity)); // Slightly dimmer for glitch chars
+                                const b = Math.floor(180 * (1 - intensity));
+                                html += `<span style="display:inline-block;transform:rotateY(${rot}deg);transform-style:preserve-3d;color:rgb(255,${g},${b});text-shadow:0 0 ${glow}px #ff0000, 0 0 ${glow * 2}px #ff3300;">${char}</span>`;
+                            } else {
+                                html += `<span style="display:inline-block;transform:rotateY(${rot}deg);transform-style:preserve-3d;color:#888888;">${char}</span>`;
+                            }
+                            charIndex++;
+                        } else {
+                            html += `<span style="display:inline-block;transform:rotateY(${rot}deg);transform-style:preserve-3d;">${char}</span>`;
+                        }
                     }
                 }
                 el.innerHTML = html;
@@ -190,27 +252,77 @@ export class AlienStatusSystem {
 }
 
 // --- Riddle System ---
-// Simplified: Just displays "OptionIsEscape" as static text
-// AlienStatusSystem handles the glitch effect for ALL text including this
+// Displays "OptionIsEscape" with continuous cylon scanning effect
 export class RiddleSystem {
     constructor() {
         this.target = "OptionIsEscape";
         this.container = null;
         this.active = false;
+        this.animationId = null;
+        this.startTime = 0;
     }
 
     start() {
         this.container = document.getElementById('riddle-container');
         if (!this.container) return;
         this.active = true;
-        // Simply display the text - AlienStatusSystem will glitch it along with everything else
-        this.container.innerText = this.target;
-        this.container.style.color = '#00ff9d';
-        this.container.style.textShadow = '0 0 5px #00ff9d, 0 0 10px #00ff9d';
+        this.startTime = Date.now();
+        // Start continuous cylon animation
+        this.animateCylon();
+    }
+
+    animateCylon() {
+        if (!this.active || !this.container) return;
+
+        // Skip rendering if alien glitch effect is active (it handles cylon during glitch)
+        if (window.alienEffectActive) {
+            this.animationId = requestAnimationFrame(() => this.animateCylon());
+            return;
+        }
+
+        const elapsed = Date.now() - this.startTime;
+        const text = this.target;
+        const textLen = text.length;
+
+        // Cylon parameters - 2 letters at a time, slower sweep
+        const cylonWidth = 2; // Cover 2 letters
+        const cylonCycleDuration = 3000; // 3 seconds per full sweep
+
+        // Calculate cylon position (ping-pong)
+        const cylonProgress = (elapsed % cylonCycleDuration) / cylonCycleDuration;
+        const phase = (cylonProgress * 2) % 2;
+        const normalizedPos = phase < 1 ? phase : 2 - phase; // 0->1->0
+        const cylonPos = normalizedPos * (textLen - 1);
+
+        // Build HTML with cylon effect
+        let html = '';
+        for (let i = 0; i < text.length; i++) {
+            const distFromScanner = Math.abs(i - cylonPos);
+            if (distFromScanner < cylonWidth) {
+                // In scanner range - red glow with gradient
+                const intensity = 1 - (distFromScanner / cylonWidth);
+                const red = Math.floor(255 * intensity);
+                const glow = Math.floor(25 * intensity);
+                // Blend from white to red based on intensity
+                const g = Math.floor(255 * (1 - intensity));
+                const b = Math.floor(255 * (1 - intensity));
+                html += `<span style="display:inline-block;color:rgb(255,${g},${b});text-shadow:0 0 ${glow}px #ff0000, 0 0 ${glow * 2}px #ff3300, 0 0 ${glow * 3}px #990000;">${text[i]}</span>`;
+            } else {
+                // Outside scanner - white text
+                html += `<span style="display:inline-block;color:#ffffff;text-shadow:0 0 5px rgba(255,255,255,0.3);">${text[i]}</span>`;
+            }
+        }
+        this.container.innerHTML = html;
+
+        this.animationId = requestAnimationFrame(() => this.animateCylon());
     }
 
     stop() {
         this.active = false;
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
         if (this.container) {
             this.container.innerText = '';
         }
@@ -400,9 +512,18 @@ function removeInputHandlers() {
 function handleKeyInput(e) {
     if (!active) return;
 
+    // Helper to stop screensaver properly through component if available
+    const doStop = () => {
+        if (window.screensaver && typeof window.screensaver.stop === 'function') {
+            window.screensaver.stop();
+        } else {
+            stopScreensaver();
+        }
+    };
+
     // ESC fix: Always exit on Escape
     if (e.key === 'Escape' || e.key === 'Esc') { // Added ESC check
-        stopScreensaver();
+        doStop();
         return;
     }
 
@@ -410,10 +531,10 @@ function handleKeyInput(e) {
         if (e.key === 'Shift') {
             puzzleColorIndex = (puzzleColorIndex + 1) % puzzleColors.length;
         } else if (e.key === 'Alt') {
-            stopScreensaver();
+            doStop();
         }
     } else {
-        stopScreensaver(); // Blue pill exits on any key
+        doStop(); // Blue pill exits on any key
     }
 }
 
@@ -426,7 +547,12 @@ function handleInteraction(e) {
         if (e.type === 'mousemove' && Date.now() < interactionGraceTime) {
             return; // Still in grace period, ignore mouse movement
         }
-        stopScreensaver();
+        // Use component stop if available
+        if (window.screensaver && typeof window.screensaver.stop === 'function') {
+            window.screensaver.stop();
+        } else {
+            stopScreensaver();
+        }
     }
 }
 

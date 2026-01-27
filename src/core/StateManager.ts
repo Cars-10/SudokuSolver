@@ -49,11 +49,13 @@ export class StateManager<T> {
 // Global state instance
 export const appState = new StateManager<AppState>({
   ui: {
-    currentPersona: 'standard',
-    currentSort: { column: 'totalScore', direction: 'desc' },
+    currentPersona: 'Standard',
+    currentSort: { column: 'score', direction: 'asc' },
     showLogos: true,
-    showMismatches: false,
-    dockerMode: window.location.port === '9001'
+    showMismatches: true,
+    showFailed: true,
+    dockerMode: window.location.port === '9001',
+    scrollY: 0
   },
   solver: {
     isPlaying: false,

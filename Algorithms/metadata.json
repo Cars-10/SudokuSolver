@@ -312,14 +312,14 @@
             "typeSystem": "Dynamic, Numeric"
         },
         "Vala": {
-            "creator": "J\u00fcrg Billeter, Rafa\u0142 Pietrak",
+            "creator": "Jürg Billeter, Rafał Pietrak",
             "date": "2006",
             "location": "GNOME Project",
             "benefits": "GObject system, C performance, modern syntax, GNOME dev.",
             "website": "",
             "authors": [
                 {
-                    "name": "J\u00fcrg Billeter"
+                    "name": "Jürg Billeter"
                 },
                 {
                     "name": "Raffaele Sandrini"
@@ -489,7 +489,7 @@
             "history": "1970. Concatenative, stack-based efficiency.",
             "paradigm": "Concatenative, stack-oriented",
             "typeSystem": "Untyped",
-            "description": "A stack-based, concatenative language. Minimal, powerful, and extensible\u2014you build the language as you go."
+            "description": "A stack-based, concatenative language. Minimal, powerful, and extensible—you build the language as you go."
         },
         "Fortran": {
             "creator": "John Backus",
@@ -537,14 +537,14 @@
             "description": "An industrial-strength Lisp with powerful macros, dynamic typing, and an interactive development environment. One of the oldest and most capable programming languages."
         },
         "Pike": {
-            "creator": "Fredrik H\u00fcbinette",
+            "creator": "Fredrik Hübinette",
             "date": "1994",
-            "location": "Link\u00f6ping University, Sweden",
+            "location": "Linköping University, Sweden",
             "benefits": "C-like syntax, dynamic typing, automatic memory management.",
             "website": "https://pike.lysator.liu.se/",
             "authors": [
                 {
-                    "name": "Fredrik H\u00fcbinette"
+                    "name": "Fredrik Hübinette"
                 }
             ],
             "lastUpdated": "2026-01-12T18:30:00.000Z",
@@ -594,14 +594,14 @@
             "description": "A Lisp that compiles to Lua. Brings macro power and interactive development to the Lua ecosystem."
         },
         "Elixir": {
-            "creator": "Jos\u00e9 Valim",
+            "creator": "José Valim",
             "date": "2011",
             "location": "Plataformatec, Brazil",
             "benefits": "Concurrency, fault tolerance, functional, Ruby-like syntax.",
             "website": "",
             "authors": [
                 {
-                    "name": "Jos\u00e9 Valim"
+                    "name": "José Valim"
                 }
             ],
             "lastUpdated": "2026-01-12T14:15:38.699Z",
@@ -786,7 +786,7 @@
             "history": "2012. Sed for JSON data.",
             "paradigm": "Functional, filter-based",
             "typeSystem": "Dynamic",
-            "description": "A lightweight command-line JSON processor. Sed for JSON data\u2014slice, filter, map, and transform structured data with ease."
+            "description": "A lightweight command-line JSON processor. Sed for JSON data—slice, filter, map, and transform structured data with ease."
         },
         "OCaml": {
             "creator": "Xavier Leroy et al.",
@@ -1082,7 +1082,7 @@
             "typeSystem": "Dynamic, Numeric"
         },
         "Jupyter": {
-            "creator": "Fernando P\u00e9rez, Brian Granger",
+            "creator": "Fernando Pérez, Brian Granger",
             "date": "2014",
             "location": "UC Berkeley, USA",
             "benefits": "Interactive computing, notebooks, data science, visualization.",
@@ -1090,7 +1090,7 @@
             "website": "https://jupyter.org/",
             "authors": [
                 {
-                    "name": "Fernando P\u00e9rez"
+                    "name": "Fernando Pérez"
                 },
                 {
                     "name": "Brian Granger"
@@ -1158,14 +1158,14 @@
             "description": "A high-level language with novel control structures and built-in support for pattern matching and string processing."
         },
         "Brainfuck": {
-            "creator": "Urban M\u00fcller",
+            "creator": "Urban Müller",
             "date": "1993",
             "location": "Switzerland",
             "benefits": "Turing complete, minimalist, esoteric, educational.",
             "website": "",
             "authors": [
                 {
-                    "name": "Urban M\u00fcller",
+                    "name": "Urban Müller",
                     "image": "Algorithms/BruteForce/Brainfuck/Media/Urban_M_ller.png"
                 }
             ],
@@ -1209,7 +1209,7 @@
                     "name": "Graydon Hoare"
                 }
             ],
-            "lastUpdated": "2026-01-12T14:30:51.765Z",
+            "lastUpdated": "2026-01-27T09:59:04.177Z",
             "description": "A systems programming language focused on safety, speed, and concurrency. Memory safety without garbage collection."
         },
         "Groovy": {

@@ -110,6 +110,11 @@ export class HeatmapChart extends BaseChart {
       .on('mouseout', (event) => {
         d3.select(event.currentTarget).style('opacity', 1);
         this.hideTooltip(tooltip);
+      })
+      .on('click', (event, d) => {
+        if ((window as any).showLangModal) {
+          (window as any).showLangModal(d.language);
+        }
       });
 
     // Add legend

@@ -1,0 +1,313 @@
+/**
+ * Chart Styles - Neon Theme
+ * Note: .chart-wrapper is defined in layout.css for legacy compatibility
+ */
+
+/* Chart Section in App */
+.chart-section {
+  margin-bottom: var(--space-xl);
+}
+
+/* Chart Container */
+.chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-lg);
+  position: relative;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-header h3 {
+  margin: 0;
+  color: var(--primary);
+  font-size: var(--font-size-lg);
+}
+
+.chart-header .chart-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.chart-select {
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.chart-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Note: .chart-area container styles are in layout.css */
+
+/* Chart Controls (within chart-header only) */
+/* Note: Main .chart-controls positioning is in layout.css */
+.chart-controls .btn {
+  font-size: var(--font-size-xs);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+/* D3 Chart Styles */
+.d3-chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+/* Axis Styles */
+.chart-axis line,
+.chart-axis path {
+  stroke: var(--border);
+}
+
+.chart-axis text {
+  fill: var(--muted);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+}
+
+/* Grid Lines */
+.chart-grid line {
+  stroke: var(--border);
+  stroke-opacity: 0.3;
+  stroke-dasharray: 2, 2;
+}
+
+/* Data Points */
+.chart-point {
+  fill: var(--primary);
+  stroke: var(--bg);
+  stroke-width: 2;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.chart-point:hover {
+  fill: var(--secondary);
+  filter: drop-shadow(0 0 8px var(--primary));
+  transform: scale(1.2);
+}
+
+/* Chart Bars */
+.chart-bar {
+  fill: var(--primary);
+  opacity: 0.8;
+  transition: all var(--transition-fast);
+}
+
+.chart-bar:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px var(--primary));
+}
+
+/* Chart Lines */
+.chart-line {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 3px var(--primary));
+}
+
+/* Chart Area Fill (SVG element, not container) */
+.chart-area-fill {
+  fill: url(#neon-gradient);
+  opacity: 0.3;
+}
+
+/* Legend */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text);
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 5px currentColor;
+}
+
+/* Tooltip */
+.chart-tooltip {
+  position: absolute;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg);
+  border: 1px solid var(--primary);
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+}
+
+.chart-tooltip-title {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--space-xs);
+}
+
+.chart-tooltip-value {
+  color: var(--text);
+}
+
+/* Scatter Plot Specific */
+.scatter-point {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.scatter-point:hover {
+  filter: drop-shadow(0 0 10px var(--primary));
+}
+
+.scatter-label {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  fill: var(--text);
+  pointer-events: none;
+}
+
+/* Treemap Specific */
+.treemap-cell {
+  stroke: var(--bg);
+  stroke-width: 1px;
+  transition: all var(--transition-fast);
+}
+
+.treemap-cell:hover {
+  filter: brightness(1.2);
+  stroke: var(--primary);
+  stroke-width: 2px;
+}
+
+.treemap-label {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  fill: var(--text);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* Heatmap Specific */
+.heatmap-cell {
+  stroke: var(--bg);
+  stroke-width: 1px;
+  transition: all var(--transition-fast);
+}
+
+.heatmap-cell:hover {
+  stroke: var(--primary);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 5px var(--primary));
+}
+
+/* Chart Loading State */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--muted);
+}
+
+.chart-loading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Chart Empty State */
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--muted);
+  text-align: center;
+  gap: var(--space-md);
+}
+
+/* Fullscreen Mode */
+.chart-wrapper.fullscreen-active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: var(--bg);
+  padding: var(--space-xl);
+}
+
+/* Neon Gradient Definition (for SVG) */
+.neon-gradient-primary {
+  stop-color: var(--primary);
+}
+
+.neon-gradient-secondary {
+  stop-color: var(--secondary);
+}

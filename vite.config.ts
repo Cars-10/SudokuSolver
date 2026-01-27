@@ -25,6 +25,11 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:9002',
         changeOrigin: true
+      },
+      // Proxy language algorithm directories for logos
+      '/Algorithms': {
+        target: 'http://localhost:9002',
+        changeOrigin: true
       }
     }
   }

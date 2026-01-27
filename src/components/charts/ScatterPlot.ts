@@ -30,29 +30,77 @@ export class ScatterPlot extends BaseChart {
 
     const { innerWidth, innerHeight } = this.dimensions;
 
+    // Filter valid data points
+    const validData = data.filter(d => d.totalTime > 0 && d.maxMem > 0);
+
+    if (validData.length === 0) {
+      this.g.append('text')
+        .attr('x', innerWidth / 2)
+        .attr('y', innerHeight / 2)
+        .attr('text-anchor', 'middle')
+        .style('fill', '#565f89')
+        .text('No valid data to display (need time and memory data)');
+      return;
+    }
+
     // Create tooltip
     const tooltip = this.createTooltip();
 
-    // Scales
-    const xScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.totalTime)! * 1.1])
-      .range([0, innerWidth]);
+    // Calculate data ranges
+    const times = validData.map(d => d.totalTime).filter(t => t > 0);
+    const mems = validData.map(d => d.maxMem).filter(m => m > 0);
 
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.maxMem)! * 1.1])
-      .range([innerHeight, 0]);
+    const minTime = d3.min(times) || 0.001;
+    const maxTime = d3.max(times) || 1;
+    const minMem = d3.min(mems) || 0.1;
+    const maxMem = d3.max(mems) || 1;
 
-    // Axes
+    // Use log scale if data spans more than 2 orders of magnitude
+    const timeRange = maxTime / minTime;
+    const memRange = maxMem / minMem;
+
+    const useLogX = timeRange > 100;
+    const useLogY = memRange > 100;
+
+    const xScale = useLogX
+      ? d3.scaleLog()
+          .domain([Math.max(0.001, minTime * 0.5), maxTime * 1.5])
+          .range([0, innerWidth])
+          .clamp(true)
+      : d3.scaleLinear()
+          .domain([0, maxTime * 1.1])
+          .range([0, innerWidth]);
+
+    const yScale = useLogY
+      ? d3.scaleLog()
+          .domain([Math.max(0.1, minMem * 0.5), maxMem * 1.5])
+          .range([innerHeight, 0])
+          .clamp(true)
+      : d3.scaleLinear()
+          .domain([0, maxMem * 1.1])
+          .range([innerHeight, 0]);
+
+    // Axes - use minimal ticks to avoid crowding
+    const xAxis = d3.axisBottom(xScale)
+      .ticks(3)
+      .tickFormat((d) => this.formatTimeAxis(d as number));
+
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(3)
+      .tickFormat((d) => this.formatMemory(d as number));
+
     this.g.append('g')
       .attr('transform', `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(xScale).tickFormat(d => `${d}s`))
+      .call(xAxis)
       .attr('color', '#565f89')
-      .style('font-family', 'var(--font-family-mono)');
+      .style('font-family', 'var(--font-family-mono)')
+      .style('font-size', '10px');
 
     this.g.append('g')
-      .call(d3.axisLeft(yScale).tickFormat(d => `${d}MB`))
+      .call(yAxis)
       .attr('color', '#565f89')
-      .style('font-family', 'var(--font-family-mono)');
+      .style('font-family', 'var(--font-family-mono)')
+      .style('font-size', '10px');
 
     // Axis labels
     this.g.append('text')
@@ -72,7 +120,7 @@ export class ScatterPlot extends BaseChart {
 
     // Data points
     const nodes = this.g.selectAll('.node')
-      .data(data)
+      .data(validData)
       .enter()
       .append('g')
       .attr('class', 'node')
@@ -87,10 +135,13 @@ export class ScatterPlot extends BaseChart {
           .style('fill', '#fff');
 
         const content = `
-          <strong>${d.solver}</strong><br/>
+          <strong>${d.language || d.solver}</strong><br/>
+          Algorithm: ${d.algorithm || 'BruteForce'}<br/>
           Time: ${this.formatTime(d.totalTime)}<br/>
           Memory: ${this.formatMemory(d.maxMem)}<br/>
-          Iterations: ${d.avgIterations.toLocaleString()}
+          Iterations: ${d.avgIterations.toLocaleString()}<br/>
+          Score: ${(d.score || 0).toFixed(2)}x<br/>
+          Tier: ${d.tier || 'N/A'}
         `;
         this.showTooltip(tooltip, content, event);
       })

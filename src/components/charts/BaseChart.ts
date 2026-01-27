@@ -96,36 +96,40 @@ export abstract class BaseChart {
   /**
    * Create tooltip element
    */
-  protected createTooltip(): d3.Selection<HTMLDivElement, unknown, null, undefined> {
-    return d3.select(this.container)
+  protected createTooltip(): d3.Selection<HTMLDivElement, unknown, HTMLElement, any> {
+    // Remove any existing tooltip from this chart
+    d3.select('body').selectAll('.chart-tooltip').remove();
+
+    return d3.select('body')
       .append('div')
       .attr('class', 'chart-tooltip')
       .attr('data-component-id', 'CHART-TOOLTIP')
       .style('opacity', 0)
-      .style('position', 'absolute')
-      .style('pointer-events', 'none');
+      .style('position', 'fixed')
+      .style('pointer-events', 'none')
+      .style('z-index', '10000');
   }
 
   /**
    * Show tooltip
    */
   protected showTooltip(
-    tooltip: d3.Selection<HTMLDivElement, unknown, null, undefined>,
+    tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
     content: string,
     event: MouseEvent
   ): void {
     tooltip
       .html(content)
       .style('opacity', 1)
-      .style('left', `${event.pageX + 10}px`)
-      .style('top', `${event.pageY - 10}px`);
+      .style('left', `${event.clientX + 10}px`)
+      .style('top', `${event.clientY - 10}px`);
   }
 
   /**
    * Hide tooltip
    */
   protected hideTooltip(
-    tooltip: d3.Selection<HTMLDivElement, unknown, null, undefined>
+    tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>
   ): void {
     tooltip.style('opacity', 0);
   }
@@ -151,10 +155,32 @@ export abstract class BaseChart {
    * Format time for display
    */
   protected formatTime(seconds: number): string {
+    if (seconds < 0.001) {
+      return `${(seconds * 1000000).toFixed(0)}µs`;
+    }
+    if (seconds < 1) {
+      return `${(seconds * 1000).toFixed(1)}ms`;
+    }
+    if (seconds < 60) {
+      return `${seconds.toFixed(2)}s`;
+    }
+    return `${(seconds / 60).toFixed(1)}m`;
+  }
+
+  /**
+   * Format time for axis labels (shorter format)
+   */
+  protected formatTimeAxis(seconds: number): string {
+    if (seconds < 0.001) {
+      return `${(seconds * 1000000).toFixed(0)}µs`;
+    }
     if (seconds < 1) {
       return `${(seconds * 1000).toFixed(0)}ms`;
     }
-    return `${seconds.toFixed(3)}s`;
+    if (seconds < 60) {
+      return `${seconds.toFixed(1)}s`;
+    }
+    return `${(seconds / 60).toFixed(0)}m`;
   }
 
   /**
@@ -172,6 +198,8 @@ export abstract class BaseChart {
    */
   clear(): void {
     d3.select(this.container).selectAll('*').remove();
+    // Also remove any tooltips from body
+    d3.select('body').selectAll('.chart-tooltip').remove();
     this.svg = null;
     this.g = null;
   }

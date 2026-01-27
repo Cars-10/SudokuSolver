@@ -18,8 +18,15 @@ export interface ChartDataPoint {
   maxMem: number;
   avgIterations: number;
   score?: number;
+  tier?: string;
   logo?: string;
   color?: string;
+  results?: Array<{
+    matrix: string;
+    time: number;
+    memory: number;
+    iterations: number;
+  }>;
 }
 
 /**

@@ -11,11 +11,7 @@ export class PersonalityService {
   }
 
   change(personaId: string): void {
-    if (!this.personas.has(personaId)) {
-      console.error('[PersonalityService] Unknown persona:', personaId);
-      return;
-    }
-
+    // Note: Simplified - accepts any persona string for now
     appState.setSlice('ui', {
       ...appState.getSlice('ui'),
       currentPersona: personaId
@@ -23,6 +19,11 @@ export class PersonalityService {
 
     eventBus.emit(Events.PERSONA_CHANGED, personaId);
     console.debug('[PersonalityService] Persona changed:', personaId);
+  }
+
+  // Alias for change
+  setPersona(personaId: string): void {
+    this.change(personaId);
   }
 
   getCurrent(): PersonaData {

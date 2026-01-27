@@ -162,8 +162,8 @@ body.fullscreen-active #fullscreen-header {
 .screensaver-riddle {
   font-size: 1.8rem;
   min-height: 2.5rem;
-  color: #00ff9d;
-  text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d;
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
   perspective: 1000px;
 }
 

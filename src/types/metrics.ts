@@ -11,12 +11,26 @@ export interface MetricResult {
   output?: string;
 }
 
+export interface IterationMismatch {
+  matrix: string;
+  actual: number;
+  expected: number;
+}
+
+export interface ScoreBreakdown {
+  time: number;
+  memory: number;
+  cpu: number;
+}
+
 export interface SolverMetrics {
   solver: string;
   algorithmType?: 'BruteForce' | 'DLX' | 'CP';
   runType?: string; // 'Local' | 'Docker' | 'AI'
   timestamp: string;
   score?: number;
+  tier?: string; // 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
+  scoreBreakdown?: ScoreBreakdown;
   failed?: boolean;
   failureReason?: string;
   results: MetricResult[];
@@ -24,9 +38,16 @@ export interface SolverMetrics {
   // Computed properties
   language?: string;
   algorithm?: string;
+  logo?: string;
   totalTime?: number;
+  totalIterations?: number;
   avgIterations?: number;
   avgMemory?: number;
+  maxMemory?: number;
+
+  // Iteration mismatch tracking (for algorithm correctness)
+  iterationMismatches?: IterationMismatch[];
+  hasMismatch?: boolean;
 }
 
 // Sensitivity Analysis Types

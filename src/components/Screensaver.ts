@@ -62,7 +62,7 @@ class ScreensaverComponent {
 
       header.innerHTML = `
         <div class="screensaver-info-panel">
-          <div id="solver-text" class="screensaver-title-text">${totalCount} WORKING IMPLEMENTATIONS</div>
+          <div id="solver-text" class="screensaver-title-text">${totalCount} WORKING<br>IMPLEMENTATIONS</div>
           <div class="screensaver-mismatch">MISMATCHES: ${mismatchCount}</div>
           <div id="diagnostics-status" class="screensaver-diagnostics">
             <span class="diag-env">ENV: 0</span>
