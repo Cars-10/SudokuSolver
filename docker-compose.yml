@@ -1,0 +1,79 @@
+# =============================================================================
+# Sudoku Solver Multi-Language Benchmark - Docker Compose Configuration
+# =============================================================================
+#
+# Usage:
+#   docker-compose build          # Build the image (can take 30-60+ minutes)
+#   docker-compose up -d          # Start container in background
+#   docker-compose exec app bash  # Enter container shell
+#   docker-compose down           # Stop and remove container
+#
+# =============================================================================
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sudoku-benchmark:latest
+    container_name: sudoku-benchmark
+
+    # Keep container running
+    stdin_open: true
+    tty: true
+
+    # Mount project directories for persistent results
+    volumes:
+      # Main project mount
+      - .:/app
+
+      # Preserve cargo cache for faster Rust rebuilds
+      - cargo-cache:/root/.cargo/registry
+
+      # Preserve npm cache
+      - npm-cache:/root/.npm
+
+      # Preserve Go modules cache
+      - go-cache:/root/go/pkg
+
+    # Working directory
+    working_dir: /app
+
+    # Environment variables
+    environment:
+      - TERM=xterm-256color
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      # Disable interactive prompts
+      - DEBIAN_FRONTEND=noninteractive
+      # Go environment
+      - GOPATH=/root/go
+      # .NET telemetry opt-out
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      # Rust backtrace for debugging
+      - RUST_BACKTRACE=1
+
+    # Resource limits (adjust based on your system)
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 2G
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "python3", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# Named volumes for caching
+volumes:
+  cargo-cache:
+  npm-cache:
+  go-cache:
